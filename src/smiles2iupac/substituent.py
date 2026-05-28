@@ -562,8 +562,20 @@ def _name_carbon_substituent(
     # 単純 n-アルキル: 付け根が末端 かつ 全体が直鎖状
     if root_is_terminal and _is_linear_chain(graph, sub_carbons, excluded):
         prefix = CHAIN_PREFIX.get(n, f"C{n}")
-        # 多重結合 (二重・三重) が鎖内にあるか確認
         chain_path = _find_longest_path(graph, root_idx, excluded, carbon_set)
+        # 鎖端に芳香環が付いている場合は分岐置換基パスへ (Phase 160)
+        has_aryl_nb = any(
+            get_atom(graph, nb).symbol == "C"
+            and get_atom(graph, nb).in_ring
+            and get_atom(graph, nb).is_aromatic
+            for c_idx in chain_path
+            for nb in graph.adjacency[c_idx]
+            if nb not in excluded and nb not in carbon_set
+            and get_atom(graph, nb).symbol != "H"
+        )
+        if has_aryl_nb:
+            return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
+        # 多重結合 (二重・三重) が鎖内にあるか確認
         for i in range(len(chain_path) - 1):
             bo = _gbo(graph, chain_path[i], chain_path[i + 1])
             if bo == 3.0:
@@ -615,22 +627,32 @@ def _collect_substituent_carbons(
     root_idx: int,
     excluded: set[int],
 ) -> list[int]:
-    """root_idx から到達できる炭素原子を DFS で全収集。"""
+    """root_idx から到達できる炭素原子を DFS で全収集。
+
+    芳香族環への侵入は、起点が非芳香族の場合に停止する。
+    これにより鎖から始まる芳香環への誤った連続カウントを防ぐ。
+    """
     visited: set[int] = set(excluded)
     result: list[int] = []
+    root_atom = get_atom(graph, root_idx)
+    root_is_aromatic = root_atom.in_ring and root_atom.is_aromatic
 
-    def dfs(idx: int) -> None:
+    def dfs(idx: int, from_aromatic: bool) -> None:
         if idx in visited:
             return
         atom = get_atom(graph, idx)
         if atom.symbol != "C":
             return
+        this_is_aromatic = atom.in_ring and atom.is_aromatic
+        # 非芳香族領域から芳香族環に入ったら、そこで停止 (環原子は含めない)
+        if this_is_aromatic and not from_aromatic:
+            return
         visited.add(idx)
         result.append(idx)
         for nb in graph.adjacency[idx]:
-            dfs(nb)
+            dfs(nb, this_is_aromatic)
 
-    dfs(root_idx)
+    dfs(root_idx, root_is_aromatic)
     return result
 
 
@@ -700,20 +722,49 @@ def _name_branched_substituent(
     for sname in sorted(by_name.keys()):
         locs = sorted(by_name[sname])
         mult = MULTIPLIER.get(len(locs), "")
-        loc_str = ",".join(str(l) for l in locs)
-        parts.append(f"{loc_str}-{mult}{sname}")
+        # n==1 の場合はロカントを省略 (唯一の位置のため)
+        if n == 1:
+            parts.append(f"{mult}{sname}")
+        else:
+            loc_str = ",".join(str(l) for l in locs)
+            parts.append(f"{loc_str}-{mult}{sname}")
 
     substituent_prefix = "-".join(parts)
+
+    # 主鎖内の二重・三重結合を検出
+    from .molecule_analyzer import get_bond_order as _gbo_b
+    unsaturation = ""
+    for i in range(len(main_path) - 1):
+        bo = _gbo_b(graph, main_path[i], main_path[i + 1])
+        if bo == 3.0:
+            loc_u = i + 1
+            unsaturation = f"-{loc_u}-yn" if n >= 3 else "yn"
+            break
+        if bo == 2.0:
+            loc_u = i + 1
+            unsaturation = f"-{loc_u}-en" if n >= 3 else "en"
+            break
+
+    # ロカントなし不飽和 (n<3): "en"/"yn" → suffix は直接 "yl"
+    unsat_has_locant = any(c.isdigit() for c in unsaturation)
 
     if root_pos == 1:
         # root が鎖の末端: 従来の {prefix}{sub}yl 形式
         if not substituent_prefix:
-            return f"{prefix}yl"
+            return f"{prefix}{unsaturation}yl"
+        if unsaturation:
+            if unsat_has_locant:
+                return f"{substituent_prefix}{prefix}{unsaturation}-1-yl"
+            return f"{substituent_prefix}{prefix}{unsaturation}yl"
         return f"{substituent_prefix}{prefix}yl"
     else:
         # root が内部炭素: propan-2-yl 形式 (IUPAC 2013 PIN)
         if not substituent_prefix:
+            if unsaturation:
+                return f"{prefix}an{unsaturation}-{root_pos}-yl"
             return f"{prefix}an-{root_pos}-yl"
+        if unsaturation:
+            return f"{substituent_prefix}{prefix}an{unsaturation}-{root_pos}-yl"
         return f"{substituent_prefix}{prefix}an-{root_pos}-yl"
 
 

@@ -1222,9 +1222,10 @@ def _build_prefix_no_locant_if_single(substituents: list[tuple[int, str]]) -> st
         from .constants import MULTIPLIER
 
         def _cpd(nm: str) -> bool:
-            if _re.search(r"[0-9]", nm):
+            from .name_assembler import _needs_bis_tris
+            if _needs_bis_tris(nm):
                 return True
-            for pfx in ("di", "tri", "tetra", "penta", "fluoro", "chloro", "bromo", "iodo"):
+            for pfx in ("fluoro", "chloro", "bromo", "iodo"):
                 if nm.startswith(pfx) and len(nm) > len(pfx):
                     return True
             return False

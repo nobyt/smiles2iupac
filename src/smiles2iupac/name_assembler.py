@@ -40,12 +40,18 @@ def _needs_bis_tris(name: str) -> bool:
     以下のいずれかに該当すると True:
       - 名前に数字（ロカント）を含む: "1-methylethyl" → bis(1-methylethyl)
       - 名前がすでに倍数詞で始まる: "dimethyl..." → bis(dimethyl...)
+      - アリール基を含む複合置換基: "phenylmethyl" → (phenylmethyl)
     """
     if _re.search(r"[0-9]", name):
         return True
     for mult in ("di", "tri", "tetra", "penta", "hexa", "hepta", "octa",
                  "nona", "deca", "bis", "tris"):
         if name.startswith(mult) and len(name) > len(mult):
+            return True
+    # アリール含有複合置換基 (phenylmethyl 等) は括弧が必要
+    for aryl in ("phenyl", "naphthyl", "furyl", "thienyl", "pyridyl", "indolyl",
+                 "quinolyl", "benzofuryl"):
+        if aryl in name and name != aryl:
             return True
     return False
 
