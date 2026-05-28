@@ -1,0 +1,47 @@
+"""
+Phase 2 テスト: カルボン酸、アルデヒド、ケトン
+"""
+
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+class TestCarboxylicAcids:
+
+    def test_ethanoic_acid(self):
+        # 酢酸: IUPAC 2013 保留名 (PIN): acetic acid
+        assert smiles_to_iupac("CC(=O)O") == "acetic acid"
+
+    def test_propanoic_acid(self):
+        assert smiles_to_iupac("CCC(=O)O") == "propanoic acid"
+
+    def test_butanoic_acid(self):
+        assert smiles_to_iupac("CCCC(=O)O") == "butanoic acid"
+
+    def test_pentanoic_acid(self):
+        assert smiles_to_iupac("CCCCC(=O)O") == "pentanoic acid"
+
+
+class TestAldehydes:
+
+    def test_ethanal(self):
+        assert smiles_to_iupac("CC=O") == "ethanal"
+
+    def test_propanal(self):
+        assert smiles_to_iupac("CCC=O") == "propanal"
+
+    def test_butanal(self):
+        assert smiles_to_iupac("CCCC=O") == "butanal"
+
+
+class TestKetones:
+
+    def test_propan_2_one(self):
+        # アセトン
+        assert smiles_to_iupac("CC(=O)C") == "propan-2-one"
+
+    def test_butan_2_one(self):
+        assert smiles_to_iupac("CC(=O)CC") == "butan-2-one"
+
+    def test_pentan_3_one(self):
+        assert smiles_to_iupac("CCC(=O)CC") == "pentan-3-one"

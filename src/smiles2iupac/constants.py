@@ -1,0 +1,997 @@
+"""
+定数テーブル: IUPAC 2013 Blue Book に基づく名前テーブルと優先順位。
+
+設計原則:
+  官能基の命名に関するすべてのメタデータを FunctionalGroupSpec に集約する。
+  新しい官能基を追加するときは FUNCTIONAL_GROUPS に 1 エントリを追加するだけでよい。
+  chain_finder / name_assembler / ring_handler は spec を参照し、個別 if-elif を持たない。
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+
+# ─── 官能基スペック ──────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class FunctionalGroupSpec:
+    """
+    官能基の命名に必要な全メタデータ（単一の情報源）。
+
+    テンプレート文字列のプレースホルダ:
+      {stem}  : CHAIN_PREFIX から取得した語幹 (eth, prop, ...)
+      {loc}   : suffix ロカント番号 (1, 2, ...)
+      {mb}    : _format_multiple_bonds() が返す多重結合部分 ("-2-en" 等)
+    """
+
+    priority: int
+    """IUPAC P-65 seniority order (高いほど優先)。"""
+
+    suffix: str
+    """接尾語 (例: "ol", "one", "amine", "nitrile", "oic acid", "ane")。"""
+
+    chain_template: str
+    """
+    鎖状化合物のベース名テンプレート（多重結合なし）。
+    例: "{stem}anoic acid", "{stem}an-{loc}-ol", "{stem}anenitrile"
+    """
+
+    chain_template_mb: str
+    """
+    鎖状化合物のベース名テンプレート（多重結合あり）。
+    例: "{stem}{mb}oic acid", "{stem}{mb}-{loc}-ol"
+    """
+
+    needs_locant: bool
+    """
+    suffix に位置ロカントが必要か。
+    True  = alcohol, ketone, amine など (propan-2-amine)
+    False = carboxylic_acid, aldehyde, nitrile など (propanoic acid)
+    """
+
+    anchor_c1: bool
+    """
+    官能基炭素を常に C1 に固定するか。
+    True  = carboxylic_acid, aldehyde, nitrile (IUPAC: 最高位の C が C1)
+    False = alcohol, ketone, amine (最小ロカントを選ぶ)
+    """
+
+    cyclic_template: str | None
+    """
+    環状化合物のベース名テンプレート。None = 環状命名未対応。
+    例: "cyclo{stem}an-{loc}-ol", "cyclo{stem}anecarbaldehyde"
+    """
+
+    benzene_name: str | None = None
+    """ベンゼン誘導体の IUPAC 保留名。例: "phenol", "benzoic acid"。"""
+
+
+# ─── 官能基レジストリ ─────────────────────────────────────────────────
+
+FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
+    "carboxylic_acid": FunctionalGroupSpec(
+        priority=100,
+        suffix="oic acid",
+        chain_template="{stem}anoic acid",
+        chain_template_mb="{stem}{mb}oic acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarboxylic acid",
+        benzene_name="benzoic acid",
+    ),
+    "peroxyacid": FunctionalGroupSpec(
+        priority=99,
+        suffix="peroxoic acid",
+        chain_template="{stem}aneperoxoic acid",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "nitrile": FunctionalGroupSpec(
+        priority=80,
+        suffix="nitrile",
+        chain_template="{stem}anenitrile",
+        chain_template_mb="{stem}{mb}nitrile",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarbonitrile",
+        benzene_name="benzonitrile",
+    ),
+    "dinitrile": FunctionalGroupSpec(
+        priority=80,
+        suffix="dinitrile",
+        chain_template="{stem}anedinitrile",
+        chain_template_mb="{stem}{mb}edinitrile",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldehyde": FunctionalGroupSpec(
+        priority=70,
+        suffix="al",
+        chain_template="{stem}anal",
+        chain_template_mb="{stem}{mb}al",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarbaldehyde",
+        benzene_name="benzaldehyde",
+    ),
+    "thioaldehyde": FunctionalGroupSpec(
+        priority=69,
+        suffix="thial",
+        chain_template="{stem}anethial",
+        chain_template_mb="{stem}{mb}ethial",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "dial": FunctionalGroupSpec(
+        priority=70,
+        suffix="dial",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "ketone": FunctionalGroupSpec(
+        priority=60,
+        suffix="one",
+        chain_template="{stem}an-{loc}-one",
+        chain_template_mb="{stem}{mb}-{loc}-one",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}an-{loc}-one",
+        benzene_name=None,
+    ),
+    "thioketone": FunctionalGroupSpec(
+        priority=59,
+        suffix="thione",
+        chain_template="{stem}ane-{loc}-thione",
+        chain_template_mb="{stem}{mb}e-{loc}-thione",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "imine": FunctionalGroupSpec(
+        priority=55,
+        suffix="imine",
+        chain_template="{stem}an-{loc}-imine",
+        chain_template_mb="{stem}{mb}-{loc}-imine",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "ketoxime": FunctionalGroupSpec(
+        priority=54,
+        suffix="one oxime",
+        chain_template="{stem}an-{loc}-one oxime",
+        chain_template_mb="{stem}{mb}-{loc}-one oxime",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldoxime": FunctionalGroupSpec(
+        priority=54,
+        suffix="al oxime",
+        chain_template="{stem}anal oxime",
+        chain_template_mb="{stem}{mb}al oxime",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "alcohol": FunctionalGroupSpec(
+        priority=50,
+        suffix="ol",
+        chain_template="{stem}an-{loc}-ol",
+        chain_template_mb="{stem}{mb}-{loc}-ol",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}an-{loc}-ol",
+        benzene_name="phenol",
+    ),
+    "sulfonate_ester": FunctionalGroupSpec(
+        priority=87,
+        suffix="sulfonate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfinate_ester": FunctionalGroupSpec(
+        priority=86,
+        suffix="sulfinate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfoxide": FunctionalGroupSpec(
+        priority=62,
+        suffix="sulfoxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfone": FunctionalGroupSpec(
+        priority=61,
+        suffix="sulfone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfonamide": FunctionalGroupSpec(
+        priority=42,
+        suffix="sulfonamide",
+        chain_template="{stem}anesulfonamide",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfonic_acid": FunctionalGroupSpec(
+        priority=65,
+        suffix="sulfonic acid",
+        chain_template="{stem}anesulfonic acid",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "carbonate": FunctionalGroupSpec(
+        priority=91,
+        suffix="carbonate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfinic_acid": FunctionalGroupSpec(
+        priority=58,
+        suffix="sulfinic acid",
+        chain_template="{stem}anesulfinic acid",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfide": FunctionalGroupSpec(
+        priority=30,
+        suffix="sulfide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "thiol": FunctionalGroupSpec(
+        priority=45,
+        suffix="thiol",
+        chain_template="{stem}ane-{loc}-thiol",
+        chain_template_mb="{stem}{mb}-{loc}-thiol",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}ane-{loc}-thiol",
+        benzene_name="benzenethiol",
+    ),
+    "amine": FunctionalGroupSpec(
+        priority=40,
+        suffix="amine",
+        chain_template="{stem}an-{loc}-amine",
+        chain_template_mb="{stem}{mb}-{loc}-amine",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}anamine",
+        benzene_name="aniline",
+    ),
+    # alkene / alkyne: 多重結合ロカントを suffix ロカントと別に扱うため
+    # chain_template は使用せず _build_name_body で個別処理する。
+    "alkene": FunctionalGroupSpec(
+        priority=20,
+        suffix="ene",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "alkyne": FunctionalGroupSpec(
+        priority=15,
+        suffix="yne",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── 複数官能基（同一 group_type 集約後）─────────────────────────────
+    # chain_template は使用しない（_build_name_body で直接処理）。
+    "dioic_acid": FunctionalGroupSpec(
+        priority=100,
+        suffix="dioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "diol": FunctionalGroupSpec(
+        priority=50,
+        suffix="diol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "triol": FunctionalGroupSpec(
+        priority=50,
+        suffix="triol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "dione": FunctionalGroupSpec(
+        priority=60,
+        suffix="dione",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "amide": FunctionalGroupSpec(
+        priority=95,
+        suffix="amide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarboxamide",
+        benzene_name="benzamide",
+    ),
+    "hydrazide": FunctionalGroupSpec(
+        priority=94,
+        suffix="hydrazide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "semicarbazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="one semicarbazone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldsemicarbazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="al semicarbazone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "thiosemicarbazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="one thiosemicarbazone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldthiosemicarbazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="al thiosemicarbazone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "anhydride": FunctionalGroupSpec(
+        priority=88,
+        suffix="anhydride",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "ester": FunctionalGroupSpec(
+        priority=90,
+        suffix="oate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "diester": FunctionalGroupSpec(
+        priority=90,
+        suffix="dioate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "acid_halide": FunctionalGroupSpec(
+        priority=85,
+        suffix="oyl halide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "diacid_halide": FunctionalGroupSpec(
+        priority=85,
+        suffix="dioyl halide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "alkane": FunctionalGroupSpec(
+        priority=0,
+        suffix="ane",
+        chain_template="{stem}ane",
+        chain_template_mb="{stem}ane",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}ane",
+        benzene_name="benzene",
+    ),
+    # ─── Phase 41: チオアミド ────────────────────────────────────────────
+    "thioamide": FunctionalGroupSpec(
+        priority=93,
+        suffix="thioamide",
+        chain_template="{stem}anethioamide",
+        chain_template_mb="{stem}{mb}thioamide",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarbothioamide",
+        benzene_name="benzothioamide",
+    ),
+    # ─── Phase 42: カルバメート ─────────────────────────────────────────
+    "carbamate": FunctionalGroupSpec(
+        priority=89,
+        suffix="carbamate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 43: ヒドラゾン ────────────────────────────────────────────
+    "kethydrazone": FunctionalGroupSpec(
+        priority=53,
+        suffix="one hydrazone",
+        chain_template="{stem}an-{loc}-one hydrazone",
+        chain_template_mb="{stem}{mb}-{loc}-one hydrazone",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldhydrazone": FunctionalGroupSpec(
+        priority=53,
+        suffix="al hydrazone",
+        chain_template="{stem}anal hydrazone",
+        chain_template_mb="{stem}{mb}al hydrazone",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 44: ヒドロペルオキシド ───────────────────────────────────
+    "hydroperoxide": FunctionalGroupSpec(
+        priority=47,
+        suffix="hydroperoxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 57: 有機ペルオキシド ──────────────────────────────────
+    "peroxide": FunctionalGroupSpec(
+        priority=46,
+        suffix="peroxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 55–56: チオエステル / ジスルフィド ─────────────────────
+    "thioester": FunctionalGroupSpec(
+        priority=88,
+        suffix="thioate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "disulfide": FunctionalGroupSpec(
+        priority=25,
+        suffix="disulfide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 67: スルファミド / スルファミン酸 ────────────────────────
+    "sulfamide": FunctionalGroupSpec(
+        priority=41,
+        suffix="",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfamic_acid": FunctionalGroupSpec(
+        priority=64,
+        suffix="",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 52–54: ニトロソ / アジド / イソシアネート ──────────────
+    "nitroso": FunctionalGroupSpec(
+        priority=30,
+        suffix="nitroso",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "azide": FunctionalGroupSpec(
+        priority=35,
+        suffix="azide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "isocyanate": FunctionalGroupSpec(
+        priority=40,
+        suffix="isocyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 63: ジアミン ──────────────────────────────────────────────
+    "diamine": FunctionalGroupSpec(
+        priority=95,
+        suffix="diamine",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "triamine": FunctionalGroupSpec(
+        priority=95,
+        suffix="triamine",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 59: スルホニルクロライド ─────────────────────────────────
+    "sulfonyl_chloride": FunctionalGroupSpec(
+        priority=84,
+        suffix="sulfonyl chloride",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 68–73: 新規官能基 ────────────────────────────────────────
+    "isothiocyanate": FunctionalGroupSpec(
+        priority=39,
+        suffix="isothiocyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "cyanate": FunctionalGroupSpec(
+        priority=38,
+        suffix="cyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "thiocyanate": FunctionalGroupSpec(
+        priority=50,
+        suffix="thiocyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "amidine": FunctionalGroupSpec(
+        priority=96,
+        suffix="imidamide",
+        chain_template="{stem}animidamide",
+        chain_template_mb="{stem}{mb}imidamide",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template="cyclo{stem}anecarboximidamide",
+        benzene_name=None,
+    ),
+    "carbamic_acid": FunctionalGroupSpec(
+        priority=99,
+        suffix="",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "carbodiimide": FunctionalGroupSpec(
+        priority=36,
+        suffix="carbodiimide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 60: クロロホルメート ──────────────────────────────────────
+    "chloroformate": FunctionalGroupSpec(
+        priority=86,
+        suffix="carbonochloridate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 146: アンモニウムイオン ───────────────────────────────────
+    "ammonium": FunctionalGroupSpec(
+        priority=11,
+        suffix="azanium",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 143: リン・ホウ素・ケイ素化合物 ────────────────────────────
+    # ─── Phase 146: カルボキシレートアニオン ─────────────────────────────
+    "carboxylate": FunctionalGroupSpec(
+        priority=97,
+        suffix="oate",
+        chain_template="{stem}anoate",
+        chain_template_mb="{stem}{mb}oate",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name="benzoate",
+    ),
+    "dicarboxylate": FunctionalGroupSpec(
+        priority=97,
+        suffix="dioate",
+        chain_template="{stem}anedioate",
+        chain_template_mb="{stem}{mb}dioate",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphate_ester": FunctionalGroupSpec(
+        priority=87,
+        suffix="phosphate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphonate_ester": FunctionalGroupSpec(
+        priority=86,
+        suffix="phosphonate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphinate_ester": FunctionalGroupSpec(
+        priority=85,
+        suffix="phosphinate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphonic_acid": FunctionalGroupSpec(
+        priority=92,
+        suffix="phosphonic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphinic_acid": FunctionalGroupSpec(
+        priority=91,
+        suffix="phosphinic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphane": FunctionalGroupSpec(
+        priority=10,
+        suffix="phosphane",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "boronic_acid": FunctionalGroupSpec(
+        priority=90,
+        suffix="boronic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "borinic_acid": FunctionalGroupSpec(
+        priority=89,
+        suffix="borinic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "borane_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="borane",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "silane_org": FunctionalGroupSpec(
+        priority=8,
+        suffix="silane",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 149: チオカルボン酸 ─────────────────────────────────────
+    "thioic_s_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="thioic S-acid",
+        chain_template="{stem}anethioic S-acid",
+        chain_template_mb="{stem}{mb}thioic S-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "thioic_o_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="thioic O-acid",
+        chain_template="{stem}anethioic O-acid",
+        chain_template_mb="{stem}{mb}thioic O-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "dithioic_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="dithioic acid",
+        chain_template="{stem}anedithioic acid",
+        chain_template_mb="{stem}{mb}dithioic acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 150: ニトレートエステル / ニトライトエステル ──────────
+    "nitrate_ester": FunctionalGroupSpec(
+        priority=88,
+        suffix="nitrate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "nitrite_ester": FunctionalGroupSpec(
+        priority=87,
+        suffix="nitrite",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+}
+
+
+# ─── 後方互換エイリアス ──────────────────────────────────────────────
+# 既存コードが参照している場合のために spec テーブルから自動生成する。
+
+FUNCTIONAL_GROUP_PRIORITY: dict[str, int] = {
+    k: v.priority for k, v in FUNCTIONAL_GROUPS.items()
+}
+
+SUFFIX_MAP: dict[str, str] = {
+    k: v.suffix for k, v in FUNCTIONAL_GROUPS.items()
+}
+
+
+# ─── 炭素数 → 語幹 ─────────────────────────────────────────────────
+
+CHAIN_PREFIX: dict[int, str] = {
+    1: "meth",
+    2: "eth",
+    3: "prop",
+    4: "but",
+    5: "pent",
+    6: "hex",
+    7: "hept",
+    8: "oct",
+    9: "non",
+    10: "dec",
+    11: "undec",
+    12: "dodec",
+    13: "tridec",
+    14: "tetradec",
+    15: "pentadec",
+    16: "hexadec",
+    17: "heptadec",
+    18: "octadec",
+    19: "nonadec",
+    20: "icos",
+    21: "henicos",
+    22: "docos",
+    23: "tricos",
+    24: "tetracos",
+    25: "pentacos",
+    26: "hexacos",
+    27: "heptacos",
+    28: "octacos",
+    29: "nonacos",
+    30: "triacont",
+}
+
+# ハロゲン記号 → 接頭辞
+HALOGEN_PREFIX: dict[str, str] = {
+    "F": "fluoro",
+    "Cl": "chloro",
+    "Br": "bromo",
+    "I": "iodo",
+}
+
+# 数 → 倍数詞 (multiplying prefix)
+MULTIPLIER: dict[int, str] = {
+    1: "",
+    2: "di",
+    3: "tri",
+    4: "tetra",
+    5: "penta",
+    6: "hexa",
+    7: "hepta",
+    8: "octa",
+    9: "nona",
+    10: "deca",
+}
+
+# 母音で始まる suffix (省略ルール適用対象)
+VOWEL_SUFFIXES = {"oic acid", "al", "ane", "ene", "yne", "ol", "one"}
