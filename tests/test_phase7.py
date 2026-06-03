@@ -53,9 +53,9 @@ class TestNitriles:
         # H-C≡N (formonitrile / methanenitrile)
         assert smiles_to_iupac("C#N") == "methanenitrile"
 
-    def test_ethanenitrile(self):
-        # CH₃-C≡N
-        assert smiles_to_iupac("CC#N") == "ethanenitrile"
+    def test_acetonitrile(self):
+        # CH₃-C≡N = acetonitrile (IUPAC 2013 retained name)
+        assert smiles_to_iupac("CC#N") == "acetonitrile"
 
     def test_propanenitrile(self):
         # CH₃-CH₂-C≡N

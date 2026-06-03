@@ -7,7 +7,7 @@ from src.smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("OC(=O)C=CC(=O)O", "but-2-enedioic acid"),
     ("OC(=O)C=CCC(=O)O", "pent-2-enedioic acid"),
-    ("OC(=O)CC=CC(=O)O", "pent-3-enedioic acid"),
+    ("OC(=O)CC=CC(=O)O", "pent-2-enedioic acid"),
     # 多重結合なし (回帰確認、保留名を使用)
     ("OC(=O)CC(=O)O", "malonic acid"),
     ("OC(=O)CCC(=O)O", "succinic acid"),

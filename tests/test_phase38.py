@@ -18,14 +18,14 @@ class TestSulfinicAcid:
         assert smiles_to_iupac("CCS(=O)O") == "ethanesulfinic acid"
 
     def test_propanesulfinic_acid(self):
-        assert smiles_to_iupac("CCCS(=O)O") == "propanesulfinic acid"
+        assert smiles_to_iupac("CCCS(=O)O") == "propane-1-sulfinic acid"
 
     def test_butanesulfinic_acid(self):
-        assert smiles_to_iupac("CCCCS(=O)O") == "butanesulfinic acid"
+        assert smiles_to_iupac("CCCCS(=O)O") == "butane-1-sulfinic acid"
 
 
 class TestSulfinicAcidVsSulfoxide:
 
     def test_dimethyl_sulfoxide_unchanged(self):
         # S(=O) + 2C (両側に炭素) → sulfoxide ではなく sulfoxide 命名
-        assert smiles_to_iupac("CS(=O)C") == "dimethyl sulfoxide"
+        assert smiles_to_iupac("CS(=O)C") == "(methylsulfinyl)methane"

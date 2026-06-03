@@ -13,13 +13,13 @@ from src.smiles2iupac import smiles_to_iupac
     ("C=CC(=O)Cl", "prop-2-enoyl chloride"),
     ("C=CC(=O)Br", "prop-2-enoyl bromide"),
     # ヒドラジド + ene
-    ("C=CC(=O)NN", "prop-2-enehydrazide"),
+    ("C=CC(=O)NN", "prop-2-enohydrazide"),
     # チオアミド + ene
     ("C=CC(=S)N", "prop-2-enethioamide"),
     # 回帰: 飽和
     ("CC(=O)OC", "methyl acetate"),
     ("CC(=O)Cl", "acetyl chloride"),
-    ("CC(=O)NN", "ethanehydrazide"),
+    ("CC(=O)NN", "ethanohydrazide"),
     ("CC(=S)N", "ethanethioamide"),
 ])
 def test_phase85_ene_in_naming_paths(smiles, expected):

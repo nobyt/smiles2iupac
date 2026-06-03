@@ -5,11 +5,11 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # エンイン (en-yne)
+    # エンイン (en-yne): IUPAC 2013 P-31.1.6.3 — 二重結合に低いロカントを与える
     ("C=CC#C", "but-1-en-3-yne"),
-    ("C#CCC=C", "pent-4-en-1-yne"),
-    ("C#CC=C", "but-3-en-1-yne"),
-    ("C#CCCC=C", "hex-5-en-1-yne"),
+    ("C#CCC=C", "pent-1-en-4-yne"),
+    ("C#CC=C", "but-1-en-3-yne"),
+    ("C#CCCC=C", "hex-1-en-5-yne"),
     # ジイン (diyne)
     ("C#CCCC#C", "hexa-1,5-diyne"),
     ("C#CC#C", "buta-1,3-diyne"),

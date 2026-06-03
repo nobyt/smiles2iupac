@@ -16,19 +16,19 @@ class TestSimpleCycloalkenes:
 
     def test_cyclopent_1_ene(self):
         # 5 員環に 1 二重結合
-        assert smiles_to_iupac("C1=CCCC1") == "cyclopent-1-ene"
+        assert smiles_to_iupac("C1=CCCC1") == "cyclopentene"
 
     def test_cyclohex_1_ene(self):
         # 6 員環に 1 二重結合
-        assert smiles_to_iupac("C1=CCCCC1") == "cyclohex-1-ene"
+        assert smiles_to_iupac("C1=CCCCC1") == "cyclohexene"
 
     def test_cyclohept_1_ene(self):
         # 7 員環
-        assert smiles_to_iupac("C1=CCCCCC1") == "cyclohept-1-ene"
+        assert smiles_to_iupac("C1=CCCCCC1") == "cycloheptene"
 
     def test_cyclobut_1_ene(self):
         # 4 員環
-        assert smiles_to_iupac("C1=CCC1") == "cyclobut-1-ene"
+        assert smiles_to_iupac("C1=CCC1") == "cyclobutene"
 
 
 # ─── シクロジエン ──────────────────────────────────────────────────────

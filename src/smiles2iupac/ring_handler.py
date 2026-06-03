@@ -1028,8 +1028,11 @@ def collect_ring_substituents(
             if any(c_idx in rs and nb in rs for rs in _ring_atom_sets):
                 ring_set.add(nb)
 
+    from .molecule_analyzer import get_bond_order as _gbo_rc
+
     principal_set = set(principal_grp_atoms)
     result: list[tuple[int, str]] = []
+    excluded = ring_set | principal_set
 
     for c_idx in ring_chain.ring_atoms:
         locant = ring_chain.locant_map[c_idx]
@@ -1041,12 +1044,34 @@ def collect_ring_substituents(
                 continue
             if nb_idx in principal_set:
                 continue
-            sub_name = name_substituent(graph, nb_idx, ring_set | principal_set)
+            # Phase 275: exo C=C double bond → alkylidene substituent (e.g. methylene)
+            if nb_atom.symbol == "C" and _gbo_rc(graph, c_idx, nb_idx) == 2.0:
+                sub_name = _name_alkylidene(graph, nb_idx, excluded)
+            else:
+                sub_name = name_substituent(graph, nb_idx, excluded)
             if sub_name:
                 result.append((locant, sub_name))
 
     result.sort(key=lambda x: (x[0], x[1]))
     return result
+
+
+def _name_alkylidene(
+    graph: "MoleculeGraph",
+    root_idx: int,
+    excluded: set[int],
+) -> str:
+    """Name an exo C=C group as an alkylidene prefix (e.g. =CH2 → 'methylene')."""
+    from .substituent import _collect_substituent_carbons
+    from .constants import CHAIN_PREFIX
+    carbons = _collect_substituent_carbons(graph, root_idx, excluded)
+    n = len(carbons)
+    if n == 0:
+        return ""
+    if n == 1:
+        return "methylene"
+    stem = CHAIN_PREFIX.get(n, f"C{n}")
+    return f"{stem}ylidene"
 
 
 # ─── 環の名前組み立て ────────────────────────────────────────────────
@@ -1097,6 +1122,10 @@ def assemble_ring_name(
                     "carboxylic_acid": "carboxylic acid",
                     "aldehyde": "carbaldehyde",
                     "amide": "carboxamide",
+                    "nitrile": "carbonitrile",
+                    "amidine": "carboximidamide",
+                    "thioamide": "carbothioamide",
+                    "selenoamide": "carboselenoamide",
                 }
                 _sfx = _exo_sfx.get(principal_grp_type)
                 base = f"{raw_base}-{suffix_locant}-{_sfx}" if _sfx else raw_base
@@ -1133,8 +1162,12 @@ def assemble_ring_name(
                     base = f"cyclo{stem}a-{db_loc_str}-dien-{loc}-{suffix_str}"
             else:
                 # 純シクロアルケン / シクロアルカジエン
+                # IUPAC P-31.1.2.1: 置換基なし・二重結合が1つ・locant=1 → locant 省略
                 if num_db == 1:
-                    base = f"cyclo{stem}-{db_loc_str}-ene"
+                    if db_loc_str == "1" and not substituents:
+                        base = f"cyclo{stem}ene"
+                    else:
+                        base = f"cyclo{stem}-{db_loc_str}-ene"
                 elif num_db == 2:
                     base = f"cyclo{stem}a-{db_loc_str}-diene"
                 else:
@@ -1143,6 +1176,10 @@ def assemble_ring_name(
         elif spec is not None and spec.cyclic_template is not None:
             loc = suffix_locant if suffix_locant is not None else 1
             base = spec.cyclic_template.format(stem=stem, loc=loc)
+            # IUPAC P-63.5.1.1: 置換基・多重結合なしかつ loc=1 → locant 省略
+            # 例: "cyclohexan-1-ol" → "cyclohexanol"
+            if loc == 1 and not substituents and not ring_chain.double_bond_locants:
+                base = base.replace("-1-", "")
         else:
             base = f"cyclo{stem}ane"
 

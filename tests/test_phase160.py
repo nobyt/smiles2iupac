@@ -23,7 +23,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccc(CCCC)cc1",               "butylbenzene"),
     ("c1ccc(C(C)C)cc1",              "(propan-2-yl)benzene"),
     ("OCc1ccccc1",                   "phenylmethanol"),
-    ("OC(=O)Cc1ccccc1",              "2-phenylacetic acid"),
+    ("OC(=O)Cc1ccccc1",              "phenylacetic acid"),
     ("c1ccc([N+](=O)[O-])cc1",       "nitrobenzene"),
     ("Cc1ccc([N+](=O)[O-])cc1",      "1-methyl-4-nitrobenzene"),
 ])

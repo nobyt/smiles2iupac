@@ -30,7 +30,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("[Na+].[O-]C(=O)C",                 "sodium acetate"),
     ("[Na+].[Na+].[O-]S(=O)(=O)[O-]",   "disodium sulfate"),
     ("[K+].[K+].[O-]C(=O)CCC(=O)[O-]",  "dipotassium succinate"),
-    ("[NH4+].CC(=O)[O-]",                "azanium acetate"),
+    ("[NH4+].CC(=O)[O-]",                "ammonium acetate"),
     ("[Na+].[O-]C(=O)O",                 "sodium bicarbonate"),
     ("[Ca+2].[O-]C(=O)C.[O-]C(=O)C",    "calcium diacetate"),
     # 回帰: 通常カルボン酸

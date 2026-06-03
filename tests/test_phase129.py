@@ -5,17 +5,17 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # ketene: H₂C=C=O → ethen-1-one
-    ("C=C=O", "ethen-1-one"),
+    # ketene: H₂C=C=O → ethenone (locant 1 is unambiguous, omitted)
+    ("C=C=O", "ethenone"),
     # methylketene: CH₃CH=C=O → prop-1-en-1-one
     ("CC=C=O", "prop-1-en-1-one"),
     # ethylketene
     ("CCC=C=O", "but-1-en-1-one"),
-    # 回帰: regular ketones unchanged
-    ("CC(=O)C", "propan-2-one"),
+    # 回帰: ketones
+    ("CC(=O)C", "acetone"),
     ("CC(=O)CC", "butan-2-one"),
-    # 回帰: aldehyde unchanged
-    ("CC=O", "ethanal"),
+    # 回帰: aldehyde
+    ("CC=O", "acetaldehyde"),
     # 回帰: vinyl aldehyde unchanged (acrolein)
     ("C=CC=O", "prop-2-enal"),
     # 回帰: alkene unchanged

@@ -15,10 +15,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("C1c2ccccc2Oc2ccccc21", "xanthene"),
     # thioxanthene
     ("C1c2ccccc2Sc2ccccc21", "thioxanthene"),
-    # chromen-2-one (coumarin) — aromatic lactone
-    ("O=c1ccc2ccccc2o1", "chromen-2-one"),
-    # 1H-2-benzopyran-1-one (isocoumarin)
-    ("O=c1occc2ccccc12", "1H-2-benzopyran-1-one"),
+    # coumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
+    ("O=c1ccc2ccccc2o1", "coumarin"),
+    # isocoumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
+    ("O=c1occc2ccccc12", "isocoumarin"),
     # 2H-chromene
     ("C1=COc2ccccc2C1", "2H-chromene"),
     # 4H-chromene

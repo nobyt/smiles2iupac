@@ -11,13 +11,13 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=C1CCC(=O)O1", "oxolane-2,5-dione"),
     # oxane-2,6-dione (glutaric anhydride, 6-membered ring)
     ("O=C1CCCC(=O)O1", "oxane-2,6-dione"),
-    # 回帰: acyclic anhydrides unchanged
-    ("CC(=O)OC(=O)C", "ethanoic anhydride"),
-    ("CC(=O)OC(=O)CCC", "butanoic ethanoic anhydride"),
+    # 回帰: acyclic anhydrides use retained names
+    ("CC(=O)OC(=O)C", "acetic anhydride"),
+    ("CC(=O)OC(=O)CCC", "acetic butanoic anhydride"),
     # 回帰: lactones unchanged
     ("O=C1CCCO1", "oxolan-2-one"),
     ("O=C1CCCCO1", "oxan-2-one"),
-    # 回帰: cyclic imide unchanged
+    # 回帰: cyclic imide (systematic PIN)
     ("O=C1NC(=O)CC1", "pyrrolidine-2,5-dione"),
 ])
 def test_phase127_cyclic_anhydride(smiles, expected):

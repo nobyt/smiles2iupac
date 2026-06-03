@@ -67,13 +67,13 @@ class TestPolysubstitutedCycloalkanes:
 class TestCycloalkaneWithFunctionalGroups:
 
     def test_cyclohexanol(self):
-        assert smiles_to_iupac("OC1CCCCC1") == "cyclohexan-1-ol"
+        assert smiles_to_iupac("OC1CCCCC1") == "cyclohexanol"
 
     def test_cyclohexanone(self):
-        assert smiles_to_iupac("O=C1CCCCC1") == "cyclohexan-1-one"
+        assert smiles_to_iupac("O=C1CCCCC1") == "cyclohexanone"
 
     def test_cyclopentanol(self):
-        assert smiles_to_iupac("OC1CCCC1") == "cyclopentan-1-ol"
+        assert smiles_to_iupac("OC1CCCC1") == "cyclopentanol"
 
 
 # ─── ベンゼン ────────────────────────────────────────────────────────
@@ -89,8 +89,8 @@ class TestBenzene:
 class TestMonosubstitutedBenzene:
 
     def test_methylbenzene(self):
-        # toluene の IUPAC 系統名
-        assert smiles_to_iupac("Cc1ccccc1") == "methylbenzene"
+        # IUPAC 2013 P-31.1.3.4: toluene が保留優先名 (PIN)
+        assert smiles_to_iupac("Cc1ccccc1") == "toluene"
 
     def test_chlorobenzene(self):
         assert smiles_to_iupac("Clc1ccccc1") == "chlorobenzene"

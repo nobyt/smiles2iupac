@@ -1,19 +1,19 @@
 """
 Phase 58 テスト: 環状イミド (cyclic imide)
 
-対象 (IUPAC P-66.4.2):
-  N が両側の C(=O) に挟まれた環 → {base}-{loc1},{loc2}-dione
-  例: O=C1NC(=O)CC1 → pyrrolidine-2,5-dione
+対象 (IUPAC P-66.4.2, P-66.8.3):
+  N が両側の C(=O) に挟まれた環 → {base}-dione (体系名 PIN; succinimide/glutarimide は非PIN)
+  例: O=C1NC(=O)CC1 → pyrrolidine-2,5-dione (IUPAC 2013 PIN)
 """
 from smiles2iupac import smiles_to_iupac
 
 
 class TestCyclicImide:
 
-    def test_pyrrolidine_2_5_dione(self):
+    def test_succinimide(self):
         assert smiles_to_iupac("O=C1NC(=O)CC1") == "pyrrolidine-2,5-dione"
 
-    def test_piperidine_2_6_dione(self):
+    def test_glutarimide(self):
         assert smiles_to_iupac("O=C1NC(=O)CCC1") == "piperidine-2,6-dione"
 
     def test_azepane_2_7_dione(self):

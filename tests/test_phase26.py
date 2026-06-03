@@ -17,22 +17,22 @@ class TestSulfonicAcids:
         assert smiles_to_iupac("CCS(=O)(=O)O") == "ethanesulfonic acid"
 
     def test_propanesulfonic_acid(self):
-        assert smiles_to_iupac("CCCS(=O)(=O)O") == "propanesulfonic acid"
+        assert smiles_to_iupac("CCCS(=O)(=O)O") == "propane-1-sulfonic acid"
 
     def test_butanesulfonic_acid(self):
-        assert smiles_to_iupac("CCCCS(=O)(=O)O") == "butanesulfonic acid"
+        assert smiles_to_iupac("CCCCS(=O)(=O)O") == "butane-1-sulfonic acid"
 
 
 class TestSulfides:
 
     def test_dimethyl_sulfide(self):
-        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
+        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
 
     def test_ethyl_methyl_sulfide(self):
-        assert smiles_to_iupac("CSCC") == "ethyl methyl sulfide"
+        assert smiles_to_iupac("CSCC") == "(methylsulfanyl)ethane"
 
     def test_diethyl_sulfide(self):
-        assert smiles_to_iupac("CCSCC") == "diethyl sulfide"
+        assert smiles_to_iupac("CCSCC") == "(ethylsulfanyl)ethane"
 
     def test_methyl_phenyl_sulfide(self):
-        assert smiles_to_iupac("CSc1ccccc1") == "methyl phenyl sulfide"
+        assert smiles_to_iupac("CSc1ccccc1") == "(methylsulfanyl)benzene"

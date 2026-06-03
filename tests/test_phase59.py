@@ -17,7 +17,7 @@ class TestSulfonylChloride:
         assert smiles_to_iupac("CCS(=O)(=O)Cl") == "ethanesulfonyl chloride"
 
     def test_propanesulfonyl_chloride(self):
-        assert smiles_to_iupac("CCCS(=O)(=O)Cl") == "propanesulfonyl chloride"
+        assert smiles_to_iupac("CCCS(=O)(=O)Cl") == "propane-1-sulfonyl chloride"
 
 
 class TestSulfonylChlorideVsSulfonate:

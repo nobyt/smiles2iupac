@@ -1,9 +1,8 @@
 """
-Phase 53 テスト: アジド (azide)
+Phase 53 テスト: azide substitutive PIN (IUPAC 2013 P-65.3.1)
 
-対象 (IUPAC P-68.3.2.3):
-  R-N=[N+]=[N-] パターン。命名: {alkyl} azide (functional class)
-  例: CCN=[N+]=[N-] → ethyl azide
+R-N3 → azido{alkane} (PIN; "{alkyl} azide" is retained acceptable).
+  例: CCN=[N+]=[N-] → azidoethane
 """
 from smiles2iupac import smiles_to_iupac
 
@@ -11,13 +10,13 @@ from smiles2iupac import smiles_to_iupac
 class TestAzide:
 
     def test_methyl_azide(self):
-        assert smiles_to_iupac("CN=[N+]=[N-]") == "methyl azide"
+        assert smiles_to_iupac("CN=[N+]=[N-]") == "azidomethane"
 
     def test_ethyl_azide(self):
-        assert smiles_to_iupac("CCN=[N+]=[N-]") == "ethyl azide"
+        assert smiles_to_iupac("CCN=[N+]=[N-]") == "azidoethane"
 
     def test_propyl_azide(self):
-        assert smiles_to_iupac("CCCN=[N+]=[N-]") == "propyl azide"
+        assert smiles_to_iupac("CCCN=[N+]=[N-]") == "azidopropane"
 
 
 class TestAzideVsAmine:
@@ -28,4 +27,4 @@ class TestAzideVsAmine:
     def test_azide_not_amine(self):
         result = smiles_to_iupac("CCN=[N+]=[N-]")
         assert "amine" not in result
-        assert "azide" in result
+        assert "azido" in result

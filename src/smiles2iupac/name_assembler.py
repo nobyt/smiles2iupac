@@ -42,6 +42,9 @@ def _needs_bis_tris(name: str) -> bool:
       - 名前がすでに倍数詞で始まる: "dimethyl..." → bis(dimethyl...)
       - アリール基を含む複合置換基: "phenylmethyl" → (phenylmethyl)
     """
+    # Already parenthesized (e.g., '(carboxyoxy)') — no additional wrapping needed
+    if name.startswith("(") and name.endswith(")"):
+        return False
     if _re.search(r"[0-9]", name):
         return True
     for mult in ("di", "tri", "tetra", "penta", "hexa", "hepta", "octa",
@@ -52,6 +55,10 @@ def _needs_bis_tris(name: str) -> bool:
     for aryl in ("phenyl", "naphthyl", "furyl", "thienyl", "pyridyl", "indolyl",
                  "quinolyl", "benzofuryl"):
         if aryl in name and name != aryl:
+            return True
+    # carboxy/hydroxy/oxo 含有複合置換基 (carboxymethyl 等) は括弧が必要
+    for pfx in ("carboxy", "hydroxy", "oxo", "amino", "imino", "nitroso"):
+        if pfx in name and name != pfx:
             return True
     return False
 
@@ -119,11 +126,18 @@ def assemble_name(
           and principal_group_type == "alkane"
           and len(substituents) == 1):
         effective_subs = [(None, name) for _, name in substituents]
+    # Phase 213: 2炭素鎖 alkane で全6位置が同一置換基 → ロカント省略 (hexafluoroethane 等)
+    elif (chain_length == 2
+          and principal_group_type == "alkane"
+          and len(substituents) == 6
+          and len({n for _, n in substituents}) == 1):
+        effective_subs = [(None, name) for _, name in substituents]
     prefix_part = _build_prefix(effective_subs)
 
     # ─── 2. 語幹 + suffix の組み立て ───────────────────────────────
     name_body = _build_name_body(stem, suffix, multiple_bonds, suffix_locant, chain_length,
-                                suffix_locants=suffix_locants)
+                                suffix_locants=suffix_locants,
+                                has_substituents=bool(effective_subs))
 
     # ─── 3. 立体記述子 ─────────────────────────────────────────────
     # 複数不斉中心: (1R)-(2S) ではなく (1R,2S) にまとめる
@@ -235,6 +249,7 @@ def _build_name_body(
     suffix_locant: int | None,
     chain_length: int,
     suffix_locants: list[int] | None = None,
+    has_substituents: bool = False,
 ) -> str:
     """
     語幹と suffix を組み合わせて名前の本体部分を作る。
@@ -269,6 +284,9 @@ def _build_name_body(
             return f"{stem}ene"
         n_ene = len(ene_locs)
         loc_str = _locant_list_str(ene_locs)
+        # IUPAC P-31.1.2.1: 3炭素鎖の C=C はロカント省略 (propene) — 置換基がある場合は引用必要
+        if n_ene == 1 and chain_length == 3 and ene_locs[0] == 1 and not has_substituents:
+            return f"{stem}ene"
         if n_ene == 1:
             return f"{stem}-{loc_str}-ene"
         # 2以上の C=C → diene/triene (allene, conjugated diene 等)
@@ -283,6 +301,9 @@ def _build_name_body(
             return f"{stem}yne"
         n_yne = len(yne_locs)
         loc_str = _locant_list_str(yne_locs)
+        # IUPAC P-31.1.2.1: 3炭素鎖の C≡C はロカント省略 (propyne) — 置換基がある場合は引用必要
+        if n_yne == 1 and chain_length == 3 and yne_locs[0] == 1 and not has_substituents:
+            return f"{stem}yne"
         if n_yne == 1:
             return f"{stem}-{loc_str}-yne"
         mult = _BOND_MULT.get(n_yne, f"{n_yne}")
@@ -341,6 +362,8 @@ def _build_name_body(
         if has_multiple_bond:
             # Phase 129: 2炭素鎖 ene-one → "ethen-{loc}-one" (ene ロカント省略)
             if chain_length == 2 and ene_locs == [1] and not yne_locs:
+                if loc == 1:
+                    return f"{stem}enone"   # ethenone (locant 1 unambiguous)
                 return f"{stem}en-{loc}-one"
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}-{loc}-one"
@@ -350,6 +373,9 @@ def _build_name_body(
         # アミン: ロカント表記 (propan-2-amine 等); 1-2炭素鎖 C1 はロカント省略
         loc = suffix_locant if suffix_locant is not None else 1
         if has_multiple_bond:
+            # 2炭素 ene-amine: ロカント省略 → "ethenamine"
+            if chain_length == 2 and ene_locs == [1] and not yne_locs and loc == 1:
+                return f"{stem}enamine"
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}-{loc}-amine"
         if chain_length <= 2 and loc == 1:
@@ -357,11 +383,14 @@ def _build_name_body(
         return f"{stem}an-{loc}-amine"
 
     if suffix == "imine":
-        # イミン: ロカント表記 (propan-2-imine 等)
+        # イミン: ロカント常に明示 (IUPAC 2013 P-62.3.1.1)
+        # 例外: 1C (methanimine) のみロカント省略
         loc = suffix_locant if suffix_locant is not None else 1
         if has_multiple_bond:
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}-{loc}-imine"
+        if chain_length == 1:
+            return f"{stem}animine"
         return f"{stem}an-{loc}-imine"
 
     if suffix == "one oxime":
@@ -404,6 +433,35 @@ def _build_name_body(
             return f"{stem}anethiol"
         return f"{stem}ane-{loc}-thiol"
 
+    if suffix == "selenol":
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc}-selenol"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}aneselenol"
+        return f"{stem}ane-{loc}-selenol"
+
+    if suffix == "tellurol":
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc}-tellurol"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}anetellurol"
+        return f"{stem}ane-{loc}-tellurol"
+
+    if suffix == "dithiol":
+        # ジチオール: -dithiol は子音始まりのため e を保持 (ethane-1,2-dithiol)
+        if chain_length == 1:
+            return f"{stem}anedithiol"
+        locs = sorted(suffix_locants) if suffix_locants else [1, 2]
+        loc_str = _locant_list_str(locs)
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc_str}-dithiol"
+        return f"{stem}ane-{loc_str}-dithiol"
+
     if suffix == "thial":
         # チオアルデヒド: C1固定、ロカント省略 (ethanethial, propanethial)
         if has_multiple_bond:
@@ -412,12 +470,14 @@ def _build_name_body(
         return f"{stem}anethial"
 
     if suffix == "thione":
-        # チオケトン: e を保持 (propane-2-thione)
+        # チオケトン: IUPAC 2013 — ロカント前の e を省略 (propan-2-thione)
         loc = suffix_locant if suffix_locant is not None else 2
         if has_multiple_bond:
+            if chain_length == 2 and ene_locs == [1] and not yne_locs:
+                return f"{stem}ene-{loc}-thione"
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}e-{loc}-thione"
-        return f"{stem}ane-{loc}-thione"
+        return f"{stem}an-{loc}-thione"
 
     # ─── 複数官能基 suffix ────────────────────────────────────────────
 
@@ -429,6 +489,8 @@ def _build_name_body(
         return f"{stem}anedioic acid"
 
     if suffix == "diol":
+        if chain_length == 1:
+            return f"{stem}anediol"
         locs = sorted(suffix_locants) if suffix_locants else [1, 2]
         loc_str = _locant_list_str(locs)
         if has_multiple_bond:
@@ -444,17 +506,20 @@ def _build_name_body(
             return f"{stem}{mb}e-{loc_str}-triol"
         return f"{stem}ane-{loc_str}-triol"
 
-    if suffix == "dione":
-        # -dione は子音 'd' 始まりのため e を保持 (pentane-2,4-dione)
-        locs = sorted(suffix_locants) if suffix_locants else [2, 4]
+    if suffix in ("dione", "trione"):
+        # -dione/-trione は子音始まりのため e を保持 (pentane-2,4-dione 等)
+        default_locs = [2, 4] if suffix == "dione" else [2, 3, 4]
+        locs = sorted(suffix_locants) if suffix_locants else default_locs
         loc_str = _locant_list_str(locs)
         if has_multiple_bond:
             mb = _format_multiple_bonds(ene_locs, yne_locs)
-            return f"{stem}{mb}-{loc_str}-dione"
-        return f"{stem}ane-{loc_str}-dione"
+            return f"{stem}{mb}e-{loc_str}-{suffix}"
+        return f"{stem}ane-{loc_str}-{suffix}"
 
     if suffix in ("diamine", "triamine"):
         # ジアミン / トリアミン: 各 N のロカントを付加
+        if chain_length == 1:
+            return f"{stem}ane{suffix}"
         locs = sorted(suffix_locants) if suffix_locants else [1, 2]
         loc_str = _locant_list_str(locs)
         if has_multiple_bond:
@@ -472,6 +537,13 @@ def _build_name_body(
         if chain_length == 2:
             return "acetamide"
         return f"{stem}anamide"
+
+    if suffix == "diamide":
+        # ジアミド: C1, Cn 固定、ロカント省略 (ethanediamide = oxamide)
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}ediamide"
+        return f"{stem}anediamide"
 
     if suffix == "imidamide":
         # Phase 70: アミジン C1 固定 (ethanimidamide)

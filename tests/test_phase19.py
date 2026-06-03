@@ -10,11 +10,11 @@ from smiles2iupac import smiles_to_iupac
 class TestImines:
 
     def test_methan_1_imine(self):
-        # CH2=NH → methan-1-imine
-        assert smiles_to_iupac("C=N") == "methan-1-imine"
+        # CH2=NH → methanimine (1C, locant omitted per IUPAC 2013)
+        assert smiles_to_iupac("C=N") == "methanimine"
 
     def test_ethan_1_imine(self):
-        # CH3-CH=NH → ethan-1-imine (N は C1 に付く)
+        # CH3-CH=NH → ethan-1-imine (P-31.1.2.1: 2C のロカント 1 省略)
         assert smiles_to_iupac("CC=N") == "ethan-1-imine"
 
     def test_propan_2_imine(self):

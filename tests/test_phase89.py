@@ -7,7 +7,7 @@ from src.smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # スルホン酸 + ene
     ("C=CS(=O)(=O)O", "eth-1-enesulfonic acid"),
-    ("C=CCS(=O)(=O)O", "prop-2-enesulfonic acid"),  # allylsulfonic acid
+    ("C=CCS(=O)(=O)O", "prop-2-ene-1-sulfonic acid"),  # allylsulfonic acid
     # スルホニルクロライド + ene
     ("C=CS(=O)(=O)Cl", "eth-1-enesulfonyl chloride"),
     # スルホンアミド + ene

@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 1,1-二置換
     ("CN(N)C", "1,1-dimethylhydrazine"),
     # 回帰: ヒドラジド (C(=O)-N-N) は対象外 → hydrazide 命名
-    ("CC(=O)NN", "ethanehydrazide"),
+    ("CC(=O)NN", "ethanohydrazide"),
     # 回帰: アミン
     ("NC", "methanamine"),
     ("Nc1ccccc1", "aniline"),

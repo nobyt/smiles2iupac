@@ -12,7 +12,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("CCN=NCC", "azoethane"),
     ("CCCN=NCCC", "azopropane"),
     # 回帰: アジド (N=N=N, 3つのN) は対象外
-    ("CN=[N+]=[N-]", "methyl azide"),
+    ("CN=[N+]=[N-]", "azidomethane"),
     # 回帰: ヒドラゾン (C=N-N) は対象外
     ("CC=NN", "ethanal hydrazone"),
     # 回帰: ヒドラジン (N-N 単結合) は対象外

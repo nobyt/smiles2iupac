@@ -58,10 +58,10 @@ class TestAromaticThiols:
 class TestCyclicThiols:
 
     def test_cyclohexane_1_thiol(self):
-        assert smiles_to_iupac("SC1CCCCC1") == "cyclohexane-1-thiol"
+        assert smiles_to_iupac("SC1CCCCC1") == "cyclohexanethiol"
 
     def test_cyclopentane_1_thiol(self):
-        assert smiles_to_iupac("SC1CCCC1") == "cyclopentane-1-thiol"
+        assert smiles_to_iupac("SC1CCCC1") == "cyclopentanethiol"
 
 
 # ─── エーテル (prefix: (R)oxy) ──────────────────────────────────────────
@@ -98,9 +98,9 @@ class TestEthers:
 class TestSulfides:
 
     def test_dimethyl_sulfide(self):
-        # CH₃-S-CH₃ → dimethyl sulfide (functional class naming)
-        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
+        # CH₃-S-CH₃ → (methylsulfanyl)methane (IUPAC 2013 P-63.6.1.1 substitutive PIN)
+        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
 
     def test_methyl_phenyl_sulfide(self):
-        # Ph-S-CH₃ → methyl phenyl sulfide (functional class naming)
-        assert smiles_to_iupac("CSc1ccccc1") == "methyl phenyl sulfide"
+        # Ph-S-CH₃ → (methylsulfanyl)benzene (substitutive PIN)
+        assert smiles_to_iupac("CSc1ccccc1") == "(methylsulfanyl)benzene"

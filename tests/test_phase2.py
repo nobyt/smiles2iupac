@@ -25,7 +25,8 @@ class TestCarboxylicAcids:
 class TestAldehydes:
 
     def test_ethanal(self):
-        assert smiles_to_iupac("CC=O") == "ethanal"
+        # IUPAC 2013 P-31.1.3.4: acetaldehyde は保留 PIN
+        assert smiles_to_iupac("CC=O") == "acetaldehyde"
 
     def test_propanal(self):
         assert smiles_to_iupac("CCC=O") == "propanal"
@@ -37,8 +38,8 @@ class TestAldehydes:
 class TestKetones:
 
     def test_propan_2_one(self):
-        # アセトン
-        assert smiles_to_iupac("CC(=O)C") == "propan-2-one"
+        # IUPAC 2013 P-31.1.3: acetone は保留 PIN
+        assert smiles_to_iupac("CC(=O)C") == "acetone"
 
     def test_butan_2_one(self):
         assert smiles_to_iupac("CC(=O)CC") == "butan-2-one"

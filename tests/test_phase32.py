@@ -11,8 +11,8 @@ from smiles2iupac import smiles_to_iupac
 class TestPhenylalkanoicAcids:
 
     def test_2_phenylethanoic_acid(self):
-        # PhCH2COOH → 2-phenylacetic acid (acetic acid 保留名ベース)
-        assert smiles_to_iupac("c1ccc(CC(=O)O)cc1") == "2-phenylacetic acid"
+        # PhCH2COOH → phenylacetic acid (IUPAC 2013 P-65.1.1.4 retained name)
+        assert smiles_to_iupac("c1ccc(CC(=O)O)cc1") == "phenylacetic acid"
 
     def test_3_phenylpropanoic_acid(self):
         # PhCH2CH2COOH

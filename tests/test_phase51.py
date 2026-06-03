@@ -2,25 +2,25 @@
 Phase 51 テスト: ジエステル (diester)
 
 対象 (IUPAC P-65.1.1.4.2):
-  R-OC(=O)-chain-C(=O)OR パターン → {dialkyl} {stem}anedioate
-  例: CCOC(=O)CC(=O)OCC → diethyl propanedioate
+  R-OC(=O)-chain-C(=O)OR パターン → {dialkyl} {retained} (retained name preferred)
+  例: CCOC(=O)CC(=O)OCC → diethyl malonate
 """
 from smiles2iupac import smiles_to_iupac
 
 
 class TestSymmetricDiester:
 
-    def test_dimethyl_propanedioate(self):
-        assert smiles_to_iupac("COC(=O)CC(=O)OC") == "dimethyl propanedioate"
+    def test_dimethyl_malonate(self):
+        assert smiles_to_iupac("COC(=O)CC(=O)OC") == "dimethyl malonate"
 
-    def test_diethyl_propanedioate(self):
-        assert smiles_to_iupac("CCOC(=O)CC(=O)OCC") == "diethyl propanedioate"
+    def test_diethyl_malonate(self):
+        assert smiles_to_iupac("CCOC(=O)CC(=O)OCC") == "diethyl malonate"
 
-    def test_diethyl_butanedioate(self):
-        assert smiles_to_iupac("CCOC(=O)CCC(=O)OCC") == "diethyl butanedioate"
+    def test_diethyl_succinate(self):
+        assert smiles_to_iupac("CCOC(=O)CCC(=O)OCC") == "diethyl succinate"
 
-    def test_dimethyl_pentanedioate(self):
-        assert smiles_to_iupac("COC(=O)CCCC(=O)OC") == "dimethyl pentanedioate"
+    def test_dimethyl_glutarate(self):
+        assert smiles_to_iupac("COC(=O)CCCC(=O)OC") == "dimethyl glutarate"
 
 
 class TestDiesterVsMonoester:

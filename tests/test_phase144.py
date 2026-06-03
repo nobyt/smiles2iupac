@@ -11,7 +11,7 @@ from src.smiles2iupac import smiles_to_iupac
     # ヒドロキシルアミン
     ("NO",      "hydroxylamine"),
     # アンモニウム・水酸化物
-    ("[NH4+]",  "azanium"),
+    ("[NH4+]",  "ammonium"),
     ("[OH-]",   "hydroxide"),
     # ハロゲンアニオン
     ("[F-]",    "fluoride"),

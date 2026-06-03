@@ -46,7 +46,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: 通常の有機化合物
     ("CC",           "ethane"),
     ("CCCC",         "butane"),
-    ("CS(=O)C",      "dimethyl sulfoxide"),
+    ("CS(=O)C",      "(methylsulfinyl)methane"),
     ("c1ccncc1",     "pyridine"),
 ])
 def test_phase143_pbs_compounds(smiles, expected):

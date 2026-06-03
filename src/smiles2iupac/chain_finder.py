@@ -272,9 +272,21 @@ def _orient_chain(
 
     if spec.anchor_c1:
         # 官能基炭素を C1 に固定 (carboxylic_acid, aldehyde, nitrile)
-        # dioic_acid / dial は両端が anchor → 置換基ロカントを最小にする方向を選ぶ
+        # dioic_acid / dial は両端が anchor → 多重結合ロカント→置換基ロカントで方向決定
         both_ends_are_anchors = path[0] in grp_carbons and path[-1] in grp_carbons
         if both_ends_are_anchors:
+            def _mb_locs_anchor(p: list[int]) -> list[int]:
+                locs = []
+                for i in range(len(p) - 1):
+                    if get_bond_order(graph, p[i], p[i + 1]) >= 2.0:
+                        locs.append(i + 1)
+                return sorted(locs)
+            mb_fwd = _mb_locs_anchor(fwd)
+            mb_rev = _mb_locs_anchor(rev)
+            if mb_fwd < mb_rev:
+                return fwd
+            if mb_rev < mb_fwd:
+                return rev
             return _choose_by_substituent_locants(graph, fwd, rev)
         if path[0] in grp_carbons:
             return fwd
@@ -292,7 +304,21 @@ def _orient_chain(
             (i + 1 for i, c in enumerate(rev) if c in grp_carbons),
             default=len(rev),
         )
-        return fwd if loc_fwd <= loc_rev else rev
+        if loc_fwd != loc_rev:
+            return fwd if loc_fwd < loc_rev else rev
+        # タイなら多重結合ロカントを次に試す (IUPAC P-44.1: C→D→E順)
+        def _mb_locs(path: list[int]) -> list[int]:
+            locs = []
+            for i in range(len(path) - 1):
+                if get_bond_order(graph, path[i], path[i + 1]) >= 2.0:
+                    locs.append(i + 1)
+            return sorted(locs)
+        mb_fwd = _mb_locs(fwd)
+        mb_rev = _mb_locs(rev)
+        if mb_fwd != mb_rev:
+            return fwd if mb_fwd < mb_rev else rev
+        # それでもタイなら置換基ロカントで決める (Phase 189)
+        return _choose_by_substituent_locants(graph, fwd, rev)
 
     return _choose_by_substituent_locants(graph, fwd, rev)
 
@@ -319,20 +345,36 @@ def _choose_by_substituent_locants(
 def _choose_by_multiple_bond_locants(
     graph: MoleculeGraph, fwd: list[int], rev: list[int]
 ) -> list[int]:
-    """多重結合のロカント集合が最小になる向きを返す。"""
+    """多重結合のロカント集合が最小になる向きを返す。
+
+    IUPAC 2013 P-31.1.6.3: 組み合わせロカント集合が等しい場合は
+    二重結合が低いロカントを得る向きを選ぶ。
+    """
 
     def mb_locants(path: list[int]) -> list[int]:
         locs = []
         for i in range(len(path) - 1):
             bo = get_bond_order(graph, path[i], path[i + 1])
             if bo >= 2.0:
-                locs.append(i + 1)  # 低い方のロカント
+                locs.append(i + 1)
+        return sorted(locs)
+
+    def db_locants(path: list[int]) -> list[int]:
+        locs = []
+        for i in range(len(path) - 1):
+            if get_bond_order(graph, path[i], path[i + 1]) == 2.0:
+                locs.append(i + 1)
         return sorted(locs)
 
     l_fwd = mb_locants(fwd)
     l_rev = mb_locants(rev)
     if l_fwd != l_rev:
         return fwd if l_fwd < l_rev else rev
+    # 全多重結合ロカント集合が等しい → 二重結合に低いロカントを与える方向を選ぶ
+    db_fwd = db_locants(fwd)
+    db_rev = db_locants(rev)
+    if db_fwd != db_rev:
+        return fwd if db_fwd < db_rev else rev
     # タイなら置換基で決める
     return _choose_by_substituent_locants(graph, fwd, rev)
 
@@ -368,3 +410,80 @@ def get_multiple_bond_locants(
         elif bo == 3.0:
             yne_locants.append(locant)
     return {"ene": sorted(ene_locants), "yne": sorted(yne_locants)}
+
+
+# ─── group_namers で使用するチェーンユーティリティ ─────────────────────────
+
+def collect_acid_chain(graph: MoleculeGraph, start_c: int, excluded_set, get_atom_fn) -> list[int]:
+    """カルボニル C から excluded_set を除いた最長炭素鎖を返す (chain順)。
+
+    芳香族環 C に到達したとき、直前の原子が非芳香族なら環への侵入を停止する。
+    これにより PhCH₂-C(=O)OR の酸鎖が benzene 環を含まないようにする。
+    """
+    excl = set(excluded_set)
+    visited: set[int] = set(excl)
+
+    start_atom = get_atom_fn(graph, start_c)
+    start_is_aromatic = start_atom.in_ring and start_atom.is_aromatic
+
+    def _longest(idx: int, from_aromatic: bool) -> list[int]:
+        visited.add(idx)
+        atom = get_atom_fn(graph, idx)
+        this_is_aromatic = atom.in_ring and atom.is_aromatic
+        best_ext: list[int] = []
+        for nb in graph.adjacency[idx]:
+            if nb in visited or nb in excl:
+                continue
+            nb_atom = get_atom_fn(graph, nb)
+            if nb_atom.symbol != "C":
+                continue
+            # 非芳香族領域から芳香族環に侵入しない
+            nb_is_aromatic = nb_atom.in_ring and nb_atom.is_aromatic
+            if nb_is_aromatic and not this_is_aromatic:
+                continue
+            ext = _longest(nb, this_is_aromatic)
+            if len(ext) > len(best_ext):
+                best_ext = ext
+        visited.discard(idx)
+        return [idx] + best_ext
+
+    return _longest(start_c, start_is_aromatic)
+
+
+def chain_through_pivot(
+    graph: MoleculeGraph, pivot_c: int, excluded_set, get_atom_fn
+) -> tuple[list[int], int]:
+    """pivot_c を通る最長炭素鎖を見つけ (chain, locant) を返す。
+    locant は 1始まりの pivot_c の位置。
+    S, N などのヘテロ原子が pivot に付く場合に使用。
+    """
+    excl_for_arms = set(excluded_set) | {pivot_c}
+    arms: list[list[int]] = []
+    for nb in graph.adjacency[pivot_c]:
+        if nb in excluded_set or get_atom_fn(graph, nb).symbol != "C":
+            continue
+        arm = collect_acid_chain(graph, nb, excl_for_arms, get_atom_fn)
+        arms.append(arm)
+    arms.sort(key=len)
+    if not arms:
+        return [pivot_c], 1
+    if len(arms) == 1:
+        return [pivot_c] + arms[0], 1
+    left = list(reversed(arms[0]))
+    right = arms[-1]
+    chain = left + [pivot_c] + right
+    locant = len(left) + 1
+    return chain, locant
+
+
+def chain_multiple_bonds(graph: MoleculeGraph, chain: list[int]) -> tuple[list[int], list[int]]:
+    """chain 内の連続原子ペアの多重結合ロカントを返す。(ene_locs, yne_locs)"""
+    ene: list[int] = []
+    yne: list[int] = []
+    for i in range(len(chain) - 1):
+        bo = get_bond_order(graph, chain[i], chain[i + 1])
+        if bo == 2.0:
+            ene.append(i + 1)
+        elif bo == 3.0:
+            yne.append(i + 1)
+    return ene, yne

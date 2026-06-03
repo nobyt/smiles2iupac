@@ -40,8 +40,8 @@ class TestAcidHalides:
         # CH₃COCl (塩化アセチル)
         assert smiles_to_iupac("CC(=O)Cl") == "acetyl chloride"
 
-    def test_ethanoyl_bromide(self):
-        assert smiles_to_iupac("CC(=O)Br") == "ethanoyl bromide"
+    def test_acetyl_bromide(self):
+        assert smiles_to_iupac("CC(=O)Br") == "acetyl bromide"
 
     def test_propanoyl_chloride(self):
         assert smiles_to_iupac("CCC(=O)Cl") == "propanoyl chloride"

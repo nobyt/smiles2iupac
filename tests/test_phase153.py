@@ -1,8 +1,8 @@
 """Phase 153: テトラゾール・1,3,5-トリアジナン・hexahydropyrimidine (IUPAC 2013)
 
 1H-tetrazole: 5員 aromatic 4-N 環の保留名。
-1,3,5-triazinane-2,4,6-trione: 環内 3 つの exo C=O を持つ6員三窒素環。
-hexahydropyrimidine-2,4-dione: 6員 N1,N3 飽和環のジオン。
+1,3,5-triazinane-2,4,6-trione: 環内 3 つの exo C=O を持つ6員三窒素環 (-trione は子音始まり→ e 保持)。
+hexahydropyrimidine-2,4-dione: 6員 N1,N3 飽和環のジオン (-dione は子音始まり→ e 保持)。
 """
 
 import pytest
@@ -12,7 +12,7 @@ from src.smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # テトラゾール (5員 aromatic, 4 N atoms)
     ("c1nnn[nH]1",           "1H-tetrazole"),
-    # 1,3,5-triazinane-2,4,6-trione (isocyanuric acid 非芳香型)
+    # 1,3,5-triazinane-2,4,6-trione (isocyanuric acid 非芳香型; 'd' consonant → no elision)
     ("O=C1NC(=O)NC(=O)N1",   "1,3,5-triazinane-2,4,6-trione"),
     # hexahydropyrimidine-2,4-dione (dihydrouracil 型)
     ("O=C1NC(=O)NCC1",        "hexahydropyrimidine-2,4-dione"),

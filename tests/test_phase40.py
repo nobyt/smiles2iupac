@@ -12,11 +12,12 @@ from smiles2iupac import smiles_to_iupac
 class TestEthenylBenzene:
 
     def test_ethenylbenzene_smiles1(self):
-        assert smiles_to_iupac("C=Cc1ccccc1") == "ethenylbenzene"
+        # IUPAC 2013 P-31.1.3.4: styrene が保留優先名
+        assert smiles_to_iupac("C=Cc1ccccc1") == "styrene"
 
     def test_ethenylbenzene_smiles2(self):
-        # 別 SMILES 表記
-        assert smiles_to_iupac("c1ccc(C=C)cc1") == "ethenylbenzene"
+        # 別 SMILES 表記 (same compound, same retained name)
+        assert smiles_to_iupac("c1ccc(C=C)cc1") == "styrene"
 
 
 class TestEthynylBenzene:
@@ -41,7 +42,7 @@ class TestAcyclicAlkeneUnchanged:
 
     def test_propene_unchanged(self):
         # 非環式のアルケンは引き続き acyclic path
-        assert smiles_to_iupac("C=CC") == "prop-1-ene"
+        assert smiles_to_iupac("C=CC") == "propene"
 
     def test_but1ene_unchanged(self):
         assert smiles_to_iupac("C=CCC") == "but-1-ene"

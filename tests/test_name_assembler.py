@@ -126,9 +126,9 @@ class TestAssembleName:
         result = assemble_name(2, "alkene", {"ene": [1], "yne": []}, [], [])
         assert result == "ethene"
 
-    def test_prop_1_ene(self):
+    def test_propene(self):
         result = assemble_name(3, "alkene", {"ene": [1], "yne": []}, [], [])
-        assert result == "prop-1-ene"
+        assert result == "propene"
 
     def test_but_2_ene(self):
         result = assemble_name(4, "alkene", {"ene": [2], "yne": []}, [], [])
@@ -149,6 +149,6 @@ class TestAssembleName:
         result = assemble_name(4, "alkyne", {"ene": [], "yne": [2]}, [], [])
         assert result == "but-2-yne"
 
-    def test_prop_1_yne(self):
+    def test_propyne(self):
         result = assemble_name(3, "alkyne", {"ene": [], "yne": [1]}, [], [])
-        assert result == "prop-1-yne"
+        assert result == "propyne"

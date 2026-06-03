@@ -17,7 +17,7 @@ class TestNitroso:
         assert smiles_to_iupac("CCN=O") == "nitrosoethane"
 
     def test_nitrosopropane(self):
-        assert smiles_to_iupac("CCCN=O") == "nitrosopropane"
+        assert smiles_to_iupac("CCCN=O") == "1-nitrosopropane"
 
 
 class TestNitrosoVsNitro:

@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     # hexanedinitrile (adiponitrile)
     ("N#CCCCCC#N", "hexanedinitrile"),
     # 回帰: 単一ニトリル
-    ("N#CC", "ethanenitrile"),
+    ("N#CC", "acetonitrile"),
     ("N#CCCC", "butanenitrile"),
 ])
 def test_phase122_dinitrile(smiles, expected):

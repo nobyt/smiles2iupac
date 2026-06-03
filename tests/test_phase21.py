@@ -2,8 +2,8 @@
 Phase 21 テスト: スルホキシド・スルホン・スルホンアミド
 
 対象 (IUPAC P-63.6):
-  - スルホキシド (S=O): dimethyl sulfoxide 形式
-  - スルホン (S(=O)₂): dimethyl sulfone 形式
+  - スルホキシド (S=O): (methylsulfinyl)methane 形式
+  - スルホン (S(=O)₂): (methylsulfonyl)methane 形式
   - スルホンアミド (S(=O)₂-N): alkanesulfonamide 形式
 """
 from smiles2iupac import smiles_to_iupac
@@ -12,28 +12,27 @@ from smiles2iupac import smiles_to_iupac
 class TestSulfoxides:
 
     def test_dimethyl_sulfoxide(self):
-        # DMSO: (CH3)2S=O → dimethyl sulfoxide
-        assert smiles_to_iupac("CS(=O)C") == "dimethyl sulfoxide"
+        # DMSO: (CH3)2S=O → (methylsulfinyl)methane
+        assert smiles_to_iupac("CS(=O)C") == "(methylsulfinyl)methane"
 
     def test_diethyl_sulfoxide(self):
-        assert smiles_to_iupac("CCS(=O)CC") == "diethyl sulfoxide"
+        assert smiles_to_iupac("CCS(=O)CC") == "(ethylsulfinyl)ethane"
 
     def test_ethyl_methyl_sulfoxide(self):
-        # アルファベット順: ethyl < methyl
-        assert smiles_to_iupac("CCS(=O)C") == "ethyl methyl sulfoxide"
+        assert smiles_to_iupac("CCS(=O)C") == "(methylsulfinyl)ethane"
 
 
 class TestSulfones:
 
     def test_dimethyl_sulfone(self):
-        # (CH3)2SO2 → dimethyl sulfone
-        assert smiles_to_iupac("CS(=O)(=O)C") == "dimethyl sulfone"
+        # (CH3)2SO2 → (methylsulfonyl)methane
+        assert smiles_to_iupac("CS(=O)(=O)C") == "(methylsulfonyl)methane"
 
     def test_diethyl_sulfone(self):
-        assert smiles_to_iupac("CCS(=O)(=O)CC") == "diethyl sulfone"
+        assert smiles_to_iupac("CCS(=O)(=O)CC") == "(ethylsulfonyl)ethane"
 
     def test_ethyl_methyl_sulfone(self):
-        assert smiles_to_iupac("CCS(=O)(=O)C") == "ethyl methyl sulfone"
+        assert smiles_to_iupac("CCS(=O)(=O)C") == "(methylsulfonyl)ethane"
 
 
 class TestSulfonamides:

@@ -30,8 +30,11 @@ def collect_substituents(
     Returns:
         [(locant, substituent_name), ...] のリスト（ロカント昇順）
     """
+    from .molecule_analyzer import get_bond_order as _gbo_cs
+
     chain_set = set(chain_atom_indices)
     principal_set = set(principal_group_atom_indices)
+    excluded = chain_set | principal_set
     result: list[tuple[int, str]] = []
 
     for c_idx in chain_atom_indices:
@@ -45,13 +48,32 @@ def collect_substituents(
                 continue
             if nb_idx in principal_set:
                 continue
-
-            sub_name = name_substituent(graph, nb_idx, chain_set | principal_set)
+            # Phase 280: 主鎖炭素への exo C=C 二重結合 → alkylidene 接頭辞
+            if nb.symbol == "C" and _gbo_cs(graph, c_idx, nb_idx) == 2.0:
+                sub_name = _name_chain_alkylidene(graph, nb_idx, excluded)
+            else:
+                sub_name = name_substituent(graph, nb_idx, excluded)
             if sub_name:
                 result.append((locant, sub_name))
 
     result.sort(key=lambda x: (x[0], x[1]))
     return result
+
+
+def _name_chain_alkylidene(
+    graph: MoleculeGraph,
+    root_idx: int,
+    excluded: set[int],
+) -> str:
+    """exo C=C に対するアルキリデン接頭辞 (=CH2 → 'methylidene' 等)。"""
+    carbons = _collect_substituent_carbons(graph, root_idx, excluded)
+    n = len(carbons)
+    if n == 0:
+        return ""
+    if n == 1:
+        return "methylidene"
+    stem = CHAIN_PREFIX.get(n, f"C{n}")
+    return f"{stem}ylidene"
 
 
 def name_substituent(
@@ -93,8 +115,18 @@ def name_substituent(
             if nb not in excluded and get_atom(graph, nb).symbol == "C"
         ]
         if c_other:
-            alkyl = _name_carbon_substituent(graph, c_other[0], excluded | {root_idx})
-            return _make_oxy_name(alkyl)
+            c_nb = c_other[0]
+            # アシルオキシ: C 隣接がカルボニル C (C=O) → (acyl)oxy
+            is_acyloxy = any(
+                get_atom(graph, oxo).symbol == "O"
+                and _gbo_o(graph, c_nb, oxo) == 2.0
+                for oxo in graph.adjacency[c_nb]
+                if oxo != root_idx
+            )
+            acyl_or_alkyl = _name_carbon_substituent(graph, c_nb, excluded | {root_idx})
+            if is_acyloxy:
+                return f"({acyl_or_alkyl}oxy)"
+            return _make_oxy_name(acyl_or_alkyl)
         return "oxy"
 
     # 硫黄置換基: -SH → sulfanyl, -S-R → (R)sulfanyl
@@ -111,6 +143,22 @@ def name_substituent(
             alkyl = _name_carbon_substituent(graph, c_other[0], excluded | {root_idx})
             return _make_sulfanyl_name(alkyl)
         return "sulfanyl"
+
+    # セレン/テルル置換基: -SeH → selanyl, -TeH → tellanyl, -Se-R → (R)selanyl
+    if atom.symbol in ("Se", "Te"):
+        neighbors = graph.adjacency[root_idx]
+        has_h = any(get_atom(graph, nb).symbol == "H" for nb in neighbors)
+        prefix = "selan" if atom.symbol == "Se" else "tellan"
+        if has_h:
+            return f"{prefix}yl"
+        c_other = [
+            nb for nb in neighbors
+            if nb not in excluded and get_atom(graph, nb).symbol == "C"
+        ]
+        if c_other:
+            alkyl = _name_carbon_substituent(graph, c_other[0], excluded | {root_idx})
+            return _make_sulfanyl_name(alkyl).replace("sulfanyl", f"{prefix}yl")
+        return f"{prefix}yl"
 
     # 窒素置換基: amino / nitro など
     if atom.symbol == "N":
@@ -328,16 +376,18 @@ def _name_nitrogen_substituent(graph: "MoleculeGraph", n_idx: int) -> str:
                     if nn2_neighbors:
                         return "azido"
 
-    # イソシアナト基: N=C=O (Phase 54)
+    # イソシアナト基: N=C=O (Phase 54) / イソチオシアナト基: N=C=S (Phase 162)
+    s_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "S"]
     if len(c_neighbors) >= 1 and len(o_neighbors) == 0 and len(h_neighbors) == 0:
         for cn_idx in c_neighbors:
             if _gbo(graph, n_idx, cn_idx) == 2.0:
-                # C も =O を持つか
                 for cnb in graph.adjacency[cn_idx]:
                     if cnb == n_idx:
                         continue
                     if get_atom(graph, cnb).symbol == "O" and _gbo(graph, cn_idx, cnb) == 2.0:
                         return "isocyanato"
+                    if get_atom(graph, cnb).symbol == "S" and _gbo(graph, cn_idx, cnb) == 2.0:
+                        return "isothiocyanato"
 
     # アミノ基: N に H が 2 つ以上 (–NH₂)
     if len(h_neighbors) >= 2:
@@ -429,6 +479,19 @@ def _name_carbon_substituent(
         nb = get_atom(graph, nb_idx)
         if nb.symbol == "O" and _gbo(graph, root_idx, nb_idx) == 2.0:
             # root が カルボニル C → acyl 置換基
+            # 芳香族環に直接結合したカルボニル → benzoyl (Phase 265)
+            for aryl_nb in graph.adjacency[root_idx]:
+                if aryl_nb in excluded or aryl_nb == nb_idx:
+                    continue
+                aryl_atom = get_atom(graph, aryl_nb)
+                if aryl_atom.symbol == "C" and aryl_atom.is_aromatic and aryl_atom.in_ring:
+                    ring_atoms = next(
+                        (set(rt) for rt in (graph.ring_atom_sets or []) if aryl_nb in rt),
+                        set(),
+                    )
+                    if (len(ring_atoms) == 6
+                            and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
+                        return "benzoyl"
             acyl_carbons = _collect_substituent_carbons(graph, root_idx, excluded)
             n_acyl = len(acyl_carbons)
             if n_acyl == 1:
@@ -525,14 +588,34 @@ def _name_carbon_substituent(
             grouped2[sub_nm].append(loc)
         prefix_parts2: list[str] = []
         for nm in sorted(grouped2):
+            from .name_assembler import _needs_bis_tris as _nbt2
             locs = sorted(grouped2[nm])
             loc_str = ",".join(str(l) for l in locs)
-            prefix_parts2.append(f"{loc_str}-{nm}")
+            n_sub = len(locs)
+            if n_sub > 1 and _nbt2(nm):
+                from .constants import MULTIPLIER as _MULT2
+                from .name_assembler import _BIS_MULTIPLIER as _BMULT2
+                mult = _BMULT2.get(n_sub, "")
+                prefix_parts2.append(f"{loc_str}-{mult}({nm})")
+            elif _nbt2(nm):
+                prefix_parts2.append(f"{loc_str}-({nm})")
+            elif n_sub > 1:
+                from .constants import MULTIPLIER as _MULT2
+                mult = _MULT2.get(n_sub, "")
+                prefix_parts2.append(f"{loc_str}-{mult}{nm}")
+            else:
+                prefix_parts2.append(f"{loc_str}-{nm}")
         return "-".join(prefix_parts2) + "phenyl"
 
-    # シクロアルキル: root が環内かつ置換基全体が単一炭素環 (Phase 49)
+    # シクロアルキル / ヘテロシクロ: root が環内かつ置換基全体が単一環 (Phase 49)
     if root_atom.in_ring and not root_atom.is_aromatic:
-        # root から到達できる環内 C を収集して環サイズを確定
+        # root を含む環の全原子を収集 (ヘテロ原子も含む)
+        all_ring_set: set[int] | None = None
+        for rt in (graph.ring_atom_sets or []):
+            if root_idx in rt:
+                all_ring_set = set(rt)
+                break
+        # 環内 C のみも収集
         ring_cs: set[int] = set()
         q = [root_idx]
         while q:
@@ -546,10 +629,41 @@ def _name_carbon_substituent(
             ring_cs.add(a)
             q.extend(graph.adjacency[a])
         ring_size = len(ring_cs)
-        # 環外 C が存在しない (sub_carbons == ring_cs) → 純シクロアルキル
-        if carbon_set == ring_cs:
-            stem = CHAIN_PREFIX.get(ring_size, f"C{ring_size}")
-            return f"cyclo{stem}yl"
+        # 環外 C が存在しない (sub_carbons == ring_cs) → 純シクロアルキル or ヘテロ環
+        if carbon_set == ring_cs and all_ring_set is not None:
+            # ヘテロ原子が含まれる場合は ヘテロ環 substituent 命名 (Phase 247)
+            hetero_in_ring = [a for a in all_ring_set if get_atom(graph, a).symbol != "C"]
+            if hetero_in_ring:
+                from .ring_handler import _order_ring
+                from .heterocycle_handler import _match_hantzsch_widman, _find_best_start
+                ring_ordered = _order_ring(list(all_ring_set), graph)
+                hw_name = _match_hantzsch_widman(ring_ordered, graph)
+                if hw_name is not None:
+                    # ロカントを決定: ヘテロ原子が locant 1 になるよう並べる
+                    best_start = _find_best_start(ring_ordered, graph)
+                    try:
+                        locant = best_start.index(root_idx) + 1
+                    except ValueError:
+                        locant = ring_ordered.index(root_idx) + 1
+                    stem_hw = hw_name[:-1] if hw_name.endswith("e") else hw_name
+                    return f"{stem_hw}-{locant}-yl"
+                # 保留名テーブルを試みる (morpholine, piperazine 等)
+                from .heterocycle_handler import _RETAINED_NAMES as _RN_H
+                _try_sigs = []
+                for _start_idx in range(len(ring_ordered)):
+                    _rotated = ring_ordered[_start_idx:] + ring_ordered[:_start_idx]
+                    _sig = tuple(get_atom(graph, a).symbol for a in _rotated)
+                    _try_sigs.append((False, _sig, _rotated))
+                for _arom_k, _sig_k, _rot_k in _try_sigs:
+                    _h_match = _RN_H.get((_arom_k, _sig_k))
+                    if _h_match is not None:
+                        _base, _has_nh = _h_match[0], _h_match[1]
+                        _loc = _rot_k.index(root_idx) + 1
+                        _stem = _base[:-1] if _base.endswith("e") else _base
+                        return f"{_stem}-{_loc}-yl"
+            else:
+                stem = CHAIN_PREFIX.get(ring_size, f"C{ring_size}")
+                return f"cyclo{stem}yl"
 
     # 付け根 (root) が末端かどうか確認
     # 末端 = 置換基内での炭素隣接が 1 以下
@@ -563,6 +677,29 @@ def _name_carbon_substituent(
     if root_is_terminal and _is_linear_chain(graph, sub_carbons, excluded):
         prefix = CHAIN_PREFIX.get(n, f"C{n}")
         chain_path = _find_longest_path(graph, root_idx, excluded, carbon_set)
+        # 鎖末端が COOH の場合: carboxymethyl / 2-carboxyethyl 等 (Phase 161)
+        from .molecule_analyzer import get_bond_order as _gbo_co
+        last_c = chain_path[-1]
+        _last_o_dbl = [nb for nb in graph.adjacency[last_c]
+                       if nb not in excluded and nb not in carbon_set
+                       and get_atom(graph, nb).symbol == "O"
+                       and _gbo_co(graph, last_c, nb) == 2.0]
+        _last_o_oh = [nb for nb in graph.adjacency[last_c]
+                      if nb not in excluded and nb not in carbon_set
+                      and get_atom(graph, nb).symbol == "O"
+                      and _gbo_co(graph, last_c, nb) == 1.0
+                      and (get_atom(graph, nb).num_hs >= 1
+                           or any(get_atom(graph, hh).symbol == "H"
+                                  for hh in graph.adjacency[nb])
+                           or get_atom(graph, nb).formal_charge == -1)]
+        if _last_o_dbl and _last_o_oh and n >= 2:
+            alkyl_n = n - 1  # COOH C を除いたアルキル鎖の長さ
+            alkyl_pfx = CHAIN_PREFIX.get(alkyl_n, f"C{alkyl_n}")
+            if alkyl_n == 1:
+                return "carboxymethyl"
+            else:
+                return f"{alkyl_n}-carboxy{alkyl_pfx}yl"
+
         # 鎖端に芳香環が付いている場合は分岐置換基パスへ (Phase 160)
         has_aryl_nb = any(
             get_atom(graph, nb).symbol == "C"
@@ -574,6 +711,26 @@ def _name_carbon_substituent(
             and get_atom(graph, nb).symbol != "H"
         )
         if has_aryl_nb:
+            return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
+        # アルコキシ置換: 鎖内 C に ether O(-C) が付いている場合 → _name_branched_substituent へ
+        has_oxy_sub = False
+        for _c_idx in chain_path:
+            for _nb in graph.adjacency[_c_idx]:
+                if _nb in carbon_set or _nb in excluded:
+                    continue
+                if get_atom(graph, _nb).symbol != "O":
+                    continue
+                _o_c_nbs = [
+                    nb2 for nb2 in graph.adjacency[_nb]
+                    if nb2 != _c_idx and nb2 not in excluded
+                    and get_atom(graph, nb2).symbol == "C"
+                ]
+                if _o_c_nbs:
+                    has_oxy_sub = True
+                    break
+            if has_oxy_sub:
+                break
+        if has_oxy_sub:
             return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
         # 多重結合 (二重・三重) が鎖内にあるか確認
         for i in range(len(chain_path) - 1):
@@ -587,9 +744,21 @@ def _name_carbon_substituent(
             if bo == 2.0:
                 # C=C: n=2 → "ethenyl"; n>=3 → "prop-2-en-1-yl" 等
                 loc = i + 1
+                stereo_pfx_sub = ""
+                try:
+                    from .stereochemistry import assign_stereochemistry
+                    from .chain_finder import PrincipalChain
+                    _pc_sub = PrincipalChain(
+                        atom_indices=chain_path,
+                        locant_map={c: j + 1 for j, c in enumerate(chain_path)})
+                    _stereo_sub = assign_stereochemistry(graph, _pc_sub)
+                    if _stereo_sub:
+                        stereo_pfx_sub = "(" + ",".join(d.strip("()") for d in _stereo_sub) + ")-"
+                except Exception:
+                    pass
                 if n == 2:
-                    return f"{prefix}enyl"
-                return f"{prefix}-{loc}-en-1-yl"
+                    return f"{stereo_pfx_sub}{prefix}enyl"
+                return f"{stereo_pfx_sub}{prefix}-{loc}-en-1-yl"
         # ハロゲン置換アルキル: CF3 → "trifluoromethyl" 等 (IUPAC P-61.7)
         _HAL_PREFIX = {"F": "fluoro", "Cl": "chloro", "Br": "bromo", "I": "iodo"}
         hal_subs: list[tuple[int, str]] = []
@@ -615,6 +784,77 @@ def _name_carbon_substituent(
                     loc_str = ",".join(str(l) for l in locs)
                     hal_parts.append(f"{loc_str}-{mult}{nm}")
             return f"{'-'.join(hal_parts)}{prefix}yl"
+
+        # ヒドロキシ置換アルキル: HO-CH₂- → hydroxymethyl, HO-CH₂CH₂- → 2-hydroxyethyl (Phase 274)
+        hy_subs: list[tuple[int, str]] = []
+        for pos, c_idx in enumerate(chain_path, 1):
+            for nb_idx in graph.adjacency[c_idx]:
+                if nb_idx in excluded or nb_idx in carbon_set:
+                    continue
+                nb_atom_hy = get_atom(graph, nb_idx)
+                if nb_atom_hy.symbol != "O":
+                    continue
+                # 自由 OH: H を持ち、他 C に結合していない (エーテルでない)
+                hy_has_h = any(get_atom(graph, hh).symbol == "H"
+                               for hh in graph.adjacency[nb_idx])
+                hy_c_nbs = [nb2 for nb2 in graph.adjacency[nb_idx]
+                            if nb2 != c_idx and nb2 not in excluded
+                            and get_atom(graph, nb2).symbol == "C"]
+                # C=O でない (シングル結合) かつ OH かつ エーテルでない
+                from .molecule_analyzer import get_bond_order as _gbo_hy
+                if (_gbo_hy(graph, c_idx, nb_idx) == 1.0
+                        and hy_has_h and not hy_c_nbs):
+                    hy_subs.append((pos, "hydroxy"))
+        if hy_subs:
+            from collections import defaultdict as _dd_hy
+            hy_by_name: dict[str, list[int]] = _dd_hy(list)
+            for pos, nm in hy_subs:
+                hy_by_name[nm].append(pos)
+            hy_parts: list[str] = []
+            for nm in sorted(hy_by_name.keys()):
+                locs = sorted(hy_by_name[nm])
+                mult = MULTIPLIER.get(len(locs), "")
+                if n == 1:
+                    hy_parts.append(f"{mult}{nm}")
+                else:
+                    loc_str = ",".join(str(l) for l in locs)
+                    hy_parts.append(f"{loc_str}-{mult}{nm}")
+            return f"{'-'.join(hy_parts)}{prefix}yl"
+
+        # アミノ置換アルキル: H₂N-CH₂- → aminomethyl, H₂N-CH₂CH₂- → 2-aminoethyl 等 (Phase 216)
+        # 鎖上の N 置換基を探す
+        amino_subs: list[tuple[int, str]] = []
+        for pos, c_idx in enumerate(chain_path, 1):
+            for nb_idx in graph.adjacency[c_idx]:
+                if nb_idx in excluded or nb_idx in carbon_set:
+                    continue
+                if get_atom(graph, nb_idx).symbol != "N":
+                    continue
+                n_atom = get_atom(graph, nb_idx)
+                # N が環内・非芳香族の場合はスキップ
+                if n_atom.in_ring:
+                    continue
+                # N に付いている H 数と C 数を確認
+                n_h = sum(1 for hh in graph.adjacency[nb_idx] if get_atom(graph, hh).symbol == "H")
+                n_c = [cc for cc in graph.adjacency[nb_idx]
+                       if cc != c_idx and get_atom(graph, cc).symbol == "C"]
+                if not n_c and n_h >= 0:  # primary amine (NH2 or NH)
+                    amino_subs.append((pos, "amino"))
+        if amino_subs:
+            from collections import defaultdict
+            amino_by_name: dict[str, list[int]] = defaultdict(list)
+            for pos, nm in amino_subs:
+                amino_by_name[nm].append(pos)
+            amino_parts: list[str] = []
+            for nm in sorted(amino_by_name.keys()):
+                locs = sorted(amino_by_name[nm])
+                mult = MULTIPLIER.get(len(locs), "")
+                if n == 1:
+                    amino_parts.append(f"{mult}{nm}")
+                else:
+                    loc_str = ",".join(str(l) for l in locs)
+                    amino_parts.append(f"{loc_str}-{mult}{nm}")
+            return f"{'-'.join(amino_parts)}{prefix}yl"
 
         return f"{prefix}yl"
 

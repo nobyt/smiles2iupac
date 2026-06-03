@@ -140,17 +140,27 @@ _HW_NAMES: dict[tuple[int, str], str] = {
     (3, "O"): "oxirane",
     (3, "S"): "thiirane",
     (3, "N"): "aziridine",
+    (3, "P"): "phosphirane",
     (4, "O"): "oxetane",
     (4, "S"): "thietane",
     (4, "N"): "azetidine",
+    (4, "P"): "phosphetane",
     (5, "O"): "oxolane",
     (5, "S"): "thiolane",
     (5, "N"): "pyrrolidine",
+    (5, "P"): "phospholane",
     (6, "O"): "oxane",
     (6, "S"): "thiane",
+    (6, "P"): "phosphinane",
     # (6, "N") → piperidine は保留名テーブルで処理済み
     (7, "N"): "azepane",
     (7, "O"): "oxepane",
+    (7, "S"): "thiepane",
+    (7, "P"): "phosphepane",
+    (8, "N"): "azocane",
+    (8, "O"): "oxocane",
+    (8, "S"): "thiocane",
+    (8, "P"): "phosphocane",
 }
 
 
@@ -174,6 +184,98 @@ def _match_hantzsch_widman(ring: list[int], graph: "MoleculeGraph") -> str | Non
     if len(hetero_sigs) != 1:
         return None
     return _HW_NAMES.get((n, hetero_sigs[0]))
+
+
+# ─── Phase 272: 部分不飽和単環ヘテロ環 ─────────────────────────────────
+# 非芳香族で環内二重結合を持つ 5/6員環 → "X,Y-dihydro[parent]" 形式
+
+_PARTIAL_UNSAT_PARENT: dict[tuple[int, str], str] = {
+    # 5-membered
+    (5, "O"): "furan",
+    (5, "S"): "thiophene",
+    (5, "N"): "pyrrole",
+    # 6-membered
+    (6, "N"): "pyridine",
+    (6, "O"): "pyran",
+    (6, "S"): "thiopyran",
+}
+
+
+def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
+    """
+    部分不飽和単一ヘテロ原子環の dihydro 名を返す。
+    例: 2,3-dihydrofuran, 1,2-dihydropyridine
+    """
+    from .molecule_analyzer import get_atom, get_bond_order
+
+    if _is_aromatic_ring(ring, graph):
+        return None
+    n = len(ring)
+    if n not in (5, 6):
+        return None
+
+    # 環内二重結合を収集
+    ring_set = set(ring)
+    seen: set[frozenset] = set()
+    db_pairs: list[tuple[int, int]] = []
+    for idx in ring:
+        for nb in graph.adjacency[idx]:
+            if nb in ring_set:
+                key = frozenset((idx, nb))
+                if key not in seen:
+                    seen.add(key)
+                    if get_bond_order(graph, idx, nb) == 2.0:
+                        db_pairs.append((idx, nb))
+
+    if not db_pairs:
+        return None  # 完全飽和 → HW 名で処理
+
+    # 単一ヘテロ原子のみ対応
+    hetero_atoms = [idx for idx in ring if _atom_sig(graph, idx) != "C"]
+    if len(hetero_atoms) != 1:
+        return None
+    hetero_idx = hetero_atoms[0]
+    hetero_sym = get_atom(graph, hetero_idx).symbol
+    has_nh = any(get_atom(graph, nb).symbol == "H" for nb in graph.adjacency[hetero_idx])
+
+    parent = _PARTIAL_UNSAT_PARENT.get((n, hetero_sym))
+    if parent is None:
+        return None
+
+    # sp3 原子 = 環内二重結合に関与しない炭素 (ヘテロ原子除く)
+    db_atoms = {a for pair in db_pairs for a in pair}
+    sp3_atoms = [idx for idx in ring if idx not in db_atoms and idx != hetero_idx]
+
+    # 5員環: 1 db → sp3 が 2個 / 6員環: 1 db → sp3 が 3個, 2 db → sp3 が 1個(+N-H)
+    # 6員環 + N-H の場合: N がsp3になる → sp3_atoms にも含める可能性
+    sp3_with_hetero = sp3_atoms[:]
+    if has_nh and hetero_idx not in db_atoms:
+        sp3_with_hetero.append(hetero_idx)
+
+    if not sp3_with_hetero:
+        return None
+
+    # ヘテロ原子を 1 位として両方向で sp3 ロカントを求め最小を選ぶ
+    hi = ring.index(hetero_idx)
+    best_locs: list[int] | None = None
+    for direction in (1, -1):
+        ordered = [ring[(hi + direction * k) % n] for k in range(n)]
+        loc_map = {ordered[i]: i + 1 for i in range(n)}
+        locs = sorted(loc_map[a] for a in sp3_with_hetero)
+        if best_locs is None or locs < best_locs:
+            best_locs = locs
+
+    if best_locs is None:
+        return None
+
+    # N-H を持つ pyrrole/pyridine 親の indicated hydrogen
+    indicated_h = ""
+    if hetero_sym == "N" and has_nh and 1 not in best_locs:
+        indicated_h = "1H-"
+
+    mult = {2: "di", 3: "tri", 4: "tetra", 5: "penta"}.get(len(best_locs), "")
+    locs_str = ",".join(str(l) for l in best_locs)
+    return f"{locs_str}-{mult}hydro{indicated_h}{parent}"
 
 
 # ─── 保留名テーブル ────────────────────────────────────────────────────
@@ -212,12 +314,12 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # NH ピペラジン (N-H あり)
     (False, ("NH", "C", "C", "N",  "C", "C")): ("piperazine",  False),
     (False, ("NH", "C", "C", "NH", "C", "C")): ("piperazine",  False),
-    # Phase 154: 5員 O,N 飽和環
-    (False, ("O", "C", "C", "N", "C")):           ("1,3-oxazolidine", False),  # 1,3-oxazolidine
-    (False, ("O", "C", "C", "C", "N")):           ("1,2-oxazolidine", False),  # 1,2-oxazolidine (isoxazolidine)
-    # Phase 154: 5員 S,N 飽和環 (1,3-thiazolidine)
-    (False, ("S", "C", "C", "N", "C")):           ("1,3-thiazolidine", False),
-    (False, ("S", "C", "C", "C", "N")):           ("1,2-thiazolidine", False),
+    # Phase 154: 5員 O,N 飽和環 (oxazolidine = 1,3-oxazolidine; isoxazolidine = 1,2-oxazolidine)
+    (False, ("O", "C", "C", "N", "C")):           ("oxazolidine",   False),
+    (False, ("O", "C", "C", "C", "N")):           ("isoxazolidine", False),
+    # Phase 154: 5員 S,N 飽和環 (thiazolidine = 1,3-; isothiazolidine = 1,2-)
+    (False, ("S", "C", "C", "N", "C")):           ("thiazolidine",   False),
+    (False, ("S", "C", "C", "C", "N")):           ("isothiazolidine", False),
     # Phase 154: 6員 O,N 飽和環 (1,3-oxazinane, 1,4-oxazinane 等)
     (False, ("O", "C", "C", "C", "N", "C")):      ("1,3-oxazinane",   False),
     (False, ("O", "C", "N", "C", "C", "C")):      ("1,3-oxazinane",   False),  # alt sig
@@ -234,14 +336,37 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     (False, ("N",  "C", "N",  "C", "N",  "C")):   ("1,3,5-triazinane", False),
     # Phase 153: hexahydropyrimidine 型 (非芳香族6員 N1,N3 環)
     (False, ("N", "C", "C", "C", "N", "C")):      ("hexahydropyrimidine", False),
+    # Phase 269: 5員二ヘテロ芳香族
+    (True,  ("NH", "C", "C", "C", "N")): ("pyrazole",    True),   # 1H-pyrazole
+    (True,  ("N",  "C", "C", "C", "N")): ("pyrazole",    False),  # 1-substituted
+    (True,  ("O",  "C", "C", "C", "N")): ("isoxazole",   False),
+    (True,  ("O",  "C", "C", "N", "C")): ("oxazole",     False),
+    (True,  ("S",  "C", "C", "N", "C")): ("thiazole",    False),
+    (True,  ("S",  "C", "C", "C", "N")): ("isothiazole", False),
+    # Phase 269: 6員 triazine/tetrazine
+    (True,  ("N",  "C", "C", "C", "N", "N")): ("1,2,3-triazine",    False),
+    (True,  ("N",  "C", "C", "N", "C", "N")): ("1,2,4-triazine",    False),
+    (True,  ("N",  "C", "N", "C", "N", "C")): ("1,3,5-triazine",    False),
+    (True,  ("N",  "C", "N", "N", "C", "N")): ("1,2,4,5-tetrazine", False),
     # Phase 151: 二ヘテロ原子飽和環 (1,3-dioxolane, 1,4-dioxane 等)
     (False, ("O", "C", "C", "O", "C")):           ("1,3-dioxolane",   False),
     (False, ("O", "C", "C", "O", "C", "C")):      ("1,4-dioxane",     False),
     (False, ("O", "C", "C", "C", "O", "C")):      ("1,3-dioxane",     False),
     (False, ("S", "C", "C", "S", "C")):           ("1,3-dithiolane",  False),
+    (False, ("S", "C", "C", "C", "S")):           ("1,2-dithiolane",  False),
     (False, ("S", "C", "C", "S", "C", "C")):      ("1,4-dithiane",    False),
+    (False, ("S", "C", "C", "C", "C", "S")):      ("1,2-dithiane",    False),
     (False, ("O", "C", "C", "S", "C")):           ("1,3-oxathiolane", False),
     (False, ("O", "C", "C", "S", "C", "C")):      ("1,4-oxathiane",   False),
+    # Phase 232: 1,3,5-trioxane (6員 tri-O 環)
+    (False, ("O", "C", "O", "C", "O", "C")): ("1,3,5-trioxane", False),
+    # Phase 196: 4員環 二ヘテロ原子 (1,3-dioxetane 等)
+    (False, ("O", "C", "O", "C")):                ("1,3-dioxetane",   False),
+    (False, ("O", "C", "N", "C")):                ("1,3-oxazetidine", False),
+    (False, ("N", "C", "O", "C")):                ("1,3-oxazetidine", False),
+    (False, ("O", "C", "C", "N")):                ("1,2-oxazetidine", False),
+    (False, ("S", "C", "S", "C")):                ("1,3-dithietane",  False),
+    (False, ("O", "C", "S", "C")):                ("1,3-oxathietane", False),
 }
 
 
@@ -458,13 +583,19 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
     "c1ccc2c(c1)CCCS2": "thiochroman",
     "O=C1CCc2ccccc21":  "indan-1-one",
+    "O=C1CC(=O)c2ccccc21": "indane-1,3-dione",
     "O=C1Cc2ccccc2N1":  "indolin-2-one",
+    # Phase 264: 縮合無水物・マレイン酸無水物
+    "O=C1OC(=O)c2ccccc21": "isobenzofuran-1,3-dione",
+    "O=C1C=CC(=O)O1":      "furan-2,5-dione",
+    # Phase 267: 1,3-ベンゾジオキソール (メチレンジオキシベンゼン骨格)
+    "c1ccc2c(c1)OCO2":  "1,3-benzodioxole",
     # Phase 134: 追加縮合環保留名 (IUPAC 2013 P-31.1.3, fluorene/xanthene 系)
     "c1ccc2c(c1)Cc1ccccc1-2":  "fluorene",
     "c1ccc2c(c1)Cc1ccccc1O2":  "xanthene",
     "c1ccc2c(c1)Cc1ccccc1S2":  "thioxanthene",
-    "O=c1ccc2ccccc2o1":        "chromen-2-one",
-    "O=c1occc2ccccc12":        "1H-2-benzopyran-1-one",
+    "O=c1ccc2ccccc2o1":        "coumarin",
+    "O=c1occc2ccccc12":        "isocoumarin",
     "C1=COc2ccccc2C1":         "2H-chromene",
     "C1=Cc2ccccc2OC1":         "4H-chromene",
     "c1ccc2c(c1)Nc1ccccc1O2":  "phenoxazine",
@@ -473,6 +604,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
+    # Phase 255: テルロフェン
+    "c1cc[te]c1":       "tellurophene",
     "c1ccn2ccnc2c1":    "imidazo[1,2-a]pyridine",
     "c1cnc2ccnn2c1":    "imidazo[1,2-b]pyridazine",
     "c1cnc2ccsc2c1":    "thieno[2,3-b]pyridine",
@@ -515,9 +648,14 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1COCO1":   "1,3-dioxolane",
     "C1COCOC1":  "1,3-dioxane",
     "C1CSCS1":   "1,3-dithiolane",
+    "C1CSSC1":   "1,2-dithiolane",
     "C1CSCCS1":  "1,4-dithiane",
+    "C1CCSSC1":  "1,2-dithiane",
     "C1CSCCO1":  "1,4-oxathiane",
     "C1CSCO1":   "1,3-oxathiolane",
+    # Phase 260: 1,2-ジオキサン・1,2-ジオキソラン (隣接 O-O を持つ環)
+    "C1CCOOC1":  "1,2-dioxane",
+    "C1COOC1":   "1,2-dioxolane",
     # Phase 138: 多環芳香族炭化水素 保留名 (IUPAC 2013 P-31.1.2)
     "c1ccc2cccc-2cc1":                            "azulene",
     "C1=Cc2ccccc2C1":                             "1H-indene",
@@ -723,18 +861,24 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
 
     ring = hetero_rings[0]
 
-    # 1. 保留名テーブルを試みる
-    match = _match_retained(ring, graph)
-    if match is not None:
-        base_name, is_nh, rotation = match
-    else:
-        # 2. Hantzsch-Widman 名を試みる
-        hw_name = _match_hantzsch_widman(ring, graph)
-        if hw_name is None:
-            return None
-        # HW 名は置換基のロカントのためにロカントマップが必要
+    # 1. Phase 272: 部分不飽和環を最初にチェック (環内二重結合あり)
+    # 飽和環や芳香族環は db_pairs が空 or is_aromatic で None を返すので安全
+    pu_name = _match_partial_unsat(ring, graph)
+    if pu_name is not None:
         rotation = _find_best_start(ring, graph)
-        base_name, is_nh = hw_name, False
+        base_name, is_nh = pu_name, False
+    else:
+        # 2. 保留名テーブルを試みる
+        match = _match_retained(ring, graph)
+        if match is not None:
+            base_name, is_nh, rotation = match
+        else:
+            # 3. Hantzsch-Widman 名を試みる
+            hw_name = _match_hantzsch_widman(ring, graph)
+            if hw_name is None:
+                return None
+            rotation = _find_best_start(ring, graph)
+            base_name, is_nh = hw_name, False
 
     base_name, is_nh, rotation = (base_name, is_nh, rotation)
     locant_map = _build_locant_map(rotation)
@@ -815,7 +959,8 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         locs_sorted_e = sorted(locs_e)
         loc_str_e = ",".join(str(l) for l in locs_sorted_e)
         suffix_e = "dione" if len(locs_sorted_e) == 2 else "trione"
-        dione_name_e = f"{full_base}-{loc_str_e}-{suffix_e}"
+        _eb = full_base  # -dione/-trione starts with consonant: no elision
+        dione_name_e = f"{_eb}-{loc_str_e}-{suffix_e}"
         excl_e = set(exo_co_oxygens_e)
         other_subs_e = _collect_hetero_substituents(
             graph, ring, locant_map, excluded_atoms=excl_e
@@ -847,7 +992,8 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                     locant_map = _build_locant_map(rev_rotation)
                     locs = locs_rev
                 loc_str = ",".join(str(l) for l in locs)
-                imide_name = f"{full_base}-{loc_str}-dione"
+                _imide_base = full_base  # -dione starts with consonant: no elision
+                imide_name = f"{_imide_base}-{loc_str}-dione"
                 excl_o = {o1, o2}
                 other_subs = _collect_hetero_substituents(
                     graph, ring, locant_map, excluded_atoms=excl_o
@@ -870,7 +1016,8 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                 loc2 = locant_map[o_ring_c[1]]
                 locs = sorted([loc1, loc2])
                 loc_str = ",".join(str(l) for l in locs)
-                dione_name = f"{full_base}-{loc_str}-dione"
+                _anhy_base = full_base  # -dione starts with consonant: no elision
+                dione_name = f"{_anhy_base}-{loc_str}-dione"
                 excl_o = {exo1, exo2}
                 other_subs = _collect_hetero_substituents(
                     graph, ring, locant_map, excluded_atoms=excl_o
@@ -903,7 +1050,8 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         locs_sorted = sorted(locs_m)
         loc_str_m = ",".join(str(l) for l in locs_sorted)
         suffix_m = "dione" if len(locs_sorted) == 2 else "trione"
-        dione_name_m = f"{full_base}-{loc_str_m}-{suffix_m}"
+        _dm = full_base  # -dione/-trione starts with consonant: no elision
+        dione_name_m = f"{_dm}-{loc_str_m}-{suffix_m}"
         excl_m = set(exo_co_oxygens)
         other_subs_m = _collect_hetero_substituents(
             graph, ring, locant_map, excluded_atoms=excl_m
@@ -912,8 +1060,8 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
             return dione_name_m
         return _format_substituents(dione_name_m, other_subs_m)
 
-    has_ring_n_or_o = any(_get_atom_lact(graph, idx).symbol in ("N", "O") for idx in ring)
-    if has_ring_n_or_o:
+    has_ring_hetero = any(_get_atom_lact(graph, idx).symbol not in ("C", "H") for idx in ring)
+    if has_ring_hetero:
         for ring_idx in ring:
             ring_atom = _get_atom_lact(graph, ring_idx)
             if ring_atom.symbol != "C":
@@ -956,7 +1104,11 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         alt_hetero = sorted(
             k + 1 for k, a in enumerate(alt) if _atom_sig(graph, a) != "C"
         )
-        if alt_hetero == fwd_hetero:
+        # Only swap to an alternative that starts with the same element (e.g. N↔N ok,
+        # N↔O not allowed: in isoxazole O must remain at locant 1, not N).
+        if alt_hetero == fwd_hetero and (
+            _get_atom_lact(graph, alt[0]).symbol == _get_atom_lact(graph, rotation[0]).symbol
+        ):
             rot_candidates.append(alt)
 
     # 各候補の置換基ロカント集合を収集

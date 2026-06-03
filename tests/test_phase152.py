@@ -1,4 +1,4 @@
-"""Phase 152: イミダゾリジン環 (imidazolidine, imidazolidine-2,4-dione)
+"""Phase 152: イミダゾリジン環 (imidazolidine, imidazolidine-2,4-dione; -dione は e 保持)
 
 5員飽和 N,N 環の保留名と exo C=O ロカント最小化によるジオン命名。
 """
@@ -12,7 +12,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("C1CNCN1",           "imidazolidine"),
     # imidazolidin-2-one (single exo C=O)
     ("O=C1NCCN1",         "imidazolidin-2-one"),
-    # imidazolidine-2,4-dione (hydantoin): N at 1,3; C=O at 2,4
+    # imidazolidine-2,4-dione (hydantoin): N at 1,3; C=O at 2,4 (-dione: no elision)
     ("O=C1NC(=O)CN1",     "imidazolidine-2,4-dione"),
     # 回帰: 尿素検出 (環外ウレア) への誤マッチを防ぐ
     ("CNC(=O)N",          "N-methylurea"),

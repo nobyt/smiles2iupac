@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     # diazobutane
     ("CCCC=[N+]=[N-]", "diazobutane"),
     # 回帰: azide (R-N=N=N) は影響なし
-    ("CN=[N+]=[N-]", "methyl azide"),
+    ("CN=[N+]=[N-]", "azidomethane"),
     # 回帰: azo compound は影響なし
     ("c1ccc(N=Nc2ccccc2)cc1", "azobenzene"),
 ])

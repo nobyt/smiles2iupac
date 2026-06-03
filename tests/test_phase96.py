@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("CCNc1ccncc1", "N-ethylpyridin-4-amine"),
     ("CNc1cccnc1", "N-methylpyridin-3-amine"),
     # 回帰: ベンゼン系はそのまま
-    ("C=Cc1ccccc1", "ethenylbenzene"),
+    ("C=Cc1ccccc1", "styrene"),
     ("C#Cc1ccccc1", "ethynylbenzene"),
     ("CNc1ccccc1", "N-methylaniline"),
 ])

@@ -102,7 +102,7 @@ class TestAlkenes:
         assert smiles_to_iupac("C=C") == "ethene"
 
     def test_prop_1_ene(self):
-        assert smiles_to_iupac("C=CC") == "prop-1-ene"
+        assert smiles_to_iupac("C=CC") == "propene"
 
     def test_but_2_ene(self):
         assert smiles_to_iupac("CC=CC") == "but-2-ene"
@@ -123,4 +123,4 @@ class TestAlkynes:
         assert smiles_to_iupac("CC#CC") == "but-2-yne"
 
     def test_prop_1_yne(self):
-        assert smiles_to_iupac("C#CC") == "prop-1-yne"
+        assert smiles_to_iupac("C#CC") == "propyne"

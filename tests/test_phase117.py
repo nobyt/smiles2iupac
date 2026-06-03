@@ -17,7 +17,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("NCCO", "2-aminoethanol"),
     ("CCO", "ethanol"),
     # 置換酢酸 (acetic acid 保留名ベース)
-    ("c1ccc(CC(=O)O)cc1", "2-phenylacetic acid"),
+    ("c1ccc(CC(=O)O)cc1", "phenylacetic acid"),
     # 回帰: 3炭素以上はそのまま
     ("CCCO", "propan-1-ol"),
     ("CCC(=O)O", "propanoic acid"),
