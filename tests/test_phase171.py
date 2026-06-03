@@ -11,7 +11,7 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ロカント付きフェニル置換基への括弧
-    ("CC(C)Cc1ccc(cc1)C(C)C(=O)O",  "2-(4-(2-methylpropyl)phenyl)propanoic acid"),
+    ("CC(C)Cc1ccc(cc1)C(C)C(=O)O",  "2-[4-(2-methylpropyl)phenyl]propanoic acid"),
     ("CC(C)Cc1ccc(N)cc1",             "4-(2-methylpropyl)aniline"),
     ("CC(C)Cc1ccc(O)cc1",             "4-(2-methylpropyl)phenol"),
     # ロカントなし置換基: 括弧なし

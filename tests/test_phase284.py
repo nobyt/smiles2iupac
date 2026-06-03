@@ -15,9 +15,9 @@ from smiles2iupac import smiles_to_iupac
     ("C=NC",           "N-methylmethanimine"),
 
     # ── 2C: locant required ───────────────────────────────────────────────
-    ("CC=N",           "ethan-1-imine"),
-    ("CC=NC",          "N-methylethan-1-imine"),
-    ("CC=NCC",         "N-ethylethan-1-imine"),
+    ("CC=N",           "ethanimine"),
+    ("CC=NC",          "N-methylethanimine"),
+    ("CC=NCC",         "N-ethylethanimine"),
 
     # ── 3C+: locant required ─────────────────────────────────────────────
     ("CCC=N",          "propan-1-imine"),

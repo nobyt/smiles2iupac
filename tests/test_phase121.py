@@ -19,7 +19,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: thioamide (C(=S)-N) は影響なし
     ("CC(=S)N", "ethanethioamide"),
     # 回帰: thioether (C-S-C)
-    ("CSC", "(methylsulfanyl)methane"),
+    ("CSC", "dimethyl sulfide"),
 ])
 def test_phase121_thioketone_thioaldehyde(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

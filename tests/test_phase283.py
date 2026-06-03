@@ -11,18 +11,18 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── sulfoxides ────────────────────────────────────────────────────────
-    ("CS(=O)C",              "(methylsulfinyl)methane"),
-    ("CCS(=O)CC",            "(ethylsulfinyl)ethane"),
-    ("CCS(=O)C",             "(methylsulfinyl)ethane"),
+    ("CS(=O)C",              "dimethyl sulfoxide"),
+    ("CCS(=O)CC",            "diethyl sulfoxide"),
+    ("CCS(=O)C",             "ethyl methyl sulfoxide"),
 
     # ── sulfones ──────────────────────────────────────────────────────────
-    ("CS(=O)(=O)C",          "(methylsulfonyl)methane"),
-    ("CCS(=O)(=O)CC",        "(ethylsulfonyl)ethane"),
-    ("CCS(=O)(=O)C",         "(methylsulfonyl)ethane"),
+    ("CS(=O)(=O)C",          "dimethyl sulfone"),
+    ("CCS(=O)(=O)CC",        "diethyl sulfone"),
+    ("CCS(=O)(=O)C",         "ethyl methyl sulfone"),
 
     # ── disulfides ────────────────────────────────────────────────────────
-    ("CSSC",                 "(methyldisulfanyl)methane"),
-    ("CCSSCC",               "(ethyldisulfanyl)ethane"),
+    ("CSSC",                 "dimethyl disulfide"),
+    ("CCSSCC",               "diethyl disulfide"),
 
     # ── regressions: sulfonamide, sulfonic acid, thiol unchanged ──────────
     ("CS(=O)(=O)N",          "methanesulfonamide"),

@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("N=C1CCC1",    "cyclobutanimine"),
     ("N=C1CC1",     "cyclopropanimine"),
     # regression: acyclic imine unaffected
-    ("CC=N",        "ethan-1-imine"),
+    ("CC=N",        "ethanimine"),
     ("CC(=N)CC",    "butan-2-imine"),
     # regression: cyclic ketoxime unaffected
     ("ON=C1CCCC1",  "cyclopentanone oxime"),

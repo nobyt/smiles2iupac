@@ -23,7 +23,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: 通常の化合物は変わらない
     ("CC(=O)O",     "acetic acid"),
     ("C",           "methane"),
-    ("CS(=O)C",     "(methylsulfinyl)methane"),
+    ("CS(=O)C",     "dimethyl sulfoxide"),
 ])
 def test_phase163_inorganic_special_names(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

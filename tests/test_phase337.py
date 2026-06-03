@@ -20,8 +20,8 @@ from smiles2iupac import smiles_to_iupac
     # E/Z parent chain tertiary amine
     ("C/C=C/CN(C)C",            "(2E)-N,N-dimethylbut-2-en-1-amine"),
     # E/Z on N-substituent (alkenyl is shorter than saturated parent)
-    ("CCCCCNC/C=C/C",           "N-((2E)-but-2-en-1-yl)pentan-1-amine"),
-    (r"CCCCCNC/C=C\C",          "N-((2Z)-but-2-en-1-yl)pentan-1-amine"),
+    ("CCCCCNC/C=C/C",           "N-[(2E)-but-2-en-1-yl]pentan-1-amine"),
+    (r"CCCCCNC/C=C\C",          "N-[(2Z)-but-2-en-1-yl]pentan-1-amine"),
     # regressions: saturated secondary/tertiary amines unchanged
     ("CNC",                     "N-methylmethanamine"),
     ("CCNCC",                   "N-ethylethanamine"),

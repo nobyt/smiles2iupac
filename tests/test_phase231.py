@@ -9,8 +9,8 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # trimethylsilanol: 3 methyl + 1 OH
     ("C[Si](C)(C)O",   "trimethylsilanol"),
-    # dimethylsilanol: 2 methyl + 1 OH
-    ("C[Si](O)(O)C",   "dimethylsilanol"),
+    # dimethylsilanediol: 2 methyl + 2 OH (Phase 379 fixed diol naming)
+    ("C[Si](O)(O)C",   "dimethylsilanediol"),
     # regression: silane still works
     ("C[Si](C)(C)C",   "tetramethylsilane"),
     ("C[Si](C)(C)CC",  "ethyltrimethylsilane"),

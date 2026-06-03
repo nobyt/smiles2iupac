@@ -20,8 +20,8 @@ from smiles2iupac import smiles_to_iupac
     # N,N'-disubstituted sulfamide (different substituents; alphabetical)
     ("CNS(=O)(=O)NCC",             "N-ethyl-N'-methylsulfamide"),
     # N-alkenyl sulfamide with E/Z
-    ("C/C=C/CNS(=O)(=O)N",         "N-((2E)-but-2-en-1-yl)sulfamide"),
-    (r"C/C=C\CNS(=O)(=O)N",        "N-((2Z)-but-2-en-1-yl)sulfamide"),
+    ("C/C=C/CNS(=O)(=O)N",         "N-[(2E)-but-2-en-1-yl]sulfamide"),
+    (r"C/C=C\CNS(=O)(=O)N",        "N-[(2Z)-but-2-en-1-yl]sulfamide"),
     # regression: unsubstituted sulfamide unchanged
     ("NS(=O)(=O)N",                "sulfamide"),
 ])

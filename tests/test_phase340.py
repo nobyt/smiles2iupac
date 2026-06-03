@@ -16,8 +16,8 @@ from smiles2iupac import smiles_to_iupac
     # isothiocyanate E/Z chain
     ("C/C=C/CN=C=S",                 "(2E)-1-isothiocyanatobut-2-ene"),
     # carbodiimide with E/Z N-substituent
-    ("C/C=C/CN=C=NCC",               "N-((2E)-but-2-en-1-yl)-N'-ethylcarbodiimide"),
-    ("CCN=C=NC/C=C/C",               "N-((2E)-but-2-en-1-yl)-N'-ethylcarbodiimide"),
+    ("C/C=C/CN=C=NCC",               "N-[(2E)-but-2-en-1-yl]-N'-ethylcarbodiimide"),
+    ("CCN=C=NC/C=C/C",               "N-[(2E)-but-2-en-1-yl]-N'-ethylcarbodiimide"),
     # regressions: saturated isocyanate/isothiocyanate unchanged
     ("CN=C=O",                       "isocyanatomethane"),
     ("CCN=C=O",                      "isocyanatoethane"),

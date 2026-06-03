@@ -14,8 +14,8 @@ from smiles2iupac import smiles_to_iupac
     # tetrasulfide
     ("CSSSSC",   "dimethyl tetrasulfide"),
     # regression: disulfide still works
-    ("CSSC",     "(methyldisulfanyl)methane"),
-    ("CCSSCC",   "(ethyldisulfanyl)ethane"),
+    ("CSSC",     "dimethyl disulfide"),
+    ("CCSSCC",   "diethyl disulfide"),
 ])
 def test_phase226_polysulfide(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

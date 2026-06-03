@@ -82,7 +82,7 @@ def _het_a_prefix(graph: "MoleculeGraph", het_atoms: set[int], lmap: dict[int, i
         loc_str = ",".join(str(x) for x in locs)
         mult = _HET_A_MULT.get(len(locs), str(len(locs)))
         parts.append(f"{loc_str}-{mult}{_HET_A_SYM.get(sym, sym.lower())}")
-    return "".join(parts)
+    return "-".join(parts)
 
 
 def _bicyclo_unsaturated_name(l: int, m: int, n: int, total: int, db_locs: list[int]) -> str:
@@ -238,20 +238,22 @@ def _format_polycyclic_name(base: str, subs: list[tuple[int, str]]) -> str:
 
 def _try_spiro(graph: "MoleculeGraph") -> str | None:
     """
-    スピロ化合物なら 'spiro[m.n]alkane' (置換基付きも含む) を返す。
-    スピロ原子 = 環結合数 4 の原子がちょうど 1 つ存在する純炭素環。
+    スピロ化合物なら 'spiro[m.n]alkane' (ヘテロ原子・置換基付きも含む) を返す。
+    スピロ原子 = 環結合数 4 の炭素原子がちょうど 1 つ存在する非芳香族環。
     """
     from .molecule_analyzer import get_atom
-    from itertools import permutations
 
     ring_nbrs = _ring_neighbors(graph)
     ring_atoms = set(ring_nbrs.keys())
 
-    # 純炭化水素・非芳香族のみ対応
+    # 非芳香族の C/N/O/S のみ対応
+    _ALLOWED = frozenset({"C", "N", "O", "S"})
     for idx in ring_atoms:
         a = get_atom(graph, idx)
-        if a.symbol != "C" or a.is_aromatic:
+        if a.symbol not in _ALLOWED or a.is_aromatic:
             return None
+
+    het_atoms = {idx for idx in ring_atoms if get_atom(graph, idx).symbol != "C"}
 
     deg4 = [idx for idx, nbs in ring_nbrs.items() if len(nbs) == 4]
     deg3 = [idx for idx, nbs in ring_nbrs.items() if len(nbs) == 3]
@@ -260,86 +262,91 @@ def _try_spiro(graph: "MoleculeGraph") -> str | None:
         return None
 
     spiro_atom = deg4[0]
+    if get_atom(graph, spiro_atom).symbol != "C":
+        return None
+
     components = _connected_components(ring_atoms, ring_nbrs, exclude={spiro_atom})
 
     if len(components) != 2:
         return None
 
-    sizes = sorted(len(c) for c in components)
+    comp_list = list(components)
+    comp_list.sort(key=len)  # smaller first
+    sizes = [len(c) for c in comp_list]
     m, n = sizes[0], sizes[1]
     total = m + n + 1
     ring_name_base = f"spiro[{m}.{n}]{_alkane_name(total)}"
 
-    # 環外置換基チェック
     heavy = {a.idx for a in graph.atoms if a.symbol not in ("H",)}
-    sub_anchors = heavy - ring_atoms
-    if not sub_anchors:
+    if not (heavy - ring_atoms) and not het_atoms:
         return ring_name_base
 
-    # ─ ロカント付与 ─
-    # 小さい環: m atoms → positions 1..m
-    # スピロ原子: m+1
-    # 大きい環: n atoms → positions m+2..m+n+1
-    small_comp = next(c for c in components if len(c) == m)
-    large_comp = next(c for c in components if len(c) == n)
+    def _traverse_ring_from(start: int, comp: set[int]) -> list[int]:
+        path = [start]
+        prev = spiro_atom
+        curr = start
+        while True:
+            nxt = next(
+                (nb for nb in ring_nbrs[curr]
+                 if nb != prev and (nb in comp or nb == spiro_atom)),
+                None,
+            )
+            if nxt is None or nxt == spiro_atom:
+                break
+            path.append(nxt)
+            prev, curr = curr, nxt
+        return path
 
-    # スピロ原子の環内隣接から各環の開始点候補を取得
-    spiro_nbs = ring_nbrs[spiro_atom]  # 4 neighbors, 2 in each ring
-
-    small_starts = [nb for nb in spiro_nbs if nb in small_comp]
-    large_starts = [nb for nb in spiro_nbs if nb in large_comp]
+    spiro_nbs = ring_nbrs[spiro_atom]
 
     best_subs: list[tuple[int, str]] | None = None
     best_lmap: dict[int, int] | None = None
+    best_score: tuple | None = None
 
-    # 小さい環と大きい環の開始・方向の組み合わせを試す
-    for s_start in small_starts:
-        for l_start in large_starts:
-            # Build locant map for this (s_start, l_start) choice
-            lmap: dict[int, int] = {}
-            pos = 1
+    # 同サイズの場合は両コンポーネントを small/large 両方で試す
+    assignments: list[tuple[set[int], set[int]]] = []
+    if m == n:
+        assignments = [(comp_list[0], comp_list[1]), (comp_list[1], comp_list[0])]
+    else:
+        assignments = [(comp_list[0], comp_list[1])]
 
-            # Small ring: traverse from s_start around ring (excluding spiro)
-            # Two directions: forward and backward
-            def _traverse_ring_from(start: int, comp: set[int]) -> list[int]:
-                """comp 内で start から時計回りに巡回した原子リスト (start 含む, spiro除く)"""
-                path = [start]
-                prev = spiro_atom
-                curr = start
-                while True:
-                    nxt = next(
-                        (nb for nb in ring_nbrs[curr]
-                         if nb != prev and (nb in comp or nb == spiro_atom)),
-                        None,
-                    )
-                    if nxt is None or nxt == spiro_atom:
-                        break
-                    path.append(nxt)
-                    prev, curr = curr, nxt
-                return path
+    for small_comp, large_comp in assignments:
+        small_starts = [nb for nb in spiro_nbs if nb in small_comp]
+        large_starts = [nb for nb in spiro_nbs if nb in large_comp]
 
-            small_path = _traverse_ring_from(s_start, small_comp)
-            large_path = _traverse_ring_from(l_start, large_comp)
+        for s_start in small_starts:
+            for l_start in large_starts:
+                lmap: dict[int, int] = {}
+                pos = 1
 
-            for a in small_path:
-                lmap[a] = pos; pos += 1
-            lmap[spiro_atom] = pos; pos += 1
-            for a in large_path:
-                lmap[a] = pos; pos += 1
+                small_path = _traverse_ring_from(s_start, small_comp)
+                large_path = _traverse_ring_from(l_start, large_comp)
 
-            if len(lmap) != len(ring_atoms):
-                continue
+                for a in small_path:
+                    lmap[a] = pos; pos += 1
+                lmap[spiro_atom] = pos; pos += 1
+                for a in large_path:
+                    lmap[a] = pos; pos += 1
 
-            subs = _collect_polycyclic_subs(graph, ring_atoms, lmap)
-            locs = sorted(loc for loc, _ in subs)
-            best_locs = sorted(loc for loc, _ in (best_subs or []))
-            if best_subs is None or locs < best_locs:
-                best_subs = subs
-                best_lmap = lmap
+                if len(lmap) != len(ring_atoms):
+                    continue
 
-    if best_subs is None:
-        return ring_name_base
-    return _format_polycyclic_name(ring_name_base, best_subs)
+                het_locs = sorted(lmap[idx] for idx in het_atoms)
+                subs = _collect_polycyclic_subs(graph, ring_atoms, lmap)
+                sub_locs = sorted(loc for loc, _ in subs)
+                score = (het_locs, sub_locs)
+
+                if best_score is None or score < best_score:
+                    best_score = score
+                    best_subs = subs
+                    best_lmap = lmap
+
+    if best_lmap is None:
+        return ring_name_base if not het_atoms else None
+
+    het_prefix = _het_a_prefix(graph, het_atoms, best_lmap) if het_atoms else ""
+    final_base = het_prefix + ring_name_base
+    return _format_polycyclic_name(final_base, best_subs or [])
 
 
 # ─── 架橋二環式化合物 ─────────────────────────────────────────────────────────

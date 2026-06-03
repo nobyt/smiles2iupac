@@ -26,13 +26,13 @@ class TestSulfonicAcids:
 class TestSulfides:
 
     def test_dimethyl_sulfide(self):
-        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
+        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
 
     def test_ethyl_methyl_sulfide(self):
-        assert smiles_to_iupac("CSCC") == "(methylsulfanyl)ethane"
+        assert smiles_to_iupac("CSCC") == "ethyl methyl sulfide"
 
     def test_diethyl_sulfide(self):
-        assert smiles_to_iupac("CCSCC") == "(ethylsulfanyl)ethane"
+        assert smiles_to_iupac("CCSCC") == "diethyl sulfide"
 
     def test_methyl_phenyl_sulfide(self):
-        assert smiles_to_iupac("CSc1ccccc1") == "(methylsulfanyl)benzene"
+        assert smiles_to_iupac("CSc1ccccc1") == "methyl phenyl sulfide"

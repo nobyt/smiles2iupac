@@ -23,7 +23,7 @@ class TestThioester:
 class TestThioesterVsSulfide:
 
     def test_dimethyl_sulfide_unchanged(self):
-        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
+        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
 
     def test_thioester_not_sulfide(self):
         result = smiles_to_iupac("CCSC(=O)C")

@@ -10,15 +10,15 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # N-alkenyl urea
-    ("C/C=C/CNC(=O)N",             "N-((2E)-but-2-en-1-yl)urea"),
-    (r"C/C=C\CNC(=O)N",            "N-((2Z)-but-2-en-1-yl)urea"),
+    ("C/C=C/CNC(=O)N",             "N-[(2E)-but-2-en-1-yl]urea"),
+    (r"C/C=C\CNC(=O)N",            "N-[(2Z)-but-2-en-1-yl]urea"),
     # N-alkenyl thiourea
-    ("C/C=C/CNC(=S)N",             "N-((2E)-but-2-en-1-yl)thiourea"),
+    ("C/C=C/CNC(=S)N",             "N-[(2E)-but-2-en-1-yl]thiourea"),
     # N-alkenyl thioamide
-    ("C/C=C/CNC(=S)C",             "N-((2E)-but-2-en-1-yl)ethanethioamide"),
+    ("C/C=C/CNC(=S)C",             "N-[(2E)-but-2-en-1-yl]ethanethioamide"),
     # N-alkenyl sulfonamide
-    ("C/C=C/CNS(=O)(=O)C",         "N-((2E)-but-2-en-1-yl)methanesulfonamide"),
-    (r"C/C=C\CNS(=O)(=O)C",        "N-((2Z)-but-2-en-1-yl)methanesulfonamide"),
+    ("C/C=C/CNS(=O)(=O)C",         "N-[(2E)-but-2-en-1-yl]methanesulfonamide"),
+    (r"C/C=C\CNS(=O)(=O)C",        "N-[(2Z)-but-2-en-1-yl]methanesulfonamide"),
     # regressions: saturated N-substituents unchanged
     ("CNC(=O)N",                   "N-methylurea"),
     ("CNC(=S)N",                   "N-methylthiourea"),

@@ -15,8 +15,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("CS(=O)(=O)OCC", "ethyl methanesulfonate"),
     ("CCS(=O)(=O)OC", "methyl ethanesulfonate"),
     # 既存スルホキシド/スルホンの回帰確認
-    ("CS(=O)C", "(methylsulfinyl)methane"),
-    ("CS(=O)(=O)C", "(methylsulfonyl)methane"),
+    ("CS(=O)C", "dimethyl sulfoxide"),
+    ("CS(=O)(=O)C", "dimethyl sulfone"),
 ])
 def test_phase82_sulfinate_sulfonate_ester(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

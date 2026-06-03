@@ -26,7 +26,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=P(O)(O)O",         "phosphoric acid"),
     # 回帰: 一般化合物
     ("CC",                 "ethane"),
-    ("CS(=O)C",            "(methylsulfinyl)methane"),
+    ("CS(=O)C",            "dimethyl sulfoxide"),
 ])
 def test_phase145_phosphate_esters(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

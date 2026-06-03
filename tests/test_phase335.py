@@ -13,8 +13,8 @@ from smiles2iupac import smiles_to_iupac
     ("C/C=C/COC(=O)N",            "(2E)-but-2-en-1-yl carbamate"),
     (r"C/C=C\COC(=O)N",           "(2Z)-but-2-en-1-yl carbamate"),
     # carbamic acid with N-alkenyl substituent
-    ("C/C=C/CNC(=O)O",            "N-((2E)-but-2-en-1-yl)carbamic acid"),
-    (r"C/C=C\CNC(=O)O",           "N-((2Z)-but-2-en-1-yl)carbamic acid"),
+    ("C/C=C/CNC(=O)O",            "N-[(2E)-but-2-en-1-yl]carbamic acid"),
+    (r"C/C=C\CNC(=O)O",           "N-[(2Z)-but-2-en-1-yl]carbamic acid"),
     # regressions: saturated / non-stereo alkenyl unchanged
     ("CC=CCNC(=O)O",              "N-but-2-en-1-ylcarbamic acid"),
     ("CCNC(=O)O",                 "N-ethylcarbamic acid"),

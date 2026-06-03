@@ -188,6 +188,91 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
             ))
             continue
 
+        # S-アルキルカルバモジチオアート: N-C(=S)-S-R (Phase 351) — チオアミドより先
+        if _is_s_carbamodithioate(graph, idx):
+            s_double_cdt = _get_double_bonded_sulfur(graph, idx)
+            n_idx_cdt = _get_thioamide_nitrogen(graph, idx)
+            s_ester_cdt = next(
+                (nb for nb in graph.adjacency[idx]
+                 if get_atom(graph, nb).symbol == "S"
+                 and nb != s_double_cdt
+                 and get_bond_order(graph, idx, nb) == 1.0
+                 and any(get_atom(graph, x).symbol == "C"
+                         for x in graph.adjacency[nb] if x != idx)),
+                None,
+            )
+            _indices_cdt = [idx]
+            if s_double_cdt is not None:
+                _indices_cdt.append(s_double_cdt)
+            if n_idx_cdt is not None:
+                _indices_cdt.append(n_idx_cdt)
+            if s_ester_cdt is not None:
+                _indices_cdt.append(s_ester_cdt)
+            groups.append(FunctionalGroup(
+                group_type="s_carbamodithioate",
+                atom_indices=_indices_cdt,
+                priority=FUNCTIONAL_GROUP_PRIORITY["s_carbamodithioate"],
+            ))
+            continue
+
+        # O-アルキルチオカルバメート: N-C(=S)-O-R (priority=94, Phase 350) — チオアミドより先
+        if _is_o_thiocarbamate(graph, idx):
+            s_idx_otc = _get_double_bonded_sulfur(graph, idx)
+            n_idx_otc = _get_thioamide_nitrogen(graph, idx)
+            o_idx_otc = next(
+                (nb for nb in graph.adjacency[idx]
+                 if get_atom(graph, nb).symbol == "O"
+                 and get_bond_order(graph, idx, nb) == 1.0
+                 and any(get_atom(graph, x).symbol == "C"
+                         for x in graph.adjacency[nb] if x != idx)),
+                None,
+            )
+            _indices_otc = [idx]
+            if s_idx_otc is not None:
+                _indices_otc.append(s_idx_otc)
+            if n_idx_otc is not None:
+                _indices_otc.append(n_idx_otc)
+            if o_idx_otc is not None:
+                _indices_otc.append(o_idx_otc)
+            groups.append(FunctionalGroup(
+                group_type="o_thiocarbamate",
+                atom_indices=_indices_otc,
+                priority=FUNCTIONAL_GROUP_PRIORITY["o_thiocarbamate"],
+            ))
+            continue
+
+        # チオヒドラジド: C(=S)-NH-NH₂ (Phase 374) — チオアミドより先に検出
+        if _is_thiohydrazide(graph, idx):
+            s_idx_thz = _get_double_bonded_sulfur(graph, idx)
+            n_idx_thz = _get_thioamide_nitrogen(graph, idx)
+            indices_thz = [idx]
+            if s_idx_thz is not None:
+                indices_thz.append(s_idx_thz)
+            if n_idx_thz is not None:
+                indices_thz.append(n_idx_thz)
+            groups.append(FunctionalGroup(
+                group_type="thiohydrazide",
+                atom_indices=indices_thz,
+                priority=FUNCTIONAL_GROUP_PRIORITY["thiohydrazide"],
+            ))
+            continue
+
+        # セレノヒドラジド: C(=[Se])-NH-NH₂ (Phase 374) — セレノアミドより先に検出
+        if _is_selenohydrazide(graph, idx):
+            se_idx_shz = _get_double_bonded_selenium(graph, idx)
+            n_idx_shz = _get_thioamide_nitrogen(graph, idx)
+            indices_shz = [idx]
+            if se_idx_shz is not None:
+                indices_shz.append(se_idx_shz)
+            if n_idx_shz is not None:
+                indices_shz.append(n_idx_shz)
+            groups.append(FunctionalGroup(
+                group_type="selenohydrazide",
+                atom_indices=indices_shz,
+                priority=FUNCTIONAL_GROUP_PRIORITY["selenohydrazide"],
+            ))
+            continue
+
         # チオアミド: C(=S)-NR₂ (priority=93, Phase 41) — アミン検出より先に処理
         if _is_thioamide(graph, idx):
             s_idx = _get_double_bonded_sulfur(graph, idx)
@@ -307,6 +392,26 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                                             for snh in graph.adjacency[nb])
                                 and any(get_atom(graph, snc).symbol == "C"
                                         for snc in graph.adjacency[nb] if snc != idx)]
+                # Phase 348: carbonothioate / carbonodithioate — no direct C on central C
+                _c_nbrs_tk = [nb for nb in graph.adjacency[idx]
+                              if get_atom(graph, nb).symbol == "C" and nb != s_idx_tk]
+                if not _c_nbrs_tk:
+                    if len(ether_os) == 2:
+                        # (RO)2C=S → dialkyl carbonothioate
+                        groups.append(FunctionalGroup(
+                            group_type="carbonothioate",
+                            atom_indices=[idx, s_idx_tk] + ether_os,
+                            priority=FUNCTIONAL_GROUP_PRIORITY["carbonothioate"],
+                        ))
+                        continue
+                    if len(thioether_ss) == 2:
+                        # (RS)2C=S → dialkyl carbonodithioate
+                        groups.append(FunctionalGroup(
+                            group_type="carbonodithioate",
+                            atom_indices=[idx, s_idx_tk] + thioether_ss,
+                            priority=FUNCTIONAL_GROUP_PRIORITY["carbonodithioate"],
+                        ))
+                        continue
                 if ether_os:
                     o_ester_idx = ether_os[0]
                     alkyl_cs = [nb for nb in graph.adjacency[o_ester_idx]
@@ -374,6 +479,32 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 group_type="acyl_azide",
                 atom_indices=indices_az,
                 priority=FUNCTIONAL_GROUP_PRIORITY["acyl_azide"],
+            ))
+            continue
+
+        # S-アルキルカルバモチオアート: N-C(=O)-S-R (Phase 351) — アミドより先
+        if _is_s_carbamothioate(graph, idx):
+            o_idx_sct = _get_double_bonded_oxygen(graph, idx)
+            n_idx_sct = _get_amide_nitrogen(graph, idx)
+            s_idx_sct = next(
+                (nb for nb in graph.adjacency[idx]
+                 if get_atom(graph, nb).symbol == "S"
+                 and get_bond_order(graph, idx, nb) == 1.0
+                 and any(get_atom(graph, x).symbol == "C"
+                         for x in graph.adjacency[nb] if x != idx)),
+                None,
+            )
+            _indices_sct = [idx]
+            if o_idx_sct is not None:
+                _indices_sct.append(o_idx_sct)
+            if n_idx_sct is not None:
+                _indices_sct.append(n_idx_sct)
+            if s_idx_sct is not None:
+                _indices_sct.append(s_idx_sct)
+            groups.append(FunctionalGroup(
+                group_type="s_carbamothioate",
+                atom_indices=_indices_sct,
+                priority=FUNCTIONAL_GROUP_PRIORITY["s_carbamothioate"],
             ))
             continue
 
@@ -744,6 +875,15 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 atom_indices=[s_idx] + o_double + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["sulfinic_acid"],
             ))
+        elif (len(halogen_neighbors) == 1 and len(c_neighbors) == 1
+              and len(o_double) == 0 and len(h_neighbors) == 0
+              and not o_single_oh and not n_neighbors):
+            # スルフェニルハライド: C-S-X (Phase 375)
+            groups.append(FunctionalGroup(
+                group_type="sulfenyl_halide",
+                atom_indices=[s_idx] + c_neighbors + halogen_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfenyl_halide", 76),
+            ))
         elif (len(o_single_oh) == 1 and len(c_neighbors) == 1
               and len(o_double) == 0 and len(h_neighbors) == 0):
             # スルフェン酸: C-S-OH (Phase 166) — sulfinic/sulfonic の前にチェック済み
@@ -752,6 +892,19 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 atom_indices=[s_idx] + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfenic_acid", 75),
             ))
+        elif (len(o_single) == 1 and not o_single_oh and len(c_neighbors) == 1
+              and len(o_double) == 0 and len(h_neighbors) == 0
+              and not halogen_neighbors and not n_neighbors):
+            # スルフェン酸エステル: C-S-O-C (Phase 375)
+            o_ester_idx = o_single[0]
+            o_ester_c = [nb for nb in graph.adjacency[o_ester_idx]
+                         if nb != s_idx and get_atom(graph, nb).symbol == "C"]
+            if o_ester_c:
+                groups.append(FunctionalGroup(
+                    group_type="sulfenate_ester",
+                    atom_indices=[s_idx] + c_neighbors + [o_ester_idx],
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfenate_ester", 74),
+                ))
         elif len(h_neighbors) >= 1 and len(c_neighbors) == 1 and not o_double:
             # チオール: C-SH
             c_idx = c_neighbors[0]
@@ -775,12 +928,51 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 atom_indices=[s_idx] + o_double + n_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["sulfamic_acid"],
             ))
+        elif (len(o_double) == 2 and len(n_neighbors) == 1 and len(c_neighbors) == 1
+              and _is_sulfonyl_azide(graph, s_idx, n_neighbors[0])):
+            # スルホニルアジド: C-S(=O)₂-N=[N+]=[N-] (Phase 355)
+            n_idx_sa = n_neighbors[0]
+            n2_nbrs_sa = [nb for nb in graph.adjacency[n_idx_sa]
+                          if nb != s_idx and get_atom(graph, nb).symbol == "N"
+                          and get_bond_order(graph, n_idx_sa, nb) == 2.0]
+            n3_nbrs_sa = []
+            for n2_sa in n2_nbrs_sa:
+                n3_nbrs_sa += [nb for nb in graph.adjacency[n2_sa]
+                               if nb != n_idx_sa and get_atom(graph, nb).symbol == "N"]
+            groups.append(FunctionalGroup(
+                group_type="sulfonyl_azide",
+                atom_indices=[s_idx] + o_double + c_neighbors + [n_idx_sa] + n2_nbrs_sa + n3_nbrs_sa,
+                priority=FUNCTIONAL_GROUP_PRIORITY["sulfonyl_azide"],
+            ))
+        elif len(o_double) == 2 and len(n_neighbors) == 1 and len(c_neighbors) == 1 and _is_sulfonohydrazide(graph, s_idx, n_neighbors[0]):
+            # スルホノヒドラジド: C-S(=O)₂-NH-NH₂ (Phase 353)
+            n1_idx = n_neighbors[0]
+            n2_nbrs = [nb for nb in graph.adjacency[n1_idx]
+                       if nb != s_idx and get_atom(graph, nb).symbol == "N"
+                       and get_bond_order(graph, n1_idx, nb) == 1.0]
+            groups.append(FunctionalGroup(
+                group_type="sulfonohydrazide",
+                atom_indices=[s_idx] + o_double + c_neighbors + [n1_idx] + n2_nbrs,
+                priority=FUNCTIONAL_GROUP_PRIORITY["sulfonohydrazide"],
+            ))
         elif len(o_double) == 2 and len(n_neighbors) >= 1 and len(c_neighbors) == 1:
             # スルホンアミド: C-S(=O)₂-N
             groups.append(FunctionalGroup(
                 group_type="sulfonamide",
                 atom_indices=[s_idx] + o_double + c_neighbors + n_neighbors,
                 priority=FUNCTIONAL_GROUP_PRIORITY["sulfonamide"],
+            ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 1 and len(n_neighbors) == 1
+              and _is_sulfonohydrazide(graph, s_idx, n_neighbors[0])):
+            # スルフィニルヒドラジド: C-S(=O)-NH-NH₂ (Phase 354)
+            n1_idx = n_neighbors[0]
+            n2_nbrs = [nb for nb in graph.adjacency[n1_idx]
+                       if nb != s_idx and get_atom(graph, nb).symbol == "N"
+                       and get_bond_order(graph, n1_idx, nb) == 1.0]
+            groups.append(FunctionalGroup(
+                group_type="sulfinylhydrazide",
+                atom_indices=[s_idx] + o_double + c_neighbors + [n1_idx] + n2_nbrs,
+                priority=FUNCTIONAL_GROUP_PRIORITY["sulfinylhydrazide"],
             ))
         elif (len(o_double) == 1 and len(c_neighbors) == 1 and len(n_neighbors) >= 1):
             # スルフィナミド: C-S(=O)-N
@@ -1211,6 +1403,20 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     atom_indices=[p_idx] + c_neighbors + o_double + o_ester,
                     priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonate_ester", 86),
                 ))
+        elif not o_double and len(c_neighbors) == 1 and not o_single_oh:
+            # ホスホノチオアートエステル: R-P(=S)(OR)2 (Phase 372)
+            s_neighbors_p = [nb for nb in neighbors if get_atom(graph, nb).symbol == "S"]
+            s_double_p = [nb for nb in s_neighbors_p if get_bond_order(graph, p_idx, nb) == 2.0]
+            if s_double_p:
+                o_ester = [nb for nb in o_single
+                           if any(get_atom(graph, occ).symbol == "C"
+                                  for occ in graph.adjacency[nb] if occ != p_idx)]
+                if o_ester:
+                    groups.append(FunctionalGroup(
+                        group_type="phosphonothioate_ester",
+                        atom_indices=[p_idx] + c_neighbors + s_double_p + o_ester,
+                        priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonate_ester", 86),
+                    ))
         elif len(o_double) == 1 and len(c_neighbors) == 2 and not o_single_oh:
             # ホスフィネートエステル: R2-P(=O)(OR)
             o_ester = [nb for nb in o_single
@@ -1362,30 +1568,102 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY["borate_ester"],
                 ))
 
-    # ─── Phase 143 / 231: ケイ素化合物検出 ──────────────────────────────────
+    # ─── Phase 143 / 231 / 378 / 379: ケイ素化合物検出 ──────────────────────────────────
+    seen_si: set = set()
     for atom in graph.atoms:
         if atom.symbol != "Si" or atom.in_ring:
             continue
         si_idx = atom.idx
+        if si_idx in seen_si:
+            continue
         neighbors = graph.adjacency[si_idx]
         c_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "C"]
         o_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "O"]
-        o_oh = [nb for nb in o_neighbors
-                if any(get_atom(graph, onh).symbol == "H"
-                       for onh in graph.adjacency[nb])]
-        if c_neighbors and o_oh:
-            # シラノール: R_n Si(OH)_{4-n} (Phase 231)
+        n_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "N"]
+        si_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "Si"]
+        # Si-O-Si ジシロキサン検出 (Phase 378)
+        si_o_si = None
+        for o_idx in o_neighbors:
+            if any(get_atom(graph, onh).symbol == "H" for onh in graph.adjacency[o_idx]):
+                continue
+            si2 = next((nb for nb in graph.adjacency[o_idx]
+                        if nb != si_idx and get_atom(graph, nb).symbol == "Si"), None)
+            if si2 is not None:
+                si_o_si = (o_idx, si2)
+                break
+        # Si-N-Si ジシラザン検出 (Phase 378)
+        si_n_si = None
+        if si_o_si is None:
+            for n_idx in n_neighbors:
+                si2 = next((nb for nb in graph.adjacency[n_idx]
+                            if nb != si_idx and get_atom(graph, nb).symbol == "Si"), None)
+                if si2 is not None:
+                    si_n_si = (n_idx, si2)
+                    break
+        # Si-Si ジシラン検出 (Phase 379)
+        si_si = None
+        if si_o_si is None and si_n_si is None and si_neighbors:
+            si2 = next((nb for nb in si_neighbors if nb not in seen_si), None)
+            if si2 is not None:
+                si_si = si2
+        if si_o_si is not None:
+            o_idx, si2_idx = si_o_si
+            seen_si.add(si_idx)
+            seen_si.add(si2_idx)
+            c2 = [nb for nb in graph.adjacency[si2_idx] if get_atom(graph, nb).symbol == "C"]
             groups.append(FunctionalGroup(
-                group_type="silanol_org",
-                atom_indices=[si_idx] + c_neighbors + o_oh,
-                priority=FUNCTIONAL_GROUP_PRIORITY.get("silanol_org", 9),
+                group_type="disiloxane_org",
+                atom_indices=[si_idx, si2_idx, o_idx] + c_neighbors + c2,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("disiloxane_org", 8),
             ))
-        elif c_neighbors:
+        elif si_n_si is not None:
+            n_idx, si2_idx = si_n_si
+            seen_si.add(si_idx)
+            seen_si.add(si2_idx)
+            c2 = [nb for nb in graph.adjacency[si2_idx] if get_atom(graph, nb).symbol == "C"]
             groups.append(FunctionalGroup(
-                group_type="silane_org",
-                atom_indices=[si_idx] + c_neighbors,
-                priority=FUNCTIONAL_GROUP_PRIORITY["silane_org"],
+                group_type="disilazane_org",
+                atom_indices=[si_idx, si2_idx, n_idx] + c_neighbors + c2,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("disilazane_org", 8),
             ))
+        elif si_si is not None:
+            si2_idx = si_si
+            seen_si.add(si_idx)
+            seen_si.add(si2_idx)
+            c2 = [nb for nb in graph.adjacency[si2_idx] if get_atom(graph, nb).symbol == "C"]
+            groups.append(FunctionalGroup(
+                group_type="disilane_org",
+                atom_indices=[si_idx, si2_idx] + c_neighbors + c2,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("disilane_org", 8),
+            ))
+        else:
+            o_oh = [nb for nb in o_neighbors
+                    if any(get_atom(graph, onh).symbol == "H"
+                           for onh in graph.adjacency[nb])]
+            o_or = [nb for nb in o_neighbors
+                    if nb not in o_oh
+                    and any(get_atom(graph, occ).symbol == "C"
+                            for occ in graph.adjacency[nb])]
+            if c_neighbors and o_oh:
+                # シラノール/ジオール/トリオール: R_n Si(OH)_{4-n} (Phase 231 / 379)
+                groups.append(FunctionalGroup(
+                    group_type="silanol_org",
+                    atom_indices=[si_idx] + c_neighbors + o_oh,
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("silanol_org", 9),
+                ))
+            elif (c_neighbors or o_or) and o_or:
+                # シリルエーテル / テトラアルコキシシラン (Phase 376 / 379)
+                groups.append(FunctionalGroup(
+                    group_type="silyl_ether_org",
+                    atom_indices=[si_idx] + c_neighbors + o_or,
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("silyl_ether_org", 8),
+                ))
+            elif c_neighbors:
+                groups.append(FunctionalGroup(
+                    group_type="silane_org",
+                    atom_indices=[si_idx] + c_neighbors,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["silane_org"],
+                ))
 
     # ─── Phase 243: ゲルマン・スタンナン検出 ─────────────────────────────
     for atom in graph.atoms:
@@ -1918,6 +2196,58 @@ def _has_double_bonded_sulfur(graph: MoleculeGraph, c_idx: int) -> bool:
     return _get_double_bonded_sulfur(graph, c_idx) is not None
 
 
+def _is_o_thiocarbamate(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が N-C(=S)-O-R パターン（O-アルキルチオカルバメート）かチェック。Phase 350"""
+    if _get_double_bonded_sulfur(graph, c_idx) is None:
+        return False
+    has_n = False
+    has_o_c = False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == "N" and not nb.in_ring and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            has_n = True
+        if nb.symbol == "O" and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            if any(get_atom(graph, x).symbol == "C"
+                   for x in graph.adjacency[nb_idx] if x != c_idx):
+                has_o_c = True
+    return has_n and has_o_c
+
+
+def _is_s_carbamothioate(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が N-C(=O)-S-R パターン（S-アルキルカルバモチオアート）かチェック。Phase 351"""
+    if _get_double_bonded_oxygen(graph, c_idx) is None:
+        return False
+    has_n = False
+    has_s_c = False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == "N" and not nb.in_ring and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            has_n = True
+        if nb.symbol == "S" and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            if any(get_atom(graph, x).symbol == "C"
+                   for x in graph.adjacency[nb_idx] if x != c_idx):
+                has_s_c = True
+    return has_n and has_s_c
+
+
+def _is_s_carbamodithioate(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が N-C(=S)-S-R パターン（S-アルキルカルバモジチオアート）かチェック。Phase 351"""
+    s_double = _get_double_bonded_sulfur(graph, c_idx)
+    if s_double is None:
+        return False
+    has_n = False
+    has_s_c = False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == "N" and not nb.in_ring and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            has_n = True
+        if nb.symbol == "S" and nb_idx != s_double and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            if any(get_atom(graph, x).symbol == "C"
+                   for x in graph.adjacency[nb_idx] if x != c_idx):
+                has_s_c = True
+    return has_n and has_s_c
+
+
 def _is_thioamide(graph: MoleculeGraph, c_idx: int) -> bool:
     """C が C(=S)-NR₂ パターン（チオアミド）かチェック。"""
     if _get_double_bonded_sulfur(graph, c_idx) is None:
@@ -2172,6 +2502,24 @@ def aggregate_groups(
             # 複数のリング直結 COOH がある場合は通常マージ (phthalic acid 等)
             if len(ring_coos) == 1:
                 return groups  # 集約しない (ring COOH が 1 つのみ)
+
+    # ketone 特例: 両方の C=O が同一芳香族環に直結している場合はマージしない
+    # (CC(=O)c1ccc(cc1)C(=O)C → diacetylbenzene として環置換基扱い)
+    if top_type == "ketone" and len(top_groups) == 2 and graph is not None:
+        def _adj_arom_ring_sets(c: int) -> list[frozenset]:
+            return [
+                rs for rs in (graph.ring_atom_sets or [])
+                if any(
+                    nb in rs
+                    for nb in graph.adjacency[c]
+                    if get_atom(graph, nb).symbol == "C"
+                    and get_atom(graph, nb).is_aromatic
+                )
+            ]
+        rs0 = _adj_arom_ring_sets(top_groups[0].atom_indices[0])
+        rs1 = _adj_arom_ring_sets(top_groups[1].atom_indices[0])
+        if rs0 and rs1 and any(s in rs1 for s in rs0):
+            return groups  # 同一芳香族環直結: マージしない
 
     _multi_map: dict[tuple[str, int], str] = {
         ("carboxylic_acid", 2): "dioic_acid",
@@ -2492,4 +2840,83 @@ def _is_hydrazide(graph: MoleculeGraph, c_idx: int) -> bool:
             if n2_dbl_c:
                 continue
             return True
+    return False
+
+
+def _is_thiohydrazide(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が C(=S)-N-N パターン（チオヒドラジド）かチェック。Phase 374."""
+    if _get_double_bonded_sulfur(graph, c_idx) is None:
+        return False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol != "N" or get_bond_order(graph, c_idx, nb_idx) != 1.0 or nb.in_ring:
+            continue
+        for n2_idx in graph.adjacency[nb_idx]:
+            if n2_idx == c_idx:
+                continue
+            n2 = get_atom(graph, n2_idx)
+            if n2.symbol != "N":
+                continue
+            if get_bond_order(graph, nb_idx, n2_idx) != 1.0:
+                continue
+            n2_dbl_c = any(
+                get_atom(graph, nb3).symbol == "C"
+                and get_bond_order(graph, n2_idx, nb3) == 2.0
+                for nb3 in graph.adjacency[n2_idx] if nb3 != nb_idx
+            )
+            if n2_dbl_c:
+                continue
+            return True
+    return False
+
+
+def _is_selenohydrazide(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が C(=[Se])-N-N パターン（セレノヒドラジド）かチェック。Phase 374."""
+    if _get_double_bonded_selenium(graph, c_idx) is None:
+        return False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol != "N" or get_bond_order(graph, c_idx, nb_idx) != 1.0 or nb.in_ring:
+            continue
+        for n2_idx in graph.adjacency[nb_idx]:
+            if n2_idx == c_idx:
+                continue
+            n2 = get_atom(graph, n2_idx)
+            if n2.symbol != "N":
+                continue
+            if get_bond_order(graph, nb_idx, n2_idx) != 1.0:
+                continue
+            n2_dbl_c = any(
+                get_atom(graph, nb3).symbol == "C"
+                and get_bond_order(graph, n2_idx, nb3) == 2.0
+                for nb3 in graph.adjacency[n2_idx] if nb3 != nb_idx
+            )
+            if n2_dbl_c:
+                continue
+            return True
+    return False
+
+
+def _is_sulfonyl_azide(graph: MoleculeGraph, s_idx: int, n1_idx: int) -> bool:
+    """S-N が S(=O)₂-N=[N+]=[N-] パターン（スルホニルアジド）かチェック。"""
+    for n2_idx in graph.adjacency[n1_idx]:
+        if n2_idx == s_idx:
+            continue
+        if get_atom(graph, n2_idx).symbol != "N":
+            continue
+        if get_bond_order(graph, n1_idx, n2_idx) == 2.0:
+            return True
+    return False
+
+
+def _is_sulfonohydrazide(graph: MoleculeGraph, s_idx: int, n1_idx: int) -> bool:
+    """S-N1 が S(=O)₂-NH-NH₂ パターン（スルホノヒドラジド）かチェック。"""
+    for n2_idx in graph.adjacency[n1_idx]:
+        if n2_idx == s_idx:
+            continue
+        if get_atom(graph, n2_idx).symbol != "N":
+            continue
+        if get_bond_order(graph, n1_idx, n2_idx) != 1.0:
+            continue
+        return True
     return False

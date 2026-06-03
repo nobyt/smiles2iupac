@@ -14,7 +14,7 @@ from smiles2iupac import smiles_to_iupac
     ("N=CCCC=N",           "butane-1,4-diimine"),
     # regressions: mono imine unchanged
     ("CC(=N)C",            "propan-2-imine"),
-    ("CC=N",               "ethan-1-imine"),
+    ("CC=N",               "ethanimine"),
 ])
 def test_phase301_diimine(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

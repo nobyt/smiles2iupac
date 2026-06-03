@@ -1213,10 +1213,13 @@ def assemble_ring_name(
     # ─── 一置換環: ロカント 1 省略 ───────────────────────────────────
     # シクロアルカン・ベンゼン系のみ適用。
     # 環内二重結合があるとき / ナフタレン等縮合環系は常にロカント表示。
+    _sub_locs = [loc for loc, _ in substituents]
     if (substituents
             and ring_chain.base_name is None
             and not ring_chain.double_bond_locants
-            and len(set(loc for loc, _ in substituents)) == 1):
+            and len(substituents) == 1
+            and len(set(_sub_locs)) == 1
+            and (suffix_locant is None or _sub_locs[0] != suffix_locant)):
         prefix_part = _build_prefix_no_locant_if_single(substituents)
 
     # ─── 立体記述子 ──────────────────────────────────────────────

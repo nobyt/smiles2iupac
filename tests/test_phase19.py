@@ -14,8 +14,8 @@ class TestImines:
         assert smiles_to_iupac("C=N") == "methanimine"
 
     def test_ethan_1_imine(self):
-        # CH3-CH=NH → ethan-1-imine (P-31.1.2.1: 2C のロカント 1 省略)
-        assert smiles_to_iupac("CC=N") == "ethan-1-imine"
+        # CH3-CH=NH → ethanimine (P-31.1.2.1: 2C のロカント 1 省略)
+        assert smiles_to_iupac("CC=N") == "ethanimine"
 
     def test_propan_2_imine(self):
         # CH3-C(=NH)-CH3 → propan-2-imine

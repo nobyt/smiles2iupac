@@ -129,19 +129,38 @@ def name_substituent(
             return _make_oxy_name(acyl_or_alkyl)
         return "oxy"
 
-    # 硫黄置換基: -SH → sulfanyl, -S-R → (R)sulfanyl
+    # 硫黄置換基: -SH → sulfanyl, -S-R → (R)sulfanyl,
+    #   -S(=O)-R → (R)sulfinyl, -S(=O)₂-R → (R)sulfonyl
     if atom.symbol == "S":
+        from .molecule_analyzer import get_bond_order as _gbo_s
         neighbors = graph.adjacency[root_idx]
         has_h = any(get_atom(graph, nb).symbol == "H" for nb in neighbors)
         if has_h:
             return "sulfanyl"
+        n_oxo = sum(
+            1 for nb in neighbors
+            if get_atom(graph, nb).symbol == "O"
+            and _gbo_s(graph, root_idx, nb) == 2.0
+        )
         c_other = [
             nb for nb in neighbors
             if nb not in excluded and get_atom(graph, nb).symbol == "C"
         ]
         if c_other:
             alkyl = _name_carbon_substituent(graph, c_other[0], excluded | {root_idx})
-            return _make_sulfanyl_name(alkyl)
+            if n_oxo == 2:
+                sfx = "sulfonyl"
+            elif n_oxo == 1:
+                sfx = "sulfinyl"
+            else:
+                return _make_sulfanyl_name(alkyl)
+            if any(c.isdigit() for c in alkyl) or "-" in alkyl:
+                return f"({alkyl}){sfx}"
+            return f"{alkyl}{sfx}"
+        if n_oxo == 2:
+            return "sulfonyl"
+        if n_oxo == 1:
+            return "sulfinyl"
         return "sulfanyl"
 
     # セレン/テルル置換基: -SeH → selanyl, -TeH → tellanyl, -Se-R → (R)selanyl
@@ -1078,11 +1097,17 @@ def _make_oxy_name(alkyl: str) -> str:
     """
     alkyl 名から oxy 接頭辞を構築する。
     例: 'methyl' → 'methoxy', 'ethyl' → 'ethoxy',
-        '1-methylethyl' → '(1-methylethoxy)'
+        '1-methylethyl' → '(1-methylethoxy)',
+        'propanoyl' → 'propanoyloxy' (acyl groups keep the 'yl')
     """
     if alkyl.endswith("yl"):
         base = alkyl[:-2]
-        oxy = base + "oxy"
+        # acyl groups end in 'o' before 'yl' (propanoyl, butanoyl, benzoyl)
+        # → keep the 'yl' in the oxy name: "propanoyloxy" not "propanooxy"
+        if base.endswith("o"):
+            oxy = alkyl + "oxy"
+        else:
+            oxy = base + "oxy"
         # ロカント(数字)またはハイフンを含む場合は括弧で囲む
         if any(c.isdigit() for c in base) or "-" in base:
             return f"({oxy})"

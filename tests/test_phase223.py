@@ -9,19 +9,19 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # selenide
-    ("C[Se]C",    "(methylselanyl)methane"),
-    ("CC[Se]CC",  "(ethylselanyl)ethane"),
-    ("C[Se]CC",   "(methylselanyl)ethane"),
+    ("C[Se]C",    "dimethyl selenide"),
+    ("CC[Se]CC",  "diethyl selenide"),
+    ("C[Se]CC",   "ethyl methyl selenide"),
     # diselenide
-    ("C[Se][Se]C",    "(methyldiselanyl)methane"),
-    ("CC[Se][Se]CC",  "(ethyldiselanyl)ethane"),
+    ("C[Se][Se]C",    "dimethyl diselenide"),
+    ("CC[Se][Se]CC",  "diethyl diselenide"),
     # telluride
-    ("C[Te]C",    "(methyltellanyl)methane"),
+    ("C[Te]C",    "dimethyl telluride"),
     # ditelluride
-    ("C[Te][Te]C",    "(methylditellanyl)methane"),
+    ("C[Te][Te]C",    "dimethyl ditelluride"),
     # regression: sulfide and disulfide still work
-    ("CSC",       "(methylsulfanyl)methane"),
-    ("CSSC",      "(methyldisulfanyl)methane"),
+    ("CSC",       "dimethyl sulfide"),
+    ("CSSC",      "dimethyl disulfide"),
 ])
 def test_phase223_selenide_diselenide(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

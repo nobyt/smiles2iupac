@@ -468,6 +468,12 @@ def smiles_to_iupac(smiles: str) -> str:
         ValueError: 無効な SMILES
         NotImplementedError: 未対応構造（縮合多環系など）
     """
+    from .name_assembler import fix_enclosing_marks as _fem
+    return _fem(_smiles_to_iupac_raw(smiles))
+
+
+def _smiles_to_iupac_raw(smiles: str) -> str:
+    """Internal implementation without enclosing-mark post-processing."""
     # 遅延インポート（rdkit が不要なモジュールを単独テスト可能にする）
     from .molecule_analyzer import build_molecule_graph, get_atom
     from .functional_group import detect_groups, principal_group, FunctionalGroup
@@ -574,6 +580,18 @@ def smiles_to_iupac(smiles: str) -> str:
     _n_hya_name = _name_n_substituted_hydroxylamine(graph, get_atom)
     if _n_hya_name is not None:
         return _n_hya_name
+
+    # Phase 346: O-置換ヒドロキシルアミン (NOC → O-methylhydroxylamine)
+    from .group_namers import _name_o_substituted_hydroxylamine
+    _o_hya_name = _name_o_substituted_hydroxylamine(graph, get_atom)
+    if _o_hya_name is not None:
+        return _o_hya_name
+
+    # Phase 347: O-置換オキシム (CC=NOC → O-methylethanal oxime)
+    from .group_namers import _name_o_substituted_oxime
+    _o_oxime_name = _name_o_substituted_oxime(graph, get_atom)
+    if _o_oxime_name is not None:
+        return _o_oxime_name
 
     # Phase 204: ニトロン / イミン N-オキシド (C=[N+]([O-])C → N-methylmethanimine N-oxide)
     _nitrone_name = _name_nitrone(graph, get_atom)
@@ -963,6 +981,24 @@ def _name_acyclic(graph, detect_groups, principal_group,
 
     # 立体化学
     stereo = assign_stereochemistry(graph, chain)
+
+    # Phase 349: C=N 結合の E/Z 記述子 (oxime, imine, hydrazone, semicarbazone 等)
+    _cn_stereo_groups = (
+        "aldoxime", "ketoxime",
+        "aldhydrazone", "kethydrazone",
+        "aldsemicarbazone", "semicarbazone",
+        "aldthiosemicarbazone", "thiosemicarbazone",
+        "imine", "diimine",
+    )
+    if pgrp is not None and pgrp.group_type in _cn_stereo_groups:
+        from .stereochemistry import _get_bond_stereo
+        _cn_c = pgrp.atom_indices[0]
+        _cn_ns = [ai for ai in pgrp.atom_indices[1:]
+                  if get_atom(graph, ai).symbol == "N"]
+        if _cn_ns:
+            _cn_stereo = _get_bond_stereo(graph, _cn_c, _cn_ns[0])
+            if _cn_stereo is not None:
+                stereo = list(stereo) + [f"({_cn_stereo})"]
 
     # 名前組み立て
     pgrp_type = pgrp.group_type if pgrp is not None else "alkane"

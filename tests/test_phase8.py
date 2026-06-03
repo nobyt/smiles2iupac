@@ -98,9 +98,9 @@ class TestEthers:
 class TestSulfides:
 
     def test_dimethyl_sulfide(self):
-        # CH₃-S-CH₃ → (methylsulfanyl)methane (IUPAC 2013 P-63.6.1.1 substitutive PIN)
-        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
+        # CH₃-S-CH₃ → dimethyl sulfide (IUPAC 2013 P-63.6.1.1 substitutive PIN)
+        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
 
     def test_methyl_phenyl_sulfide(self):
-        # Ph-S-CH₃ → (methylsulfanyl)benzene (substitutive PIN)
-        assert smiles_to_iupac("CSc1ccccc1") == "(methylsulfanyl)benzene"
+        # Ph-S-CH₃ → methyl phenyl sulfide (substitutive PIN)
+        assert smiles_to_iupac("CSc1ccccc1") == "methyl phenyl sulfide"

@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("C1CCCCCCS1",    "thiocane"),
     ("C1CCCCCCP1",    "phosphocane"),
     # N-substituted 8-membered ring
-    ("CN1CCCCCCC1",   "1-methylazocane"),
+    ("CN1CCCCCCC1",   "N-methylazocane"),
     # substituent: thiepan-2-yl
     ("OCC1CCCCCS1",   "(thiepan-2-yl)methanol"),
     # regression: 6-membered unchanged

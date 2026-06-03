@@ -10,8 +10,8 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # guanidine N-substituent parenthesization
-    ("C/C=C/CNC(=N)N",             "N-((2E)-but-2-en-1-yl)guanidine"),
-    (r"C/C=C\CNC(=N)N",            "N-((2Z)-but-2-en-1-yl)guanidine"),
+    ("C/C=C/CNC(=N)N",             "N-[(2E)-but-2-en-1-yl]guanidine"),
+    (r"C/C=C\CNC(=N)N",            "N-[(2Z)-but-2-en-1-yl]guanidine"),
     # nitrosamine with E/Z chain as parent
     ("C/C=C/CN(N=O)C",             "(2E)-N-methyl-N-nitrosobut-2-en-1-amine"),
     (r"C/C=C\CN(N=O)C",            "(2Z)-N-methyl-N-nitrosobut-2-en-1-amine"),

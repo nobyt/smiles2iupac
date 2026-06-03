@@ -1,9 +1,9 @@
 """Phase 174: イミン ロカント 1 省略 (IUPAC 2013 P-31.1.2.1)
 
 C=N のみロカント省略 (1C):
-  C=N   → methanimine    (not methan-1-imine)
-  CC=N  → ethan-1-imine   (pin, locant required)
-  CC=NC → N-methylethan-1-imine
+  C=N   → methanimine    (not methanimine)
+  CC=N  → ethanimine   (pin, locant required)
+  CC=NC → N-methylethanimine
 3C 以上は区別が必要なためロカントを保持。
 """
 
@@ -14,9 +14,9 @@ from src.smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # 1C/2C: ロカント省略
     ("C=N",       "methanimine"),
-    ("CC=N",      "ethan-1-imine"),
-    ("CC=NC",     "N-methylethan-1-imine"),
-    ("CC=NCC",    "N-ethylethan-1-imine"),
+    ("CC=N",      "ethanimine"),
+    ("CC=NC",     "N-methylethanimine"),
+    ("CC=NCC",    "N-ethylethanimine"),
     # 3C 以上: ロカント保持
     ("CCC=N",     "propan-1-imine"),
     ("CC(=N)C",   "propan-2-imine"),

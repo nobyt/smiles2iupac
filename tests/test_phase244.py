@@ -43,7 +43,7 @@ from smiles2iupac import smiles_to_iupac
     ("C[SnH3]",          "methylstannane"),
     # regression: selenol/selenide unchanged
     ("C[SeH]",           "methaneselenol"),
-    ("C[Se]C",           "(methylselanyl)methane"),
+    ("C[Se]C",           "dimethyl selenide"),
 ])
 def test_phase244_group15_and_chalcogen_oxyacids(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -10,15 +10,15 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # E/Z in thioether parent chain (alkenyl longer chain)
-    ("C/C=C/CSC",                "(2E)-1-(methylsulfanyl)but-2-ene"),
-    (r"C/C=C\CSC",               "(2Z)-1-(methylsulfanyl)but-2-ene"),
-    ("C/C=C/CSCC",               "(2E)-1-(ethylsulfanyl)but-2-ene"),
-    ("CCSC/C=C/C",               "(2E)-1-(ethylsulfanyl)but-2-ene"),
+    ("C/C=C/CSC",                "[(2E)-but-2-en-1-yl] methyl sulfide"),
+    (r"C/C=C\CSC",               "[(2Z)-but-2-en-1-yl] methyl sulfide"),
+    ("C/C=C/CSCC",               "[(2E)-but-2-en-1-yl] ethyl sulfide"),
+    ("CCSC/C=C/C",               "[(2E)-but-2-en-1-yl] ethyl sulfide"),
     # regressions: saturated thioethers unchanged
-    ("CSC",                      "(methylsulfanyl)methane"),
-    ("CSCC",                     "(methylsulfanyl)ethane"),
-    ("CSCCC",                    "(methylsulfanyl)propane"),
-    ("CC(C)SC",                  "2-(methylsulfanyl)propane"),
+    ("CSC",                      "dimethyl sulfide"),
+    ("CSCC",                     "ethyl methyl sulfide"),
+    ("CSCCC",                    "methyl propyl sulfide"),
+    ("CC(C)SC",                  "methyl (propan-2-yl) sulfide"),
 ])
 def test_phase343_ez_thioether_chain(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

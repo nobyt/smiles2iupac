@@ -186,6 +186,61 @@ def _match_hantzsch_widman(ring: list[int], graph: "MoleculeGraph") -> str | Non
     return _HW_NAMES.get((n, hetero_sigs[0]))
 
 
+# 多ヘテロ原子 HW 名: 7-10員環 (ring_size → suffix without heteroatom prefix)
+_HW_MULTI_SUFFIX: dict[int, str] = {
+    7: "epane", 8: "ocane", 9: "onane", 10: "ecane",
+}
+# ヘテロ原子ベースプレフィックス (末尾 'a' を除いた形)
+_HW_HET_BASE: dict[str, str] = {"O": "ox", "N": "az", "S": "thi"}
+_HW_HET_PRIO: dict[str, int] = {"O": 0, "S": 1, "N": 2}
+_HW_MULT: dict[int, str] = {1: "", 2: "di", 3: "tri", 4: "tetra"}
+
+
+def _match_multi_het_ring(ring: list[int], graph: "MoleculeGraph") -> str | None:
+    """
+    複数ヘテロ原子を持つ非芳香族環 (7-10員) を a-命名法で返す。
+    例: 7員環 2O(1,4) → '1,4-dioxepane', 7員環 N+O → '1-oxa-4-azepane'
+    """
+    from collections import defaultdict
+
+    if _is_aromatic_ring(ring, graph):
+        return None
+    n = len(ring)
+    suffix = _HW_MULTI_SUFFIX.get(n)
+    if suffix is None:
+        return None
+
+    het_indices = [idx for idx in ring if _atom_sig(graph, idx) != "C"]
+    if len(het_indices) < 2:
+        return None
+
+    syms = [_atom_sig(graph, idx) for idx in het_indices]
+    if not all(s in _HW_HET_BASE for s in syms):
+        return None
+
+    rotation = _find_best_start(ring, graph)
+    lmap = {idx: i + 1 for i, idx in enumerate(rotation)}
+
+    by_sym: dict[str, list[int]] = defaultdict(list)
+    for idx in het_indices:
+        sym = _atom_sig(graph, idx)
+        by_sym[sym].append(lmap[idx])
+
+    sorted_syms = sorted(by_sym.keys(), key=lambda s: _HW_HET_PRIO.get(s, 99))
+    parts: list[str] = []
+    for i, sym in enumerate(sorted_syms):
+        locs = sorted(by_sym[sym])
+        loc_str = ",".join(str(x) for x in locs)
+        mult = _HW_MULT.get(len(locs), str(len(locs)))
+        base = _HW_HET_BASE[sym]
+        if i == len(sorted_syms) - 1:
+            parts.append(f"{loc_str}-{mult}{base}{suffix}")
+        else:
+            parts.append(f"{loc_str}-{mult}{base}a")
+
+    return "-".join(parts)
+
+
 # ─── Phase 272: 部分不飽和単環ヘテロ環 ─────────────────────────────────
 # 非芳香族で環内二重結合を持つ 5/6員環 → "X,Y-dihydro[parent]" 形式
 
@@ -409,21 +464,34 @@ def _collect_hetero_substituents(
     ring_atoms: list[int],
     locant_map: dict[int, int],
     excluded_atoms: "set[int] | None" = None,
-) -> list[tuple[int, str]]:
+) -> list[tuple[int | str, str]]:
     """
     ヘテロ環の置換基を収集する。
     excluded_atoms: Phase 22 外環官能基などを除外するためのインデックス集合。
+    Non-aromatic N atoms get string locants ('N', "N'", ...) per IUPAC 2013.
     Returns: [(locant, substituent_name), ...]  ソート済み
     """
     from .molecule_analyzer import get_atom, get_bond_order
     from .substituent import name_substituent
 
     ring_set = set(ring_atoms)
-    result: list[tuple[int, str]] = []
+
+    # Build N-locant map: non-aromatic N atoms sorted by position → "N", "N'", "N''", ...
+    _N_LOCANTS = ["N", "N'", "N''", "N'''"]
+    non_arom_ns = sorted(
+        [idx for idx in ring_atoms
+         if get_atom(graph, idx).symbol == "N" and not get_atom(graph, idx).is_aromatic],
+        key=lambda idx: locant_map[idx],
+    )
+    n_locant_map: dict[int, str] = {
+        idx: _N_LOCANTS[i] for i, idx in enumerate(non_arom_ns) if i < len(_N_LOCANTS)
+    }
+
+    result: list[tuple[int | str, str]] = []
 
     for ring_idx in ring_atoms:
-        locant = locant_map[ring_idx]
         ring_atom = get_atom(graph, ring_idx)
+        locant: int | str = n_locant_map.get(ring_idx, locant_map[ring_idx])
 
         for nb_idx in graph.adjacency[ring_idx]:
             if nb_idx in ring_set:
@@ -431,16 +499,21 @@ def _collect_hetero_substituents(
             if excluded_atoms and nb_idx in excluded_atoms:
                 continue
             nb = get_atom(graph, nb_idx)
-            # H は無視
             if nb.symbol == "H":
                 continue
-            # ヘテロ原子上のHは無視（NH）
             if ring_atom.symbol in ("N", "O", "S") and nb.symbol == "H":
                 continue
             sub_name = name_substituent(graph, nb_idx, ring_set)
             result.append((locant, sub_name))
 
-    result.sort()
+    # Sort: numeric locants first (ascending), then string locants (N < N' < N'')
+    def _sort_key(t: tuple[int | str, str]) -> tuple:
+        loc, nm = t
+        if isinstance(loc, int):
+            return (0, loc, nm)
+        return (1, loc, nm)
+
+    result.sort(key=_sort_key)
     return result
 
 
@@ -448,7 +521,7 @@ def _collect_hetero_substituents(
 
 def _format_substituents(
     base: str,
-    substituents: list[tuple[int, str]],
+    substituents: list[tuple[int | str, str]],
 ) -> str:
     """置換基プレフィクスを付与した名前を組み立てる。"""
     if not substituents:
@@ -458,13 +531,12 @@ def _format_substituents(
     from collections import defaultdict
     from .constants import MULTIPLIER
 
-    # 同一置換基をまとめる: name -> [locants]
-    grouped: dict[str, list[int]] = defaultdict(list)
+    # 同一置換基をまとめる: name -> [locants]  (locant may be int or str like "N")
+    grouped: dict[str, list[int | str]] = defaultdict(list)
     for locant, name in substituents:
         grouped[name].append(locant)
 
     def _cpd_parens(nm: str) -> bool:
-        """複合置換基名 → True (括弧が必要)"""
         if re.search(r"[0-9]", nm):
             return True
         for pfx in ("di", "tri", "tetra", "penta", "fluoro", "chloro", "bromo", "iodo"):
@@ -472,9 +544,12 @@ def _format_substituents(
                 return True
         return False
 
+    def _sort_locs(locs: list[int | str]) -> list[int | str]:
+        return sorted(locs, key=lambda x: (isinstance(x, str), x))
+
     parts: list[str] = []
     for name in sorted(grouped):
-        locs = sorted(grouped[name])
+        locs = _sort_locs(grouped[name])
         parens = _cpd_parens(name)
         n_locs = len(locs)
         if n_locs == 1:
@@ -484,14 +559,15 @@ def _format_substituents(
             mult = MULTIPLIER.get(n_locs, f"{n_locs}")
             parts.append(f"{loc_str}-{mult}({name})" if parens else f"{loc_str}-{mult}{name}")
 
-    # アルファベット順（先頭の数字・ハイフンを除いて比較）
-    def alpha_key(s: str) -> str:
-        return re.sub(r"^[\d,\-]+", "", s)
+    # アルファベット順: strip leading locant+hyphen or N'/N-prefix; numeric before N-locant
+    def alpha_key(s: str) -> tuple:
+        is_n = bool(re.match(r"^N[',]*-", s))
+        stripped = re.sub(r"^[\d,\-]+", "", s)
+        stripped = re.sub(r"^N[',]*-", "", stripped)
+        stripped = re.sub(r"^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)", "", stripped)
+        return (stripped.lower(), is_n)
 
     sorted_parts = sorted(parts, key=alpha_key)
-    # 置換基プレフィクスを base 名に連結 ("1H-" prefix の場合はハイフンを挟む)
-    # 例: "3-chloro" + "2-methyl" + "pyridine" → "3-chloro-2-methylpyridine"
-    # 例: "4-methyl" + "1H-imidazole" → "4-methyl-1H-imidazole"
     sep = "-" if base[:1].isdigit() else ""
     if len(sorted_parts) == 1:
         return f"{sorted_parts[0]}{sep}{base}"
@@ -873,12 +949,18 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         if match is not None:
             base_name, is_nh, rotation = match
         else:
-            # 3. Hantzsch-Widman 名を試みる
+            # 3. Hantzsch-Widman 名を試みる (単一ヘテロ原子)
             hw_name = _match_hantzsch_widman(ring, graph)
-            if hw_name is None:
-                return None
-            rotation = _find_best_start(ring, graph)
-            base_name, is_nh = hw_name, False
+            if hw_name is not None:
+                rotation = _find_best_start(ring, graph)
+                base_name, is_nh = hw_name, False
+            else:
+                # 4. 多ヘテロ原子 HW 名 (7-10員環, a-命名法)
+                multi_name = _match_multi_het_ring(ring, graph)
+                if multi_name is None:
+                    return None
+                rotation = _find_best_start(ring, graph)
+                base_name, is_nh = multi_name, False
 
     base_name, is_nh, rotation = (base_name, is_nh, rotation)
     locant_map = _build_locant_map(rotation)

@@ -17,10 +17,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("CCC(=N)O",         "propanimidic acid"),
     ("CCCC(=N)O",        "butanimidic acid"),
     # 回帰: イミデートエステルは変わらない
-    ("CC(=N)OCC",        "ethyl ethanimidoate"),
-    ("C(=N)OC",          "methyl methanimidoate"),
+    ("CC(=N)OCC",        "ethyl ethanimidate"),
+    ("C(=N)OC",          "methyl methanimidate"),
     # 回帰: イミンは変わらない
-    ("CC=N",             "ethan-1-imine"),
+    ("CC=N",             "ethanimine"),
     ("CC(=N)C",          "propan-2-imine"),
     # 回帰: カルボン酸は変わらない
     ("CC(=O)O",          "acetic acid"),

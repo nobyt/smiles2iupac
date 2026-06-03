@@ -28,4 +28,4 @@ class TestSulfinicAcidVsSulfoxide:
 
     def test_dimethyl_sulfoxide_unchanged(self):
         # S(=O) + 2C (両側に炭素) → sulfoxide ではなく sulfoxide 命名
-        assert smiles_to_iupac("CS(=O)C") == "(methylsulfinyl)methane"
+        assert smiles_to_iupac("CS(=O)C") == "dimethyl sulfoxide"

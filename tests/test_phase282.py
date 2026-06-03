@@ -11,19 +11,19 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── symmetric sulfides ────────────────────────────────────────────────
-    ("CSC",                    "(methylsulfanyl)methane"),
-    ("CCSCC",                  "(ethylsulfanyl)ethane"),
+    ("CSC",                    "dimethyl sulfide"),
+    ("CCSCC",                  "diethyl sulfide"),
 
     # ── asymmetric: longer chain is parent ───────────────────────────────
-    ("CSCC",                   "(methylsulfanyl)ethane"),
-    ("CSCCC",                  "(methylsulfanyl)propane"),
+    ("CSCC",                   "ethyl methyl sulfide"),
+    ("CSCCC",                  "methyl propyl sulfide"),
 
     # ── aryl-containing: ring is parent ─────────────────────────────────
-    ("CSc1ccccc1",             "(methylsulfanyl)benzene"),
+    ("CSc1ccccc1",             "methyl phenyl sulfide"),
 
     # ── regressions: thioester and disulfide unchanged ────────────────────
     ("CSC(=O)C",               "S-methyl ethanethioate"),
-    ("CSSC",                   "(methyldisulfanyl)methane"),
+    ("CSSC",                   "dimethyl disulfide"),
     ("CCS",                    "ethanethiol"),
 ])
 def test_phase282_sulfide_pin(smiles, expected):

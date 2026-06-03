@@ -60,6 +60,10 @@ def _needs_bis_tris(name: str) -> bool:
     for pfx in ("carboxy", "hydroxy", "oxo", "amino", "imino", "nitroso"):
         if pfx in name and name != pfx:
             return True
+    # alkylsulfinyl/alkylsulfonyl/alkylsulfanyl 等 — 常に括弧が必要
+    for sfx in ("sulfinyl", "sulfonyl", "sulfanyl"):
+        if name.endswith(sfx) and name != sfx:
+            return True
     return False
 
 
@@ -383,13 +387,11 @@ def _build_name_body(
         return f"{stem}an-{loc}-amine"
 
     if suffix == "imine":
-        # イミン: ロカント常に明示 (IUPAC 2013 P-62.3.1.1)
-        # 例外: 1C (methanimine) のみロカント省略
         loc = suffix_locant if suffix_locant is not None else 1
         if has_multiple_bond:
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}-{loc}-imine"
-        if chain_length == 1:
+        if chain_length <= 2 and loc == 1:
             return f"{stem}animine"
         return f"{stem}an-{loc}-imine"
 
@@ -608,3 +610,41 @@ def _format_multiple_bonds(ene_locs: list[int], yne_locs: list[int]) -> str:
 def _locant_list_str(locants: list[int]) -> str:
     """ロカントリストを '1' or '1,3' などの文字列に変換。"""
     return ",".join(str(l) for l in sorted(locants))
+
+
+def fix_enclosing_marks(name: str) -> str:
+    """Apply IUPAC 2013 P-16.3.4 alternating enclosing marks.
+
+    () groups whose content contains () are upgraded to [].
+    [] groups whose content contains [] are upgraded to {}.
+    Simple groups like '(E)-', '(1R,2S)' are left unchanged.
+    """
+
+    def _upgrade(s: str, open_in: str, close_in: str,
+                 open_out: str, close_out: str) -> str:
+        result: list[str] = []
+        i = 0
+        while i < len(s):
+            if s[i] != open_in:
+                result.append(s[i])
+                i += 1
+                continue
+            depth = 1
+            j = i + 1
+            while j < len(s) and depth > 0:
+                if s[j] == open_in:
+                    depth += 1
+                elif s[j] == close_in:
+                    depth -= 1
+                j += 1
+            content = s[i + 1: j - 1]
+            if open_in in content:
+                result.append(open_out + content + close_out)
+            else:
+                result.append(open_in + content + close_in)
+            i = j
+        return "".join(result)
+
+    name = _upgrade(name, "(", ")", "[", "]")
+    name = _upgrade(name, "[", "]", "{", "}")
+    return name
