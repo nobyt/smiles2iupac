@@ -1,5 +1,5 @@
 """Phase 445: phenanthridine, benzo[h]isoquinoline, phenanthroline isomers,
-benzo[c]cinnoline, and benzo[g]phthalazine retained names (IUPAC 2013 P-31.1.3).
+benzo[c/f/g]cinnoline retained names (IUPAC 2013 P-31.1.3).
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -20,8 +20,10 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2cc3ccncc3cc2c1",     "4,7-phenanthroline"),
     # benzo[c]cinnoline
     ("c1ccc2nc3cnccc3cc2c1",     "benzo[c]cinnoline"),
-    # benzo[g]phthalazine
-    ("c1ccc2cc3nnccc3cc2c1",     "benzo[g]phthalazine"),
+    # benzo[g]cinnoline
+    ("c1ccc2cc3nnccc3cc2c1",     "benzo[g]cinnoline"),
+    # benzo[f]cinnoline
+    ("c1ccc2c(c1)ccc1ccnnc12",   "benzo[f]cinnoline"),
     # regressions
     ("c1ccc2nc3ccccc3cc2c1",     "acridine"),
     ("c1ccc2c(c1)ccc1ncccc12",   "benzo[h]quinoline"),
