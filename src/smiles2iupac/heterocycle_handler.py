@@ -765,6 +765,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cc2ccc3ccccc4cc5ccc(c1)c2c5c34":  "benzo[a]pyrene",
     # Phase 427: 1H-phenalene (3×6 peri-fused, C13H10, sp3 CH2 at position 1)
     "C1=Cc2cccc3cccc(c23)C1":  "1H-phenalene",
+    # Phase 428: phenanthroline retained names (IUPAC 2013 P-31.1.3.4)
+    "c1ccc2c(c1)cnc1ncccc12":  "1,10-phenanthroline",
+    "c1cnc2c(c1)ccc1cnccc12":  "4,7-phenanthroline",
+    "c1cnc2ccc3cnccc3c2c1":    "1,7-phenanthroline",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
