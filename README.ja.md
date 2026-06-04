@@ -5,7 +5,7 @@ SMILES 文字列を **IUPAC 2013 推奨名** に変換するライブラリ＆CL
 [English README](README.md)
 
 SMILES のパース・分子グラフ構築に [RDKit](https://www.rdkit.org/) を使用し、
-命名ロジックはスクラッチ実装（3,919 超のテストで検証済み）。
+命名ロジックはスクラッチ実装（3,925 超のテストで検証済み）。
 
 ---
 

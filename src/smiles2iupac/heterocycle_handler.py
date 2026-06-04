@@ -818,6 +818,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2ncsc2c1":     "thiazolo[5,4-b]pyridine",
     "c1cnc2ocnc2n1":     "oxazolo[4,5-d]pyrimidine",
     "c1cnc2scnc2n1":     "thiazolo[4,5-d]pyrimidine",
+    # Phase 440: more thieno-pyridine and triazolo-pyridine
+    "c1cnc2sccc2c1":     "thieno[3,4-c]pyridine",
+    "c1ccn2nncc2c1":     "[1,2,3]triazolo[1,5-a]pyridine",
+    "c1cnc2[nH]nnc2c1":  "1H-[1,2,3]triazolo[4,5-b]pyridine",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
