@@ -3,7 +3,7 @@
 A library and CLI tool that converts SMILES strings to **IUPAC 2013 preferred names**.
 
 SMILES parsing and molecular graph construction are delegated to [RDKit](https://www.rdkit.org/);
-the naming logic is a from-scratch implementation verified by 3,936+ tests.
+the naming logic is a from-scratch implementation verified by 3,948+ tests.
 
 [日本語版 README](README.ja.md)
 
