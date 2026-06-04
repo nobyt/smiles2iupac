@@ -932,6 +932,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2nc3cnccc3cc2c1":    "benzo[c]cinnoline",
     "c1ccc2cc3nnccc3cc2c1":    "benzo[g]cinnoline",
     "c1ccc2c(c1)ccc1ccnnc12":  "benzo[f]cinnoline",
+    # Phase 446: benzo[f]quinoxaline, benzo[g/f]phthalazine (IUPAC 2013 P-31.1.3)
+    "c1ccc2c(c1)ccc1nccnc12":  "benzo[f]quinoxaline",
+    "c1ccc2cc3cnncc3cc2c1":    "benzo[g]phthalazine",
+    "c1ccc2c(c1)ccc1cnncc12":  "benzo[f]phthalazine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
