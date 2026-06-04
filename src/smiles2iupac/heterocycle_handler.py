@@ -789,6 +789,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 434: naphtho[2,1-b]furan and naphtho[2,1-b]thiophene (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3occc3cc2c1":        "naphtho[2,1-b]furan",
     "c1ccc2cc3sccc3cc2c1":        "naphtho[2,1-b]thiophene",
+    # Phase 435: drug-scaffold bicyclic heterocycles (IUPAC 2013 P-31.1.3)
+    "c1cnc2[nH]ccc2n1":  "7H-pyrrolo[2,3-d]pyrimidine",
+    "c1cnc2[nH]ncc2n1":  "1H-pyrazolo[3,4-d]pyrimidine",
+    "c1cc2nc[nH]c2cn1":  "1H-imidazo[4,5-c]pyridine",
+    "c1cnc2sccc2n1":     "thieno[3,2-d]pyrimidine",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
