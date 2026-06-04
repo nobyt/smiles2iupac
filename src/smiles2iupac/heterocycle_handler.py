@@ -749,6 +749,22 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 420: monocyclic pyranones (alpha- and gamma-pyrone)
     "O=c1cccco1":  "2H-pyran-2-one",
     "O=c1ccocc1":  "4H-pyran-4-one",
+    # Phase 421: acenaphthylene and acenaphthene (tricyclic 5+6+6 PAH) — duplicate of Phase 138 keys
+    "C1=Cc2cccc3cccc1c23":  "acenaphthylene",
+    "c1cc2c3c(cccc3c1)CC2":  "acenaphthene",
+    # Phase 422: fluoranthene (C16H10, correct); pyrene already in Phase 138
+    "c1cc2ccc3cccc4ccc(c1)c2c34":    "pyrene",
+    "c1ccc2c(c1)-c1cccc3cccc-2c13": "fluoranthene",
+    # Phase 423: phenoxathiin (new); triphenylene already in Phase 138
+    "c1ccc2c(c1)Oc1ccccc1S2":         "phenoxathiin",
+    "c1ccc2c(c1)c1ccccc1c1ccccc21":   "triphenylene",
+    # Phase 424: tetracene (naphthacene) — chrysene already in Phase 138
+    "c1ccc2cc3cc4ccccc4cc3cc2c1":    "tetracene",
+    # Phase 426: thianthrene (S,S-bridged dibenzene) and correct benzo[a]pyrene (C20H12)
+    "c1ccc2c(c1)Sc1ccccc1S2":             "thianthrene",
+    "c1cc2ccc3ccccc4cc5ccc(c1)c2c5c34":  "benzo[a]pyrene",
+    # Phase 427: 1H-phenalene (3×6 peri-fused, C13H10, sp3 CH2 at position 1)
+    "C1=Cc2cccc3cccc(c23)C1":  "1H-phenalene",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
