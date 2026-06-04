@@ -288,9 +288,6 @@ def _build_name_body(
             return f"{stem}ene"
         n_ene = len(ene_locs)
         loc_str = _locant_list_str(ene_locs)
-        # IUPAC P-31.1.2.1: 3炭素鎖の C=C はロカント省略 (propene) — 置換基がある場合は引用必要
-        if n_ene == 1 and chain_length == 3 and ene_locs[0] == 1 and not has_substituents:
-            return f"{stem}ene"
         if n_ene == 1:
             return f"{stem}-{loc_str}-ene"
         # 2以上の C=C → diene/triene (allene, conjugated diene 等)
@@ -305,9 +302,6 @@ def _build_name_body(
             return f"{stem}yne"
         n_yne = len(yne_locs)
         loc_str = _locant_list_str(yne_locs)
-        # IUPAC P-31.1.2.1: 3炭素鎖の C≡C はロカント省略 (propyne) — 置換基がある場合は引用必要
-        if n_yne == 1 and chain_length == 3 and yne_locs[0] == 1 and not has_substituents:
-            return f"{stem}yne"
         if n_yne == 1:
             return f"{stem}-{loc_str}-yne"
         mult = _BOND_MULT.get(n_yne, f"{n_yne}")

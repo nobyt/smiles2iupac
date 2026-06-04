@@ -42,7 +42,7 @@ class TestAcyclicAlkeneUnchanged:
 
     def test_propene_unchanged(self):
         # 非環式のアルケンは引き続き acyclic path
-        assert smiles_to_iupac("C=CC") == "propene"
+        assert smiles_to_iupac("C=CC") == "prop-1-ene"
 
     def test_but1ene_unchanged(self):
         assert smiles_to_iupac("C=CCC") == "but-1-ene"

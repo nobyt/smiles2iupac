@@ -146,6 +146,17 @@ def name_substituent(
             nb for nb in neighbors
             if nb not in excluded and get_atom(graph, nb).symbol == "C"
         ]
+        # S-C≡N → thiocyanato (Phase 382)
+        if c_other and n_oxo == 0:
+            _c_nb = c_other[0]
+            for _n_nb in graph.adjacency[_c_nb]:
+                if _n_nb in excluded or _n_nb == root_idx:
+                    continue
+                if get_atom(graph, _n_nb).symbol == "N" and _gbo_s(graph, _c_nb, _n_nb) == 3.0:
+                    _n_heavy = [x for x in graph.adjacency[_n_nb]
+                                if x != _c_nb and get_atom(graph, x).symbol != "H"]
+                    if not _n_heavy:
+                        return "thiocyanato"
         if c_other:
             alkyl = _name_carbon_substituent(graph, c_other[0], excluded | {root_idx})
             if n_oxo == 2:
@@ -461,6 +472,12 @@ def _name_nitrogen_substituent(graph: "MoleculeGraph", n_idx: int) -> str:
     # N-H 1 つ (二級アミノ等、暫定)
     if len(h_neighbors) == 1:
         return "amino"
+
+    # シアノ基の末端 N: C≡N の N 末端 → cyano (Phase 383)
+    if (len(c_neighbors) == 1 and len(o_neighbors) == 0
+            and len(h_neighbors) == 0 and len(n_neighbors) == 0):
+        if _gbo(graph, n_idx, c_neighbors[0]) == 3.0:
+            return "cyano"
 
     return "(N)"  # 未対応
 
@@ -857,6 +874,9 @@ def _name_carbon_substituent(
                 n_h = sum(1 for hh in graph.adjacency[nb_idx] if get_atom(graph, hh).symbol == "H")
                 n_c = [cc for cc in graph.adjacency[nb_idx]
                        if cc != c_idx and get_atom(graph, cc).symbol == "C"]
+                # 三重結合 N (ニトリル/イソニトリル) はアミノ扱いしない
+                if _gbo(graph, c_idx, nb_idx) == 3.0:
+                    continue
                 if not n_c and n_h >= 0:  # primary amine (NH2 or NH)
                     amino_subs.append((pos, "amino"))
         if amino_subs:

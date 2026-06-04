@@ -135,6 +135,25 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
             ))
             continue
 
+        # ペルオキシエステル: C(=O)-O-O-C (priority=95, Phase 393) — ester より先に判定
+        if _is_peroxyester(graph, idx):
+            o_double = _get_double_bonded_oxygen(graph, idx)
+            indices = [idx] + ([o_double] if o_double is not None else [])
+            for nb_idx in graph.adjacency[idx]:
+                nb = get_atom(graph, nb_idx)
+                if nb.symbol == "O" and get_bond_order(graph, idx, nb_idx) == 1.0:
+                    indices.append(nb_idx)
+                    for o2_nb in graph.adjacency[nb_idx]:
+                        if o2_nb != idx and get_atom(graph, o2_nb).symbol == "O":
+                            indices.append(o2_nb)
+                    break
+            groups.append(FunctionalGroup(
+                group_type="peroxy_ester",
+                atom_indices=indices,
+                priority=FUNCTIONAL_GROUP_PRIORITY["peroxy_ester"],
+            ))
+            continue
+
         # エステル: C(=O)-O-R (priority=90)
         if _is_ester(graph, idx):
             o_idx = _get_double_bonded_oxygen(graph, idx)
@@ -859,7 +878,17 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 atom_indices=[s_idx] + o_double + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["sulfonic_acid"],
             ))
-        elif (len(o_double) == 1 and len(c_neighbors) == 1 and len(halogen_neighbors) == 1
+        elif (len(o_double) == 2 and len(c_neighbors) == 1 and len(n_neighbors) == 0
+                and not o_single_oh):
+            # スルホン酸アニオン: C-S(=O)₂-[O⁻] (Phase 386)
+            o_single_neg = [nb for nb in o_single if get_atom(graph, nb).formal_charge == -1]
+            if o_single_neg:
+                groups.append(FunctionalGroup(
+                    group_type="sulfonate_anion",
+                    atom_indices=[s_idx] + o_double + c_neighbors + o_single_neg,
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfonate_anion", 65),
+                ))
+        if (len(o_double) == 1 and len(c_neighbors) == 1 and len(halogen_neighbors) == 1
               and len(n_neighbors) == 0 and not o_single_oh):
             # スルフィニルハライド: C-S(=O)-X (Phase 224)
             groups.append(FunctionalGroup(
@@ -2249,22 +2278,30 @@ def _is_s_carbamodithioate(graph: MoleculeGraph, c_idx: int) -> bool:
 
 
 def _is_thioamide(graph: MoleculeGraph, c_idx: int) -> bool:
-    """C が C(=S)-NR₂ パターン（チオアミド）かチェック。"""
+    """C が C(=S)-NR₂ パターン（チオアミド）かチェック。
+    Phase 395: C が環外の場合は ring N も許可（チオラクタムは除外）。
+    """
     if _get_double_bonded_sulfur(graph, c_idx) is None:
         return False
+    c_in_ring = get_atom(graph, c_idx).in_ring
     for nb_idx in graph.adjacency[c_idx]:
         nb = get_atom(graph, nb_idx)
-        if nb.symbol == "N" and not nb.in_ring:
+        if nb.symbol == "N":
+            if c_in_ring and nb.in_ring:
+                continue  # thiolactam: both in ring → handled by Phase 391
             if get_bond_order(graph, c_idx, nb_idx) == 1.0:
                 return True
     return False
 
 
 def _get_thioamide_nitrogen(graph: MoleculeGraph, c_idx: int) -> int | None:
-    """チオアミド C に結合した N インデックスを返す。"""
+    """チオアミド C に結合した N インデックスを返す。Phase 395: ring N も対象。"""
+    c_in_ring = get_atom(graph, c_idx).in_ring
     for nb_idx in graph.adjacency[c_idx]:
         nb = get_atom(graph, nb_idx)
-        if nb.symbol == "N" and not nb.in_ring:
+        if nb.symbol == "N":
+            if c_in_ring and nb.in_ring:
+                continue
             if get_bond_order(graph, c_idx, nb_idx) == 1.0:
                 return nb_idx
     return None
@@ -2805,6 +2842,35 @@ def _is_peroxyacid(graph: MoleculeGraph, c_idx: int) -> bool:
         o2_idx = o2_candidates[0]
         # O2 に H があること
         if any(get_atom(graph, n).symbol == "H" for n in graph.adjacency[o2_idx]):
+            return True
+    return False
+
+
+def _is_peroxyester(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が C(=O)-O-O-C パターン（ペルオキシエステル）かチェック。Phase 393.
+    アシルペルオキシド (C(=O)-O-O-C(=O)) は除外する。
+    """
+    has_double_o = _get_double_bonded_oxygen(graph, c_idx) is not None
+    if not has_double_o:
+        return False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol != "O" or get_bond_order(graph, c_idx, nb_idx) != 1.0:
+            continue
+        o2_candidates = [n for n in graph.adjacency[nb_idx]
+                         if n != c_idx and get_atom(graph, n).symbol == "O"]
+        if not o2_candidates:
+            continue
+        o2_idx = o2_candidates[0]
+        # O2 に C が隣接すること (エステル側)
+        for alkyl_c in graph.adjacency[o2_idx]:
+            if alkyl_c == nb_idx:
+                continue
+            if get_atom(graph, alkyl_c).symbol != "C":
+                continue
+            # アシルペルオキシドを除外: alkyl_c が C(=O) なら対象外
+            if _get_double_bonded_oxygen(graph, alkyl_c) is not None:
+                continue
             return True
     return False
 

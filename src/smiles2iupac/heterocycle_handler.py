@@ -343,10 +343,18 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # 6員芳香族ヘテロ環
     # pyridine: N-C-C-C-C-C (canonical min of fwd/rev)
     (True,  ("N", "C", "C", "C", "C", "C")): ("pyridine",  False),
+    # pyridinone tautomer: NH in aromatic ring → pyridin-2(1H)-one etc.
+    (True,  ("NH", "C", "C", "C", "C", "C")): ("pyridine",  True),
     # pyrazine: N at 1,4 → min("N","C","C","N","C","C") vs ("N","C","C","N","C","C") same
     (True,  ("N", "C", "C", "N", "C", "C")): ("pyrazine",  False),
     # pyrimidine: N at 1,3 → best_start=[N,C,N,C,C,C], rev=[N,C,C,C,N,C], min=("N","C","C","C","N","C")
     (True,  ("N", "C", "C", "C", "N", "C")): ("pyrimidine", False),
+    # pyrimidinone tautomer: NH in aromatic ring → pyrimidin-{loc}({nh}H)-one (Phase 397)
+    (True,  ("NH", "C", "C", "C", "N", "C")): ("pyrimidine", True),
+    # pyrazinone tautomer: N at 1,4 → pyrazin-{loc}({nh}H)-one (Phase 398)
+    (True,  ("NH", "C", "C", "N", "C", "C")): ("pyrazine",   True),
+    # pyridazinone tautomer: N at 1,2 → pyridazin-{loc}({nh}H)-one (Phase 398)
+    (True,  ("NH", "C", "C", "C", "C", "N")): ("pyridazine", True),
     # pyridazine: N at 1,2 → best_start=[N,N,C,C,C,C], rev=[N,C,C,C,C,N], min=("N","C","C","C","C","N")
     (True,  ("N", "C", "C", "C", "C", "N")): ("pyridazine", False),
     # 5員芳香族ヘテロ環
@@ -398,6 +406,11 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     (True,  ("O",  "C", "C", "N", "C")): ("oxazole",     False),
     (True,  ("S",  "C", "C", "N", "C")): ("thiazole",    False),
     (True,  ("S",  "C", "C", "C", "N")): ("isothiazole", False),
+    # Phase 401: pyrimidine di-NH tautomer → pyrimidine-2,4(1H,3H)-dione (uracil/thymine)
+    (True,  ("NH", "C", "C", "C", "NH", "C")): ("pyrimidine", True),
+    # Phase 400: 5員 oxazolone/thiazolone tautomers (NH-first sig, O/S in ring)
+    (True,  ("NH", "C", "C", "O", "C")): ("1,3-oxazole",  True),
+    (True,  ("NH", "C", "C", "S", "C")): ("1,3-thiazole", True),
     # Phase 269: 6員 triazine/tetrazine
     (True,  ("N",  "C", "C", "C", "N", "N")): ("1,2,3-triazine",    False),
     (True,  ("N",  "C", "C", "N", "C", "N")): ("1,2,4-triazine",    False),
@@ -413,6 +426,9 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     (False, ("S", "C", "C", "C", "C", "S")):      ("1,2-dithiane",    False),
     (False, ("O", "C", "C", "S", "C")):           ("1,3-oxathiolane", False),
     (False, ("O", "C", "C", "S", "C", "C")):      ("1,4-oxathiane",   False),
+    # Phase 380: 環状スルファート/スルフィット (O,O,S 環)
+    (False, ("O", "C", "C", "O", "S")):           ("1,3,2-dioxathiolane", False),
+    (False, ("O", "C", "C", "C", "O", "S")):      ("1,3,2-dioxathiane",   False),
     # Phase 232: 1,3,5-trioxane (6員 tri-O 環)
     (False, ("O", "C", "O", "C", "O", "C")): ("1,3,5-trioxane", False),
     # Phase 196: 4員環 二ヘテロ原子 (1,3-dioxetane 等)
@@ -475,6 +491,10 @@ def _collect_hetero_substituents(
     from .substituent import name_substituent
 
     ring_set = set(ring_atoms)
+    # Phase 404: pre-compute rings that contain at least one ring atom (for fused-ring check)
+    _other_ring_sets: list[frozenset[int]] = [
+        frozenset(r) for r in graph.ring_atom_sets if frozenset(r) != ring_set
+    ]
 
     # Build N-locant map: non-aromatic N atoms sorted by position → "N", "N'", "N''", ...
     _N_LOCANTS = ["N", "N'", "N''", "N'''"]
@@ -502,6 +522,9 @@ def _collect_hetero_substituents(
             if nb.symbol == "H":
                 continue
             if ring_atom.symbol in ("N", "O", "S") and nb.symbol == "H":
+                continue
+            # Phase 404: skip fused ring junction bonds (nb is in another ring with ring_idx)
+            if any(ring_idx in rs and nb_idx in rs for rs in _other_ring_sets):
                 continue
             sub_name = name_substituent(graph, nb_idx, ring_set)
             result.append((locant, sub_name))
@@ -656,11 +679,16 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCO2":  "1,3-dihydro-2-benzofuran",
     "c1ccc2c(c1)CCS2":  "1,3-dihydro-2-benzothiophene",
     "c1ccc2c(c1)CCCO2": "chromane",
+    "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
     "c1ccc2c(c1)CCCS2": "thiochroman",
     "O=C1CCc2ccccc21":  "indan-1-one",
     "O=C1CC(=O)c2ccccc21": "indane-1,3-dione",
     "O=C1Cc2ccccc2N1":  "indolin-2-one",
+    "O=C1CNc2ccccc21":  "isoindolin-1-one",
+    # Phase 409: 6-membered benzo-fused lactams
+    "O=C1CCc2ccccc2N1":  "3,4-dihydroquinolin-2(1H)-one",
+    "O=C1NCCc2ccccc21":  "3,4-dihydroisoquinolin-1(2H)-one",
     # Phase 264: 縮合無水物・マレイン酸無水物
     "O=C1OC(=O)c2ccccc21": "isobenzofuran-1,3-dione",
     "O=C1C=CC(=O)O1":      "furan-2,5-dione",
@@ -677,6 +705,50 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)Nc1ccccc1O2":  "phenoxazine",
     "c1ccc2c(c1)Nc1ccccc1S2":  "phenothiazine",
     "O=c1c2ccccc2oc2ccccc12":  "xanthen-9-one",
+    "O=C1c2ccccc2-c2ccccc21":  "9H-fluoren-9-one",
+    "O=c1c2ccccc2sc2ccccc12":  "thioxanthen-9-one",
+    # Phase 410: benzo-fused saturated ketones and lactones
+    "O=C1CCCc2ccccc21":  "3,4-dihydronaphthalen-1(2H)-one",
+    "O=C1OCCc2ccccc21":  "isochroman-1-one",
+    "O=C1CCc2ccccc2O1":  "chroman-2-one",
+    "O=C1CCOc2ccccc21":  "chroman-4-one",
+    # Phase 411: chromone and indan-2-one
+    "O=c1ccoc2ccccc12":  "chromone",
+    "O=C1Cc2ccccc2C1":   "indan-2-one",
+    # Phase 412: benzo-fused azolone C2=O derivatives
+    "O=c1[nH]c2ccccc2[nH]1":  "1H-benzimidazol-2(3H)-one",
+    "O=c1[nH]c2ccccc2s1":     "1,3-benzothiazol-2(3H)-one",
+    "O=c1[nH]c2ccccc2o1":     "1,3-benzoxazol-2(3H)-one",
+    # Phase 413: acridinone and quinoxalinone
+    "O=c1c2ccccc2[nH]c2ccccc12":  "acridin-9(10H)-one",
+    "O=c1cnc2ccccc2[nH]1":        "quinoxalin-2(1H)-one",
+    # Phase 414: benzo-fused diazinones
+    "O=c1[nH]ncc2ccccc12":  "phthalazin-1(2H)-one",
+    "O=c1cn[nH]c2ccccc12":  "cinnolin-4(1H)-one",
+    "O=c1[nH]cnc2ccccc12":  "quinazolin-4(3H)-one",
+    # Phase 415: anthrone, quinolinone, quinazolinedione
+    "O=C1c2ccccc2Cc2ccccc21":      "anthracen-9(10H)-one",
+    "O=c1ccc2ccccc2[nH]1":         "quinolin-2(1H)-one",
+    "O=c1[nH]c(=O)c2ccccc2[nH]1": "quinazoline-2,4(1H,3H)-dione",
+    # Phase 416: quinolinones and isoquinolinones
+    "O=c1cc[nH]c2ccccc12":  "quinolin-4(1H)-one",
+    "O=c1[nH]ccc2ccccc12":  "isoquinolin-1(2H)-one",
+    "O=c1cc2ccccc2c[nH]1":  "isoquinolin-3(2H)-one",
+    # Phase 417: indazolone, phenanthridinone, phenanthridine
+    "O=c1[nH][nH]c2ccccc12":         "1H-indazol-3(2H)-one",
+    "O=c1[nH]c2ccccc2c2ccccc12":     "phenanthridin-6(5H)-one",
+    "c1ccc2c(c1)cnc1ccccc12":        "phenanthridine",
+    # Phase 418: isatin, benzofuranone, benzothiophenone
+    "O=C1Nc2ccccc2C1=O":  "1H-indole-2,3-dione",
+    "O=C1COc2ccccc21":    "benzofuran-2(3H)-one",
+    "O=C1CSc2ccccc21":    "benzo[b]thiophen-2(3H)-one",
+    # Phase 419: naphthalenones and 1,3-benzodioxol-2-one
+    "O=C1CC=Cc2ccccc21":  "naphthalen-1(2H)-one",
+    "O=C1C=Cc2ccccc2C1":  "naphthalen-2(1H)-one",
+    "O=c1oc2ccccc2o1":    "1,3-benzodioxol-2-one",
+    # Phase 420: monocyclic pyranones (alpha- and gamma-pyrone)
+    "O=c1cccco1":  "2H-pyran-2-one",
+    "O=c1ccocc1":  "4H-pyran-4-one",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
@@ -759,6 +831,114 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
         0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1,
         6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None,
     },
+    # Phase 404: 部分飽和縮合環 (N/O heteroatom, fused with benzene)
+    # indoline (2,3-dihydro-1H-indole): N(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
+    # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ccc2c(c1)CCCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # chromane: O(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ccc2c(c1)CCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # isochromane: C(1)-O(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ccc2c(c1)CCOC2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # Phase 407: indolin-2-one: N(1)-C(2,=O)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=C3a(None), 4=C4(4)..7=C7(7), 8=C7a(None), 9=N1(1)
+    "O=C1Cc2ccccc2N1":  {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},
+    # Phase 407: isoindolin-1-one: C(1,=O)-N(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    # atom 0=O(exo,None), 1=C1(1), 2=C3(3), 3=N2(2), 4=C3a(None), 5=C4(4)..8=C7(7), 9=C7a(None)
+    "O=C1CNc2ccccc21":  {0: None, 1: 1, 2: 3, 3: 2, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: None},
+    # Phase 409: 3,4-dihydroquinolin-2(1H)-one: N(1)-C(2,=O)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
+    # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(None), 5=C5..8=C8, 9=C8a(None), 10=N1(1)
+    "O=C1CCc2ccccc2N1": {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
+    # Phase 409: 3,4-dihydroisoquinolin-1(2H)-one: C(1,=O)-N(2)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
+    # atom 0=O(exo,None), 1=C1(1), 2=N2(2), 3=C3(3), 4=C4(4), 5=C4a(None), 6=C5..9=C8, 10=C8a(None)
+    "O=C1NCCc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 410: 3,4-dihydronaphthalen-1(2H)-one (β-tetralone)
+    # atom 0=O(exo,None), 1=C1(1), 2=C2(2), 3=C3(3), 4=C4(4), 5=C4a(None), 6=C5..9=C8, 10=C8a(None)
+    "O=C1CCCc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 410: isochroman-1-one: C(1,=O)-O(2)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
+    # atom 0=O(exo,None), 1=C1(1), 2=O2(2), 3=C3(3), 4=C4(4), 5=C4a(None), 6=C5..9=C8, 10=C8a(None)
+    "O=C1OCCc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 410: chroman-2-one: O(1)-C(2,=O)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
+    # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(None), 5=C5..8=C8, 9=C8a(None), 10=O1(1)
+    "O=C1CCc2ccccc2O1": {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
+    # Phase 410: chroman-4-one: O(1)-C(2)-C(3)-C(4,=O)-C(4a,junc)-...-C(8a,junc)
+    # atom 0=O(exo,None), 1=C4(4), 2=C3(3), 3=C2(2), 4=O1(1), 5=C8a(None), 6=C8..9=C5, 10=C4a(None)
+    "O=C1CCOc2ccccc21": {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 411: chromone (4H-chromen-4-one): same locant structure as chroman-4-one
+    # atom 0=O(exo,None), 1=C4(4), 2=C3(3), 3=C2(2), 4=O1(1), 5=C8a(None), 6=C8..9=C5, 10=C4a(None)
+    "O=c1ccoc2ccccc12":  {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 411: indan-2-one: C1(1)-C2(2,=O)-C3(3)-C3a(None)-C4..C7-C7a(None)
+    # atom 0=O(exo,None), 1=C2(2), 2=C1(1), 3=C3a(None), 4=C4..7=C7, 8=C7a(None), 9=C3(3)
+    "O=C1Cc2ccccc2C1":   {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3},
+    # Phase 412: benzazolone C2=O retained names
+    # atom 0=O(exo,None), 1=C2(2), 2=N3(3) or heteroatom3, 3=C3a(None), 4..7=C4-C7, 8=C7a(None), 9=N1/S1/O1(1)
+    "O=c1[nH]c2ccccc2[nH]1": {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},
+    "O=c1[nH]c2ccccc2s1":    {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},
+    "O=c1[nH]c2ccccc2o1":    {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},
+    # Phase 413: acridin-9(10H)-one: C9(1)-C4b(None)-C1..C4(aromatic)-C4a(None)-N10(10)-C8a(None)-C5..C8-C9a(None)
+    # atom 0=O(exo,None), 1=C9(9), 2=C4b(None), 3=C1..6=C4, 7=C4a(None), 8=N10(10), 9=C8a(None), 10=C5..13=C8, 14=C9a(None)
+    "O=c1c2ccccc2[nH]c2ccccc12": {0: None, 1: 9, 2: None, 3: 1, 4: 2, 5: 3, 6: 4, 7: None, 8: 10, 9: None, 10: 5, 11: 6, 12: 7, 13: 8, 14: None},
+    # Phase 413: quinoxalin-2(1H)-one: N1(10,H)-C2(2,=O)-C3(3)-N4(4)-C4a(None)-C5..C8-C8a(None)
+    # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=N4(4), 4=C4a(None), 5=C5..8=C8, 9=C8a(None), 10=N1(1,H)
+    "O=c1cnc2ccccc2[nH]1":       {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
+    # Phase 414: phthalazin-1(2H)-one: C1(1,=O)-N2(2,H)-N3(3)-C4(4)-C4a(None)-C5..C8-C8a(None)
+    "O=c1[nH]ncc2ccccc12": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 414: cinnolin-4(1H)-one: C4(1,=O)-C3(3)-N2(2)-N1(1,H)-C8a(None)-C8..C5-C4a(None)
+    # atom 0=O(exo,None), 1=C4(4), 2=C3(3), 3=N2(2), 4=N1(1,H), 5=C8a(None), 6=C8..9=C5, 10=C4a(None)
+    "O=c1cn[nH]c2ccccc12": {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 414: quinazolin-4(3H)-one: C4(4,=O)-N3(3,H)-C2(2)-N1(1)-C8a(None)-C8..C5-C4a(None)
+    # atom 0=O(exo,None), 1=C4(4), 2=N3(3,H), 3=C2(2), 4=N1(1), 5=C8a(None), 6=C8..9=C5, 10=C4a(None)
+    "O=c1[nH]cnc2ccccc12": {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 415: anthracen-9(10H)-one: 15-atom map; atoms 2,7,9,14 are junctions (None)
+    # 0=O(exo), 1=C9, 2=C9a(junc), 3..6=C1..4, 7=C4a(junc), 8=C10, 9=C4b(junc), 10..13=C5..8, 14=C8a(junc)
+    "O=C1c2ccccc2Cc2ccccc21": {0: None, 1: 9, 2: None, 3: 1, 4: 2, 5: 3, 6: 4, 7: None, 8: 10, 9: None, 10: 5, 11: 6, 12: 7, 13: 8, 14: None},
+    # Phase 415: quinolin-2(1H)-one: same map structure as quinoxalin-2(1H)-one
+    # 0=O(exo), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(junc), 5..8=C5..8, 9=C8a(junc), 10=N1(1,H)
+    "O=c1ccc2ccccc2[nH]1":         {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
+    # Phase 415: quinazoline-2,4(1H,3H)-dione: 12-atom map (two exo oxygens)
+    # 0=O(exo,C2=O), 1=C2(2), 2=N3(3,H), 3=C4(4), 4=O(exo,C4=O), 5=C4a(junc), 6..9=C5..8, 10=C8a(junc), 11=N1(1,H)
+    "O=c1[nH]c(=O)c2ccccc2[nH]1": {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 1},
+    # Phase 416: quinolin-4(1H)-one
+    # 0=O(exo), 1=C4(4), 2=C3(3), 3=C2(2), 4=N1(1,H), 5=C8a(junc), 6..9=C8..5, 10=C4a(junc)
+    "O=c1cc[nH]c2ccccc12": {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 416: isoquinolin-1(2H)-one
+    # 0=O(exo), 1=C1(1), 2=N2(2,H), 3=C3(3), 4=C4(4), 5=C4a(junc), 6..9=C5..8, 10=C8a(junc)
+    "O=c1[nH]ccc2ccccc12": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 416: isoquinolin-3(2H)-one
+    # 0=O(exo), 1=C3(3), 2=C4(4), 3=C4a(junc), 4..7=C5..8, 8=C8a(junc), 9=C1(1), 10=N2(2,H)
+    "O=c1cc2ccccc2c[nH]1": {0: None, 1: 3, 2: 4, 3: None, 4: 5, 5: 6, 6: 7, 7: 8, 8: None, 9: 1, 10: 2},
+    # Phase 417: 1H-indazol-3(2H)-one (10 atoms, 5-membered ring)
+    # 0=O(exo), 1=C3(3), 2=N2(2,H), 3=N1(1,H), 4=C3a(junc), 5..8=C4..7, 9=C7a(junc)
+    "O=c1[nH][nH]c2ccccc12": {0: None, 1: 3, 2: 2, 3: 1, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: None},
+    # Phase 417: phenanthridin-6(5H)-one (15 atoms, tricyclic)
+    # 0=O(exo), 1=C6(6), 2=N5(5,H), 3=C4b(junc), 4..7=C4..1, 8=C4a(junc), 9=C10a(junc), 10..13=C10..7, 14=C6a(junc)
+    "O=c1[nH]c2ccccc2c2ccccc12": {0: None, 1: 6, 2: 5, 3: None, 4: 4, 5: 3, 6: 2, 7: 1, 8: None, 9: None, 10: 10, 11: 9, 12: 8, 13: 7, 14: None},
+    # Phase 417: phenanthridine (14 atoms, tricyclic)
+    # c1ccc2c(c1)cnc1ccccc12: 0=C3, 1=C2, 2=C1, 3=C4a(junc), 4=C4b(junc), 5=C4, 6=C6, 7=N5, 8=C6a(junc), 9..12=C7..10, 13=C10a(junc)
+    "c1ccc2c(c1)cnc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 6, 7: 5, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 418: 1H-indole-2,3-dione (isatin) — 11 atoms, two exo O
+    # 0=O(C2=O), 1=C2(2), 2=N1(1,H), 3=C7a(junc), 4..7=C4..7, 8=C3a(junc), 9=C3(3), 10=O(C3=O)
+    "O=C1Nc2ccccc2C1=O": {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3, 10: None},
+    # Phase 418: benzofuran-2(3H)-one — 10 atoms
+    # 0=O(exo,C2=O), 1=C2(2), 2=C3(3,CH2), 3=O1(1), 4=C7a(junc), 5..8=C7..4, 9=C3a(junc)
+    "O=C1COc2ccccc21": {0: None, 1: 2, 2: 3, 3: 1, 4: None, 5: 7, 6: 6, 7: 5, 8: 4, 9: None},
+    # Phase 418: benzo[b]thiophen-2(3H)-one — same map but S at position 1
+    "O=C1CSc2ccccc21": {0: None, 1: 2, 2: 3, 3: 1, 4: None, 5: 7, 6: 6, 7: 5, 8: 4, 9: None},
+    # Phase 419: naphthalen-1(2H)-one — 11 atoms, two 6-membered rings
+    # 0=O(exo), 1=C1(1,keto), 2=C2(2,CH2), 3=C3(3), 4=C4(4), 5=C4a(junc), 6..9=C5..8, 10=C8a(junc)
+    "O=C1CC=Cc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 419: naphthalen-2(1H)-one — 11 atoms
+    # 0=O(exo), 1=C2(2,keto), 2=C3(3), 3=C4(4), 4=C4a(junc), 5..8=C5..8, 9=C8a(junc), 10=C1(1,CH2)
+    "O=C1C=Cc2ccccc2C1": {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
+    # Phase 419: 1,3-benzodioxol-2-one — 10 atoms (5+6 ring, aromatic)
+    # 0=O(exo), 1=C2(2), 2=O1(1), 3=C7a(junc), 4..7=C7..4, 8=C3a(junc), 9=O3(3)
+    "O=c1oc2ccccc2o1": {0: None, 1: 2, 2: 1, 3: None, 4: 7, 5: 6, 6: 5, 7: 4, 8: None, 9: 3},
+    # Phase 420: 2H-pyran-2-one (alpha-pyrone) — 7 atoms (monocyclic 6-membered)
+    # 0=O(exo), 1=C2(2,keto), 2=C3(3), 3=C4(4), 4=C5(5), 5=C6(6), 6=O1(1,ring)
+    "O=c1cccco1": {0: None, 1: 2, 2: 3, 3: 4, 4: 5, 5: 6, 6: 1},
+    # Phase 420: 4H-pyran-4-one (gamma-pyrone) — 7 atoms (monocyclic 6-membered)
+    # 0=O(exo), 1=C4(4,keto), 2=C3(3), 3=C2(2), 4=O1(1,ring), 5=C6(6), 6=C5(5)
+    "O=c1ccocc1": {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: 6, 6: 5},
 }
 
 
@@ -801,6 +981,28 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
                     break
         core_smi = _found_core if _found_core is not None else core_smi_raw
 
+    # Phase 407: also try extended core (ring atoms + exo C=O oxygens on ring carbons)
+    # Needed for retained names whose parent includes an exo C=O (e.g., indolin-2-one, isoindolin-1-one)
+    _ring_set_407 = set(all_ring_atoms)
+    _exo_co_o_407: set[int] = set()
+    for _ra_407 in all_ring_atoms:
+        _a_407 = graph.rdkit_mol.GetAtomWithIdx(_ra_407)
+        if _a_407.GetSymbol() == "C":
+            for _nb_407 in _a_407.GetNeighbors():
+                _ni_407 = _nb_407.GetIdx()
+                if _ni_407 not in _ring_set_407:
+                    _bond_407 = graph.rdkit_mol.GetBondBetweenAtoms(_ra_407, _ni_407)
+                    if _nb_407.GetSymbol() == "O" and _bond_407.GetBondTypeAsDouble() == 2.0:
+                        _exo_co_o_407.add(_ni_407)
+    if _exo_co_o_407:
+        _ext_atoms_407 = sorted(all_ring_atoms) + sorted(_exo_co_o_407)
+        _ext_raw_407 = MolFragmentToSmiles(graph.rdkit_mol, _ext_atoms_407, canonical=True)
+        _ext_mol_407 = MolFromSmiles(_ext_raw_407)
+        if _ext_mol_407 is not None:
+            _ext_smi_407 = MolToSmiles(_ext_mol_407)
+            if _ext_smi_407 in _FUSED_HETERO_RETAINED and _ext_smi_407 in _FUSED_LOCANT_MAP:
+                core_smi = _ext_smi_407
+
     base_name = _FUSED_HETERO_RETAINED.get(core_smi)
     locant_map_def = _FUSED_LOCANT_MAP.get(core_smi)
     if base_name is None or locant_map_def is None:
@@ -813,6 +1015,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     match = graph.rdkit_mol.GetSubstructMatch(base_mol)
     if not match:
         return None
+    match_set = set(match)  # atoms belonging to the base structure (not substituents)
     # match[base_idx] = rdkit_atom_idx in graph.rdkit_mol
 
     # rdkit atom idx → locant
@@ -863,6 +1066,8 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         for nb_idx in graph.adjacency[rdkit_idx]:
             if nb_idx in ring_set:
                 continue
+            if nb_idx in match_set:
+                continue  # part of base structure (e.g., exo C=O oxygen in retained name)
             nb = get_atom(graph, nb_idx)
             if nb.symbol == "H":
                 continue
@@ -1032,17 +1237,91 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
             exo_co_oxygens_e.append(exo_o_e)
     if len(exo_co_ring_cs_e) >= 2:
         locs_e = [locant_map[c] for c in exo_co_ring_cs_e]
-        rev_rotation_e = [rotation[0]] + list(reversed(rotation[1:]))
-        locant_map_rev_e = _build_locant_map(rev_rotation_e)
-        locs_rev_e = [locant_map_rev_e[c] for c in exo_co_ring_cs_e]
-        if sorted(locs_rev_e) < sorted(locs_e):
-            locant_map = locant_map_rev_e
-            locs_e = locs_rev_e
         locs_sorted_e = sorted(locs_e)
-        loc_str_e = ",".join(str(l) for l in locs_sorted_e)
         suffix_e = "dione" if len(locs_sorted_e) == 2 else "trione"
-        _eb = full_base  # -dione/-trione starts with consonant: no elision
-        dione_name_e = f"{_eb}-{loc_str_e}-{suffix_e}"
+        # Phase 403: pre-check for pyrrole-imide pattern (maleimide/N-subst. maleimide)
+        _is_pyrrole_imide_403 = False
+        _n_403: "int | None" = None
+        if base_name.endswith("pyrrole"):
+            _n_403 = next((idx for idx in ring if _get_atom_lact(graph, idx).symbol == "N"), None)
+            if _n_403 is not None:
+                _nc_403 = [nb for nb in graph.adjacency[_n_403] if nb in ring_set_lactam]
+                if (len(_nc_403) == 2 and _has_exo_dbl_o(_nc_403[0]) is not None
+                        and _has_exo_dbl_o(_nc_403[1]) is not None):
+                    _is_pyrrole_imide_403 = True
+        # Phase 405: pre-check for phthalimide / isoindole-dione pattern
+        _is_isoindole_dione_405 = False
+        _n_405: "int | None" = None
+        if base_name == "pyrrolidine" and len(locs_sorted_e) == 2:
+            _arom_junc_405 = [
+                idx for idx in ring
+                if _get_atom_lact(graph, idx).is_aromatic
+                and any(idx in frozenset(r) for r in graph.ring_atom_sets
+                        if frozenset(r) != ring_set_lactam)
+            ]
+            if len(_arom_junc_405) == 2:
+                _n_405 = next(
+                    (idx for idx in ring if _get_atom_lact(graph, idx).symbol == "N"), None
+                )
+                if _n_405 is not None:
+                    _is_isoindole_dione_405 = True
+        if is_nh:
+            # Phase 401: indicated-H dione — use canonical rotation (already IUPAC-optimal)
+            _nh_atoms_e = [
+                idx for idx in ring
+                if _get_atom_lact(graph, idx).symbol == "N"
+                and any(_get_atom_lact(graph, nb).symbol == "H"
+                        for nb in graph.adjacency[idx])
+            ]
+            _nh_locs_e = sorted(locant_map[nh] for nh in _nh_atoms_e)
+            _nh_str_e = ",".join(f"{l}H" for l in _nh_locs_e)
+            loc_str_e = ",".join(str(l) for l in locs_sorted_e)
+            dione_name_e = f"{base_name}-{loc_str_e}({_nh_str_e})-{suffix_e}"
+        elif _is_pyrrole_imide_403:
+            # Phase 403: maleimide / N-substituted maleimide → 1H-pyrrole-{loc}-dione
+            loc_str_e = ",".join(str(l) for l in locs_sorted_e)
+            dione_name_e = f"1H-pyrrole-{loc_str_e}-{suffix_e}"
+            _excl_403 = set(exo_co_oxygens_e)
+            _subs_raw_403 = _collect_hetero_substituents(
+                graph, ring, locant_map, excluded_atoms=_excl_403
+            )
+            _n_num_403 = locant_map[_n_403] if _n_403 is not None else 1
+            _subs_403 = [(_n_num_403 if loc == "N" else loc, nm) for loc, nm in _subs_raw_403]
+            if not _subs_403:
+                return dione_name_e
+            return _format_substituents(dione_name_e, _subs_403)
+        elif base_name == "hexahydropyrimidine" and len(locs_sorted_e) >= 3:
+            # Phase 402: barbituric acid → pyrimidine parent + indicated H (trione only)
+            _ih_locs_e = sorted(
+                locant_map[idx] for idx in ring
+                if any(_get_atom_lact(graph, nb).symbol == "H"
+                       for nb in graph.adjacency[idx])
+            )
+            _ih_str_e = ",".join(f"{l}H" for l in _ih_locs_e)
+            loc_str_e = ",".join(str(l) for l in locs_sorted_e)
+            dione_name_e = f"pyrimidine-{loc_str_e}({_ih_str_e})-{suffix_e}"
+        elif _is_isoindole_dione_405:
+            # Phase 405: phthalimide / N-subst. phthalimide → isoindole-1,3(2H)-dione
+            dione_name_e = "isoindole-1,3(2H)-dione"
+            _excl_405 = set(exo_co_oxygens_e)
+            _subs_raw_405 = _collect_hetero_substituents(
+                graph, ring, locant_map, excluded_atoms=_excl_405
+            )
+            _subs_405 = [(2 if loc == "N" else loc, nm) for loc, nm in _subs_raw_405]
+            if not _subs_405:
+                return dione_name_e
+            return _format_substituents(dione_name_e, _subs_405)
+        else:
+            rev_rotation_e = [rotation[0]] + list(reversed(rotation[1:]))
+            locant_map_rev_e = _build_locant_map(rev_rotation_e)
+            locs_rev_e = [locant_map_rev_e[c] for c in exo_co_ring_cs_e]
+            if sorted(locs_rev_e) < sorted(locs_e):
+                locant_map = locant_map_rev_e
+                locs_e = locs_rev_e
+            locs_sorted_e = sorted(locs_e)
+            loc_str_e = ",".join(str(l) for l in locs_sorted_e)
+            _eb = full_base  # -dione/-trione starts with consonant: no elision
+            dione_name_e = f"{_eb}-{loc_str_e}-{suffix_e}"
         excl_e = set(exo_co_oxygens_e)
         other_subs_e = _collect_hetero_substituents(
             graph, ring, locant_map, excluded_atoms=excl_e
@@ -1160,14 +1439,120 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                         rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
                         locant_map = _build_locant_map(rev_rotation)
                         loc = locant_map[ring_idx]
-                    lactam_base = (full_base[:-1] if full_base.endswith("e") else full_base)
-                    lactam_name = f"{lactam_base}-{loc}-one"
+                    if is_nh:
+                        # Phase 400: unified IUPAC rotation — O < S < N priority
+                        _all_h = [idx for idx in ring
+                                  if _get_atom_lact(graph, idx).symbol in ("N", "O", "S")]
+                        _nh_atom = next(
+                            (idx for idx in ring
+                             if _get_atom_lact(graph, idx).symbol == "N"
+                             and any(_get_atom_lact(graph, nb).symbol == "H"
+                                     for nb in graph.adjacency[idx])),
+                            None,
+                        )
+                        _nr = len(ring)
+                        _inf = _nr + 1
+                        _bk: tuple = ([_inf] * _nr, [_inf] * _nr, [_inf] * _nr, _inf, _inf)
+                        _blm: dict[int, int] = locant_map
+                        _bloc: int = loc
+                        _bnh: int = 1
+                        for _hstart in _all_h:
+                            _pos = ring.index(_hstart)
+                            for _dd in (1, -1):
+                                _rot = [ring[(_pos + _dd * i) % _nr] for i in range(_nr)]
+                                _lm2 = {_rot[i]: i + 1 for i in range(_nr)}
+                                _ok = sorted(_lm2[h] for h in _all_h
+                                             if _get_atom_lact(graph, h).symbol == "O")
+                                _sk = sorted(_lm2[h] for h in _all_h
+                                             if _get_atom_lact(graph, h).symbol == "S")
+                                _nk = sorted(_lm2[h] for h in _all_h
+                                             if _get_atom_lact(graph, h).symbol == "N")
+                                _co2 = _lm2[ring_idx]
+                                _nh2 = _lm2[_nh_atom] if _nh_atom is not None else _inf
+                                _k: tuple = (_ok, _sk, _nk, _co2, _nh2)
+                                if _k < _bk:
+                                    _bk = _k
+                                    _blm = _lm2
+                                    _bloc = _co2
+                                    _bnh = _nh2
+                        locant_map = _blm
+                        loc = _bloc
+                        _nh_loc = _bnh
+                        _base_nh = (base_name[:-1] if base_name.endswith("e") else base_name)
+                        lactam_name = f"{_base_nh}-{loc}({_nh_loc}H)-one"
+                    else:
+                        lactam_base = (full_base[:-1] if full_base.endswith("e") else full_base)
+                        lactam_name = f"{lactam_base}-{loc}-one"
                     other_subs = _collect_hetero_substituents(
                         graph, ring, locant_map, excluded_atoms={nb_idx}
                     )
                     if not other_subs:
                         return lactam_name
                     return _format_substituents(lactam_name, other_subs)
+                # Phase 391: thiolactam – exocyclic =S on a ring C in an N-heterocycle
+                if nb.symbol == "S" and _get_bo_lact(graph, ring_idx, nb_idx) == 2.0:
+                    loc = locant_map[ring_idx]
+                    n_ring = len(ring)
+                    loc_rev = n_ring + 2 - loc
+                    if loc_rev < loc:
+                        rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
+                        locant_map = _build_locant_map(rev_rotation)
+                        loc = locant_map[ring_idx]
+                    if is_nh:
+                        # Phase 400: unified IUPAC rotation — O < S < N priority
+                        _all_h_tl = [idx for idx in ring
+                                     if _get_atom_lact(graph, idx).symbol in ("N", "O", "S")]
+                        _nh_atom_tl = next(
+                            (idx for idx in ring
+                             if _get_atom_lact(graph, idx).symbol == "N"
+                             and any(_get_atom_lact(graph, nb2).symbol == "H"
+                                     for nb2 in graph.adjacency[idx])),
+                            None,
+                        )
+                        _nr_tl = len(ring)
+                        _inf_tl = _nr_tl + 1
+                        _bk_tl: tuple = (
+                            [_inf_tl] * _nr_tl, [_inf_tl] * _nr_tl, [_inf_tl] * _nr_tl,
+                            _inf_tl, _inf_tl,
+                        )
+                        _blm_tl: dict[int, int] = locant_map
+                        _bloc_tl: int = loc
+                        _bnh_tl: int = 1
+                        for _hstart_tl in _all_h_tl:
+                            _pos_tl = ring.index(_hstart_tl)
+                            for _dd_tl in (1, -1):
+                                _rot_tl = [ring[(_pos_tl + _dd_tl * i) % _nr_tl]
+                                           for i in range(_nr_tl)]
+                                _lm_tl = {_rot_tl[i]: i + 1 for i in range(_nr_tl)}
+                                _ok_tl = sorted(_lm_tl[h] for h in _all_h_tl
+                                                if _get_atom_lact(graph, h).symbol == "O")
+                                _sk_tl = sorted(_lm_tl[h] for h in _all_h_tl
+                                                if _get_atom_lact(graph, h).symbol == "S")
+                                _nk_tl = sorted(_lm_tl[h] for h in _all_h_tl
+                                                if _get_atom_lact(graph, h).symbol == "N")
+                                _co_tl = _lm_tl[ring_idx]
+                                _nh_tl2 = (_lm_tl[_nh_atom_tl]
+                                           if _nh_atom_tl is not None else _inf_tl)
+                                _k_tl: tuple = (_ok_tl, _sk_tl, _nk_tl, _co_tl, _nh_tl2)
+                                if _k_tl < _bk_tl:
+                                    _bk_tl = _k_tl
+                                    _blm_tl = _lm_tl
+                                    _bloc_tl = _co_tl
+                                    _bnh_tl = _nh_tl2
+                        locant_map = _blm_tl
+                        loc = _bloc_tl
+                        _nh_loc_tl = _bnh_tl
+                        _base_nh_tl = (base_name[:-1]
+                                       if base_name.endswith("e") else base_name)
+                        thiolactam_name = f"{_base_nh_tl}-{loc}({_nh_loc_tl}H)-thione"
+                    else:
+                        thiolactam_name = f"{full_base}-{loc}-thione"
+                    other_subs = _collect_hetero_substituents(
+                        graph, ring, locant_map, excluded_atoms={nb_idx}
+                    )
+                    if not other_subs:
+                        return thiolactam_name
+                    return _format_substituents(thiolactam_name, other_subs)
 
     # 置換基収集: 全有効回転候補を試して最小ロカント集合 → 同点時アルファベット順
     n_ring = len(rotation)
@@ -1175,23 +1560,27 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         i + 1 for i, a in enumerate(rotation) if _atom_sig(graph, a) != "C"
     )
 
-    # 各ヘテロ原子を起点として逆方向回転を生成し、ヘテロ原子ロカント集合が同じものを収集
+    # 各ヘテロ原子を起点として順/逆方向回転を生成し、ヘテロ原子ロカント集合が同じものを収集
     rot_candidates = [rotation]
+    seen_rots: set[tuple[int, ...]] = {tuple(rotation)}
     for i in range(n_ring):
         if _atom_sig(graph, rotation[i]) == "C":
             continue
-        alt = [rotation[(i - j) % n_ring] for j in range(n_ring)]
-        if alt == rotation:
-            continue
-        alt_hetero = sorted(
-            k + 1 for k, a in enumerate(alt) if _atom_sig(graph, a) != "C"
-        )
-        # Only swap to an alternative that starts with the same element (e.g. N↔N ok,
-        # N↔O not allowed: in isoxazole O must remain at locant 1, not N).
-        if alt_hetero == fwd_hetero and (
-            _get_atom_lact(graph, alt[0]).symbol == _get_atom_lact(graph, rotation[0]).symbol
-        ):
-            rot_candidates.append(alt)
+        for sign in (1, -1):
+            alt = [rotation[(i + sign * j) % n_ring] for j in range(n_ring)]
+            alt_key = tuple(alt)
+            if alt_key in seen_rots:
+                continue
+            seen_rots.add(alt_key)
+            alt_hetero = sorted(
+                k + 1 for k, a in enumerate(alt) if _atom_sig(graph, a) != "C"
+            )
+            # Only swap to an alternative that starts with the same element (e.g. N↔N ok,
+            # N↔O not allowed: in isoxazole O must remain at locant 1, not N).
+            if alt_hetero == fwd_hetero and (
+                _get_atom_lact(graph, alt[0]).symbol == _get_atom_lact(graph, rotation[0]).symbol
+            ):
+                rot_candidates.append(alt)
 
     # 各候補の置換基ロカント集合を収集
     candidate_subs = [
@@ -1200,9 +1589,13 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
     ]
 
     # 最小ロカント集合を選択し、同点時はアルファベット順で tie-break
-    def _subs_key(subs: list[tuple[int, str]]) -> tuple[list[int], list[str]]:
-        ordered = sorted(subs, key=lambda x: x[0])
-        return (sorted(loc for loc, _ in subs), [nm for _, nm in ordered])
+    def _loc_sort(loc: "int | str") -> tuple:
+        return (0, loc, "") if isinstance(loc, int) else (1, 0, loc)
+
+    def _subs_key(subs: list[tuple["int | str", str]]) -> tuple:
+        ordered = sorted(subs, key=lambda x: _loc_sort(x[0]))
+        locs = sorted(_loc_sort(loc) for loc, _ in subs)
+        return (locs, [nm for _, nm in ordered])
 
     candidate_subs.sort(key=_subs_key)
     substituents = candidate_subs[0]

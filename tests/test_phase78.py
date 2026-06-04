@@ -5,8 +5,8 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # ene + nitrile (子音始まり suffix → 'e' を保持; 2炭素は retained name)
-    ("C=CC#N", "acrylonitrile"),
+    # ene + nitrile; acrylonitrile is not PIN, use systematic (Phase 385)
+    ("C=CC#N", "prop-2-enenitrile"),
     ("C=CCC#N", "but-3-enenitrile"),
     ("C=CCCC#N", "pent-4-enenitrile"),
     # yne + nitrile
