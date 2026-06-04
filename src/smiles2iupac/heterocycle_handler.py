@@ -772,9 +772,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 429: benzo[f]quinoline and benzo[h]quinoline (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3ncccc3cc2c1":    "benzo[f]quinoline",
     "c1ccc2c(c1)ccc1ncccc12":  "benzo[h]quinoline",
-    # Phase 430: benzo[f]isoquinoline and benzo[h]isoquinoline (IUPAC 2013 P-31.1.3)
+    # Phase 430: benzo[f]isoquinoline and benzo[g]isoquinoline (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3cnccc3cc2c1":    "benzo[f]isoquinoline",
-    "c1ccc2c(c1)ccc1cnccc12":  "benzo[h]isoquinoline",
+    "c1ccc2c(c1)ccc1cnccc12":  "benzo[g]isoquinoline",
     # Phase 431: benz[a]acridine and benz[c]acridine (IUPAC 2013 P-31.1.3)
     "c1ccc2nc3ccc4ccccc4c3cc2c1":  "benz[a]acridine",
     "c1ccc2cc3nc4ccccc4cc3cc2c1":  "benz[c]acridine",
@@ -921,6 +921,16 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2nc3ccsc3cc2c1":     "thieno[3,2-b]quinoline",
     "c1ccc2nc3occc3cc2c1":     "furo[2,3-b]quinoline",
     "c1ccc2cc3nccnc3cc2c1":    "benzo[g]quinoxaline",
+    # Phase 445: phenanthridine, benzo[h]isoquinoline, phenanthrolines,
+    # benzo[c]cinnoline, benzo[g]phthalazine (IUPAC 2013 P-31.1.3)
+    "c1ccc2c(c1)ccc1cccnc12":  "phenanthridine",
+    "c1ccc2c(c1)ccc1ccncc12":  "benzo[h]isoquinoline",
+    "c1cnc2ccc3ncccc3c2c1":    "1,10-phenanthroline",
+    "c1cnc2c(c1)ccc1ncccc12":  "1,8-phenanthroline",
+    "c1cnc2c(c1)cnc1ccccc12":  "1,7-phenanthroline",
+    "c1cnc2cc3ccncc3cc2c1":    "4,7-phenanthroline",
+    "c1ccc2nc3cnccc3cc2c1":    "benzo[c]cinnoline",
+    "c1ccc2cc3nnccc3cc2c1":    "benzo[g]phthalazine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
