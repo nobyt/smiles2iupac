@@ -1,0 +1,27 @@
+"""Phase 437: imidazo-pyrimidine, thieno-pyrimidine, triazolo-pyrimidine bicyclics
+(IUPAC 2013 P-31.1.3).
+
+These bicyclics currently output 'benzene' (wrong).
+"""
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    # imidazo[1,2-a]pyrimidine
+    ("c1cnc2nccn2c1",              "imidazo[1,2-a]pyrimidine"),
+    # 1H-imidazo[4,5-d]pyrimidine
+    ("c1cnc2[nH]cnc2n1",           "1H-imidazo[4,5-d]pyrimidine"),
+    # thieno[2,3-d]pyrimidine
+    ("c1cnc2cscc2n1",              "thieno[2,3-d]pyrimidine"),
+    # [1,2,3]triazolo[1,5-a]pyrimidine
+    ("c1cnc2cnnn2c1",              "[1,2,3]triazolo[1,5-a]pyrimidine"),
+    # regression: imidazo[1,2-a]pyridine unchanged (Phase 255)
+    ("c1ccn2ccnc2c1",              "imidazo[1,2-a]pyridine"),
+    # regression: thieno[3,2-d]pyrimidine unchanged (Phase 435)
+    ("c1cnc2sccc2n1",              "thieno[3,2-d]pyrimidine"),
+    # regression: [1,2,4]triazolo[4,3-a]pyridine unchanged (Phase 436)
+    ("c1ccn2cnnc2c1",              "[1,2,4]triazolo[4,3-a]pyridine"),
+])
+def test_phase437_more_bicyclics(smiles, expected):
+    assert smiles_to_iupac(smiles) == expected
