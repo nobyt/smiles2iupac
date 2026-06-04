@@ -769,6 +769,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)cnc1ncccc12":  "1,10-phenanthroline",
     "c1cnc2c(c1)ccc1cnccc12":  "4,7-phenanthroline",
     "c1cnc2ccc3cnccc3c2c1":    "1,7-phenanthroline",
+    # Phase 429: benzo[f]quinoline and benzo[h]quinoline (IUPAC 2013 P-31.1.3)
+    "c1ccc2cc3ncccc3cc2c1":    "benzo[f]quinoline",
+    "c1ccc2c(c1)ccc1ncccc12":  "benzo[h]quinoline",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
