@@ -775,6 +775,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 430: benzo[f]isoquinoline and benzo[h]isoquinoline (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3cnccc3cc2c1":    "benzo[f]isoquinoline",
     "c1ccc2c(c1)ccc1cnccc12":  "benzo[h]isoquinoline",
+    # Phase 431: benz[a]acridine and benz[c]acridine (IUPAC 2013 P-31.1.3)
+    "c1ccc2nc3ccc4ccccc4c3cc2c1":  "benz[a]acridine",
+    "c1ccc2cc3nc4ccccc4cc3cc2c1":  "benz[c]acridine",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
