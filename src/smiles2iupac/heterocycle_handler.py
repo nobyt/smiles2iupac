@@ -912,7 +912,15 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2nn3nccc3nc2c1":     "pyrazolo[1,5-a]quinoxaline",
     "c1ccc2nc3[nH]cnc3cc2c1":  "1H-imidazo[4,5-b]quinoline",
     "c1ccc2nc3nc[nH]c3cc2c1":  "3H-imidazo[4,5-b]quinoline",
-    "c1ccc2nc3cc[nH]c3cc2c1":  "1H-pyrrolo[2,3-b]quinoline",
+    "c1ccc2nc3cc[nH]c3cc2c1":  "1H-pyrrolo[3,2-b]quinoline",
+    # Phase 444: 1H-pyrrolo[2,3-b]quinoline, thieno/furo-quinoline isomers,
+    # benzo[g]quinoxaline (IUPAC 2013 P-31.1.3)
+    "c1ccc2nc3[nH]ccc3cc2c1":  "1H-pyrrolo[2,3-b]quinoline",
+    "c1ccc2nc3sccc3cc2c1":     "thieno[2,3-b]quinoline",
+    "c1ccc2nc3cscc3cc2c1":     "thieno[3,4-b]quinoline",
+    "c1ccc2nc3ccsc3cc2c1":     "thieno[3,2-b]quinoline",
+    "c1ccc2nc3occc3cc2c1":     "furo[2,3-b]quinoline",
+    "c1ccc2cc3nccnc3cc2c1":    "benzo[g]quinoxaline",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
