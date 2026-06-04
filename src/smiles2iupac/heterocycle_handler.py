@@ -786,6 +786,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 433: 1H-benzo[e]indole and 1H-benzo[f]indole (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3[nH]ccc3cc2c1":     "1H-benzo[e]indole",
     "c1ccc2cc3c[nH]cc3cc2c1":     "1H-benzo[f]indole",
+    # Phase 434: naphtho[2,1-b]furan and naphtho[2,1-b]thiophene (IUPAC 2013 P-31.1.3)
+    "c1ccc2cc3occc3cc2c1":        "naphtho[2,1-b]furan",
+    "c1ccc2cc3sccc3cc2c1":        "naphtho[2,1-b]thiophene",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
