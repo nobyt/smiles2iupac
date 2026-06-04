@@ -889,6 +889,14 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2cccc3ccc4ccc5cccc1c5c4c23":            "perylene",
     "c1ccc2c3c4c(cccc-3cc2c1)ccc1ccccc14":        "benzo[a]pyrene",
     "c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61":     "coronene",
+    # Phase 441: triazolo-pyrimidine/-pyridazine, pyrazolo-pyrimidine,
+    # tetrazolo-pyridine, 1H-imidazo[4,5-b]pyridine (IUPAC 2013 P-31.1.3)
+    "c1cnc2ncnn2c1":    "[1,2,4]triazolo[1,5-a]pyrimidine",
+    "c1cnn2ncnc2n1":    "[1,2,4]triazolo[1,5-c]pyrimidine",
+    "c1cnc2nncn2c1":    "[1,2,4]triazolo[4,3-b]pyridazine",
+    "c1cc2nccnn2c1":    "pyrazolo[1,5-a]pyrimidine",
+    "c1ccn2nnnc2c1":    "tetrazolo[1,5-a]pyridine",
+    "c1cnc2[nH]cnc2c1": "1H-imidazo[4,5-b]pyridine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
