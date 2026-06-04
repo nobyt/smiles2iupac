@@ -178,8 +178,8 @@ _RETAINED_NAMES: dict[str, str] = {
     "Nc1ncnc2[nH]cnc12":               "adenine",
     "Nc1nc2[nH]cnc2c(=O)[nH]1":        "guanine",
     "Nc1ccnc(=O)[nH]1":                "cytosine",
-    "O=c1cc[nH]c(=O)[nH]1":           "uracil",
-    "Cc1c[nH]c(=O)[nH]c1=O":          "thymine",
+    # uracil → pyrimidine-2,4(1H,3H)-dione (Phase 401: use systematic name)
+    # thymine → 5-methylpyrimidine-2,4(1H,3H)-dione (Phase 401: use systematic name)
     "O=c1[nH]cnc2[nH]cnc12":          "hypoxanthine",
     "O=c1[nH]c(=O)c2[nH]cnc2[nH]1":  "xanthine",
     "c1ncc2[nH]cnc2n1":               "9H-purine",
@@ -315,9 +315,9 @@ _RETAINED_NAMES: dict[str, str] = {
     # ── Phase 268: サリチル酸メチル (methyl salicylate, IUPAC 2013 P-65.1.2) ──
     "COC(=O)c1ccccc1O":                "methyl salicylate",
 
-    # ── Phase 240: アセトニトリル・アクリロニトリル保留名 (IUPAC 2013 P-66.6.1.1.1) ──
+    # ── Phase 240: アセトニトリル保留名 (IUPAC 2013 P-66.6.1.1.1) ──
+    # acrylonitrile is NOT a preferred IUPAC name (Phase 385); systematic name is prop-2-enenitrile
     "CC#N":                            "acetonitrile",
-    "C=CC#N":                          "acrylonitrile",
 
     # ── Phase 236: 環状イミド保留名 (IUPAC 2013 P-66.8.3) ──
     # succinimide/glutarimide は PIN でないため体系名を使用 (Phase 257)
@@ -326,9 +326,8 @@ _RETAINED_NAMES: dict[str, str] = {
     # ── Phase 230: スチレン保留名 (IUPAC 2013 P-31.1.3.4) ──
     "C=Cc1ccccc1":                     "styrene",
 
-    # ── Phase 181: アクリル酸系・グリコール酸保留名 (IUPAC 2013 P-65.1.1.4) ──
-    "C=CC(=O)O":                       "acrylic acid",
-    "C=C(C)C(=O)O":                    "methacrylic acid",
+    # ── Phase 181: グリコール酸保留名 (IUPAC 2013 P-65.1.1.4) ──
+    # acrylic acid / methacrylic acid are NOT preferred IUPAC names (Phase 384)
     "O=C(O)CO":                        "glycolic acid",
 
     # ── Phase 182: ケト酸保留名 (IUPAC 2013 P-65.1.1.4) ──

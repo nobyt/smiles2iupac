@@ -1,7 +1,7 @@
-"""Phase 295: propene double bond locant in substituted derivatives (IUPAC 2013 P-31.1.2.2).
+"""Phase 295: propene double bond locant (IUPAC 2013 P-31.1.2.2).
 
-Unsubstituted propene → locant omitted: "propene"
-Substituted 3-carbon ene → locant cited: "3-chloroprop-1-ene"
+Phase 384 corrected: IUPAC 2013 requires locants even for unsubstituted propene.
+Substituted 3-carbon ene: locant cited: "3-chloroprop-1-ene"
 """
 
 import pytest
@@ -13,11 +13,10 @@ from smiles2iupac import smiles_to_iupac
     ("ClCC=C",   "3-chloroprop-1-ene"),
     ("BrCC=C",   "3-bromoprop-1-ene"),
     ("FCC=C",    "3-fluoroprop-1-ene"),
-    # regressions: unsubstituted propene keeps omitted locant
-    ("C=CC",     "propene"),
-    ("CC=C",     "propene"),
-    # branch on C2 of propene: locant still omitted (2-methylprop-1-ene vs 2-methylpropene)
-    # IUPAC 2013 P-31.1.2.2: locant omitted only for parent chain "propene" with no substituents
+    # unsubstituted propene: locant required (Phase 384)
+    ("C=CC",     "prop-1-ene"),
+    ("CC=C",     "prop-1-ene"),
+    # branch on C2: locant required
     ("CC(=C)C",  "2-methylprop-1-ene"),
     # existing correct cases: suffix forces locant numbering
     ("C=CCO",    "prop-2-en-1-ol"),

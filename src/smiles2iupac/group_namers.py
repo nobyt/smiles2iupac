@@ -827,6 +827,9 @@ def _name_acid_halide(graph, pgrp, get_atom) -> str:
         if get_atom(graph, nb_idx).symbol == "O":
             principal_atoms.add(nb_idx)
     subs = collect_substituents(graph, acid_carbons, locant_map, list(principal_atoms))
+    # Phase 392: for a 1-carbon chain the only locant is trivially 1 → omit it (IUPAC P-14.5.2)
+    if n_acid == 1:
+        subs = [(None, name) for _, name in subs]
 
     # E/Z 立体化学 (Phase 316)
     _stereo_prefix_ah = ""
@@ -1088,6 +1091,38 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
         return f"{stereo_pfx_snam}{base}"
 
     n_idx = n_on_s[0]
+    n_atom = get_atom(graph, n_idx)
+
+    # Phase 394: N が環内にある場合 → {N_loc}-({sulfonyl_stem}sulfonyl){ring_base}
+    if n_atom.in_ring:
+        ring_set = next(
+            (rt for rt in (graph.ring_atom_sets or []) if n_idx in rt), None
+        )
+        if ring_set is not None:
+            from .heterocycle_handler import (
+                _find_best_start as _fbs_sn,
+                _build_locant_map as _blm_sn,
+                _is_aromatic_ring as _iar_sn,
+                _canonical_sig as _csig_sn,
+                _RETAINED_NAMES as _RN_sn,
+                _match_hantzsch_widman as _mhw_sn,
+            )
+            ring_list = list(ring_set)
+            rot = _fbs_sn(ring_list, graph)
+            lmap = _blm_sn(rot)
+            n_locant = lmap.get(n_idx)
+            is_arom = _iar_sn(ring_list, graph)
+            csig = _csig_sn(rot, graph)
+            retained = _RN_sn.get((is_arom, csig))
+            if retained is not None:
+                rbase, _ = retained
+            else:
+                rbase = _mhw_sn(ring_list, graph)
+            if rbase is not None:
+                sulfonyl_stem = base.replace("sulfonamide", "sulfonyl")
+                loc_str = f"{n_locant}-" if n_locant is not None else ""
+                return f"{loc_str}({stereo_pfx_snam}{sulfonyl_stem}){rbase}"
+
     c_on_n = [nb for nb in graph.adjacency[n_idx]
                if get_atom(graph, nb).symbol == "C"]
     if not c_on_n:
@@ -1458,6 +1493,30 @@ def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
     if len(chain) >= 3:
         return f"{stem}ane-{locant}-sulfonic acid"
     return f"{stem}anesulfonic acid"
+
+
+def _name_sulfonate_anion(graph, pgrp, get_atom) -> str:
+    """スルホン酸アニオン: {stem}anesulfonate (Phase 386)"""
+    from .constants import CHAIN_PREFIX
+    s_idx = pgrp.atom_indices[0]
+    c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
+    if not c_on_s:
+        return "sulfonate"
+    aryl = _aryl_sulfonyl_prefix(graph, c_on_s[0], s_idx, get_atom)
+    if aryl is not None:
+        return f"{aryl}sulfonate"
+    chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
+    stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
+    _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
+    if _ene_so or _yne_so:
+        from .name_assembler import _format_multiple_bonds as _fmt_so
+        mb_str = _fmt_so(_ene_so, _yne_so)
+        if len(chain) >= 3:
+            return f"{stem}{mb_str}e-{locant}-sulfonate"
+        return f"{stem}{mb_str}esulfonate"
+    if len(chain) >= 3:
+        return f"{stem}ane-{locant}-sulfonate"
+    return f"{stem}anesulfonate"
 
 
 def _name_disulfonic_acid(graph, pgrp, get_atom) -> str:
@@ -2672,6 +2731,61 @@ def _name_carbamate(graph, pgrp, get_atom) -> str:
     if n_idx is None:
         return base
 
+    # Phase 390: N が環内にある場合 → {alkyl} {ring_name}-N-carboxylate (Phase 390)
+    n_atom = get_atom(graph, n_idx)
+    if n_atom.in_ring:
+        ring_set = next(
+            (rt for rt in (graph.ring_atom_sets or []) if n_idx in rt), None
+        )
+        if ring_set is not None:
+            from .heterocycle_handler import (
+                name_heterocycle as _nhc,
+                _find_best_start as _fbs_cb,
+                _build_locant_map as _blm_cb,
+            )
+            from .ring_handler import (
+                _assign_ring_locants, collect_ring_substituents, assemble_ring_name,
+            )
+            ring_list = list(ring_set)
+            is_all_c = all(get_atom(graph, a).symbol == "C" for a in ring_set)
+            if is_all_c:
+                ring_chain = _assign_ring_locants(graph, ring_list, False, "alkane", [carbonyl_c])
+                ring_subs = collect_ring_substituents(graph, ring_chain, [carbonyl_c])
+                ring_base = assemble_ring_name(ring_chain, ring_subs, "alkane", None, [])
+                n_locant = next(
+                    (i + 1 for i, a in enumerate(ring_chain) if a == n_idx), None
+                )
+                if n_locant is not None:
+                    return f"{alkyl_name} {ring_base}-{n_locant}-carboxylate"
+                return f"{alkyl_name} {ring_base}carboxylate"
+            else:
+                rot = _fbs_cb(ring_list, graph)
+                lmap = _blm_cb(rot)
+                n_locant = lmap.get(n_idx)
+                # Build heterocycle base name from retained names
+                from .heterocycle_handler import (
+                    _is_aromatic_ring as _iar_cb,
+                    _canonical_sig as _csig_cb,
+                    _RETAINED_NAMES as _RN_cb,
+                )
+                is_arom = _iar_cb(ring_list, graph)
+                csig = _csig_cb(rot, graph)
+                retained = _RN_cb.get((is_arom, csig))
+                if retained is not None:
+                    rbase, is_nh = retained
+                    if n_locant is not None:
+                        return f"{alkyl_name} {rbase}-{n_locant}-carboxylate"
+                    return f"{alkyl_name} {rbase}carboxylate"
+                else:
+                    from .heterocycle_handler import (
+                        _match_hantzsch_widman as _mhw_cb,
+                    )
+                    hw_name = _mhw_cb(ring_list, graph)
+                    if hw_name is not None:
+                        if n_locant is not None:
+                            return f"{alkyl_name} {hw_name}-{n_locant}-carboxylate"
+                        return f"{alkyl_name} {hw_name}carboxylate"
+
     # Phase 258: N-N パターン (ヒドラジノカルボキシレート)
     n_n_nbrs = [nb for nb in graph.adjacency[n_idx]
                 if nb != carbonyl_c and get_atom(graph, nb).symbol == "N"]
@@ -3112,8 +3226,8 @@ def _name_nitroso(graph, pgrp, get_atom) -> str:
     from .constants import CHAIN_PREFIX
     alkyl_c = pgrp.atom_indices[0]
     n_idx = pgrp.atom_indices[1]
-    # 芳香環に直結している場合: nitroso + ring name
     c_atom = get_atom(graph, alkyl_c)
+    # 芳香環に直結している場合: nitroso + ring name
     if c_atom.is_aromatic and c_atom.in_ring:
         ring_atoms = set()
         for rt in (graph.ring_atom_sets or []):
@@ -3121,8 +3235,23 @@ def _name_nitroso(graph, pgrp, get_atom) -> str:
                 ring_atoms.update(rt)
         if all(get_atom(graph, a).symbol == "C" for a in ring_atoms) and len(ring_atoms) == 6:
             return "nitrosobenzene"
-        # ヘテロ環はフォールバック
         return "nitrosobenzene"
+    # 非芳香族環に直結している場合: nitroso + cycloalkane name (Phase 387)
+    if c_atom.in_ring and not c_atom.is_aromatic:
+        ring_set = next(
+            (rt for rt in (graph.ring_atom_sets or []) if alkyl_c in rt), None
+        )
+        if ring_set is not None and all(get_atom(graph, a).symbol == "C" for a in ring_set):
+            from .ring_handler import (
+                _assign_ring_locants,
+                collect_ring_substituents,
+                assemble_ring_name,
+            )
+            ring_list = list(ring_set)
+            ring_chain = _assign_ring_locants(graph, ring_list, False, "alkane", [n_idx])
+            ring_subs = collect_ring_substituents(graph, ring_chain, [n_idx])
+            ring_base = assemble_ring_name(ring_chain, ring_subs, "alkane", None, [])
+            return f"nitroso{ring_base}"
     # 全炭素鎖を pivot アルゴリズムで取得し、ロカントを決定
     chain, locant = _chain_through_pivot(graph, alkyl_c, {n_idx}, get_atom)
     n_c = len(chain)
@@ -3398,6 +3527,8 @@ def _name_thiourea_if_match(graph, get_atom) -> str | None:
     n_neighbors: list[int] = []
     for a in graph.atoms:
         if a.symbol != "C":
+            continue
+        if a.in_ring:  # thiolactam C is in ring; thiourea C is not
             continue
         dbl_s = False
         nc: list[int] = []
@@ -3802,6 +3933,68 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
         if _stereo_pa:
             stereo_pfx_pa = "(" + ",".join(d.strip("()") for d in _stereo_pa) + ")-"
     return f"{stereo_pfx_pa}{parent_pa}"
+
+
+def _name_peroxyester(graph, pgrp, get_atom) -> str:
+    """
+    ペルオキシエステル命名: {alkyl} {stem}aneperoxoate (Phase 393)
+    例: CC(=O)OOC  → methyl ethaneperoxoate
+        CC(=O)OOCC → ethyl ethaneperoxoate
+    """
+    from .constants import CHAIN_PREFIX
+    from .substituent import collect_substituents, _name_carbon_substituent
+    from .name_assembler import _build_prefix
+    from .molecule_analyzer import get_bond_order
+
+    carbonyl_c = pgrp.atom_indices[0]
+
+    # O-O 鎖を特定してアルキル側 C を取得
+    o1_idx: int | None = None
+    o2_idx: int | None = None
+    alkyl_c: int | None = None
+    for nb_idx in graph.adjacency[carbonyl_c]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol != "O" or get_bond_order(graph, carbonyl_c, nb_idx) != 1.0:
+            continue
+        for o2_nb in graph.adjacency[nb_idx]:
+            if o2_nb == carbonyl_c:
+                continue
+            if get_atom(graph, o2_nb).symbol == "O":
+                o1_idx = nb_idx
+                o2_idx = o2_nb
+                for alc in graph.adjacency[o2_nb]:
+                    if alc != nb_idx and get_atom(graph, alc).symbol == "C":
+                        alkyl_c = alc
+                break
+        if o2_idx is not None:
+            break
+
+    if alkyl_c is None or o2_idx is None:
+        return "peroxyester"
+
+    alkyl_name = _name_carbon_substituent(graph, alkyl_c, {o2_idx})
+
+    excluded: set[int] = {ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "O"}
+    acid_carbons = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
+    n_acid = len(acid_carbons)
+    stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
+    _ene_pe, _yne_pe = _chain_multiple_bonds(graph, acid_carbons)
+    if _ene_pe or _yne_pe:
+        from .name_assembler import _format_multiple_bonds as _fmt_pe
+        acid_base = f"{stem}{_fmt_pe(_ene_pe, _yne_pe)}eperoxoate"
+    else:
+        acid_base = f"{stem}aneperoxoate"
+
+    locant_map = {c: i + 1 for i, c in enumerate(acid_carbons)}
+    principal_atoms: set[int] = set(pgrp.atom_indices)
+    subs = collect_substituents(graph, acid_carbons, locant_map, list(principal_atoms))
+    if n_acid == 1:
+        subs = [(None, name) for _, name in subs]
+    if subs:
+        prefix = _build_prefix(subs)
+        acid_base = f"{prefix}{acid_base}"
+
+    return f"{alkyl_name} {acid_base}"
 
 
 def _name_acyl_azide(graph, pgrp, get_atom) -> str:
@@ -4769,7 +4962,7 @@ def _name_hydrazine_compound(graph, get_atom) -> str | None:
         s1, s2 = sorted([sub_names[0], term_names[0]])
         if s1 == s2:
             return f"1,2-di{s1}hydrazine"
-        return f"1,2-{s1}-2-{s2}hydrazine"
+        return f"1-{s1}-2-{s2}hydrazine"
 
     # 一置換: sub 側に1つ
     if len(sub_c_list) == 1 and not terminal_c:
@@ -4892,8 +5085,10 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
         return "thioamide"
 
     # 環に隣接する場合は ring path に委譲 (cyclopentanecarbothioamide 等)
+    # N が環内の場合は ring N として後続処理で対応するため除外する (Phase 395)
     if not get_atom(graph, carbonyl_c).in_ring and any(
-        get_atom(graph, nb).in_ring for nb in graph.adjacency[carbonyl_c]
+        get_atom(graph, nb).in_ring and get_atom(graph, nb).symbol == "C"
+        for nb in graph.adjacency[carbonyl_c]
     ):
         return None
 
@@ -4918,6 +5113,37 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
         _stereo_ta = assign_stereochemistry(graph, _pc_ta)
         if _stereo_ta:
             stereo_pfx_ta = "(" + ",".join(d.strip("()") for d in _stereo_ta) + ")-"
+
+    # Phase 395: N が環内にある場合 → {N_loc}-({thioamide_stem}thioyl){ring_base}
+    n_atom = get_atom(graph, n_idx)
+    if n_atom.in_ring:
+        ring_set = next(
+            (rt for rt in (graph.ring_atom_sets or []) if n_idx in rt), None
+        )
+        if ring_set is not None:
+            from .heterocycle_handler import (
+                _find_best_start as _fbs_ta,
+                _build_locant_map as _blm_ta,
+                _is_aromatic_ring as _iar_ta,
+                _canonical_sig as _csig_ta,
+                _RETAINED_NAMES as _RN_ta,
+                _match_hantzsch_widman as _mhw_ta,
+            )
+            ring_list = list(ring_set)
+            rot = _fbs_ta(ring_list, graph)
+            lmap = _blm_ta(rot)
+            n_locant = lmap.get(n_idx)
+            is_arom = _iar_ta(ring_list, graph)
+            csig = _csig_ta(rot, graph)
+            retained = _RN_ta.get((is_arom, csig))
+            if retained is not None:
+                rbase, _ = retained
+            else:
+                rbase = _mhw_ta(ring_list, graph)
+            if rbase is not None:
+                thioyl_stem = parent_name.replace("thioamide", "thioyl")
+                loc_str = f"{n_locant}-" if n_locant is not None else ""
+                return f"{loc_str}({stereo_pfx_ta}{thioyl_stem}){rbase}"
 
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
@@ -5669,9 +5895,15 @@ def _name_substituted_amidine(graph, amidine_c: int,
                     mult = MULTIPLIER.get(cnt, f"{cnt}")
                     sub_parts.append((",".join(["N''"] * cnt), f"{mult}{alky}"))
 
-        # amine N substituents: first amine N → "N", second → "N'"
+        # amine N substituents: more-substituted N first → "N", other → "N'"
+        # Sort so the N with more substituents (or heavier by sorted name) comes first,
+        # making naming independent of SMILES parsing order.
+        amine_ns_sorted = sorted(
+            amine_ns,
+            key=lambda n: (-len(_get_n_subs(n)), sorted(_get_n_subs(n))),
+        )
         amine_labels = ["N", "N'"]
-        for i, n_idx in enumerate(amine_ns):
+        for i, n_idx in enumerate(amine_ns_sorted):
             label = amine_labels[i] if i < len(amine_labels) else f"N{i+1}"
             subs = _get_n_subs(n_idx)
             for alky in sorted(set(subs)):
@@ -6051,6 +6283,7 @@ PGRP_DISPATCH: dict = {
     "sulfinyl_chloride": _name_sulfinyl_chloride,
     "chloroformate": _name_chloroformate,
     "sulfonic_acid": _name_sulfonic_acid,
+    "sulfonate_anion": _name_sulfonate_anion,
     "disulfonic_acid": _name_disulfonic_acid,
     "sulfinic_acid": _name_sulfinic_acid,
     "sulfenic_acid": _name_sulfenic_acid,
@@ -6156,6 +6389,7 @@ PGRP_DISPATCH: dict = {
     "thiohydrazide": _name_thiohydrazide,
     "selenohydrazide": _name_selenohydrazide,
     "peroxyacid": _name_peroxyacid,
+    "peroxy_ester": _name_peroxyester,
     "semicarbazone": _name_semicarbazone,
     "aldsemicarbazone": _name_semicarbazone,
     "thiosemicarbazone": _name_semicarbazone,

@@ -14,10 +14,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("Nc1nc2[nH]cnc2c(=O)[nH]1", "guanine"),
     # cytosine (4-aminopyrimidin-2(1H)-one)
     ("Nc1ccnc(=O)[nH]1", "cytosine"),
-    # uracil (pyrimidine-2,4(1H,3H)-dione)
-    ("O=c1cc[nH]c(=O)[nH]1", "uracil"),
-    # thymine (5-methyluracil)
-    ("Cc1c[nH]c(=O)[nH]c1=O", "thymine"),
+    # uracil: IUPAC 2013 preferred = pyrimidine-2,4(1H,3H)-dione (Phase 401)
+    ("O=c1cc[nH]c(=O)[nH]1", "pyrimidine-2,4(1H,3H)-dione"),
+    # thymine: IUPAC 2013 preferred = 5-methylpyrimidine-2,4(1H,3H)-dione (Phase 401)
+    ("Cc1c[nH]c(=O)[nH]c1=O", "5-methylpyrimidine-2,4(1H,3H)-dione"),
     # hypoxanthine (3,9-dihydro-1H-purin-6(2H)-one)
     ("O=c1[nH]cnc2[nH]cnc12", "hypoxanthine"),
     # xanthine (3,7-dihydro-1H-purine-2,6-dione)

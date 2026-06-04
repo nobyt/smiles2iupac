@@ -1,8 +1,9 @@
-"""Phase 168: アルケン/アルキン ロカント省略 (IUPAC 2013 P-31.1.2.1)
+"""Phase 168: アルケン/アルキン ロカント (IUPAC 2013 P-31.1.2.2)
 
-3炭素鎖の二重結合/三重結合はロカント不要:
-  C=CC  → propene  (prop-1-ene ではなく)
-  CC#C  → propyne  (prop-1-yne ではなく)
+IUPAC 2013 preferred names always cite locants for multiple bonds.
+Phase 384 corrected 3-carbon ene/yne to always include the locant:
+  C=CC  → prop-1-ene
+  CC#C  → prop-1-yne
 """
 
 import pytest
@@ -10,11 +11,11 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 3炭素: ロカント省略
-    ("C=CC",    "propene"),
-    ("CC=C",    "propene"),
-    ("C#CC",    "propyne"),
-    ("CC#C",    "propyne"),
+    # 3炭素: IUPAC 2013 はロカントが必要 (Phase 384)
+    ("C=CC",    "prop-1-ene"),
+    ("CC=C",    "prop-1-ene"),
+    ("C#CC",    "prop-1-yne"),
+    ("CC#C",    "prop-1-yne"),
     # 4炭素以上: ロカントが必要
     ("C=CCC",   "but-1-ene"),
     ("CC=CC",   "but-2-ene"),
