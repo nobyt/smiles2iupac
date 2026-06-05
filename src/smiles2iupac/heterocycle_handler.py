@@ -973,6 +973,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2cc3cocc3cc2c1":       "naphtho[2,3-b]furan",
     "c1ccc2cc3cscc3cc2c1":       "naphtho[2,3-b]thiophene",
     "c1ccc2c(c1)ccc1cncnc12":    "naphtho[2,1-d]pyrimidine",
+    # Phase 453: pyrido-quinoxaline and pyrido-quinoline tricyclics
+    # (IUPAC 2013 P-31.1.3 fusion nomenclature)
+    "c1cc2cc3nccnc3cc2cn1":      "pyrido[3,4-g]quinoxaline",
+    "c1cnc2cc3nccnc3cc2c1":      "pyrido[2,3-g]quinoxaline",
+    "c1ccc2nc3nccnc3cc2c1":      "pyrido[2,3-b]quinoxaline",
+    "c1cc2nc3nccnc3cc2cn1":      "pyrido[3,4-h]quinoxaline",
+    "c1cnc2cc3ncccc3cc2c1":      "pyrido[2,3-g]quinoline",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
