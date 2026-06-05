@@ -1,5 +1,6 @@
 """Phase 445: phenanthridine, benzo[h]isoquinoline, phenanthroline isomers,
 benzo[c/f/g]cinnoline retained names (IUPAC 2013 P-31.1.3).
+Note: 4,7-phenanthroline entry corrected in Phase 456 to pyrido[3,4-g]quinoline.
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -16,8 +17,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2c(c1)ccc1ncccc12",   "1,8-phenanthroline"),
     # 1,7-phenanthroline
     ("c1cnc2c(c1)cnc1ccccc12",   "1,7-phenanthroline"),
-    # 4,7-phenanthroline
-    ("c1cnc2cc3ccncc3cc2c1",     "4,7-phenanthroline"),
+    # pyrido[3,4-g]quinoline (linear; was wrongly called 4,7-phenanthroline)
+    ("c1cnc2cc3ccncc3cc2c1",     "pyrido[3,4-g]quinoline"),
     # benzo[b][1,7]naphthyridine (was mislabeled benzo[c]cinnoline in earlier session)
     ("c1ccc2nc3cnccc3cc2c1",     "benzo[b][1,7]naphthyridine"),
     # benzo[g]cinnoline
