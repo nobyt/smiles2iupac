@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     # regressions from Phase 453
     ("c1cc2cc3nccnc3cc2cn1",    "pyrido[3,4-g]quinoxaline"),
     ("c1cnc2cc3nccnc3cc2c1",    "pyrido[2,3-g]quinoxaline"),
-    ("c1ccc2nc3nccnc3cc2c1",    "pyrido[2,3-b]quinoxaline"),
+    ("c1ccc2nc3nccnc3cc2c1",    "pyrazino[2,3-b]quinoline"),
 ])
 def test_phase454_fused_naphthyridines(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

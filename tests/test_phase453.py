@@ -8,8 +8,8 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("c1cc2cc3nccnc3cc2cn1",   "pyrido[3,4-g]quinoxaline"),
     ("c1cnc2cc3nccnc3cc2c1",   "pyrido[2,3-g]quinoxaline"),
-    ("c1ccc2nc3nccnc3cc2c1",   "pyrido[2,3-b]quinoxaline"),
-    ("c1cc2nc3nccnc3cc2cn1",   "pyrido[3,4-h]quinoxaline"),
+    ("c1ccc2nc3nccnc3cc2c1",   "pyrazino[2,3-b]quinoline"),
+    ("c1cc2nc3nccnc3cc2cn1",   "pyrazino[2,3-h][1,6]naphthyridine"),
     ("c1cnc2cc3ncccc3cc2c1",   "pyrido[2,3-g]quinoline"),
     # regressions
     ("c1ccc2cc3ncncc3cc2c1",   "naphtho[2,3-d]pyrimidine"),
