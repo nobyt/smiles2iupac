@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2c(c1)ccc1nnccc12",  "benzo[h]cinnoline"),
     ("c1ccc2nc3ccoc3cc2c1",     "furo[3,2-b]quinoline"),
     ("c1ccc2nc3cocc3cc2c1",     "furo[3,4-b]quinoline"),
-    ("c1ccc2nc3cnccc3cc2c1",    "benzo[c]cinnoline"),
+    ("c1ccc2nc3cnccc3cc2c1",    "benzo[b][1,7]naphthyridine"),
 ])
 def test_phase448_benzo_naphthyridine(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
