@@ -954,6 +954,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2cc3[nH]ncc3cc2c1":  "1H-naphtho[2,3-d]pyrazole",
     "c1ccc2cc3ocnc3cc2c1":     "naphtho[2,3-d]oxazole",
     "c1ccc2cc3scnc3cc2c1":     "naphtho[2,3-d]thiazole",
+    # Phase 450: naphtho[2,1-d] series and naphtho[2,3-d]pyrimidine
+    # (IUPAC 2013 P-31.1.3 fusion nomenclature)
+    "c1ccc2c(c1)ccc1[nH]cnc12":  "1H-naphtho[2,1-d]imidazole",
+    "c1ccc2c(c1)ccc1ocnc12":     "naphtho[2,1-d]oxazole",
+    "c1ccc2c(c1)ccc1scnc12":     "naphtho[2,1-d]thiazole",
+    "c1ccc2c(c1)ccc1[nH]ncc12":  "1H-naphtho[2,1-d]pyrazole",
+    "c1ccc2cc3ncncc3cc2c1":      "naphtho[2,3-d]pyrimidine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
