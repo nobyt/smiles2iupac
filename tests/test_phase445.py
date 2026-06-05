@@ -18,8 +18,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2c(c1)cnc1ccccc12",   "1,7-phenanthroline"),
     # 4,7-phenanthroline
     ("c1cnc2cc3ccncc3cc2c1",     "4,7-phenanthroline"),
-    # benzo[c]cinnoline
-    ("c1ccc2nc3cnccc3cc2c1",     "benzo[c]cinnoline"),
+    # benzo[b][1,7]naphthyridine (was mislabeled benzo[c]cinnoline in earlier session)
+    ("c1ccc2nc3cnccc3cc2c1",     "benzo[b][1,7]naphthyridine"),
     # benzo[g]cinnoline
     ("c1ccc2cc3nnccc3cc2c1",     "benzo[g]cinnoline"),
     # benzo[f]cinnoline
