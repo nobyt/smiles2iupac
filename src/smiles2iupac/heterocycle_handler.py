@@ -968,6 +968,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)ccc1occc12":     "naphtho[1,2-b]furan",
     "c1ccc2c(c1)ccc1sccc12":     "naphtho[1,2-b]thiophene",
     "c1ccc2c(c1)ccc1ncncc12":    "naphtho[1,2-d]pyrimidine",
+    # Phase 452: naphtho[2,3-b]furan/thiophene and naphtho[2,1-d]pyrimidine
+    # (IUPAC 2013 P-31.1.3 fusion nomenclature)
+    "c1ccc2cc3cocc3cc2c1":       "naphtho[2,3-b]furan",
+    "c1ccc2cc3cscc3cc2c1":       "naphtho[2,3-b]thiophene",
+    "c1ccc2c(c1)ccc1cncnc12":    "naphtho[2,1-d]pyrimidine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
