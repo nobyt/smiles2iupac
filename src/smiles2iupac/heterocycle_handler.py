@@ -977,8 +977,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1cc2cc3nccnc3cc2cn1":      "pyrido[3,4-g]quinoxaline",
     "c1cnc2cc3nccnc3cc2c1":      "pyrido[2,3-g]quinoxaline",
-    "c1ccc2nc3nccnc3cc2c1":      "pyrido[2,3-b]quinoxaline",
-    "c1cc2nc3nccnc3cc2cn1":      "pyrido[3,4-h]quinoxaline",
+    "c1ccc2nc3nccnc3cc2c1":      "pyrazino[2,3-b]quinoline",
+    "c1cc2nc3nccnc3cc2cn1":      "pyrazino[2,3-h][1,6]naphthyridine",
     "c1cnc2cc3ncccc3cc2c1":      "pyrido[2,3-g]quinoline",
     # Phase 454: benzo/pyrazino fused naphthyridines and pyrazinoquinoxaline
     "c1cnc2cc3cccnc3cc2c1":      "benzo[f][1,5]naphthyridine",
@@ -987,6 +987,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2nc3nccnc3cc2c1":      "pyrazino[2,3-g][1,8]naphthyridine",
     "c1ccc2nc3nccnc3nc2c1":      "pyrazino[2,3-b]quinoxaline",
     "c1cnc2cc3nccnc3cc2n1":      "pyrazino[2,3-g]quinoxaline",
+    # Phase 455: benzo/pyrido fused [1,6]-naphthyridines and pyrido-naphthyridines
+    "c1ccc2nc3ncccc3nc2c1":      "pyrido[2,3-b]quinoxaline",
+    "c1ccc2c(c1)cnc1cccnc12":    "benzo[h][1,6]naphthyridine",
+    "c1ccc2c(c1)ncc1ccncc12":    "benzo[g][1,6]naphthyridine",
+    "c1cnc2cc3ncccc3nc2c1":      "pyrido[2,3-b][1,5]naphthyridine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
