@@ -1007,6 +1007,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2nc3ncccc3cc2c1":      "pyrido[2,3-b][1,8]naphthyridine",
     "c1cnc2nc3ccncc3cc2c1":      "pyrido[2,3-b][1,6]naphthyridine",
     "c1cnc2nc3cnccc3cc2c1":      "pyrido[2,3-b][1,7]naphthyridine",
+    # Phase 459: benzo[c][1,6]naphthyridine, benzo[c][1,7]naphthyridine, benzo[g][1,8]naphthyridine
+    "c1ccc2c(c1)cnc1ccncc12":    "benzo[c][1,6]naphthyridine",
+    "c1ccc2c(c1)cnc1cnccc12":    "benzo[c][1,7]naphthyridine",
+    "c1ccc2c(c1)ncc1ncccc12":    "benzo[g][1,8]naphthyridine",
 }
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
