@@ -1045,6 +1045,48 @@ def _name_sulfoxide_sulfone(graph, pgrp, get_atom) -> str:
     return f"{prefix} {type_word}"
 
 
+def _name_selenoxide_selenone(graph, pgrp, get_atom) -> str:
+    """セレノキシド・セレノン: dialkyl selenoxide / selenone (IUPAC 2013, Phase 519)"""
+    import re as _re_seo
+    from .substituent import _name_carbon_substituent, name_substituent
+
+    se_idx = pgrp.atom_indices[0]
+    type_word = "selenoxide" if pgrp.group_type == "selenoxide" else "selenone"
+
+    c_neighbors = [nb for nb in graph.adjacency[se_idx]
+                   if get_atom(graph, nb).symbol == "C"]
+    if len(c_neighbors) < 2:
+        return type_word
+
+    def _group_name(c_idx: int) -> str:
+        atom = get_atom(graph, c_idx)
+        if atom.in_ring and atom.is_aromatic:
+            return name_substituent(graph, c_idx, {se_idx}) or "phenyl"
+        return _name_carbon_substituent(graph, c_idx, {se_idx})
+
+    name1 = _group_name(c_neighbors[0])
+    name2 = _group_name(c_neighbors[1])
+
+    def _needs_parens(nm: str) -> bool:
+        return bool(_re_seo.search(r"[0-9]", nm)) or nm.startswith("(")
+
+    def _alpha_base(nm: str) -> str:
+        s = _re_seo.sub(r"^\(", "", nm)
+        s = _re_seo.sub(r"^(di|tri|tetra|bis|tris)", "", s)
+        return s.lower()
+
+    names = sorted([name1, name2], key=_alpha_base)
+
+    if names[0] == names[1]:
+        nm = names[0]
+        prefix = f"bis({nm})" if _needs_parens(nm) else f"di{nm}"
+    else:
+        parts = [f"({nm})" if _needs_parens(nm) else nm for nm in names]
+        prefix = " ".join(parts)
+
+    return f"{prefix} {type_word}"
+
+
 def _name_sulfonamide(graph, pgrp, get_atom) -> str:
     """
     スルホンアミド命名: {stem}anesulfonamide
@@ -6338,6 +6380,8 @@ PGRP_DISPATCH: dict = {
     "sulfinate_ester": _name_sulfonate_sulfinate_ester,
     "sulfoxide": _name_sulfoxide_sulfone,
     "sulfone": _name_sulfoxide_sulfone,
+    "selenoxide": _name_selenoxide_selenone,
+    "selenone": _name_selenoxide_selenone,
     "sulfonyl_azide": _name_sulfonyl_azide,
     "sulfonohydrazide": _name_sulfonohydrazide,
     "sulfinylhydrazide": _name_sulfinylhydrazide,
