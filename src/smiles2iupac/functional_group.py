@@ -2575,6 +2575,8 @@ def aggregate_groups(
         ("alcohol", 6): "hexaol",
         ("ketone", 2): "dione",
         ("ketone", 3): "trione",
+        ("ketone", 4): "tetraone",
+        ("ketone", 5): "pentaone",
         ("aldehyde", 2): "dial",
         ("ester", 2): "diester",
         ("amine", 2): "diamine",

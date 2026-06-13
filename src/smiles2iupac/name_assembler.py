@@ -510,9 +510,9 @@ def _build_name_body(
             return f"{stem}{mb}e-{loc_str}-{suffix}"
         return f"{stem}ane-{loc_str}-{suffix}"
 
-    if suffix in ("dione", "trione"):
-        # -dione/-trione は子音始まりのため e を保持 (pentane-2,4-dione 等)
-        default_locs = [2, 4] if suffix == "dione" else [2, 3, 4]
+    if suffix in ("dione", "trione", "tetraone", "pentaone"):
+        # -dione/-trione 等は子音始まりのため e を保持 (pentane-2,4-dione 等)
+        default_locs = [2, 4] if suffix == "dione" else sorted(suffix_locants) if suffix_locants else []
         locs = sorted(suffix_locants) if suffix_locants else default_locs
         loc_str = _locant_list_str(locs)
         if has_multiple_bond:
