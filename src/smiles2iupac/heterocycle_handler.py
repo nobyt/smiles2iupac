@@ -568,6 +568,9 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # Phase 154: 6員 O,N 飽和環 (1,3-oxazinane, 1,4-oxazinane 等)
     (False, ("O", "C", "C", "C", "N", "C")):      ("1,3-oxazinane",   False),
     (False, ("O", "C", "N", "C", "C", "C")):      ("1,3-oxazinane",   False),  # alt sig
+    # Phase 515: 6員 1,2-O,N / 1,2-S,N 飽和環
+    (False, ("O", "C", "C", "C", "C", "N")):      ("1,2-oxazinane",   False),
+    (False, ("S", "C", "C", "C", "C", "N")):      ("1,2-thiazinane",  False),
     # Phase 154: 6員 S,N 飽和環
     (False, ("S", "C", "C", "N", "C", "C")):      ("1,4-thiazinane",  False),
     (False, ("S", "C", "C", "C", "N", "C")):      ("1,3-thiazinane",  False),
