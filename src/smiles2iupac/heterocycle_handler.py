@@ -255,6 +255,18 @@ _PARTIAL_UNSAT_PARENT: dict[tuple[int, str], str] = {
     (6, "S"): "thiopyran",
 }
 
+# Phase 508: 2-ヘテロ原子5員部分不飽和環の親芳香族名
+# key = 最低ロカント方向で起算したシグネチャタプル
+# value = 親芳香族名
+_DIHETERO_PARENT_BY_LOWLOC_SIG: dict[tuple[str, ...], str] = {
+    ("S", "C", "N", "C", "C"): "1,3-thiazole",
+    ("O", "C", "N", "C", "C"): "1,3-oxazole",
+    ("S", "N", "C", "C", "C"): "isothiazole",
+    ("O", "N", "C", "C", "C"): "isoxazole",
+    ("N", "C", "N", "C", "C"): "1H-imidazole",
+    ("N", "N", "C", "C", "C"): "1H-pyrazole",
+}
+
 
 def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
     """
@@ -333,6 +345,101 @@ def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
     return f"{locs_str}-{mult}hydro{indicated_h}{parent}"
 
 
+def _ring_has_endocyclic_db(ring: list[int], graph: "MoleculeGraph") -> bool:
+    """環内に非芳香族二重結合があれば True を返す。"""
+    from .molecule_analyzer import get_bond_order
+    ring_set = set(ring)
+    seen: set[frozenset] = set()
+    for idx in ring:
+        for nb in graph.adjacency[idx]:
+            if nb in ring_set:
+                key = frozenset((idx, nb))
+                if key not in seen:
+                    seen.add(key)
+                    if get_bond_order(graph, idx, nb) == 2.0:
+                        return True
+    return False
+
+
+def _match_partial_unsat_2het(ring: list[int], graph: "MoleculeGraph") -> str | None:
+    """
+    Phase 508: 2ヘテロ原子5員部分不飽和環の dihydro 名を返す。
+    例: C1=NCCS1 → '4,5-dihydro-1,3-thiazole'
+        C1=NCCO1 → '4,5-dihydro-1,3-oxazole'
+    """
+    from .molecule_analyzer import get_bond_order
+
+    n = len(ring)
+    if n != 5:
+        return None
+    if _is_aromatic_ring(ring, graph):
+        return None
+
+    ring_set = set(ring)
+    seen: set[frozenset] = set()
+    db_pairs: list[tuple[int, int]] = []
+    for idx in ring:
+        for nb in graph.adjacency[idx]:
+            if nb in ring_set:
+                key = frozenset((idx, nb))
+                if key not in seen:
+                    seen.add(key)
+                    if get_bond_order(graph, idx, nb) == 2.0:
+                        db_pairs.append((idx, nb))
+
+    if not db_pairs:
+        return None
+
+    hetero_atoms = [idx for idx in ring if _atom_sig(graph, idx) != "C"]
+    if len(hetero_atoms) != 2:
+        return None
+
+    db_atoms = {a for pair in db_pairs for a in pair}
+    hetero_set = set(hetero_atoms)
+    sp3_atoms = [idx for idx in ring if idx not in db_atoms and idx not in hetero_set]
+    if not sp3_atoms:
+        return None
+
+    best_prio = min(_hetero_priority(_atom_sig(graph, idx)) for idx in hetero_atoms)
+    primary_hets = [idx for idx in hetero_atoms
+                    if _hetero_priority(_atom_sig(graph, idx)) == best_prio]
+
+    from .molecule_analyzer import get_atom as _ga2
+
+    best_key: tuple | None = None
+    best_name: str | None = None
+
+    for start_idx in primary_hets:
+        si = ring.index(start_idx)
+        fwd_rot = ring[si:] + ring[:si]
+        rev_rot = [ring[(si - k) % n] for k in range(n)]
+
+        for rot in (fwd_rot, rev_rot):
+            sig = tuple(_atom_sig(graph, x) for x in rot)
+            parent = _DIHETERO_PARENT_BY_LOWLOC_SIG.get(sig)
+            if parent is None:
+                continue
+
+            loc_map = {rot[i]: i + 1 for i in range(n)}
+            locs = sorted(loc_map[a] for a in sp3_atoms)
+            hlocs = sorted(k + 1 for k, x in enumerate(rot) if _atom_sig(graph, x) != "C")
+            # tiebreaker: prefer rotation whose start atom has H (e.g. 1H-pyrazole N1-H)
+            start_has_h = int(not any(
+                _ga2(graph, nb).symbol == "H"
+                for nb in graph.adjacency[rot[0]]
+            ))
+
+            key = (hlocs, start_has_h, locs)
+            if best_key is None or key < best_key:
+                best_key = key
+                mult = {1: "", 2: "di", 3: "tri", 4: "tetra"}.get(len(locs), "")
+                locs_str = ",".join(str(l) for l in locs)
+                sep = "-" if parent[0].isdigit() else ""
+                best_name = f"{locs_str}-{mult}hydro{sep}{parent}"
+
+    return best_name
+
+
 # ─── 保留名テーブル ────────────────────────────────────────────────────
 # key: (is_aromatic, canonical_signature_tuple)
 # value: (retained_name, nh_indicator)
@@ -389,8 +496,9 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # Phase 154: 6員 S,N 飽和環
     (False, ("S", "C", "C", "N", "C", "C")):      ("1,4-thiazinane",  False),
     (False, ("S", "C", "C", "C", "N", "C")):      ("1,3-thiazinane",  False),
-    # Phase 152: imidazolidine (飽和5員 N,N 環)
+    # Phase 152: imidazolidine / pyrazolidine (飽和5員 N,N 環)
     (False, ("N", "C", "C", "N", "C")):           ("imidazolidine",   False),
+    (False, ("N", "C", "C", "C", "N")):           ("pyrazolidine",    False),
     # Phase 153: テトラゾール (5員 aromatic 4-N 環)
     (True,  ("NH", "C", "N", "N", "N")):          ("tetrazole",       True),
     (True,  ("N",  "C", "N", "N", "N")):          ("tetrazole",       False),  # N-substituted
@@ -461,6 +569,9 @@ def _match_retained(ring: list[int], graph: "MoleculeGraph") -> tuple[str, bool,
 
     entry = _RETAINED_NAMES.get((is_arom, sig))
     if entry is not None:
+        # Phase 508: 飽和保留名テーブルに一致しても環内二重結合があれば別系
+        if not is_arom and _ring_has_endocyclic_db(ring, graph):
+            return None
         return entry[0], entry[1], best_rotation
 
     return None
@@ -1679,23 +1790,29 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         rotation = _find_best_start(ring, graph)
         base_name, is_nh = pu_name, False
     else:
-        # 2. 保留名テーブルを試みる
-        match = _match_retained(ring, graph)
-        if match is not None:
-            base_name, is_nh, rotation = match
+        # 1b. Phase 508: 2ヘテロ原子5員部分不飽和環 (thiazoline, oxazoline 等)
+        pu2_name = _match_partial_unsat_2het(ring, graph)
+        if pu2_name is not None:
+            rotation = _find_best_start(ring, graph)
+            base_name, is_nh = pu2_name, False
         else:
-            # 3. Hantzsch-Widman 名を試みる (単一ヘテロ原子)
-            hw_name = _match_hantzsch_widman(ring, graph)
-            if hw_name is not None:
-                rotation = _find_best_start(ring, graph)
-                base_name, is_nh = hw_name, False
+            # 2. 保留名テーブルを試みる
+            match = _match_retained(ring, graph)
+            if match is not None:
+                base_name, is_nh, rotation = match
             else:
-                # 4. 多ヘテロ原子 HW 名 (7-10員環, a-命名法)
-                multi_name = _match_multi_het_ring(ring, graph)
-                if multi_name is None:
-                    return None
-                rotation = _find_best_start(ring, graph)
-                base_name, is_nh = multi_name, False
+                # 3. Hantzsch-Widman 名を試みる (単一ヘテロ原子)
+                hw_name = _match_hantzsch_widman(ring, graph)
+                if hw_name is not None:
+                    rotation = _find_best_start(ring, graph)
+                    base_name, is_nh = hw_name, False
+                else:
+                    # 4. 多ヘテロ原子 HW 名 (7-10員環, a-命名法)
+                    multi_name = _match_multi_het_ring(ring, graph)
+                    if multi_name is None:
+                        return None
+                    rotation = _find_best_start(ring, graph)
+                    base_name, is_nh = multi_name, False
 
     base_name, is_nh, rotation = (base_name, is_nh, rotation)
     locant_map = _build_locant_map(rotation)

@@ -426,7 +426,7 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
     return f"{stereo_pfx_ia}{n_prefix_ia}{base_name}"
 
 
-def _name_imidate_ester(graph, pgrp, get_atom) -> str:
+def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
     """
     イミダートエステル命名: {alkyl} {stem}imidate / {alkyl} N-{sub}{stem}imidate
     例: CC(=N)OCC    → ethyl ethanimidate
@@ -440,7 +440,13 @@ def _name_imidate_ester(graph, pgrp, get_atom) -> str:
     # ester O を特定
     o_idx = next((ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "O"), None)
     if o_idx is None:
-        return "imidate"
+        return None
+
+    # Phase 508: C=N-...-O が全て同一環内にある場合は環命名系に委譲
+    if (get_atom(graph, c_idx).in_ring
+            and n_idx is not None and get_atom(graph, n_idx).in_ring
+            and get_atom(graph, o_idx).in_ring):
+        return None
 
     # alkyl (O 側)
     ester_c = next(
@@ -3836,6 +3842,12 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
     from collections import Counter
 
     hydrazone_c = pgrp.atom_indices[0]
+    # Phase 508: C=N 両原子が環内にある場合は環命名系に委譲
+    if get_atom(graph, hydrazone_c).in_ring:
+        n1_check = next((ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "N"), None)
+        if n1_check is not None and get_atom(graph, n1_check).in_ring:
+            return None
+
     n1_idx = next((ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "N"), None)
     if n1_idx is None:
         return None
