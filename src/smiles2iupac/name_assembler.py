@@ -502,6 +502,14 @@ def _build_name_body(
             return f"{stem}{mb}e-{loc_str}-triol"
         return f"{stem}ane-{loc_str}-triol"
 
+    if suffix in ("tetraol", "pentaol", "hexaol"):
+        locs = sorted(suffix_locants) if suffix_locants else []
+        loc_str = _locant_list_str(locs)
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc_str}-{suffix}"
+        return f"{stem}ane-{loc_str}-{suffix}"
+
     if suffix in ("dione", "trione"):
         # -dione/-trione は子音始まりのため e を保持 (pentane-2,4-dione 等)
         default_locs = [2, 4] if suffix == "dione" else [2, 3, 4]
