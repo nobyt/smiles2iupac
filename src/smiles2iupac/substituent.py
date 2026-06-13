@@ -192,7 +192,7 @@ def name_substituent(
 
     # 窒素置換基: amino / nitro など
     if atom.symbol == "N":
-        return _name_nitrogen_substituent(graph, root_idx)
+        return _name_nitrogen_substituent(graph, root_idx, excluded)
 
     # 炭素置換基: DFS で最長炭素鎖を探索
     if atom.symbol == "C":
@@ -366,18 +366,23 @@ def _count_acyl_chain(graph: "MoleculeGraph", carbonyl_c: int, excluded: set[int
     return count
 
 
-def _name_nitrogen_substituent(graph: "MoleculeGraph", n_idx: int) -> str:
+def _name_nitrogen_substituent(
+    graph: "MoleculeGraph", n_idx: int, excluded: "set[int] | None" = None
+) -> str:
     """
     N 原子から始まる置換基を命名する。
 
     対応パターン:
-      –NH₂        → amino  (第一級アミン)
+      –NH₂              → amino  (第一級アミン)
+      –NHR              → {R}amino  (二級アミノ)  (Phase 520)
+      –NR₁R₂            → {R1}{R2}amino  (三級アミノ)  (Phase 520)
       –NO₂ / –N⁺(=O)[O⁻] → nitro
-      –N=O        → nitroso  (Phase 52)
-      –N=[N+]=[N-] → azido   (Phase 53)
-      –N=C=O      → isocyanato (Phase 54)
+      –N=O              → nitroso  (Phase 52)
+      –N=[N+]=[N-]      → azido    (Phase 53)
+      –N=C=O            → isocyanato (Phase 54)
     """
     from .molecule_analyzer import get_bond_order as _gbo
+    _excl = excluded or set()
     neighbors = graph.adjacency[n_idx]
     o_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "O"]
     h_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "H"]
@@ -469,15 +474,31 @@ def _name_nitrogen_substituent(graph: "MoleculeGraph", n_idx: int) -> str:
                 _stem_n = _CP_n.get(_acyl_chain, f"C{_acyl_chain}")
                 return f"{_stem_n}anamido"
 
-    # N-H 1 つ (二級アミノ等、暫定)
-    if len(h_neighbors) == 1:
-        return "amino"
-
     # シアノ基の末端 N: C≡N の N 末端 → cyano (Phase 383)
     if (len(c_neighbors) == 1 and len(o_neighbors) == 0
             and len(h_neighbors) == 0 and len(n_neighbors) == 0):
         if _gbo(graph, n_idx, c_neighbors[0]) == 3.0:
             return "cyano"
+
+    # Phase 520: 二級/三級アミノ置換基: N-H + R → {R}amino; N(R)(R') → {R,R'}amino
+    _r_cs = [c for c in c_neighbors if c not in _excl]
+    if _r_cs:
+        from .constants import MULTIPLIER as _MULT_N
+        _r_names = sorted(_name_carbon_substituent(graph, c, {n_idx}) for c in _r_cs)
+        if len(set(_r_names)) == 1:
+            _mult_n = _MULT_N.get(len(_r_names), "")
+            _rn = _r_names[0]
+            _rn_fmt = f"({_rn})" if any(ch.isdigit() for ch in _rn) or "-" in _rn else _rn
+            return f"{_mult_n}{_rn_fmt}amino"
+        _parts_n = [
+            f"({n})" if any(ch.isdigit() for ch in n) or "-" in n else n
+            for n in _r_names
+        ]
+        return "(" + ",".join(_parts_n) + ")amino"
+
+    # N-H のみ (primary amino fallback)
+    if len(h_neighbors) >= 1:
+        return "amino"
 
     return "(N)"  # 未対応
 
