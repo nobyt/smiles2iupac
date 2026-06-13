@@ -1015,6 +1015,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e]pyrazine",
     "c1nncc2nsnc12":   "[1,2,5]thiadiazolo[3,4-d]pyridazine",
     "c1nnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e][1,2,4]triazine",
+    # Phase 506: tetrazolo fused bicyclics (IUPAC 2013 P-31.1.3)
+    "c1cn2nnnc2cn1":   "tetrazolo[1,5-a]pyrazine",
+    "c1cnn2nnnc2c1":   "tetrazolo[1,5-b]pyridazine",
+    "c1cnn2nnnc2n1":   "tetrazolo[1,5-b][1,2,4]triazine",
+    "c1cc2nnnn2nn1":   "tetrazolo[1,5-f][1,2,3]triazine",
+    "c1nncn2nnnc12":   "tetrazolo[1,5-d][1,2,4]triazine",
+    "c1ncc2nnnn2n1":   "tetrazolo[1,5-f][1,2,4]triazine",
     # Phase 499: isothiazolo/isoxazolo/oxazolo/thiazolo fused with pyridazine at d-bond (IUPAC 2013 P-31.1.3)
     "c1nncc2sncc12":   "isothiazolo[5,4-d]pyridazine",
     "c1nncc2nscc12":   "isothiazolo[3,4-d]pyridazine",
