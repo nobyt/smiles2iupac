@@ -644,17 +644,21 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
         # アミジン: C(=N-H)(N-H) (Phase 70) — imine より先に検出
         if _is_amidine(graph, idx):
             n_imine_idx, n_amine_idx = _get_amidine_nitrogens(graph, idx)
-            indices = [idx]
-            if n_imine_idx is not None:
-                indices.append(n_imine_idx)
-            if n_amine_idx is not None:
-                indices.append(n_amine_idx)
-            groups.append(FunctionalGroup(
-                group_type="amidine",
-                atom_indices=indices,
-                priority=FUNCTIONAL_GROUP_PRIORITY["amidine"],
-            ))
-            continue
+            # Phase 509: 全原子が環内にある場合は環命名系に委譲
+            if not (get_atom(graph, idx).in_ring
+                    and (n_imine_idx is None or get_atom(graph, n_imine_idx).in_ring)
+                    and (n_amine_idx is None or get_atom(graph, n_amine_idx).in_ring)):
+                indices = [idx]
+                if n_imine_idx is not None:
+                    indices.append(n_imine_idx)
+                if n_amine_idx is not None:
+                    indices.append(n_amine_idx)
+                groups.append(FunctionalGroup(
+                    group_type="amidine",
+                    atom_indices=indices,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["amidine"],
+                ))
+                continue
 
         # イミド酸: C(=N)(O-H) — imidic acid (imidate_ester より先に検出)
         if _is_imidic_acid(graph, idx):
@@ -690,13 +694,17 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
         # イミン: C=N-H (第一級イミン)
         if _is_imine(graph, idx):
             n_idx_imine = _get_imine_nitrogen(graph, idx)
-            indices = [idx] + ([n_idx_imine] if n_idx_imine is not None else [])
-            groups.append(FunctionalGroup(
-                group_type="imine",
-                atom_indices=indices,
-                priority=FUNCTIONAL_GROUP_PRIORITY["imine"],
-            ))
-            continue
+            # Phase 509: C=N 両原子が環内にある場合は環命名系に委譲
+            if not (get_atom(graph, idx).in_ring
+                    and n_idx_imine is not None
+                    and get_atom(graph, n_idx_imine).in_ring):
+                indices = [idx] + ([n_idx_imine] if n_idx_imine is not None else [])
+                groups.append(FunctionalGroup(
+                    group_type="imine",
+                    atom_indices=indices,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["imine"],
+                ))
+                continue
 
         # オキシム: C=N-OH (ケトオキシムまたはアルドキシム)
         if _is_ketoxime(graph, idx):

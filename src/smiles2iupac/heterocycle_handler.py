@@ -267,6 +267,21 @@ _DIHETERO_PARENT_BY_LOWLOC_SIG: dict[tuple[str, ...], str] = {
     ("N", "N", "C", "C", "C"): "1H-pyrazole",
 }
 
+# Phase 509: 2-ヘテロ原子6員部分不飽和環の親名
+# (sig) → (parent_name, is_aromatic_parent, indicated_h_pos)
+# is_aromatic_parent=True → 親が芳香族 (pyrimidine 等), dihydro ロカントをH数差分で計算
+# is_aromatic_parent=False → 非芳香族親 (4H-1,3-oxazine 等), indicated_h_pos は親の固定sp3位
+_DIHETERO_PARENT_6MEM: dict[tuple[str, ...], tuple[str, bool, int | None]] = {
+    # N+N → 芳香族親
+    ("N", "C", "N", "C", "C", "C"): ("pyrimidine", True, None),
+    ("N", "N", "C", "C", "C", "C"): ("pyridazine", True, None),
+    ("N", "C", "C", "N", "C", "C"): ("pyrazine",   True, None),
+    # N+O → 非芳香族 4H-1,3-oxazine (O が最高優先 → pos1, N が pos3)
+    ("O", "C", "N", "C", "C", "C"): ("4H-1,3-oxazine",  False, 4),
+    # N+S → 非芳香族 4H-1,3-thiazine (S が最高優先 → pos1, N が pos3)
+    ("S", "C", "N", "C", "C", "C"): ("4H-1,3-thiazine", False, 4),
+}
+
 
 def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
     """
@@ -363,14 +378,15 @@ def _ring_has_endocyclic_db(ring: list[int], graph: "MoleculeGraph") -> bool:
 
 def _match_partial_unsat_2het(ring: list[int], graph: "MoleculeGraph") -> str | None:
     """
-    Phase 508: 2ヘテロ原子5員部分不飽和環の dihydro 名を返す。
-    例: C1=NCCS1 → '4,5-dihydro-1,3-thiazole'
-        C1=NCCO1 → '4,5-dihydro-1,3-oxazole'
+    Phase 508/509: 2ヘテロ原子5/6員部分不飽和環の dihydro 名を返す。
+    例: C1=NCCS1  → '4,5-dihydro-1,3-thiazole'  (5員)
+        C1=NCCCN1 → '1,4,5,6-tetrahydropyrimidine' (6員)
+        C1=NCCCO1 → '5,6-dihydro-4H-1,3-oxazine'  (6員)
     """
-    from .molecule_analyzer import get_bond_order
+    from .molecule_analyzer import get_bond_order, get_atom as _ga2
 
     n = len(ring)
-    if n != 5:
+    if n not in (5, 6):
         return None
     if _is_aromatic_ring(ring, graph):
         return None
@@ -394,48 +410,105 @@ def _match_partial_unsat_2het(ring: list[int], graph: "MoleculeGraph") -> str | 
     if len(hetero_atoms) != 2:
         return None
 
-    db_atoms = {a for pair in db_pairs for a in pair}
-    hetero_set = set(hetero_atoms)
-    sp3_atoms = [idx for idx in ring if idx not in db_atoms and idx not in hetero_set]
-    if not sp3_atoms:
-        return None
-
     best_prio = min(_hetero_priority(_atom_sig(graph, idx)) for idx in hetero_atoms)
     primary_hets = [idx for idx in hetero_atoms
                     if _hetero_priority(_atom_sig(graph, idx)) == best_prio]
 
-    from .molecule_analyzer import get_atom as _ga2
-
     best_key: tuple | None = None
     best_name: str | None = None
 
-    for start_idx in primary_hets:
-        si = ring.index(start_idx)
-        fwd_rot = ring[si:] + ring[:si]
-        rev_rot = [ring[(si - k) % n] for k in range(n)]
+    if n == 5:
+        db_atoms = {a for pair in db_pairs for a in pair}
+        hetero_set = set(hetero_atoms)
+        sp3_atoms = [idx for idx in ring if idx not in db_atoms and idx not in hetero_set]
+        if not sp3_atoms:
+            return None
 
-        for rot in (fwd_rot, rev_rot):
-            sig = tuple(_atom_sig(graph, x) for x in rot)
-            parent = _DIHETERO_PARENT_BY_LOWLOC_SIG.get(sig)
-            if parent is None:
-                continue
+        for start_idx in primary_hets:
+            si = ring.index(start_idx)
+            fwd_rot = ring[si:] + ring[:si]
+            rev_rot = [ring[(si - k) % n] for k in range(n)]
 
-            loc_map = {rot[i]: i + 1 for i in range(n)}
-            locs = sorted(loc_map[a] for a in sp3_atoms)
-            hlocs = sorted(k + 1 for k, x in enumerate(rot) if _atom_sig(graph, x) != "C")
-            # tiebreaker: prefer rotation whose start atom has H (e.g. 1H-pyrazole N1-H)
-            start_has_h = int(not any(
-                _ga2(graph, nb).symbol == "H"
-                for nb in graph.adjacency[rot[0]]
-            ))
+            for rot in (fwd_rot, rev_rot):
+                sig = tuple(_atom_sig(graph, x) for x in rot)
+                parent = _DIHETERO_PARENT_BY_LOWLOC_SIG.get(sig)
+                if parent is None:
+                    continue
 
-            key = (hlocs, start_has_h, locs)
-            if best_key is None or key < best_key:
-                best_key = key
-                mult = {1: "", 2: "di", 3: "tri", 4: "tetra"}.get(len(locs), "")
-                locs_str = ",".join(str(l) for l in locs)
-                sep = "-" if parent[0].isdigit() else ""
-                best_name = f"{locs_str}-{mult}hydro{sep}{parent}"
+                loc_map = {rot[i]: i + 1 for i in range(n)}
+                locs = sorted(loc_map[a] for a in sp3_atoms)
+                hlocs = sorted(k + 1 for k, x in enumerate(rot) if _atom_sig(graph, x) != "C")
+                start_has_h = int(not any(
+                    _ga2(graph, nb).symbol == "H"
+                    for nb in graph.adjacency[rot[0]]
+                ))
+
+                key = (hlocs, start_has_h, locs)
+                if best_key is None or key < best_key:
+                    best_key = key
+                    mult = {1: "", 2: "di", 3: "tri", 4: "tetra"}.get(len(locs), "")
+                    locs_str = ",".join(str(l) for l in locs)
+                    sep = "-" if parent[0].isdigit() else ""
+                    best_name = f"{locs_str}-{mult}hydro{sep}{parent}"
+
+    else:  # n == 6
+        db_set = set(frozenset(p) for p in db_pairs)
+
+        for start_idx in primary_hets:
+            si = ring.index(start_idx)
+            fwd_rot = ring[si:] + ring[:si]
+            rev_rot = [ring[(si - k) % n] for k in range(n)]
+
+            for rot in (fwd_rot, rev_rot):
+                sig = tuple(_atom_sig(graph, x) for x in rot)
+                entry = _DIHETERO_PARENT_6MEM.get(sig)
+                if entry is None:
+                    continue
+
+                parent_name, is_aromatic, indicated_h_pos = entry
+                loc_map = {rot[i]: i + 1 for i in range(n)}
+                hlocs = sorted(k + 1 for k, x in enumerate(rot) if _atom_sig(graph, x) != "C")
+
+                if is_aromatic:
+                    # 親が芳香族: 各位置のH数が芳香族親より多ければ dihydro ロカント
+                    # 芳香族親: C→1H, N→0H
+                    dihydro_locs: list[int] = []
+                    for k, atom_idx in enumerate(rot):
+                        h_count = sum(1 for nb in graph.adjacency[atom_idx]
+                                      if _ga2(graph, nb).symbol == "H")
+                        parent_h = 0 if _atom_sig(graph, atom_idx) != "C" else 1
+                        if h_count > parent_h:
+                            dihydro_locs.append(k + 1)
+                else:
+                    # 非芳香族親: db が pos2-3 にあることを確認
+                    if frozenset((rot[1], rot[2])) not in db_set:
+                        continue
+                    db_atoms2 = {a for pair in db_pairs for a in pair}
+                    sp3_c_locs = sorted(
+                        loc_map[idx] for idx in ring
+                        if idx not in db_atoms2 and _atom_sig(graph, idx) == "C"
+                    )
+                    if indicated_h_pos is not None:
+                        dihydro_locs = [l for l in sp3_c_locs if l != indicated_h_pos]
+                    else:
+                        dihydro_locs = sp3_c_locs
+
+                if not dihydro_locs:
+                    continue
+
+                start_h = sum(1 for nb in graph.adjacency[rot[0]]
+                              if _ga2(graph, nb).symbol == "H")
+                start_has_h = int(not (start_h > 0))
+
+                key = (hlocs, start_has_h, sorted(dihydro_locs))
+                if best_key is None or key < best_key:
+                    best_key = key
+                    locs = sorted(dihydro_locs)
+                    mult_map = {1: "", 2: "di", 3: "tri", 4: "tetra", 5: "penta", 6: "hexa"}
+                    mult = mult_map.get(len(locs), "")
+                    locs_str = ",".join(str(l) for l in locs)
+                    sep = "-" if parent_name[0].isdigit() else ""
+                    best_name = f"{locs_str}-{mult}hydro{sep}{parent_name}"
 
     return best_name
 
