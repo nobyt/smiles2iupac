@@ -1,21 +1,20 @@
-"""Phase 435: Drug-scaffold bicyclic heterocycles — pyrrolo/pyrazolo-pyrimidine and
-imidazo/thieno-pyridine systems (IUPAC 2013 P-31.1.3).
+"""Phase 435: Drug-scaffold bicyclic heterocycles (IUPAC 2013 P-31.1.3).
 
-These C6H5N3/C5H4N4/C6H4N2S bicyclics currently output 'benzene' (wrong).
+Names corrected in Phase 473: c1cnc2 ring6 is pyrazine (N at 1,4), not pyrimidine.
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 7H-pyrrolo[2,3-d]pyrimidine (beta-carboline analog, common kinase scaffold)
-    ("c1cnc2[nH]ccc2n1",           "7H-pyrrolo[2,3-d]pyrimidine"),
-    # 1H-pyrazolo[3,4-d]pyrimidine (adenine isostere scaffold)
-    ("c1cnc2[nH]ncc2n1",           "1H-pyrazolo[3,4-d]pyrimidine"),
+    # 1H-pyrrolo[2,3-e]pyrazine (corrected Phase 473: ring6 is pyrazine)
+    ("c1cnc2[nH]ccc2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
+    # 1H-pyrazolo[4,5-e]pyrazine (corrected Phase 473/474: [4,5]<[5,4] preferred)
+    ("c1cnc2[nH]ncc2n1",           "1H-pyrazolo[4,5-e]pyrazine"),
     # 1H-imidazo[4,5-c]pyridine
     ("c1cc2nc[nH]c2cn1",           "1H-imidazo[4,5-c]pyridine"),
-    # thieno[3,2-d]pyrimidine (kinase inhibitor scaffold)
-    ("c1cnc2sccc2n1",              "thieno[3,2-d]pyrimidine"),
+    # thieno[2,3-e]pyrazine (corrected Phase 473)
+    ("c1cnc2sccc2n1",              "thieno[2,3-e]pyrazine"),
     # regression: 1H-pyrrolo[2,3-b]pyridine unchanged (Phase 255)
     ("c1cnc2[nH]ccc2c1",           "1H-pyrrolo[2,3-b]pyridine"),
     # regression: 6H-purine unchanged
