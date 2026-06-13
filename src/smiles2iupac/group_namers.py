@@ -2431,6 +2431,21 @@ def _name_ammonium(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "azanium")
 
 
+def _name_phosphanium(graph, pgrp, get_atom) -> str:
+    """ホスホニウム: tetraRphosphanium (IUPAC 2013 P-73.2, Phase 518)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "phosphanium")
+
+
+def _name_sulfonium(graph, pgrp, get_atom) -> str:
+    """スルホニウム: triRsulfonium (IUPAC 2013 P-73.4, Phase 518)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "sulfonium")
+
+
+def _name_arsonium(graph, pgrp, get_atom) -> str:
+    """アルソニウム: tetraRarsonium (IUPAC 2013 P-73.3, Phase 518)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "arsonium")
+
+
 def _name_organic_silane(graph, pgrp, get_atom) -> str:
     """有機シラン: {alkyl(s)}silane or {halo}({alkyl})silane  (Phase 143/249)"""
     from .substituent import _name_carbon_substituent
@@ -6373,6 +6388,9 @@ PGRP_DISPATCH: dict = {
     "silanol_org": _name_organic_silanol,
     "isocyanide": _name_isocyanide,
     "ammonium": _name_ammonium,
+    "phosphanium": _name_phosphanium,
+    "sulfonium": _name_sulfonium,
+    "arsonium": _name_arsonium,
     "carbamate": _dispatch_carbamate,
     "hydroperoxide": _name_hydroperoxide,
     "thioamide": _name_thioamide,

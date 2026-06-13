@@ -1237,6 +1237,37 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # ─── Phase 518: ホスホニウム / スルホニウム / アルソニウム ────────────
+    "phosphanium": FunctionalGroupSpec(
+        priority=11,
+        suffix="phosphanium",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfonium": FunctionalGroupSpec(
+        priority=11,
+        suffix="sulfonium",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "arsonium": FunctionalGroupSpec(
+        priority=11,
+        suffix="arsonium",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 143: リン・ホウ素・ケイ素化合物 ────────────────────────────
     # ─── Phase 146: カルボキシレートアニオン ─────────────────────────────
     "carboxylate": FunctionalGroupSpec(
