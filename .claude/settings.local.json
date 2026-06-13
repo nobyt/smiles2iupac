@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/pytest --tb=short)",
+      "Bash(.venv/bin/pytest tests/test_phase8.py --tb=no -q)",
+      "Bash(.venv/bin/pytest *)",
+      "Bash(python *)",
+      "Bash(python3 *)",
+      "Bash(uv run *)"
+    ]
+  }
+}
