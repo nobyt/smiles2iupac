@@ -17,8 +17,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2sccc2n1",              "thieno[2,3-e]pyrazine"),
     # regression: 1H-pyrrolo[2,3-b]pyridine unchanged (Phase 255)
     ("c1cnc2[nH]ccc2c1",           "1H-pyrrolo[2,3-b]pyridine"),
-    # regression: 6H-purine unchanged
-    ("c1ncc2nc[nH]c2n1",           "6H-purine"),
+    # regression: 9H-purine (NH at N9, adjacent to C4)
+    ("c1ncc2nc[nH]c2n1",           "9H-purine"),
     # regression: pyrimidine unchanged
     ("c1ccncn1",                   "pyrimidine"),
 ])

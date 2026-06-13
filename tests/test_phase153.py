@@ -22,7 +22,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=C1CCC(=O)O1",         "oxolane-2,5-dione"),
     # 回帰
     ("CC(=O)O",               "acetic acid"),
-    ("c1ncc2[nH]cnc2n1",      "9H-purine"),
+    ("c1ncc2[nH]cnc2n1",      "7H-purine"),
 ])
 def test_phase153_tetrazole_triazinane(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

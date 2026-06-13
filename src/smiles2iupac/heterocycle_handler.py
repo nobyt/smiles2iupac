@@ -829,7 +829,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2nccnc2c1":   "quinoxaline",        # benzo[g]pyrazine (Phase 130)
     "c1ccc2occc2c1":    "benzofuran",
     "c1ccc2sccc2c1":    "benzo[b]thiophene",
-    "c1ncc2[nH]cnc2n1": "9H-purine",
+    "c1ncc2[nH]cnc2n1": "7H-purine",
     "c1ccc2nc3ccccc3cc2c1": "acridine",
     # Phase 130: 追加縮合ヘテロ芳香族
     "c1ccc2ocnc2c1":    "1,3-benzoxazole",
@@ -1231,7 +1231,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2cc[nH]c2c1": "1H-pyrrolo[3,2-b]pyridine",
     "c1cc2ccsc2s1":     "thieno[3,2-b]thiophene",
     "c1cnc2nc[nH]c2c1": "3H-imidazo[4,5-b]pyridine",
-    "c1ncc2nc[nH]c2n1": "6H-purine",
+    "c1ncc2nc[nH]c2n1": "9H-purine",
     # Phase 141: 単環式ヘテロ芳香族 (Hantzsch-Widman が未対応) IUPAC 2013 P-31.1.3
     # 5-membered, two different heteroatoms
     "c1cnoc1":   "isoxazole",

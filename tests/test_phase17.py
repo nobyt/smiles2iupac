@@ -29,7 +29,7 @@ class TestFusedHeteroAromaticRetainedNames:
         assert smiles_to_iupac("c1ccc2sccc2c1") == "benzo[b]thiophene"
 
     def test_purine(self):
-        assert smiles_to_iupac("c1ncc2[nH]cnc2n1") == "9H-purine"
+        assert smiles_to_iupac("c1ncc2[nH]cnc2n1") == "7H-purine"
 
     def test_acridine(self):
         assert smiles_to_iupac("c1ccc2nc3ccccc3cc2c1") == "acridine"

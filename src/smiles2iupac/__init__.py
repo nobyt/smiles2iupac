@@ -182,7 +182,7 @@ _RETAINED_NAMES: dict[str, str] = {
     # thymine → 5-methylpyrimidine-2,4(1H,3H)-dione (Phase 401: use systematic name)
     "O=c1[nH]cnc2[nH]cnc12":          "hypoxanthine",
     "O=c1[nH]c(=O)c2[nH]cnc2[nH]1":  "xanthine",
-    "c1ncc2[nH]cnc2n1":               "9H-purine",
+    "c1ncc2[nH]cnc2n1":               "7H-purine",
 
     # ── Phase 146: 無機オキソ酸・オキソ酸アニオン 保留名 ──
     "O=C([O-])O":                      "bicarbonate",

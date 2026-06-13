@@ -22,8 +22,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=c1[nH]cnc2[nH]cnc12", "hypoxanthine"),
     # xanthine (3,7-dihydro-1H-purine-2,6-dione)
     ("O=c1[nH]c(=O)c2[nH]cnc2[nH]1", "xanthine"),
-    # 9H-purine (parent ring)
-    ("c1ncc2[nH]cnc2n1", "9H-purine"),
+    # 7H-purine (NH at N7, adjacent to C5)
+    ("c1ncc2[nH]cnc2n1", "7H-purine"),
     # 回帰: fused heteroaromatics unchanged (Phase 131-134)
     ("c1ccc2c(c1)[nH]c1ccccc12", "9H-carbazole"),
     ("c1cnc2ncccc2c1",           "1,8-naphthyridine"),
