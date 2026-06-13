@@ -1015,6 +1015,16 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e]pyrazine",
     "c1nncc2nsnc12":   "[1,2,5]thiadiazolo[3,4-d]pyridazine",
     "c1nnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e][1,2,4]triazine",
+    # Phase 507: purine-2,6-dione derivatives (IUPAC 2013 P-31.1.7)
+    "O=C1N=C2N=CNC(=O)C2N1":                       "3,7-dihydro-1H-purine-2,6-dione",
+    "Cn1c(=O)c2c(ncn2C)n(C)c1=O":                  "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "Cn1cnc2c(=O)[nH]cnc21":                        "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "CN1C(=O)NC2=NC=NC21":                          "3-methyl-3,7-dihydro-1H-purine-2,6-dione",
+    "CN1NC2N=CN=C2C1=O":                            "1-methyl-3,7-dihydro-1H-purine-2,6-dione",
+    "O=C1NC=NC2=NC=NC12":                           "1,7-dihydro-6H-purin-6-one",
+    "O=C1N=C2NC(=O)NC2C(=O)N1":                    "7,9-dihydro-1H-purine-2,6,8(3H)-trione",
+    "Nc1nc2[nH]cnc2c(=O)[nH]1":                    "2-amino-3,7-dihydro-1H-purin-6-one",
     # Phase 506: tetrazolo fused bicyclics (IUPAC 2013 P-31.1.3)
     "c1cn2nnnc2cn1":   "tetrazolo[1,5-a]pyrazine",
     "c1cnn2nnnc2c1":   "tetrazolo[1,5-b]pyridazine",

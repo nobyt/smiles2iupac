@@ -619,6 +619,18 @@ def _smiles_to_iupac_raw(smiles: str) -> str:
 
     # ─── 3. 環状 or 非環状の分岐 ─────────────────────────────────────
     if has_ring(graph):
+        # Phase 507: 非芳香族縮合環保留名テーブルを早期チェック (xanthine 系など)
+        # PCG が環外にある場合は acyclic routing が正しいので skip する
+        _pgrp_anchor_in_ring = (
+            _pgrp is None
+            or not _pgrp.atom_indices
+            or get_atom(graph, _pgrp.atom_indices[0]).in_ring
+        )
+        if _pgrp_anchor_in_ring:
+            _early_fused = _try_fused_hetero_retained(graph)
+            if _early_fused is not None:
+                return _early_fused
+
         # 3a. スピロ・架橋二環（Phase 15 / Phase 273）
         # acyclic ルート判定より先に実行: 置換スピロ/架橋化合物が acyclic path に
         # 流れてしまうのを防ぐ。非スピロ/非架橋なら None が返るので影響なし。
