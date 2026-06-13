@@ -56,8 +56,8 @@ def _needs_bis_tris(name: str) -> bool:
                  "quinolyl", "benzofuryl"):
         if aryl in name and name != aryl:
             return True
-    # carboxy/hydroxy/oxo 含有複合置換基 (carboxymethyl 等) は括弧が必要
-    for pfx in ("carboxy", "hydroxy", "oxo", "amino", "imino", "nitroso"):
+    # carboxy/hydroxy/sulfanyl/oxo 含有複合置換基 (carboxymethyl 等) は括弧が必要
+    for pfx in ("carboxy", "hydroxy", "sulfanyl", "oxo", "amino", "imino", "nitroso"):
         if pfx in name and name != pfx:
             return True
     # alkylsulfinyl/alkylsulfonyl/alkylsulfanyl 等 — 常に括弧が必要
