@@ -1,9 +1,8 @@
-"""Phase 292: isocyanate/isothiocyanate substitutive PIN (IUPAC 2013 P-65.3.1).
+"""Phase 292: isocyanate/isothiocyanate functional-class PIN (IUPAC 2013 P-65.3.1).
 
-Alkyl isocyanate/isothiocyanate functional class names are retained acceptable
-but not PINs.  The PIN uses the substitutive prefix form:
-  CN=C=O  → isocyanatomethane       (not methyl isocyanate)
-  CN=C=S  → isothiocyanatomethane   (not methyl isothiocyanate)
+Alkyl isocyanate/isothiocyanate functional class names are the PINs:
+  CN=C=O  → methyl isocyanate
+  CN=C=S  → methyl isothiocyanate
 """
 
 import pytest
@@ -12,19 +11,19 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── isocyanate PIN ────────────────────────────────────────────────────
-    ("CN=C=O",          "isocyanatomethane"),
-    ("CCN=C=O",         "isocyanatoethane"),
-    ("CCCN=C=O",        "isocyanatopropane"),
-    ("CC(C)N=C=O",      "2-isocyanatopropane"),
+    ("CN=C=O",          "methyl isocyanate"),
+    ("CCN=C=O",         "ethyl isocyanate"),
+    ("CCCN=C=O",        "propyl isocyanate"),
+    ("CC(C)N=C=O",      "propan-2-yl isocyanate"),
 
     # ── isothiocyanate PIN ────────────────────────────────────────────────
-    ("CN=C=S",          "isothiocyanatomethane"),
-    ("CCN=C=S",         "isothiocyanatoethane"),
-    ("CCCN=C=S",        "isothiocyanatopropane"),
+    ("CN=C=S",          "methyl isothiocyanate"),
+    ("CCN=C=S",         "ethyl isothiocyanate"),
+    ("CCCN=C=S",        "propyl isothiocyanate"),
 
-    # ── aromatic: already substitutive, regression ─────────────────────────
-    ("O=C=Nc1ccccc1",   "isocyanatobenzene"),
-    ("S=C=Nc1ccccc1",   "isothiocyanatobenzene"),
+    # ── aromatic ──────────────────────────────────────────────────────────
+    ("O=C=Nc1ccccc1",   "phenyl isocyanate"),
+    ("S=C=Nc1ccccc1",   "phenyl isothiocyanate"),
 
     # ── regressions ──────────────────────────────────────────────────────
     ("CC#N",            "acetonitrile"),

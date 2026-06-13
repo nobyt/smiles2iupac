@@ -3275,17 +3275,21 @@ def _name_azide(graph, pgrp, get_atom) -> str:
 
 
 def _name_isocyanate(graph, pgrp, get_atom) -> str:
-    """イソシアネート: isocyanato{alkane} PIN (IUPAC 2013 P-65.3.1 置換命名)"""
+    """イソシアネート: {R} isocyanate (IUPAC 2013 P-65.3.1)"""
     alkyl_c = pgrp.atom_indices[0]
     n_idx = pgrp.atom_indices[1]
-    return _name_isocyanate_substitutive(graph, alkyl_c, n_idx, "isocyanato", get_atom)
+    from .substituent import _name_carbon_substituent
+    yl = _name_carbon_substituent(graph, alkyl_c, {n_idx})
+    return f"{yl} isocyanate"
 
 
 def _name_isothiocyanate(graph, pgrp, get_atom) -> str:
-    """イソチオシアネート: isothiocyanato{alkane} PIN (IUPAC 2013 P-65.5.1.2 置換命名)"""
+    """イソチオシアネート: {R} isothiocyanate (IUPAC 2013 P-65.5.1.2)"""
     alkyl_c = pgrp.atom_indices[0]
     n_idx = pgrp.atom_indices[1]
-    return _name_isocyanate_substitutive(graph, alkyl_c, n_idx, "isothiocyanato", get_atom)
+    from .substituent import _name_carbon_substituent
+    yl = _name_carbon_substituent(graph, alkyl_c, {n_idx})
+    return f"{yl} isothiocyanate"
 
 
 def _name_isocyanate_substitutive(graph, alkyl_c: int, n_idx: int, prefix: str, get_atom) -> str:

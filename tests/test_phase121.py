@@ -15,7 +15,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("CCC(=S)C", "butan-2-thione"),
     ("CCC(=S)CC", "pentan-3-thione"),
     # 回帰: isothiocyanate (PIN: 置換命名)
-    ("CCN=C=S", "isothiocyanatoethane"),
+    ("CCN=C=S", "ethyl isothiocyanate"),
     # 回帰: thioamide (C(=S)-N) は影響なし
     ("CC(=S)N", "ethanethioamide"),
     # 回帰: thioether (C-S-C)

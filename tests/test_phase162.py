@@ -1,7 +1,6 @@
-"""Phase 162/175: isocyanate/isothiocyanate substitutive PIN (IUPAC 2013 P-65.3.1).
+"""Phase 162/175: isocyanate/isothiocyanate functional-class PIN (IUPAC 2013 P-65.3.1).
 
-PIN uses substitutive prefix "isocyanato-" / "isothiocyanato-" on parent alkane.
-"{alkyl} isocyanate" / "{alkyl} isothiocyanate" are retained acceptable but not PIN.
+PIN uses functional-class name "{alkyl} isocyanate" / "{alkyl} isothiocyanate".
 """
 
 import pytest
@@ -9,26 +8,26 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # isocyanate 脂肪族 (置換命名 PIN)
-    ("CN=C=O",          "isocyanatomethane"),
-    ("CCN=C=O",         "isocyanatoethane"),
-    ("CCCN=C=O",        "isocyanatopropane"),
-    ("CCCCN=C=O",       "isocyanatobutane"),
-    ("CC(C)N=C=O",      "2-isocyanatopropane"),
-    # isocyanate 芳香族 (置換命名)
-    ("O=C=Nc1ccccc1",   "isocyanatobenzene"),
-    ("O=C=Nc1ccc(C)cc1","1-isocyanato-4-methylbenzene"),
-    # isothiocyanate 脂肪族 (置換命名 PIN)
-    ("CN=C=S",          "isothiocyanatomethane"),
-    ("CCN=C=S",         "isothiocyanatoethane"),
-    ("CCCN=C=S",        "isothiocyanatopropane"),
-    ("CC(C)N=C=S",      "2-isothiocyanatopropane"),
-    ("CCCCN=C=S",       "isothiocyanatobutane"),
+    # isocyanate 脂肪族
+    ("CN=C=O",          "methyl isocyanate"),
+    ("CCN=C=O",         "ethyl isocyanate"),
+    ("CCCN=C=O",        "propyl isocyanate"),
+    ("CCCCN=C=O",       "butyl isocyanate"),
+    ("CC(C)N=C=O",      "propan-2-yl isocyanate"),
+    # isocyanate 芳香族
+    ("O=C=Nc1ccccc1",   "phenyl isocyanate"),
+    ("O=C=Nc1ccc(C)cc1","4-methylphenyl isocyanate"),
+    # isothiocyanate 脂肪族
+    ("CN=C=S",          "methyl isothiocyanate"),
+    ("CCN=C=S",         "ethyl isothiocyanate"),
+    ("CCCN=C=S",        "propyl isothiocyanate"),
+    ("CC(C)N=C=S",      "propan-2-yl isothiocyanate"),
+    ("CCCCN=C=S",       "butyl isothiocyanate"),
     # isothiocyanate 芳香族
-    ("S=C=Nc1ccccc1",   "isothiocyanatobenzene"),
+    ("S=C=Nc1ccccc1",   "phenyl isothiocyanate"),
     # 回帰: アミド・チオアミドは変わらない
     ("CC(=O)N",         "acetamide"),
     ("CC(=S)N",         "ethanethioamide"),
 ])
-def test_phase162_isocyanate_substitutive(smiles, expected):
+def test_phase162_isocyanate_functional_class(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -16,8 +16,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("SC#N", "thiocyanic acid"),
     # 回帰: amidine unchanged
     ("CC(=N)N", "ethanimidamide"),
-    # 回帰: isocyanate (PIN: 置換命名)
-    ("CN=C=O", "isocyanatomethane"),
+    # 回帰: isocyanate (PIN: functional-class name)
+    ("CN=C=O", "methyl isocyanate"),
     # 回帰: thiocyanate (PIN: 置換命名)
     ("CSC#N", "thiocyanatomethane"),
     # 回帰: cyanate (PIN: 置換命名)

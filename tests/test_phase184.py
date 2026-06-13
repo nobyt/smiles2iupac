@@ -20,9 +20,9 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: ニトリルは変わらない
     ("CC#N",           "acetonitrile"),
     ("CCC#N",          "propanenitrile"),
-    # 回帰: イソシアネート (PIN: 置換命名)
-    ("CN=C=O",         "isocyanatomethane"),
-    ("CCN=C=O",        "isocyanatoethane"),
+    # 回帰: イソシアネート (PIN: functional-class name)
+    ("CN=C=O",         "methyl isocyanate"),
+    ("CCN=C=O",        "ethyl isocyanate"),
 ])
 def test_phase184_isocyanide_substitutive(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

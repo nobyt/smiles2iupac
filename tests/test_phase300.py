@@ -14,10 +14,10 @@ from smiles2iupac import smiles_to_iupac
     ("O=C=NCN=C=O",    "1,1-diisocyanatomethane"),
     # diisothiocyanate
     ("S=C=NCCN=C=S",   "1,2-diisothiocyanatoethane"),
-    # regressions: mono forms unchanged
-    ("O=C=NC",         "isocyanatomethane"),
-    ("O=C=NCC",        "isocyanatoethane"),
-    ("S=C=NC",         "isothiocyanatomethane"),
+    # regressions: mono forms
+    ("O=C=NC",         "methyl isocyanate"),
+    ("O=C=NCC",        "ethyl isocyanate"),
+    ("S=C=NC",         "methyl isothiocyanate"),
 ])
 def test_phase300_diisocyanate(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
