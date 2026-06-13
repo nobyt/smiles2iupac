@@ -1783,6 +1783,32 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("ammonium", 11),
             ))
 
+    # ─── Phase 518: ホスホニウム / スルホニウム / アルソニウム検出 ────
+    for atom in graph.atoms:
+        if atom.symbol not in ("P", "S", "As") or atom.formal_charge != 1:
+            continue
+        het_idx = atom.idx
+        c_nbs = [nb for nb in graph.adjacency[het_idx]
+                 if get_atom(graph, nb).symbol == "C"]
+        if atom.symbol == "P" and len(c_nbs) == 4:
+            groups.append(FunctionalGroup(
+                group_type="phosphanium",
+                atom_indices=[het_idx] + c_nbs,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphanium", 11),
+            ))
+        elif atom.symbol == "As" and len(c_nbs) == 4:
+            groups.append(FunctionalGroup(
+                group_type="arsonium",
+                atom_indices=[het_idx] + c_nbs,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("arsonium", 11),
+            ))
+        elif atom.symbol == "S" and len(c_nbs) == 3:
+            groups.append(FunctionalGroup(
+                group_type="sulfonium",
+                atom_indices=[het_idx] + c_nbs,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfonium", 11),
+            ))
+
     # ─── Phase 150: ニトレート/ニトライトエステル検出 ─────────────────
     for atom in graph.atoms:
         if atom.symbol != "N" or atom.in_ring:
