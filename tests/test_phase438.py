@@ -18,8 +18,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2cscc2c1",              "thieno[3,4-b]pyridine"),
     # regression: pteridine unchanged (correct output already)
     ("c1cnc2nccnc2n1",             "pteridine"),
-    # regression: 6H-purine unchanged
-    ("c1ncc2nc[nH]c2n1",           "6H-purine"),
+    # regression: 9H-purine (NH at N9, adjacent to C4)
+    ("c1ncc2nc[nH]c2n1",           "9H-purine"),
 ])
 def test_phase438_pyrido_pyrimidines(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
