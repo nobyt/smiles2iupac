@@ -1164,7 +1164,23 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 atom_indices=[c_neighbors[0], se_idx],
                 priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
             ))
-        elif len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
+        elif len(o_double) == 2 and len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
+            # セレノン / テルロン: C-Se(=O)₂-C  (Phase 519)
+            gtype = "selenone" if is_se else "telluride"
+            groups.append(FunctionalGroup(
+                group_type=gtype,
+                atom_indices=[se_idx] + list(o_double) + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 31),
+            ))
+        elif len(o_double) == 1 and len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
+            # セレノキシド / テルロキシド: C-Se(=O)-C  (Phase 519)
+            gtype = "selenoxide" if is_se else "telluride"
+            groups.append(FunctionalGroup(
+                group_type=gtype,
+                atom_indices=[se_idx] + list(o_double) + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 30),
+            ))
+        elif len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors and not o_double:
             # セレニド / テルリド: C-Se-C / C-Te-C
             gtype = "selenide" if is_se else "telluride"
             groups.append(FunctionalGroup(

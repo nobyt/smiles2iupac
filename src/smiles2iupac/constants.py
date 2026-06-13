@@ -986,6 +986,27 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # ─── Phase 519: セレノキシド / セレノン ─────────────────────────────
+    "selenoxide": FunctionalGroupSpec(
+        priority=30,
+        suffix="selenoxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "selenone": FunctionalGroupSpec(
+        priority=31,
+        suffix="selenone",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 223: セレニド / ジセレニド / テルリド / ジテルリド ─────────
     "selenide": FunctionalGroupSpec(
         priority=29,
