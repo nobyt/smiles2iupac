@@ -768,6 +768,24 @@ def _name_carbon_substituent(
                 break
         if has_oxy_sub:
             return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
+        # チオエーテル (-S-C) が鎖内にある場合: _name_branched_substituent へ
+        has_thioether_sub = False
+        for _c_idx in chain_path:
+            for _nb in graph.adjacency[_c_idx]:
+                if _nb in carbon_set or _nb in excluded:
+                    continue
+                if get_atom(graph, _nb).symbol != "S":
+                    continue
+                _s_c_nbs = [nb2 for nb2 in graph.adjacency[_nb]
+                            if nb2 != _c_idx and nb2 not in excluded
+                            and get_atom(graph, nb2).symbol == "C"]
+                if _s_c_nbs:
+                    has_thioether_sub = True
+                    break
+            if has_thioether_sub:
+                break
+        if has_thioether_sub:
+            return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
         # 多重結合 (二重・三重) が鎖内にあるか確認
         for i in range(len(chain_path) - 1):
             bo = _gbo(graph, chain_path[i], chain_path[i + 1])
@@ -894,6 +912,38 @@ def _name_carbon_substituent(
                     loc_str = ",".join(str(l) for l in locs)
                     amino_parts.append(f"{loc_str}-{mult}{nm}")
             return f"{'-'.join(amino_parts)}{prefix}yl"
+
+        # スルファニル置換アルキル: HS-CH2- → sulfanylmethyl 等 (Phase 514)
+        sulfanyl_subs: list[tuple[int, str]] = []
+        for pos, c_idx in enumerate(chain_path, 1):
+            for nb_idx in graph.adjacency[c_idx]:
+                if nb_idx in excluded or nb_idx in carbon_set:
+                    continue
+                nb_atom_s = get_atom(graph, nb_idx)
+                if nb_atom_s.symbol != "S":
+                    continue
+                s_has_h = any(get_atom(graph, hh).symbol == "H"
+                              for hh in graph.adjacency[nb_idx])
+                s_c_nbs = [nb2 for nb2 in graph.adjacency[nb_idx]
+                           if nb2 != c_idx and nb2 not in excluded
+                           and get_atom(graph, nb2).symbol == "C"]
+                if s_has_h and not s_c_nbs:
+                    sulfanyl_subs.append((pos, "sulfanyl"))
+        if sulfanyl_subs:
+            from collections import defaultdict as _dd_s
+            s_by_name: dict[str, list[int]] = _dd_s(list)
+            for pos, nm in sulfanyl_subs:
+                s_by_name[nm].append(pos)
+            s_parts: list[str] = []
+            for nm in sorted(s_by_name.keys()):
+                locs = sorted(s_by_name[nm])
+                mult = MULTIPLIER.get(len(locs), "")
+                if n == 1:
+                    s_parts.append(f"{mult}{nm}")
+                else:
+                    loc_str = ",".join(str(l) for l in locs)
+                    s_parts.append(f"{loc_str}-{mult}{nm}")
+            return f"{'-'.join(s_parts)}{prefix}yl"
 
         return f"{prefix}yl"
 
