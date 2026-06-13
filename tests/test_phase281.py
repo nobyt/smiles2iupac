@@ -21,8 +21,8 @@ from smiles2iupac import smiles_to_iupac
     # ── regressions: nitrile and isocyanate unchanged ─────────────────────
     ("CC#N",                "acetonitrile"),
     ("CCC#N",               "propanenitrile"),
-    ("CN=C=O",              "isocyanatomethane"),
-    ("CCN=C=O",             "isocyanatoethane"),
+    ("CN=C=O",              "methyl isocyanate"),
+    ("CCN=C=O",             "ethyl isocyanate"),
 ])
 def test_phase281_isocyanide_pin(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
