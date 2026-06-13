@@ -3923,6 +3923,7 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
     ペルオキシ酸命名: {stem}aneperoxoic acid (Phase 77)
     例: CC(=O)OO → ethaneperoxoic acid
         CCC(=O)OO → propaneperoxoic acid
+        c1ccccc1C(=O)OO → benzeneperoxoic acid
     """
     from .constants import CHAIN_PREFIX
 
@@ -3930,6 +3931,19 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
     # O1 (O-O-H の外側 O) と O2 を除外して炭素鎖を収集
     excluded: set[int] = {ai for ai in pgrp.atom_indices
                           if get_atom(graph, ai).symbol == "O"}
+
+    # 芳香族環に直接結合したカルボニル → {arene}peroxoic acid
+    for _nb_idx in graph.adjacency[carbonyl_c]:
+        if _nb_idx in excluded:
+            continue
+        _nb = get_atom(graph, _nb_idx)
+        if _nb.symbol == "C" and _nb.is_aromatic and _nb.in_ring:
+            _ring_atoms = next(
+                (set(rt) for rt in (graph.ring_atom_sets or []) if _nb_idx in rt), set()
+            )
+            if (len(_ring_atoms) == 6
+                    and all(get_atom(graph, a).symbol == "C" for a in _ring_atoms)):
+                return "benzeneperoxoic acid"
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
