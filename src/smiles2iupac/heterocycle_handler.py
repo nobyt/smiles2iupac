@@ -328,10 +328,11 @@ def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
     db_atoms = {a for pair in db_pairs for a in pair}
     sp3_atoms = [idx for idx in ring if idx not in db_atoms and idx != hetero_idx]
 
-    # 5員環: 1 db → sp3 が 2個 / 6員環: 1 db → sp3 が 3個, 2 db → sp3 が 1個(+N-H)
-    # 6員環 + N-H の場合: N がsp3になる → sp3_atoms にも含める可能性
+    # 5員環N (1H-pyrrole親): N-H は親の indicated hydrogen → dihydro ロカントに含めない
+    # 6員環N (pyridine親): N が sp3 になる場合は dihydro 位置として扱う
+    pyrrole_parent = (n == 5 and hetero_sym == "N")
     sp3_with_hetero = sp3_atoms[:]
-    if has_nh and hetero_idx not in db_atoms:
+    if has_nh and hetero_idx not in db_atoms and not pyrrole_parent:
         sp3_with_hetero.append(hetero_idx)
 
     if not sp3_with_hetero:
@@ -350,10 +351,11 @@ def _match_partial_unsat(ring: list[int], graph: "MoleculeGraph") -> str | None:
     if best_locs is None:
         return None
 
-    # N-H を持つ pyrrole/pyridine 親の indicated hydrogen
+    # N-H を持つ pyrrole 親 (1H-pyrrole): indicated hydrogen "-1H-" を接頭辞に付ける
+    # pyridine 親で N が sp3: N は pos 1 に来るため 1 in best_locs → indicated_h 不要
     indicated_h = ""
     if hetero_sym == "N" and has_nh and 1 not in best_locs:
-        indicated_h = "1H-"
+        indicated_h = "-1H-"
 
     mult = {2: "di", 3: "tri", 4: "tetra", 5: "penta"}.get(len(best_locs), "")
     locs_str = ",".join(str(l) for l in best_locs)
