@@ -18,10 +18,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("CC(=N)N", "ethanimidamide"),
     # 回帰: isocyanate (PIN: functional-class name)
     ("CN=C=O", "methyl isocyanate"),
-    # 回帰: thiocyanate (PIN: 置換命名)
-    ("CSC#N", "thiocyanatomethane"),
-    # 回帰: cyanate (PIN: 置換命名)
-    ("COC#N", "cyanatomethane"),
+    # 回帰: thiocyanate (PIN: functional-class name)
+    ("CSC#N", "methyl thiocyanate"),
+    # 回帰: cyanate (PIN: functional-class name)
+    ("COC#N", "methyl cyanate"),
     # 回帰: thiol unchanged
     ("CCS", "ethanethiol"),
 ])
