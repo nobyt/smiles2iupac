@@ -3443,29 +3443,27 @@ def _name_diisothiocyanate(graph, pgrp, get_atom) -> str:
 
 
 def _name_cyanate(graph, pgrp, get_atom) -> str:
-    """{R} cyanate (IUPAC 2013 P-65.3.1 functional-class); HOCN → cyanic acid"""
-    from .substituent import _name_carbon_substituent
+    """シアン酸エステル: cyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HOCN → cyanic acid"""
     cyano_c = pgrp.atom_indices[0]
+    n_idx = pgrp.atom_indices[1] if len(pgrp.atom_indices) > 1 else None
     o_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
     if o_idx is not None:
         for nb in graph.adjacency[o_idx]:
             if nb != cyano_c and get_atom(graph, nb).symbol == "C":
-                yl = _name_carbon_substituent(graph, nb, {o_idx})
-                return f"{yl} cyanate"
+                return _name_isocyanate_substitutive(graph, nb, o_idx, "cyanato", get_atom)
         return "cyanic acid"
     return "cyanate"
 
 
 def _name_thiocyanate(graph, pgrp, get_atom) -> str:
-    """{R} thiocyanate (IUPAC 2013 P-65.5.1.2 functional-class); HSC≡N → thiocyanic acid"""
-    from .substituent import _name_carbon_substituent
+    """チオシアン酸エステル: thiocyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HSC≡N → thiocyanic acid"""
     cyano_c = pgrp.atom_indices[0]
+    n_idx = pgrp.atom_indices[1] if len(pgrp.atom_indices) > 1 else None
     s_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
     if s_idx is not None:
         for nb in graph.adjacency[s_idx]:
             if nb != cyano_c and get_atom(graph, nb).symbol == "C":
-                yl = _name_carbon_substituent(graph, nb, {s_idx})
-                return f"{yl} thiocyanate"
+                return _name_isocyanate_substitutive(graph, nb, s_idx, "thiocyanato", get_atom)
         return "thiocyanic acid"
     return "thiocyanate"
 
