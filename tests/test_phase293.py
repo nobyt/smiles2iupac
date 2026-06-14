@@ -1,10 +1,10 @@
-"""Phase 293: cyanate/thiocyanate/azide PIN (IUPAC 2013 P-65.3.1).
+"""Phase 293: cyanate/thiocyanate/azide substitutive PIN (IUPAC 2013 P-65.3.1).
 
-cyanate/thiocyanate use functional-class names (same as isocyanate):
-  COC#N        → methyl cyanate
-  CSC#N        → methyl thiocyanate
-azide uses substitutive prefix (PIN per P-68.3.1):
-  CN=[N+]=[N-] → azidomethane
+Functional class names "methyl cyanate", "methyl thiocyanate", "methyl azide"
+are retained acceptable but not PINs.  The PIN uses the substitutive prefix:
+  COC#N        → cyanatomethane        (not methyl cyanate)
+  CSC#N        → thiocyanatomethane    (not methyl thiocyanate)
+  CN=[N+]=[N-] → azidomethane         (not methyl azide)
 """
 
 import pytest
@@ -13,14 +13,14 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── cyanate PIN ───────────────────────────────────────────────────────
-    ("COC#N",          "methyl cyanate"),
-    ("CCOC#N",         "ethyl cyanate"),
-    ("CCCOC#N",        "propyl cyanate"),
+    ("COC#N",          "cyanatomethane"),
+    ("CCOC#N",         "cyanatoethane"),
+    ("CCCOC#N",        "cyanatopropane"),
 
     # ── thiocyanate PIN ──────────────────────────────────────────────────
-    ("CSC#N",          "methyl thiocyanate"),
-    ("CCSC#N",         "ethyl thiocyanate"),
-    ("CCCSC#N",        "propyl thiocyanate"),
+    ("CSC#N",          "thiocyanatomethane"),
+    ("CCSC#N",         "thiocyanatoethane"),
+    ("CCCSC#N",        "thiocyanatopropane"),
 
     # ── azide PIN ────────────────────────────────────────────────────────
     ("CN=[N+]=[N-]",   "azidomethane"),

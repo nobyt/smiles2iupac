@@ -1,7 +1,8 @@
-"""Phase 69: cyanate/thiocyanate functional-class PIN (IUPAC 2013 P-65.3.1).
+"""Phase 69: cyanate/thiocyanate substitutive PIN (IUPAC 2013 P-65.3.1).
 
-R-O-C≡N → {R} cyanate; R-S-C≡N → {R} thiocyanate.
-Functional-class names are the PINs (same pattern as isocyanate/isothiocyanate).
+R-O-C≡N → cyanato{alkane}; R-S-C≡N → thiocyanato{alkane}.
+Functional class names "methyl cyanate" / "methyl thiocyanate" are retained
+acceptable but NOT PINs (contrast: isocyanate R-N=C=O uses functional-class PIN).
 """
 
 import pytest
@@ -10,13 +11,13 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # cyanate PIN
-    ("COC#N",   "methyl cyanate"),
-    ("CCOC#N",  "ethyl cyanate"),
-    ("CCCOC#N", "propyl cyanate"),
+    ("COC#N",   "cyanatomethane"),
+    ("CCOC#N",  "cyanatoethane"),
+    ("CCCOC#N", "cyanatopropane"),
     # thiocyanate PIN
-    ("CSC#N",   "methyl thiocyanate"),
-    ("CCSC#N",  "ethyl thiocyanate"),
-    ("CCCSC#N", "propyl thiocyanate"),
+    ("CSC#N",   "thiocyanatomethane"),
+    ("CCSC#N",  "thiocyanatoethane"),
+    ("CCCSC#N", "thiocyanatopropane"),
 ])
 def test_phase69_cyanate_thiocyanate(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
