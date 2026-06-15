@@ -15,9 +15,9 @@ from smiles2iupac import smiles_to_iupac
     ("CCCOC(=S)OCCC",            "dipropyl carbonothioate"),
     # Mixed alkyl carbonothioate
     ("COC(=S)OCC",               "ethyl methyl carbonothioate"),
-    # Dialkyl carbonodithioate: (RS)2C=S
-    ("CSC(=S)SC",                "dimethyl carbonodithioate"),
-    ("CCSC(=S)SCC",              "diethyl carbonodithioate"),
+    # Dialkyl trithiocarbonate: (RS)2C=S
+    ("CSC(=S)SC",                "dimethyl trithiocarbonate"),
+    ("CCSC(=S)SCC",              "diethyl trithiocarbonate"),
     # regressions: regular carbonate and thioester unchanged
     ("COC(=O)OC",                "dimethyl carbonate"),
     ("CCOC(=O)OCC",              "diethyl carbonate"),

@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("CCCC#N",            "butanenitrile"),
     ("N#Cc1ccccc1",       "benzonitrile"),
     # cyano substituent on carboxylic acid (Phase 383)
-    ("N#CCC(=O)O",        "3-cyanopropanoic acid"),
+    ("N#CCC(=O)O",        "2-cyanoacetic acid"),
 ])
 def test_phase385_acrylonitrile_systematic(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

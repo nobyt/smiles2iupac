@@ -12,11 +12,11 @@ from smiles2iupac import smiles_to_iupac
     # benzo[h]isoquinoline
     ("c1ccc2c(c1)ccc1ccncc12",   "benzo[h]isoquinoline"),
     # 1,10-phenanthroline
-    ("c1cnc2ccc3ncccc3c2c1",     "1,10-phenanthroline"),
+    ("c1cnc2c(c1)ccc1cccnc12",   "1,10-phenanthroline"),
     # 1,8-phenanthroline
-    ("c1cnc2c(c1)ccc1ncccc12",   "1,8-phenanthroline"),
+    ("c1cnc2c(c1)ccc1cnccc12",   "1,8-phenanthroline"),
     # 1,7-phenanthroline
-    ("c1cnc2c(c1)cnc1ccccc12",   "1,7-phenanthroline"),
+    ("c1cnc2c(c1)ccc1ncccc12",   "1,7-phenanthroline"),
     # pyrido[3,4-g]quinoline (linear; was wrongly called 4,7-phenanthroline)
     ("c1cnc2cc3ccncc3cc2c1",     "pyrido[3,4-g]quinoline"),
     # benzo[b][1,7]naphthyridine (was mislabeled benzo[c]cinnoline in earlier session)

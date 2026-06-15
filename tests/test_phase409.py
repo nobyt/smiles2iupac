@@ -19,7 +19,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: indolin-2-one (5-membered) unchanged
     ("O=C1Cc2ccccc2N1",                "indolin-2-one"),
     # regression: isoindolin-1-one unchanged
-    ("O=C1CNc2ccccc21",                "isoindolin-1-one"),
+    ("O=C1NCc2ccccc21",                "isoindolin-1-one"),
     # regression: 1,2,3,4-tetrahydroquinoline unchanged
     ("c1ccc2c(c1)CCCN2",               "1,2,3,4-tetrahydroquinoline"),
     # regression: benzene unchanged

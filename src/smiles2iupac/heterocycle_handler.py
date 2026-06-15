@@ -874,7 +874,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "O=C1CCc2ccccc21":  "indan-1-one",
     "O=C1CC(=O)c2ccccc21": "indane-1,3-dione",
     "O=C1Cc2ccccc2N1":  "indolin-2-one",
-    "O=C1CNc2ccccc21":  "isoindolin-1-one",
+    "O=C1NCc2ccccc21":  "isoindolin-1-one",
     # Phase 409: 6-membered benzo-fused lactams
     "O=C1CCc2ccccc2N1":  "3,4-dihydroquinolin-2(1H)-one",
     "O=C1NCCc2ccccc21":  "3,4-dihydroisoquinolin-1(2H)-one",
@@ -889,8 +889,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)Cc1ccccc1S2":  "thioxanthene",
     "O=c1ccc2ccccc2o1":        "coumarin",
     "O=c1occc2ccccc12":        "isocoumarin",
-    "C1=COc2ccccc2C1":         "2H-chromene",
-    "C1=Cc2ccccc2OC1":         "4H-chromene",
+    "C1=COc2ccccc2C1":         "4H-chromene",
+    "C1=Cc2ccccc2OC1":         "2H-chromene",
     "c1ccc2c(c1)Nc1ccccc1O2":  "phenoxazine",
     "c1ccc2c(c1)Nc1ccccc1S2":  "phenothiazine",
     "O=c1c2ccccc2oc2ccccc12":  "xanthen-9-one",
@@ -955,9 +955,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 427: 1H-phenalene (3×6 peri-fused, C13H10, sp3 CH2 at position 1)
     "C1=Cc2cccc3cccc(c23)C1":  "1H-phenalene",
     # Phase 428: phenanthroline retained names (IUPAC 2013 P-31.1.3.4)
-    "c1ccc2c(c1)cnc1ncccc12":  "1,10-phenanthroline",
-    "c1cnc2c(c1)ccc1cnccc12":  "4,7-phenanthroline",
-    "c1cnc2ccc3cnccc3c2c1":    "1,7-phenanthroline",
+    "c1cnc2c(c1)ccc1cccnc12":  "1,10-phenanthroline",
+    "c1cnc2ccc3ncccc3c2c1":    "4,7-phenanthroline",
+    "c1cnc2c(c1)ccc1ncccc12":  "1,7-phenanthroline",
     # Phase 429: benzo[f]quinoline and benzo[h]quinoline (IUPAC 2013 P-31.1.3)
     "c1ccc2cc3ncccc3cc2c1":    "benzo[f]quinoline",
     "c1ccc2c(c1)ccc1ncccc12":  "benzo[h]quinoline",
@@ -1207,8 +1207,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 507: purine-2,6-dione derivatives (IUPAC 2013 P-31.1.7)
     "O=C1N=C2N=CNC(=O)C2N1":                       "3,7-dihydro-1H-purine-2,6-dione",
     "Cn1c(=O)c2c(ncn2C)n(C)c1=O":                  "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "Cn1cnc2c(=O)[nH]cnc21":                        "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "Cn1c(=O)c2[nH]cnc2n(C)c1=O":                  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
     "CN1C(=O)NC2=NC=NC21":                          "3-methyl-3,7-dihydro-1H-purine-2,6-dione",
     "CN1NC2N=CN=C2C1=O":                            "1-methyl-3,7-dihydro-1H-purine-2,6-dione",
     "O=C1NC=NC2=NC=NC12":                           "1,7-dihydro-6H-purin-6-one",
@@ -1325,9 +1325,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # benzo[b][1,7]naphthyridine (fix: was mislabeled benzo[c]cinnoline)
     "c1ccc2c(c1)ccc1cccnc12":  "phenanthridine",
     "c1ccc2c(c1)ccc1ccncc12":  "benzo[h]isoquinoline",
-    "c1cnc2ccc3ncccc3c2c1":    "1,10-phenanthroline",
-    "c1cnc2c(c1)ccc1ncccc12":  "1,8-phenanthroline",
-    "c1cnc2c(c1)cnc1ccccc12":  "1,7-phenanthroline",
+    "c1cnc2c(c1)ccc1cccnc12":  "1,10-phenanthroline",
+    "c1cnc2c(c1)ccc1cnccc12":  "1,8-phenanthroline",
+    "c1cnc2c(c1)ccc1ncccc12":  "1,7-phenanthroline",
     "c1cnc2cc3ccncc3cc2c1":    "pyrido[3,4-g]quinoline",
     "c1ccc2nc3cnccc3cc2c1":    "benzo[b][1,7]naphthyridine",
     "c1ccc2cc3nnccc3cc2c1":    "benzo[g]cinnoline",
@@ -1381,7 +1381,6 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2cc3ncccc3cc2c1":      "pyrido[3,2-g]quinoline",
     # Phase 454: benzo/pyrazino fused naphthyridines and pyrazinoquinoxaline
     "c1cnc2cc3cccnc3cc2c1":      "pyrido[2,3-g]quinoline",
-    "c1ccc2c(c1)ncc1cnccc12":    "benzo[g][1,5]naphthyridine",
     "c1cnc2cc3nccnc3nc2c1":      "pyrazino[2,3-b][1,5]naphthyridine",
     "c1cnc2nc3nccnc3cc2c1":      "pyrazino[2,3-g][1,8]naphthyridine",
     "c1ccc2nc3nccnc3nc2c1":      "pyrazino[2,3-b]quinoxaline",
@@ -1389,7 +1388,6 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 455: benzo/pyrido fused [1,6]-naphthyridines and pyrido-naphthyridines
     "c1ccc2nc3ncccc3nc2c1":      "pyrido[2,3-b]quinoxaline",
     "c1ccc2c(c1)cnc1cccnc12":    "benzo[h][1,6]naphthyridine",
-    "c1ccc2c(c1)ncc1ccncc12":    "benzo[g][1,6]naphthyridine",
     "c1cnc2cc3ncccc3nc2c1":      "pyrido[2,3-b][1,5]naphthyridine",
     # Phase 456: pyrido[4,3-g]quinoline, pyrido[3,2-g]quinazoline, pyrimido[4,5-b]quinoline
     "c1cnc2cc3cnccc3cc2c1":      "pyrido[4,3-g]quinoline",
@@ -1411,17 +1409,18 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)cnc1cnccc12":    "benzo[c][1,7]naphthyridine",
     "c1ccc2c(c1)ncc1ncccc12":    "benzo[g][1,8]naphthyridine",
     # Phase 460: phenanthroline isomers (IUPAC 2013 P-31.1.3.4)
-    "c1cc2c(ccc3cnccc32)cn1":    "2,7-phenanthroline",
-    "c1cc2c(ccc3ccncc32)cn1":    "2,6-phenanthroline",
-    "c1cnc2ccc3ccncc3c2c1":      "1,6-phenanthroline",
-    "c1cc2ccc3ccncc3c2cn1":      "3,6-phenanthroline",
-    "c1cnc2c(c1)ccc1ccncc12":    "3,5-phenanthroline",
-    "c1cnc2c(c1)ccc1cccnc12":    "4,5-phenanthroline",
+    "c1cnc2ccc3ccncc3c2c1":      "2,7-phenanthroline",
+    "c1ccc2c(c1)ncc1ccncc12":    "2,6-phenanthroline",
+    "c1cnc2c(c1)cnc1ccccc12":    "1,6-phenanthroline",
+    "c1ccc2c(c1)ncc1cnccc12":    "3,6-phenanthroline",
+    "c1ccc2c(c1)cnc1cnccc12":    "3,5-phenanthroline",
+    "c1ccc2c(c1)cnc1ncccc12":    "4,5-phenanthroline",
     # Phase 461: benzo-fused 5-membered thiadiazole/oxadiazole/isothiazole (IUPAC 2013 P-31.1.3)
     "c1ccc2snnc2c1":    "1,2,3-benzothiadiazole",
     "c1ccc2nsnc2c1":    "2,1,3-benzothiadiazole",
     "c1ccc2nonc2c1":    "2,1,3-benzoxadiazole",
-    "c1ccc2nscc2c1":    "1,2-benzisothiazole",
+    "c1ccc2sncc2c1":    "1,2-benzisothiazole",
+    "c1ccc2nscc2c1":    "2,1-benzisothiazole",
     # Phase 462: benzo[c]thiophene, benzo[b]selenophene, benzo[c]selenophene,
     #            1,2,3-/2,1,3-benzoselenadiazole (IUPAC 2013 P-31.1.3)
     "c1ccc2cscc2c1":    "benzo[c]thiophene",
@@ -1564,7 +1563,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "O=C1Cc2ccccc2N1":  {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},
     # Phase 407: isoindolin-1-one: C(1,=O)-N(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     # atom 0=O(exo,None), 1=C1(1), 2=C3(3), 3=N2(2), 4=C3a(None), 5=C4(4)..8=C7(7), 9=C7a(None)
-    "O=C1CNc2ccccc21":  {0: None, 1: 1, 2: 3, 3: 2, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: None},
+    "O=C1NCc2ccccc21":  {0: None, 1: 1, 2: 2, 3: 3, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: None},
     # Phase 409: 3,4-dihydroquinolin-2(1H)-one: N(1)-C(2,=O)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
     # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(None), 5=C5..8=C8, 9=C8a(None), 10=N1(1)
     "O=C1CCc2ccccc2N1": {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},

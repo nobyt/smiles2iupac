@@ -12,9 +12,9 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # isoindolin-1-one (N-H)
-    ("O=C1CNc2ccccc21",               "isoindolin-1-one"),
+    ("O=C1NCc2ccccc21",               "isoindolin-1-one"),
     # N-methylisoindolin-1-one
-    ("CN1CC(=O)c2ccccc21",            "2-methylisoindolin-1-one"),
+    ("O=C1N(C)Cc2ccccc21",            "2-methylisoindolin-1-one"),
     # 1-methylindolin-2-one
     ("CN1C(=O)Cc2ccccc21",            "1-methylindolin-2-one"),
     # regression: indolin-2-one unchanged

@@ -20,9 +20,9 @@ from src.smiles2iupac import smiles_to_iupac
     # isocoumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
     ("O=c1occc2ccccc12", "isocoumarin"),
     # 2H-chromene
-    ("C1=COc2ccccc2C1", "2H-chromene"),
+    ("C1=Cc2ccccc2OC1", "2H-chromene"),
     # 4H-chromene
-    ("C1=Cc2ccccc2OC1", "4H-chromene"),
+    ("C1=COc2ccccc2C1", "4H-chromene"),
     # phenoxazine
     ("c1ccc2c(c1)Nc1ccccc1O2", "phenoxazine"),
     # phenothiazine

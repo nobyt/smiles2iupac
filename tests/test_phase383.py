@@ -11,12 +11,12 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # nitrile as substituent (COOH principal)
-    ("N#CCC(=O)O",    "3-cyanopropanoic acid"),
-    ("N#CCCCC(=O)O",  "5-cyanopentanoic acid"),
-    ("OC(=O)CC#N",    "3-cyanopropanoic acid"),
+    # nitrile as substituent (COOH principal) — CN carbon excluded from chain per P-65.2.1.1
+    ("N#CCC(=O)O",    "2-cyanoacetic acid"),
+    ("N#CCCCC(=O)O",  "4-cyanobutanoic acid"),
+    ("OC(=O)CC#N",    "2-cyanoacetic acid"),
     # cyano on branched chain
-    ("N#CC(C)C(=O)O", "3-cyano-2-methylpropanoic acid"),
+    ("N#CC(C)C(=O)O", "2-cyanopropanoic acid"),
     # nitrile alone still works
     ("N#CCCC",        "butanenitrile"),
     ("N#CC",          "acetonitrile"),
