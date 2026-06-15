@@ -415,13 +415,42 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
     例: CC(=N)O  → ethanimidic acid
         CC(=NC)O → N-methylethanimidic acid
     """
-    from .constants import CHAIN_PREFIX
+    from .constants import CHAIN_PREFIX, MULTIPLIER
     from .substituent import _name_carbon_substituent
     from collections import Counter as _Ctr_ia
 
     c_idx = pgrp.atom_indices[0]
     o_idxs = {nb for nb in graph.adjacency[c_idx] if get_atom(graph, nb).symbol == "O"}
     n_idxs = {nb for nb in graph.adjacency[c_idx] if get_atom(graph, nb).symbol == "N"}
+
+    # Ring-attached imidic acid: benzene → "benzenecarboximidic acid",
+    # heteroaromatic → "pyridine-2-carboximidic acid" etc.
+    for _rn_ia in graph.adjacency[c_idx]:
+        _rna_ia = get_atom(graph, _rn_ia)
+        if not (_rna_ia.symbol == "C" and _rna_ia.in_ring and _rna_ia.is_aromatic):
+            continue
+        _apfx_ia = _aryl_sulfonyl_prefix(graph, _rn_ia, c_idx, get_atom)
+        if _apfx_ia is None:
+            continue
+        _n_pfx_ia = ""
+        for _ni_ia in n_idxs:
+            _nsubs_ia = [nb for nb in graph.adjacency[_ni_ia]
+                         if nb != c_idx and get_atom(graph, nb).symbol == "C"]
+            if _nsubs_ia:
+                _sn_ia = [_name_carbon_substituent(graph, nb, {_ni_ia}) for nb in _nsubs_ia]
+                _cnt_ia = _Ctr_ia(_sn_ia)
+                _pts_ia: list[str] = []
+                for _s in sorted(_cnt_ia):
+                    _c = _cnt_ia[_s]
+                    _ss = f"({_s})" if _s.startswith("(") else _s
+                    if _c == 1:
+                        _pts_ia.append(f"N-{_ss}")
+                    else:
+                        _pts_ia.append(f"N,N-{MULTIPLIER.get(_c, str(_c))}{_ss}")
+                _n_pfx_ia = "-".join(_pts_ia)
+            break
+        return f"{_n_pfx_ia}{_apfx_ia}carboximidic acid"
+
     acid_chain = _collect_acid_chain(graph, c_idx, o_idxs | n_idxs, get_atom)
     n_c = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_c, f"C{n_c}")
@@ -3437,6 +3466,18 @@ def _name_isocyanate_substitutive(graph, alkyl_c: int, n_idx: int, prefix: str, 
     from .constants import CHAIN_PREFIX
     c_atom = get_atom(graph, alkyl_c)
     if c_atom.in_ring and c_atom.is_aromatic:
+        # Heteroaromatic ring: use _aryl_sulfonyl_prefix for locant-aware naming
+        _ra_ic = next((rt for rt in (graph.ring_atom_sets or []) if alkyl_c in rt), None)
+        if _ra_ic and any(get_atom(graph, a).symbol != "C" for a in _ra_ic):
+            _apfx_ic = _aryl_sulfonyl_prefix(graph, alkyl_c, n_idx, get_atom)
+            if _apfx_ic is not None:
+                # "pyridine-2-" → ring_name="pyridine", loc="2"
+                _parts_ic = _apfx_ic.rstrip("-").rsplit("-", 1)
+                if len(_parts_ic) == 2:
+                    _rname_ic, _loc_ic = _parts_ic
+                    _sep_ic = "-" if _rname_ic and _rname_ic[0].isdigit() else ""
+                    return f"{_loc_ic}-{prefix}{_sep_ic}{_rname_ic}"
+                return f"{prefix}{_apfx_ic.rstrip('-')}"
         # 芳香環親化合物として命名 (isocyanatobenzene 等)
         from .ring_handler import (
             find_rings, find_principal_ring,
