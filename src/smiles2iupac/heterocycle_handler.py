@@ -1758,6 +1758,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         "aldehyde": "carbaldehyde",
         "amide": "carboxamide",
         "nitrile": "carbonitrile",
+        "aldoxime": "carbaldehyde oxime",
     }
     from .functional_group import detect_groups, principal_group as _pgrp_fn
     fg_groups = detect_groups(graph)
@@ -1929,6 +1930,7 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         "aldehyde": "carbaldehyde",
         "amide": "carboxamide",
         "nitrile": "carbonitrile",
+        "aldoxime": "carbaldehyde oxime",
     }
     from .functional_group import detect_groups, principal_group as _principal_group
     fg_groups = detect_groups(graph)
