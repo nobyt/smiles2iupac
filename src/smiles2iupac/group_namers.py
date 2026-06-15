@@ -4024,6 +4024,20 @@ def _name_semicarbazone(graph, pgrp, get_atom) -> str:
     suffix = "thiosemicarbazone" if is_thio else "semicarbazone"
 
     hydrazone_c = pgrp.atom_indices[0]
+
+    # Ring-adjacent case: NC(=O)NN=Cc1ccccn1 → pyridine-2-carbaldehyde semicarbazone
+    if not get_atom(graph, hydrazone_c).in_ring:
+        _rn_sc = next(
+            (nb for nb in graph.adjacency[hydrazone_c]
+             if get_atom(graph, nb).in_ring and get_atom(graph, nb).is_aromatic), None
+        )
+        if _rn_sc is not None:
+            _apfx_sc = _aryl_sulfonyl_prefix(graph, _rn_sc, hydrazone_c, get_atom)
+            if _apfx_sc is not None:
+                if _apfx_sc.endswith("-"):
+                    return f"{_apfx_sc}carbaldehyde {suffix}"
+                return f"benzaldehyde {suffix}"
+
     chain = find_principal_chain(graph, pgrp)
     n = chain.length
     stem = CHAIN_PREFIX.get(n, f"C{n}")
