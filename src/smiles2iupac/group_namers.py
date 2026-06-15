@@ -5950,6 +5950,12 @@ def _name_anhydride(graph, pgrp, get_atom) -> str:
                 if (len(ring_atoms) == 6
                         and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
                     return "benzoic"
+                # Heteroaromatic
+                if (any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+                        and all(get_atom(graph, a).is_aromatic for a in ring_atoms)):
+                    _apfx_anh = _aryl_sulfonyl_prefix(graph, nb_idx, carbonyl_c, get_atom)
+                    if _apfx_anh is not None:
+                        return f"{_apfx_anh}carboxylic"
         return None
 
     def _acid_stem_name(carbonyl_c: int, chain: list[int]) -> str:
