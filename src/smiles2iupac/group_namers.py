@@ -5254,6 +5254,41 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
     if n_idx is None:
         return "thioamide"
 
+    # Phase 526: ヘテロ芳香環直結チオアミド → ring-N-carbothioamide
+    if not get_atom(graph, carbonyl_c).in_ring:
+        for _nb_ta in graph.adjacency[carbonyl_c]:
+            _nba_ta = get_atom(graph, _nb_ta)
+            if _nba_ta.symbol != "C" or not _nba_ta.in_ring or not _nba_ta.is_aromatic:
+                continue
+            _ra_ta = next(
+                (rt for rt in (graph.ring_atom_sets or []) if _nb_ta in rt), None
+            )
+            if _ra_ta is None:
+                continue
+            if all(get_atom(graph, a).symbol == "C" for a in _ra_ta):
+                break  # benzene: fall through to existing return None below
+            if (any(get_atom(graph, a).symbol != "C" for a in _ra_ta)
+                    and all(get_atom(graph, a).is_aromatic for a in _ra_ta)):
+                _apfx = _aryl_sulfonyl_prefix(graph, _nb_ta, carbonyl_c, get_atom)
+                if _apfx is not None:
+                    _het_base = f"{_apfx}carbothioamide"
+                    _cn_ta = [nb for nb in graph.adjacency[n_idx]
+                               if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
+                    if not _cn_ta:
+                        return _het_base
+                    _ns_ta = [_name_carbon_substituent(graph, c, {n_idx}) for c in _cn_ta]
+                    _sc_ta = Counter(_ns_ta)
+                    _pp_ta = []
+                    for _s in sorted(_sc_ta):
+                        _c = _sc_ta[_s]
+                        _ss = f"({_s})" if _s.startswith("(") else _s
+                        if _c == 1:
+                            _pp_ta.append(f"N-{_ss}")
+                        else:
+                            _pp_ta.append(f"N,N-{MULTIPLIER.get(_c, str(_c))}{_ss}")
+                    return f"{'-'.join(_pp_ta)}{_het_base}"
+            break
+
     # 環に隣接する場合は ring path に委譲 (cyclopentanecarbothioamide 等)
     # N が環内の場合は ring N として後続処理で対応するため除外する (Phase 395)
     if not get_atom(graph, carbonyl_c).in_ring and any(
