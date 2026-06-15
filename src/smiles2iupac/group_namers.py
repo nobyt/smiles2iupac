@@ -4131,6 +4131,29 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
     if not n2_sub_cs:
         return None  # 未置換 → 通常パスへ
 
+    # Ring-adjacent case: CNN=Cc1ccccn1 → pyridine-2-carbaldehyde N-methylhydrazone
+    if not get_atom(graph, hydrazone_c).in_ring:
+        _rn_hz = next(
+            (nb for nb in graph.adjacency[hydrazone_c]
+             if get_atom(graph, nb).in_ring and get_atom(graph, nb).is_aromatic), None
+        )
+        if _rn_hz is not None:
+            _apfx_hz = _aryl_sulfonyl_prefix(graph, _rn_hz, hydrazone_c, get_atom)
+            if _apfx_hz is not None:
+                _n2hz = sorted(_name_carbon_substituent(graph, c, {n2_idx}) for c in n2_sub_cs)
+                _ctz = Counter(_n2hz)
+                _sp_hz: list[str] = []
+                for _sn in sorted(_ctz):
+                    _ct = _ctz[_sn]
+                    _ss = (f"({_sn})" if _sn.startswith("(") or any(c.isdigit() for c in _sn)
+                           else _sn)
+                    _sp_hz.append(f"N-{MULTIPLIER.get(_ct, '')}{_ss}")
+                _np_hz = ",".join(_sp_hz) if _sp_hz else ""
+                _pn_hz = f"{_apfx_hz}carbaldehyde" if _apfx_hz.endswith("-") else "benzaldehyde"
+                if _np_hz:
+                    return f"{_pn_hz} {_np_hz}hydrazone"
+                return f"{_pn_hz} hydrazone"
+
     # find_principal_chain でロカント正確に決定
     chain = find_principal_chain(graph, pgrp)
     n = chain.length
