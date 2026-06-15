@@ -3246,6 +3246,16 @@ def _name_o_thioester(graph, pgrp, get_atom) -> str:
     carbonyl_c = pgrp.atom_indices[1]
     alkyl_cs = pgrp.atom_indices[2:]
     o_alkyl = _name_carbon_substituent(graph, alkyl_cs[0], {o_idx}) if alkyl_cs else "methyl"
+    for _rn_ot in graph.adjacency[carbonyl_c]:
+        if _rn_ot == o_idx:
+            continue
+        _rna_ot = get_atom(graph, _rn_ot)
+        if not (_rna_ot.symbol == "C" and _rna_ot.in_ring and _rna_ot.is_aromatic):
+            continue
+        _apfx_ot = _aryl_sulfonyl_prefix(graph, _rn_ot, carbonyl_c, get_atom)
+        if _apfx_ot is not None:
+            return f"O-{o_alkyl} {_apfx_ot}carbothioate"
+        break
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {o_idx}, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
@@ -3260,6 +3270,16 @@ def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
     carbonyl_c = pgrp.atom_indices[1]
     alkyl_cs = pgrp.atom_indices[2:]
     s_alkyl = _name_carbon_substituent(graph, alkyl_cs[0], {s_ester_idx}) if alkyl_cs else "methyl"
+    for _rn_sd in graph.adjacency[carbonyl_c]:
+        if _rn_sd == s_ester_idx:
+            continue
+        _rna_sd = get_atom(graph, _rn_sd)
+        if not (_rna_sd.symbol == "C" and _rna_sd.in_ring and _rna_sd.is_aromatic):
+            continue
+        _apfx_sd = _aryl_sulfonyl_prefix(graph, _rn_sd, carbonyl_c, get_atom)
+        if _apfx_sd is not None:
+            return f"S-{s_alkyl} {_apfx_sd}carbodithioate"
+        break
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {s_ester_idx}, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
@@ -4225,6 +4245,16 @@ def _name_peroxyester(graph, pgrp, get_atom) -> str:
     alkyl_name = _name_carbon_substituent(graph, alkyl_c, {o2_idx})
 
     excluded: set[int] = {ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "O"}
+    for _rn_pe in graph.adjacency[carbonyl_c]:
+        if _rn_pe in excluded:
+            continue
+        _rna_pe = get_atom(graph, _rn_pe)
+        if not (_rna_pe.symbol == "C" and _rna_pe.in_ring and _rna_pe.is_aromatic):
+            continue
+        _apfx_pe = _aryl_sulfonyl_prefix(graph, _rn_pe, carbonyl_c, get_atom)
+        if _apfx_pe is not None:
+            return f"{alkyl_name} {_apfx_pe}carboperoxoate"
+        break
     acid_carbons = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     n_acid = len(acid_carbons)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
