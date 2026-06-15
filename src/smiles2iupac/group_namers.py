@@ -185,6 +185,46 @@ def _name_dioic_acid(graph, pgrp, get_atom):
     if is_benzene:
         return f"benzene-{locs[0]},{locs[1]}-dicarboxylic acid"
 
+    # Phase 523: heteroaromatic rings (furan, thiophene, pyridine, ...)
+    is_aromatic_ring = all(get_atom(graph, a).is_aromatic for a in ring_list)
+    has_heteroatom = any(get_atom(graph, a).symbol != "C" for a in ring_list)
+    if is_aromatic_ring and has_heteroatom:
+        # Get ring atoms in connectivity order via BFS through ring bonds
+        ring_set_bfs = set(ring_list)
+        ordered: list[int] = [ring_list[0]]
+        seen: set[int] = {ring_list[0]}
+        while len(ordered) < len(ring_list):
+            cur = ordered[-1]
+            moved = False
+            for nb in graph.adjacency[cur]:
+                if nb in ring_set_bfs and nb not in seen:
+                    ordered.append(nb)
+                    seen.add(nb)
+                    moved = True
+                    break
+            if not moved:
+                break
+        from .heterocycle_handler import _find_best_start, _canonical_sig, _RETAINED_NAMES
+        rotation = _find_best_start(ordered, graph)
+        sig = _canonical_sig(rotation, graph)
+        entry = _RETAINED_NAMES.get((True, sig))
+        if entry is not None:
+            het_name, has_ind_h = entry
+            ind_h = "1H-" if has_ind_h else ""
+            # Try both ring directions; pick the one giving the lowest locants.
+            rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
+            best_locs: list[int] | None = None
+            for rot in (rotation, rev_rotation):
+                loc_map_het = {atom: i + 1 for i, atom in enumerate(rot)}
+                h_l1 = loc_map_het.get(ring_c1)
+                h_l2 = loc_map_het.get(ring_c2)
+                if h_l1 is not None and h_l2 is not None:
+                    pair = sorted([h_l1, h_l2])
+                    if best_locs is None or pair < best_locs:
+                        best_locs = pair
+            if best_locs is not None:
+                return f"{ind_h}{het_name}-{best_locs[0]},{best_locs[1]}-dicarboxylic acid"
+
     stem = CHAIN_PREFIX.get(ring_size, f"C{ring_size}")
     return f"cyclo{stem}ane-{locs[0]},{locs[1]}-dicarboxylic acid"
 
