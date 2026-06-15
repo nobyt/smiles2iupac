@@ -900,7 +900,7 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         needs_locant=False,
         anchor_c1=True,
         cyclic_template=None,
-        benzene_name=None,
+        benzene_name="benzaldehyde hydrazone",
     ),
     # ─── Phase 44: ヒドロペルオキシド ───────────────────────────────────
     "hydroperoxide": FunctionalGroupSpec(
