@@ -3463,6 +3463,14 @@ def _name_nitroso(graph, pgrp, get_atom) -> str:
                 ring_atoms.update(rt)
         if all(get_atom(graph, a).symbol == "C" for a in ring_atoms) and len(ring_atoms) == 6:
             return "nitrosobenzene"
+        # Heteroaromatic ring: use _aryl_sulfonyl_prefix for locant-aware naming
+        _apfx_ns = _aryl_sulfonyl_prefix(graph, alkyl_c, n_idx, get_atom)
+        if _apfx_ns is not None:
+            _parts_ns = _apfx_ns.rstrip("-").rsplit("-", 1)
+            if len(_parts_ns) == 2:
+                _rname_ns, _loc_ns = _parts_ns
+                _sep_ns = "-" if _rname_ns and _rname_ns[0].isdigit() else ""
+                return f"{_loc_ns}-nitroso{_sep_ns}{_rname_ns}"
         return "nitrosobenzene"
     # 非芳香族環に直結している場合: nitroso + cycloalkane name (Phase 387)
     if c_atom.in_ring and not c_atom.is_aromatic:
