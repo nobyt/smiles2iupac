@@ -347,6 +347,17 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
                     return "benzenecarbothioic O-acid"
                 else:
                     return "benzenecarbodithioic acid"
+            # Heteroaromatic ring
+            if (any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+                    and all(get_atom(graph, a).is_aromatic for a in ring_atoms)):
+                _apfx_th = _aryl_sulfonyl_prefix(graph, nb_idx, carbonyl_c, get_atom)
+                if _apfx_th is not None:
+                    if gtype == "thioic_s_acid":
+                        return f"{_apfx_th}carbothioic S-acid"
+                    elif gtype == "thioic_o_acid":
+                        return f"{_apfx_th}carbothioic O-acid"
+                    else:
+                        return f"{_apfx_th}carbodithioic acid"
     acid_chain = _collect_acid_chain(graph, carbonyl_c, chalcogen_idxs, get_atom)
     n = len(acid_chain)
     stem = CHAIN_PREFIX.get(n, f"C{n}")
@@ -567,6 +578,16 @@ def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
                     mult = MULTIPLIER.get(cnt, f"{cnt}")
                     parts.append(f"N,N-{mult}{sub_str}")
             n_prefix = "-".join(parts)
+
+    # Ring-attached imidate (benzene or heteroaromatic)
+    for _rn_imid in graph.adjacency[c_idx]:
+        _rna_imid = get_atom(graph, _rn_imid)
+        if not (_rna_imid.symbol == "C" and _rna_imid.in_ring and _rna_imid.is_aromatic):
+            continue
+        _apfx_imid = _aryl_sulfonyl_prefix(graph, _rn_imid, c_idx, get_atom)
+        if _apfx_imid is None:
+            continue
+        return f"{alkyl_name} {n_prefix}{_apfx_imid}carboximidate"
 
     return f"{alkyl_name} {stereo_pfx_im}{n_prefix}{acid_name}"
 
