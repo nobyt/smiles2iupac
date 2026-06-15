@@ -3199,6 +3199,10 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
     s_alkyl = "methyl"
     if alkyl_cs:
         s_alkyl = _name_carbon_substituent(graph, alkyl_cs[0], {s_idx})
+    # Wrap in parens when name contains locants (e.g. "pyridin-2-yl" → "(pyridin-2-yl)")
+    _s_alk_ts = (f"({s_alkyl})"
+                 if not s_alkyl.startswith("(") and any(c.isdigit() for c in s_alkyl)
+                 else s_alkyl)
 
     # 芳香環直結 (benzene or heteroaromatic)
     for _rn_ts in graph.adjacency[carbonyl_c]:
@@ -3209,7 +3213,7 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
             continue
         _apfx_ts = _aryl_sulfonyl_prefix(graph, _rn_ts, carbonyl_c, get_atom)
         if _apfx_ts is not None:
-            return f"S-{s_alkyl} {_apfx_ts}carbothioate"
+            return f"S-{_s_alk_ts} {_apfx_ts}carbothioate"
         break
 
     # 酸鎖 (カルボニル C から S を除外した方向)
@@ -3235,7 +3239,7 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
             _comb_ts = ",".join(d.strip("()") for d in _stereo_ts)
             stereo_prefix = f"({_comb_ts})-"
 
-    return f"{stereo_prefix}S-{s_alkyl} {acid_name}"
+    return f"{stereo_prefix}S-{_s_alk_ts} {acid_name}"
 
 
 def _name_o_thioester(graph, pgrp, get_atom) -> str:
