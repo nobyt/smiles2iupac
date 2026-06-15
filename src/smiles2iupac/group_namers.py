@@ -3200,6 +3200,18 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
     if alkyl_cs:
         s_alkyl = _name_carbon_substituent(graph, alkyl_cs[0], {s_idx})
 
+    # 芳香環直結 (benzene or heteroaromatic)
+    for _rn_ts in graph.adjacency[carbonyl_c]:
+        if _rn_ts == s_idx:
+            continue
+        _rna_ts = get_atom(graph, _rn_ts)
+        if not (_rna_ts.symbol == "C" and _rna_ts.in_ring and _rna_ts.is_aromatic):
+            continue
+        _apfx_ts = _aryl_sulfonyl_prefix(graph, _rn_ts, carbonyl_c, get_atom)
+        if _apfx_ts is not None:
+            return f"S-{s_alkyl} {_apfx_ts}carbothioate"
+        break
+
     # 酸鎖 (カルボニル C から S を除外した方向)
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {s_idx}, get_atom)
     n_acid = len(acid_chain)
@@ -4146,6 +4158,12 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
             if (len(_ring_atoms) == 6
                     and all(get_atom(graph, a).symbol == "C" for a in _ring_atoms)):
                 return "benzeneperoxoic acid"
+            # Heteroaromatic
+            if (any(get_atom(graph, a).symbol != "C" for a in _ring_atoms)
+                    and all(get_atom(graph, a).is_aromatic for a in _ring_atoms)):
+                _apfx_pa = _aryl_sulfonyl_prefix(graph, _nb_idx, carbonyl_c, get_atom)
+                if _apfx_pa is not None:
+                    return f"{_apfx_pa}carboperoxoic acid"
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
