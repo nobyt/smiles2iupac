@@ -1195,7 +1195,8 @@ def _make_oxy_name(alkyl: str) -> str:
         base = alkyl[:-2]
         # acyl groups end in 'o' before 'yl' (propanoyl, butanoyl, benzoyl)
         # → keep the 'yl' in the oxy name: "propanoyloxy" not "propanooxy"
-        if base.endswith("o"):
+        # heteroaryl-yl names end with "-": "pyridin-2-" → keep "yl": "pyridin-2-yloxy"
+        if base.endswith("o") or base.endswith("-"):
             oxy = alkyl + "oxy"
         else:
             oxy = base + "oxy"

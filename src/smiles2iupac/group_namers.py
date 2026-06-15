@@ -1277,7 +1277,10 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
     prefix_parts = []
     for sub in sorted(sub_counts):
         cnt = sub_counts[sub]
-        sub_str = f"({sub})" if sub.startswith("(") else sub
+        # Wrap in parens if stereo prefix or locant-bearing (e.g. "pyridin-2-yl" → "(pyridin-2-yl)")
+        sub_str = (f"({sub})"
+                   if sub.startswith("(") or any(c.isdigit() for c in sub)
+                   else sub)
         if cnt == 1:
             prefix_parts.append(f"N-{sub_str}")
         else:
