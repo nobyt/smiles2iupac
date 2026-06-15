@@ -1799,6 +1799,30 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         result = f"{base_name}-{exo_loc}-{exo_suffix}"
         if substituents:
             result = _apply_hetero_suffixes(result, substituents)
+        # Amide N-substituents (N-methyl, N,N-dimethyl, etc.)
+        if pgrp_ex is not None and pgrp_ex.group_type == "amide":
+            from .substituent import _name_carbon_substituent as _ncs_fh
+            from .constants import MULTIPLIER as _MULT_fh
+            from collections import Counter as _Ctr_fh
+            _n_fh = next(
+                (ai for ai in pgrp_ex.atom_indices if get_atom(graph, ai).symbol == "N"), None
+            )
+            if _n_fh is not None and exo_anchor_c is not None:
+                _cn_fh = [nb for nb in graph.adjacency[_n_fh]
+                          if nb != exo_anchor_c and get_atom(graph, nb).symbol == "C"]
+                if _cn_fh:
+                    _sn_fh = [_ncs_fh(graph, c, {_n_fh}) for c in _cn_fh]
+                    _cnt_fh = _Ctr_fh(_sn_fh)
+                    _pp_fh: list[str] = []
+                    for _s in sorted(_cnt_fh):
+                        _c = _cnt_fh[_s]
+                        _ss = f"({_s})" if _s.startswith("(") else _s
+                        if _c == 1:
+                            _pp_fh.append(f"N-{_ss}")
+                        else:
+                            _pp_fh.append(f"N,N-{_MULT_fh.get(_c, str(_c))}{_ss}")
+                    _sep_fh = "-" if result and result[0].isdigit() else ""
+                    result = "-".join(_pp_fh) + _sep_fh + result
         return result
 
     if not substituents:
@@ -1932,6 +1956,34 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                 result = f"{full_base}-{L}-{fg_suffix}"
                 if other_subs:
                     result = _format_substituents(result, other_subs)
+                # Amide N-substituents (N-methyl, N,N-dimethyl, etc.)
+                if pgrp_ex.group_type == "amide":
+                    from .molecule_analyzer import get_atom as _ga_am
+                    from .substituent import _name_carbon_substituent as _ncs_am
+                    from .constants import MULTIPLIER as _MULT_am
+                    from collections import Counter as _Ctr_am
+                    _n_am = next(
+                        (ai for ai in pgrp_ex.atom_indices
+                         if _ga_am(graph, ai).symbol == "N"), None
+                    )
+                    if _n_am is not None:
+                        _cn_am = [nb for nb in graph.adjacency[_n_am]
+                                  if nb != anchor_c and _ga_am(graph, nb).symbol == "C"]
+                        if _cn_am:
+                            _sn_am = [_ncs_am(graph, c, {_n_am}) for c in _cn_am]
+                            _cnt_am = _Ctr_am(_sn_am)
+                            _pp_am: list[str] = []
+                            for _s in sorted(_cnt_am):
+                                _c = _cnt_am[_s]
+                                _ss = f"({_s})" if _s.startswith("(") else _s
+                                if _c == 1:
+                                    _pp_am.append(f"N-{_ss}")
+                                else:
+                                    _pp_am.append(
+                                        f"N,N-{_MULT_am.get(_c, str(_c))}{_ss}"
+                                    )
+                            _sep_am = "-" if result and result[0].isdigit() else ""
+                            result = "-".join(_pp_am) + _sep_am + result
                 return result
 
     # Phase 25/30: ラクタム (N 含有) / ラクトン (O 含有) 検出
