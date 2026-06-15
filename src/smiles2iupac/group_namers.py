@@ -4220,7 +4220,7 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
     if n_terminal is not None:
         excluded.add(n_terminal)
 
-    # Phase 178: 芳香環に直接結合したカルボニル → benzo/hetaryl hydrazide
+    # Phase 178/527: 芳香環に直接結合したカルボニル → benzo/hetaryl hydrazide
     for nb_idx in graph.adjacency[carbonyl_c]:
         if nb_idx in excluded:
             continue
@@ -4232,6 +4232,12 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
             if (len(ring_atoms) == 6
                     and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
                 return "benzohydrazide"
+            # ヘテロ芳香環 → ring-N-carbohydrazide
+            has_het_hy = any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+            if has_het_hy and all(get_atom(graph, a).is_aromatic for a in ring_atoms):
+                _apfx_hy = _aryl_sulfonyl_prefix(graph, nb_idx, carbonyl_c, get_atom)
+                if _apfx_hy is not None:
+                    return f"{_apfx_hy}carbohydrazide"
             break
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
@@ -5655,6 +5661,41 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
     if n_idx is None:
         return "selenoamide"
 
+    # Phase 527: ヘテロ芳香環直結セレノアミド → ring-N-carboselenoamide
+    if not get_atom(graph, carbonyl_c).in_ring:
+        for _nb_sea in graph.adjacency[carbonyl_c]:
+            _nba_sea = get_atom(graph, _nb_sea)
+            if _nba_sea.symbol != "C" or not _nba_sea.in_ring or not _nba_sea.is_aromatic:
+                continue
+            _ra_sea = next(
+                (rt for rt in (graph.ring_atom_sets or []) if _nb_sea in rt), None
+            )
+            if _ra_sea is None:
+                continue
+            if all(get_atom(graph, a).symbol == "C" for a in _ra_sea):
+                break  # benzene: fall through to existing return None below
+            if (any(get_atom(graph, a).symbol != "C" for a in _ra_sea)
+                    and all(get_atom(graph, a).is_aromatic for a in _ra_sea)):
+                _apfx_sea = _aryl_sulfonyl_prefix(graph, _nb_sea, carbonyl_c, get_atom)
+                if _apfx_sea is not None:
+                    _het_base_sea = f"{_apfx_sea}carboselenoamide"
+                    _cn_sea = [nb for nb in graph.adjacency[n_idx]
+                                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
+                    if not _cn_sea:
+                        return _het_base_sea
+                    _ns_sea = [_name_carbon_substituent(graph, c, {n_idx}) for c in _cn_sea]
+                    _sc_sea = Counter(_ns_sea)
+                    _pp_sea = []
+                    for _s in sorted(_sc_sea):
+                        _c = _sc_sea[_s]
+                        _ss = f"({_s})" if _s.startswith("(") else _s
+                        if _c == 1:
+                            _pp_sea.append(f"N-{_ss}")
+                        else:
+                            _pp_sea.append(f"N,N-{MULTIPLIER.get(_c, str(_c))}{_ss}")
+                    return f"{'-'.join(_pp_sea)}{_het_base_sea}"
+            break
+
     if not get_atom(graph, carbonyl_c).in_ring and any(
         get_atom(graph, nb).in_ring for nb in graph.adjacency[carbonyl_c]
     ):
@@ -6470,6 +6511,73 @@ def _dispatch_carbamate(graph, pgrp, get_atom):
     return None
 
 
+def _name_amidine_pgrp(graph, pgrp, get_atom) -> str | None:
+    """PGRP_DISPATCH entry for amidine: handle heteroaromatic ring case only.
+
+    For benzene/aliphatic amidines, return None so the ring_handler
+    (spec.benzene_name) or _name_acyclic path handles it correctly.
+    """
+    from .functional_group import _get_amidine_nitrogens
+    from .constants import MULTIPLIER
+    from .substituent import _name_carbon_substituent
+    from collections import Counter
+
+    amidine_c = pgrp.atom_indices[0]
+    if get_atom(graph, amidine_c).in_ring:
+        return None
+
+    for _nb_am in graph.adjacency[amidine_c]:
+        _nba_am = get_atom(graph, _nb_am)
+        if _nba_am.symbol != "C" or not _nba_am.in_ring or not _nba_am.is_aromatic:
+            continue
+        _ra_am = next(
+            (rt for rt in (graph.ring_atom_sets or []) if _nb_am in rt), None
+        )
+        if _ra_am is None:
+            continue
+        if all(get_atom(graph, a).symbol == "C" for a in _ra_am):
+            return None  # benzene → let ring_handler use spec.benzene_name
+        if (any(get_atom(graph, a).symbol != "C" for a in _ra_am)
+                and all(get_atom(graph, a).is_aromatic for a in _ra_am)):
+            _apfx_am = _aryl_sulfonyl_prefix(graph, _nb_am, amidine_c, get_atom)
+            if _apfx_am is None:
+                return None
+            _n_imine, _n_amine = _get_amidine_nitrogens(graph, amidine_c)
+            _het_base_am = f"{_apfx_am}carboximidamide"
+            # N-amine substituents
+            _pfx_parts: list[str] = []
+            if _n_amine is not None:
+                _cn_am = [nb for nb in graph.adjacency[_n_amine]
+                           if nb != amidine_c and get_atom(graph, nb).symbol == "C"]
+                if _cn_am:
+                    _ns = [_name_carbon_substituent(graph, c, {_n_amine}) for c in _cn_am]
+                    _sc = Counter(_ns)
+                    for _s in sorted(_sc):
+                        _c = _sc[_s]
+                        _ss = f"({_s})" if _s.startswith("(") else _s
+                        if _c == 1:
+                            _pfx_parts.append(f"N-{_ss}")
+                        else:
+                            _pfx_parts.append(f"N,N-{MULTIPLIER.get(_c, str(_c))}{_ss}")
+            # N'-imine substituents
+            if _n_imine is not None:
+                _cn_im = [nb for nb in graph.adjacency[_n_imine]
+                           if nb != amidine_c and get_atom(graph, nb).symbol == "C"]
+                if _cn_im:
+                    _ns2 = [_name_carbon_substituent(graph, c, {_n_imine}) for c in _cn_im]
+                    _sc2 = Counter(_ns2)
+                    for _s in sorted(_sc2):
+                        _c = _sc2[_s]
+                        _ss = f"({_s})" if _s.startswith("(") else _s
+                        if _c == 1:
+                            _pfx_parts.append(f"N'-{_ss}")
+                        else:
+                            _pfx_parts.append(f"N',N'-{MULTIPLIER.get(_c, str(_c))}{_ss}")
+            pfx = "-".join(_pfx_parts)
+            return f"{pfx}{_het_base_am}"
+    return None
+
+
 PGRP_DISPATCH: dict = {
     "imidic_acid": _name_imidic_acid,
     "imidate_ester": _name_imidate_ester,
@@ -6559,6 +6667,7 @@ PGRP_DISPATCH: dict = {
     "dithioamide": _name_dithioamide,
     "diselenoamide": _name_diselenoamide,
     "diamide": _name_diamide,
+    "amidine": _name_amidine_pgrp,
     "diamidine": _name_diamidine,
     "dinitrile": _name_dinitrile,
     "selenoamide": _name_selenoamide,
