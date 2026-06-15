@@ -794,19 +794,25 @@ def _name_acid_halide(graph, pgrp, get_atom) -> str:
             halogen_set.add(nb_idx)
             break
 
-    # 芳香環に直接結合したカルボニル → benzoyl 型 (Phase 107)
+    # 芳香環に直接結合したカルボニル → benzoyl 型 / ring-N-carbonyl 型 (Phase 107, 525)
     for nb_idx in graph.adjacency[carbonyl_c]:
         if nb_idx in halogen_set:
             continue
         nb = get_atom(graph, nb_idx)
         if nb.symbol == "C" and nb.is_aromatic and nb.in_ring:
-            # 純粋ベンゼン環かチェック
             ring_atoms = next(
                 (set(rt) for rt in (graph.ring_atom_sets or []) if nb_idx in rt), set()
             )
+            # 純粋ベンゼン環 → benzoyl
             if (len(ring_atoms) == 6
                     and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
                 return f"benzoyl {halide_name}"
+            # ヘテロ芳香環 → ring-N-carbonyl halide
+            has_het = any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+            if has_het and all(get_atom(graph, a).is_aromatic for a in ring_atoms):
+                aryl_pfx = _aryl_sulfonyl_prefix(graph, nb_idx, carbonyl_c, get_atom)
+                if aryl_pfx is not None:
+                    return f"{aryl_pfx}carbonyl {halide_name}"
             # 他の縮合芳香環等は後続の通常パスへ
             break
 
