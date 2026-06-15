@@ -1969,8 +1969,13 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                     if _n_am is not None:
                         _cn_am = [nb for nb in graph.adjacency[_n_am]
                                   if nb != anchor_c and _ga_am(graph, nb).symbol == "C"]
-                        if _cn_am:
-                            _sn_am = [_ncs_am(graph, c, {_n_am}) for c in _cn_am]
+                        _on_am = [nb for nb in graph.adjacency[_n_am]
+                                  if _ga_am(graph, nb).symbol == "O"]
+                        _nh_am = ["hydroxy" for _o in _on_am
+                                  if any(_ga_am(graph, nb2).symbol == "H"
+                                         for nb2 in graph.adjacency[_o])]
+                        if _cn_am or _nh_am:
+                            _sn_am = [_ncs_am(graph, c, {_n_am}) for c in _cn_am] + _nh_am
                             _cnt_am = _Ctr_am(_sn_am)
                             _pp_am: list[str] = []
                             for _s in sorted(_cnt_am):
