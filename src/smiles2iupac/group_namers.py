@@ -1526,8 +1526,9 @@ def _name_sulfinamide(graph, pgrp, get_atom) -> str:
 
 def _aryl_sulfonyl_prefix(graph, c_start, s_idx, get_atom) -> str | None:
     """
-    c_start が 6員ベンゼン環の芳香族 C であれば環名 ("benzene", "4-methylbenzene" 等) を返す。
-    それ以外は None。
+    c_start が芳香環の C であれば環の接頭辞を返す。
+    ベンゼン: "benzene" (置換基つきなら "4-methylbenzene" 等)
+    ヘテロ芳香族: "pyridine-2-" / "thiophene-2-" 等 (末尾ハイフンつき)
     """
     atom = get_atom(graph, c_start)
     if not (atom.is_aromatic and atom.in_ring):
@@ -1535,14 +1536,50 @@ def _aryl_sulfonyl_prefix(graph, c_start, s_idx, get_atom) -> str | None:
     ring_atoms = next(
         (rt for rt in (graph.ring_atom_sets or []) if c_start in rt), None
     )
-    if ring_atoms is None or len(ring_atoms) != 6:
+    if ring_atoms is None:
         return None
-    if not all(get_atom(graph, a).symbol == "C" for a in ring_atoms):
-        return None
-    from .ring_handler import _assign_ring_locants, collect_ring_substituents, assemble_ring_name
-    ring_chain = _assign_ring_locants(graph, list(ring_atoms), True, "alkane", [s_idx])
-    substituents = collect_ring_substituents(graph, ring_chain, [s_idx])
-    return assemble_ring_name(ring_chain, substituents, "alkane", None, [])
+
+    # Benzene: existing path
+    if (len(ring_atoms) == 6
+            and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
+        from .ring_handler import _assign_ring_locants, collect_ring_substituents, assemble_ring_name
+        ring_chain = _assign_ring_locants(graph, list(ring_atoms), True, "alkane", [s_idx])
+        substituents = collect_ring_substituents(graph, ring_chain, [s_idx])
+        return assemble_ring_name(ring_chain, substituents, "alkane", None, [])
+
+    # Heteroaromatic ring: use _RETAINED_NAMES
+    has_heteroatom = any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+    if has_heteroatom and all(get_atom(graph, a).is_aromatic for a in ring_atoms):
+        from .heterocycle_handler import _find_best_start, _canonical_sig, _RETAINED_NAMES
+        ring_list = sorted(ring_atoms)
+        ring_set = set(ring_list)
+        ordered: list[int] = [ring_list[0]]
+        seen: set[int] = {ring_list[0]}
+        while len(ordered) < len(ring_list):
+            cur = ordered[-1]
+            for nb in graph.adjacency[cur]:
+                if nb in ring_set and nb not in seen:
+                    ordered.append(nb)
+                    seen.add(nb)
+                    break
+            else:
+                break
+        rotation = _find_best_start(ordered, graph)
+        sig = _canonical_sig(rotation, graph)
+        entry = _RETAINED_NAMES.get((True, sig))
+        if entry is not None:
+            het_name, has_ind_h = entry
+            ind_h = "1H-" if has_ind_h else ""
+            rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
+            best_loc: int | None = None
+            for rot in (rotation, rev_rotation):
+                loc = {a: i + 1 for i, a in enumerate(rot)}.get(c_start)
+                if loc is not None and (best_loc is None or loc < best_loc):
+                    best_loc = loc
+            if best_loc is not None:
+                return f"{ind_h}{het_name}-{best_loc}-"
+
+    return None
 
 
 def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
