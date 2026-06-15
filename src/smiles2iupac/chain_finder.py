@@ -59,6 +59,27 @@ def find_principal_chain(
     if not c_idxs:
         raise ValueError("No carbon atoms found in the molecule.")
 
+    # When the principal group is not a nitrile, terminal C≡N carbons are named
+    # as "cyano" substituents (IUPAC P-65.2.1.1), so exclude them from the chain.
+    nitrile_types = {"nitrile", "dinitrile", "isocyanate", "cyanate", "isothiocyanate", "thiocyanate"}
+    if principal_grp is None or principal_grp.group_type not in nitrile_types:
+        cyano_c: set[int] = set()
+        for ci in c_idxs:
+            for nb_idx in graph.adjacency[ci]:
+                nb = get_atom(graph, nb_idx)
+                if nb.symbol == "N" and get_bond_order(graph, ci, nb_idx) == 3.0:
+                    n_heavy = [
+                        n for n in graph.adjacency[nb_idx]
+                        if n != ci and get_atom(graph, n).symbol != "H"
+                    ]
+                    if not n_heavy:
+                        cyano_c.add(ci)
+                        break
+        if cyano_c:
+            c_idxs = [c for c in c_idxs if c not in cyano_c]
+            if not c_idxs:
+                c_idxs = list(cyano_c)
+
     # principal group に属する炭素インデックスのセット
     required_carbons: set[int] = set()
     if principal_grp is not None:

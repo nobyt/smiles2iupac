@@ -24,7 +24,7 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1OCCN1",         "oxazolidin-2-one"),
     ("O=C1SCCN1",         "thiazolidin-2-one"),
     # regression: unrelated fused retained names unchanged
-    ("C1=COc2ccccc2C1",   "2H-chromene"),
+    ("C1=Cc2ccccc2OC1",   "2H-chromene"),
 ])
 def test_phase263_coumarin_oxazolidine(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

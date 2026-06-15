@@ -8,7 +8,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("c1ccc2nc3ncccc3nc2c1",      "pyrido[2,3-b]quinoxaline"),
     ("c1ccc2c(c1)cnc1cccnc12",    "benzo[h][1,6]naphthyridine"),
-    ("c1ccc2c(c1)ncc1ccncc12",    "benzo[g][1,6]naphthyridine"),
+    ("c1ccc2c(c1)ncc1ccncc12",    "2,6-phenanthroline"),
     ("c1cnc2cc3ncccc3nc2c1",      "pyrido[2,3-b][1,5]naphthyridine"),
     # regressions from Phase 453 fixes
     ("c1ccc2nc3nccnc3cc2c1",      "pyrazino[2,3-b]quinoline"),

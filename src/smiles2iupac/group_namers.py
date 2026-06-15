@@ -2183,8 +2183,8 @@ def _name_carbonothioate(graph, pgrp, get_atom) -> str:
 
 def _name_carbonodithioate(graph, pgrp, get_atom) -> str:
     """
-    ジチオ炭酸エステル命名 (Phase 348): dialkyl carbonodithioate (RS)2C=S
-    例: CSC(=S)SC → dimethyl carbonodithioate
+    トリチオ炭酸エステル命名 (Phase 348): dialkyl trithiocarbonate (RS)2C=S
+    例: CSC(=S)SC → dimethyl trithiocarbonate
     """
     from .constants import MULTIPLIER
     from .substituent import _name_carbon_substituent
@@ -2203,7 +2203,7 @@ def _name_carbonodithioate(graph, pgrp, get_atom) -> str:
         if c_nbrs:
             alkyl_names.append(_name_carbon_substituent(graph, c_nbrs[0], {s_idx, central_c}))
     if not alkyl_names:
-        return "carbonodithioate"
+        return "trithiocarbonate"
     alkyl_names.sort()
     counts = Counter(alkyl_names)
     parts = []
@@ -2214,7 +2214,7 @@ def _name_carbonodithioate(graph, pgrp, get_atom) -> str:
         else:
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             parts.append(f"{mult}{name}")
-    return " ".join(parts) + " carbonodithioate"
+    return " ".join(parts) + " trithiocarbonate"
 
 
 def _name_phosphate_ester(graph, pgrp, get_atom) -> str:

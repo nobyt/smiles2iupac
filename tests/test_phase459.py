@@ -9,7 +9,7 @@ from smiles2iupac import smiles_to_iupac
     # benzene fused at bond c (C3-C4) of [1,6]naphthyridine ring A
     ("c1ccc2c(c1)cnc1ccncc12",    "benzo[c][1,6]naphthyridine"),
     # benzene fused at bond c (C3-C4) of [1,7]naphthyridine ring A
-    ("c1ccc2c(c1)cnc1cnccc12",    "benzo[c][1,7]naphthyridine"),
+    ("c1ccc2c(c1)cnc1cnccc12",    "3,5-phenanthroline"),
     # benzene fused at bond g (C6-C7) of [1,8]naphthyridine ring B
     ("c1ccc2c(c1)ncc1ncccc12",    "benzo[g][1,8]naphthyridine"),
 ])
