@@ -1253,8 +1253,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncs1":   "1,3,4-thiadiazole",
     # 5-membered with adjacent N (pyrazole, triazoles, tetrazole)
     "c1cn[nH]c1":  "1H-pyrazole",
-    "c1cn[nH]n1":  "1H-1,2,3-triazole",
-    "c1c[nH]nn1":  "2H-1,2,3-triazole",
+    "c1cn[nH]n1":  "2H-1,2,3-triazole",   # NH between two N's → position 2
+    "c1c[nH]nn1":  "1H-1,2,3-triazole",   # NH adjacent to C → position 1
     "c1nc[nH]n1":  "1H-1,2,4-triazole",
     "c1nn[nH]n1":  "1H-tetrazole",
     "c1nnn[nH]1":  "1H-tetrazole",  # alternate canonical form

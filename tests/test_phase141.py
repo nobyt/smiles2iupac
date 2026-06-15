@@ -29,7 +29,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1nncs1",   "1,3,4-thiadiazole"),
     # pyrazole and triazoles
     ("c1cn[nH]c1",  "1H-pyrazole"),
-    ("c1cn[nH]n1",  "1H-1,2,3-triazole"),
+    ("c1cn[nH]n1",  "2H-1,2,3-triazole"),   # NH between two N's → position 2
+    ("c1c[nH]nn1",  "1H-1,2,3-triazole"),   # NH adjacent to C → position 1
     ("c1nc[nH]n1",  "1H-1,2,4-triazole"),
     ("c1nn[nH]n1",  "1H-tetrazole"),
     # triazines and tetrazine
