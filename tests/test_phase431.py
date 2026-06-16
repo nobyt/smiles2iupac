@@ -14,7 +14,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: acridine unchanged
     ("c1ccc2nc3ccccc3cc2c1",           "acridine"),
     # regression: benzo[f]quinoline unchanged (Phase 429)
-    ("c1ccc2cc3ncccc3cc2c1",           "benzo[f]quinoline"),
+    ("c1ccc2c(c1)ccc1ncccc12",         "benzo[f]quinoline"),
     # regression: anthracene unchanged (tetracyclic without N)
     ("c1ccc2cc3ccccc3cc2c1",           "anthracene"),
 ])

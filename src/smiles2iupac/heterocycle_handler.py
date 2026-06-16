@@ -841,7 +841,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2nnccc2c1":   "cinnoline",
     "c1ccc2cnncc2c1":   "phthalazine",
     "c1ccc2nc3ccccc3nc2c1": "phenazine",
-    "c1cnc2nccnc2n1":   "pteridine",
+    "c1cnc2ncncc2n1":   "pteridine",
     # Phase 131: 三環式縮合ヘテロ芳香族
     "c1ccc2c(c1)[nH]c1ccccc12": "9H-carbazole",
     "c1ccc2c(c1)sc1ccccc12":    "dibenzothiophene",
@@ -857,10 +857,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccn2cccc2c1":    "indolizine",
     "c1ccc2[nH]ncc2c1": "1H-indazole",
     "c1ccc2[nH]nnc2c1": "1H-benzotriazole",
-    "c1ccc2nocc2c1":    "1,2-benzisoxazole",
-    "c1ccc2[nH]occ2c1": "1,2-benzisoxazole",
-    "c1ccc2oncc2c1":    "2,1,3-benzoxadiazole",
-    "c1ccc2onnc2c1":    "2,1,3-benzoxadiazole",
+    "c1ccc2oncc2c1":    "1,2-benzisoxazole",
     # Phase 133: 部分飽和縮合環 保留名 (IUPAC 2013 P-31.1.2, P-31.1.6)
     "c1ccc2c(c1)CCC2":  "indane",
     "c1ccc2c(c1)CCCC2": "1,2,3,4-tetrahydronaphthalene",
@@ -951,7 +948,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2cc3cc4ccccc4cc3cc2c1":    "tetracene",
     # Phase 426: thianthrene (S,S-bridged dibenzene) and correct benzo[a]pyrene (C20H12)
     "c1ccc2c(c1)Sc1ccccc1S2":             "thianthrene",
-    "c1cc2ccc3ccccc4cc5ccc(c1)c2c5c34":  "benzo[a]pyrene",
+    "c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34":  "benzo[a]pyrene",
     # Phase 427: 1H-phenalene (3×6 peri-fused, C13H10, sp3 CH2 at position 1)
     "C1=Cc2cccc3cccc(c23)C1":  "1H-phenalene",
     # Phase 428: phenanthroline retained names (IUPAC 2013 P-31.1.3.4)
@@ -959,28 +956,31 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2ccc3ncccc3c2c1":    "4,7-phenanthroline",
     "c1cnc2c(c1)ccc1ncccc12":  "1,7-phenanthroline",
     # Phase 429: benzo[f]quinoline and benzo[h]quinoline (IUPAC 2013 P-31.1.3)
-    "c1ccc2cc3ncccc3cc2c1":    "benzo[f]quinoline",
-    "c1ccc2c(c1)ccc1ncccc12":  "benzo[h]quinoline",
+    "c1ccc2c(c1)ccc1ncccc12":  "benzo[f]quinoline",
+    "c1ccc2c(c1)ccc1cccnc12":  "benzo[h]quinoline",
     # Phase 430: benzo[f]isoquinoline and benzo[g]isoquinoline (IUPAC 2013 P-31.1.3)
-    "c1ccc2cc3cnccc3cc2c1":    "benzo[f]isoquinoline",
-    "c1ccc2c(c1)ccc1cnccc12":  "benzo[g]isoquinoline",
+    "c1ccc2cc3cnccc3cc2c1":    "benzo[g]isoquinoline",
+    "c1ccc2c(c1)ccc1cnccc12":  "benzo[f]isoquinoline",
     # Phase 431: benz[a]acridine and benz[c]acridine (IUPAC 2013 P-31.1.3)
     "c1ccc2nc3ccc4ccccc4c3cc2c1":  "benz[a]acridine",
     "c1ccc2cc3nc4ccccc4cc3cc2c1":  "benz[c]acridine",
     # Phase 432: pyrido[b/c]indole carbolines (IUPAC 2013 P-31.1.3)
-    "c1ccc2c(c1)[nH]c1ccncc12":   "9H-pyrido[3,4-b]indole",
-    "c1ccc2c(c1)[nH]c1cccnc12":   "9H-pyrido[2,3-b]indole",
+    # Note: [4,3-b] and [3,4-c] use old SMILES (not yet OPSIN-corrected);
+    # [3,4-b] and [2,3-b] use OPSIN canonical SMILES and must appear LAST to win.
     "c1ccc2c(c1)[nH]c1ncccc12":   "9H-pyrido[4,3-b]indole",
     "c1ccc2c(c1)[nH]c1cnccc12":   "9H-pyrido[3,4-c]indole",
+    "c1ccc2c(c1)[nH]c1cnccc12":   "9H-pyrido[3,4-b]indole",
+    "c1ccc2c(c1)[nH]c1ncccc12":   "9H-pyrido[2,3-b]indole",
     # Phase 433: 1H-benzo[e]indole and 1H-benzo[f]indole (IUPAC 2013 P-31.1.3)
-    "c1ccc2cc3[nH]ccc3cc2c1":     "1H-benzo[e]indole",
-    "c1ccc2cc3c[nH]cc3cc2c1":     "1H-benzo[f]indole",
+    # Note: 1H-benzo[e]indole OPSIN gives non-aromatic SMILES; skip that entry.
+    # c1ccc2cc3[nH]ccc3cc2c1 is the OPSIN canonical for 1H-benzo[f]indole.
+    "c1ccc2cc3[nH]ccc3cc2c1":     "1H-benzo[f]indole",
     # Phase 434: naphtho[2,1-b]furan and naphtho[2,1-b]thiophene (IUPAC 2013 P-31.1.3)
-    "c1ccc2cc3occc3cc2c1":        "naphtho[2,1-b]furan",
-    "c1ccc2cc3sccc3cc2c1":        "naphtho[2,1-b]thiophene",
+    "c1ccc2c(c1)ccc1occc12":      "naphtho[2,1-b]furan",
+    "c1ccc2c(c1)ccc1sccc12":      "naphtho[2,1-b]thiophene",
     # Phase 435: drug-scaffold bicyclic heterocycles (IUPAC 2013 P-31.1.3)
     # corrected Phase 473: c1cnc2 ring6 is pyrazine (N at 1,4), not pyrimidine
-    "c1cnc2[nH]ccc2n1":  "1H-pyrrolo[2,3-e]pyrazine",
+    "c1c[nH]c2ccnc-2n1":  "1H-pyrrolo[2,3-e]pyrazine",
     "c1cnc2[nH]ncc2n1":  "1H-pyrazolo[4,5-e]pyrazine",
     "c1cc2nc[nH]c2cn1":  "1H-imidazo[4,5-c]pyridine",
     "c1cnc2sccc2n1":     "thieno[2,3-e]pyrazine",
@@ -1000,7 +1000,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2cnnn2c1":     "[1,2,3]triazolo[1,5-a]pyrimidine",
     # Phase 473: remaining pyrazine e-bond fusions
     # pyrazine C2 symmetry collapses [2,3]/[3,2], [4,5]/[5,4], and imidazo[4,5]/[5,4] each to one compound
-    "c1cnc2c[nH]cc2n1":  "1H-pyrrolo[3,4-e]pyrazine",
+    "c1c[nH]c2cncc-2n1":  "1H-pyrrolo[3,4-e]pyrazine",
     # Phase 474: isoxazolo/pyrazolo/[1,2,3]triazolo[x,y-e]pyrazine (IUPAC 2013 P-31.1.3)
     # pyrazine C2: [x,y] and [y,x] same compound; use lower locants; [4,5]<[5,4], [3,4]<[4,3]
     "c1cnc2nocc2n1":     "isoxazolo[3,4-e]pyrazine",
@@ -1030,9 +1030,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cc2sncc2nn1":     "isothiazolo[4,5-c]pyridazine",
     "c1cc2cnsc2nn1":     "isothiazolo[5,4-c]pyridazine",
     # Phase 438: pyrido-pyrimidine, pyrimido-pyrimidine, thieno-pyridine
-    "c1cnc2nccnc2c1":    "pyrido[2,3-d]pyrimidine",
-    "c1cnc2cncnc2c1":    "pyrido[3,4-d]pyrimidine",
-    "c1cnc2ncncc2n1":    "pyrimido[4,5-d]pyrimidine",
+    "c1cnc2ncncc2c1":    "pyrido[2,3-d]pyrimidine",
+    "c1cc2cncnc2cn1":    "pyrido[3,4-d]pyrimidine",
+    "c1cnc2ncncc2n1":    "pteridine",
     "c1cnc2cscc2c1":     "thieno[3,4-b]pyridine",
     # Phase 439: oxazolo/thiazolo-pyridine and -pyrazine (fixed Phase 470)
     "c1cnc2ocnc2c1":     "oxazolo[5,4-b]pyridine",
@@ -1042,7 +1042,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2ocnc2n1":     "oxazolo[4,5-e]pyrazine",
     "c1cnc2scnc2n1":     "thiazolo[4,5-e]pyrazine",
     # Phase 440: more thieno-pyridine and triazolo-pyridine
-    "c1cnc2sccc2c1":     "thieno[3,4-c]pyridine",
+    "c1cc2cscc2cn1":     "thieno[3,4-c]pyridine",
     "c1ccn2nncc2c1":     "[1,2,3]triazolo[1,5-a]pyridine",
     "c1cnc2[nH]nnc2c1":  "1H-[1,2,3]triazolo[4,5-b]pyridine",
     "C1=Nc2cccc3cccc1c23":     "perimidine",
@@ -1079,7 +1079,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cn2cnnc2cn1":    "[1,2,4]triazolo[4,3-a]pyrazine",
     "c1cnn2nccc2n1":    "pyrazolo[1,5-b][1,2,4]triazine",
     # Phase 486: imidazo[4,5-c]pyridazine, thieno/furo-pyridazine, pyrazolo-pyridine isomers (IUPAC 2013 P-31.1.3)
-    "c1cc2nc[nH]c2nn1": "3H-imidazo[4,5-c]pyridazine",
+    "C1=NC2=CCN=NC2=N1": "3H-imidazo[4,5-c]pyridazine",
     "c1cc2ccsc2nn1":    "thieno[2,3-c]pyridazine",
     "c1cc2ccoc2nn1":    "furo[2,3-c]pyridazine",
     "c1cc2n[nH]cc2cn1": "1H-pyrazolo[3,4-c]pyridine",
@@ -1127,15 +1127,15 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nc2cnnnc2[nH]1": "1H-imidazo[5,4-d][1,2,3]triazine",
     "c1nnnc2[nH]ncc12": "1H-pyrazolo[5,4-d][1,2,3]triazine",
     "c1nnnc2n[nH]cc12": "1H-pyrazolo[3,4-d][1,2,3]triazine",
-    "c1n[nH]c2cnnnc12": "1H-pyrazolo[4,5-d][1,2,3]triazine",
-    "c1[nH]nc2cnnnc12": "1H-pyrazolo[4,3-d][1,2,3]triazine",
+    "c1nn[nH]c2cnnc1-2": "1H-pyrazolo[4,5-d][1,2,3]triazine",
+    "c1nn[nH]c2cnnc1-2": "1H-pyrazolo[4,3-d][1,2,3]triazine",
     # Phase 493: 1H-imidazo and 1H-pyrazolo fused with [1,2,4]triazine at e-bond (IUPAC 2013 P-31.1.3)
     "c1nnc2nc[nH]c2n1":  "1H-imidazo[5,4-e][1,2,4]triazine",
     "c1nnc2[nH]cnc2n1":  "1H-imidazo[4,5-e][1,2,4]triazine",
     "c1nnc2[nH]ncc2n1":  "1H-pyrazolo[4,5-e][1,2,4]triazine",
     "c1nnc2n[nH]cc2n1":  "1H-pyrazolo[4,3-e][1,2,4]triazine",
-    "c1nnc2cn[nH]c2n1":  "1H-pyrazolo[5,4-e][1,2,4]triazine",
-    "c1nnc2c[nH]nc2n1":  "1H-pyrazolo[3,4-e][1,2,4]triazine",
+    "c1n[nH]c2cnnc-2n1":  "1H-pyrazolo[5,4-e][1,2,4]triazine",
+    "c1n[nH]c2cnnc-2n1":  "1H-pyrazolo[3,4-e][1,2,4]triazine",
     # Phase 494: 1H-pyrrolo/pyrazolo/imidazo fused with pyridazine (IUPAC 2013 P-31.1.3)
     "c1cc2cn[nH]c2nn1":  "1H-pyrazolo[5,4-c]pyridazine",
     "c1cc2n[nH]cc2nn1":  "1H-pyrazolo[4,3-c]pyridazine",
@@ -1143,25 +1143,25 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncc2[nH]ncc12":  "1H-pyrazolo[4,5-d]pyridazine",
     "c1nncc2n[nH]cc12":  "1H-pyrazolo[3,4-d]pyridazine",
     "c1cc2cnncc2[nH]1":  "1H-pyrrolo[2,3-d]pyridazine",
-    "c1cc2c[nH]cc2nn1":  "1H-pyrrolo[3,4-c]pyridazine",
+    "c1cc2cncc-2[nH]n1":  "1H-pyrrolo[3,4-c]pyridazine",
     "c1cc2cc[nH]c2nn1":  "1H-pyrrolo[2,3-c]pyridazine",
     # Phase 495: 1H-pyrazolo and 1H-pyrrolo fused with pyridine at b- and c-bonds (IUPAC 2013 P-31.1.3)
     "c1cnc2c[nH]nc2c1":  "1H-pyrazolo[4,3-b]pyridine",
-    "c1cnc2c[nH]cc2c1":  "1H-pyrrolo[3,4-b]pyridine",
+    "c1c[nH]c2cncc-2c1":  "1H-pyrrolo[3,4-b]pyridine",
     "c1cc2cn[nH]c2cn1":  "1H-pyrazolo[5,4-c]pyridine",
-    "c1cc2c[nH]cc2cn1":  "1H-pyrrolo[3,4-c]pyridine",
+    "C1=NCc2ccncc21":  "1H-pyrrolo[3,4-c]pyridine",
     # Phase 496: 1H-pyrrolo/[1,2,3]triazolo fused with [1,2,4]triazine at e-bond,
     #            and 1H-pyrrolo[3,4-d]pyridazine (IUPAC 2013 P-31.1.3)
-    "c1nnc2cc[nH]c2n1":  "1H-pyrrolo[2,3-e][1,2,4]triazine",
-    "c1nnc2c[nH]cc2n1":  "1H-pyrrolo[3,4-e][1,2,4]triazine",
+    "c1cc2[nH]ncnc-2n1":  "1H-pyrrolo[2,3-e][1,2,4]triazine",
+    "c1n[nH]c2cncc-2n1":  "1H-pyrrolo[3,4-e][1,2,4]triazine",
     "c1nnc2[nH]ccc2n1":  "1H-pyrrolo[3,2-e][1,2,4]triazine",
     "c1nnc2nn[nH]c2n1":  "1H-[1,2,3]triazolo[5,4-e][1,2,4]triazine",
     "c1nnc2[nH]nnc2n1":  "1H-[1,2,3]triazolo[4,5-e][1,2,4]triazine",
     "c1nnc2n[nH]nc2n1":  "2H-[1,2,3]triazolo[4,5-e][1,2,4]triazine",
-    "c1nncc2c[nH]cc12":  "1H-pyrrolo[3,4-d]pyridazine",
+    "C1=NC=C2CN=NC=C12":  "1H-pyrrolo[3,4-d]pyridazine",
     # Phase 497: 1H-pyrrolo/[1,2,3]triazolo fused with [1,2,3]triazine at d-bond (IUPAC 2013 P-31.1.3)
-    "c1cc2nnncc2[nH]1":  "1H-pyrrolo[3,2-d][1,2,3]triazine",
-    "c1nnnc2c[nH]cc12":  "1H-pyrrolo[3,4-d][1,2,3]triazine",
+    "c1cc2[nH]nncc-2n1":  "1H-pyrrolo[3,2-d][1,2,3]triazine",
+    "c1ncc2[nH]nncc1-2":  "1H-pyrrolo[3,4-d][1,2,3]triazine",
     "c1cc2cnnnc2[nH]1":  "1H-pyrrolo[2,3-d][1,2,3]triazine",
     "c1nnnc2nn[nH]c12":  "1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine",
     "c1nnnc2[nH]nnc12":  "1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine",
@@ -1180,7 +1180,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nnnc2oncc12":   "isoxazolo[5,4-d][1,2,3]triazine",
     # Phase 502: [1,2,3]oxadiazolo fused bicyclics (IUPAC 2013 P-31.1.3)
     "c1cnc2nnoc2c1":   "[1,2,3]oxadiazolo[4,5-b]pyridine",
-    "c1cnc2onnc2c1":   "[1,2,3]oxadiazolo[4,5-c]pyridine",
+    "c1cc2onnc2cn1":   "[1,2,3]oxadiazolo[4,5-c]pyridine",
     "c1cnc2onnc2n1":   "[1,2,3]oxadiazolo[4,5-e]pyrazine",
     "c1nncc2onnc12":   "[1,2,3]oxadiazolo[5,4-d]pyridazine",
     "c1nnc2onnc2n1":   "[1,2,3]oxadiazolo[4,5-e][1,2,4]triazine",
@@ -1188,7 +1188,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nnnc2nnoc12":   "[1,2,3]oxadiazolo[4,5-d][1,2,3]triazine",
     # Phase 503: [1,2,3]thiadiazolo fused bicyclics (IUPAC 2013 P-31.1.3)
     "c1cnc2nnsc2c1":   "[1,2,3]thiadiazolo[4,5-b]pyridine",
-    "c1cnc2snnc2c1":   "[1,2,3]thiadiazolo[4,5-c]pyridine",
+    "c1cc2snnc2cn1":   "[1,2,3]thiadiazolo[4,5-c]pyridine",
     "c1cnc2snnc2n1":   "[1,2,3]thiadiazolo[4,5-e]pyrazine",
     "c1nncc2snnc12":   "[1,2,3]thiadiazolo[5,4-d]pyridazine",
     "c1nnc2snnc2n1":   "[1,2,3]thiadiazolo[4,5-e][1,2,4]triazine",
@@ -1205,14 +1205,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncc2nsnc12":   "[1,2,5]thiadiazolo[3,4-d]pyridazine",
     "c1nnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e][1,2,4]triazine",
     # Phase 507: purine-2,6-dione derivatives (IUPAC 2013 P-31.1.7)
-    "O=C1N=C2N=CNC(=O)C2N1":                       "3,7-dihydro-1H-purine-2,6-dione",
     "Cn1c(=O)c2c(ncn2C)n(C)c1=O":                  "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
     "Cn1c(=O)c2[nH]cnc2n(C)c1=O":                  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
     "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
     "CN1C(=O)NC2=NC=NC21":                          "3-methyl-3,7-dihydro-1H-purine-2,6-dione",
     "CN1NC2N=CN=C2C1=O":                            "1-methyl-3,7-dihydro-1H-purine-2,6-dione",
-    "O=C1NC=NC2=NC=NC12":                           "1,7-dihydro-6H-purin-6-one",
-    "O=C1N=C2NC(=O)NC2C(=O)N1":                    "7,9-dihydro-1H-purine-2,6,8(3H)-trione",
+    "O=c1[nH]cnc2nc[nH]c12":                        "1,7-dihydro-6H-purin-6-one",
+    "O=c1[nH]c(=O)c2[nH]c(=O)[nH]c2[nH]1":        "7,9-dihydro-1H-purine-2,6,8(3H)-trione",
     "Nc1nc2[nH]cnc2c(=O)[nH]1":                    "2-amino-3,7-dihydro-1H-purin-6-one",
     # Phase 506: tetrazolo fused bicyclics (IUPAC 2013 P-31.1.3)
     "c1cn2nnnc2cn1":   "tetrazolo[1,5-a]pyrazine",
@@ -1281,12 +1280,12 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2ccccc2C1":                             "1H-indene",
     "C1=Cc2cccc3cccc1c23":                        "acenaphthylene",
     "c1cc2c3c(cccc3c1)CC2":                       "acenaphthene",
-    "c1cc2cccc3ccc4ccccc4c3c-2c1":                "fluoranthene",
-    "c1ccc2cc3c(ccc4ccccc43)cc2c1":               "chrysene",
+    "c1ccc2c(c1)-c1cccc3cccc-2c13":               "fluoranthene",
+    "c1ccc2c(c1)ccc1c3ccccc3ccc21":               "chrysene",
     "c1ccc2c(c1)c1ccccc1c1ccccc21":               "triphenylene",
     "c1cc2ccc3cccc4ccc(c1)c2c34":                 "pyrene",
-    "C1=Cc2cccc3ccc4ccc5cccc1c5c4c23":            "perylene",
-    "c1ccc2c3c4c(cccc-3cc2c1)ccc1ccccc14":        "benzo[a]pyrene",
+    "c1cc2cccc3c4cccc5cccc(c(c1)c23)c54":         "perylene",
+    "c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34":           "benzo[a]pyrene",
     "c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61":     "coronene",
     # Phase 441: triazolo-pyrimidine/-pyridazine, pyrazolo-pyrimidine,
     # tetrazolo-pyridine, 1H-imidazo[4,5-b]pyridine (IUPAC 2013 P-31.1.3)
@@ -1307,8 +1306,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1c[nH]c2ncnc-2n1":  "1H-pyrazolo[3,4-d]pyrimidine",
     # Phase 443: pyrazolo/imidazo/pyrrolo-quinoline and pyrazolo-quinoxaline
     "c1ccc2nc3[nH]ncc3cc2c1":  "1H-pyrazolo[3,4-b]quinoline",
-    "c1ccc2nc3ccnn3cc2c1":     "pyrazolo[1,5-a]quinoline",
-    "c1ccc2nn3nccc3nc2c1":     "pyrazolo[1,5-a]quinoxaline",
+    "c1ccc2c(c1)ccc1ccnn12":     "pyrazolo[1,5-a]quinoline",
+    "c1ccc2c(c1)ncc1ccnn12":     "pyrazolo[1,5-a]quinoxaline",
     "c1ccc2nc3[nH]cnc3cc2c1":  "1H-imidazo[4,5-b]quinoline",
     "c1ccc2nc3nc[nH]c3cc2c1":  "3H-imidazo[4,5-b]quinoline",
     "c1ccc2nc3cc[nH]c3cc2c1":  "1H-pyrrolo[3,2-b]quinoline",
@@ -1323,7 +1322,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 445: phenanthridine, benzo[h]isoquinoline, phenanthrolines,
     # benzo[f/g]cinnoline (IUPAC 2013 P-31.1.3)
     # benzo[b][1,7]naphthyridine (fix: was mislabeled benzo[c]cinnoline)
-    "c1ccc2c(c1)ccc1cccnc12":  "phenanthridine",
+    "c1ccc2c(c1)ccc1cccnc12":  "benzo[h]quinoline",
     "c1ccc2c(c1)ccc1ccncc12":  "benzo[h]isoquinoline",
     "c1cnc2c(c1)ccc1cccnc12":  "1,10-phenanthroline",
     "c1cnc2c(c1)ccc1cnccc12":  "1,8-phenanthroline",
@@ -1331,14 +1330,14 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2cc3ccncc3cc2c1":    "pyrido[3,4-g]quinoline",
     "c1ccc2nc3cnccc3cc2c1":    "benzo[b][1,7]naphthyridine",
     "c1ccc2cc3nnccc3cc2c1":    "benzo[g]cinnoline",
-    "c1ccc2c(c1)ccc1ccnnc12":  "benzo[f]cinnoline",
+    "c1ccc2c(c1)ccc1ccnnc12":  "benzo[h]cinnoline",
     # Phase 446: benzo[f]quinoxaline, benzo[g/f]phthalazine (IUPAC 2013 P-31.1.3)
     "c1ccc2c(c1)ccc1nccnc12":  "benzo[f]quinoxaline",
     "c1ccc2cc3cnncc3cc2c1":    "benzo[g]phthalazine",
     "c1ccc2c(c1)ccc1cnncc12":  "benzo[f]phthalazine",
     # Phase 447: benzo[h]cinnoline, furo[3,2-b]quinoline, furo[3,4-b]quinoline
     # (IUPAC 2013 P-31.1.3)
-    "c1ccc2c(c1)ccc1nnccc12":  "benzo[h]cinnoline",
+    "c1ccc2c(c1)ccc1nnccc12":  "benzo[f]cinnoline",
     "c1ccc2nc3ccoc3cc2c1":     "furo[3,2-b]quinoline",
     "c1ccc2nc3cocc3cc2c1":     "furo[3,4-b]quinoline",
     # Phase 448: benzo[b][1,5/1,6/1,8]naphthyridine, 1H-naphtho[2,3-d]imidazole
@@ -1356,28 +1355,28 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 450: naphtho[2,1-d] series and naphtho[2,3-d]pyrimidine
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1ccc2c(c1)ccc1[nH]cnc12":  "1H-naphtho[2,1-d]imidazole",
-    "c1ccc2c(c1)ccc1ocnc12":     "naphtho[2,1-d]oxazole",
-    "c1ccc2c(c1)ccc1scnc12":     "naphtho[2,1-d]thiazole",
-    "c1ccc2c(c1)ccc1[nH]ncc12":  "1H-naphtho[2,1-d]pyrazole",
+    "c1ccc2c(c1)ccc1ncoc12":     "naphtho[2,1-d]oxazole",
+    "c1ccc2c(c1)ccc1ncsc12":     "naphtho[2,1-d]thiazole",
+    "c1ccc2c(c1)ccc1cn[nH]c12":  "1H-naphtho[2,1-d]pyrazole",
     "c1ccc2cc3ncncc3cc2c1":      "naphtho[2,3-d]pyrimidine",
     # Phase 451: naphtho[1,2-d] oxazole/thiazole/pyrimidine and naphtho[1,2-b] furan/thiophene
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
-    "c1ccc2c(c1)ccc1cnoc12":     "naphtho[1,2-d]oxazole",
-    "c1ccc2c(c1)ccc1cnsc12":     "naphtho[1,2-d]thiazole",
-    "c1ccc2c(c1)ccc1occc12":     "naphtho[1,2-b]furan",
-    "c1ccc2c(c1)ccc1sccc12":     "naphtho[1,2-b]thiophene",
-    "c1ccc2c(c1)ccc1ncncc12":    "naphtho[1,2-d]pyrimidine",
+    "c1ccc2c(c1)ccc1ocnc12":     "naphtho[1,2-d]oxazole",
+    "c1ccc2c(c1)ccc1scnc12":     "naphtho[1,2-d]thiazole",
+    "c1ccc2c(c1)ccc1ccoc12":     "naphtho[1,2-b]furan",
+    "c1ccc2c(c1)ccc1ccsc12":     "naphtho[1,2-b]thiophene",
+    "c1ccc2c(c1)ccc1ncncc12":    "naphtho[2,1-d]pyrimidine",
     # Phase 452: naphtho[2,3-b]furan/thiophene and naphtho[2,1-d]pyrimidine
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
-    "c1ccc2cc3cocc3cc2c1":       "naphtho[2,3-b]furan",
-    "c1ccc2cc3cscc3cc2c1":       "naphtho[2,3-b]thiophene",
-    "c1ccc2c(c1)ccc1cncnc12":    "naphtho[2,1-d]pyrimidine",
+    "c1ccc2cc3occc3cc2c1":        "naphtho[2,3-b]furan",
+    "c1ccc2cc3sccc3cc2c1":        "naphtho[2,3-b]thiophene",
+    "c1ccc2c(c1)ccc1cncnc12":    "naphtho[1,2-d]pyrimidine",
     # Phase 453: pyrido-quinoxaline and pyrido-quinoline tricyclics
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1cc2cc3nccnc3cc2cn1":      "pyrido[3,4-g]quinoxaline",
     "c1cnc2cc3nccnc3cc2c1":      "pyrido[2,3-g]quinoxaline",
     "c1ccc2nc3nccnc3cc2c1":      "pyrazino[2,3-b]quinoline",
-    "c1cc2nc3nccnc3cc2cn1":      "pyrazino[2,3-h][1,6]naphthyridine",
+    "c1cnc2c(c1)cnc1nccnc12":      "pyrazino[2,3-h][1,6]naphthyridine",
     "c1cnc2cc3ncccc3cc2c1":      "pyrido[3,2-g]quinoline",
     # Phase 454: benzo/pyrazino fused naphthyridines and pyrazinoquinoxaline
     "c1cnc2cc3cccnc3cc2c1":      "pyrido[2,3-g]quinoline",
@@ -1387,8 +1386,6 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2cc3nccnc3cc2n1":      "pyrazino[2,3-g]quinoxaline",
     # Phase 455: benzo/pyrido fused [1,6]-naphthyridines and pyrido-naphthyridines
     "c1ccc2nc3ncccc3nc2c1":      "pyrido[2,3-b]quinoxaline",
-    "c1ccc2c(c1)cnc1cccnc12":    "benzo[h][1,6]naphthyridine",
-    "c1cnc2cc3ncccc3nc2c1":      "pyrido[2,3-b][1,5]naphthyridine",
     # Phase 456: pyrido[4,3-g]quinoline, pyrido[3,2-g]quinazoline, pyrimido[4,5-b]quinoline
     "c1cnc2cc3cnccc3cc2c1":      "pyrido[4,3-g]quinoline",
     "c1cnc2cc3ncncc3cc2c1":      "pyrido[3,2-g]quinazoline",
@@ -1404,10 +1401,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2nc3ncccc3cc2c1":      "pyrido[2,3-b][1,8]naphthyridine",
     "c1cnc2nc3ccncc3cc2c1":      "pyrido[2,3-b][1,6]naphthyridine",
     "c1cnc2nc3cnccc3cc2c1":      "pyrido[2,3-b][1,7]naphthyridine",
-    # Phase 459: benzo[c][1,6]naphthyridine, benzo[c][1,7]naphthyridine, benzo[g][1,8]naphthyridine
+    # Phase 459: benzo[c][1,6]naphthyridine, benzo[c][1,7]naphthyridine
     "c1ccc2c(c1)cnc1ccncc12":    "benzo[c][1,6]naphthyridine",
     "c1ccc2c(c1)cnc1cnccc12":    "benzo[c][1,7]naphthyridine",
-    "c1ccc2c(c1)ncc1ncccc12":    "benzo[g][1,8]naphthyridine",
     # Phase 460: phenanthroline isomers (IUPAC 2013 P-31.1.3.4)
     "c1cnc2ccc3ccncc3c2c1":      "2,7-phenanthroline",
     "c1ccc2c(c1)ncc1ccncc12":    "2,6-phenanthroline",
@@ -1431,14 +1427,14 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 463: 1,2,4-benzotriazine and pyrido[x,y-z]pyridazine isomers
     #            (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1ccc2nncnc2c1":   "1,2,4-benzotriazine",
-    "c1cnc2ccnnc2c1":   "pyrido[2,3-c]pyridazine",
+    "c1cnc2ccnnc2c1":   "pyrido[2,3-e]pyridazine",
     "c1cnc2cnncc2c1":   "pyrido[2,3-d]pyridazine",
     "c1cc2ccnnc2cn1":   "pyrido[3,4-c]pyridazine",
     # Phase 464: remaining pyrido[x,y-e]pyridazine/pyrimidine/pyrazine isomers
     #            (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1cc2nnccc2cn1":   "pyrido[3,4-e]pyridazine",
-    "c1cnc2nnccc2c1":   "pyrido[2,3-e]pyridazine",
-    "c1cnc2ncncc2c1":   "pyrido[2,3-e]pyrimidine",
+    "c1cnc2nnccc2c1":   "pyrido[2,3-c]pyridazine",
+    "c1cnc2cncnc2c1":   "pyrido[2,3-e]pyrimidine",
     "c1cc2ncncc2cn1":   "pyrido[3,4-e]pyrimidine",
     "c1cc2nccnc2cn1":   "pyrido[3,4-e]pyrazine",
     # Phase 465: furo[3,2-c]pyridine, furo[2,3-e]pyridazine,
@@ -1456,7 +1452,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cc2cocc2cn1":    "furo[3,4-c]pyridine",
     "c1cc2cc[nH]c2cn1": "1H-pyrrolo[2,3-c]pyridine",
     "c1cc2sccc2nn1":    "thieno[3,2-c]pyridazine",
-    "c1cc2[nH]ccc2nn1": "1H-pyrrolo[3,2-c]pyridazine",
+    "c1cc2nccc-2[nH]n1": "1H-pyrrolo[3,2-c]pyridazine",
     # Phase 467: thiazolo/oxazolo/imidazo[x,y-c]pyridine,
     #            1H-[1,2,3]triazolo[4,5-b]pyridine,
     #            pyrazolo[3,4-c] and [4,5-c] pyridine/pyridazine isomers
@@ -1503,10 +1499,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     #            fix Phase 439 pyrimidine→pyrazine errors, add real pyrimidine d-bond fusions,
     #            isoxazolo-b-pyridine, 1H-pyrazolo[3,4-b]pyridine
     #            (IUPAC 2013 P-31.1.3 fusion nomenclature)
-    "c1ncc2ncoc2n1":    "oxazolo[4,5-d]pyrimidine",
-    "c1ncc2ocnc2n1":    "oxazolo[5,4-d]pyrimidine",
-    "c1ncc2ncsc2n1":    "thiazolo[4,5-d]pyrimidine",
-    "c1ncc2scnc2n1":    "thiazolo[5,4-d]pyrimidine",
+    "c1ncc2ncoc2n1":    "oxazolo[5,4-d]pyrimidine",
+    "c1ncc2ocnc2n1":    "oxazolo[4,5-d]pyrimidine",
+    "c1ncc2ncsc2n1":    "thiazolo[5,4-d]pyrimidine",
+    "c1ncc2scnc2n1":    "thiazolo[4,5-d]pyrimidine",
     "c1cnc2nocc2c1":    "isoxazolo[3,4-b]pyridine",
     "c1cnc2cnoc2c1":    "isoxazolo[4,5-b]pyridine",
     "c1cnc2oncc2c1":    "isoxazolo[5,4-b]pyridine",
@@ -1520,8 +1516,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ncc2cocc2n1":     "furo[3,4-d]pyrimidine",
     "c1ncc2occc2n1":     "furo[3,2-d]pyrimidine",
     "c1ncc2cc[nH]c2n1":  "1H-pyrrolo[2,3-d]pyrimidine",
-    "c1ncc2c[nH]cc2n1":  "1H-pyrrolo[3,4-d]pyrimidine",
-    "c1ncc2[nH]ccc2n1":  "1H-pyrrolo[3,2-d]pyrimidine",
+    "c1ncc2cncc-2[nH]1":  "1H-pyrrolo[3,4-d]pyrimidine",
+    "c1cc2[nH]cncc-2n1":  "1H-pyrrolo[3,2-d]pyrimidine",
     # Phase 472: isoxazolo/pyrazolo/[1,2,3]triazolo[x,y-d]pyrimidine (IUPAC 2013 P-31.1.3)
     "c1ncc2nocc2n1":     "isoxazolo[4,3-d]pyrimidine",
     "c1ncc2oncc2n1":     "isoxazolo[4,5-d]pyrimidine",

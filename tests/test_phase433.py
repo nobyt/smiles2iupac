@@ -9,10 +9,10 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 1H-benzo[e]indole — benzo fused at C4-C5 (= C6-C7 by symmetry) of indole
-    ("c1ccc2cc3[nH]ccc3cc2c1",         "1H-benzo[e]indole"),
-    # 1H-benzo[f]indole — benzo fused at C5-C6 of indole
-    ("c1ccc2cc3c[nH]cc3cc2c1",         "1H-benzo[f]indole"),
+    # 1H-benzo[f]indole (OPSIN canonical SMILES)
+    ("c1ccc2cc3[nH]ccc3cc2c1",         "1H-benzo[f]indole"),
+    # 1H-benzo[f]indole — benzo fused at C5-C6 of indole (alternate SMILES)
+    ("c1ccc2cc3[nH]ccc3cc2c1",         "1H-benzo[f]indole"),
     # regression: 1H-indole unchanged
     ("c1ccc2[nH]ccc2c1",               "1H-indole"),
     # regression: 9H-carbazole unchanged

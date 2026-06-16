@@ -7,10 +7,10 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # benzo[f]quinoline — linear tricycle, N in terminal ring adjacent to central junction
-    ("c1ccc2cc3ncccc3cc2c1",         "benzo[f]quinoline"),
-    # benzo[h]quinoline — linear tricycle, N in terminal ring remote from central junction
-    ("c1ccc2c(c1)ccc1ncccc12",       "benzo[h]quinoline"),
+    # benzo[f]quinoline — angular tricycle, N adjacent to the central junction
+    ("c1ccc2c(c1)ccc1ncccc12",       "benzo[f]quinoline"),
+    # benzo[h]quinoline — angular tricycle, N remote from the central junction
+    ("c1ccc2c(c1)ccc1cccnc12",       "benzo[h]quinoline"),
     # regression: acridine unchanged (N in central ring)
     ("c1ccc2nc3ccccc3cc2c1",          "acridine"),
     # regression: phenanthridine unchanged (Phase 134)

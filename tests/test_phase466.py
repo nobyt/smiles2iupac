@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1cc2cc[nH]c2cn1",  "1H-pyrrolo[2,3-c]pyridine"),
     # c-bond pyridazine fusions
     ("c1cc2sccc2nn1",     "thieno[3,2-c]pyridazine"),
-    ("c1cc2[nH]ccc2nn1",  "1H-pyrrolo[3,2-c]pyridazine"),
+    ("c1cc2nccc-2[nH]n1",  "1H-pyrrolo[3,2-c]pyridazine"),
 ])
 def test_phase466_thienofuro_c_pyridine(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

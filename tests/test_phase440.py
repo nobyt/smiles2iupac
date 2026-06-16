@@ -9,7 +9,7 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # thieno[3,4-c]pyridine — S adjacent to ring junction
-    ("c1cnc2sccc2c1",              "thieno[3,4-c]pyridine"),
+    ("c1cc2cscc2cn1",              "thieno[3,4-c]pyridine"),
     # [1,2,3]triazolo[1,5-a]pyridine
     ("c1ccn2nncc2c1",              "[1,2,3]triazolo[1,5-a]pyridine"),
     # 1H-[1,2,3]triazolo[4,5-b]pyridine

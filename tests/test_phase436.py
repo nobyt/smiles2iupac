@@ -22,7 +22,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: imidazo[1,2-a]pyridine unchanged
     ("c1ccn2ccnc2c1",              "imidazo[1,2-a]pyridine"),
     # regression: 1H-pyrrolo[2,3-e]pyrazine unchanged (Phase 435, corrected Phase 473)
-    ("c1cnc2[nH]ccc2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
+    ("c1c[nH]c2ccnc-2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
 ])
 def test_phase436_more_drug_scaffolds(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

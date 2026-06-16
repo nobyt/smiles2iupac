@@ -7,14 +7,14 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # benzo[f]isoquinoline — N in terminal ring adjacent to central junction (isoquinoline orientation)
-    ("c1ccc2cc3cnccc3cc2c1",        "benzo[f]isoquinoline"),
-    # benzo[g]isoquinoline — angular system, N in peripheral ring
-    ("c1ccc2c(c1)ccc1cnccc12",      "benzo[g]isoquinoline"),
+    # benzo[f]isoquinoline — angular, N in peripheral ring adjacent to central junction
+    ("c1ccc2c(c1)ccc1cnccc12",      "benzo[f]isoquinoline"),
+    # benzo[g]isoquinoline — linear, N in terminal ring
+    ("c1ccc2cc3cnccc3cc2c1",        "benzo[g]isoquinoline"),
     # regression: benzo[f]quinoline unchanged (Phase 429)
-    ("c1ccc2cc3ncccc3cc2c1",        "benzo[f]quinoline"),
+    ("c1ccc2c(c1)ccc1ncccc12",      "benzo[f]quinoline"),
     # regression: benzo[h]quinoline unchanged (Phase 429)
-    ("c1ccc2c(c1)ccc1ncccc12",      "benzo[h]quinoline"),
+    ("c1ccc2c(c1)ccc1cccnc12",      "benzo[h]quinoline"),
     # regression: isoquinoline unchanged
     ("c1ccc2cnccc2c1",              "isoquinoline"),
     # regression: acridine unchanged

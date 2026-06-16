@@ -21,8 +21,8 @@ class TestFourRingPolycyclics:
         assert smiles_to_iupac("c1ccc2c(c1)c1ccccc1c1ccccc21") == "triphenylene"
 
     def test_chrysene(self):
-        # C18H12: 線形 4 環 (パス型環グラフ)
-        assert smiles_to_iupac("c1ccc2cc3ccc4ccccc4c3cc2c1") == "chrysene"
+        # C18H12: 角形 4 環 (パス型環グラフ)
+        assert smiles_to_iupac("c1ccc2c(c1)ccc1c3ccccc3ccc21") == "chrysene"
 
 
 class TestFiveRingPolycyclics:

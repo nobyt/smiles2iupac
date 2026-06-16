@@ -8,7 +8,7 @@ from src.smiles2iupac import smiles_to_iupac
     # trimethylamine N-oxide (N,N-dimethylmethanamine N-oxide が PIN)
     ("C[N+](C)(C)[O-]", "N,N-dimethylmethanamine N-oxide"),
     # N-methyl-N-ethylamine N-oxide (ethane is principal chain)
-    ("C[N+](CC)[O-]", "N-methylethanamine N-oxide"),
+    ("C[NH+](CC)[O-]", "N-methylethanamine N-oxide"),
     # triethylamine N-oxide
     ("CC[N+](CC)(CC)[O-]", "N,N-diethylethanamine N-oxide"),
     # 回帰: 通常アミン (N-oxide なし)

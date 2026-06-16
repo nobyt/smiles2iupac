@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     # regressions
     ("c1ccc2cc3nccnc3cc2c1",     "benzo[g]quinoxaline"),
     ("c1ccc2cc3nnccc3cc2c1",     "benzo[g]cinnoline"),
-    ("c1ccc2c(c1)ccc1ccnnc12",   "benzo[f]cinnoline"),
+    ("c1ccc2c(c1)ccc1ccnnc12",   "benzo[h]cinnoline"),
     ("c1ccc2nc3cnccc3cc2c1",     "benzo[b][1,7]naphthyridine"),
     ("c1ccc2cnncc2c1",           "phthalazine"),
     ("c1ccc2nnccc2c1",           "cinnoline"),

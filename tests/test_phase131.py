@@ -18,7 +18,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccc2ocnc2c1", "1,3-benzoxazole"),
     ("c1ccc2scnc2c1", "1,3-benzothiazole"),
     ("c1ccc2nc3ccccc3nc2c1", "phenazine"),
-    ("c1cnc2nccnc2n1", "pteridine"),
+    ("c1cnc2ncncc2n1", "pteridine"),
     # 回帰: Phase 17 fused compounds unchanged
     ("c1ccc2[nH]ccc2c1", "1H-indole"),
     ("c1ccc2ncccc2c1", "quinoline"),

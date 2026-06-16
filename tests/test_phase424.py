@@ -11,7 +11,7 @@ from smiles2iupac import smiles_to_iupac
     # tetracene (naphthacene) — C18H12, four fused 6-membered rings in a linear row
     ("c1ccc2cc3cc4ccccc4cc3cc2c1",      "tetracene"),
     # regression: chrysene unchanged (Phase 138) — angular arrangement
-    ("c1ccc2cc3c(ccc4ccccc43)cc2c1",    "chrysene"),
+    ("c1ccc2c(c1)ccc1c3ccccc3ccc21",    "chrysene"),
     # regression: triphenylene unchanged (Phase 138) — symmetric triangle
     ("c1ccc2c(c1)c1ccccc1c1ccccc21",    "triphenylene"),
     # regression: pyrene unchanged (Phase 138)

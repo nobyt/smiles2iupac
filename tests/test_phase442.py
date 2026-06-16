@@ -20,7 +20,7 @@ from smiles2iupac import smiles_to_iupac
     # furo[3,4-b]pyridine
     ("c1cnc2cocc2c1",       "furo[3,4-b]pyridine"),
     # 1H-pyrazolo[3,4-d]pyrimidine
-    ("c1c[nH]c2ncnc-2n1",  "1H-pyrazolo[3,4-d]pyrimidine"),
+    ("c1ncc2c[nH]nc2n1",  "1H-pyrazolo[3,4-d]pyrimidine"),
     # regressions
     ("c1ccn2cncc2c1",       "imidazo[1,5-a]pyridine"),
     ("c1cnc2occc2c1",       "furo[2,3-b]pyridine"),

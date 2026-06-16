@@ -9,11 +9,11 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # perylene — C20H12, five fused 6-membered rings (peri-fusion)
-    ("C1=Cc2cccc3ccc4ccc5cccc1c5c4c23",  "perylene"),
+    ("c1cc2cccc3c4cccc5cccc(c(c1)c23)c54", "perylene"),
     # regression: pyrene unchanged (Phase 138) — four rings
     ("c1cc2ccc3cccc4ccc(c1)c2c34",        "pyrene"),
     # regression: chrysene unchanged (Phase 138) — four rings, angular
-    ("c1ccc2cc3c(ccc4ccccc43)cc2c1",      "chrysene"),
+    ("c1ccc2c(c1)ccc1c3ccccc3ccc21",      "chrysene"),
     # regression: tetracene unchanged (Phase 424) — four rings, linear
     ("c1ccc2cc3cc4ccccc4cc3cc2c1",        "tetracene"),
     # regression: naphthalene unchanged — two rings

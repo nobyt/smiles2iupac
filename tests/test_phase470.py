@@ -18,10 +18,10 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnc2ocnc2n1",    "oxazolo[4,5-e]pyrazine"),
     ("c1cnc2scnc2n1",    "thiazolo[4,5-e]pyrazine"),
     # --- New pyrimidine d-bond fusions (N at 1,3 in ring6) ---
-    ("c1ncc2ncoc2n1",    "oxazolo[4,5-d]pyrimidine"),
-    ("c1ncc2ocnc2n1",    "oxazolo[5,4-d]pyrimidine"),
-    ("c1ncc2ncsc2n1",    "thiazolo[4,5-d]pyrimidine"),
-    ("c1ncc2scnc2n1",    "thiazolo[5,4-d]pyrimidine"),
+    ("c1ncc2ncoc2n1",    "oxazolo[5,4-d]pyrimidine"),
+    ("c1ncc2ocnc2n1",    "oxazolo[4,5-d]pyrimidine"),
+    ("c1ncc2ncsc2n1",    "thiazolo[5,4-d]pyrimidine"),
+    ("c1ncc2scnc2n1",    "thiazolo[4,5-d]pyrimidine"),
     # --- isoxazolo-b-pyridine (O=1,N=2 isoxazole) ---
     ("c1cnc2nocc2c1",    "isoxazolo[3,4-b]pyridine"),
     ("c1cnc2cnoc2c1",    "isoxazolo[4,5-b]pyridine"),

@@ -8,9 +8,9 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # naphtho[2,1-d] series
     ("c1ccc2c(c1)ccc1[nH]cnc12",  "1H-naphtho[2,1-d]imidazole"),
-    ("c1ccc2c(c1)ccc1ocnc12",     "naphtho[2,1-d]oxazole"),
-    ("c1ccc2c(c1)ccc1scnc12",     "naphtho[2,1-d]thiazole"),
-    ("c1ccc2c(c1)ccc1[nH]ncc12",  "1H-naphtho[2,1-d]pyrazole"),
+    ("c1ccc2c(c1)ccc1ncoc12",      "naphtho[2,1-d]oxazole"),
+    ("c1ccc2c(c1)ccc1ncsc12",      "naphtho[2,1-d]thiazole"),
+    ("c1ccc2c(c1)ccc1cn[nH]c12",  "1H-naphtho[2,1-d]pyrazole"),
     # naphtho[2,3-d]pyrimidine
     ("c1ccc2cc3ncncc3cc2c1",      "naphtho[2,3-d]pyrimidine"),
     # regressions
