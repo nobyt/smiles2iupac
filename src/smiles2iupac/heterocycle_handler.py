@@ -1565,6 +1565,14 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2nscc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    # Phase 560: phenazine (14-atom tricyclic, D2h; only 2 unique positions: locant 1 and 2)
+    # Ring1: 12(10a,jct)-13(C1)-0(C2)-1(C3)-2(C4)-3(4a,jct); Ring2 central: 3-4(N)-5(4b,jct)-10(9a,jct)-11(N)-12
+    # Ring3: 5-6(C6?)-7(C7)-8(C8)-9(C9?)-10; D2h: {C1,C4,C6,C9} equiv, {C2,C3,C7,C8} equiv
+    "c1ccc2nc3ccccc3nc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: None, 6: 6, 7: 7, 8: 8, 9: 9, 10: None, 11: None, 12: None, 13: 1},
+    # Phase 560: 1,10-phenanthroline (14-atom tricyclic, C2; 4 unique positions: 2,3,4,5)
+    # Ring A: 0(C3)-1(C2)-2(N1)-3(10b,jct)-4(4a,jct)-5(C4); Ring B central: 3-4-6(C6)-7(C5)-8(10a,jct)-13(4b,jct)
+    # Ring C: 8-9(C7)-10(C8)-11(C9)-12(N10)-13; C2 symmetry: 2↔9,3↔8,4↔7,5↔6
+    "c1cnc2c(c1)ccc1cccnc12": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 6, 7: 5, 8: None, 9: 7, 10: 8, 11: 9, 12: None, 13: None},
     # Phase 559: acridine (14-atom tricyclic; C2v symmetry)
     # Ring A: 10a(3)-C1(2)-C2(1)-C3(0)-C4(13)-4a(12); Ring B central: 10a(3)-N10(4)-4b(5)-8a(10)-C9(11)-4a(12)
     # Ring C: 4b(5)-C8(6)-C7(7)-C6(8)-C5(9)-8a(10); GetSubstructMatch picks lower-locant atom for symmetric pairs
