@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("C[Si](C)(C)OCC",          "ethoxytrimethylsilane"),
     ("[Si](C)(C)(C)OCCC",       "trimethylpropoxysilane"),
     # Branched alkoxy
-    ("[Si](C)(C)(C)OC(C)(C)C",  "(2-methylpropan-2-oxy)trimethylsilane"),
+    ("[Si](C)(C)(C)OC(C)(C)C",  "(2-methylpropan-2-yloxy)trimethylsilane"),
     # Disilyl ether (two alkoxy groups)
     ("C[Si](C)(OCC)OCC",        "diethoxydimethylsilane"),
     # Regressions: silanol unchanged

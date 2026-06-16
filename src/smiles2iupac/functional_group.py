@@ -2434,6 +2434,9 @@ def _is_kethydrazone(graph: MoleculeGraph, c_idx: int) -> bool:
     n1_idx = _get_imine_double_bonded_nitrogen(graph, c_idx)
     if n1_idx is None:
         return False
+    # Ring C=N bonds (both atoms in ring) are not hydrazones
+    if get_atom(graph, c_idx).in_ring and get_atom(graph, n1_idx).in_ring:
+        return False
     # N1 の隣に別の N があること（N1-N2 は単結合; ジアゾ C=[N+]=[N-] は除外）
     for nb in graph.adjacency[n1_idx]:
         if nb == c_idx:
@@ -2455,6 +2458,9 @@ def _is_aldhydrazone(graph: MoleculeGraph, c_idx: int) -> bool:
     アルデヒド由来: C に H が 1 個付く。"""
     n1_idx = _get_imine_double_bonded_nitrogen(graph, c_idx)
     if n1_idx is None:
+        return False
+    # Ring C=N bonds (both atoms in ring) are not hydrazones
+    if get_atom(graph, c_idx).in_ring and get_atom(graph, n1_idx).in_ring:
         return False
     for nb in graph.adjacency[n1_idx]:
         if nb == c_idx:
