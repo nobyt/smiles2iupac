@@ -10,7 +10,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # decahydronaphthalene (decalin)
     ("C1CCC2CCCCC2C1",    "decahydronaphthalene"),
-    ("C1CCC2CCCCC2CC1",   "decahydronaphthalene"),  # alt SMILES
+    ("C1CCCC2CCCCC12",    "decahydronaphthalene"),  # alt SMILES
     # regression: tetralin unchanged
     ("C1CCCc2ccccc12",    "1,2,3,4-tetrahydronaphthalene"),
     # regression: indane unchanged

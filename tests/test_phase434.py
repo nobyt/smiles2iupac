@@ -9,9 +9,9 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # naphtho[2,1-b]furan — linear tricyclic, O in terminal 5-membered ring
-    ("c1ccc2cc3occc3cc2c1",          "naphtho[2,1-b]furan"),
+    ("c1ccc2c(c1)ccc1occc12",        "naphtho[2,1-b]furan"),
     # naphtho[2,1-b]thiophene — linear tricyclic, S in terminal 5-membered ring
-    ("c1ccc2cc3sccc3cc2c1",          "naphtho[2,1-b]thiophene"),
+    ("c1ccc2c(c1)ccc1sccc12",        "naphtho[2,1-b]thiophene"),
     # regression: benzofuran unchanged
     ("c1ccc2occc2c1",                "benzofuran"),
     # regression: benzo[b]thiophene unchanged

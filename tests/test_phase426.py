@@ -11,7 +11,7 @@ from smiles2iupac import smiles_to_iupac
     # thianthrene — C12H8S2, two benzene rings bridged by two S atoms
     ("c1ccc2c(c1)Sc1ccccc1S2",            "thianthrene"),
     # benzo[a]pyrene — C20H12, five fused 6-membered rings (correct SMILES)
-    ("c1cc2ccc3ccccc4cc5ccc(c1)c2c5c34",  "benzo[a]pyrene"),
+    ("c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34",  "benzo[a]pyrene"),
     # regression: phenoxathiin unchanged (Phase 423) — O and S bridges
     ("c1ccc2c(c1)Oc1ccccc1S2",             "phenoxathiin"),
     # regression: thioxanthene unchanged (Phase 134) — one S bridge + CH2

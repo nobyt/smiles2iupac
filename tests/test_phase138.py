@@ -18,17 +18,17 @@ from src.smiles2iupac import smiles_to_iupac
     # acenaphthene (partially saturated acenaphthylene, C12H10)
     ("C1CC2=CC=CC3=CC=CC1=C23", "acenaphthene"),
     # fluoranthene (C16H10, fused with 5-membered ring)
-    ("C1=CC2=CC=CC3=CC=C4C=CC=CC4=C3C2=C1", "fluoranthene"),
+    ("c1ccc2c(c1)-c1cccc3cccc-2c13", "fluoranthene"),
     # chrysene (4 fused 6-membered rings, C18H12)
-    ("c1ccc2cc3c(ccc4ccccc43)cc2c1", "chrysene"),
+    ("c1ccc2c(c1)ccc1c3ccccc3ccc21", "chrysene"),
     # triphenylene (4 fused 6-membered rings, symmetric, C18H12)
     ("c1ccc2c(c1)c1ccccc1c1ccccc21", "triphenylene"),
     # pyrene (4 fused rings, C16H10)
     ("c1cc2ccc3cccc4ccc(c1)c2c34", "pyrene"),
     # perylene (5 fused rings, C20H12)
-    ("C1=Cc2cccc3ccc4ccc5cccc1c5c4c23", "perylene"),
+    ("c1cc2cccc3c4cccc5cccc(c(c1)c23)c54", "perylene"),
     # benzo[a]pyrene (C20H12)
-    ("c1ccc2c3c4c(cccc-3cc2c1)ccc1ccccc14", "benzo[a]pyrene"),
+    ("c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34", "benzo[a]pyrene"),
     # coronene (C24H12)
     ("c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61", "coronene"),
     # 回帰: previously named PAH unchanged

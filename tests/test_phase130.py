@@ -24,7 +24,7 @@ from src.smiles2iupac import smiles_to_iupac
     # phenazine (dibenzo[b,e]pyrazine)
     ("c1ccc2nc3ccccc3nc2c1", "phenazine"),
     # pteridine (pyrimido[4,5-d]pyrimidine)
-    ("c1cnc2nccnc2n1", "pteridine"),
+    ("c1cnc2ncncc2n1", "pteridine"),
     # 回帰: previously added fused heterocycles unchanged
     ("c1ccc2[nH]cnc2c1", "1H-benzimidazole"),
     ("c1ccc2ncccc2c1", "quinoline"),

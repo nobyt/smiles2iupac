@@ -7,8 +7,8 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # phenanthridine (= benzo[f]isoquinoline)
-    ("c1ccc2c(c1)ccc1cccnc12",   "phenanthridine"),
+    # phenanthridine
+    ("c1ccc2c(c1)cnc1ccccc12",   "phenanthridine"),
     # benzo[h]isoquinoline
     ("c1ccc2c(c1)ccc1ccncc12",   "benzo[h]isoquinoline"),
     # 1,10-phenanthroline
@@ -23,14 +23,14 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2nc3cnccc3cc2c1",     "benzo[b][1,7]naphthyridine"),
     # benzo[g]cinnoline
     ("c1ccc2cc3nnccc3cc2c1",     "benzo[g]cinnoline"),
-    # benzo[f]cinnoline
-    ("c1ccc2c(c1)ccc1ccnnc12",   "benzo[f]cinnoline"),
+    # benzo[h]cinnoline
+    ("c1ccc2c(c1)ccc1ccnnc12",   "benzo[h]cinnoline"),
     # regressions
     ("c1ccc2nc3ccccc3cc2c1",     "acridine"),
-    ("c1ccc2c(c1)ccc1ncccc12",   "benzo[h]quinoline"),
-    ("c1ccc2cc3ncccc3cc2c1",     "benzo[f]quinoline"),
-    ("c1ccc2cc3cnccc3cc2c1",     "benzo[f]isoquinoline"),
-    ("c1ccc2c(c1)ccc1cnccc12",   "benzo[g]isoquinoline"),
+    ("c1ccc2c(c1)ccc1cccnc12",   "benzo[h]quinoline"),
+    ("c1ccc2c(c1)ccc1ncccc12",   "benzo[f]quinoline"),
+    ("c1ccc2c(c1)ccc1cnccc12",   "benzo[f]isoquinoline"),
+    ("c1ccc2cc3cnccc3cc2c1",     "benzo[g]isoquinoline"),
 ])
 def test_phase445_benzo_tricyclics(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

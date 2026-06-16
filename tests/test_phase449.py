@@ -21,7 +21,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2nc3ccncc3cc2c1",    "benzo[b][1,6]naphthyridine"),
     ("c1ccc2cc3[nH]cnc3cc2c1",  "1H-naphtho[2,3-d]imidazole"),
     ("c1ccc2cc3nnccc3cc2c1",    "benzo[g]cinnoline"),
-    ("c1ccc2c(c1)ccc1ccnnc12",  "benzo[f]cinnoline"),
+    ("c1ccc2c(c1)ccc1ccnnc12",  "benzo[h]cinnoline"),
 ])
 def test_phase449_naphtho_fused(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

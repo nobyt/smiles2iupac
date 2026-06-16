@@ -23,9 +23,9 @@ from src.smiles2iupac import smiles_to_iupac
     # 1H-benzotriazole (benzo[d][1,2,3]triazole)
     ("c1ccc2[nH]nnc2c1", "1H-benzotriazole"),
     # 1,2-benzisoxazole (benzo[d]isoxazole)
-    ("c1ccc2nocc2c1", "1,2-benzisoxazole"),
+    ("c1ccc2oncc2c1", "1,2-benzisoxazole"),
     # 2,1,3-benzoxadiazole (benzofurazan)
-    ("c1ccc2oncc2c1", "2,1,3-benzoxadiazole"),
+    ("c1ccc2nonc2c1", "2,1,3-benzoxadiazole"),
     # 回帰: Phase 131 tricyclics unchanged
     ("c1ccc2c(c1)[nH]c1ccccc12", "9H-carbazole"),
     ("c1ccc2c(c1)sc1ccccc12", "dibenzothiophene"),

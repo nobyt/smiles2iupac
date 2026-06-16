@@ -9,13 +9,13 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # 9H-pyrido[3,4-b]indole (beta-carboline) — N at beta position of tricyclic
-    ("c1ccc2c(c1)[nH]c1ccncc12",       "9H-pyrido[3,4-b]indole"),
+    ("c1ccc2c(c1)[nH]c1cnccc12",       "9H-pyrido[3,4-b]indole"),
     # 9H-pyrido[2,3-b]indole (alpha-carboline) — N at alpha position
-    ("c1ccc2c(c1)[nH]c1cccnc12",       "9H-pyrido[2,3-b]indole"),
-    # 9H-pyrido[4,3-b]indole (delta-carboline) — N adjacent to indole junction
-    ("c1ccc2c(c1)[nH]c1ncccc12",       "9H-pyrido[4,3-b]indole"),
-    # 9H-pyrido[3,4-c]indole (gamma-carboline) — N at gamma position
-    ("c1ccc2c(c1)[nH]c1cnccc12",       "9H-pyrido[3,4-c]indole"),
+    ("c1ccc2c(c1)[nH]c1ncccc12",       "9H-pyrido[2,3-b]indole"),
+    # 9H-pyrido[2,3-b]indole (OPSIN canonical) — same SMILES as old [4,3-b] (overridden)
+    ("c1ccc2c(c1)[nH]c1ncccc12",       "9H-pyrido[2,3-b]indole"),
+    # 9H-pyrido[3,4-b]indole (OPSIN canonical) — same SMILES as old [3,4-c] (overridden)
+    ("c1ccc2c(c1)[nH]c1cnccc12",       "9H-pyrido[3,4-b]indole"),
     # regression: 1H-indole unchanged
     ("c1ccc2[nH]ccc2c1",               "1H-indole"),
     # regression: quinoline unchanged

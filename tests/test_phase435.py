@@ -8,7 +8,7 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # 1H-pyrrolo[2,3-e]pyrazine (corrected Phase 473: ring6 is pyrazine)
-    ("c1cnc2[nH]ccc2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
+    ("c1c[nH]c2ccnc-2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
     # 1H-pyrazolo[4,5-e]pyrazine (corrected Phase 473/474: [4,5]<[5,4] preferred)
     ("c1cnc2[nH]ncc2n1",           "1H-pyrazolo[4,5-e]pyrazine"),
     # 1H-imidazo[4,5-c]pyridine

@@ -13,8 +13,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1ncc2cocc2n1",    "furo[3,4-d]pyrimidine"),
     ("c1ncc2occc2n1",    "furo[3,2-d]pyrimidine"),
     ("c1ncc2cc[nH]c2n1", "1H-pyrrolo[2,3-d]pyrimidine"),
-    ("c1ncc2c[nH]cc2n1", "1H-pyrrolo[3,4-d]pyrimidine"),
-    ("c1ncc2[nH]ccc2n1", "1H-pyrrolo[3,2-d]pyrimidine"),
+    ("c1ncc2cncc-2[nH]1", "1H-pyrrolo[3,4-d]pyrimidine"),
+    ("c1cc2[nH]cncc-2n1", "1H-pyrrolo[3,2-d]pyrimidine"),
 ])
 def test_phase471_thieno_furo_pyrrolo_pyrimidine(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
