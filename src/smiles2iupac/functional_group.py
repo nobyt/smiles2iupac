@@ -857,12 +857,19 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
         c_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "C"]
         n_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "N"]
         o_double = [nb for nb in neighbors
-                    if get_atom(graph, nb).symbol == "O" and get_bond_order(graph, s_idx, nb) == 2.0]
+                    if get_atom(graph, nb).symbol == "O" and (
+                        get_bond_order(graph, s_idx, nb) == 2.0
+                        or (atom.formal_charge == 1
+                            and get_atom(graph, nb).formal_charge == -1
+                            and get_bond_order(graph, s_idx, nb) == 1.0)
+                    )]
 
         # スルホン酸: C-S(=O)₂-OH
         o_single = [nb for nb in neighbors
                     if get_atom(graph, nb).symbol == "O"
-                    and get_bond_order(graph, s_idx, nb) == 1.0]
+                    and get_bond_order(graph, s_idx, nb) == 1.0
+                    and not (atom.formal_charge == 1
+                             and get_atom(graph, nb).formal_charge == -1)]
         o_single_oh = [nb for nb in o_single
                        if any(get_atom(graph, onh).symbol == "H"
                               for onh in graph.adjacency[nb])]
@@ -1245,6 +1252,25 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                         ))
                         break
             continue
+
+        # アジド (zwitterion形): R-[N-]-[N+]≡N (Phase 547)
+        if (atom.formal_charge == -1 and len(c_neighbors) == 1 and not h_neighbors):
+            n_sgl_pos = [nb for nb in graph.adjacency[n_idx]
+                         if get_atom(graph, nb).symbol == "N"
+                         and get_atom(graph, nb).formal_charge == 1
+                         and get_bond_order(graph, n_idx, nb) == 1.0]
+            if len(n_sgl_pos) == 1:
+                n2_idx = n_sgl_pos[0]
+                n3_cands = [nb for nb in graph.adjacency[n2_idx]
+                            if nb != n_idx and get_atom(graph, nb).symbol == "N"
+                            and get_bond_order(graph, n2_idx, nb) == 3.0]
+                if n3_cands:
+                    groups.append(FunctionalGroup(
+                        group_type="azide",
+                        atom_indices=[c_neighbors[0], n_idx, n2_idx, n3_cands[0]],
+                        priority=FUNCTIONAL_GROUP_PRIORITY["azide"],
+                    ))
+                    continue
 
         # アジド: R-N=[N+]=[N-] (N に単結合 C + 二重結合 N) (Phase 53)
         n_dbl = [nb for nb in graph.adjacency[n_idx]

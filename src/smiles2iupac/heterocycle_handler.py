@@ -617,6 +617,8 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     (False, ("O", "C", "C", "C", "O", "S")):      ("1,3,2-dioxathiane",   False),
     # Phase 232: 1,3,5-trioxane (6員 tri-O 環)
     (False, ("O", "C", "O", "C", "O", "C")): ("1,3,5-trioxane", False),
+    # Phase 548: 1,3,5-trithiane (6員 tri-S 環)
+    (False, ("S", "C", "S", "C", "S", "C")): ("1,3,5-trithiane", False),
     # Phase 196: 4員環 二ヘテロ原子 (1,3-dioxetane 等)
     (False, ("O", "C", "O", "C")):                ("1,3-dioxetane",   False),
     (False, ("O", "C", "N", "C")):                ("1,3-oxazetidine", False),
@@ -1719,6 +1721,70 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
 
     base_name = _FUSED_HETERO_RETAINED.get(core_smi)
     locant_map_def = _FUSED_LOCANT_MAP.get(core_smi)
+
+    # Phase 548: 全環原子でマッチしない場合、縮合サブクラスターを試す
+    # 例: flavone (2-phenylchromone) — chromone + phenyl substituent
+    if base_name is None or locant_map_def is None:
+        _ring_list = list(graph.ring_atom_sets)
+        _n = len(_ring_list)
+        _rsets = [set(r) for r in _ring_list]
+        # ring adjacency (fused = share ≥2 atoms)
+        _radj: dict[int, list[int]] = {i: [] for i in range(_n)}
+        for _i in range(_n):
+            for _j in range(_i + 1, _n):
+                if len(_rsets[_i] & _rsets[_j]) >= 2:
+                    _radj[_i].append(_j)
+                    _radj[_j].append(_i)
+        # find connected components (fused clusters)
+        _vis: set[int] = set()
+        _clusters: list[frozenset[int]] = []
+        for _s in range(_n):
+            if _s in _vis:
+                continue
+            _cl: list[int] = []
+            _stk = [_s]
+            while _stk:
+                _nd = _stk.pop()
+                if _nd in _vis:
+                    continue
+                _vis.add(_nd)
+                _cl.append(_nd)
+                _stk.extend(_radj[_nd])
+            _clusters.append(frozenset(_cl))
+        _all_cl = frozenset(range(_n))
+        for _cluster in sorted(_clusters, key=lambda c: -sum(len(_ring_list[i]) for i in c)):
+            if _cluster == _all_cl:
+                continue  # already tried the full ring set
+            _cat: set[int] = set()
+            for _ri in _cluster:
+                _cat |= _rsets[_ri]
+            _exo_o: set[int] = set()
+            for _ra in _cat:
+                _am = graph.rdkit_mol.GetAtomWithIdx(_ra)
+                if _am.GetSymbol() == "C":
+                    for _nb in _am.GetNeighbors():
+                        _ni = _nb.GetIdx()
+                        if _ni not in _cat:
+                            _bd = graph.rdkit_mol.GetBondBetweenAtoms(_ra, _ni)
+                            if _nb.GetSymbol() == "O" and _bd.GetBondTypeAsDouble() == 2.0:
+                                _exo_o.add(_ni)
+            _ext_a = sorted(_cat) + sorted(_exo_o)
+            _ext_r = MolFragmentToSmiles(graph.rdkit_mol, _ext_a, canonical=True)
+            _ext_m = MolFromSmiles(_ext_r)
+            if _ext_m is None:
+                continue
+            _ext_s = MolToSmiles(_ext_m)
+            _bn = _FUSED_HETERO_RETAINED.get(_ext_s)
+            _lm = _FUSED_LOCANT_MAP.get(_ext_s)
+            if _bn is None or _lm is None:
+                continue
+            # found — use this sub-cluster as base
+            core_smi = _ext_s
+            base_name = _bn
+            locant_map_def = _lm
+            all_ring_atoms = sorted(_cat)
+            break
+
     if base_name is None or locant_map_def is None:
         return None
 
