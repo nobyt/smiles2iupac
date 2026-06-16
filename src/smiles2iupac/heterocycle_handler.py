@@ -796,29 +796,37 @@ def _apply_hetero_suffixes(
     """
     ヘテロ芳香族の principal group を -amine/-ol/-thiol サフィックス形式に変換して返す。
     いずれも含まない場合は _format_substituents の結果を返す。
+    ただし、保留名自体が PCG を内包している場合（coumarin, chromone, 等）は
+    サフィックス変換をスキップしてプレフィックス形式を用いる。
     """
     if not substituents:
         return full_base
 
     from .constants import MULTIPLIER
 
-    for sub_nm, suffix, elide_e in (
-        ("amino", "amine", True),
-        ("hydroxy", "ol", True),
-        ("sulfanyl", "thiol", False),
-    ):
-        entries = [(loc, nm) for loc, nm in substituents if nm == sub_nm]
-        if not entries:
-            continue
-        other = [(loc, nm) for loc, nm in substituents if nm != sub_nm]
-        locs = sorted(loc for loc, _ in entries)
-        loc_str = ",".join(str(l) for l in locs)
-        mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
-        stem = full_base[:-1] if (elide_e and full_base.endswith("e")) else full_base
-        base_with_suffix = f"{stem}-{loc_str}-{mult}{suffix}"
-        if not other:
-            return base_with_suffix
-        return _format_substituents(base_with_suffix, other)
+    # 保留名が PCG (ケトン・ラクトン等) を内包する場合、-ol/-amine/-thiol への変換をスキップ
+    _base_has_pcg = (
+        full_base.endswith(("one", "dione"))
+        or full_base in {"coumarin", "isocoumarin"}
+    )
+    if not _base_has_pcg:
+        for sub_nm, suffix, elide_e in (
+            ("amino", "amine", True),
+            ("hydroxy", "ol", True),
+            ("sulfanyl", "thiol", False),
+        ):
+            entries = [(loc, nm) for loc, nm in substituents if nm == sub_nm]
+            if not entries:
+                continue
+            other = [(loc, nm) for loc, nm in substituents if nm != sub_nm]
+            locs = sorted(loc for loc, _ in entries)
+            loc_str = ",".join(str(l) for l in locs)
+            mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
+            stem = full_base[:-1] if (elide_e and full_base.endswith("e")) else full_base
+            base_with_suffix = f"{stem}-{loc_str}-{mult}{suffix}"
+            if not other:
+                return base_with_suffix
+            return _format_substituents(base_with_suffix, other)
 
     return _format_substituents(full_base, substituents)
 
@@ -1538,10 +1546,33 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
 _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2ncccc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
     "c1ccc2cnccc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
+    # Phase 552: quinoxaline, quinazoline, phthalazine, cinnoline — same 10-atom map
+    "c1ccc2nccnc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
+    "c1ccc2ncncc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
+    "c1ccc2cnncc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
+    "c1ccc2nnccc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
     "c1ccc2[nH]ccc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
     "c1ccc2[nH]cnc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
     "c1ccc2occc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
     "c1ccc2sccc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
+    # Phase 553: 1H-indazole and 1H-benzotriazole — same 9-atom map as indole/benzimidazole
+    "c1ccc2[nH]ncc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
+    "c1ccc2[nH]nnc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
+    # Phase 554: 1,3-benzothiazole and 1,3-benzoxazole (S/O at 1, C at 2, N at 3)
+    "c1ccc2scnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
+    "c1ccc2ocnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
+    # Phase 554: 1,2-benzisothiazole, 1,2-benzisoxazole, 2,1-benzisothiazole (C at 3, heteroatoms at 1,2)
+    "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    "c1ccc2nscc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    # Phase 556: 1,3-benzodioxole (C5 substitutable; symmetry at C5/C7 but canonical gives lowest locant)
+    "c1ccc2c(c1)OCO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: None, 7: None, 8: None},
+    # Phase 555: benzo-fused thia/oxa-diazoles and selenadiazoles (only benzo C4-C7 substitutable)
+    "c1ccc2snnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 4},
+    "c1ccc2nsnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 4},
+    "c1ccc2nonc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 4},
+    "c1ccc2n[se]nc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 4},
+    "c1ccc2[se]nnc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 4},
     # Phase 158: 9H-carbazole (N at atom 6 = IUPAC position 9)
     "c1ccc2c(c1)[nH]c1ccccc12": {
         0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1,
@@ -1583,6 +1614,12 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 411: chromone (4H-chromen-4-one): same locant structure as chroman-4-one
     # atom 0=O(exo,None), 1=C4(4), 2=C3(3), 3=C2(2), 4=O1(1), 5=C8a(None), 6=C8..9=C5, 10=C4a(None)
     "O=c1ccoc2ccccc12":  {0: None, 1: 4, 2: 3, 3: 2, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None},
+    # Phase 549: coumarin (2H-chromen-2-one)
+    # atom 0=O(exo,None), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(None), 5..8=C5..8, 9=C8a(None), 10=O1(None)
+    "O=c1ccc2ccccc2o1":  {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: None},
+    # Phase 550: isocoumarin (1H-2-benzopyran-1-one)
+    # atom 0=O(exo,None), 1=C1(None,carbonyl no-H), 2=O2(None), 3=C3(3), 4=C4(4), 5=C4a(None), 6..9=C5..8, 10=C8a(None)
+    "O=c1occc2ccccc12":  {0: None, 1: None, 2: None, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
     # Phase 411: indan-2-one: C1(1)-C2(2,=O)-C3(3)-C3a(None)-C4..C7-C7a(None)
     # atom 0=O(exo,None), 1=C2(2), 2=C1(1), 3=C3a(None), 4=C4..7=C7, 8=C7a(None), 9=C3(3)
     "O=C1Cc2ccccc2C1":   {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3},
@@ -1608,6 +1645,11 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 415: anthracen-9(10H)-one: 15-atom map; atoms 2,7,9,14 are junctions (None)
     # 0=O(exo), 1=C9, 2=C9a(junc), 3..6=C1..4, 7=C4a(junc), 8=C10, 9=C4b(junc), 10..13=C5..8, 14=C8a(junc)
     "O=C1c2ccccc2Cc2ccccc21": {0: None, 1: 9, 2: None, 3: 1, 4: 2, 5: 3, 6: 4, 7: None, 8: 10, 9: None, 10: 5, 11: 6, 12: 7, 13: 8, 14: None},
+    # Phase 551: xanthen-9-one: same 15-atom map; atom8=O (bridge, None), atom1=C9 (carbonyl, None)
+    # 0=O(exo), 1=C9(None), 2=C9a(junc), 3..6=C1..4, 7=C4a(junc), 8=O(ring,None), 9=C4b(junc), 10..13=C5..8, 14=C8a(junc)
+    "O=c1c2ccccc2oc2ccccc12": {0: None, 1: None, 2: None, 3: 1, 4: 2, 5: 3, 6: 4, 7: None, 8: None, 9: None, 10: 5, 11: 6, 12: 7, 13: 8, 14: None},
+    # Phase 551: thioxanthen-9-one: same map, S at atom8
+    "O=c1c2ccccc2sc2ccccc12": {0: None, 1: None, 2: None, 3: 1, 4: 2, 5: 3, 6: 4, 7: None, 8: None, 9: None, 10: 5, 11: 6, 12: 7, 13: 8, 14: None},
     # Phase 415: quinolin-2(1H)-one: same map structure as quinoxalin-2(1H)-one
     # 0=O(exo), 1=C2(2), 2=C3(3), 3=C4(4), 4=C4a(junc), 5..8=C5..8, 9=C8a(junc), 10=N1(1,H)
     "O=c1ccc2ccccc2[nH]1":         {0: None, 1: 2, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
