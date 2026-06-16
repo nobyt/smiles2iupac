@@ -1565,6 +1565,13 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2nscc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    # Phase 557: 1,x-naphthyridines (10-atom bicyclic diazines; 8a junction adj to N1, 4a junction opposite)
+    # For all: N1=atom2(None), 8a=atom3(None), C2=atom1, C3=atom0, C4=atom9, 4a=atom8(None)
+    # 1,5 and 1,8 have C2 symmetry (C2≡C7 etc.); only include lower-locant half to avoid duplicate SMILES
+    "c1cnc2cccnc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 4},  # 1,5
+    "c1cnc2ccncc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: 7, 6: None, 7: 5, 8: None, 9: 4},  # 1,6
+    "c1cnc2cnccc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: None, 6: 6, 7: 5, 8: None, 9: 4},  # 1,7
+    "c1cnc2ncccc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None, 9: 4},  # 1,8
     # Phase 556: 1,3-benzodioxole (C5 substitutable; symmetry at C5/C7 but canonical gives lowest locant)
     "c1ccc2c(c1)OCO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: None, 7: None, 8: None},
     # Phase 555: benzo-fused thia/oxa-diazoles and selenadiazoles (only benzo C4-C7 substitutable)
