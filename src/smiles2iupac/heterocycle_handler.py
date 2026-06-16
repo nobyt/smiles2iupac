@@ -1565,6 +1565,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2nscc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    # Phase 558: 2,x-naphthyridines (N2=atom9, C8a=atom7, C4a=atom2, C1=atom8, C3=atom0, C4=atom1)
+    # Both 2,6 and 2,7 have C2 symmetry; only lower-locant half included
+    "c1cc2cnccc2cn1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 1, 9: None},  # 2,6
+    "c1cc2ccncc2cn1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 1, 9: None},  # 2,7
     # Phase 557: 1,x-naphthyridines (10-atom bicyclic diazines; 8a junction adj to N1, 4a junction opposite)
     # For all: N1=atom2(None), 8a=atom3(None), C2=atom1, C3=atom0, C4=atom9, 4a=atom8(None)
     # 1,5 and 1,8 have C2 symmetry (C2≡C7 etc.); only include lower-locant half to avoid duplicate SMILES
