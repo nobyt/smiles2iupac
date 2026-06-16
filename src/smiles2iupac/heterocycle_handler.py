@@ -1565,6 +1565,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2nscc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
+    # Phase 559: acridine (14-atom tricyclic; C2v symmetry)
+    # Ring A: 10a(3)-C1(2)-C2(1)-C3(0)-C4(13)-4a(12); Ring B central: 10a(3)-N10(4)-4b(5)-8a(10)-C9(11)-4a(12)
+    # Ring C: 4b(5)-C8(6)-C7(7)-C6(8)-C5(9)-8a(10); GetSubstructMatch picks lower-locant atom for symmetric pairs
+    "c1ccc2nc3ccccc3cc2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None, 11: 9, 12: None, 13: 4},
     # Phase 558: 2,x-naphthyridines (N2=atom9, C8a=atom7, C4a=atom2, C1=atom8, C3=atom0, C4=atom1)
     # Both 2,6 and 2,7 have C2 symmetry; only lower-locant half included
     "c1cc2cnccc2cn1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 1, 9: None},  # 2,6
