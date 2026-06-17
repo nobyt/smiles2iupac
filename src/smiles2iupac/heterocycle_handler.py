@@ -1750,6 +1750,22 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2nc3ccc4ccccc4c3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: 11, 7: 12, 8: None, 9: 1, 10: 2, 11: 3, 12: 4, 13: None, 14: None, 15: 5, 16: None, 17: 6},
     # Phase 565: benz[c]acridine (18-atom 4×6 tetracyclic; N→7; path start a15→a17→…→a6(N)→a8→…→a13)
     "c1ccc2cc3nc4ccccc4cc3cc2c1": {0: 3, 1: 4, 2: 5, 3: None, 4: 6, 5: None, 6: 7, 7: None, 8: 8, 9: 9, 10: 10, 11: 11, 12: None, 13: 12, 14: None, 15: 1, 16: None, 17: 2},
+    # Phase 566: benzo[c]cinnoline (N@6→5, N@7→6; Dir1 from a2; C at {1,2,3,4,7,8,9,10})
+    "c1ccc2c(c1)nnc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 566: benzo[f]cinnoline (N@9→5, N@10→4; Dir2 from a2; C at {1,2,3,6,7,8,9,10})
+    "c1ccc2c(c1)ccc1nnccc12": {0: 9, 1: 10, 2: 1, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 4, 11: 3, 12: 2, 13: None},
+    # Phase 566: benzo[h]cinnoline (N@11→9, N@12→10; Dir1 from a2; C at {1,2,3,4,5,6,7,8})
+    "c1ccc2c(c1)ccc1ccnnc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 566: benzo[f]phthalazine (N@10→4, N@11→3; Dir2 from a2; C at {1,2,5,6,7,8,9,10})
+    "c1ccc2c(c1)ccc1cnncc12": {0: 9, 1: 10, 2: 1, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 4, 11: 3, 12: 2, 13: None},
+    # Phase 566: benzo[f]quinoxaline (N@9→5, N@12→2; Dir2 from a2; C at {1,3,4,6,7,8,9,10})
+    "c1ccc2c(c1)ccc1nccnc12": {0: 9, 1: 10, 2: 1, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 4, 11: 3, 12: 2, 13: None},
+    # Phase 566: benzo[g]cinnoline (linear; N@7→7, N@6→8; acridine pattern; C at {1,2,3,4,5,6,9,10})
+    "c1ccc2cc3nnccc3cc2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: 10, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None, 11: 9, 12: None, 13: 4},
+    # Phase 566: benzo[g]phthalazine (linear; N@7→6, N@8→7; acridine pattern; C at {1,2,3,4,5,8,9,10})
+    "c1ccc2cc3cnncc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
+    # Phase 566: benzo[g]quinoxaline (linear; N@6→5, N@9→8; acridine pattern; C at {1,2,3,4,6,7,9,10})
+    "c1ccc2cc3nccnc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
     # Phase 418: 1H-indole-2,3-dione (isatin) — 11 atoms, two exo O
     # 0=O(C2=O), 1=C2(2), 2=N1(1,H), 3=C7a(junc), 4..7=C4..7, 8=C3a(junc), 9=C3(3), 10=O(C3=O)
     "O=C1Nc2ccccc2C1=O": {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3, 10: None},
@@ -1910,9 +1926,24 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     base_mol = MolFromSmiles(core_smi)
     if base_mol is None:
         return None
-    match = graph.rdkit_mol.GetSubstructMatch(base_mol)
-    if not match:
+    all_matches = graph.rdkit_mol.GetSubstructMatches(base_mol)
+    if not all_matches:
         return None
+
+    # For symmetric compounds pick the match giving the minimum locant set (IUPAC rule)
+    def _sub_locants(m: tuple) -> list:
+        m_set = set(m)
+        locs = []
+        for base_idx, rdkit_idx in enumerate(m):
+            loc = locant_map_def.get(base_idx)
+            if loc is None:
+                continue
+            for nb in graph.rdkit_mol.GetAtomWithIdx(rdkit_idx).GetNeighbors():
+                if nb.GetIdx() not in m_set and nb.GetAtomicNum() != 1:
+                    locs.append(loc)
+        return sorted(locs)
+
+    match = min(all_matches, key=_sub_locants)
     match_set = set(match)  # atoms belonging to the base structure (not substituents)
     # match[base_idx] = rdkit_atom_idx in graph.rdkit_mol
 
