@@ -1746,6 +1746,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)ccc1cnccc12": {0: 1, 1: 2, 2: 3, 3: None, 4: None, 5: 10, 6: 9, 7: 8, 8: None, 9: 7, 10: 6, 11: 5, 12: 4, 13: None},
     # Phase 564: benzo[h]isoquinoline (N→7; path 1(a6)-2(a5)-3(a0)-4(a1)-5(a2)-6(a12)-N7(a11)-8(a10)-9(a9)-10(a7))
     "c1ccc2c(c1)ccc1ccncc12": {0: 3, 1: 4, 2: 5, 3: None, 4: None, 5: 2, 6: 1, 7: 10, 8: None, 9: 9, 10: 8, 11: 7, 12: 6, 13: None},
+    # Phase 565: benz[a]acridine (18-atom 4×6 tetracyclic; N→10; path start a9→a10→…→a4(N)→a6→a7)
+    "c1ccc2nc3ccc4ccccc4c3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: 11, 7: 12, 8: None, 9: 1, 10: 2, 11: 3, 12: 4, 13: None, 14: None, 15: 5, 16: None, 17: 6},
+    # Phase 565: benz[c]acridine (18-atom 4×6 tetracyclic; N→7; path start a15→a17→…→a6(N)→a8→…→a13)
+    "c1ccc2cc3nc4ccccc4cc3cc2c1": {0: 3, 1: 4, 2: 5, 3: None, 4: 6, 5: None, 6: 7, 7: None, 8: 8, 9: 9, 10: 10, 11: 11, 12: None, 13: 12, 14: None, 15: 1, 16: None, 17: 2},
     # Phase 418: 1H-indole-2,3-dione (isatin) — 11 atoms, two exo O
     # 0=O(C2=O), 1=C2(2), 2=N1(1,H), 3=C7a(junc), 4..7=C4..7, 8=C3a(junc), 9=C3(3), 10=O(C3=O)
     "O=C1Nc2ccccc2C1=O": {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3, 10: None},
