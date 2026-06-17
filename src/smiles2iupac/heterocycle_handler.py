@@ -1776,6 +1776,22 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 567: tetracene (D2h; 18 atoms; unique positions {1,4,7,10}→b17, {2,3,8,9}→b0, {5,6,11,12}→b15)
     # canonical: c1ccc2cc3cc4ccccc4cc3cc2c1
     "c1ccc2cc3cc4ccccc4cc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: None, 6: 11, 7: None, 8: 7, 9: 8, 10: 9, 11: 10, 12: None, 13: 12, 14: None, 15: 5, 16: None, 17: 1},
+    # Phase 574: 9H-fluoren-9-one (C2v; 14 atoms; 4 unique pairs: {1,8}→b3, {2,7}→b4, {3,6}→b10, {4,5}→b9)
+    # canonical: O=C1c2ccccc2-c2ccccc21
+    # junctions: 2(→ring1-ring2), 7(→ring1-5ring), 8(→ring2-5ring), 13(→ring2-C9); O at 0, C9=O at 1
+    "O=C1c2ccccc2-c2ccccc21": {0: None, 1: None, 2: None, 3: 1, 4: 2, 5: 6, 6: 5, 7: None, 8: None, 9: 4, 10: 3, 11: 7, 12: 8, 13: None},
+    # Phase 574: 1H-phenalene (no symmetry; 13 atoms; sp3 CH2 at b12=pos1, sp2 C=C at b0=pos2,b1=pos3; aromatic 4-9)
+    # canonical: C1=Cc2cccc3cccc(c23)C1
+    # junctions: 2,6,10,11; sp3: 12 (pos1); sp2: 0,1 (pos2,3); aromatic CH: 3,4,5,7,8,9
+    "C1=Cc2cccc3cccc(c23)C1": {0: 2, 1: 3, 2: None, 3: 4, 4: 5, 5: 6, 6: None, 7: 7, 8: 8, 9: 9, 10: None, 11: None, 12: 1},
+    # Phase 573: coronene (D6h; 24 atoms; all 12 CH positions equivalent → locant 1)
+    # canonical: c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61
+    # CH: [0,1,3,4,6,7,9,10,12,13,15,16]; junctions: [2,5,8,11,14,17,18-23]
+    "c1cc2ccc3ccc4ccc5ccc6ccc1c1c2c3c4c5c61": {0: 1, 1: 1, 2: None, 3: 1, 4: 1, 5: None, 6: 1, 7: 1, 8: None, 9: 1, 10: 1, 11: None, 12: 1, 13: 1, 14: None, 15: 1, 16: 1, 17: None, 18: None, 19: None, 20: None, 21: None, 22: None, 23: None},
+    # Phase 572: benzo[g]isoquinoline (N@2→b7; 14 atoms; 9 unique C positions 1,3-10)
+    # canonical: c1ccc2cc3cnccc3cc2c1
+    # junctions: 3,5,10,12
+    "c1ccc2cc3cnccc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: 1, 7: None, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
     # Phase 571: acenaphthylene (C2v; 12 atoms; 4 unique pairs: {1,2}→b0, {3,8}→b9, {4,7}→b4, {5,6}→b5)
     # canonical: C1=Cc2cccc3cccc1c23
     # C2 axis through midpt(0-1) and junc 11; pairs: 0↔1, 2↔10, 9↔3, 4↔8, 5↔7; junc 6,11 on axis
