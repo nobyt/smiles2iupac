@@ -1766,6 +1766,37 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2cc3cnncc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
     # Phase 566: benzo[g]quinoxaline (linear; N@6→5, N@9→8; acridine pattern; C at {1,2,3,4,6,7,9,10})
     "c1ccc2cc3nccnc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
+    # Phase 567: pyrene (D2h; 16 atoms; unique positions {1,3,6,8}→b1, {2,7}→b0, {4,5,9,10}→b4)
+    # canonical: c1cc2ccc3cccc4ccc(c1)c2c34
+    # base_idx: 0=C2, 1=C1, 2=junc, 3=C3, 4=C4, 5=junc, 6=C5, 7=C6, 8=C7, 9=junc, 10=C8, 11=C9, 12=junc, 13=C10, 14=junc, 15=junc
+    "c1cc2ccc3cccc4ccc(c1)c2c34": {0: 2, 1: 1, 2: None, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: None, 10: 8, 11: 9, 12: None, 13: 10, 14: None, 15: None},
+    # Phase 567: triphenylene (D3h; 18 atoms; unique positions {1,5,9}→b5, {2,6,10}→b0)
+    # canonical: c1ccc2c(c1)c1ccccc1c1ccccc21
+    "c1ccc2c(c1)c1ccccc1c1ccccc21": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: None, 7: 12, 8: 11, 9: 10, 10: 9, 11: None, 12: None, 13: 8, 14: 7, 15: 6, 16: 5, 17: None},
+    # Phase 567: tetracene (D2h; 18 atoms; unique positions {1,4,7,10}→b17, {2,3,8,9}→b0, {5,6,11,12}→b15)
+    # canonical: c1ccc2cc3cc4ccccc4cc3cc2c1
+    "c1ccc2cc3cc4ccccc4cc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: None, 6: 11, 7: None, 8: 7, 9: 8, 10: 9, 11: 10, 12: None, 13: 12, 14: None, 15: 5, 16: None, 17: 1},
+    # Phase 571: acenaphthylene (C2v; 12 atoms; 4 unique pairs: {1,2}→b0, {3,8}→b9, {4,7}→b4, {5,6}→b5)
+    # canonical: C1=Cc2cccc3cccc1c23
+    # C2 axis through midpt(0-1) and junc 11; pairs: 0↔1, 2↔10, 9↔3, 4↔8, 5↔7; junc 6,11 on axis
+    "C1=Cc2cccc3cccc1c23": {0: 1, 1: 2, 2: None, 3: 8, 4: 4, 5: 5, 6: None, 7: 6, 8: 7, 9: 3, 10: None, 11: None},
+    # Phase 571: acenaphthene (C2v; 12 atoms; 4 unique pairs: {1,2}→b10, {3,8}→b1, {4,7}→b0, {5,6}→b9)
+    # canonical: c1cc2c3c(cccc3c1)CC2
+    # C2 axis through midpt(CH2 bond 10-11) and junc 3,8; pairs: 10↔11, 2↔4, 1↔5, 0↔6, 9↔7
+    "c1cc2c3c(cccc3c1)CC2": {0: 4, 1: 3, 2: None, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 1, 11: 2},
+    # Phase 570: perylene (D2h; 20 atoms; 3 unique classes: A={1,6,7,12}→b17, B={2,5,8,11}→b0, C={3,4,9,10}→b1)
+    # canonical: c1cc2cccc3c4cccc5cccc(c(c1)c23)c54
+    # rings: end1=[0,1,2,16,17,18], side2=[2,3,4,5,6,18], central=[6,7,15,16,18,19], side4=[7,8,9,10,11,19], end5=[11,12,13,14,15,19]
+    "c1cc2cccc3c4cccc5cccc(c(c1)c23)c54": {0: 2, 1: 3, 2: None, 3: 4, 4: 5, 5: 6, 6: None, 7: None, 8: 7, 9: 8, 10: 9, 11: None, 12: 10, 13: 11, 14: 12, 15: None, 16: None, 17: 1, 18: None, 19: None},
+    # Phase 569: benzo[a]pyrene (no symmetry; 20 atoms; 12 CH at locants 1-12)
+    # canonical: c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34
+    # junctions: 3,4,7,10,14,17,18,19
+    "c1ccc2c(c1)cc1ccc3cccc4ccc2c1c34": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: None, 8: 5, 9: 4, 10: None, 11: 3, 12: 2, 13: 1, 14: None, 15: 12, 16: 11, 17: None, 18: None, 19: None},
+    # Phase 568: fluoranthene (C2v; 16 atoms; unique positions {1,6}→b7, {2,5}→b12, {3,4}→b11, {7,10}→b5, {8,9}→b0)
+    # canonical: c1ccc2c(c1)-c1cccc3cccc-2c13
+    # ring1=[0-5], ring2=[6,7,8,9,10,15], ring3=[10,11,12,13,14,15], 5ring=[3,4,6,14,15]
+    # C2 axis through midpt(3-4) and midpt(bond 6-14 across 5-ring center 15): 0↔1, 2↔5, 3↔4, 7↔13, 8↔12, 9↔11
+    "c1ccc2c(c1)-c1cccc3cccc-2c13": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: None, 7: 1, 8: 5, 9: 4, 10: None, 11: 3, 12: 2, 13: 6, 14: None, 15: None},
     # Phase 418: 1H-indole-2,3-dione (isatin) — 11 atoms, two exo O
     # 0=O(C2=O), 1=C2(2), 2=N1(1,H), 3=C7a(junc), 4..7=C4..7, 8=C3a(junc), 9=C3(3), 10=O(C3=O)
     "O=C1Nc2ccccc2C1=O": {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3, 10: None},
