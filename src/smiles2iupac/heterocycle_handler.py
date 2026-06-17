@@ -1573,6 +1573,19 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Ring A: 0(C3)-1(C2)-2(N1)-3(10b,jct)-4(4a,jct)-5(C4); Ring B central: 3-4-6(C6)-7(C5)-8(10a,jct)-13(4b,jct)
     # Ring C: 8-9(C7)-10(C8)-11(C9)-12(N10)-13; C2 symmetry: 2↔9,3↔8,4↔7,5↔6
     "c1cnc2c(c1)ccc1cccnc12": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 6, 7: 5, 8: None, 9: 7, 10: 8, 11: 9, 12: None, 13: None},
+    # Phase 562: remaining phenanthroline isomers (2,7; 2,6; 1,6; 3,6)
+    # 2,7-phen: ring containing N2 also holds C1,C9,C10; central ring holds C3,C4; far ring holds N7,C5,C6,C8
+    "c1cnc2ccc3ccncc3c2c1": {0: 10, 1: 1, 2: None, 3: None, 4: 3, 5: 4, 6: None, 7: 5, 8: 6, 9: None, 10: 8, 11: None, 12: None, 13: 9},
+    # 2,6-phen: N2 in ring with C1,C9,C10; N6 in central ring with C7; outer ring has C3,C4,C5,C8
+    "c1ccc2c(c1)ncc1ccncc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: None, 7: 5, 8: None, 9: 4, 10: 3, 11: None, 12: 1, 13: None},
+    # 1,6-phen: ring A has N1,C2,C3,C4; central ring has C5,N6; ring C has C7,C8,C9,C10
+    "c1cnc2c(c1)cnc1ccccc12": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: None, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # 3,6-phen: N3,C1,C2,C4 in far ring; N6,C7 in central ring; C5,C8,C9,C10 in outer ring
+    "c1ccc2c(c1)ncc1cnccc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: None, 7: 5, 8: None, 9: 4, 10: None, 11: 2, 12: 1, 13: None},
+    # 3,5-phen: peripheral path 1(a5)-2(a6)-N3(a7)-4b-4(a9)-N5(a10)-6(a11)-7(a12)-8a-10a-8(a2)-9(a1)-10(a0)
+    "c1ccc2c(c1)cnc1cnccc12": {0: 10, 1: 9, 2: 8, 3: None, 4: None, 5: 1, 6: 2, 7: None, 8: None, 9: 4, 10: None, 11: 6, 12: 7, 13: None},
+    # 4,5-phen: peripheral path 1(a0)-2(a5)-3(a6)-N4(a7)-4b-N5(a9)-6(a10)-7(a11)-8(a12)-8a-10a-9(a2)-10(a1)
+    "c1ccc2c(c1)cnc1ncccc12": {0: 1, 1: 10, 2: 9, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None, 9: None, 10: 6, 11: 7, 12: 8, 13: None},
     # Phase 561: 4,7-phenanthroline (C2 symmetric; unique positions: 1,2,3,5,6)
     "c1cnc2ccc3ncccc3c2c1": {0: 2, 1: 3, 2: None, 3: None, 4: 6, 5: 5, 6: None, 7: None, 8: 8, 9: 9, 10: 10, 11: None, 12: None, 13: 1},
     # Phase 561: 1,7-phenanthroline (no symmetry; 8 unique C positions: 2,3,4,5,6,8,9,10)
