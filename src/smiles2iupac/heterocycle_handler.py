@@ -1620,6 +1620,28 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
         0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1,
         6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None,
     },
+    # Phase 563: dibenzofuran/dibenzothiophene (6+5+6; O/S→None; positions 1-4,6-9; pairs sum to 10)
+    # peripheral path: a2(1)-a1(2)-a0(3)-jct3-jct12-a11(9)-a10(8)-a9(7)-a8(6)-jct7-O/S(None)-jct4-a5(4)
+    "c1ccc2c(c1)oc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: None, 7: None, 8: 6, 9: 7, 10: 8, 11: 9, 12: None},
+    "c1ccc2c(c1)sc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: None, 7: None, 8: 6, 9: 7, 10: 8, 11: 9, 12: None},
+    # Phase 563: fluorene (6+5+6; CH2→9; positions 1-8; pairs sum to 9)
+    # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
+    "c1ccc2c(c1)Cc1ccccc1-2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None},
+    # Phase 563: xanthene/thioxanthene (6+6+6; CH2→9, O/S→None; positions 1-9; pairs sum to 9)
+    # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-O/S(a13,None)-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
+    "c1ccc2c(c1)Cc1ccccc1O2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None, 13: None},
+    "c1ccc2c(c1)Cc1ccccc1S2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None, 13: None},
+    # Phase 563: phenoxazine/phenothiazine (6+6+6; N→10, O/S→None; positions 1-4,6-9; pairs sum to 10)
+    # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-O/S(a13,None)-jct12-a11(6)-a10(7)-a9(8)-a8(9)-jct7-N(a6,10)-jct4
+    "c1ccc2c(c1)Nc1ccccc1O2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 10, 7: None, 8: 9, 9: 8, 10: 7, 11: 6, 12: None, 13: None},
+    "c1ccc2c(c1)Nc1ccccc1S2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 10, 7: None, 8: 9, 9: 8, 10: 7, 11: 6, 12: None, 13: None},
+    # Phase 563: phenoxathiin (6+6+6; C2-symmetric via O/S axis; O+S→None; positions 1-4,6-9; pairs sum to 10)
+    # peripheral path: a2(1)-a1(2)-a0(3)-jct3-S(a13,None)-jct12-a11(9)-a10(8)-a9(7)-a8(6)-jct7-O(a6,None)-jct4-a5(4)
+    "c1ccc2c(c1)Oc1ccccc1S2": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: None, 7: None, 8: 6, 9: 7, 10: 8, 11: 9, 12: None, 13: None},
+    # Phase 563: thianthrene (6+6+6; D2h symmetry: 4-fold degeneracy → only 2 unique C environments)
+    # Group A (adj to any S junction): {a2,a5,a8,a11} → all map to locant 1 (lowest)
+    # Group B (non-junction-adj): {a0,a1,a9,a10} → all map to locant 2 (lowest)
+    "c1ccc2c(c1)Sc1ccccc1S2": {0: 2, 1: 2, 2: 1, 3: None, 4: None, 5: 1, 6: None, 7: None, 8: 1, 9: 2, 10: 2, 11: 1, 12: None, 13: None},
     # Phase 404: 部分飽和縮合環 (N/O heteroatom, fused with benzene)
     # indoline (2,3-dihydro-1H-indole): N(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
