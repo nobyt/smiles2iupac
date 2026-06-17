@@ -1738,6 +1738,14 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 417: phenanthridine (14 atoms, tricyclic)
     # c1ccc2c(c1)cnc1ccccc12: 0=C3, 1=C2, 2=C1, 3=C4a(junc), 4=C4b(junc), 5=C4, 6=C6, 7=N5, 8=C6a(junc), 9..12=C7..10, 13=C10a(junc)
     "c1ccc2c(c1)cnc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 6, 7: 5, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 564: benzo[f]quinoline (N→5; path 1(a2)-2(a12)-3(a11)-4(a10)-N5(a9)-6(a7)-7(a6)-8(a5)-9(a0)-10(a1))
+    "c1ccc2c(c1)ccc1ncccc12": {0: 9, 1: 10, 2: 1, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 4, 11: 3, 12: 2, 13: None},
+    # Phase 564: benzo[h]quinoline (N→10; path 1(a2)-2(a1)-3(a0)-4(a5)-5(a6)-6(a7)-7(a9)-8(a10)-9(a11)-N10(a12))
+    "c1ccc2c(c1)ccc1cccnc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 564: benzo[f]isoquinoline (N→6; path 1(a0)-2(a1)-3(a2)-4(a12)-5(a11)-N6(a10)-7(a9)-8(a7)-9(a6)-10(a5))
+    "c1ccc2c(c1)ccc1cnccc12": {0: 1, 1: 2, 2: 3, 3: None, 4: None, 5: 10, 6: 9, 7: 8, 8: None, 9: 7, 10: 6, 11: 5, 12: 4, 13: None},
+    # Phase 564: benzo[h]isoquinoline (N→7; path 1(a6)-2(a5)-3(a0)-4(a1)-5(a2)-6(a12)-N7(a11)-8(a10)-9(a9)-10(a7))
+    "c1ccc2c(c1)ccc1ccncc12": {0: 3, 1: 4, 2: 5, 3: None, 4: None, 5: 2, 6: 1, 7: 10, 8: None, 9: 9, 10: 8, 11: 7, 12: 6, 13: None},
     # Phase 418: 1H-indole-2,3-dione (isatin) — 11 atoms, two exo O
     # 0=O(C2=O), 1=C2(2), 2=N1(1,H), 3=C7a(junc), 4..7=C4..7, 8=C3a(junc), 9=C3(3), 10=O(C3=O)
     "O=C1Nc2ccccc2C1=O": {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3, 10: None},
