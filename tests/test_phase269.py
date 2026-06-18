@@ -10,7 +10,7 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # pyrazole substituents (lower locant rule; 3/5 tautomeric equivalence)
-    ("Cc1ccn[nH]1", "3-methyl-1H-pyrazole"),
+    ("Cc1cc[nH]n1", "3-methyl-1H-pyrazole"),
     ("Cc1cn[nH]c1", "4-methyl-1H-pyrazole"),
     # isoxazole (O at 1, N at 2)
     ("Cc1ccon1",    "3-methylisoxazole"),
