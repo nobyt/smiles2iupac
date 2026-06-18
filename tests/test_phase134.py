@@ -30,7 +30,7 @@ from src.smiles2iupac import smiles_to_iupac
     # xanthen-9-one (xanthone)
     ("O=C1c2ccccc2Oc2ccccc21", "xanthen-9-one"),
     # perimidine (2,3-dihydro-1H-perimidine parent skeleton)
-    ("C1=Nc2cccc3cccc1c23", "perimidine"),
+    ("C1=Nc2cccc3cccc(c23)N1", "perimidine"),
     # 回帰: Phase 133 partially saturated fused compounds unchanged
     ("C1CCc2ccccc21", "indane"),
     ("C1COc2ccccc2C1", "chromane"),

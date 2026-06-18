@@ -15,9 +15,9 @@ from src.smiles2iupac import smiles_to_iupac
     # imidazo-fused
     ("c1ccn2ccnc2c1",      "imidazo[1,2-a]pyridine"),
     ("c1cnc2ccnn2c1",      "pyrazolo[1,5-a]pyrimidine"),
-    # thieno-fused
-    ("c1cnc2ccsc2c1",      "thieno[2,3-b]pyridine"),
-    ("c1cc2ccsc2s1",       "thieno[3,2-b]thiophene"),
+    # thieno-fused (corrected names per OPSIN)
+    ("c1cnc2ccsc2c1",      "thieno[3,2-b]pyridine"),
+    ("c1cc2ccsc2s1",       "thieno[2,3-b]thiophene"),
     # pyrazolo-fused
     ("c1cnc2cn[nH]c2c1",   "1H-pyrazolo[4,5-b]pyridine"),
     # pyrrolo-fused (azaindoles)

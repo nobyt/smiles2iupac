@@ -985,6 +985,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Note: 1H-benzo[e]indole OPSIN gives non-aromatic SMILES; skip that entry.
     # c1ccc2cc3[nH]ccc3cc2c1 is the OPSIN canonical for 1H-benzo[f]indole.
     "c1ccc2cc3[nH]ccc3cc2c1":     "1H-benzo[f]indole",
+    # Phase 584: 1H-benzo[g]indole (IUPAC 2013 P-31.1.3)
+    "c1ccc2c(c1)ccc1cc[nH]c12":   "1H-benzo[g]indole",
     # Phase 434: naphtho[2,1-b]furan and naphtho[2,1-b]thiophene (IUPAC 2013 P-31.1.3)
     "c1ccc2c(c1)ccc1occc12":      "naphtho[2,1-b]furan",
     "c1ccc2c(c1)ccc1sccc12":      "naphtho[2,1-b]thiophene",
@@ -1055,7 +1057,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cc2cscc2cn1":     "thieno[3,4-c]pyridine",
     "c1ccn2nncc2c1":     "[1,2,3]triazolo[1,5-a]pyridine",
     "c1cnc2[nH]nnc2c1":  "1H-[1,2,3]triazolo[4,5-b]pyridine",
-    "C1=Nc2cccc3cccc1c23":     "perimidine",
+    "C1=Nc2cccc3cccc(c23)N1":  "perimidine",
     # Phase 142: 追加ヘテロ芳香族 (セレノフェン、縮合二環式)
     "c1cc[se]c1":       "selenophene",
     # Phase 255: テルロフェン
@@ -1237,11 +1239,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncc2nocc12":   "isoxazolo[3,4-d]pyridazine",
     "c1nc2cnncc2o1":   "oxazolo[4,5-d]pyridazine",
     "c1nc2cnncc2s1":   "thiazolo[4,5-d]pyridazine",
-    "c1cnc2ccsc2c1":    "thieno[2,3-b]pyridine",
+    "c1cnc2ccsc2c1":    "thieno[3,2-b]pyridine",   # was mislabelled as [2,3-b]
+    "c1cnc2sccc2c1":    "thieno[2,3-b]pyridine",
     "c1cnc2cn[nH]c2c1": "1H-pyrazolo[4,5-b]pyridine",
     "c1cnc2[nH]ccc2c1": "1H-pyrrolo[2,3-b]pyridine",
     "c1cnc2cc[nH]c2c1": "1H-pyrrolo[3,2-b]pyridine",
-    "c1cc2ccsc2s1":     "thieno[3,2-b]thiophene",
+    "c1cc2ccsc2s1":     "thieno[2,3-b]thiophene",   # was mislabelled as [3,2-b]
+    "c1cc2sccc2s1":     "thieno[3,2-b]thiophene",
     "c1cnc2nc[nH]c2c1": "3H-imidazo[4,5-b]pyridine",
     "c1ncc2nc[nH]c2n1": "9H-purine",
     # Phase 141: 単環式ヘテロ芳香族 (Hantzsch-Widman が未対応) IUPAC 2013 P-31.1.3
@@ -1262,6 +1266,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncs1":   "1,3,4-thiadiazole",
     # 5-membered with adjacent N (pyrazole, triazoles, tetrazole)
     "c1cn[nH]c1":  "1H-pyrazole",
+    "Cn1cccn1":    "1-methylpyrazole",
     "c1cn[nH]n1":  "2H-1,2,3-triazole",   # NH between two N's → position 2
     "c1c[nH]nn1":  "1H-1,2,3-triazole",   # NH adjacent to C → position 1
     "c1nc[nH]n1":  "1H-1,2,4-triazole",
@@ -1285,6 +1290,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 260: 1,2-ジオキサン・1,2-ジオキソラン (隣接 O-O を持つ環)
     "C1CCOOC1":  "1,2-dioxane",
     "C1COOC1":   "1,2-dioxolane",
+    # cyclic carbonates (IUPAC 2013 P-31.1.3)
+    "O=C1OCCO1":  "1,3-dioxolan-2-one",
+    "O=C1OCCCO1": "1,3-dioxan-2-one",
     # Phase 138: 多環芳香族炭化水素 保留名 (IUPAC 2013 P-31.1.2)
     "c1ccc2cccc-2cc1":                            "azulene",
     "C1=Cc2ccccc2C1":                             "1H-indene",
@@ -1365,6 +1373,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 450: naphtho[2,1-d] series and naphtho[2,3-d]pyrimidine
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1ccc2c(c1)ccc1[nH]cnc12":  "1H-naphtho[2,1-d]imidazole",
+    "c1ccc2c(c1)ccc1nc[nH]c12":  "1H-naphtho[2,1-d]imidazole",  # 3H tautomeric canonical alias
     "c1ccc2c(c1)ccc1ncoc12":     "naphtho[2,1-d]oxazole",
     "c1ccc2c(c1)ccc1ncsc12":     "naphtho[2,1-d]thiazole",
     "c1ccc2c(c1)ccc1cn[nH]c12":  "1H-naphtho[2,1-d]pyrazole",
@@ -1381,6 +1390,23 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2cc3occc3cc2c1":        "naphtho[2,3-b]furan",
     "c1ccc2cc3sccc3cc2c1":        "naphtho[2,3-b]thiophene",
     "c1ccc2c(c1)ccc1cncnc12":    "naphtho[1,2-d]pyrimidine",
+    # Phase 581: naphtho triazole/oxadiazole/thiadiazole series
+    "c1ccc2c(c1)ccc1nn[nH]c12":   "1H-naphtho[1,2-d][1,2,3]triazole",
+    "c1ccc2cc3onnc3cc2c1":        "naphtho[2,3-d][1,2,3]oxadiazole",
+    "c1ccc2c(c1)ccc1onnc12":      "naphtho[1,2-d][1,2,3]oxadiazole",
+    "c1ccc2c(c1)ccc1nnoc12":      "naphtho[2,1-d][1,2,3]oxadiazole",
+    "c1ccc2cc3snnc3cc2c1":        "naphtho[2,3-d][1,2,3]thiadiazole",
+    "c1ccc2c(c1)ccc1snnc12":      "naphtho[1,2-d][1,2,3]thiadiazole",
+    "c1ccc2c(c1)ccc1nnsc12":      "naphtho[2,1-d][1,2,3]thiadiazole",
+    # Phase 582: benzo[g]quinoline (= naphtho[2,3-b]pyridine)
+    "c1ccc2cc3ncccc3cc2c1":       "benzo[g]quinoline",
+    # Phase 580: naphtho isoxazole/isothiazole series
+    "c1ccc2cc3oncc3cc2c1":        "naphtho[2,3-d]isoxazole",
+    "c1ccc2cc3sncc3cc2c1":        "naphtho[2,3-d]isothiazole",
+    "c1ccc2c(c1)ccc1cnoc12":      "naphtho[2,1-d]isoxazole",
+    "c1ccc2c(c1)ccc1cnsc12":      "naphtho[2,1-d]isothiazole",
+    "c1ccc2c(c1)ccc1oncc12":      "naphtho[1,2-d]isoxazole",
+    "c1ccc2c(c1)ccc1sncc12":      "naphtho[1,2-d]isothiazole",
     # Phase 453: pyrido-quinoxaline and pyrido-quinoline tricyclics
     # (IUPAC 2013 P-31.1.3 fusion nomenclature)
     "c1cc2cc3nccnc3cc2cn1":      "pyrido[3,4-g]quinoxaline",
@@ -1544,6 +1570,162 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
 
 # atom index in canonical base SMILES → IUPAC locant (None = ring junction, skip)
 _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
+    # Phase 612: 5-atom monocyclic heteroaromatics needing locant maps
+    "c1cnon1": {0: 3, 1: 3, 2: None, 3: None, 4: None},  # 1,2,5-oxadiazole (symm; C3=C4→loc3)
+    "c1cnsn1": {0: 3, 1: 3, 2: None, 3: None, 4: None},  # 1,2,5-thiadiazole (symm)
+    "c1conn1": {0: 4, 1: 5, 2: None, 3: None, 4: None},  # 1,2,3-oxadiazole
+    "c1csnn1": {0: 4, 1: 5, 2: None, 3: None, 4: None},  # 1,2,3-thiadiazole
+    "c1ncon1": {0: 3, 1: None, 2: 5, 3: None, 4: None},  # 1,2,4-oxadiazole
+    "c1ncsn1": {0: 3, 1: None, 2: 5, 3: None, 4: None},  # 1,2,4-thiadiazole
+    "c1nnco1": {0: 2, 1: None, 2: None, 3: 2, 4: None},  # 1,3,4-oxadiazole (symm)
+    "c1nncs1": {0: 2, 1: None, 2: None, 3: 2, 4: None},  # 1,3,4-thiadiazole (symm)
+    "c1cc[se]c1": {0: 3, 1: 3, 2: 2, 3: None, 4: 2},  # selenophene (symm; 2,3)
+    "c1cc[te]c1": {0: 3, 1: 3, 2: 2, 3: None, 4: 2},  # tellurophene (symm; 2,3)
+    # Phase 613: 5- and 6-atom monocyclic heteroaromatics (triazines, tetrazine, isothiazole, isoxazole, oxazole, thiazole)
+    "c1cnnnc1": {0: 5, 1: 4, 2: None, 3: None, 4: None, 5: 4},  # 1,2,3-triazine (C4=C6 symm)
+    "c1nncnn1": {0: 3, 1: None, 2: None, 3: 3, 4: None, 5: None},  # 1,2,4,5-tetrazine (symm)
+    "c1cnncn1": {0: 5, 1: 6, 2: None, 3: None, 4: 3, 5: None},  # 1,2,4-triazine
+    "c1ncncn1": {0: 2, 1: None, 2: 2, 3: None, 4: 2, 5: None},  # 1,3,5-triazine (symm)
+    "c1cnsc1": {0: 4, 1: 3, 2: None, 3: None, 4: 5},  # isothiazole
+    "c1cnoc1": {0: 4, 1: 3, 2: None, 3: None, 4: 5},  # isoxazole
+    "c1cocn1": {0: 4, 1: 5, 2: None, 3: 2, 4: None},  # oxazole
+    "c1cscn1": {0: 4, 1: 5, 2: None, 3: 2, 4: None},  # thiazole
+    # Phase 613: thieno[2,3-b]thiophene naming fix + new thieno[3,2-b]thiophene
+    "c1cc2ccsc2s1": {0: 2, 1: 3, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: None},  # thieno[2,3-b]thiophene (symm 2=5, 3=6)
+    "c1cc2sccc2s1": {0: 2, 1: 3, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: None},  # thieno[3,2-b]thiophene (symm 2=5, 3=6)
+    # Phase 613: thieno[3,2-b]pyridine naming fix + new thieno[2,3-b]pyridine
+    "c1cnc2ccsc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 7},  # thieno[3,2-b]pyridine
+    "c1cnc2sccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # thieno[2,3-b]pyridine
+    # Phase 613: azulene (5-7 fused, C2v; 3a/8a junctions), chrysene (4-ring PAH, D2h)
+    "c1ccc2cccc-2cc1": {0: 6, 1: 5, 2: 4, 3: None, 4: 1, 5: 2, 6: 1, 7: None, 8: 4, 9: 5},  # azulene (symm: 1=3, 4=8, 5=7)
+    "c1ccc2c(c1)ccc1c3ccccc3ccc21": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 6, 7: 5, 8: None, 9: None, 10: 4, 11: 3, 12: 2, 13: 1, 14: None, 15: 6, 16: 5, 17: None},  # chrysene (symm: 1=7, 2=8, 3=9, 4=10, 5=11, 6=12)
+    # Phase 614: 13-atom tricyclics (thieno/furo-quinoline, pyrazolo-quinoline/quinoxaline)
+    "c1ccc2nc3occc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # furo[2,3-b]quinoline
+    "c1ccc2nc3ccoc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # furo[3,2-b]quinoline
+    "c1ccc2nc3cocc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 1, 9: None, 10: 9, 11: None, 12: 8},  # furo[3,4-b]quinoline
+    "c1ccc2nc3sccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # thieno[2,3-b]quinoline
+    "c1ccc2nc3ccsc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # thieno[3,2-b]quinoline
+    "c1ccc2nc3cscc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 1, 9: None, 10: 9, 11: None, 12: 8},  # thieno[3,4-b]quinoline
+    "c1ccc2c(c1)ccc1ccnn12":  {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},  # pyrazolo[1,5-a]quinoline
+    "c1ccc2c(c1)ncc1ccnn12":  {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: None, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},  # pyrazolo[1,5-a]quinoxaline
+    # Phase 616: simple NH monocyclics
+    "c1cn[nH]c1": {0: 4, 1: 3, 2: None, 3: None, 4: 5},  # 1H-pyrazole
+    "c1c[nH]nn1": {0: 4, 1: 5, 2: None, 3: None, 4: None},  # 1H-1,2,3-triazole
+    "c1nc[nH]n1": {0: 3, 1: None, 2: 5, 3: None, 4: None},  # 1H-1,2,4-triazole
+    "c1nn[nH]n1": {0: 5, 1: None, 2: None, 3: None, 4: None},  # 1H-tetrazole (atom 0 = only C)
+    "c1nnn[nH]1": {0: 5, 1: None, 2: None, 3: None, 4: None},  # 1H-tetrazole (alternate canonical)
+    "c1cn[nH]n1": {0: 4, 1: 4, 2: None, 3: None, 4: None},  # 2H-1,2,3-triazole (C4=C5 symmetric)
+    # Phase 617: NH-containing bicyclic heteroaromatics
+    "c1cnc2[nH]nnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cnc2nn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cc2[nH]nnc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-c]pyridazine
+    "c1nnnc2nn[nH]c12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
+    "c1ncc2[nH]nnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d]pyrimidine
+    "c1nnc2[nH]nnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
+    "c1cnc2[nH]nnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e]pyrazine
+    "c1cc2nn[nH]c2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridazine
+    "c1cc2nn[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridine
+    "c1nnnc2[nH]nnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine
+    "c1ncc2nn[nH]c2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d]pyrimidine
+    "c1nnc2nn[nH]c2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-e][1,2,4]triazine
+    "c1cnc2[nH]cnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 1H-imidazo[4,5-b]pyridine
+    "c1ccc2nc3[nH]cnc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-imidazo[4,5-b]quinoline
+    "c1cc2[nH]cnc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-c]pyridazine
+    "c1cc2nc[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
+    "c1cc2[nH]cnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
+    "c1nc2nnncc2[nH]1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-imidazo[4,5-d][1,2,3]triazine
+    "c1nc2cnncc2[nH]1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-imidazo[4,5-d]pyridazine
+    "c1nnc2[nH]cnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e][1,2,4]triazine
+    "c1cnc2[nH]cnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e]pyrazine
+    "c1nc2cnnnc2[nH]1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-d][1,2,3]triazine
+    "c1nnc2nc[nH]c2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-e][1,2,4]triazine
+    "c1cnc2[nH]ncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
+    "c1cnc2n[nH]cc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
+    "c1ccc2nc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrazolo[3,4-b]quinoline
+    "c1cc2c[nH]nc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-c]pyridazine
+    "c1cc2c[nH]nc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[3,4-c]pyridine
+    "c1nnnc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[3,4-d][1,2,3]triazine
+    "c1nncc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[3,4-d]pyridazine
+    "c1ncc2c[nH]nc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-d]pyrimidine
+    "c1n[nH]c2cnnc-2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-e][1,2,4]triazine
+    "c1cnc2n[nH]cc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[3,4-e]pyrazine
+    "c1cnc2c[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,3-b]pyridine
+    "c1cc2n[nH]cc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-c]pyridazine
+    "c1nn[nH]c2cnnc1-2": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-d][1,2,3]triazine
+    "c1ncc2n[nH]cc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-d]pyrimidine
+    "c1nnc2n[nH]cc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-e][1,2,4]triazine
+    "c1cnc2cn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,5-b]pyridine
+    "c1cc2[nH]ncc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,5-c]pyridazine
+    "c1cc2[nH]ncc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrazolo[4,5-c]pyridine
+    "c1nncc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[4,5-d]pyridazine
+    "c1ncc2[nH]ncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-d]pyrimidine
+    "c1nnc2[nH]ncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e][1,2,4]triazine
+    "c1cnc2[nH]ncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e]pyrazine
+    "c1cc2cn[nH]c2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-c]pyridazine
+    "c1cc2cn[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[5,4-c]pyridine
+    "c1nnnc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[5,4-d][1,2,3]triazine
+    "c1ncc2cn[nH]c2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-d]pyrimidine
+    "c1cnc2[nH]ccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # 1H-pyrrolo[2,3-b]pyridine
+    "c1ccc2nc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrrolo[2,3-b]quinoline
+    "c1cc2cc[nH]c2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-c]pyridazine
+    "c1cc2cc[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrrolo[2,3-c]pyridine
+    "c1cc2cnnnc2[nH]1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-d][1,2,3]triazine
+    "c1cc2cnncc2[nH]1": {0: 2, 1: 3, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # 1H-pyrrolo[2,3-d]pyridazine
+    "c1ncc2cc[nH]c2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: 6, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-d]pyrimidine
+    "c1cc2[nH]ncnc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e][1,2,4]triazine
+    "c1c[nH]c2ccnc-2n1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e]pyrazine
+    "c1cnc2cc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 7},  # 1H-pyrrolo[3,2-b]pyridine
+    "c1ccc2nc3cc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-pyrrolo[3,2-b]quinoline
+    "c1cc2nccc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[3,2-c]pyridazine
+    "c1cc2[nH]ccc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,2-c]pyridine
+    "c1cc2[nH]nncc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d][1,2,3]triazine
+    "c1cc2[nH]cncc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d]pyrimidine
+    "c1nnc2[nH]ccc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,2-e][1,2,4]triazine
+    "c1c[nH]c2cncc-2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: 4},  # 1H-pyrrolo[3,4-b]pyridine
+    "c1cc2cncc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[3,4-c]pyridazine
+    "c1ncc2[nH]nncc1-2": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-d][1,2,3]triazine
+    "c1ncc2cncc-2[nH]1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: None},  # 1H-pyrrolo[3,4-d]pyrimidine
+    "c1n[nH]c2cncc-2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e][1,2,4]triazine
+    "c1c[nH]c2cncc-2n1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e]pyrazine
+    "c1cnc2n[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 2H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cc2n[nH]nc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridazine
+    "c1cc2n[nH]nc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridine
+    "c1nnnc2n[nH]nc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
+    "c1ncc2n[nH]nc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d]pyrimidine
+    "c1nnc2n[nH]nc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
+    "c1cnc2n[nH]nc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e]pyrazine
+    "c1cnc2nc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 3H-imidazo[4,5-b]pyridine
+    "c1ccc2nc3nc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 3H-imidazo[4,5-b]quinoline
+    "c1ncc2[nH]cnc2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 7H-purine
+    "c1ncc2nc[nH]c2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 9H-purine
+    # Phase 618: non-aromatic and partially aromatic ring locants
+    "c1ccc2c(c1)CCCC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},  # 1,2,3,4-tetrahydronaphthalene
+    "C1CCOOC1": {0: 4, 1: 4, 2: 3, 3: None, 4: None, 5: 3},  # 1,2-dioxane
+    "C1COOC1": {0: 4, 1: 3, 2: None, 3: None, 4: 3},  # 1,2-dioxolane
+    "C1CCSSC1": {0: 4, 1: 4, 2: 3, 3: None, 4: None, 5: 3},  # 1,2-dithiane
+    "C1CSSC1": {0: 4, 1: 3, 2: None, 3: None, 4: 3},  # 1,2-dithiolane
+    "C1COCOC1": {0: 5, 1: 4, 2: None, 3: 2, 4: None, 5: 4},  # 1,3-dioxane
+    "C1COCO1": {0: 4, 1: 4, 2: None, 3: 2, 4: None},  # 1,3-dioxolane
+    "C1CSCS1": {0: 4, 1: 4, 2: None, 3: 2, 4: None},  # 1,3-dithiolane
+    "C1CSCO1": {0: 5, 1: 4, 2: None, 3: 2, 4: None},  # 1,3-oxathiolane
+    "C1COCCO1": {0: 2, 1: 2, 2: None, 3: 2, 4: 2, 5: None},  # 1,4-dioxane
+    "C1CSCCS1": {0: 2, 1: 2, 2: None, 3: 2, 4: 2, 5: None},  # 1,4-dithiane
+    "C1CSCCO1": {0: 2, 1: 3, 2: None, 3: 3, 4: 2, 5: None},  # 1,4-oxathiane
+    "c1ccc2c(c1)CCC2": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: 2, 8: 1},  # indane
+    "c1ccc2c(c1)CCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: None},  # thiochroman
+    # Phase 619: non-aromatic double-bond compounds
+    "C1=Cc2ccccc2C1": {0: 2, 1: 3, 2: None, 3: 4, 4: 5, 5: 6, 6: 7, 7: None, 8: 1},  # 1H-indene
+    "C1=Cc2ccccc2OC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},  # 2H-chromene
+    "C1=COc2ccccc2C1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: 7, 6: 6, 7: 5, 8: None, 9: 4},  # 4H-chromene
+    "O=C1CCc2ccccc21": {0: None, 1: None, 2: 2, 3: 3, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: None},  # indan-1-one
+    "O=C1CC(=O)c2ccccc21": {0: None, 1: None, 2: 2, 3: None, 4: None, 5: None, 6: 4, 7: 5, 8: 5, 9: 4, 10: None},  # indane-1,3-dione
+    "O=C1OC(=O)c2ccccc21": {0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: 5, 8: 5, 9: 4, 10: None},  # isobenzofuran-1,3-dione
+    "O=C1C=CC(=O)O1": {0: None, 1: None, 2: 3, 3: 3, 4: None, 5: None, 6: None},  # furan-2,5-dione
+    "C1=Nc2cccc3cccc(c23)N1": {0: 2, 1: None, 2: None, 3: 4, 4: 5, 5: 6, 6: None, 7: 6, 8: 5, 9: 4, 10: None, 11: None, 12: None},  # perimidine
+    # Phase 620: non-aromatic N=C fused heterocycles
+    "C1=NCc2ccncc21": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: 6, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-c]pyridine
+    "C1=NC=C2CN=NC=C12": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-d]pyridazine
+    "C1=NC2=CCN=NC2=N1": {0: 6, 1: None, 2: None, 3: 4, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 3H-imidazo[4,5-c]pyridazine
     "c1ccc2ncccc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
     "c1ccc2cnccc2c1":   {0: 6, 1: 7, 2: 8, 3: None, 4: 1, 5: 2, 6: 3, 7: 4, 8: None, 9: 5},
     # Phase 552: quinoxaline, quinazoline, phthalazine, cinnoline — same 10-atom map
@@ -1776,6 +1958,413 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 567: tetracene (D2h; 18 atoms; unique positions {1,4,7,10}→b17, {2,3,8,9}→b0, {5,6,11,12}→b15)
     # canonical: c1ccc2cc3cc4ccccc4cc3cc2c1
     "c1ccc2cc3cc4ccccc4cc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: None, 6: 11, 7: None, 8: 7, 9: 8, 10: 9, 11: 10, 12: None, 13: 12, 14: None, 15: 5, 16: None, 17: 1},
+    # Phase 579: 1H-naphtho[2,3-d]imidazole (N1H@b6, N3@b8; 7 sub C: 2,4-9)
+    # canonical: c1ccc2cc3[nH]cnc3cc2c1; junctions: b3,b5,b9,b11
+    "c1ccc2cc3[nH]cnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 579: 1H-naphtho[2,3-d]pyrazole (N1H@b6, N2@b7; 7 sub C: 3-9)
+    # canonical: c1ccc2cc3[nH]ncc3cc2c1
+    "c1ccc2cc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 579: 1H-naphtho[2,1-d]imidazole (N1H@b10, N3@b11; 7 sub C: 2,4-9)
+    # canonical: c1ccc2c(c1)ccc1[nH]cnc12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1[nH]cnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # 3H tautomeric canonical alias (MolFragmentToSmiles gives this form for many substituted cases)
+    "c1ccc2c(c1)ccc1nc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # Phase 579: 1H-naphtho[2,1-d]pyrazole (N1H@b11, N2@b10; 7 sub C: 3-9)
+    # canonical: c1ccc2c(c1)ccc1cn[nH]c12
+    "c1ccc2c(c1)ccc1cn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: None, 12: None},
+    # Phase 579: naphtho[1,2-d]oxazole (O@1→b9, N@3→b11; 7 sub C: 2,4-9)
+    # canonical: c1ccc2c(c1)ccc1ocnc12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1ocnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # Phase 579: naphtho[1,2-d]thiazole (S@1→b9, N@3→b11; same skeleton)
+    # canonical: c1ccc2c(c1)ccc1scnc12
+    "c1ccc2c(c1)ccc1scnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # Phase 581: 1H-naphtho[1,2-d][1,2,3]triazole (N1H@b11, N2@b10, N3@b9; 6 sub C: 4-9)
+    # canonical: c1ccc2c(c1)ccc1nn[nH]c12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1nn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    # Phase 581: naphtho[2,3-d][1,2,3]oxadiazole (O@b6, N@b7, N@b8; 6 sub C: 4-9)
+    "c1ccc2cc3onnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 581: naphtho[1,2-d][1,2,3]oxadiazole (O@b9, N@b10, N@b11; 6 sub C: 4-9)
+    "c1ccc2c(c1)ccc1onnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    # Phase 581: naphtho[2,1-d][1,2,3]oxadiazole (N@b9, N@b10, O@b11; 6 sub C: 4-9)
+    "c1ccc2c(c1)ccc1nnoc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    # Phase 581: naphtho[2,3-d][1,2,3]thiadiazole (S@b6, N@b7, N@b8; 6 sub C: 4-9)
+    "c1ccc2cc3snnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 581: naphtho[1,2-d][1,2,3]thiadiazole (S@b9, N@b10, N@b11; 6 sub C: 4-9)
+    "c1ccc2c(c1)ccc1snnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    # Phase 581: naphtho[2,1-d][1,2,3]thiadiazole (N@b9, N@b10, S@b11; 6 sub C: 4-9)
+    "c1ccc2c(c1)ccc1nnsc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    # Phase 580: naphtho[2,3-d]isoxazole (O@1→b6, N@2→b7; 7 sub C: 3-9)
+    # canonical: c1ccc2cc3oncc3cc2c1; junctions: b3,b5,b9,b11
+    "c1ccc2cc3oncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 580: naphtho[2,3-d]isothiazole (S@1→b6, N@2→b7; same skeleton)
+    "c1ccc2cc3sncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 580: naphtho[2,1-d]isoxazole (C3@b9, N@2→b10, O@1→b11; 7 sub C: 3-9)
+    # canonical: c1ccc2c(c1)ccc1cnoc12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1cnoc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: None, 12: None},
+    # Phase 580: naphtho[2,1-d]isothiazole (C3@b9, N@2→b10, S@1→b11; same skeleton)
+    "c1ccc2c(c1)ccc1cnsc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: None, 12: None},
+    # Phase 580: naphtho[1,2-d]isoxazole (O@1→b9, N@2→b10, C3@b11; 7 sub C: 3-9)
+    # canonical: c1ccc2c(c1)ccc1oncc12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1oncc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: 3, 12: None},
+    # Phase 580: naphtho[1,2-d]isothiazole (S@1→b9, N@2→b10, C3@b11; same skeleton)
+    "c1ccc2c(c1)ccc1sncc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: 3, 12: None},
+    # Phase 582: benzo[g]quinoline (N@b6; 9 sub C: 2-10)
+    "c1ccc2cc3ncccc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 583: naphtho[2,3-d]pyrimidine (N@a6/a8; 8 sub C: 2,4-10)
+    "c1ccc2cc3ncncc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 583: naphtho[2,1-d]pyrimidine (N@a9/a11; 8 sub C: 1,3,5-10)
+    "c1ccc2c(c1)ccc1ncncc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: None, 10: 3, 11: None, 12: 1, 13: None},
+    # Phase 583: naphtho[1,2-d]pyrimidine (N@a10/a12; 8 sub C: 2,4-10)
+    "c1ccc2c(c1)ccc1cncnc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: 4, 10: None, 11: 2, 12: None, 13: None},
+    # Phase 584: 1H-benzo[f]indole (N@a6; 8 sub C: 2-9)
+    "c1ccc2cc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 584: 1H-benzo[g]indole (N@a11; 8 sub C: 2-9)
+    "c1ccc2c(c1)ccc1cc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},
+    # Phase 585: benzo[b][1,7]naphthyridine (N@a4/a7; 8 sub C: 1,3-9)
+    "c1ccc2nc3cnccc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 585: benzo[b][1,8]naphthyridine (N@a4/a6; 8 sub C: 2-9)
+    "c1ccc2nc3ncccc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 585: benzo[b][1,5]naphthyridine (N@a4/a9; 8 sub C: 2-4,6-10)
+    "c1ccc2nc3cccnc3cc2c1": {0: 8, 1: 7, 2: 6, 3: None, 4: None, 5: None, 6: 4, 7: 3, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 585: benzo[b][1,6]naphthyridine (N@a4/a8; 8 sub C: 1,3,4,6-10)
+    "c1ccc2nc3ccncc3cc2c1": {0: 8, 1: 7, 2: 6, 3: None, 4: None, 5: None, 6: 4, 7: 3, 8: None, 9: 1, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 585: benzo[c][1,6]naphthyridine (N@a7/a11; 8 sub C: 1,3,4,6-10)
+    "c1ccc2c(c1)cnc1ccncc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: None, 8: None, 9: 4, 10: 3, 11: None, 12: 1, 13: None},
+    # Phase 586: pyrido[3,4-g]quinoline (N@a2/a8; 8 sub C: 2-6,8-10)
+    "c1cnc2cc3ccncc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 10, 5: None, 6: 9, 7: 8, 8: None, 9: 6, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 586: pyrido[3,2-g]quinoline (N@a2/a6 symm; 5 unique sub C: 2-5,10)
+    "c1cnc2cc3ncccc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 586: pyrido[2,3-g]quinoline (N@a2/a9 symm; 4 unique sub C: 2-5)
+    "c1cnc2cc3cccnc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 5, 5: None, 6: 4, 7: 3, 8: 2, 9: None, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 586: pyrido[4,3-g]quinoline (N@a2/a7; 8 sub C: 2-7,9-10)
+    "c1cnc2cc3cnccc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 10, 5: None, 6: 9, 7: None, 8: 7, 9: 6, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 587: pyrido[3,4-g]quinoxaline (N@a2/a8/a9; 7 sub C: 2,3,5,6,8-10)
+    "c1cc2cc3nccnc3cc2cn1": {0: 8, 1: 9, 2: None, 3: 10, 4: None, 5: None, 6: 2, 7: 3, 8: None, 9: None, 10: 5, 11: None, 12: 6, 13: None},
+    # Phase 587: pyrido[2,3-g]quinoxaline (N@a2/a5/a6; 7 sub C: 2,3,5,7-10)
+    "c1cnc2cc3nccnc3cc2c1": {0: 8, 1: 7, 2: None, 3: None, 4: 5, 5: None, 6: None, 7: 3, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 587: pyrazino[2,3-b]quinoline (N@a3/a4/a6; 7 sub C: 2,3,6-10)
+    "c1ccc2nc3nccnc3cc2c1": {0: 8, 1: 7, 2: 6, 3: None, 4: None, 5: None, 6: None, 7: 3, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 588: pyrido[3,2-g]quinazoline (N@a2/a6/a8; 7 sub C: 2,4-8,10)
+    "c1cnc2cc3ncncc3cc2c1": {0: 7, 1: 8, 2: None, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 588: pyrido[2,3-g]quinazoline (N@a2/a7/a9; 7 sub C: 2,4-5,7-10)
+    "c1cnc2cc3cncnc3cc2c1": {0: 8, 1: 7, 2: None, 3: None, 4: 5, 5: None, 6: 4, 7: None, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 588: pyrimido[4,5-b]quinoline (N@a3/a6/a8; 7 sub C: 2,4-9)
+    "c1ccc2nc3ncncc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 588: pyrimido[5,4-b]quinoline (N@a3/a4/a7; 7 sub C: 2,4,6-10)
+    "c1ccc2nc3cncnc3cc2c1": {0: 8, 1: 7, 2: 6, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 589: pyrimido[5,4-g][1,5]naphthyridine (N@a2/a6/a8/a11; 6 sub C: 2,4,6-8,10)
+    "c1cnc2cc3ncncc3nc2c1": {0: 7, 1: 8, 2: None, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: None, 12: None, 13: 6},
+    # Phase 589: pyrimido[5,4-g][1,8]naphthyridine (N@a2/a4/a8/a11; 6 sub C: 2,4-8)
+    "c1cnc2nc3ncncc3cc2c1": {0: 7, 1: 8, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
+    # Phase 589: pyrido[2,3-g][1,5]naphthyridine (N@a2/a4/a9; 7 sub C: 2-4,7-10)
+    "c1cnc2nc3cccnc3cc2c1": {0: 8, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: 3, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 590: pyrazino[2,3-g][1,8]naphthyridine (N@a2/a4/a5/a6; 6 sub C: 2,3,7-10)
+    "c1cnc2nc3nccnc3cc2c1": {0: 8, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 3, 8: 2, 9: None, 10: None, 11: 10, 12: None, 13: 9},
+    # Phase 590: pyrazino[2,3-b][1,5]naphthyridine (N@a2/a4/a5/a9; 6 sub C: 2,3,6-8,10)
+    "c1cnc2cc3nccnc3nc2c1": {0: 7, 1: 8, 2: None, 3: None, 4: 10, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: None, 11: None, 12: None, 13: 6},
+    # Phase 590: pyrazino[2,3-b]quinoxaline (N@a3/a4/a5/a11; 3 unique sub C: 2,6,7)
+    "c1ccc2nc3nccnc3nc2c1": {0: 7, 1: 7, 2: 6, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 2, 9: None, 10: None, 11: None, 12: None, 13: 6},
+    # Phase 590: pyrazino[2,3-g]quinoxaline (N@a2/a6/a9/a13; 2 unique sub C: 2,5)
+    "c1cnc2cc3nccnc3cc2n1": {0: 2, 1: 2, 2: None, 3: None, 4: 5, 5: None, 6: None, 7: 2, 8: 2, 9: None, 10: None, 11: 5, 12: None, 13: None},
+    # Phase 591: pyrido[2,3-b]quinoxaline (N@a4/a6/a11; 7 sub C: 2-4,6-9)
+    "c1ccc2nc3ncccc3nc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: 4, 10: None, 11: None, 12: None, 13: 6},
+    # Phase 591: pyrido[2,3-b][1,7]naphthyridine (N@a2/a4/a7; 7 sub C: 2-7,9)
+    "c1cnc2nc3cnccc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: 9, 7: None, 8: 7, 9: 6, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 591: pyrido[2,3-b][1,6]naphthyridine (N@a2/a4/a8; 7 sub C: 2-6,8-9)
+    "c1cnc2nc3ccncc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: 9, 7: 8, 8: None, 9: 6, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 591: pyrido[2,3-b][1,8]naphthyridine (N@a2/a4/a6; symm; 4 unique sub C: 2-5)
+    "c1cnc2nc3ncccc3cc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 4},
+    # Phase 591: pyrazino[2,3-h][1,6]naphthyridine (N@a2/a7/a9/a12; 6 sub C: 2,3,6-9)
+    "c1cnc2c(c1)cnc1nccnc12": {0: 8, 1: 9, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: None, 8: None, 9: None, 10: 3, 11: 2, 12: None, 13: None},
+    # Phase 592: pyrimido[4,5-b]quinoxaline (N@a4/a6/a8/a11; 6 sub C: 2,4,6-9)
+    "c1ccc2nc3ncncc3nc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: None, 12: None, 13: 6},
+    # Phase 593: pteridine (N@a2/a4/a6/a9; 4 sub C: 2,4,6,7)
+    "c1cnc2ncncc2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: 4, 8: None, 9: None},
+    # Phase 593: pyrido[2,3-d]pyrimidine (N@a2/a4/a8; 5 sub C: 2,4-7)
+    "c1cnc2ncncc2c1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: 4, 8: None, 9: 5},
+    # Phase 593: pyrido[3,4-d]pyrimidine (N@a2/a4/a7; 5 sub C: 2,4-6,8)
+    "c1cc2cncnc2cn1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: 2, 6: None, 7: None, 8: 8, 9: None},
+    # Phase 593: pyrido[2,3-e]pyrimidine (N@a2/a5/a7; 5 sub C: 2,4,6-8)
+    "c1cnc2cncnc2c1": {0: 7, 1: 6, 2: None, 3: None, 4: 4, 5: None, 6: 2, 7: None, 8: None, 9: 8},
+    # Phase 593: pyrido[3,4-e]pyrimidine (N@a2/a5/a9; 5 sub C: 2,4,5,7,8)
+    "c1cc2ncncc2cn1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: None, 6: 4, 7: None, 8: 5, 9: None},
+    # Phase 594: pyrido[2,3-e]pyridazine (N@a2/a6/a7; 5 sub C: 3-4,6-8)
+    "c1cnc2ccnnc2c1": {0: 7, 1: 6, 2: None, 3: None, 4: 4, 5: 3, 6: None, 7: None, 8: None, 9: 8},
+    # Phase 594: pyrido[2,3-d]pyridazine (N@a2/a5/a6; 5 sub C: 2-5,8)
+    "c1cnc2cnncc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: None, 6: None, 7: 5, 8: None, 9: 4},
+    # Phase 594: pyrido[3,4-c]pyridazine (N@a5/a6/a9; 5 sub C: 3-6,8)
+    "c1cc2ccnnc2cn1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: None, 6: None, 7: None, 8: 8, 9: None},
+    # Phase 594: pyrido[3,4-e]pyridazine (N@a2/a3/a6; 5 sub C: 3-5,7-8)
+    "c1cc2nnccc2cn1": {0: 7, 1: 8, 2: None, 3: None, 4: None, 5: 3, 6: 4, 7: None, 8: 5, 9: None},
+    # Phase 594: pyrido[2,3-c]pyridazine (N@a2/a3/a8; 5 sub C: 3-7)
+    "c1cnc2nnccc2c1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: 4, 8: None, 9: 5},
+    # Phase 594: 1,2,4-benzotriazine (N@a4/a5/a7; 5 sub C: 3,5-8)
+    "c1ccc2nncnc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None, 9: 5},
+    # Phase 594: pyrido[3,4-e]pyrazine (N@a2/a3/a7; 5 sub C: 2,3,5,7,8)
+    "c1cc2nccnc2cn1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: None, 8: 5, 9: None},
+    # Phase 595: indolizine (N@a3/a7; 7 sub C: 1-3,5-8)
+    "c1ccn2cccc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: 3, 5: 2, 6: 1, 7: None, 8: 8},
+    # Phase 595: imidazo[1,2-a]pyridine (N@a3/a7/a8; 6 sub C: 2,3,5-8)
+    "c1ccn2ccnc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 8},
+    # Phase 595: imidazo[1,5-a]pyridine (N@a3/a5/a7; 6 sub C: 1,3,5-8)
+    "c1ccn2cncc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: 3, 5: None, 6: 1, 7: None, 8: 8},
+    # Phase 595: pyrazolo[1,5-a]pyridine (N@a3/a4/a7; 5 sub C: 2,3,5-7)
+    "c1ccn2nccc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None},
+    # Phase 595: [1,2,4]triazolo[4,3-a]pyridine (N@a3/a5/a6/a7; 5 sub C: 3,5-8)
+    "c1ccn2cnnc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 8},
+    # Phase 595: [1,2,4]triazolo[1,5-a]pyridine (N@a3/a4/a5/a7; 5 sub C: 2,5-8)
+    "c1ccn2ncnc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 8},
+    # Phase 595: [1,2,3]triazolo[1,5-a]pyridine (N@a3/a4/a5/a7; 4 sub C: 3,5-7)
+    "c1ccn2nncc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},
+    # Phase 595: tetrazolo[1,5-a]pyridine (N@a3/a4/a5/a6/a7; 4 sub C: 5-8)
+    "c1ccn2nnnc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 8},
+    # Phase 596: imidazo[1,2-b]pyridazine (N@a2/a3/a7/a8; 5 sub C: 2,3,6-8)
+    "c1cnn2ccnc2c1": {0: 7, 1: 6, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 8},
+    # Phase 596: imidazo[1,5-b]pyridazine (N@a2/a3/a5/a7; 4 sub C: 2,3,5,7)
+    "c1cnn2cncc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},
+    # Phase 596: pyrazolo[1,5-b]pyridazine (N@a2/a3/a4/a7; 4 sub C: 2,3,5,6)
+    "c1cnn2nccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None},
+    # Phase 596: [1,2,4]triazolo[1,5-b]pyridazine (N@a2/a3/a5/a6/a7; 4 sub C: 2,6-8)
+    "c1cnn2ncnc2c1": {0: 7, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 8},
+    # Phase 596: [1,2,3]triazolo[1,5-b]pyridazine (N@a2/a3/a4/a5/a7; 3 sub C: 3,5,6)
+    "c1cnn2nncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},
+    # Phase 596: tetrazolo[1,5-b]pyridazine (N@a2/a3/a4/a5/a6/a7; 3 sub C: 6-8)
+    "c1cnn2nnnc2c1": {0: 7, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 8},
+    # Phase 596: imidazo[1,2-a]pyrimidine (N@a2/a3/a8/a9; 5 sub C: 2,3,5-7)
+    "c1cnc2nccn2c1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 5},
+    # Phase 596: imidazo[1,5-a]pyrimidine (N@a2/a5/a8/a9; 4 sub C: 2,3,6,8)
+    "c1cnc2cncn2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: None, 6: 6, 7: None, 8: None},
+    # Phase 597: pyrazolo[1,5-a]pyrimidine (N@a3/a4/a8; 5 sub C: 2,3,5,6,7)
+    "c1cnc2ccnn2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 7},
+    # Phase 597: [1,2,4]triazolo[4,3-a]pyrimidine (N@a3/a6/a7/a8; 4 sub C: 3,5,6,7)
+    "c1cnc2nncn2c1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 5},
+    # Phase 597: [1,2,4]triazolo[1,5-a]pyrimidine (N@a3/a5/a6/a8; 4 sub C: 2,5,6,7)
+    "c1cnc2ncnn2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},
+    # Phase 597: pyrrolo[1,2-a]pyrazine (N@a4/a8; 6 sub C: 1,3,4,6,7,8)
+    "c1cc2cnccn2c1": {0: 7, 1: 8, 2: None, 3: 1, 4: None, 5: 3, 6: 4, 7: None, 8: 6},
+    # Phase 597: imidazo[1,2-a]pyrazine (N@a4/a5/a8; 5 sub C: 2,3,5,6,8)
+    "c1cn2ccnc2cn1": {0: 6, 1: 5, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: 8, 8: None},
+    # Phase 597: pyrrolo[1,2-b]pyridazine (N@a2/a3/a8; 6 sub C: 2-7)
+    "c1cnn2cccc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: 6, 6: 5, 7: None, 8: 4},
+    # Phase 597: pyrrolo[1,2-a]pyrimidine (N@a3/a4/a8; 6 sub C: 2-4,6-8)
+    "c1cnc2cccn2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 8, 5: 7, 6: 6, 7: None, 8: 4},
+    # Phase 598: thieno/furo-pyrazine, [1,2,3]triazolo-pyrimidine, isoxazolo/isothiazolo-pyrimidine/pyrazine
+    "c1cnc2sccc2n1": {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 6, 6: 7, 7: None, 8: None},  # thieno[2,3-e]pyrazine
+    "c1cnc2occc2n1": {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 6, 6: 7, 7: None, 8: None},  # furo[2,3-e]pyrazine
+    "c1cnc2cocc2n1": {0: 2, 1: 2, 2: None, 3: None, 4: 5, 5: None, 6: 5, 7: None, 8: None},  # furo[3,4-e]pyrazine
+    "c1cnc2occc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # furo[2,3-b]pyridine
+    "c1cnc2cscc2n1": {0: 2, 1: 2, 2: None, 3: None, 4: 5, 5: None, 6: 5, 7: None, 8: None},  # thieno[3,4-e]pyrazine
+    "c1cnc2cnnn2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # [1,2,3]triazolo[1,5-a]pyrimidine
+    "c1cnc2nocc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[3,4-e]pyrazine
+    "c1cnc2oncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[4,5-e]pyrazine
+    "c1ncc2sncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[4,5-d]pyrimidine
+    "c1ncc2nscc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[4,3-d]pyrimidine
+    "c1ncc2cnsc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[5,4-d]pyrimidine
+    "c1ncc2csnc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[3,4-d]pyrimidine
+    "c1cnc2sncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[4,5-e]pyrazine
+    "c1cnc2nscc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[3,4-e]pyrazine
+    # Phase 599: isothiazolo fused with pyridine and pyridazine
+    "c1cnc2nscc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # isothiazolo[3,4-b]pyridine
+    "c1cnc2csnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # isothiazolo[4,3-b]pyridine
+    "c1cnc2cnsc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # isothiazolo[4,5-b]pyridine
+    "c1cnc2sncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # isothiazolo[5,4-b]pyridine
+    "c1cc2csnc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # isothiazolo[3,4-c]pyridine
+    "c1cc2nscc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # isothiazolo[4,3-c]pyridine
+    "c1cc2sncc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # isothiazolo[4,5-c]pyridine
+    "c1cc2cnsc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # isothiazolo[5,4-c]pyridine
+    "c1cc2csnc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[3,4-c]pyridazine
+    "c1cc2nscc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # isothiazolo[4,3-c]pyridazine
+    "c1cc2sncc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # isothiazolo[4,5-c]pyridazine
+    "c1cc2cnsc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[5,4-c]pyridazine
+    # Phase 600: oxazolo/thiazolo/thieno fused with pyridine/pyrazine, imidazo[1,2-c]pyrimidine
+    "c1cnc2cscc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: 4},  # thieno[3,4-b]pyridine
+    "c1cnc2ocnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # oxazolo[5,4-b]pyridine
+    "c1cnc2ncoc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # oxazolo[4,5-b]pyridine
+    "c1cnc2scnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # thiazolo[5,4-b]pyridine
+    "c1cnc2ncsc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # thiazolo[4,5-b]pyridine
+    "c1cnc2ocnc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # oxazolo[4,5-e]pyrazine
+    "c1cnc2scnc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # thiazolo[4,5-e]pyrazine
+    "c1cc2cscc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # thieno[3,4-c]pyridine
+    "c1cc2nccn2cn1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 5, 8: None},  # imidazo[1,2-c]pyrimidine
+    # Phase 601: pyrazolo/triazolo/imidazo fused with pyrazine/[1,2,4]triazine (N-bridged 5+6)
+    "c1cn2nccc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # pyrazolo[1,5-a]pyrazine
+    "c1cnn2cnnc2n1": {0: 7, 1: 6, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # [1,2,4]triazolo[4,3-b][1,2,4]triazine
+    "c1cn2ncnc2cn1": {0: 6, 1: 5, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 8, 8: None},  # [1,2,4]triazolo[1,5-a]pyrazine
+    "c1cnn2cncc2n1": {0: 2, 1: 3, 2: None, 3: None, 4: 6, 5: None, 6: 8, 7: None, 8: None},  # imidazo[1,5-b][1,2,4]triazine
+    "c1cnn2ccnc2n1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # imidazo[3,2-b][1,2,4]triazine
+    "c1cn2cncc2cn1": {0: 6, 1: 5, 2: None, 3: 3, 4: None, 5: 1, 6: None, 7: 8, 8: None},  # imidazo[1,5-a]pyrazine
+    "c1cn2cnnc2cn1": {0: 6, 1: 5, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 8, 8: None},  # [1,2,4]triazolo[4,3-a]pyrazine
+    "c1cnn2nccc2n1": {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 8, 7: None, 8: None},  # pyrazolo[1,5-b][1,2,4]triazine
+    # Phase 602: thieno/furo fused with pyridazine
+    "c1cc2ccsc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # thieno[2,3-c]pyridazine
+    "c1cc2ccoc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # furo[2,3-c]pyridazine
+    "c1cc2cscc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: None, 7: None, 8: None},  # thieno[3,4-c]pyridazine
+    "c1cc2cocc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: None, 7: None, 8: None},  # furo[3,4-c]pyridazine
+    "c1cc2cnncc2s1": {0: 2, 1: 3, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # thieno[3,2-d]pyridazine
+    "c1nncc2cscc12": {0: 1, 1: None, 2: None, 3: 1, 4: None, 5: 5, 6: None, 7: 5, 8: None},  # thieno[3,4-d]pyridazine
+    "c1cc2cnncc2o1": {0: 2, 1: 3, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # furo[3,2-d]pyridazine
+    "c1nncc2cocc12": {0: 1, 1: None, 2: None, 3: 1, 4: None, 5: 5, 6: None, 7: 5, 8: None},  # furo[3,4-d]pyridazine
+    # Phase 603: 5-membered heteroaromatics fused with [1,2,4]triazine
+    "c1nnc2ccsc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # thieno[2,3-e][1,2,4]triazine
+    "c1nnc2sccc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: 5, 7: None, 8: None},  # thieno[3,2-e][1,2,4]triazine
+    "c1nnc2cscc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # thieno[3,4-e][1,2,4]triazine
+    "c1nnc2ccoc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # furo[2,3-e][1,2,4]triazine
+    "c1nnc2occc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: 5, 7: None, 8: None},  # furo[3,2-e][1,2,4]triazine
+    "c1nnc2cocc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # furo[3,4-e][1,2,4]triazine
+    "c1nnc2csnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[3,4-e][1,2,4]triazine
+    "c1nnc2nscc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[4,3-e][1,2,4]triazine
+    "c1nnc2cnsc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[5,4-e][1,2,4]triazine
+    "c1nnc2conc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[3,4-e][1,2,4]triazine
+    "c1nnc2nocc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[4,3-e][1,2,4]triazine
+    "c1nnc2cnoc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[5,4-e][1,2,4]triazine
+    "c1nnc2oncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[4,5-e][1,2,4]triazine
+    "c1nnc2sncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isothiazolo[4,5-e][1,2,4]triazine
+    "c1nnc2ocnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # oxazolo[4,5-e][1,2,4]triazine
+    "c1nnc2ncoc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # oxazolo[5,4-e][1,2,4]triazine
+    "c1nnc2scnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # thiazolo[4,5-e][1,2,4]triazine
+    "c1nnc2ncsc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # thiazolo[5,4-e][1,2,4]triazine
+    # Phase 604: 5-membered heteroaromatics fused with [1,2,3]triazine
+    "c1cc2cnnnc2s1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # thieno[2,3-d][1,2,3]triazine
+    "c1cc2nnncc2s1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # thieno[3,2-d][1,2,3]triazine
+    "c1nnnc2cscc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: None, 7: 5, 8: None},  # thieno[3,4-d][1,2,3]triazine
+    "c1cc2cnnnc2o1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # furo[2,3-d][1,2,3]triazine
+    "c1cc2nnncc2o1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # furo[3,2-d][1,2,3]triazine
+    "c1nnnc2cocc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: None, 7: 5, 8: None},  # furo[3,4-d][1,2,3]triazine
+    "c1snc2cnnnc12": {0: 7, 1: None, 2: None, 3: None, 4: 4, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[4,3-d][1,2,3]triazine
+    "c1nnnc2nscc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # isothiazolo[3,4-d][1,2,3]triazine
+    "c1onc2cnnnc12": {0: 7, 1: None, 2: None, 3: None, 4: 4, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[4,3-d][1,2,3]triazine
+    "c1nnnc2nocc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # isoxazolo[3,4-d][1,2,3]triazine
+    "c1nc2cnnnc2s1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # thiazolo[5,4-d][1,2,3]triazine
+    "c1nc2nnncc2s1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # thiazolo[4,5-d][1,2,3]triazine
+    "c1nc2cnnnc2o1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # oxazolo[5,4-d][1,2,3]triazine
+    "c1nc2nnncc2o1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # oxazolo[4,5-d][1,2,3]triazine
+    "c1nnnc2sncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # isothiazolo[5,4-d][1,2,3]triazine
+    "c1noc2cnnnc12": {0: 7, 1: None, 2: None, 3: None, 4: 4, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[4,5-d][1,2,3]triazine
+    "c1nsc2cnnnc12": {0: 7, 1: None, 2: None, 3: None, 4: 4, 5: None, 6: None, 7: None, 8: None},  # isothiazolo[4,5-d][1,2,3]triazine
+    "c1nnnc2oncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # isoxazolo[5,4-d][1,2,3]triazine
+    # Phase 605: [1,2,3]oxadiazolo and [1,2,3]thiadiazolo fused bicyclics
+    "c1cnc2nnoc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # [1,2,3]oxadiazolo[4,5-b]pyridine
+    "c1cc2onnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # [1,2,3]oxadiazolo[4,5-c]pyridine
+    "c1cnc2onnc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]oxadiazolo[4,5-e]pyrazine
+    "c1nncc2onnc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]oxadiazolo[5,4-d]pyridazine
+    "c1nnc2onnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]oxadiazolo[4,5-e][1,2,4]triazine
+    "c1nnnc2onnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]oxadiazolo[5,4-d][1,2,3]triazine
+    "c1nnnc2nnoc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]oxadiazolo[4,5-d][1,2,3]triazine
+    "c1cnc2nnsc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # [1,2,3]thiadiazolo[4,5-b]pyridine
+    "c1cc2snnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # [1,2,3]thiadiazolo[4,5-c]pyridine
+    "c1cnc2snnc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]thiadiazolo[4,5-e]pyrazine
+    "c1nncc2snnc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]thiadiazolo[5,4-d]pyridazine
+    "c1nnc2snnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]thiadiazolo[4,5-e][1,2,4]triazine
+    "c1nnnc2snnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]thiadiazolo[5,4-d][1,2,3]triazine
+    "c1nnnc2nnsc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,3]thiadiazolo[4,5-d][1,2,3]triazine
+    # Phase 606: [1,2,5]oxadiazolo and [1,2,5]thiadiazolo fused bicyclics
+    "c1cnc2nonc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # [1,2,5]oxadiazolo[3,4-b]pyridine
+    "c1cnc2nonc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]oxadiazolo[3,4-e]pyrazine
+    "c1nncc2nonc12": {0: 4, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]oxadiazolo[3,4-d]pyridazine
+    "c1nnc2nonc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]oxadiazolo[3,4-e][1,2,4]triazine
+    "c1cnc2nsnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # [1,2,5]thiadiazolo[3,4-b]pyridine
+    "c1cnc2nsnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]thiadiazolo[3,4-e]pyrazine
+    "c1nncc2nsnc12": {0: 4, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]thiadiazolo[3,4-d]pyridazine
+    "c1nnc2nsnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # [1,2,5]thiadiazolo[3,4-e][1,2,4]triazine
+    # Phase 607: tetrazolo fusions; isothiazolo/isoxazolo/oxazolo/thiazolo-pyridazine; pyrrolo/triazolo-triazine
+    "c1cn2nnnc2cn1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 8, 8: None},  # tetrazolo[1,5-a]pyrazine
+    "c1cnn2nnnc2n1": {0: 7, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # tetrazolo[1,5-b][1,2,4]triazine
+    "c1nncn2nnnc12": {0: 8, 1: None, 2: None, 3: 5, 4: None, 5: None, 6: None, 7: None, 8: None},  # tetrazolo[1,5-d][1,2,4]triazine
+    "c1nncc2sncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # isothiazolo[5,4-d]pyridazine
+    "c1nncc2nscc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # isothiazolo[3,4-d]pyridazine
+    "c1nncc2oncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # isoxazolo[5,4-d]pyridazine
+    "c1nncc2nocc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # isoxazolo[3,4-d]pyridazine
+    "c1nc2cnncc2o1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # oxazolo[4,5-d]pyridazine
+    "c1nc2cnncc2s1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # thiazolo[4,5-d]pyridazine
+    "c1cnn2ncnc2n1": {0: 7, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # [1,2,4]triazolo[1,5-b][1,2,4]triazine
+    "c1cc2nccnn2c1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: None, 8: 6},  # pyrrolo[1,2-b][1,2,4]triazine
+    "c1cnc2nnnn2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # tetrazolo[1,5-a]pyrimidine
+    # Phase 608: thieno/furo fused with pyridine (b/c-fusion), benzo[c]thiophene, benzo-selenophene
+    "c1cc2sccc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # thieno[3,2-c]pyridine
+    "c1cnc2ccoc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 7},  # furo[3,2-b]pyridine
+    "c1cnc2cocc2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: 4},  # furo[3,4-b]pyridine
+    "c1ccc2cscc2c1": {0: 5, 1: 5, 2: 4, 3: None, 4: 1, 5: None, 6: 1, 7: None, 8: 4},  # benzo[c]thiophene
+    "c1ccc2[se]ccc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # benzo[b]selenophene
+    "c1ccc2c[se]cc2c1": {0: 5, 1: 5, 2: 4, 3: None, 4: 1, 5: None, 6: 1, 7: None, 8: 4},  # benzo[c]selenophene
+    "c1cc2occc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # furo[3,2-c]pyridine
+    "c1cc2occc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # furo[2,3-e]pyridazine
+    "c1cc2ccsc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: 7, 8: None},  # thieno[2,3-c]pyridine
+    "c1cc2ccoc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: 7, 8: None},  # furo[2,3-c]pyridine
+    "c1cc2cocc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # furo[3,4-c]pyridine
+    "c1cc2sccc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # thieno[3,2-c]pyridazine
+    # Phase 609: thiazolo/oxazolo/isoxazolo fused with pyridine and pyridazine (c-fused)
+    "c1cc2ncsc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # thiazolo[5,4-c]pyridine
+    "c1cc2ncoc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # oxazolo[5,4-c]pyridine
+    "c1cc2scnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # thiazolo[4,5-c]pyridine
+    "c1cc2scnc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # thiazolo[4,5-c]pyridazine
+    "c1cc2ncsc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # thiazolo[5,4-c]pyridazine
+    "c1cc2ocnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # oxazolo[4,5-c]pyridine
+    "c1cc2cnoc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # isoxazolo[5,4-c]pyridine
+    "c1cc2oncc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # isoxazolo[4,5-c]pyridine
+    "c1cc2nocc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # isoxazolo[4,3-c]pyridine
+    "c1cc2ncoc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # oxazolo[5,4-c]pyridazine
+    "c1cc2ocnc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # oxazolo[4,5-c]pyridazine
+    "c1cc2cnoc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[5,4-c]pyridazine
+    "c1cc2oncc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # isoxazolo[4,5-c]pyridazine
+    "c1cc2nocc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # isoxazolo[4,3-c]pyridazine
+    "c1cc2conc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # isoxazolo[3,4-c]pyridine
+    "c1cc2conc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[3,4-c]pyridazine
+    # Phase 610: oxazolo/thiazolo fused with pyrimidine (d); isoxazolo fused with pyridine (b)
+    "c1ncc2ncoc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # oxazolo[5,4-d]pyrimidine
+    "c1ncc2ocnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # oxazolo[4,5-d]pyrimidine
+    "c1ncc2ncsc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # thiazolo[5,4-d]pyrimidine
+    "c1ncc2scnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # thiazolo[4,5-d]pyrimidine
+    "c1cnc2nocc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # isoxazolo[3,4-b]pyridine
+    "c1cnc2cnoc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # isoxazolo[4,5-b]pyridine
+    "c1cnc2oncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # isoxazolo[5,4-b]pyridine
+    "c1cnc2conc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # isoxazolo[4,3-b]pyridine
+    # Phase 611: thieno/furo/isoxazolo fused with pyrimidine (d)
+    "c1ncc2ccsc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: 6, 6: None, 7: None, 8: None},  # thieno[2,3-d]pyrimidine
+    "c1ncc2cscc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: None},  # thieno[3,4-d]pyrimidine
+    "c1ncc2sccc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: None, 5: 6, 6: 7, 7: None, 8: None},  # thieno[3,2-d]pyrimidine
+    "c1ncc2ccoc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: 6, 6: None, 7: None, 8: None},  # furo[2,3-d]pyrimidine
+    "c1ncc2cocc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: None},  # furo[3,4-d]pyrimidine
+    "c1ncc2occc2n1": {0: 2, 1: None, 2: 4, 3: None, 4: None, 5: 6, 6: 7, 7: None, 8: None},  # furo[3,2-d]pyrimidine
+    "c1ncc2nocc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[4,3-d]pyrimidine
+    "c1ncc2oncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # isoxazolo[4,5-d]pyrimidine
+    "c1ncc2conc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[3,4-d]pyrimidine
+    "c1ncc2cnoc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # isoxazolo[5,4-d]pyrimidine
+    # Phase 578: naphtho[2,3-d]oxazole (O@1→b6, N@3→b8; 7 sub C: 2,4-9)
+    # canonical: c1ccc2cc3ocnc3cc2c1; junctions: b3,b5,b9,b11
+    "c1ccc2cc3ocnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 578: naphtho[2,3-d]thiazole (S@1→b6, N@3→b8; same skeleton)
+    # canonical: c1ccc2cc3scnc3cc2c1
+    "c1ccc2cc3scnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 578: naphtho[2,1-d]oxazole (N@3→b9, O@1→b11; 7 sub C: 2,4-9)
+    # canonical: c1ccc2c(c1)ccc1ncoc12; junctions: b3,b4,b8,b12
+    "c1ccc2c(c1)ccc1ncoc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # Phase 578: naphtho[2,1-d]thiazole (N@3→b9, S@1→b11; same skeleton)
+    # canonical: c1ccc2c(c1)ccc1ncsc12
+    "c1ccc2c(c1)ccc1ncsc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    # Phase 577: naphtho[1,2-b]furan (O@1→b11; 8 substitutable C at locants 2-9)
+    # canonical: c1ccc2c(c1)ccc1ccoc12; junctions: b3,b4,b8,b12; O: b11
+    "c1ccc2c(c1)ccc1ccoc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},
+    # Phase 577: naphtho[1,2-b]thiophene (S@1→b11; same skeleton as furan)
+    # canonical: c1ccc2c(c1)ccc1ccsc12
+    "c1ccc2c(c1)ccc1ccsc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},
+    # Phase 577: naphtho[2,3-b]furan (O@1→b6; 8 substitutable C at locants 2-9)
+    # canonical: c1ccc2cc3occc3cc2c1; junctions: b3,b5,b9,b11; O: b6
+    "c1ccc2cc3occc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 577: naphtho[2,3-b]thiophene (S@1→b6; same skeleton as furan)
+    # canonical: c1ccc2cc3sccc3cc2c1
+    "c1ccc2cc3sccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    # Phase 576: naphtho[2,1-b]furan (O@3→b9; 8 substitutable C at locants 1,2,4-9)
+    # canonical: c1ccc2c(c1)ccc1occc12; junctions: b3,b4,b8,b12; O: b9
+    "c1ccc2c(c1)ccc1occc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: 1, 12: None},
+    # Phase 576: naphtho[2,1-b]thiophene (S@3→b9; same skeleton as furan)
+    # canonical: c1ccc2c(c1)ccc1sccc12
+    "c1ccc2c(c1)ccc1sccc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: 1, 12: None},
+    # Phase 575: 9H-pyrido[2,3-b]indole (α-carboline; N@1→b8, N-H@9→b6; C positions 2-8)
+    # canonical: c1ccc2c(c1)[nH]c1ncccc12
+    "c1ccc2c(c1)[nH]c1ncccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None, 9: 2, 10: 3, 11: 4, 12: None},
+    # Phase 575: 9H-pyrido[3,4-b]indole (β-carboline; N@2→b9, N-H@9→b6; C positions 1,3-8)
+    # canonical: c1ccc2c(c1)[nH]c1cnccc12
+    "c1ccc2c(c1)[nH]c1cnccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: 1, 9: None, 10: 3, 11: 4, 12: None},
     # Phase 574: 9H-fluoren-9-one (C2v; 14 atoms; 4 unique pairs: {1,8}→b3, {2,7}→b4, {3,6}→b10, {4,5}→b9)
     # canonical: O=C1c2ccccc2-c2ccccc21
     # junctions: 2(→ring1-ring2), 7(→ring1-5ring), 8(→ring2-5ring), 13(→ring2-C9); O at 0, C9=O at 1
@@ -1973,7 +2562,18 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     base_mol = MolFromSmiles(core_smi)
     if base_mol is None:
         return None
-    all_matches = graph.rdkit_mol.GetSubstructMatches(base_mol)
+    # Use SMARTS query when core contains [nH] AND the target mol has a ring NH,
+    # to enforce N-H position and prevent tautomeric-flip mismatch.
+    # Skip SMARTS when the NH is absent (N-substituted compounds like 1-methylindole).
+    if "[nH]" in core_smi and any(
+        a.GetSymbol() == "N" and a.GetTotalNumHs() > 0 and a.GetIsAromatic()
+        for a in graph.rdkit_mol.GetAtoms()
+    ):
+        from rdkit.Chem import MolFromSmarts as _MolFromSmarts
+        _smarts_q = _MolFromSmarts(core_smi)
+        all_matches = graph.rdkit_mol.GetSubstructMatches(_smarts_q) if _smarts_q is not None else graph.rdkit_mol.GetSubstructMatches(base_mol)
+    else:
+        all_matches = graph.rdkit_mol.GetSubstructMatches(base_mol)
     if not all_matches:
         return None
 
