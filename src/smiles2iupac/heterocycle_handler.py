@@ -872,8 +872,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCC2":  "indane",
     "c1ccc2c(c1)CCCC2": "1,2,3,4-tetrahydronaphthalene",
     "c1ccc2c(c1)CCN2":  "indoline",
-    "c1ccc2c(c1)CCO2":  "1,3-dihydro-2-benzofuran",
-    "c1ccc2c(c1)CCS2":  "1,3-dihydro-2-benzothiophene",
+    "c1ccc2c(c1)CCO2":  "2,3-dihydrobenzofuran",
+    "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
+    "c1ccc2c(c1)CCS2":  "2,3-dihydrobenzothiophene",
+    "c1ccc2c(c1)CSC2":  "1,3-dihydro-2-benzothiophene",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -1824,6 +1826,14 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Group A (adj to any S junction): {a2,a5,a8,a11} → all map to locant 1 (lowest)
     # Group B (non-junction-adj): {a0,a1,a9,a10} → all map to locant 2 (lowest)
     "c1ccc2c(c1)Sc1ccccc1S2": {0: 2, 1: 2, 2: 1, 3: None, 4: None, 5: 1, 6: None, 7: None, 8: 1, 9: 2, 10: 2, 11: 1, 12: None, 13: None},
+    # Phase 626: 2,3-dihydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CCO2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # 1,3-dihydro-2-benzofuran (symmetric): C(1)-O(2)-C(3) symmetric; C(4)-C(5)-C(6)-C(7) benzene
+    "c1ccc2c(c1)COC2": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: None, 8: 1},
+    # 2,3-dihydrobenzothiophene: S(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CCS2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # 1,3-dihydro-2-benzothiophene (symmetric): C(1)-S(2)-C(3) symmetric; C(4)-C(7) benzene
+    "c1ccc2c(c1)CSC2": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: None, 8: 1},
     # Phase 404: 部分飽和縮合環 (N/O heteroatom, fused with benzene)
     # indoline (2,3-dihydro-1H-indole): N(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},

@@ -27,11 +27,17 @@ def assign_stereochemistry(
     locant_map = chain.locant_map
 
     # R/S: 主鎖炭素の不斉中心
-    for c_idx in path:
-        atom = get_atom(graph, c_idx)
-        cip = atom.chiral_tag  # 'R', 'S', or None
-        if cip is not None:
-            locant = locant_map[c_idx]
+    rs_centers = [
+        (locant_map[c_idx], get_atom(graph, c_idx).chiral_tag)
+        for c_idx in path
+        if get_atom(graph, c_idx).chiral_tag is not None
+    ]
+    single_rs = len(rs_centers) == 1
+    for locant, cip in rs_centers:
+        # IUPAC 2013 P-93.5.2.3: locant 1 は単一不斉中心のとき省略
+        if single_rs and locant == 1:
+            descriptors.append(f"({cip})")
+        else:
             descriptors.append(f"({locant}{cip})")
 
     # E/Z: 主鎖上の C=C
