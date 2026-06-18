@@ -28,8 +28,8 @@ The correct SMILES exists elsewhere in `_FUSED_HETERO_RETAINED` or needs a separ
 |---|---|---|
 | `c1cc2n[nH]cc2cn1` | `1H-pyrazolo[3,4-c]pyridine` | `c1cc2c[nH]nc2cn1` (different isomer) |
 | `c1c[nH]c2ncnc-2n1` | `1H-pyrazolo[3,4-d]pyrimidine` | `c1ncc2c[nH]nc2n1` (different isomer) |
-| `c1ccc2c(c1)CCO2` | `1,3-dihydro-2-benzofuran` | `c1ccc2c(c1)COC2` (O position differs) |
-| `c1ccc2c(c1)CCS2` | `1,3-dihydro-2-benzothiophene` | `c1ccc2c(c1)CSC2` (S position differs) |
+| `c1ccc2c(c1)CCO2` | `1,3-dihydro-2-benzofuran` | `c1ccc2c(c1)COC2` (O position differs) — **fixed** 2026-06-19 |
+| `c1ccc2c(c1)CCS2` | `1,3-dihydro-2-benzothiophene` | `c1ccc2c(c1)CSC2` (S position differs) — **fixed** 2026-06-19 |
 | `C1=Nc2cccc3cccc1c23` | `perimidine` | `C1=Nc2cccc3cccc(c23)N1` (**fixed** 2026-06-19) |
 
 ---

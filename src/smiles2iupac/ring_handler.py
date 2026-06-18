@@ -514,8 +514,13 @@ def _assign_tricyclic_locants(
                         outer_count += 1
                         loc[a] = outer_count
             else:
-                # phenanthrene: 周辺に 1–10 を連番
-                # アルファ位から始める (IUPAC 慣習)
+                # phenanthrene: meso 原子 (C9/C10) を位置 9, 10 に固定
+                # IUPAC 慣習: C9, C10 は bay 領域 — ロカント 1 に来させない
+                meso_pos = sorted(
+                    i for i, a in enumerate(arrangement) if a in meso_set
+                )
+                if len(meso_pos) != 2 or meso_pos != [8, 9]:
+                    continue
                 if anchor is None and arrangement[0] not in alpha_atoms:
                     continue
                 loc = {a: i + 1 for i, a in enumerate(arrangement)}
