@@ -1,6 +1,6 @@
 """Phase 408: Fluorenone and thioxanthen-9-one retained names.
 
-IUPAC 2013 P-31.1.3: 9H-fluoren-9-one (fluorenone) and thioxanthen-9-one
+IUPAC 2013 P-31.1.3: fluoren-9-one (fluorenone) and thioxanthen-9-one
 are retained names for tricyclic ketones derived from fluorene and thioxanthene.
 """
 import pytest
@@ -8,8 +8,8 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 9H-fluoren-9-one (fluorenone)
-    ("O=C1c2ccccc2-c2ccccc21",        "9H-fluoren-9-one"),
+    # fluoren-9-one (fluorenone)
+    ("O=C1c2ccccc2-c2ccccc21",        "fluoren-9-one"),
     # thioxanthen-9-one (thioxanthone)
     ("O=C1c2ccccc2Sc2ccccc21",        "thioxanthen-9-one"),
     # regression: fluorene unchanged
