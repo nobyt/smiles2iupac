@@ -914,6 +914,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
     "c1ccc2c(c1)CCS2":  "2,3-dihydrobenzothiophene",
     "c1ccc2c(c1)CSC2":  "1,3-dihydro-2-benzothiophene",
+    # Phase 635: 2,3-dihydrobenzo[d] heterocycles (5-membered ring with N/O/S, aromatic benzo ring)
+    "c1ccc2c(c1)NCO2":  "2,3-dihydrobenzo[d]oxazole",
+    "c1ccc2c(c1)NCS2":  "2,3-dihydrobenzo[d]thiazole",
+    "c1ccc2c(c1)CNO2":  "2,3-dihydrobenzo[d]isoxazole",
+    "c1ccc2c(c1)CNS2":  "2,3-dihydrobenzo[d]isothiazole",
+    "c1ccc2c(c1)NCN2":  "2,3-dihydro-1H-benzimidazole",
+    "c1ccc2c(c1)CNN2":  "2,3-dihydro-1H-indazole",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -1907,6 +1914,17 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 404: 部分飽和縮合環 (N/O heteroatom, fused with benzene)
     # indoline (2,3-dihydro-1H-indole): N(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
+    # Phase 635: 2,3-dihydrobenzo[d] heterocycles (all share the same atom layout)
+    # benzo[d]oxazole: O(1,None)-C(2,sp3)-N(3,NH)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)NCO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    "c1ccc2c(c1)NCS2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # benzo[d]isoxazole: O(1,None)-N(2,NH)-C(3,sp3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CNO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    "c1ccc2c(c1)CNS2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # 2,3-dihydro-1H-benzimidazole: C2-symmetric (N1≡N3→1, C4≡C7→4, C5≡C6→5)
+    "c1ccc2c(c1)NCN2":  {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: 2, 8: 1},
+    # 2,3-dihydro-1H-indazole: N(1)-N(2)-C(3,sp3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CNN2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
     # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # Phase 627: 1,2,3,4-tetrahydroisoquinoline: C(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
