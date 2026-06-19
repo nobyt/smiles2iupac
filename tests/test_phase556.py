@@ -16,7 +16,7 @@ from smiles2iupac import smiles_to_iupac
     ("OC(=O)c1ccc2c(c1)OCO2",   "1,3-benzodioxole-5-carboxylic acid"),
     ("C=CCc1ccc2c(c1)OCO2",      "5-(prop-2-en-1-yl)-1,3-benzodioxole"),
     # C6-substituted
-    ("c1c(C)cc2c(c1)OCO2",       "6-methyl-1,3-benzodioxole"),
+    ("c1c(C)cc2c(c1)OCO2",       "5-methyl-1,3-benzodioxole"),
     # C4-substituted (adjacent to junction)
     ("c1ccc2c(c1C)OCO2",         "4-methyl-1,3-benzodioxole"),
     # disubstituted

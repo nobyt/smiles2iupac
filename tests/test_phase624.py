@@ -37,8 +37,8 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1cccc2c1Sc1ccccc1N2",     "4-methylphenothiazine"),
     ("Cc1cccc2c1Nc1ccccc1S2",     "1-methylphenothiazine"),
     # xanthen-9-one (C=O at 9)
-    ("Cc1cccc2oc3ccccc3c(=O)c12", "8-methylxanthen-9-one"),
-    ("Cc1ccc2oc3ccccc3c(=O)c2c1", "7-methylxanthen-9-one"),
+    ("Cc1cccc2oc3ccccc3c(=O)c12", "1-methylxanthen-9-one"),
+    ("Cc1ccc2oc3ccccc3c(=O)c2c1", "2-methylxanthen-9-one"),
     ("Cc1ccc2c(=O)c3ccccc3oc2c1", "3-methylxanthen-9-one"),
     ("Cc1cccc2c(=O)c3ccccc3oc12", "4-methylxanthen-9-one"),
     # dibenzofuran

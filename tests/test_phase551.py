@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     # substituted xanthen-9-one
     ("O=c1c2cc(O)ccc2oc2ccccc12",     "2-hydroxyxanthen-9-one"),
     ("O=c1c2ccc(O)cc2oc2ccccc12",     "3-hydroxyxanthen-9-one"),
-    ("O=c1c2ccccc2oc2cc(O)ccc12",     "6-hydroxyxanthen-9-one"),
+    ("O=c1c2ccccc2oc2cc(O)ccc12",     "3-hydroxyxanthen-9-one"),
     ("O=c1c2cc(C)ccc2oc2ccccc12",     "2-methylxanthen-9-one"),
     # thioxanthen-9-one unsubstituted
     ("O=c1c2ccccc2sc2ccccc12",        "thioxanthen-9-one"),

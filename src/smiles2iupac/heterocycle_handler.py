@@ -866,11 +866,42 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 132: 縮合ヘテロ芳香族追加 (IUPAC 2013 P-31.1.3)
     "c1ccn2cccc2c1":    "indolizine",
     "c1ccc2[nH]ncc2c1": "1H-indazole",
+    "c1ccc2n[nH]cc2c1": "2H-indazole",
     "c1ccc2[nH]nnc2c1": "1H-benzotriazole",
     "c1ccc2oncc2c1":    "1,2-benzisoxazole",
     # Phase 133: 部分飽和縮合環 保留名 (IUPAC 2013 P-31.1.2, P-31.1.6)
     "c1ccc2c(c1)CCC2":  "indane",
     "c1ccc2c(c1)CCCC2": "1,2,3,4-tetrahydronaphthalene",
+    "C1=Cc2ccccc2CC1":  "1,2-dihydronaphthalene",
+    # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
+    "c1cc2c(o1)CCCC2":    "4,5,6,7-tetrahydrobenzofuran",
+    "c1cc2c(s1)CCCC2":    "4,5,6,7-tetrahydrobenzothiophene",
+    "c1cc2c([nH]1)CCCC2": "4,5,6,7-tetrahydro-1H-indole",
+    "c1nc2c([nH]1)CCCC2": "4,5,6,7-tetrahydro-1H-benzimidazole",
+    "c1n[nH]c2c1CCCC2":   "4,5,6,7-tetrahydro-1H-indazole",
+    # Phase 632: 5,6,7,8-tetrahydro N-heterocycles (aromatic ring intact, benzo ring saturated)
+    "c1cnc2c(c1)CCCC2":  "5,6,7,8-tetrahydroquinoline",
+    "c1cc2c(cn1)CCCC2":  "5,6,7,8-tetrahydroisoquinoline",
+    "c1cnc2c(n1)CCCC2":  "5,6,7,8-tetrahydroquinoxaline",
+    "c1ncc2c(n1)CCCC2":  "5,6,7,8-tetrahydroquinazoline",
+    "c1cc2c(nn1)CCCC2":  "5,6,7,8-tetrahydrocinnoline",
+    "c1nncc2c1CCCC2":    "5,6,7,8-tetrahydrophthalazine",
+    "c1ccc2c(c1)CNCN2":  "1,2,3,4-tetrahydroquinazoline",
+    "C1=CCN2C=CC=CC2=C1": "quinolizine",
+    # Phase 632: additional polycyclic aromatic hydrocarbons
+    "c1ccc2cc3c(ccc4ccccc43)cc2c1": "benz[a]anthracene",
+    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": "benzo[a]fluorene",
+    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": "benzo[b]fluorene",
+    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": "benzo[c]fluorene",
+    "c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12": "dibenz[a,h]anthracene",
+    # Phase 631: tricyclic partially saturated ring systems
+    "c1ccc2c3c(ccc2c1)CCCC3":  "1,2,3,4-tetrahydrophenanthrene",
+    "c1ccc2c(c1)CCc1ccccc1-2": "9,10-dihydrophenanthrene",
+    "C1=Cc2c(ccc3ccccc23)CC1": "1,2-dihydrophenanthrene",
+    "c1ccc2cc3c(cc2c1)CCCC3":  "1,2,3,4-tetrahydroanthracene",
+    "c1ccc2c(c1)Cc1ccccc1C2":  "9,10-dihydroanthracene",
+    "C1=Cc2cc3ccccc3cc2CC1":   "1,2-dihydroanthracene",
+    "c1cc2c3c(cccc3c1)CCC2":   "2,3-dihydro-1H-phenalene",
     "c1ccc2c(c1)CCN2":  "indoline",
     "c1ccc2c(c1)CCO2":  "2,3-dihydrobenzofuran",
     "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
@@ -879,7 +910,33 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
+    "c1ccc2c(c1)CCNC2": "1,2,3,4-tetrahydroisoquinoline",
+    "c1ccc2c(c1)NCCN2": "1,2,3,4-tetrahydroquinoxaline",
     "c1ccc2c(c1)CCCS2": "thiochroman",
+    # Phase 630: benzo-fused 7-membered saturated rings (benzazepines, benzoxepines, etc.)
+    "c1ccc2c(c1)CCCCC2": "6,7,8,9-tetrahydro-5H-benzo[7]annulene",
+    "c1ccc2c(c1)CCCCN2": "2,3,4,5-tetrahydro-1-benzazepine",
+    "c1ccc2c(c1)CCCNC2": "2,3,4,5-tetrahydro-1H-2-benzazepine",
+    "c1ccc2c(c1)CCNCC2": "2,3,4,5-tetrahydro-1H-3-benzazepine",
+    "c1ccc2c(c1)CCCCO2": "2,3,4,5-tetrahydro-1-benzoxepine",
+    "c1ccc2c(c1)CCCOC2": "2,3,4,5-tetrahydro-1H-2-benzoxepine",
+    "c1ccc2c(c1)CCOCC2": "2,3,4,5-tetrahydro-1H-3-benzoxepine",
+    "c1ccc2c(c1)CCCCS2": "2,3,4,5-tetrahydro-1-benzothiepine",
+    "c1ccc2c(c1)NCCCN2": "2,3,4,5-tetrahydro-1H-1,5-benzodiazepine",
+    "C1=Nc2ccccc2NCC1":  "2,3-dihydro-1H-1,5-benzodiazepine",
+    "O=C1CCCc2ccccc2N1": "3,4-dihydro-1H-1-benzazepin-2(5H)-one",
+    "O=C1NCCNc2ccccc21": "2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one",
+    # Phase 628: benzo-fused di-heteroatom 6-membered saturated rings
+    "c1ccc2c(c1)OCCO2": "2,3-dihydro-1,4-benzodioxine",
+    "c1ccc2c(c1)NCCO2": "3,4-dihydro-2H-1,4-benzoxazine",
+    "c1ccc2c(c1)NCCS2": "3,4-dihydro-2H-1,4-benzothiazine",
+    # Phase 628: benzo-fused partially unsaturated N-heterocycles (one C=N or C=C remains)
+    "C1=NCCc2ccccc21":  "3,4-dihydroisoquinoline",
+    "C1=Nc2ccccc2CC1":  "3,4-dihydroquinoline",
+    "C1=Nc2ccccc2NC1":  "3,4-dihydroquinoxaline",
+    "C1=Cc2ccccc2NC1":  "1,2-dihydroquinoline",
+    # Phase 629: benzo-fused lactams with dihydro prefix
+    "O=C1CNc2ccccc2N1": "3,4-dihydroquinoxalin-2(1H)-one",
     "O=C1CCc2ccccc21":  "indan-1-one",
     "O=C1CC(=O)c2ccccc21": "indane-1,3-dione",
     "O=C1Cc2ccccc2N1":  "indolin-2-one",
@@ -903,10 +960,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)Nc1ccccc1O2":  "phenoxazine",
     "c1ccc2c(c1)Nc1ccccc1S2":  "phenothiazine",
     "O=c1c2ccccc2oc2ccccc12":  "xanthen-9-one",
-    "O=C1c2ccccc2-c2ccccc21":  "9H-fluoren-9-one",
+    "O=C1c2ccccc2-c2ccccc21":  "fluoren-9-one",
     "O=c1c2ccccc2sc2ccccc12":  "thioxanthen-9-one",
     # Phase 410: benzo-fused saturated ketones and lactones
     "O=C1CCCc2ccccc21":  "3,4-dihydronaphthalen-1(2H)-one",
+    "O=C1CCc2ccccc2C1":  "3,4-dihydronaphthalen-2(1H)-one",
     "O=C1OCCc2ccccc21":  "isochroman-1-one",
     "O=C1CCc2ccccc2O1":  "chroman-2-one",
     "O=C1CCOc2ccccc21":  "chroman-4-one",
@@ -1702,6 +1760,9 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ncc2nc[nH]c2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 9H-purine
     # Phase 618: non-aromatic and partially aromatic ring locants
     "c1ccc2c(c1)CCCC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},  # 1,2,3,4-tetrahydronaphthalene
+    # Phase 628: 1,2-dihydronaphthalene (C1=C2 sp2; C3,C4 sp3 — note: IUPAC 1,2-dihydro means sp3 at 1,2)
+    # Actually atoms 0,1 are the sp2 C=C and atoms 8,9 are the sp3 CH2 positions (C1 and C2)
+    "C1=Cc2ccccc2CC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     "C1CCOOC1": {0: 4, 1: 4, 2: 3, 3: None, 4: None, 5: 3},  # 1,2-dioxane
     "C1COOC1": {0: 4, 1: 3, 2: None, 3: None, 4: 3},  # 1,2-dioxolane
     "C1CCSSC1": {0: 4, 1: 4, 2: 3, 3: None, 4: None, 5: 3},  # 1,2-dithiane
@@ -1742,6 +1803,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 553: 1H-indazole and 1H-benzotriazole — same 9-atom map as indole/benzimidazole
     "c1ccc2[nH]ncc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
     "c1ccc2[nH]nnc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},
+    # Phase 627: 2H-indazole (N1 at pos 1, N-H at pos 2; C3 at 3, C3a/C7a junctions)
+    "c1ccc2n[nH]cc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     # Phase 554: 1,3-benzothiazole and 1,3-benzoxazole (S/O at 1, C at 2, N at 3)
     "c1ccc2scnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
     "c1ccc2ocnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
@@ -1839,6 +1902,90 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
     # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # Phase 627: 1,2,3,4-tetrahydroisoquinoline: C(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ccc2c(c1)CCNC2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: None, 9: 1},
+    # Phase 627: 1,2,3,4-tetrahydroquinoxaline (C2-symmetric: C5↔C8→5, C6↔C7→6, C2↔C3→2)
+    "c1ccc2c(c1)NCCN2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: None, 7: 2, 8: 2, 9: None},
+    # Phase 628: 2,3-dihydro-1,4-benzodioxine (C2-symmetric: C5↔C8→5, C6↔C7→6, C2↔C3→2)
+    "c1ccc2c(c1)OCCO2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: None, 7: 2, 8: 2, 9: None},
+    # Phase 628: 3,4-dihydro-2H-1,4-benzoxazine (O at 1, N at 4; C2-C3 aliphatic; C5-C8 benzo)
+    "c1ccc2c(c1)NCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: None, 7: 3, 8: 2, 9: None},
+    # Phase 628: 3,4-dihydro-2H-1,4-benzothiazine (S at 1, N at 4; C2-C3 aliphatic; C5-C8 benzo)
+    "c1ccc2c(c1)NCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: None, 7: 3, 8: 2, 9: None},
+    # Phase 628: 3,4-dihydroisoquinoline (C1=N2; C3-C4 aliphatic; C5-C8 benzo)
+    "C1=NCCc2ccccc21": {0: 1, 1: None, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None},
+    # Phase 628: 3,4-dihydroquinoline (N1=C2; C3-C4 aliphatic; C5-C8 benzo)
+    "C1=Nc2ccccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
+    # Phase 628: 3,4-dihydroquinoxaline (N1=C2; N4; C3 aliphatic; C5-C8 benzo)
+    "C1=Nc2ccccc2NC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: None, 9: 3},
+    # Phase 629: 1,2-dihydroquinoline (N1; C2 sp3; C3=C4 sp2; C4a-C8a benzo junctions)
+    "C1=Cc2ccccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},
+    # Phase 629: 3,4-dihydroquinoxalin-2(1H)-one (C2=O; C3 sp3; N4; C5-C8 benzo)
+    "O=C1CNc2ccccc2N1": {0: None, 1: None, 2: 3, 3: None, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: None},
+    # Phase 630: benzo-fused 7-membered saturated/partially unsaturated rings
+    # 6,7,8,9-tetrahydro-5H-benzo[7]annulene (C2-symmetric: 1≡4→1, 2≡3→2, 5≡9→5, 6≡8→6)
+    "c1ccc2c(c1)CCCCC2": {0: 2, 1: 2, 2: 1, 3: None, 4: None, 5: 1, 6: 5, 7: 6, 8: 7, 9: 6, 10: 5},
+    # 2,3,4,5-tetrahydro-1-benzazepine: N1-C2-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "c1ccc2c(c1)CCCCN2": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: 3, 9: 2, 10: 1},
+    # 2,3,4,5-tetrahydro-1H-2-benzazepine: C1-N2-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "c1ccc2c(c1)CCCNC2": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: 3, 9: 2, 10: 1},
+    # 2,3,4,5-tetrahydro-1H-3-benzazepine (C2-symmetric: 1≡5→1, 2≡4→2, 6≡9→6, 7≡8→7)
+    "c1ccc2c(c1)CCNCC2": {0: 7, 1: 7, 2: 6, 3: None, 4: None, 5: 6, 6: 1, 7: 2, 8: 3, 9: 2, 10: 1},
+    # 2,3,4,5-tetrahydro-1-benzoxepine: O1-C2-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "c1ccc2c(c1)CCCCO2": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: 3, 9: 2, 10: None},
+    # 2,3,4,5-tetrahydro-1H-2-benzoxepine: C1-O2-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "c1ccc2c(c1)CCCOC2": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: 3, 9: None, 10: 1},
+    # 2,3,4,5-tetrahydro-1H-3-benzoxepine (C2-symmetric: 1≡5→1, 2≡4→2, 6≡9→6, 7≡8→7)
+    "c1ccc2c(c1)CCOCC2": {0: 7, 1: 7, 2: 6, 3: None, 4: None, 5: 6, 6: 1, 7: 2, 8: None, 9: 2, 10: 1},
+    # 2,3,4,5-tetrahydro-1-benzothiepine: S1-C2-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "c1ccc2c(c1)CCCCS2": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: 3, 9: 2, 10: None},
+    # 2,3,4,5-tetrahydro-1H-1,5-benzodiazepine (C2-symmetric: N1≡N5→1, C2≡C4→2, C6≡C9→6, C7≡C8→7)
+    "c1ccc2c(c1)NCCCN2": {0: 7, 1: 7, 2: 6, 3: None, 4: None, 5: 6, 6: 1, 7: 2, 8: 3, 9: 2, 10: 1},
+    # 2,3-dihydro-1H-1,5-benzodiazepine: N1-C2-C3-C4=N5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "C1=Nc2ccccc2NCC1": {0: 4, 1: None, 2: None, 3: 6, 4: 7, 5: 8, 6: 9, 7: None, 8: 1, 9: 2, 10: 3},
+    # 3,4-dihydro-1H-1-benzazepin-2(5H)-one: N1-C2(=O)-C3-C4-C5-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "O=C1CCCc2ccccc2N1": {0: None, 1: None, 2: 3, 3: 4, 4: 5, 5: None, 6: 6, 7: 7, 8: 8, 9: 9, 10: None, 11: 1},
+    # 2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one: N1-C2-C3-N4-C5(=O)-C5a(junc)-C6-C7-C8-C9-C9a(junc)
+    "O=C1NCCNc2ccccc21": {0: None, 1: None, 2: 4, 3: 3, 4: 2, 5: 1, 6: None, 7: 9, 8: 8, 9: 7, 10: 6, 11: None},
+    # Phase 631: tricyclic partially saturated ring systems
+    # 1,2,3,4-tetrahydrophenanthrene: C1-C2-C3-C4-C4a(junc)-C4b(junc)-C5-C6-C7-C8-C8a(junc)-C9-C10-C10a(junc)
+    "c1ccc2c3c(ccc2c1)CCCC3": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 10, 7: 9, 8: None, 9: 8, 10: 1, 11: 2, 12: 3, 13: 4},
+    # 9,10-dihydrophenanthrene (C2-symmetric: 1≡6, 2≡5, 3≡4, 9≡10)
+    "c1ccc2c(c1)CCc1ccccc1-2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: 9, 8: None, 9: 1, 10: 2, 11: 3, 12: 4, 13: None},
+    # 1,2-dihydrophenanthrene: C1-C2 sp3; C3=C4 sp2; benzo at C4a-C10a
+    "C1=Cc2c(ccc3ccccc23)CC1": {0: 3, 1: 4, 2: None, 3: None, 4: 10, 5: 9, 6: None, 7: 8, 8: 7, 9: 6, 10: 5, 11: None, 12: 1, 13: 2},
+    # 1,2,3,4-tetrahydroanthracene (C2-symmetric: 1≡4, 2≡3, 5≡9, 6≡... wait use OPSIN values)
+    "c1ccc2cc3c(cc2c1)CCCC3": {0: 6, 1: 6, 2: 5, 3: None, 4: 9, 5: None, 6: None, 7: 9, 8: None, 9: 5, 10: 1, 11: 2, 12: 2, 13: 1},
+    # 9,10-dihydroanthracene (C2-symmetric: 1≡8, 2≡7, 3≡6, 4≡5, 9≡10)
+    "c1ccc2c(c1)Cc1ccccc1C2": {0: 2, 1: 2, 2: 1, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 1, 9: 2, 10: 2, 11: 1, 12: None, 13: 9},
+    # 1,2-dihydroanthracene: C1-C2 sp3; C3=C4 sp2; benzo rings at C4a-C9a
+    "C1=Cc2cc3ccccc3cc2CC1": {0: 3, 1: 4, 2: None, 3: 10, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 9, 11: None, 12: 1, 13: 2},
+    # 2,3-dihydro-1H-phenalene (C2-symmetric via C3v: 1≡3, 4≡9, 5≡8, 6≡7→6)
+    "c1cc2c3c(cccc3c1)CCC2": {0: 5, 1: 4, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: 6, 10: 1, 11: 2, 12: 1},
+    # Phase 632: 5,6,7,8-tetrahydro N-heterocycles (aromatic ring intact, benzo ring saturated)
+    # 5,6,7,8-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1cnc2c(c1)CCCC2": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8},
+    # 5,6,7,8-tetrahydroisoquinoline: C(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1cc2c(cn1)CCCC2": {0: 3, 1: 4, 2: None, 3: None, 4: 1, 5: None, 6: 8, 7: 7, 8: 6, 9: 5},
+    # 5,6,7,8-tetrahydroquinoxaline (C2-symmetric: 2≡3, 5≡8, 6≡7)
+    "c1cnc2c(n1)CCCC2": {0: 2, 1: 2, 2: None, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: 6, 9: 5},
+    # 5,6,7,8-tetrahydroquinazoline: N(1)-C(2)-N(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ncc2c(n1)CCCC2": {0: 2, 1: None, 2: 4, 3: None, 4: None, 5: None, 6: 8, 7: 7, 8: 6, 9: 5},
+    # 5,6,7,8-tetrahydrocinnoline: N(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1cc2c(nn1)CCCC2": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: 8, 7: 7, 8: 6, 9: 5},
+    # 5,6,7,8-tetrahydrophthalazine (C2-symmetric: 1≡4, 5≡8, 6≡7)
+    "c1nncc2c1CCCC2": {0: 1, 1: None, 2: None, 3: 1, 4: None, 5: None, 6: 5, 7: 6, 8: 6, 9: 5},
+    # 1,2,3,4-tetrahydroquinazoline: N(1)-C(2)-N(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
+    "c1ccc2c(c1)CNCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # quinolizine: C(1)-C(2)-C(3)-C(4)-N(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(9)-C(9a,junc)
+    "C1=CCN2C=CC=CC2=C1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: 7, 6: 8, 7: 9, 8: None, 9: 1},
+    # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
+    # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
+    "c1cc2c(s1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
+    "c1cc2c([nH]1)CCCC2": {0: 2, 1: 3, 2: None, 3: None, 4: 1, 5: 7, 6: 6, 7: 5, 8: 4},
+    "c1nc2c([nH]1)CCCC2": {0: 2, 1: 3, 2: None, 3: None, 4: 1, 5: 4, 6: 5, 7: 5, 8: 4},
+    "c1n[nH]c2c1CCCC2":   {0: 3, 1: None, 2: 1, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7},
     # chromane: O(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # isochromane: C(1)-O(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
@@ -1858,6 +2005,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 410: 3,4-dihydronaphthalen-1(2H)-one (β-tetralone)
     # atom 0=O(exo,None), 1=C1(1), 2=C2(2), 3=C3(3), 4=C4(4), 5=C4a(None), 6=C5..9=C8, 10=C8a(None)
     "O=C1CCCc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
+    # Phase 628: 3,4-dihydronaphthalen-2(1H)-one (beta-tetralone)
+    "O=C1CCc2ccccc2C1": {0: None, 1: None, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
     # Phase 410: isochroman-1-one: C(1,=O)-O(2)-C(3)-C(4)-C(4a,junc)-...-C(8a,junc)
     # atom 0=O(exo,None), 1=C1(1), 2=O2(2), 3=C3(3), 4=C4(4), 5=C4a(None), 6=C5..9=C8, 10=C8a(None)
     "O=C1OCCc2ccccc21": {0: None, 1: 1, 2: 2, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None},
@@ -1958,10 +2107,11 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2cc3cnncc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
     # Phase 566: benzo[g]quinoxaline (linear; N@6→5, N@9→8; acridine pattern; C at {1,2,3,4,6,7,9,10})
     "c1ccc2cc3nccnc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
-    # Phase 567: pyrene (D2h; 16 atoms; unique positions {1,3,6,8}→b1, {2,7}→b0, {4,5,9,10}→b4)
+    # Phase 567: pyrene (D2h; 16 atoms; equivalence classes {1,3,6,8}→pref1, {2,7}→pref2, {4,5,9,10}→pref4)
     # canonical: c1cc2ccc3cccc4ccc(c1)c2c34
-    # base_idx: 0=C2, 1=C1, 2=junc, 3=C3, 4=C4, 5=junc, 6=C5, 7=C6, 8=C7, 9=junc, 10=C8, 11=C9, 12=junc, 13=C10, 14=junc, 15=junc
-    "c1cc2ccc3cccc4ccc(c1)c2c34": {0: 2, 1: 1, 2: None, 3: 3, 4: 4, 5: None, 6: 5, 7: 6, 8: 7, 9: None, 10: 8, 11: 9, 12: None, 13: 10, 14: None, 15: None},
+    # base_idx atoms 0,7→class{2,7}; 1,6,8,13→class{1,3,6,8}; 3,4,10,11→class{4,5,9,10}; junctions→None
+    # All atoms in each class get the minimum (preferred) locant so min(matches) always picks the right one.
+    "c1cc2ccc3cccc4ccc(c1)c2c34": {0: 2, 1: 1, 2: None, 3: 4, 4: 4, 5: None, 6: 1, 7: 2, 8: 1, 9: None, 10: 4, 11: 4, 12: None, 13: 1, 14: None, 15: None},
     # Phase 567: triphenylene (D3h; 18 atoms; unique positions {1,5,9}→b5, {2,6,10}→b0)
     # canonical: c1ccc2c(c1)c1ccccc1c1ccccc21
     "c1ccc2c(c1)c1ccccc1c1ccccc21": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: None, 7: 12, 8: 11, 9: 10, 10: 9, 11: None, 12: None, 13: 8, 14: 7, 15: 6, 16: 5, 17: None},
@@ -2581,23 +2731,23 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     ):
         from rdkit.Chem import MolFromSmarts as _MolFromSmarts
         _smarts_q = _MolFromSmarts(core_smi)
-        all_matches = graph.rdkit_mol.GetSubstructMatches(_smarts_q) if _smarts_q is not None else graph.rdkit_mol.GetSubstructMatches(base_mol)
+        all_matches = graph.rdkit_mol.GetSubstructMatches(_smarts_q, uniquify=False) if _smarts_q is not None else graph.rdkit_mol.GetSubstructMatches(base_mol, uniquify=False)
     else:
-        all_matches = graph.rdkit_mol.GetSubstructMatches(base_mol)
+        all_matches = graph.rdkit_mol.GetSubstructMatches(base_mol, uniquify=False)
     if not all_matches:
         return None
 
     # For symmetric compounds pick the match giving the minimum locant set (IUPAC rule)
+    _LOCANT_PENALTY = 10000  # penalizes matches where a substituent lands on a None-locant atom
+
     def _sub_locants(m: tuple) -> list:
         m_set = set(m)
         locs = []
         for base_idx, rdkit_idx in enumerate(m):
             loc = locant_map_def.get(base_idx)
-            if loc is None:
-                continue
             for nb in graph.rdkit_mol.GetAtomWithIdx(rdkit_idx).GetNeighbors():
                 if nb.GetIdx() not in m_set and nb.GetAtomicNum() != 1:
-                    locs.append(loc)
+                    locs.append(loc if loc is not None else _LOCANT_PENALTY)
         return sorted(locs)
 
     match = min(all_matches, key=_sub_locants)
