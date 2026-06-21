@@ -931,6 +931,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 637: 1,2,3,4-tetrahydronaphthyridines (2,x series, symmetric naphthyridines)
     "c1cc2c(cn1)CCNC2":  "1,2,3,4-tetrahydro-2,6-naphthyridine",
     "c1cc2c(cn1)CNCC2":  "1,2,3,4-tetrahydro-2,7-naphthyridine",
+    # Phase 638: tetrahydroacridine, tetrahydrophenanthridine, dihydroacridine, octahydroacridine
+    "c1ccc2nc3c(cc2c1)CCCC3": "1,2,3,4-tetrahydroacridine",
+    "c1ccc2c3c(ncc2c1)CCCC3": "1,2,3,4-tetrahydrophenanthridine",
+    "c1ccc2c(c1)Cc1ccccc1N2": "9,10-dihydroacridine",
+    "c1c2c(nc3c1CCCC3)CCCC2": "1,2,3,4,5,6,7,8-octahydroacridine",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -2031,6 +2036,15 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1cc2c(cn1)CCNC2": {0: 7, 1: 8, 2: None, 3: None, 4: 5, 5: None, 6: 4, 7: 3, 8: 2, 9: 1},
     # 1,2,3,4-tetrahydro-2,7-naphthyridine: atom5=N(7,aromatic,None), atom6=C(1), atom7=N(2,H)
     "c1cc2c(cn1)CNCC2": {0: 6, 1: 5, 2: None, 3: None, 4: 8, 5: None, 6: 1, 7: 2, 8: 3, 9: 4},
+    # Phase 638: tricyclic acridine/phenanthridine derivatives (14 atoms)
+    # 1,2,3,4-tetrahydroacridine: sp3 ring C1-C4, aromatic ring with N10, C9
+    "c1ccc2nc3c(cc2c1)CCCC3": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 9, 8: None, 9: 8, 10: 1, 11: 2, 12: 3, 13: 4},
+    # 1,2,3,4-tetrahydrophenanthridine: sp3 ring C1-C4, aromatic ring with N5, C6
+    "c1ccc2c3c(ncc2c1)CCCC3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: None, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
+    # 9,10-dihydroacridine: C2-symmetric (1≡5→1, 2≡6→2, 3≡7→3, 4≡8→4); C9(sp3,CH2), N10(sp3,NH)
+    "c1ccc2c(c1)Cc1ccccc1N2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 1, 9: 2, 10: 3, 11: 4, 12: None, 13: 10},
+    # 1,2,3,4,5,6,7,8-octahydroacridine: C2-symmetric (1≡5→1, 2≡6→2, 3≡7→3, 4≡8→4); C9(ar,CH)
+    "c1c2c(nc3c1CCCC3)CCCC2": {0: 9, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: 3, 9: 4, 10: 4, 11: 3, 12: 2, 13: 1},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
