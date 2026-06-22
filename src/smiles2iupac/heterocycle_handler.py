@@ -879,6 +879,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cc2c([nH]1)CCCC2": "4,5,6,7-tetrahydro-1H-indole",
     "c1nc2c([nH]1)CCCC2": "4,5,6,7-tetrahydro-1H-benzimidazole",
     "c1n[nH]c2c1CCCC2":   "4,5,6,7-tetrahydro-1H-indazole",
+    # Phase 634: 4,5,6,7-tetrahydrobenzo[d] 5-membered heterocycles (oxazole/thiazole/isoxazole/isothiazole/triazole)
+    "c1nc2c(o1)CCCC2":   "4,5,6,7-tetrahydrobenzo[d]oxazole",
+    "c1nc2c(s1)CCCC2":   "4,5,6,7-tetrahydrobenzo[d]thiazole",
+    "c1noc2c1CCCC2":     "4,5,6,7-tetrahydrobenzo[d]isoxazole",
+    "c1nsc2c1CCCC2":     "4,5,6,7-tetrahydrobenzo[d]isothiazole",
+    "C1CCc2[nH]nnc2C1":  "4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
+    "C1CCc2n[nH]nc2C1":  "4,5,6,7-tetrahydro-2H-benzo[d][1,2,3]triazole",
     # Phase 632: 5,6,7,8-tetrahydro N-heterocycles (aromatic ring intact, benzo ring saturated)
     "c1cnc2c(c1)CCCC2":  "5,6,7,8-tetrahydroquinoline",
     "c1cc2c(cn1)CCCC2":  "5,6,7,8-tetrahydroisoquinoline",
@@ -907,6 +914,20 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
     "c1ccc2c(c1)CCS2":  "2,3-dihydrobenzothiophene",
     "c1ccc2c(c1)CSC2":  "1,3-dihydro-2-benzothiophene",
+    # Phase 635: 2,3-dihydrobenzo[d] heterocycles (5-membered ring with N/O/S, aromatic benzo ring)
+    "c1ccc2c(c1)NCO2":  "2,3-dihydrobenzo[d]oxazole",
+    "c1ccc2c(c1)NCS2":  "2,3-dihydrobenzo[d]thiazole",
+    "c1ccc2c(c1)CNO2":  "2,3-dihydrobenzo[d]isoxazole",
+    "c1ccc2c(c1)CNS2":  "2,3-dihydrobenzo[d]isothiazole",
+    "c1ccc2c(c1)NCN2":  "2,3-dihydro-1H-benzimidazole",
+    "c1ccc2c(c1)CNN2":  "2,3-dihydro-1H-indazole",
+    # Phase 636: 5,6,7,8-tetrahydronaphthyridines and 1,2,3,4-tetrahydronaphthyridines
+    "c1cnc2c(c1)NCCC2":  "5,6,7,8-tetrahydro-1,5-naphthyridine",
+    "c1cnc2c(c1)CNCC2":  "5,6,7,8-tetrahydro-1,6-naphthyridine",
+    "c1cnc2c(c1)CCNC2":  "5,6,7,8-tetrahydro-1,7-naphthyridine",
+    "c1cnc2c(c1)CCCN2":  "5,6,7,8-tetrahydro-1,8-naphthyridine",
+    "c1cc2c(cn1)CCCN2":  "1,2,3,4-tetrahydro-1,6-naphthyridine",
+    "c1cc2c(cn1)NCCC2":  "1,2,3,4-tetrahydro-1,7-naphthyridine",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -1900,6 +1921,17 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 404: 部分飽和縮合環 (N/O heteroatom, fused with benzene)
     # indoline (2,3-dihydro-1H-indole): N(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
+    # Phase 635: 2,3-dihydrobenzo[d] heterocycles (all share the same atom layout)
+    # benzo[d]oxazole: O(1,None)-C(2,sp3)-N(3,NH)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)NCO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    "c1ccc2c(c1)NCS2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # benzo[d]isoxazole: O(1,None)-N(2,NH)-C(3,sp3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CNO2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    "c1ccc2c(c1)CNS2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: None},
+    # 2,3-dihydro-1H-benzimidazole: C2-symmetric (N1≡N3→1, C4≡C7→4, C5≡C6→5)
+    "c1ccc2c(c1)NCN2":  {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: 2, 8: 1},
+    # 2,3-dihydro-1H-indazole: N(1)-N(2)-C(3,sp3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1ccc2c(c1)CNN2":  {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
     # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # Phase 627: 1,2,3,4-tetrahydroisoquinoline: C(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
@@ -1979,6 +2011,17 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)CNCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # quinolizine: C(1)-C(2)-C(3)-C(4)-N(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(9)-C(9a,junc)
     "C1=CCN2C=CC=CC2=C1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: 7, 6: 8, 7: 9, 8: None, 9: 1},
+    # Phase 636: 5,6,7,8-tetrahydronaphthyridines (same atom layout as 5,6,7,8-tetrahydroquinoline)
+    # N(1,None)-C(2)-C(3)-C(4)-C(4a,junc)-C(8a,junc)-C(5or8,NH)-C(6or7)-C(7or6)-C(8or5)
+    "c1cnc2c(c1)NCCC2": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8},
+    "c1cnc2c(c1)CNCC2": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8},
+    "c1cnc2c(c1)CCNC2": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8},
+    "c1cnc2c(c1)CCCN2": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8},
+    # 1,2,3,4-tetrahydro-1,6-naphthyridine: N(6,None)-C(7)-C(8)-C(8a,junc)-C(5)-C(4a,junc)-C(4)-C(3)-C(2)-N(1,H)
+    "c1cc2c(cn1)CCCN2": {0: 7, 1: 8, 2: None, 3: None, 4: 5, 5: None, 6: 4, 7: 3, 8: 2, 9: 1},
+    # 1,2,3,4-tetrahydro-1,7-naphthyridine: N(7,None)-C(8)-C(8a,junc)-C(4a,junc)-C(5)-N(6,None)→ wait
+    # actually: atom5=N(7,aromatic,None), atom6=N(1,sp3,NH)
+    "c1cc2c(cn1)NCCC2": {0: 6, 1: 5, 2: None, 3: None, 4: 8, 5: None, 6: 1, 7: 2, 8: 3, 9: 4},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
@@ -1986,6 +2029,18 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1cc2c([nH]1)CCCC2": {0: 2, 1: 3, 2: None, 3: None, 4: 1, 5: 7, 6: 6, 7: 5, 8: 4},
     "c1nc2c([nH]1)CCCC2": {0: 2, 1: 3, 2: None, 3: None, 4: 1, 5: 4, 6: 5, 7: 5, 8: 4},
     "c1n[nH]c2c1CCCC2":   {0: 3, 1: None, 2: 1, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7},
+    # Phase 634: 4,5,6,7-tetrahydrobenzo[d] 5-membered heterocycles
+    # benzo[d]oxazole: O(1)-C(2)-N(3,tertiary=None)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1nc2c(o1)CCCC2":  {0: 2, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
+    "c1nc2c(s1)CCCC2":  {0: 2, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
+    # benzo[d]isoxazole: O(1)-N(2,None)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
+    "c1noc2c1CCCC2":    {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7},
+    "c1nsc2c1CCCC2":    {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: 7},
+    # 1H-benzo[d][1,2,3]triazole: atom3=C7a(None), atom4=N1(1,H), atom7=C3a(None)
+    # C7=atom2(7), C6=atom1(6), C5=atom0(5), C4=atom8(4)
+    "C1CCc2[nH]nnc2C1": {0: 5, 1: 6, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: 4},
+    # 2H-benzo[d][1,2,3]triazole: C2-symmetric (4≡7 → 4, 5≡6 → 5), N-2(H) at atom5
+    "C1CCc2n[nH]nc2C1": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
     # chromane: O(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # isochromane: C(1)-O(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
