@@ -943,6 +943,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 640: 9,10-dihydrophenanthridine and 5,6-dihydrophenanthridine
     "C1=Cc2cnc3ccccc3c2CC1": "9,10-dihydrophenanthridine",
     "c1ccc2c(c1)CNc1ccccc1-2": "5,6-dihydrophenanthridine",
+    # Phase 641: 1,2,3,4-tetrahydrobenzo[f/g/h]isoquinoline
+    "c1ccc2c3c(ccc2c1)CNCC3": "1,2,3,4-tetrahydrobenzo[f]isoquinoline",
+    "c1ccc2cc3c(cc2c1)CCNC3": "1,2,3,4-tetrahydrobenzo[g]isoquinoline",
+    "c1ccc2c3c(ccc2c1)CCNC3": "1,2,3,4-tetrahydrobenzo[h]isoquinoline",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -2064,6 +2068,13 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Cc2cnc3ccccc3c2CC1": {0: 8, 1: 7, 2: None, 3: 6, 4: None, 5: None, 6: 4, 7: 3, 8: 2, 9: 1, 10: None, 11: None, 12: 10, 13: 9},
     # 5,6-dihydro: N5(sp3,NH)->5, C6(sp3,CH2)->6; C(4a,junc)-C(4b,junc)-C(8a,junc)-C(10a,junc) None
     "c1ccc2c(c1)CNc1ccccc1-2": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: 4, 10: 3, 11: 2, 12: 1, 13: None},
+    # Phase 641: 1,2,3,4-tetrahydrobenzo[f/g/h]isoquinoline (14 atoms; N in terminal ring)
+    # benzo[f]: C1-C2-N(3,sp3,NH)-C4-C(4a,junc)-C5-C6-C7-C8-C(8a,junc)-C9-C10-C(10a,junc)-C(10b,junc)
+    "c1ccc2c3c(ccc2c1)CNCC3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
+    # benzo[g]: C1-C2-C3-C4-C(4a,junc)-C5-C(5a,junc)-C6-C7-C8-C9-C(9a,junc)-C10-C(10a,junc); N at 2
+    "c1ccc2cc3c(cc2c1)CCNC3": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: None, 7: 5, 8: None, 9: 6, 10: 4, 11: 3, 12: 2, 13: 1},
+    # benzo[h]: C1-C2-C3-C4-C(4a,junc)-C5-C6-C7-C8-C(8a,junc)-C9-C10-C(10a,junc)-C(10b,junc); N at 3
+    "c1ccc2c3c(ccc2c1)CCNC3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
