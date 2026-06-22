@@ -936,6 +936,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c3c(ncc2c1)CCCC3": "1,2,3,4-tetrahydrophenanthridine",
     "c1ccc2c(c1)Cc1ccccc1N2": "9,10-dihydroacridine",
     "c1c2c(nc3c1CCCC3)CCCC2": "1,2,3,4,5,6,7,8-octahydroacridine",
+    # Phase 639: 1,2,3,4-tetrahydrobenzo[g/f/h]quinoline
+    "c1ccc2cc3c(cc2c1)CCCN3": "1,2,3,4-tetrahydrobenzo[g]quinoline",
+    "c1ccc2c3c(ccc2c1)NCCC3": "1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "c1ccc2c3c(ccc2c1)CCCN3": "1,2,3,4-tetrahydrobenzo[h]quinoline",
+    # Phase 640: 9,10-dihydrophenanthridine and 5,6-dihydrophenanthridine
+    "C1=Cc2cnc3ccccc3c2CC1": "9,10-dihydrophenanthridine",
+    "c1ccc2c(c1)CNc1ccccc1-2": "5,6-dihydrophenanthridine",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -2045,6 +2052,18 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)Cc1ccccc1N2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 1, 9: 2, 10: 3, 11: 4, 12: None, 13: 10},
     # 1,2,3,4,5,6,7,8-octahydroacridine: C2-symmetric (1≡5→1, 2≡6→2, 3≡7→3, 4≡8→4); C9(ar,CH)
     "c1c2c(nc3c1CCCC3)CCCC2": {0: 9, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: 3, 9: 4, 10: 4, 11: 3, 12: 2, 13: 1},
+    # Phase 639: 1,2,3,4-tetrahydrobenzo[g/f/h]quinoline (14 atoms; N in terminal ring)
+    # benzo[g]: N(1,sp3,NH)-C2-C3-C4-C(4a,junc)-C5-C(5a,junc)-C6-C7-C8-C9-C(9a,junc)-C10-C(10a,junc)
+    "c1ccc2cc3c(cc2c1)CCCN3": {0: 7, 1: 8, 2: 9, 3: None, 4: 10, 5: None, 6: None, 7: 5, 8: None, 9: 6, 10: 4, 11: 3, 12: 2, 13: 1},
+    # benzo[f]: C1-C2-C3-N(4,sp3,NH)-C(4a,junc)-C5-C6-C7-C8-C(8a,junc)-C9-C10-C(10a,junc)-C(10b,junc)
+    "c1ccc2c3c(ccc2c1)NCCC3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
+    # benzo[h]: N(1,sp3,NH)-C2-C3-C4-C(4a,junc)-C5-C6-C7-C8-C(8a,junc)-C9-C10-C(10a,junc)-C(10b,junc)
+    "c1ccc2c3c(ccc2c1)CCCN3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
+    # Phase 640: 9,10-dihydrophenanthridine and 5,6-dihydrophenanthridine (14 atoms)
+    # 9,10-dihydro: N5(arom,None)-C(4a,junc,None)-C(4b,junc,None)-C(8a,junc,None)-C(10a,junc,None); C9,C10 sp3
+    "C1=Cc2cnc3ccccc3c2CC1": {0: 8, 1: 7, 2: None, 3: 6, 4: None, 5: None, 6: 4, 7: 3, 8: 2, 9: 1, 10: None, 11: None, 12: 10, 13: 9},
+    # 5,6-dihydro: N5(sp3,NH)->5, C6(sp3,CH2)->6; C(4a,junc)-C(4b,junc)-C(8a,junc)-C(10a,junc) None
+    "c1ccc2c(c1)CNc1ccccc1-2": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: 4, 10: 3, 11: 2, 12: 1, 13: None},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},

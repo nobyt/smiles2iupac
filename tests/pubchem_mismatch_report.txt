@@ -1,5 +1,5 @@
-PubChem × IUPAC 2013 命名比較レポート — 2026-06-22
-対象化合物数: 1883
+PubChem × IUPAC 2013 命名比較レポート — 2026-06-23
+対象化合物数: 1874
 
 凡例:
   [PUBCHEM_WRONG]    PubChem 名が IUPAC 2013 非準拠 — 我々の名前が正しい PIN: 148 件
@@ -7,7 +7,7 @@ PubChem × IUPAC 2013 命名比較レポート — 2026-06-22
   [PUBCHEM_RETAINED] PubChem が保留名を使用 — 我々の名前が系統的 PIN: 7 件
   [BOTH_PIN]         両名前とも有効な PIN: 0 件
   [TAUTOMER]         互変異性体の命名差 — どちらも正当: 31 件
-  [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要: 1587 件
+  [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要: 1578 件
 
 ========================================================================
 
@@ -2205,7 +2205,7 @@ PubChem 名:    3-methyl-4,5,6,7-tetrahydro-2H-indazole
 参照: IUPAC 2013 P-31.1.3
 
 
---- [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要 (1587 件) ---
+--- [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要 (1578 件) ---
 
 InChIKey: DANMQSWQAGVFKV-UHFFFAOYSA-N
 SMILES:   Oc1ccc(-c2ccncc2)cc1
@@ -5379,12 +5379,6 @@ InChIKey: HBCQSNAFLVXVAY-UHFFFAOYSA-N
 SMILES:   S=C1NC=CC=N1
 我々の名前: pyrimidin-2(1H)-thione
 PubChem 名: pyrimidine-2-thiol
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: MGAXHFMCFLLMNG-UHFFFAOYSA-N
-SMILES:   S=C1NC=NC=C1
-我々の名前: pyrimidin-4(3H)-thione
-PubChem 名: pyrimidine-4-thiol
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: HNYOPLTXPVRDBG-UHFFFAOYSA-N
@@ -11339,58 +11333,10 @@ SMILES:   CN1NC2=CC=CC=C2C1
 PubChem 名: 2-methyl-1,3-dihydroindazole
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: OALXTMWCXNPUKJ-UHFFFAOYSA-N
-SMILES:   c1cnc2c(c1)NCCC2
-我々の名前: 5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: ZCZVGQCBSJLDDS-UHFFFAOYSA-N
-SMILES:   c1cnc2c(c1)CCCN2
-我々の名前: 5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: XADATOCYLAUOIE-UHFFFAOYSA-N
-SMILES:   Cc1cnc2c(c1)NCCC2
-我々の名前: 3-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 7-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: QHBVMXCFDIWSIQ-UHFFFAOYSA-N
-SMILES:   Cc1ccc2c(n1)CCCN2
-我々の名前: 2-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 6-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: XFLXFYBTEJPRSW-UHFFFAOYSA-N
-SMILES:   Cc1ccnc2c1NCCC2
-我々の名前: 4-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 8-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: NATRVVUJQGDXNM-UHFFFAOYSA-N
 SMILES:   CN1CCCc2ncccc21
-我々の名前: 5-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
+我々の名前: 1-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
 PubChem 名: 1-methyl-3,4-dihydro-2H-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: LZRBGKHUNKANSE-UHFFFAOYSA-N
-SMILES:   CC1CCc2ncccc2N1
-我々の名前: 6-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 2-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: PHLICGCSEZTLTQ-UHFFFAOYSA-N
-SMILES:   CC1CNc2cccnc2C1
-我々の名前: 7-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 3-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: GIQSTXSVCWNQBK-UHFFFAOYSA-N
-SMILES:   CC1CCNc2cccnc21
-我々の名前: 8-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine
-PubChem 名: 4-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: DBXCIDMJJODDQR-UHFFFAOYSA-N
@@ -11405,45 +11351,9 @@ SMILES:   CN1CCc2cccnc2C1
 PubChem 名: 7-methyl-6,8-dihydro-5H-1,7-naphthyridine
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: VZADIUQKUVWTSR-UHFFFAOYSA-N
-SMILES:   Cc1cnc2c(c1)CCCN2
-我々の名前: 3-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 6-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: HBWCJMBLUCNJIS-UHFFFAOYSA-N
-SMILES:   Cc1ccc2c(n1)NCCC2
-我々の名前: 2-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 7-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: BENBACKRAYKPOZ-UHFFFAOYSA-N
-SMILES:   Cc1ccnc2c1CCCN2
-我々の名前: 4-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 5-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: VJHCQDMNLWGRSF-UHFFFAOYSA-N
-SMILES:   CC1CCNc2ncccc21
-我々の名前: 5-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 4-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: XXYUGGCXFHLUQO-UHFFFAOYSA-N
-SMILES:   CC1CNc2ncccc2C1
-我々の名前: 6-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 3-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: AMSPPJVQIKYSPE-UHFFFAOYSA-N
-SMILES:   CC1CCc2cccnc2N1
-我々の名前: 7-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
-PubChem 名: 2-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: MXIPJUWAMKULQI-UHFFFAOYSA-N
 SMILES:   CN1CCCc2cccnc21
-我々の名前: 8-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine
+我々の名前: 1-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine
 PubChem 名: 1-methyl-3,4-dihydro-2H-1,8-naphthyridine
 → IUPAC 2013 規則による手動確認が必要
 
@@ -11727,5 +11637,41 @@ InChIKey: VDWAQPIHXBRGGA-UHFFFAOYSA-N
 SMILES:   CN1c2ccccc2Cc2ccccc21
 我々の名前: 10-methyl-9,10-dihydroacridine
 PubChem 名: 10-methyl-9H-acridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: GVFLVRHBRAMVAW-UHFFFAOYSA-N
+SMILES:   CN1CCc2cnccc2C1
+我々の名前: 2-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine
+PubChem 名: 2-methyl-3,4-dihydro-1H-2,6-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: VUEIFZAGWOPJEY-UHFFFAOYSA-N
+SMILES:   CN1CCc2ccncc2C1
+我々の名前: 2-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine
+PubChem 名: 2-methyl-3,4-dihydro-1H-2,7-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: GNWPQRAHIKBQPL-UHFFFAOYSA-N
+SMILES:   CN1CCCc2cc3ccccc3cc21
+我々の名前: 1-methyl-1,2,3,4-tetrahydrobenzo[g]quinoline
+PubChem 名: 1-methyl-3,4-dihydro-2H-benzo[g]quinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: YEFHPCLMBWVGHO-UHFFFAOYSA-N
+SMILES:   CN1CCCc2c1ccc1ccccc21
+我々の名前: 4-methyl-1,2,3,4-tetrahydrobenzo[f]quinoline
+PubChem 名: 4-methyl-2,3-dihydro-1H-benzo[f]quinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: GTYJOFPJNFXZNW-UHFFFAOYSA-N
+SMILES:   CN1CCCc2ccc3ccccc3c21
+我々の名前: 1-methyl-1,2,3,4-tetrahydrobenzo[h]quinoline
+PubChem 名: 1-methyl-3,4-dihydro-2H-benzo[h]quinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: CHRZLZISODHLLP-UHFFFAOYSA-N
+SMILES:   CN1Cc2ccccc2-c2ccccc21
+我々の名前: 5-methyl-5,6-dihydrophenanthridine
+PubChem 名: 5-methyl-6H-phenanthridine
 → IUPAC 2013 規則による手動確認が必要
 

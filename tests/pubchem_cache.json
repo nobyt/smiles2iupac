@@ -14095,7 +14095,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HKAVADYDPYUPRD-UHFFFAOYSA-N": {
     "inchikey": "HKAVADYDPYUPRD-UHFFFAOYSA-N",
@@ -36274,12 +36275,8 @@
     "inchikey": "OALXTMWCXNPUKJ-UHFFFAOYSA-N",
     "smiles": "c1cnc2c(c1)NCCC2",
     "pubchem_iupac": "1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "FPEAARFNXIWCTP-UHFFFAOYSA-N": {
     "inchikey": "FPEAARFNXIWCTP-UHFFFAOYSA-N",
@@ -36297,12 +36294,8 @@
     "inchikey": "ZCZVGQCBSJLDDS-UHFFFAOYSA-N",
     "smiles": "c1cnc2c(c1)CCCN2",
     "pubchem_iupac": "1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "ARCSZHIPWBDSGJ-UHFFFAOYSA-N": {
     "inchikey": "ARCSZHIPWBDSGJ-UHFFFAOYSA-N",
@@ -36320,41 +36313,29 @@
     "inchikey": "XADATOCYLAUOIE-UHFFFAOYSA-N",
     "smiles": "Cc1cnc2c(c1)NCCC2",
     "pubchem_iupac": "7-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "3-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "3-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "QHBVMXCFDIWSIQ-UHFFFAOYSA-N": {
     "inchikey": "QHBVMXCFDIWSIQ-UHFFFAOYSA-N",
     "smiles": "Cc1ccc2c(n1)CCCN2",
     "pubchem_iupac": "6-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "2-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "2-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "XFLXFYBTEJPRSW-UHFFFAOYSA-N": {
     "inchikey": "XFLXFYBTEJPRSW-UHFFFAOYSA-N",
     "smiles": "Cc1ccnc2c1NCCC2",
     "pubchem_iupac": "8-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "4-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "4-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "NATRVVUJQGDXNM-UHFFFAOYSA-N": {
     "inchikey": "NATRVVUJQGDXNM-UHFFFAOYSA-N",
     "smiles": "CN1CCCc2ncccc21",
     "pubchem_iupac": "1-methyl-3,4-dihydro-2H-1,5-naphthyridine",
     "validated": false,
-    "expected_in_test": "5-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
+    "expected_in_test": "1-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36364,34 +36345,22 @@
     "inchikey": "LZRBGKHUNKANSE-UHFFFAOYSA-N",
     "smiles": "CC1CCc2ncccc2N1",
     "pubchem_iupac": "2-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "6-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "6-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "PHLICGCSEZTLTQ-UHFFFAOYSA-N": {
     "inchikey": "PHLICGCSEZTLTQ-UHFFFAOYSA-N",
     "smiles": "CC1CNc2cccnc2C1",
     "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "7-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "7-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "GIQSTXSVCWNQBK-UHFFFAOYSA-N": {
     "inchikey": "GIQSTXSVCWNQBK-UHFFFAOYSA-N",
     "smiles": "CC1CCNc2cccnc21",
     "pubchem_iupac": "4-methyl-1,2,3,4-tetrahydro-1,5-naphthyridine",
-    "validated": false,
-    "expected_in_test": "8-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "8-methyl-5,6,7,8-tetrahydro-1,5-naphthyridine"
   },
   "LFTZMPMTTQWRLY-UHFFFAOYSA-N": {
     "inchikey": "LFTZMPMTTQWRLY-UHFFFAOYSA-N",
@@ -36491,74 +36460,50 @@
     "inchikey": "VZADIUQKUVWTSR-UHFFFAOYSA-N",
     "smiles": "Cc1cnc2c(c1)CCCN2",
     "pubchem_iupac": "6-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "3-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "3-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "HBWCJMBLUCNJIS-UHFFFAOYSA-N": {
     "inchikey": "HBWCJMBLUCNJIS-UHFFFAOYSA-N",
     "smiles": "Cc1ccc2c(n1)NCCC2",
     "pubchem_iupac": "7-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "2-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "2-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "BENBACKRAYKPOZ-UHFFFAOYSA-N": {
     "inchikey": "BENBACKRAYKPOZ-UHFFFAOYSA-N",
     "smiles": "Cc1ccnc2c1CCCN2",
     "pubchem_iupac": "5-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "4-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "4-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "VJHCQDMNLWGRSF-UHFFFAOYSA-N": {
     "inchikey": "VJHCQDMNLWGRSF-UHFFFAOYSA-N",
     "smiles": "CC1CCNc2ncccc21",
     "pubchem_iupac": "4-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "5-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "5-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "XXYUGGCXFHLUQO-UHFFFAOYSA-N": {
     "inchikey": "XXYUGGCXFHLUQO-UHFFFAOYSA-N",
     "smiles": "CC1CNc2ncccc2C1",
     "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "6-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "6-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "AMSPPJVQIKYSPE-UHFFFAOYSA-N": {
     "inchikey": "AMSPPJVQIKYSPE-UHFFFAOYSA-N",
     "smiles": "CC1CCc2cccnc2N1",
     "pubchem_iupac": "2-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
-    "validated": false,
-    "expected_in_test": "7-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "7-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine"
   },
   "MXIPJUWAMKULQI-UHFFFAOYSA-N": {
     "inchikey": "MXIPJUWAMKULQI-UHFFFAOYSA-N",
     "smiles": "CN1CCCc2cccnc21",
     "pubchem_iupac": "1-methyl-3,4-dihydro-2H-1,8-naphthyridine",
     "validated": false,
-    "expected_in_test": "8-methyl-5,6,7,8-tetrahydro-1,8-naphthyridine",
+    "expected_in_test": "1-methyl-1,2,3,4-tetrahydro-1,8-naphthyridine",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36663,7 +36608,11 @@
     "smiles": "CC=N(CC)CC",
     "pubchem_iupac": "diethyl(ethylidene)azanium",
     "validated": false,
-    "expected_in_test": null
+    "expected_in_test": null,
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "XMJHPCRAQCTCFT-UHFFFAOYSA-N": {
     "inchikey": "XMJHPCRAQCTCFT-UHFFFAOYSA-N",
@@ -37873,6 +37822,427 @@
     "inchikey": "YIJIOKJNKFELDC-UHFFFAOYSA-N",
     "smiles": "Cc1c2c(nc3c1CCCC3)CCCC2",
     "pubchem_iupac": "9-methyl-1,2,3,4,5,6,7,8-octahydroacridine",
+    "validated": true
+  },
+  "KPZPSEIHRIDPKH-UHFFFAOYSA-N": {
+    "inchikey": "KPZPSEIHRIDPKH-UHFFFAOYSA-N",
+    "smiles": "c1cc2c(cn1)CCNC2",
+    "pubchem_iupac": "1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "OZTPQWRLHLQVBD-UHFFFAOYSA-N": {
+    "inchikey": "OZTPQWRLHLQVBD-UHFFFAOYSA-N",
+    "smiles": "c1cc2c(cn1)CNCC2",
+    "pubchem_iupac": "1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "TVQTYUGJCSPZFK-UHFFFAOYSA-N": {
+    "inchikey": "TVQTYUGJCSPZFK-UHFFFAOYSA-N",
+    "smiles": "CC1NCCc2cnccc21",
+    "pubchem_iupac": "1-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "GVFLVRHBRAMVAW-UHFFFAOYSA-N": {
+    "inchikey": "GVFLVRHBRAMVAW-UHFFFAOYSA-N",
+    "smiles": "CN1CCc2cnccc2C1",
+    "pubchem_iupac": "2-methyl-3,4-dihydro-1H-2,6-naphthyridine",
+    "validated": false,
+    "expected_in_test": "2-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "NESJHKXGJHKRCR-UHFFFAOYSA-N": {
+    "inchikey": "NESJHKXGJHKRCR-UHFFFAOYSA-N",
+    "smiles": "CC1Cc2cnccc2CN1",
+    "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "CGJQXNQHAAXYIV-UHFFFAOYSA-N": {
+    "inchikey": "CGJQXNQHAAXYIV-UHFFFAOYSA-N",
+    "smiles": "CC1CNCc2ccncc21",
+    "pubchem_iupac": "4-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "QBPPKOSBXRVNPG-UHFFFAOYSA-N": {
+    "inchikey": "QBPPKOSBXRVNPG-UHFFFAOYSA-N",
+    "smiles": "Cc1nccc2c1CCNC2",
+    "pubchem_iupac": "5-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "YQHGLRPIWLABNQ-UHFFFAOYSA-N": {
+    "inchikey": "YQHGLRPIWLABNQ-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2c(cn1)CCNC2",
+    "pubchem_iupac": "7-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "ZHLTUUVBZNZGJL-UHFFFAOYSA-N": {
+    "inchikey": "ZHLTUUVBZNZGJL-UHFFFAOYSA-N",
+    "smiles": "Cc1cncc2c1CNCC2",
+    "pubchem_iupac": "8-methyl-1,2,3,4-tetrahydro-2,6-naphthyridine",
+    "validated": true
+  },
+  "CKYIOAJSFVJANT-UHFFFAOYSA-N": {
+    "inchikey": "CKYIOAJSFVJANT-UHFFFAOYSA-N",
+    "smiles": "CC1NCCc2ccncc21",
+    "pubchem_iupac": "1-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "VUEIFZAGWOPJEY-UHFFFAOYSA-N": {
+    "inchikey": "VUEIFZAGWOPJEY-UHFFFAOYSA-N",
+    "smiles": "CN1CCc2ccncc2C1",
+    "pubchem_iupac": "2-methyl-3,4-dihydro-1H-2,7-naphthyridine",
+    "validated": false,
+    "expected_in_test": "2-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "FZUQWYNKPNBQPE-UHFFFAOYSA-N": {
+    "inchikey": "FZUQWYNKPNBQPE-UHFFFAOYSA-N",
+    "smiles": "CC1Cc2ccncc2CN1",
+    "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "FQTVCFDUNHWUQU-UHFFFAOYSA-N": {
+    "inchikey": "FQTVCFDUNHWUQU-UHFFFAOYSA-N",
+    "smiles": "CC1CNCc2cnccc21",
+    "pubchem_iupac": "4-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "RJNNSBOGQDHUNR-UHFFFAOYSA-N": {
+    "inchikey": "RJNNSBOGQDHUNR-UHFFFAOYSA-N",
+    "smiles": "Cc1cncc2c1CCNC2",
+    "pubchem_iupac": "5-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "CPJIIYLDEMFZEO-UHFFFAOYSA-N": {
+    "inchikey": "CPJIIYLDEMFZEO-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2c(cn1)CNCC2",
+    "pubchem_iupac": "6-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "ZJKOUWNACLERFN-UHFFFAOYSA-N": {
+    "inchikey": "ZJKOUWNACLERFN-UHFFFAOYSA-N",
+    "smiles": "Cc1nccc2c1CNCC2",
+    "pubchem_iupac": "8-methyl-1,2,3,4-tetrahydro-2,7-naphthyridine",
+    "validated": true
+  },
+  "FWYKJOPSCOWTGC-UHFFFAOYSA-N": {
+    "inchikey": "FWYKJOPSCOWTGC-UHFFFAOYSA-N",
+    "smiles": "c1ccc2cc3c(cc2c1)CCCN3",
+    "pubchem_iupac": "1,2,3,4-tetrahydrobenzo[g]quinoline",
+    "validated": true
+  },
+  "HRFUBWQYIAMTOD-UHFFFAOYSA-N": {
+    "inchikey": "HRFUBWQYIAMTOD-UHFFFAOYSA-N",
+    "smiles": "c1ccc2c3c(ccc2c1)NCCC3",
+    "pubchem_iupac": "1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "validated": true
+  },
+  "FXYNGXZHZGJYPD-UHFFFAOYSA-N": {
+    "inchikey": "FXYNGXZHZGJYPD-UHFFFAOYSA-N",
+    "smiles": "c1ccc2c3c(ccc2c1)CCCN3",
+    "pubchem_iupac": "1,2,3,4-tetrahydrobenzo[h]quinoline",
+    "validated": true
+  },
+  "GNWPQRAHIKBQPL-UHFFFAOYSA-N": {
+    "inchikey": "GNWPQRAHIKBQPL-UHFFFAOYSA-N",
+    "smiles": "CN1CCCc2cc3ccccc3cc21",
+    "pubchem_iupac": "1-methyl-3,4-dihydro-2H-benzo[g]quinoline",
+    "validated": false,
+    "expected_in_test": "1-methyl-1,2,3,4-tetrahydrobenzo[g]quinoline",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "MZHCBOAKHIDMML-UHFFFAOYSA-N": {
+    "inchikey": "MZHCBOAKHIDMML-UHFFFAOYSA-N",
+    "smiles": "CC1CCc2cc3ccccc3cc2N1",
+    "not_found": true
+  },
+  "YVGVLNCKUSCQBL-UHFFFAOYSA-N": {
+    "inchikey": "YVGVLNCKUSCQBL-UHFFFAOYSA-N",
+    "smiles": "CC1CNc2cc3ccccc3cc2C1",
+    "not_found": true
+  },
+  "QOCKGOFGSIWPCL-UHFFFAOYSA-N": {
+    "inchikey": "QOCKGOFGSIWPCL-UHFFFAOYSA-N",
+    "smiles": "CC1CCNc2cc3ccccc3cc21",
+    "not_found": true
+  },
+  "HBZIDIFJMCJRBT-UHFFFAOYSA-N": {
+    "inchikey": "HBZIDIFJMCJRBT-UHFFFAOYSA-N",
+    "smiles": "Cc1c2c(cc3ccccc13)NCCC2",
+    "not_found": true
+  },
+  "IEGXQXOBLAFPKO-UHFFFAOYSA-N": {
+    "inchikey": "IEGXQXOBLAFPKO-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2cc3c(cc12)CCCN3",
+    "not_found": true
+  },
+  "YJRMCLXAQFJWFY-UHFFFAOYSA-N": {
+    "inchikey": "YJRMCLXAQFJWFY-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2cc3c(cc2c1)CCCN3",
+    "not_found": true
+  },
+  "CJXQWMLTHWOTIT-UHFFFAOYSA-N": {
+    "inchikey": "CJXQWMLTHWOTIT-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2cc3c(cc2c1)NCCC3",
+    "pubchem_iupac": "8-methyl-1,2,3,4-tetrahydrobenzo[g]quinoline",
+    "validated": true
+  },
+  "XPVPYFYNJYJFJX-UHFFFAOYSA-N": {
+    "inchikey": "XPVPYFYNJYJFJX-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2cc3c(cc12)NCCC3",
+    "not_found": true
+  },
+  "QUWNAIUCZVCDFU-UHFFFAOYSA-N": {
+    "inchikey": "QUWNAIUCZVCDFU-UHFFFAOYSA-N",
+    "smiles": "Cc1c2c(cc3ccccc13)CCCN2",
+    "not_found": true
+  },
+  "JOHBABVWHRDXSW-UHFFFAOYSA-N": {
+    "inchikey": "JOHBABVWHRDXSW-UHFFFAOYSA-N",
+    "smiles": "CC1CCNc2ccc3ccccc3c21",
+    "not_found": true
+  },
+  "YHZVFDSMBKQWEE-UHFFFAOYSA-N": {
+    "inchikey": "YHZVFDSMBKQWEE-UHFFFAOYSA-N",
+    "smiles": "CC1CNc2ccc3ccccc3c2C1",
+    "pubchem_iupac": "2-methyl-1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "validated": true
+  },
+  "RTIDVMCSNIBPRD-UHFFFAOYSA-N": {
+    "inchikey": "RTIDVMCSNIBPRD-UHFFFAOYSA-N",
+    "smiles": "CC1CCc2c(ccc3ccccc23)N1",
+    "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "validated": true
+  },
+  "YEFHPCLMBWVGHO-UHFFFAOYSA-N": {
+    "inchikey": "YEFHPCLMBWVGHO-UHFFFAOYSA-N",
+    "smiles": "CN1CCCc2c1ccc1ccccc21",
+    "pubchem_iupac": "4-methyl-2,3-dihydro-1H-benzo[f]quinoline",
+    "validated": false,
+    "expected_in_test": "4-methyl-1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "NEWLGZMUKWTIJU-UHFFFAOYSA-N": {
+    "inchikey": "NEWLGZMUKWTIJU-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2ccccc2c2c1NCCC2",
+    "not_found": true
+  },
+  "GKIFVXDEUSWHLL-UHFFFAOYSA-N": {
+    "inchikey": "GKIFVXDEUSWHLL-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2c(c3ccccc13)CCCN2",
+    "pubchem_iupac": "6-methyl-1,2,3,4-tetrahydrobenzo[f]quinoline",
+    "validated": true
+  },
+  "FHYSSOGSXBYIFN-UHFFFAOYSA-N": {
+    "inchikey": "FHYSSOGSXBYIFN-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c3c(ccc12)NCCC3",
+    "not_found": true
+  },
+  "NIFMYWUZAZYTRT-UHFFFAOYSA-N": {
+    "inchikey": "NIFMYWUZAZYTRT-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c3c(ccc2c1)NCCC3",
+    "not_found": true
+  },
+  "SVMBDJZLTNOPLW-UHFFFAOYSA-N": {
+    "inchikey": "SVMBDJZLTNOPLW-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2ccc3c(c2c1)CCCN3",
+    "not_found": true
+  },
+  "OQQNVCGJUDZRHH-UHFFFAOYSA-N": {
+    "inchikey": "OQQNVCGJUDZRHH-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2ccc3c(c12)CCCN3",
+    "not_found": true
+  },
+  "GTYJOFPJNFXZNW-UHFFFAOYSA-N": {
+    "inchikey": "GTYJOFPJNFXZNW-UHFFFAOYSA-N",
+    "smiles": "CN1CCCc2ccc3ccccc3c21",
+    "pubchem_iupac": "1-methyl-3,4-dihydro-2H-benzo[h]quinoline",
+    "validated": false,
+    "expected_in_test": "1-methyl-1,2,3,4-tetrahydrobenzo[h]quinoline",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "CVPMRWIENOQMBZ-UHFFFAOYSA-N": {
+    "inchikey": "CVPMRWIENOQMBZ-UHFFFAOYSA-N",
+    "smiles": "CC1CCc2ccc3ccccc3c2N1",
+    "pubchem_iupac": "2-methyl-1,2,3,4-tetrahydrobenzo[h]quinoline",
+    "validated": true
+  },
+  "KPZSQGDHYWDXLA-UHFFFAOYSA-N": {
+    "inchikey": "KPZSQGDHYWDXLA-UHFFFAOYSA-N",
+    "smiles": "CC1CNc2c(ccc3ccccc23)C1",
+    "pubchem_iupac": "3-methyl-1,2,3,4-tetrahydrobenzo[h]quinoline",
+    "validated": true
+  },
+  "FUTPYUASHFCBGC-UHFFFAOYSA-N": {
+    "inchikey": "FUTPYUASHFCBGC-UHFFFAOYSA-N",
+    "smiles": "CC1CCNc2c1ccc1ccccc21",
+    "not_found": true
+  },
+  "BBFIKKZKHGXBOH-UHFFFAOYSA-N": {
+    "inchikey": "BBFIKKZKHGXBOH-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2ccccc2c2c1CCCN2",
+    "not_found": true
+  },
+  "KECYOMYYCYNOQX-UHFFFAOYSA-N": {
+    "inchikey": "KECYOMYYCYNOQX-UHFFFAOYSA-N",
+    "smiles": "Cc1cc2c(c3ccccc13)NCCC2",
+    "pubchem_iupac": "6-methyl-1,2,3,4-tetrahydrobenzo[h]quinoline",
+    "validated": true
+  },
+  "SQMAGELERRBBEF-UHFFFAOYSA-N": {
+    "inchikey": "SQMAGELERRBBEF-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c3c(ccc12)CCCN3",
+    "not_found": true
+  },
+  "NICZWICGGHVKQU-UHFFFAOYSA-N": {
+    "inchikey": "NICZWICGGHVKQU-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c3c(ccc2c1)CCCN3",
+    "not_found": true
+  },
+  "QRVNEHJIMMQSRM-UHFFFAOYSA-N": {
+    "inchikey": "QRVNEHJIMMQSRM-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2ccc3c(c2c1)NCCC3",
+    "not_found": true
+  },
+  "XAMYRQAZTNKGNK-UHFFFAOYSA-N": {
+    "inchikey": "XAMYRQAZTNKGNK-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2ccc3c(c12)NCCC3",
+    "not_found": true
+  },
+  "DSICYYNHDCPBMA-UHFFFAOYSA-N": {
+    "inchikey": "DSICYYNHDCPBMA-UHFFFAOYSA-N",
+    "smiles": "C1=Cc2cnc3ccccc3c2CC1",
+    "pubchem_iupac": "9,10-dihydrophenanthridine",
+    "validated": true
+  },
+  "YQQRKUQVFWYEPV-UHFFFAOYSA-N": {
+    "inchikey": "YQQRKUQVFWYEPV-UHFFFAOYSA-N",
+    "smiles": "c1ccc2c(c1)CNc1ccccc1-2",
+    "pubchem_iupac": "5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "BOIOKXVTAPVBFR-UHFFFAOYSA-N": {
+    "inchikey": "BOIOKXVTAPVBFR-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2ncc3c(c12)CCC=C3",
+    "not_found": true
+  },
+  "NAPPWGOUBGLPKD-UHFFFAOYSA-N": {
+    "inchikey": "NAPPWGOUBGLPKD-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2ncc3c(c2c1)CCC=C3",
+    "not_found": true
+  },
+  "WBQUBBOPPXVTKS-UHFFFAOYSA-N": {
+    "inchikey": "WBQUBBOPPXVTKS-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c3c(cnc2c1)C=CCC3",
+    "not_found": true
+  },
+  "ONOLCKLLSCADDA-UHFFFAOYSA-N": {
+    "inchikey": "ONOLCKLLSCADDA-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c3c(cnc12)C=CCC3",
+    "not_found": true
+  },
+  "YWUUZFIRGOGCMT-UHFFFAOYSA-N": {
+    "inchikey": "YWUUZFIRGOGCMT-UHFFFAOYSA-N",
+    "smiles": "Cc1nc2ccccc2c2c1C=CCC2",
+    "pubchem_iupac": "6-methyl-9,10-dihydrophenanthridine",
+    "validated": true
+  },
+  "WGECRDJSLXYBLA-UHFFFAOYSA-N": {
+    "inchikey": "WGECRDJSLXYBLA-UHFFFAOYSA-N",
+    "smiles": "CC1=CCCc2c1cnc1ccccc21",
+    "not_found": true
+  },
+  "NTDNKPMRRVFANL-UHFFFAOYSA-N": {
+    "inchikey": "NTDNKPMRRVFANL-UHFFFAOYSA-N",
+    "smiles": "CC1=Cc2cnc3ccccc3c2CC1",
+    "not_found": true
+  },
+  "IAICWKACEAFQQL-UHFFFAOYSA-N": {
+    "inchikey": "IAICWKACEAFQQL-UHFFFAOYSA-N",
+    "smiles": "CC1C=Cc2cnc3ccccc3c2C1",
+    "not_found": true
+  },
+  "RKYQYMACQFAXHE-UHFFFAOYSA-N": {
+    "inchikey": "RKYQYMACQFAXHE-UHFFFAOYSA-N",
+    "smiles": "CC1CC=Cc2cnc3ccccc3c21",
+    "not_found": true
+  },
+  "DMDHDYGRYMADGA-UHFFFAOYSA-N": {
+    "inchikey": "DMDHDYGRYMADGA-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c1-c1ccccc1CN2",
+    "pubchem_iupac": "1-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "ZINNAUMPTKNVRR-UHFFFAOYSA-N": {
+    "inchikey": "ZINNAUMPTKNVRR-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c(c1)-c1ccccc1CN2",
+    "pubchem_iupac": "2-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "QQBGTDJZYOBIEZ-UHFFFAOYSA-N": {
+    "inchikey": "QQBGTDJZYOBIEZ-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c(c1)NCc1ccccc1-2",
+    "pubchem_iupac": "3-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "GFDFAKWXQAKOFJ-UHFFFAOYSA-N": {
+    "inchikey": "GFDFAKWXQAKOFJ-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c1NCc1ccccc1-2",
+    "pubchem_iupac": "4-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "CHRZLZISODHLLP-UHFFFAOYSA-N": {
+    "inchikey": "CHRZLZISODHLLP-UHFFFAOYSA-N",
+    "smiles": "CN1Cc2ccccc2-c2ccccc21",
+    "pubchem_iupac": "5-methyl-6H-phenanthridine",
+    "validated": false,
+    "expected_in_test": "5-methyl-5,6-dihydrophenanthridine",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "SVZPHRNANHBXBT-UHFFFAOYSA-N": {
+    "inchikey": "SVZPHRNANHBXBT-UHFFFAOYSA-N",
+    "smiles": "CC1Nc2ccccc2-c2ccccc21",
+    "pubchem_iupac": "6-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "JRAUFBFEQZVXMM-UHFFFAOYSA-N": {
+    "inchikey": "JRAUFBFEQZVXMM-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c1CNc1ccccc1-2",
+    "pubchem_iupac": "7-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "QYBBALVJYIWRGX-UHFFFAOYSA-N": {
+    "inchikey": "QYBBALVJYIWRGX-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c(c1)CNc1ccccc1-2",
+    "pubchem_iupac": "8-methyl-5,6-dihydrophenanthridine",
+    "validated": true
+  },
+  "RZEDEHCUOCFVMP-UHFFFAOYSA-N": {
+    "inchikey": "RZEDEHCUOCFVMP-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2c(c1)-c1ccccc1NC2",
+    "not_found": true
+  },
+  "GYQRUOWNOLYEMH-UHFFFAOYSA-N": {
+    "inchikey": "GYQRUOWNOLYEMH-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc2c1-c1ccccc1NC2",
+    "pubchem_iupac": "10-methyl-5,6-dihydrophenanthridine",
     "validated": true
   }
 }
