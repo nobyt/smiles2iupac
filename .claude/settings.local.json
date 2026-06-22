@@ -6,7 +6,15 @@
       "Bash(.venv/bin/pytest *)",
       "Bash(python *)",
       "Bash(python3 *)",
-      "Bash(uv run *)"
+      "Bash(uv run *)",
+      "Bash(pip3 --version)",
+      "Bash(java -version)",
+      "Bash(.venv/bin/python -m pytest tests/ -q)",
+      "Bash(java -jar ./opsin-cli-2.9.0-jar-with-dependencies.jar -osmi)",
+      "Bash(.venv/bin/python *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(.venv/bin/python3 *)"
     ]
   }
 }
