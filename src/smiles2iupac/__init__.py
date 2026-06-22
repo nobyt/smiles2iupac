@@ -20,7 +20,9 @@ SMILESのパース・分子グラフ構築は RDKit に委譲。
 
 from __future__ import annotations
 
-__all__ = ["smiles_to_iupac"]
+__all__ = ["smiles_to_iupac", "IUPACResult"]
+
+from .iupac_result import IUPACResult
 
 from .group_namers import (
     PGRP_DISPATCH,
