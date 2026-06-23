@@ -964,6 +964,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCNC2": "1,2,3,4-tetrahydroisoquinoline",
     "c1ccc2c(c1)NCCN2": "1,2,3,4-tetrahydroquinoxaline",
     "c1ccc2c(c1)CCCS2": "thiochroman",
+    # Phase 647: indoline and isoindoline (retained names)
+    "c1ccc2c(c1)CCN2": "indoline",
+    "c1ccc2c(c1)CNC2": "isoindoline",
     # Phase 630: benzo-fused 7-membered saturated rings (benzazepines, benzoxepines, etc.)
     "c1ccc2c(c1)CCCCC2": "6,7,8,9-tetrahydro-5H-benzo[7]annulene",
     "c1ccc2c(c1)CCCCN2": "2,3,4,5-tetrahydro-1-benzazepine",
@@ -1827,6 +1830,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1CSCCO1": {0: 2, 1: 3, 2: None, 3: 3, 4: 2, 5: None},  # 1,4-oxathiane
     "c1ccc2c(c1)CCC2": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: 2, 8: 1},  # indane
     "c1ccc2c(c1)CCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: None},  # thiochroman
+    # Phase 647: indoline (9 atoms; N1 sp3 NH, C2/C3 sp3, benzo ring aromatic)
+    "c1ccc2c(c1)CCN2": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 4, 6: 3, 7: 2, 8: 1},
+    # Phase 647: isoindoline (9 atoms; N2 sp3 NH, C1/C3 sp3, benzo ring aromatic; C2-symmetric)
+    "c1ccc2c(c1)CNC2": {0: 5, 1: 5, 2: 4, 3: None, 4: None, 5: 4, 6: 1, 7: 2, 8: 1},
     # Phase 619: non-aromatic double-bond compounds
     "C1=Cc2ccccc2C1": {0: 2, 1: 3, 2: None, 3: 4, 4: 5, 5: 6, 6: 7, 7: None, 8: 1},  # 1H-indene
     "C1=Cc2ccccc2OC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},  # 2H-chromene
