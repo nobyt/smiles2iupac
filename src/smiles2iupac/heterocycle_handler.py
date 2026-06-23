@@ -949,6 +949,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c3c(ccc2c1)CCNC3": "1,2,3,4-tetrahydrobenzo[h]isoquinoline",
     # Phase 642: 1,2-dihydroacridine
     "C1=Cc2nc3ccccc3cc2CC1": "1,2-dihydroacridine",
+    # Phase 643: 3,4-dihydroacridine and 1,2-dihydrophenanthridine
+    "C1=Cc2cc3ccccc3nc2CC1": "3,4-dihydroacridine",
+    "C1=Cc2ncc3ccccc3c2CC1": "1,2-dihydrophenanthridine",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -2079,6 +2082,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c3c(ccc2c1)CCNC3": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: None, 6: 5, 7: 6, 8: None, 9: 7, 10: 4, 11: 3, 12: 2, 13: 1},
     # Phase 642: 1,2-dihydroacridine (14 atoms; N10 aromatic, C1/C2 sp3, C3=C4 double bond)
     "C1=Cc2nc3ccccc3cc2CC1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 9, 11: None, 12: 1, 13: 2},
+    # Phase 643: 3,4-dihydroacridine (14 atoms; N10 aromatic, C3/C4 sp3, C1=C2 double bond)
+    "C1=Cc2cc3ccccc3nc2CC1": {0: 2, 1: 1, 2: None, 3: 9, 4: None, 5: 8, 6: 7, 7: 6, 8: 5, 9: None, 10: None, 11: None, 12: 4, 13: 3},
+    # Phase 643: 1,2-dihydrophenanthridine (14 atoms; N5 aromatic, C1/C2 sp3, C3=C4 double bond)
+    "C1=Cc2ncc3ccccc3c2CC1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: 7, 7: 8, 8: 9, 9: 10, 10: None, 11: None, 12: 1, 13: 2},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
