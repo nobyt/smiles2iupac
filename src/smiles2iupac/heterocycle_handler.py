@@ -954,6 +954,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2ncc3ccccc3c2CC1": "1,2-dihydrophenanthridine",
     # Phase 644: 3,4-dihydrophenanthridine
     "C1=Cc2c(ncc3ccccc23)CC1": "3,4-dihydrophenanthridine",
+    # Phase 645: 1,2,3,4-tetrahydrobenzo[de]isoquinoline
+    "C1=Cc2cccc3c2C(C1)CNC3": "1,2,3,4-tetrahydrobenzo[de]isoquinoline",
     "c1ccc2c(c1)CCCO2": "chromane",
     "c1ccc2c(c1)CCOC2": "isochromane",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
@@ -2090,6 +2092,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Cc2ncc3ccccc3c2CC1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: 7, 7: 8, 8: 9, 9: 10, 10: None, 11: None, 12: 1, 13: 2},
     # Phase 644: 3,4-dihydrophenanthridine (14 atoms; N5 aromatic, C3/C4 sp3, C1=C2 double bond)
     "C1=Cc2c(ncc3ccccc23)CC1": {0: 2, 1: 1, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: 7, 8: 8, 9: 9, 10: 10, 11: None, 12: 4, 13: 3},
+    # Phase 645: 1,2,3,4-tetrahydrobenzo[de]isoquinoline (13 atoms; peri junction C8 None)
+    "C1=Cc2cccc3c2C(C1)CNC3": {0: 5, 1: 6, 2: None, 3: 7, 4: 8, 5: 9, 6: None, 7: None, 8: None, 9: 4, 10: 3, 11: 2, 12: 1},
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
     # 4,5,6,7-tetrahydrobenzofuran: O(1)-C(2)-C(3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
     "c1cc2c(o1)CCCC2":    {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: 4},
