@@ -988,6 +988,11 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=NCCc2ccccc21":  "3,4-dihydroisoquinoline",
     "C1=Cc2ccccc2CN1":  "1,2-dihydroisoquinoline",
     "C1=Nc2ccccc2CC1":  "3,4-dihydroquinoline",
+    # Phase 656: 5,6-/7,8-dihydroquinoline and 5,6-/7,8-dihydroisoquinoline (benzene ring partial)
+    "C1=Cc2cccnc2CC1": "7,8-dihydroquinoline",
+    "C1=Cc2ncccc2CC1": "5,6-dihydroquinoline",
+    "C1=Cc2cnccc2CC1": "5,6-dihydroisoquinoline",
+    "C1=Cc2ccncc2CC1": "7,8-dihydroisoquinoline",
     "C1=Nc2ccccc2NC1":  "1,2-dihydroquinoxaline",
     # Phase 653: 1,4-dihydroquinoline, 1,4-dihydroisoquinoline, 1,2,3,4-tetrahydrocinnoline
     "C1=CNc2ccccc2C1": "1,4-dihydroquinoline",
@@ -2029,6 +2034,14 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=NCc2ccccc2C1": {0: 3, 1: None, 2: 1, 3: None, 4: 8, 5: 7, 6: 6, 7: 5, 8: None, 9: 4},
     # Phase 653: 1,2,3,4-tetrahydrocinnoline (N1H sp2; N2H sp3; C3H2, C4H2 sp3; C5-C8 benzo)
     "c1ccc2c(c1)CCNN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
+    # Phase 656: 7,8-dihydroquinoline (C5=C6 sp2; C7,C8 sp3; N1 arom; ring1=pyridine)
+    "C1=Cc2cccnc2CC1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: 2, 6: None, 7: None, 8: 8, 9: 7},
+    # Phase 656: 5,6-dihydroquinoline (C7=C8 sp2; C5,C6 sp3; N1 arom; ring1=pyridine)
+    "C1=Cc2ncccc2CC1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 656: 5,6-dihydroisoquinoline (C7=C8 sp2; C5,C6 sp3; N2 arom; ring1=isoquinoline N-ring)
+    "C1=Cc2cnccc2CC1": {0: 7, 1: 8, 2: None, 3: 1, 4: None, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 656: 7,8-dihydroisoquinoline (C5=C6 sp2; C7,C8 sp3; N2 arom; ring1=isoquinoline N-ring)
+    "C1=Cc2ccncc2CC1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: None, 6: 1, 7: None, 8: 8, 9: 7},
     # Phase 652: 1,2-dihydrocinnoline (N1 sp3 NH adj C8a; N2 sp3 NH; C3=C4 sp2; C5-C8 benzo)
     "C1=Cc2ccccc2NN1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 652: 3,4-dihydrocinnoline (N1=N2 azo sp2; C3,C4 sp3; C5-C8 benzo)
