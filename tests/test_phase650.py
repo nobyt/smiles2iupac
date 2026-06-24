@@ -1,6 +1,6 @@
 """Phase 650: 3,4-dihydro-1,6-naphthyridine, 5,6-dihydro-1,7-naphthyridine,
 1,2-dihydro-1,7-naphthyridine, 3,4-dihydro-1,7-naphthyridine,
-5,6-dihydro-1,8-naphthyridine, 5,6-dihydro-2,7-naphthyridine,
+3,4-dihydro-1,8-naphthyridine, 3,4-dihydro-2,7-naphthyridine,
 1,2-dihydro-2,6-naphthyridine."""
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -40,22 +40,22 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1cncc2c1CCC=N2", "5-methyl-3,4-dihydro-1,7-naphthyridine"),
     ("Cc1cc2c(cn1)N=CCC2", "6-methyl-3,4-dihydro-1,7-naphthyridine"),
     ("Cc1nccc2c1N=CCC2", "8-methyl-3,4-dihydro-1,7-naphthyridine"),
-    # 5,6-dihydro-1,8-naphthyridine (OPSIN-verified; N1 arom → no 1-methyl; N8 sp2 imine → no 8-methyl)
-    ("C1=Nc2ncccc2CC1", "5,6-dihydro-1,8-naphthyridine"),
-    ("Cc1ccc2c(n1)N=CCC2", "2-methyl-5,6-dihydro-1,8-naphthyridine"),
-    ("Cc1cnc2c(c1)CCC=N2", "3-methyl-5,6-dihydro-1,8-naphthyridine"),
-    ("Cc1ccnc2c1CCC=N2", "4-methyl-5,6-dihydro-1,8-naphthyridine"),
-    ("CC1CC=Nc2ncccc21", "5-methyl-5,6-dihydro-1,8-naphthyridine"),
-    ("CC1C=Nc2ncccc2C1", "6-methyl-5,6-dihydro-1,8-naphthyridine"),
-    ("CC1=Nc2ncccc2CC1", "7-methyl-5,6-dihydro-1,8-naphthyridine"),
-    # 5,6-dihydro-2,7-naphthyridine (OPSIN-verified; N2 arom → no 2-methyl; N7 sp2 imine → no 7-methyl)
-    ("C1=NCCc2ccncc21", "5,6-dihydro-2,7-naphthyridine"),
-    ("Cc1nccc2c1C=NCC2", "1-methyl-5,6-dihydro-2,7-naphthyridine"),
-    ("Cc1cc2c(cn1)C=NCC2", "3-methyl-5,6-dihydro-2,7-naphthyridine"),
-    ("Cc1cncc2c1CCN=C2", "4-methyl-5,6-dihydro-2,7-naphthyridine"),
-    ("CC1CN=Cc2cnccc21", "5-methyl-5,6-dihydro-2,7-naphthyridine"),
-    ("CC1Cc2ccncc2C=N1", "6-methyl-5,6-dihydro-2,7-naphthyridine"),
-    ("CC1=NCCc2ccncc21", "8-methyl-5,6-dihydro-2,7-naphthyridine"),
+    # 3,4-dihydro-1,8-naphthyridine (C2-sym rename; N1 arom → no 1-methyl; N8 sp2 imine → no 8-methyl)
+    ("C1=Nc2ncccc2CC1", "3,4-dihydro-1,8-naphthyridine"),
+    ("CC1=Nc2ncccc2CC1", "2-methyl-3,4-dihydro-1,8-naphthyridine"),
+    ("CC1C=Nc2ncccc2C1", "3-methyl-3,4-dihydro-1,8-naphthyridine"),
+    ("CC1CC=Nc2ncccc21", "4-methyl-3,4-dihydro-1,8-naphthyridine"),
+    ("Cc1ccnc2c1CCC=N2", "5-methyl-3,4-dihydro-1,8-naphthyridine"),
+    ("Cc1cnc2c(c1)CCC=N2", "6-methyl-3,4-dihydro-1,8-naphthyridine"),
+    ("Cc1ccc2c(n1)N=CCC2", "7-methyl-3,4-dihydro-1,8-naphthyridine"),
+    # 3,4-dihydro-2,7-naphthyridine (C2-sym rename; N2 arom → no 2-methyl; N7 sp2 imine → no 7-methyl)
+    ("C1=NCCc2ccncc21", "3,4-dihydro-2,7-naphthyridine"),
+    ("CC1=NCCc2ccncc21", "1-methyl-3,4-dihydro-2,7-naphthyridine"),
+    ("CC1Cc2ccncc2C=N1", "3-methyl-3,4-dihydro-2,7-naphthyridine"),
+    ("CC1CN=Cc2cnccc21", "4-methyl-3,4-dihydro-2,7-naphthyridine"),
+    ("Cc1cncc2c1CCN=C2", "5-methyl-3,4-dihydro-2,7-naphthyridine"),
+    ("Cc1cc2c(cn1)C=NCC2", "6-methyl-3,4-dihydro-2,7-naphthyridine"),
+    ("Cc1nccc2c1C=NCC2", "8-methyl-3,4-dihydro-2,7-naphthyridine"),
     # 1,2-dihydro-2,6-naphthyridine (OPSIN-verified; N6 arom → no 6-methyl)
     ("C1=Cc2cnccc2CN1", "1,2-dihydro-2,6-naphthyridine"),
     ("CC1NC=Cc2cnccc21", "1-methyl-1,2-dihydro-2,6-naphthyridine"),
