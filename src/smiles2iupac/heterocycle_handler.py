@@ -1015,6 +1015,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=NCCc2cccnc21": "5,6-dihydro-1,7-naphthyridine",
     "C1=Cc2ccncc2NC1": "1,2-dihydro-1,7-naphthyridine",
     "C1=Nc2cnccc2CC1": "3,4-dihydro-1,7-naphthyridine",
+    # Phase 655: 7,8-dihydro-1,6-naphthyridine (N6 sp2 imine; C7,C8 sp3; N1 arom)
+    "C1=NCCc2ncccc21": "7,8-dihydro-1,6-naphthyridine",
     # Phase 654: 7,8-dihydro-1,7-naphthyridine (N7H sp2 enamine; C8 sp3; N1 arom)
     "C1=Cc2cccnc2CN1": "7,8-dihydro-1,7-naphthyridine",
     "C1=Nc2ncccc2CC1": "3,4-dihydro-1,8-naphthyridine",
@@ -2063,6 +2065,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Nc2cnccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: None, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 654: 7,8-dihydro-1,7-naphthyridine (N7H sp2 enamine adj C6; C8 sp3; N1 arom; C5=C6 in ring1)
     "C1=Cc2cccnc2CN1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: 2, 6: None, 7: None, 8: 8, 9: 7},
+    # Phase 655: 7,8-dihydro-1,6-naphthyridine (C5=N6 imine; C7,C8 sp3; N1 arom; C2-C4 arom ring)
+    "C1=NCCc2ncccc21": {0: 5, 1: None, 2: 7, 3: 8, 4: None, 5: None, 6: 2, 7: 3, 8: 4, 9: None},
     # Phase 650→654: 3,4-dihydro-1,8-naphthyridine (C2-sym of 1,8-naph: locants remapped from 5,6)
     "C1=Nc2ncccc2CC1": {0: 2, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 650→654: 3,4-dihydro-2,7-naphthyridine (C2-sym of 2,7-naph: locants remapped from 5,6)
