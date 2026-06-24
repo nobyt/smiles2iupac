@@ -989,6 +989,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2ccccc2CN1":  "1,2-dihydroisoquinoline",
     "C1=Nc2ccccc2CC1":  "3,4-dihydroquinoline",
     "C1=Nc2ccccc2NC1":  "1,2-dihydroquinoxaline",
+    # Phase 653: 1,4-dihydroquinoline, 1,4-dihydroisoquinoline, 1,2,3,4-tetrahydrocinnoline
+    "C1=CNc2ccccc2C1": "1,4-dihydroquinoline",
+    "C1=NCc2ccccc2C1": "1,4-dihydroisoquinoline",
+    "c1ccc2c(c1)CCNN2": "1,2,3,4-tetrahydrocinnoline",
     # Phase 652: cinnoline dihydros
     "C1=Cc2ccccc2NN1": "1,2-dihydrocinnoline",
     "c1ccc2c(c1)CCN=N2": "3,4-dihydrocinnoline",
@@ -2015,6 +2019,12 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Nc2ccccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 628/648: 1,2-dihydroquinoxaline (N1 sp3 NH; C2 sp3 CH2; N3=C4; C5-C8 benzo)
     "C1=Nc2ccccc2NC1": {0: 3, 1: None, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
+    # Phase 653: 1,4-dihydroquinoline (N1H sp2 enamine; C2=C3 sp2; C4 sp3; C5-C8 benzo)
+    "C1=CNc2ccccc2C1": {0: 2, 1: 3, 2: 1, 3: None, 4: 8, 5: 7, 6: 6, 7: 5, 8: None, 9: 4},
+    # Phase 653: 1,4-dihydroisoquinoline (C3H sp2 imine C; N2 imine no H; C1H2 sp3; C4H2 sp3; C5-C8 benzo)
+    "C1=NCc2ccccc2C1": {0: 3, 1: None, 2: 1, 3: None, 4: 8, 5: 7, 6: 6, 7: 5, 8: None, 9: 4},
+    # Phase 653: 1,2,3,4-tetrahydrocinnoline (N1H sp2; N2H sp3; C3H2, C4H2 sp3; C5-C8 benzo)
+    "c1ccc2c(c1)CCNN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # Phase 652: 1,2-dihydrocinnoline (N1 sp3 NH adj C8a; N2 sp3 NH; C3=C4 sp2; C5-C8 benzo)
     "C1=Cc2ccccc2NN1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 652: 3,4-dihydrocinnoline (N1=N2 azo sp2; C3,C4 sp3; C5-C8 benzo)
