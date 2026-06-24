@@ -993,6 +993,13 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2ncccc2CC1": "5,6-dihydroquinoline",
     "C1=Cc2cnccc2CC1": "5,6-dihydroisoquinoline",
     "C1=Cc2ccncc2CC1": "7,8-dihydroisoquinoline",
+    # Phase 657: 5,6-/7,8-dihydroquinoxaline/quinazoline/phthalazine/cinnoline (benzene ring partial)
+    "C1=Cc2nccnc2CC1": "5,6-dihydroquinoxaline",
+    "C1=Cc2ncncc2CC1": "5,6-dihydroquinazoline",
+    "C1=Cc2cncnc2CC1": "7,8-dihydroquinazoline",
+    "C1=Cc2cnncc2CC1": "5,6-dihydrophthalazine",
+    "C1=Cc2nnccc2CC1": "5,6-dihydrocinnoline",
+    "C1=Cc2ccnnc2CC1": "7,8-dihydrocinnoline",
     "C1=Nc2ccccc2NC1":  "1,2-dihydroquinoxaline",
     # Phase 653: 1,4-dihydroquinoline, 1,4-dihydroisoquinoline, 1,2,3,4-tetrahydrocinnoline
     "C1=CNc2ccccc2C1": "1,4-dihydroquinoline",
@@ -2042,6 +2049,18 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Cc2cnccc2CC1": {0: 7, 1: 8, 2: None, 3: 1, 4: None, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
     # Phase 656: 7,8-dihydroisoquinoline (C5=C6 sp2; C7,C8 sp3; N2 arom; ring1=isoquinoline N-ring)
     "C1=Cc2ccncc2CC1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: None, 6: 1, 7: None, 8: 8, 9: 7},
+    # Phase 657: 5,6-dihydroquinoxaline (N1,N4 arom; C5,C6 sp3; C7=C8 sp2)
+    "C1=Cc2nccnc2CC1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: None, 8: 5, 9: 6},
+    # Phase 657: 5,6-dihydroquinazoline (N1,N3 arom; C5,C6 sp3; C7=C8 sp2)
+    "C1=Cc2ncncc2CC1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: None, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 657: 7,8-dihydroquinazoline (N1,N3 arom; C7,C8 sp3; C5=C6 sp2)
+    "C1=Cc2cncnc2CC1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: 2, 6: None, 7: None, 8: 8, 9: 7},
+    # Phase 657: 5,6-dihydrophthalazine (N2,N3 arom; C5,C6 sp3; C7=C8 sp2)
+    "C1=Cc2cnncc2CC1": {0: 7, 1: 8, 2: None, 3: 1, 4: None, 5: None, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 657: 5,6-dihydrocinnoline (N1,N2 arom; C5,C6 sp3; C7=C8 sp2)
+    "C1=Cc2nnccc2CC1": {0: 7, 1: 8, 2: None, 3: None, 4: None, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 657: 7,8-dihydrocinnoline (N1,N2 arom; C7,C8 sp3; C5=C6 sp2)
+    "C1=Cc2ccnnc2CC1": {0: 6, 1: 5, 2: None, 3: 4, 4: 3, 5: None, 6: None, 7: None, 8: 8, 9: 7},
     # Phase 652: 1,2-dihydrocinnoline (N1 sp3 NH adj C8a; N2 sp3 NH; C3=C4 sp2; C5-C8 benzo)
     "C1=Cc2ccccc2NN1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 652: 3,4-dihydrocinnoline (N1=N2 azo sp2; C3,C4 sp3; C5-C8 benzo)
