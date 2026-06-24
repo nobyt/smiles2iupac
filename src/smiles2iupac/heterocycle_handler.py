@@ -986,6 +986,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)NCCS2": "3,4-dihydro-2H-1,4-benzothiazine",
     # Phase 628: benzo-fused partially unsaturated N-heterocycles (one C=N or C=C remains)
     "C1=NCCc2ccccc21":  "3,4-dihydroisoquinoline",
+    "C1=Cc2ccccc2CN1":  "1,2-dihydroisoquinoline",
     "C1=Nc2ccccc2CC1":  "3,4-dihydroquinoline",
     "C1=Nc2ccccc2NC1":  "1,2-dihydroquinoxaline",
     # Phase 648: 1,2-dihydrophthalazine, 1,2-dihydroquinazoline, 3,4-dihydroquinazoline, 1,2,3,4-tetrahydrophthalazine
@@ -993,6 +994,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=NCNc2ccccc21": "1,2-dihydroquinazoline",
     "C1=Nc2ccccc2CN1": "3,4-dihydroquinazoline",
     "c1ccc2c(c1)CNNC2": "1,2,3,4-tetrahydrophthalazine",
+    # Phase 649: naphthyridine dihydros
+    "C1=Cc2cccnc2NC1": "1,2-dihydronaphthyridine",
+    "C1=Cc2ncccc2CN1": "5,6-dihydro-1,6-naphthyridine",
+    "C1=Cc2cnccc2NC1": "1,2-dihydro-1,6-naphthyridine",
     "C1=Cc2ccccc2NC1":  "1,2-dihydroquinoline",
     # Phase 629: benzo-fused lactams with dihydro prefix
     "O=C1CNc2ccccc2N1": "3,4-dihydroquinoxalin-2(1H)-one",
@@ -1988,6 +1993,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)NCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: None, 7: 3, 8: 2, 9: None},
     # Phase 628: 3,4-dihydroisoquinoline (C1=N2; C3-C4 aliphatic; C5-C8 benzo)
     "C1=NCCc2ccccc21": {0: 1, 1: None, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None},
+    # Phase 649: 1,2-dihydroisoquinoline (N1 sp3 NH; C2 sp3 CH2; C3=C4 sp2; C5-C8 benzo)
+    "C1=Cc2ccccc2CN1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 628: 3,4-dihydroquinoline (N1=C2; C3-C4 aliphatic; C5-C8 benzo)
     "C1=Nc2ccccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 628/648: 1,2-dihydroquinoxaline (N1 sp3 NH; C2 sp3 CH2; N3=C4; C5-C8 benzo)
@@ -2000,6 +2007,12 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Nc2ccccc2CN1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 648: 1,2,3,4-tetrahydrophthalazine (C2-sym: 1=4,2=3,5=8,6=7; N1H/N2H; CH2 at 3,4)
     "c1ccc2c(c1)CNNC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},
+    # Phase 649: 1,2-dihydronaphthyridine (N8 arom; C3=C4 sp2; N1 sp3 NH; C2 sp3 CH2; C5-C7 arom)
+    "C1=Cc2cccnc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: None, 7: None, 8: 1, 9: 2},
+    # Phase 649: 5,6-dihydro-1,6-naphthyridine (N1 arom; C7=C8 sp2; N6 sp3 NH; C5 sp3 CH2; C2-C4 arom)
+    "C1=Cc2ncccc2CN1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 649: 1,2-dihydro-1,6-naphthyridine (N6 arom; C3=C4 sp2; N1 sp3 NH; C2 sp3 CH2; C5,C7,C8 arom)
+    "C1=Cc2cnccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 629: 1,2-dihydroquinoline (N1; C2 sp3; C3=C4 sp2; C4a-C8a benzo junctions)
     "C1=Cc2ccccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},
     # Phase 629: 3,4-dihydroquinoxalin-2(1H)-one (C2=O; C3 sp3; N4; C5-C8 benzo)
