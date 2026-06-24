@@ -998,6 +998,14 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2cccnc2NC1": "1,2-dihydronaphthyridine",
     "C1=Cc2ncccc2CN1": "5,6-dihydro-1,6-naphthyridine",
     "C1=Cc2cnccc2NC1": "1,2-dihydro-1,6-naphthyridine",
+    # Phase 650: more naphthyridine dihydros
+    "C1=Nc2ccncc2CC1": "3,4-dihydro-1,6-naphthyridine",
+    "C1=NCCc2cccnc21": "5,6-dihydro-1,7-naphthyridine",
+    "C1=Cc2ccncc2NC1": "1,2-dihydro-1,7-naphthyridine",
+    "C1=Nc2cnccc2CC1": "3,4-dihydro-1,7-naphthyridine",
+    "C1=Nc2ncccc2CC1": "5,6-dihydro-1,8-naphthyridine",
+    "C1=NCCc2ccncc21": "5,6-dihydro-2,7-naphthyridine",
+    "C1=Cc2cnccc2CN1": "1,2-dihydro-2,6-naphthyridine",
     "C1=Cc2ccccc2NC1":  "1,2-dihydroquinoline",
     # Phase 629: benzo-fused lactams with dihydro prefix
     "O=C1CNc2ccccc2N1": "3,4-dihydroquinoxalin-2(1H)-one",
@@ -2013,6 +2021,20 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Cc2ncccc2CN1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
     # Phase 649: 1,2-dihydro-1,6-naphthyridine (N6 arom; C3=C4 sp2; N1 sp3 NH; C2 sp3 CH2; C5,C7,C8 arom)
     "C1=Cc2cnccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
+    # Phase 650: 3,4-dihydro-1,6-naphthyridine (N1 sp2 imine; N6 arom)
+    "C1=Nc2ccncc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: None, 6: 5, 7: None, 8: 4, 9: 3},
+    # Phase 650: 5,6-dihydro-1,7-naphthyridine (N1 sp2 imine; N7 arom)
+    "C1=NCCc2cccnc21": {0: 8, 1: None, 2: 6, 3: 5, 4: None, 5: 4, 6: 3, 7: 2, 8: None, 9: None},
+    # Phase 650: 1,2-dihydro-1,7-naphthyridine (N7 arom; N1 sp3 NH; C2 sp3 CH2; C3=C4 sp2)
+    "C1=Cc2ccncc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: 8, 7: None, 8: 1, 9: 2},
+    # Phase 650: 3,4-dihydro-1,7-naphthyridine (N1 sp2 imine; N7 arom)
+    "C1=Nc2cnccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: None, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
+    # Phase 650: 5,6-dihydro-1,8-naphthyridine (N1 arom; N8 sp2 imine)
+    "C1=Nc2ncccc2CC1": {0: 7, 1: None, 2: None, 3: None, 4: 2, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
+    # Phase 650: 5,6-dihydro-2,7-naphthyridine (N2 arom; N7 sp2 imine)
+    "C1=NCCc2ccncc21": {0: 8, 1: None, 2: 6, 3: 5, 4: None, 5: 4, 6: 3, 7: None, 8: 1, 9: None},
+    # Phase 650: 1,2-dihydro-2,6-naphthyridine (N6 arom; N2 sp3 NH; C1,C3=C4 sp2/sp3)
+    "C1=Cc2cnccc2CN1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 629: 1,2-dihydroquinoline (N1; C2 sp3; C3=C4 sp2; C4a-C8a benzo junctions)
     "C1=Cc2ccccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},
     # Phase 629: 3,4-dihydroquinoxalin-2(1H)-one (C2=O; C3 sp3; N4; C5-C8 benzo)
