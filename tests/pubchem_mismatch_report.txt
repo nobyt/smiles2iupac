@@ -1,30 +1,23 @@
-PubChem × IUPAC 2013 命名比較レポート — 2026-06-23
-対象化合物数: 1874
+PubChem × IUPAC 2013 命名比較レポート — 2026-06-25
+対象化合物数: 1897
 
 凡例:
-  [PUBCHEM_WRONG]    PubChem 名が IUPAC 2013 非準拠 — 我々の名前が正しい PIN: 148 件
-  [OUR_RETAINED]     我々の名前が IUPAC 2013 保留名 — PubChem 名が優先 IUPAC 名 (PIN): 110 件
+  [PUBCHEM_WRONG]    PubChem 名が IUPAC 2013 非準拠 — 我々の名前が正しい PIN: 146 件
+  [OUR_RETAINED]     我々の名前が IUPAC 2013 保留名 — PubChem 名が優先 IUPAC 名 (PIN): 116 件
   [PUBCHEM_RETAINED] PubChem が保留名を使用 — 我々の名前が系統的 PIN: 7 件
   [BOTH_PIN]         両名前とも有効な PIN: 0 件
   [TAUTOMER]         互変異性体の命名差 — どちらも正当: 31 件
-  [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要: 1578 件
+  [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要: 1597 件
 
 ========================================================================
 
---- [PUBCHEM_WRONG]    PubChem 名が IUPAC 2013 非準拠 — 我々の名前が正しい PIN (148 件) ---
+--- [PUBCHEM_WRONG]    PubChem 名が IUPAC 2013 非準拠 — 我々の名前が正しい PIN (146 件) ---
 
 InChIKey: WMQUKDQWMMOHSA-UHFFFAOYSA-N
 SMILES:   CC(=O)c1ccncc1
 PIN (我々): 1-(pyridin-4-yl)ethan-1-one
 PubChem:    1-pyridin-4-ylethanone  ← 非準拠
 根拠: PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)
-参照: IUPAC 2013 P-16.3.4.1
-
-InChIKey: WEGYGNROSJDEIW-UHFFFAOYSA-N
-SMILES:   CC(=O)c1cccnc1
-PIN (我々): 1-(pyridin-3-yl)ethan-1-one
-PubChem:    1-pyridin-3-ylethanone  ← 非準拠
-根拠: PubChem が 'pyridin-3-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)
 参照: IUPAC 2013 P-16.3.4.1
 
 InChIKey: WYJOVVXUZNRJQY-UHFFFAOYSA-N
@@ -234,13 +227,6 @@ InChIKey: CCCBZXGXGWZIMC-UHFFFAOYSA-N
 SMILES:   OC(=O)CCCOC(=O)c1ccccc1
 PIN (我々): 4-(benzoyloxy)butanoic acid
 PubChem:    4-benzoyloxybutanoic acid  ← 非準拠
-根拠: PubChem が IUPAC 2013 P-16.3.4.1 で必須の括弧を省略している
-参照: IUPAC 2013 P-16.3.4.1
-
-InChIKey: QPSGXYRAHOXLLI-UHFFFAOYSA-N
-SMILES:   OC(=O)COC=O
-PIN (我々): 2-(formyloxy)acetic acid
-PubChem:    2-formyloxyacetic acid  ← 非準拠
 根拠: PubChem が IUPAC 2013 P-16.3.4.1 で必須の括弧を省略している
 参照: IUPAC 2013 P-16.3.4.1
 
@@ -1050,7 +1036,7 @@ PubChem:    8-methyl-3,4-dihydro-1H-quinoxalin-2-one  ← 非準拠
 参照: IUPAC 2013 P-16.3.4.1
 
 
---- [OUR_RETAINED]     我々の名前が IUPAC 2013 保留名 — PubChem 名が優先 IUPAC 名 (PIN) (110 件) ---
+--- [OUR_RETAINED]     我々の名前が IUPAC 2013 保留名 — PubChem 名が優先 IUPAC 名 (PIN) (116 件) ---
 
 InChIKey: GCNTZFIIOFTKIY-UHFFFAOYSA-N
 SMILES:   Oc1ccncc1
@@ -1074,14 +1060,6 @@ SMILES:   Oc1ncccn1
 PIN (PubChem): 1H-pyrimidin-2-one
 IUPAC PIN:     1H-pyrimidin-2-one
 根拠: 'pyrimidin-2-ol' はエノール互変異性体形の名前 (保留形)。IUPAC 2013 PIN はより安定なケト形 '1H-pyrimidin-2-one'
-参照: IUPAC 2013 P-31.1.3
-
-InChIKey: YBDRFJXGJQULGH-UHFFFAOYSA-N
-SMILES:   Cc1ccnc(O)c1
-保留名 (我々): 4-methylpyridin-2-ol
-PIN (PubChem): 4-methyl-1H-pyridin-2-one
-IUPAC PIN:     4-methyl-1H-pyridin-2-one
-根拠: '4-methylpyridin-2-ol' はエノール形の名前 (保留形)。IUPAC 2013 PIN はケト形 '4-methyl-1H-pyridin-2-one'
 参照: IUPAC 2013 P-31.1.3
 
 InChIKey: ZUOUZKKEUPVFJK-UHFFFAOYSA-N
@@ -1268,14 +1246,6 @@ IUPAC PIN:     10H-phenothiazine
 根拠: 'phenothiazine' は IUPAC 2013 保留名。PIN は '10H-phenothiazine'
 参照: IUPAC 2013 P-31.1.3
 
-InChIKey: QNAYBMKLOCPYGJ-REOHCLBHSA-N
-SMILES:   N[C@@H](C)C(=O)O
-保留名 (我々): L-alanine
-PIN (PubChem): (2S)-2-aminopropanoic acid
-IUPAC PIN:     (2S)-2-aminopropanoic acid
-根拠: L-/D- アミノ酸名は IUPAC 2013 保留表記。PubChem は (R/S) を用いた系統的 PIN '(2S)-2-aminopropanoic acid' を使用
-参照: IUPAC 2013 P-102.4
-
 InChIKey: QNAYBMKLOCPYGJ-UWTATZPHSA-N
 SMILES:   N[C@H](C)C(=O)O
 保留名 (我々): D-alanine
@@ -1306,14 +1276,6 @@ SMILES:   N[C@@H](CC(C)C)C(=O)O
 PIN (PubChem): (2S)-2-amino-4-methylpentanoic acid
 IUPAC PIN:     (2S)-2-amino-4-methylpentanoic acid
 根拠: L-/D- アミノ酸名は IUPAC 2013 保留表記。PubChem は (R/S) を用いた系統的 PIN '(2S)-2-amino-4-methylpentanoic acid' を使用
-参照: IUPAC 2013 P-102.4
-
-InChIKey: AGPKZVBTJJNPAG-WHFBIAKZSA-N
-SMILES:   N[C@@H]([C@@H](C)CC)C(=O)O
-保留名 (我々): L-isoleucine
-PIN (PubChem): (2S,3S)-2-amino-3-methylpentanoic acid
-IUPAC PIN:     (2S,3S)-2-amino-3-methylpentanoic acid
-根拠: L-/D- アミノ酸名は IUPAC 2013 保留表記。PubChem は (R/S) を用いた系統的 PIN '(2S,3S)-2-amino-3-methylpentanoic acid' を使用
 参照: IUPAC 2013 P-102.4
 
 InChIKey: ONIBWKKTOPOVIA-BYPYZUCNSA-N
@@ -1932,6 +1894,78 @@ IUPAC PIN:     7H-benzo[c]fluorene
 根拠: 我々の名前が保留親骨格 'fluorene' を使用。PubChem は系統的 PIN '7H-benzo[c]fluorene' を使用
 参照: IUPAC 2013 P-31.1.3
 
+InChIKey: QRWRJDVVXAXGBT-UHFFFAOYSA-N
+SMILES:   CC1Cc2ccccc2N1
+保留名 (我々): 2-methylindoline
+PIN (PubChem): 2-methyl-2,3-dihydro-1H-indole
+IUPAC PIN:     2-methyl-2,3-dihydro-1H-indole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '2-methyl-2,3-dihydro-1H-indole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: BFQARNDIMKOOQQ-UHFFFAOYSA-N
+SMILES:   CC1CNc2ccccc21
+保留名 (我々): 3-methylindoline
+PIN (PubChem): 3-methyl-2,3-dihydro-1H-indole
+IUPAC PIN:     3-methyl-2,3-dihydro-1H-indole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '3-methyl-2,3-dihydro-1H-indole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: BSRIUSPUGCAPHE-UHFFFAOYSA-N
+SMILES:   Cc1cccc2c1CCN2
+保留名 (我々): 4-methylindoline
+PIN (PubChem): 4-methyl-2,3-dihydro-1H-indole
+IUPAC PIN:     4-methyl-2,3-dihydro-1H-indole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '4-methyl-2,3-dihydro-1H-indole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: WHPDSANSNOUOLZ-UHFFFAOYSA-N
+SMILES:   Cc1cccc2c1NCC2
+保留名 (我々): 7-methylindoline
+PIN (PubChem): 7-methyl-2,3-dihydro-1H-indole
+IUPAC PIN:     7-methyl-2,3-dihydro-1H-indole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '7-methyl-2,3-dihydro-1H-indole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: GWVMLCQWXVFZCN-UHFFFAOYSA-N
+SMILES:   c1ccc2c(c1)CNC2
+保留名 (我々): isoindoline
+PIN (PubChem): 2,3-dihydro-1H-isoindole
+IUPAC PIN:     2,3-dihydro-1H-isoindole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '2,3-dihydro-1H-isoindole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: UWMCJDIBDVFVFT-UHFFFAOYSA-N
+SMILES:   CC1NCc2ccccc21
+保留名 (我々): 1-methylisoindoline
+PIN (PubChem): 1-methyl-2,3-dihydro-1H-isoindole
+IUPAC PIN:     1-methyl-2,3-dihydro-1H-isoindole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '1-methyl-2,3-dihydro-1H-isoindole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: AXIIEOPSQHRYCU-UHFFFAOYSA-N
+SMILES:   CN1Cc2ccccc2C1
+保留名 (我々): 2-methylisoindoline
+PIN (PubChem): 2-methyl-1,3-dihydroisoindole
+IUPAC PIN:     2-methyl-1,3-dihydroisoindole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '2-methyl-1,3-dihydroisoindole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: YHZHWSFPHDXYBS-UHFFFAOYSA-N
+SMILES:   Cc1cccc2c1CNC2
+保留名 (我々): 4-methylisoindoline
+PIN (PubChem): 4-methyl-2,3-dihydro-1H-isoindole
+IUPAC PIN:     4-methyl-2,3-dihydro-1H-isoindole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '4-methyl-2,3-dihydro-1H-isoindole' を使用
+参照: IUPAC 2013 P-31.1.3
+
+InChIKey: TZMYQGXSTSSHQV-UHFFFAOYSA-N
+SMILES:   Cc1ccc2c(c1)CNC2
+保留名 (我々): 5-methylisoindoline
+PIN (PubChem): 5-methyl-2,3-dihydro-1H-isoindole
+IUPAC PIN:     5-methyl-2,3-dihydro-1H-isoindole
+根拠: 我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '5-methyl-2,3-dihydro-1H-isoindole' を使用
+参照: IUPAC 2013 P-31.1.3
+
 
 --- [PUBCHEM_RETAINED] PubChem が保留名を使用 — 我々の名前が系統的 PIN (7 件) ---
 
@@ -2205,7 +2239,7 @@ PubChem 名:    3-methyl-4,5,6,7-tetrahydro-2H-indazole
 参照: IUPAC 2013 P-31.1.3
 
 
---- [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要 (1578 件) ---
+--- [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要 (1597 件) ---
 
 InChIKey: DANMQSWQAGVFKV-UHFFFAOYSA-N
 SMILES:   Oc1ccc(-c2ccncc2)cc1
@@ -2421,12 +2455,6 @@ InChIKey: VYHVQEYOFIYNJP-UHFFFAOYSA-N
 SMILES:   CSC#N
 我々の名前: thiocyanatomethane
 PubChem 名: methyl thiocyanate
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: JYQQWQJCEUMXQZ-UHFFFAOYSA-N
-SMILES:   COC#N
-我々の名前: cyanatomethane
-PubChem 名: methyl cyanate
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: IANQTJSKSUMEQM-UHFFFAOYSA-N
@@ -4217,12 +4245,6 @@ SMILES:   NNC(=O)NN
 PubChem 名: 1,3-diaminourea
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: XOGYFQCFETUUQV-UHFFFAOYSA-N
-SMILES:   [Te]=CN
-我々の名前: methaneteluramide
-PubChem 名: methanimidotelluroic acid
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: KIQKWYUGPPFMBV-UHFFFAOYSA-N
 SMILES:   O=C=NCN=C=O
 我々の名前: 1,1-diisocyanatomethane
@@ -5243,12 +5265,6 @@ SMILES:   CC1CN(C)CCN1
 PubChem 名: 1,3-dimethylpiperazine
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: MCMBEBOHGREEOP-UHFFFAOYSA-N
-SMILES:   CCNC(=N)NCC
-我々の名前: N,N'-diethylguanidine
-PubChem 名: 1,2-diethylguanidine
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: DEOIEELDLIWVGF-UHFFFAOYSA-N
 SMILES:   CNC(=N)NCC
 我々の名前: N-ethyl-N'-methylguanidine
@@ -5427,12 +5443,6 @@ InChIKey: RSQUAQMIGSMNNE-UHFFFAOYSA-N
 SMILES:   CN1C(=O)Cc2ccccc21
 我々の名前: 1-methylindolin-2-one
 PubChem 名: 1-methyl-3H-indol-2-one
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: GRDNENMVSPDQBD-UHFFFAOYSA-N
-SMILES:   CN1C(=O)CCc2ccccc21
-我々の名前: 1-methyl-3,4-dihydroquinolin-2(1H)-one
-PubChem 名: 1-methyl-3,4-dihydroquinolin-2-one
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: YMZLDAJXSRSNHM-UHFFFAOYSA-N
@@ -5873,12 +5883,6 @@ SMILES:   c1cc2ncoc2cn1
 PubChem 名: [1,3]oxazolo[5,4-c]pyridine
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: KNYHISBJRQVMAZ-UHFFFAOYSA-N
-SMILES:   c1cc2c[nH]nc2cn1
-我々の名前: 1H-pyrazolo[3,4-c]pyridine
-PubChem 名: 1H-pyrazolo[5,4-c]pyridine
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: VHQVCXSOAGLPRG-UHFFFAOYSA-N
 SMILES:   c1cc2c[nH]nc2nn1
 我々の名前: 1H-pyrazolo[3,4-c]pyridazine
@@ -6093,12 +6097,6 @@ InChIKey: HUROIDUMDXPPBG-UHFFFAOYSA-N
 SMILES:   c1cnc2sncc2n1
 我々の名前: isothiazolo[4,5-e]pyrazine
 PubChem 名: [1,2]thiazolo[4,5-b]pyrazine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: MBKUOPNOYAVQPZ-UHFFFAOYSA-N
-SMILES:   c1cnc2nscc2n1
-我々の名前: isothiazolo[3,4-e]pyrazine
-PubChem 名: [1,2]thiazolo[3,4-b]pyrazine
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: RVKNSWDZQDXTPZ-UHFFFAOYSA-N
@@ -9443,12 +9441,6 @@ SMILES:   Cc1nncc2cnoc12
 PubChem 名: 7-methyl-[1,2]oxazolo[4,5-d]pyridazine
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: ZYTOPRMHXCTSRZ-UHFFFAOYSA-N
-SMILES:   Cc1noc2cnncc12
-我々の名前: 3-methylisoxazolo[5,4-d]pyridazine
-PubChem 名: 3-methyl-[1,2]oxazolo[4,5-d]pyridazine
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: BKTGDWWUNYMGIE-UHFFFAOYSA-N
 SMILES:   Cc1nncc2nocc12
 我々の名前: 4-methylisoxazolo[3,4-d]pyridazine
@@ -10619,52 +10611,10 @@ SMILES:   Cc1cccc2c1SCC2
 PubChem 名: 7-methyl-2,3-dihydro-1-benzothiophene
 → IUPAC 2013 規則による手動確認が必要
 
-InChIKey: XXBQLHATYQHJQC-UHFFFAOYSA-N
-SMILES:   C1=Nc2ccccc2NC1
-我々の名前: 3,4-dihydroquinoxaline
-PubChem 名: 1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
 InChIKey: MJCYUVOCINOVJH-UHFFFAOYSA-N
 SMILES:   CC1COc2ccccc2O1
 我々の名前: 2-methyl-2,3-dihydro-1,4-benzodioxine
 PubChem 名: 3-methyl-2,3-dihydro-1,4-benzodioxine
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: GQTNTBNGKPFZOF-UHFFFAOYSA-N
-SMILES:   CC1=Nc2ccccc2NC1
-我々の名前: 2-methyl-3,4-dihydroquinoxaline
-PubChem 名: 3-methyl-1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: XTVKOSWJPLKWLG-UHFFFAOYSA-N
-SMILES:   CC1C=Nc2ccccc2N1
-我々の名前: 3-methyl-3,4-dihydroquinoxaline
-PubChem 名: 2-methyl-1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: DLTNDIWKNBKENR-UHFFFAOYSA-N
-SMILES:   Cc1cccc2c1NCC=N2
-我々の名前: 5-methyl-3,4-dihydroquinoxaline
-PubChem 名: 8-methyl-1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: UENOQRWCRDQCAK-UHFFFAOYSA-N
-SMILES:   Cc1ccc2c(c1)NCC=N2
-我々の名前: 6-methyl-3,4-dihydroquinoxaline
-PubChem 名: 7-methyl-1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: GQNMDPZTTGRTLO-UHFFFAOYSA-N
-SMILES:   Cc1ccc2c(c1)N=CCN2
-我々の名前: 7-methyl-3,4-dihydroquinoxaline
-PubChem 名: 6-methyl-1,2-dihydroquinoxaline
-→ IUPAC 2013 規則による手動確認が必要
-
-InChIKey: HFKBOTODGBDLLI-UHFFFAOYSA-N
-SMILES:   Cc1cccc2c1N=CCN2
-我々の名前: 8-methyl-3,4-dihydroquinoxaline
-PubChem 名: 5-methyl-1,2-dihydroquinoxaline
 → IUPAC 2013 規則による手動確認が必要
 
 InChIKey: CSIOOUSJMRKIAQ-UHFFFAOYSA-N
@@ -11673,5 +11623,203 @@ InChIKey: CHRZLZISODHLLP-UHFFFAOYSA-N
 SMILES:   CN1Cc2ccccc2-c2ccccc21
 我々の名前: 5-methyl-5,6-dihydrophenanthridine
 PubChem 名: 5-methyl-6H-phenanthridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: PGNVDPLTZJRXSX-UHFFFAOYSA-N
+SMILES:   CN1CCc2c(ccc3ccccc23)C1
+我々の名前: 3-methyl-1,2,3,4-tetrahydrobenzo[f]isoquinoline
+PubChem 名: 3-methyl-2,4-dihydro-1H-benzo[f]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: JZYHSYTYXAZCOX-UHFFFAOYSA-N
+SMILES:   CN1CCc2cc3ccccc3cc2C1
+我々の名前: 2-methyl-1,2,3,4-tetrahydrobenzo[g]isoquinoline
+PubChem 名: 2-methyl-3,4-dihydro-1H-benzo[g]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: GUOPGLQLIYQSKS-UHFFFAOYSA-N
+SMILES:   CN1CCc2ccc3ccccc3c2C1
+我々の名前: 2-methyl-1,2,3,4-tetrahydrobenzo[h]isoquinoline
+PubChem 名: 2-methyl-3,4-dihydro-1H-benzo[h]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: OXURDLTXTPIEBL-UHFFFAOYSA-N
+SMILES:   C1=Cc2cccc3c2C(C1)CNC3
+我々の名前: 1,2,3,4-tetrahydrobenzo[de]isoquinoline
+PubChem 名: 2,3,3a,4-tetrahydro-1H-benzo[de]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: HHTWREFCJASHLK-UHFFFAOYSA-N
+SMILES:   CN1Cc2cccc3c2C(CC=C3)C1
+我々の名前: 2-methyl-1,2,3,4-tetrahydrobenzo[de]isoquinoline
+PubChem 名: 2-methyl-1,3,3a,4-tetrahydrobenzo[de]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: XTJZZAYMQSRRLB-UHFFFAOYSA-N
+SMILES:   CC1C=Cc2cccc3c2C1CNC3
+我々の名前: 4-methyl-1,2,3,4-tetrahydrobenzo[de]isoquinoline
+PubChem 名: 4-methyl-2,3,3a,4-tetrahydro-1H-benzo[de]isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: GOGJMPAWMKNPSJ-UHFFFAOYSA-N
+SMILES:   CN1CC=Nc2ccccc21
+我々の名前: 1-methyl-1,2-dihydroquinoxaline
+PubChem 名: 1-methyl-2H-quinoxaline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: YISKQGXPHIESAR-UHFFFAOYSA-N
+SMILES:   CN1Cc2ccccc2C=N1
+我々の名前: 2-methyl-1,2-dihydrophthalazine
+PubChem 名: 2-methyl-1H-phthalazine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: ZSMCRLMRNSQVRO-UHFFFAOYSA-N
+SMILES:   CN1CN=Cc2ccccc21
+我々の名前: 1-methyl-1,2-dihydroquinazoline
+PubChem 名: 1-methyl-2H-quinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: LGACUMPRRMLUFZ-UHFFFAOYSA-N
+SMILES:   C1=Nc2ccccc2CN1
+我々の名前: 3,4-dihydroquinazoline
+PubChem 名: 1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: OMXVPPKIGHREJO-UHFFFAOYSA-N
+SMILES:   CC1=Nc2ccccc2CN1
+我々の名前: 2-methyl-3,4-dihydroquinazoline
+PubChem 名: 2-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: VAUUKUSVLIDODG-UHFFFAOYSA-N
+SMILES:   CN1C=Nc2ccccc2C1
+我々の名前: 3-methyl-3,4-dihydroquinazoline
+PubChem 名: 3-methyl-4H-quinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: MIEIUAXMZHUVFO-UHFFFAOYSA-N
+SMILES:   CC1NC=Nc2ccccc21
+我々の名前: 4-methyl-3,4-dihydroquinazoline
+PubChem 名: 4-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: FQGKYHLCPWLTLH-UHFFFAOYSA-N
+SMILES:   Cc1cccc2c1CNC=N2
+我々の名前: 5-methyl-3,4-dihydroquinazoline
+PubChem 名: 5-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: IABWOGLOHAEUJL-UHFFFAOYSA-N
+SMILES:   Cc1ccc2c(c1)CNC=N2
+我々の名前: 6-methyl-3,4-dihydroquinazoline
+PubChem 名: 6-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: DVCOBAMRXDGBGR-UHFFFAOYSA-N
+SMILES:   Cc1ccc2c(c1)N=CNC2
+我々の名前: 7-methyl-3,4-dihydroquinazoline
+PubChem 名: 7-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: BPAUFXQKRYSLEO-UHFFFAOYSA-N
+SMILES:   Cc1cccc2c1N=CNC2
+我々の名前: 8-methyl-3,4-dihydroquinazoline
+PubChem 名: 8-methyl-1,4-dihydroquinazoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: WGNWUNYXVSAESD-UHFFFAOYSA-N
+SMILES:   CN1Cc2ccccc2CN1
+我々の名前: 2-methyl-1,2,3,4-tetrahydrophthalazine
+PubChem 名: 3-methyl-2,4-dihydro-1H-phthalazine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: AKIKYWSEBGSZBD-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2ccccc2C1
+我々の名前: 2-methyl-1,2-dihydroisoquinoline
+PubChem 名: 2-methyl-1H-isoquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: CLGQVEFLGVGHPQ-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2ncccc2C1
+我々の名前: 6-methyl-5,6-dihydro-1,6-naphthyridine
+PubChem 名: 6-methyl-5H-1,6-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: ULLLSYCXUGESRW-UHFFFAOYSA-N
+SMILES:   CN1CC=Cc2cnccc21
+我々の名前: 1-methyl-1,2-dihydro-1,6-naphthyridine
+PubChem 名: 1-methyl-2H-1,6-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: LGFIKPIZFOFRQI-UHFFFAOYSA-N
+SMILES:   CN1CC=Cc2ccncc21
+我々の名前: 1-methyl-1,2-dihydro-1,7-naphthyridine
+PubChem 名: 1-methyl-2H-1,7-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: RFEWIKSHZCCZOK-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2cnccc2C1
+我々の名前: 2-methyl-1,2-dihydro-2,6-naphthyridine
+PubChem 名: 2-methyl-1H-2,6-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: SQYDXURXBCWLHJ-UHFFFAOYSA-N
+SMILES:   CN1CC=Cc2ncccc21
+我々の名前: 1-methyl-1,2-dihydro-1,5-naphthyridine
+PubChem 名: 1-methyl-2H-1,5-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: VACDOKSLNIKTMV-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2ccncc2C1
+我々の名前: 2-methyl-1,2-dihydro-2,7-naphthyridine
+PubChem 名: 2-methyl-1H-2,7-naphthyridine
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: KFAUTEYOADKVOS-UHFFFAOYSA-N
+SMILES:   CN1NC=Cc2ccccc21
+我々の名前: 1-methyl-1,2-dihydrocinnoline
+PubChem 名: 1-methyl-2H-cinnoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: IKKFHQZELRAECH-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2ccccc2N1
+我々の名前: 2-methyl-1,2-dihydrocinnoline
+PubChem 名: 2-methyl-1H-cinnoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: IYXNNGRYVMRROG-UHFFFAOYSA-N
+SMILES:   CN1C=CCc2ccccc21
+我々の名前: 1-methyl-1,4-dihydroquinoline
+PubChem 名: 1-methyl-4H-quinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: DOTHIPKATDTRSP-UHFFFAOYSA-N
+SMILES:   CC1=CNc2ccccc2C1
+我々の名前: 2-methyl-1,4-dihydroquinoline
+PubChem 名: 3-methyl-1,4-dihydroquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: YYAHRQLKMNJXBN-UHFFFAOYSA-N
+SMILES:   CC1=CCc2ccccc2N1
+我々の名前: 3-methyl-1,4-dihydroquinoline
+PubChem 名: 2-methyl-1,4-dihydroquinoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: BOXONJFVXIVZGL-UHFFFAOYSA-N
+SMILES:   CN1NCCc2ccccc21
+我々の名前: 1-methyl-1,2,3,4-tetrahydrocinnoline
+PubChem 名: 1-methyl-3,4-dihydro-2H-cinnoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: CBYWLZYRHPBBIX-UHFFFAOYSA-N
+SMILES:   CN1CCc2ccccc2N1
+我々の名前: 2-methyl-1,2,3,4-tetrahydrocinnoline
+PubChem 名: 2-methyl-3,4-dihydro-1H-cinnoline
+→ IUPAC 2013 規則による手動確認が必要
+
+InChIKey: IFAYSBGKAGBVNT-UHFFFAOYSA-N
+SMILES:   CN1C=Cc2cccnc2C1
+我々の名前: 7-methyl-7,8-dihydro-1,7-naphthyridine
+PubChem 名: 7-methyl-8H-1,7-naphthyridine
 → IUPAC 2013 規則による手動確認が必要
 

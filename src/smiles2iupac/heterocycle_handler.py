@@ -1014,7 +1014,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Nc2ccccc2CN1": "3,4-dihydroquinazoline",
     "c1ccc2c(c1)CNNC2": "1,2,3,4-tetrahydrophthalazine",
     # Phase 649: naphthyridine dihydros
-    "C1=Cc2cccnc2NC1": "1,2-dihydronaphthyridine",
+    "C1=Cc2cccnc2NC1": "1,2-dihydro-1,8-naphthyridine",
     "C1=Cc2ncccc2CN1": "5,6-dihydro-1,6-naphthyridine",
     "C1=Cc2cnccc2NC1": "1,2-dihydro-1,6-naphthyridine",
     # Phase 651: 1,5-naphthyridine dihydros + 2,6 and 2,7 variants
@@ -2033,7 +2033,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Cc2ccccc2CN1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 628: 3,4-dihydroquinoline (N1=C2; C3-C4 aliphatic; C5-C8 benzo)
     "C1=Nc2ccccc2CC1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
-    # Phase 628/648: 1,2-dihydroquinoxaline (N1 sp3 NH; C2 sp3 CH2; N3=C4; C5-C8 benzo)
+    # Phase 628/648: 1,2-dihydroquinoxaline (N1H sp3; C2H2 sp3; C3=N4 sp2 imine; C5-C8 benzo)
     "C1=Nc2ccccc2NC1": {0: 3, 1: None, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 653: 1,4-dihydroquinoline (N1H sp2 enamine; C2=C3 sp2; C4 sp3; C5-C8 benzo)
     "C1=CNc2ccccc2C1": {0: 2, 1: 3, 2: 1, 3: None, 4: 8, 5: 7, 6: 6, 7: 5, 8: None, 9: 4},
@@ -2073,7 +2073,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "C1=Nc2ccccc2CN1": {0: 2, 1: None, 2: None, 3: 8, 4: 7, 5: 6, 6: 5, 7: None, 8: 4, 9: 3},
     # Phase 648: 1,2,3,4-tetrahydrophthalazine (C2-sym: 1=4,2=3,5=8,6=7; N1H/N2H; CH2 at 3,4)
     "c1ccc2c(c1)CNNC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},
-    # Phase 649: 1,2-dihydronaphthyridine (N8 arom; C3=C4 sp2; N1 sp3 NH; C2 sp3 CH2; C5-C7 arom)
+    # Phase 649/658: 1,2-dihydro-1,8-naphthyridine (N8 arom; C3=C4 sp2; N1 sp3 NH; C2 sp3 CH2; C5-C7 arom)
     "C1=Cc2cccnc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: None, 7: None, 8: 1, 9: 2},
     # Phase 649: 5,6-dihydro-1,6-naphthyridine (N1 arom; C7=C8 sp2; N6 sp3 NH; C5 sp3 CH2; C2-C4 arom)
     "C1=Cc2ncccc2CN1": {0: 7, 1: 8, 2: None, 3: None, 4: 2, 5: 3, 6: 4, 7: None, 8: 5, 9: 6},
@@ -3021,6 +3021,25 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     # Non-ring neighbors of ring atoms are substituents
     from .molecule_analyzer import get_atom
     from .substituent import name_substituent
+
+    # Phase 405: isoindoline + 2 exo C=O at C1/C3 → isoindole-1,3(2H)-dione
+    if base_name == "isoindoline" and len(_exo_co_o_407) == 2:
+        _n_base_405 = next(
+            (bi for bi, loc in locant_map_def.items() if loc == 2), None
+        )
+        if _n_base_405 is not None:
+            _n_rdkit_405 = match[_n_base_405]
+            _ring_set_405 = set(match)
+            _subs_405: list[tuple[int, str]] = []
+            for _nb_405 in graph.adjacency[_n_rdkit_405]:
+                if _nb_405 in _ring_set_405:
+                    continue
+                if get_atom(graph, _nb_405).symbol == "H":
+                    continue
+                _subs_405.append((2, name_substituent(graph, _nb_405, _ring_set_405)))
+            if not _subs_405:
+                return "isoindole-1,3(2H)-dione"
+            return _format_substituents("isoindole-1,3(2H)-dione", _subs_405)
 
     ring_set = set(all_ring_atoms)
     substituents: list[tuple[int, str]] = []

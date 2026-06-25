@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2c(c1)NCCS2",  "3,4-dihydro-2H-1,4-benzothiazine"),
     ("C1=NCCc2ccccc21",   "3,4-dihydroisoquinoline"),
     ("C1=Nc2ccccc2CC1",   "3,4-dihydroquinoline"),
-    ("C1=Nc2ccccc2NC1",   "3,4-dihydroquinoxaline"),
+    ("C1=Nc2ccccc2NC1",   "1,2-dihydroquinoxaline"),
     # 1,2-dihydronaphthalene: positions 1–8
     ("CC1CC=Cc2ccccc21",  "1-methyl-1,2-dihydronaphthalene"),
     ("CC1C=Cc2ccccc2C1",  "2-methyl-1,2-dihydronaphthalene"),
@@ -57,13 +57,13 @@ from smiles2iupac import smiles_to_iupac
     ("CC1CC=Nc2ccccc21",  "4-methyl-3,4-dihydroquinoline"),
     ("Cc1cccc2c1CCC=N2",  "5-methyl-3,4-dihydroquinoline"),
     ("Cc1cccc2c1N=CCC2",  "8-methyl-3,4-dihydroquinoline"),
-    # 3,4-dihydroquinoxaline: positions 2, 3, 5–8
-    ("CC1=Nc2ccccc2NC1",  "2-methyl-3,4-dihydroquinoxaline"),
-    ("CC1C=Nc2ccccc2N1",  "3-methyl-3,4-dihydroquinoxaline"),
-    ("Cc1cccc2c1NCC=N2",  "5-methyl-3,4-dihydroquinoxaline"),
-    ("Cc1ccc2c(c1)NCC=N2", "6-methyl-3,4-dihydroquinoxaline"),
-    ("Cc1ccc2c(c1)N=CCN2", "7-methyl-3,4-dihydroquinoxaline"),
-    ("Cc1cccc2c1N=CCN2",  "8-methyl-3,4-dihydroquinoxaline"),
+    # 1,2-dihydroquinoxaline methyls (IUPAC lowest locants: 1,2 < 3,4): positions 2, 3, 5–8
+    ("CC1=Nc2ccccc2NC1",  "3-methyl-1,2-dihydroquinoxaline"),
+    ("CC1C=Nc2ccccc2N1",  "2-methyl-1,2-dihydroquinoxaline"),
+    ("Cc1cccc2c1NCC=N2",  "8-methyl-1,2-dihydroquinoxaline"),
+    ("Cc1ccc2c(c1)NCC=N2", "7-methyl-1,2-dihydroquinoxaline"),
+    ("Cc1ccc2c(c1)N=CCN2", "6-methyl-1,2-dihydroquinoxaline"),
+    ("Cc1cccc2c1N=CCN2",  "5-methyl-1,2-dihydroquinoxaline"),
 ])
 def test_phase628_partially_saturated_benzo_fused(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
