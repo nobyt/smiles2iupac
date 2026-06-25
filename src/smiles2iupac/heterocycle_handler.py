@@ -3024,22 +3024,22 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
 
     # Phase 405: isoindoline + 2 exo C=O at C1/C3 → isoindole-1,3(2H)-dione
     if base_name == "isoindoline" and len(_exo_co_o_407) == 2:
-        _n_base_405 = next(
-            (bi for bi, loc in locant_map_def.items() if loc == 2), None
-        )
-        if _n_base_405 is not None:
-            _n_rdkit_405 = match[_n_base_405]
-            _ring_set_405 = set(match)
-            _subs_405: list[tuple[int, str]] = []
-            for _nb_405 in graph.adjacency[_n_rdkit_405]:
-                if _nb_405 in _ring_set_405:
+        _ring_set_405 = set(match)
+        _excl_nbr_405 = _ring_set_405 | _exo_co_o_407
+        _subs_405: list[tuple[int, str]] = []
+        for _bi_405, _loc_405 in locant_map_def.items():
+            if _loc_405 is None or _loc_405 == 1:  # junctions or C=O carbons
+                continue
+            _ri_405 = match[_bi_405]
+            for _nb_405 in graph.adjacency[_ri_405]:
+                if _nb_405 in _excl_nbr_405:
                     continue
                 if get_atom(graph, _nb_405).symbol == "H":
                     continue
-                _subs_405.append((2, name_substituent(graph, _nb_405, _ring_set_405)))
-            if not _subs_405:
-                return "isoindole-1,3(2H)-dione"
-            return _format_substituents("isoindole-1,3(2H)-dione", _subs_405)
+                _subs_405.append((_loc_405, name_substituent(graph, _nb_405, _ring_set_405)))
+        if not _subs_405:
+            return "isoindole-1,3(2H)-dione"
+        return _format_substituents("isoindole-1,3(2H)-dione", _subs_405)
 
     ring_set = set(all_ring_atoms)
     substituents: list[tuple[int, str]] = []
