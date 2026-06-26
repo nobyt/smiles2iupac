@@ -1,0 +1,49 @@
+"""Phase 695: methyl derivatives of benzo[b][1,5/1,6/1,7/1,8]naphthyridine."""
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    # benzo[b][1,7]naphthyridine (N at 2,10; positions 1, 3-9 are CH)
+    ("c1ccc2nc3cnccc3cc2c1",           "benzo[b][1,7]naphthyridine"),
+    ("Cc1nccc2cc3ccccc3nc12",          "1-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1cc2cc3ccccc3nc2cn1",          "3-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1cncc2nc3ccccc3cc12",          "4-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1c2ccccc2nc2cnccc12",          "5-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1cccc2nc3cnccc3cc12",          "6-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1ccc2nc3cnccc3cc2c1",          "7-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1ccc2cc3ccncc3nc2c1",          "8-methylbenzo[b][1,7]naphthyridine"),
+    ("Cc1cccc2cc3ccncc3nc12",          "9-methylbenzo[b][1,7]naphthyridine"),
+    # benzo[b][1,8]naphthyridine (N at 1,10; positions 2-9 are CH)
+    ("c1ccc2nc3ncccc3cc2c1",           "benzo[b][1,8]naphthyridine"),
+    ("Cc1ccc2cc3ccccc3nc2n1",          "2-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1cnc2nc3ccccc3cc2c1",          "3-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1ccnc2nc3ccccc3cc12",          "4-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1c2ccccc2nc2ncccc12",          "5-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1cccc2nc3ncccc3cc12",          "6-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1ccc2nc3ncccc3cc2c1",          "7-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1ccc2cc3cccnc3nc2c1",          "8-methylbenzo[b][1,8]naphthyridine"),
+    ("Cc1cccc2cc3cccnc3nc12",          "9-methylbenzo[b][1,8]naphthyridine"),
+    # benzo[b][1,5]naphthyridine (N at 1,5; positions 2-4, 6-10 are CH)
+    ("c1ccc2nc3cccnc3cc2c1",           "benzo[b][1,5]naphthyridine"),
+    ("Cc1ccc2nc3ccccc3cc2n1",          "2-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1cnc2cc3ccccc3nc2c1",          "3-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1ccnc2cc3ccccc3nc12",          "4-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1cccc2cc3ncccc3nc12",          "6-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1ccc2cc3ncccc3nc2c1",          "7-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1ccc2nc3cccnc3cc2c1",          "8-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1cccc2nc3cccnc3cc12",          "9-methylbenzo[b][1,5]naphthyridine"),
+    ("Cc1c2ccccc2nc2cccnc12",          "10-methylbenzo[b][1,5]naphthyridine"),
+    # benzo[b][1,6]naphthyridine (N at 2,5; positions 1, 3-4, 6-10 are CH)
+    ("c1ccc2nc3ccncc3cc2c1",           "benzo[b][1,6]naphthyridine"),
+    ("Cc1nccc2nc3ccccc3cc12",          "1-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1cc2nc3ccccc3cc2cn1",          "3-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1cncc2cc3ccccc3nc12",          "4-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1cccc2cc3cnccc3nc12",          "6-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1ccc2cc3cnccc3nc2c1",          "7-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1ccc2nc3ccncc3cc2c1",          "8-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1cccc2nc3ccncc3cc12",          "9-methylbenzo[b][1,6]naphthyridine"),
+    ("Cc1c2ccccc2nc2ccncc12",          "10-methylbenzo[b][1,6]naphthyridine"),
+])
+def test_phase695(smiles, expected):
+    assert smiles_to_iupac(smiles) == expected
