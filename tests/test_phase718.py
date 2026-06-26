@@ -1,0 +1,151 @@
+"""Phase 718: methyl derivatives of indolizine, indane/indoline family,
+and chroman/chromone/coumarin family.
+"""
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    # indolizine (CH at 1,2,3,5,6,7,8)
+    ("c1ccn2cccc2c1",       "indolizine"),
+    ("Cc1ccn2ccccc12",      "1-methylindolizine"),
+    ("Cc1cc2ccccn2c1",      "2-methylindolizine"),
+    ("Cc1ccc2ccccn12",      "3-methylindolizine"),
+    ("Cc1cccc2cccn12",      "5-methylindolizine"),
+    ("Cc1ccc2cccn2c1",      "6-methylindolizine"),
+    ("Cc1ccn2cccc2c1",      "7-methylindolizine"),
+    ("Cc1cccn2cccc12",      "8-methylindolizine"),
+    # 2,3-dihydrobenzofuran (CH at 2,3,4,5,6,7)
+    ("c1ccc2c(c1)CCO2",     "2,3-dihydrobenzofuran"),
+    ("CC1Cc2ccccc2O1",      "2-methyl-2,3-dihydrobenzofuran"),
+    ("CC1COc2ccccc21",      "3-methyl-2,3-dihydrobenzofuran"),
+    ("Cc1cccc2c1CCO2",      "4-methyl-2,3-dihydrobenzofuran"),
+    ("Cc1ccc2c(c1)CCO2",    "5-methyl-2,3-dihydrobenzofuran"),
+    ("Cc1ccc2c(c1)OCC2",    "6-methyl-2,3-dihydrobenzofuran"),
+    ("Cc1cccc2c1OCC2",      "7-methyl-2,3-dihydrobenzofuran"),
+    # benzo[b]thiophen-2(3H)-one (CH at 3,4,5,6,7)
+    ("O=C1CSc2ccccc21",     "benzo[b]thiophen-2(3H)-one"),
+    ("CC1Sc2ccccc2C1=O",    "3-methylbenzo[b]thiophen-2(3H)-one"),
+    ("Cc1cccc2c1C(=O)CS2",  "4-methylbenzo[b]thiophen-2(3H)-one"),
+    ("Cc1ccc2c(c1)C(=O)CS2", "5-methylbenzo[b]thiophen-2(3H)-one"),
+    ("Cc1ccc2c(c1)SCC2=O",  "6-methylbenzo[b]thiophen-2(3H)-one"),
+    ("Cc1cccc2c1SCC2=O",    "7-methylbenzo[b]thiophen-2(3H)-one"),
+    # indan-1-one (CH at 2,3,4,5,6,7)
+    ("O=C1CCc2ccccc21",     "indan-1-one"),
+    ("CC1Cc2ccccc2C1=O",    "2-methylindan-1-one"),
+    ("CC1CC(=O)c2ccccc21",  "3-methylindan-1-one"),
+    ("Cc1cccc2c1CCC2=O",    "4-methylindan-1-one"),
+    ("Cc1ccc2c(c1)CCC2=O",  "5-methylindan-1-one"),
+    ("Cc1ccc2c(c1)C(=O)CC2", "6-methylindan-1-one"),
+    ("Cc1cccc2c1C(=O)CC2",  "7-methylindan-1-one"),
+    # indan-2-one (CH at 1,4,5)
+    ("O=C1Cc2ccccc2C1",     "indan-2-one"),
+    ("CC1C(=O)Cc2ccccc21",  "1-methylindan-2-one"),
+    ("Cc1cccc2c1CC(=O)C2",  "4-methylindan-2-one"),
+    ("Cc1ccc2c(c1)CC(=O)C2", "5-methylindan-2-one"),
+    # indane (CH at 1,2,4,5)
+    ("c1ccc2c(c1)CCC2",     "indane"),
+    ("CC1CCc2ccccc21",      "1-methylindane"),
+    ("CC1Cc2ccccc2C1",      "2-methylindane"),
+    ("Cc1cccc2c1CCC2",      "4-methylindane"),
+    ("Cc1ccc2c(c1)CCC2",    "5-methylindane"),
+    # indolin-2-one (CH at 3,4,5,6,7)
+    ("O=C1Cc2ccccc2N1",     "indolin-2-one"),
+    ("CC1C(=O)Nc2ccccc21",  "3-methylindolin-2-one"),
+    ("Cc1cccc2c1CC(=O)N2",  "4-methylindolin-2-one"),
+    ("Cc1ccc2c(c1)CC(=O)N2", "5-methylindolin-2-one"),
+    ("Cc1ccc2c(c1)NC(=O)C2", "6-methylindolin-2-one"),
+    ("Cc1cccc2c1NC(=O)C2",  "7-methylindolin-2-one"),
+    # indoline (CH at 2,3,4,5,6,7)
+    ("c1ccc2c(c1)CCN2",     "indoline"),
+    ("CC1Cc2ccccc2N1",      "2-methylindoline"),
+    ("CC1CNc2ccccc21",      "3-methylindoline"),
+    ("Cc1cccc2c1CCN2",      "4-methylindoline"),
+    ("Cc1ccc2c(c1)CCN2",    "5-methylindoline"),
+    ("Cc1ccc2c(c1)NCC2",    "6-methylindoline"),
+    ("Cc1cccc2c1NCC2",      "7-methylindoline"),
+    # isobenzofuran-1,3-dione (CH at 4,5)
+    ("O=C1OC(=O)c2ccccc21", "isobenzofuran-1,3-dione"),
+    ("Cc1cccc2c1C(=O)OC2=O", "4-methylisobenzofuran-1,3-dione"),
+    ("Cc1ccc2c(c1)C(=O)OC2=O", "5-methylisobenzofuran-1,3-dione"),
+    # isoindolin-1-one (CH at 3,4,5,6,7)
+    ("O=C1NCc2ccccc21",     "isoindolin-1-one"),
+    ("CC1NC(=O)c2ccccc21",  "3-methylisoindolin-1-one"),
+    ("Cc1cccc2c1CNC2=O",    "4-methylisoindolin-1-one"),
+    ("Cc1ccc2c(c1)CNC2=O",  "5-methylisoindolin-1-one"),
+    ("Cc1ccc2c(c1)C(=O)NC2", "6-methylisoindolin-1-one"),
+    ("Cc1cccc2c1C(=O)NC2",  "7-methylisoindolin-1-one"),
+    # isoindoline (CH at 1,4,5)
+    ("c1ccc2c(c1)CNC2",     "isoindoline"),
+    ("CC1NCc2ccccc21",      "1-methylisoindoline"),
+    ("Cc1cccc2c1CNC2",      "4-methylisoindoline"),
+    ("Cc1ccc2c(c1)CNC2",    "5-methylisoindoline"),
+    # chromane (CH at 2,3,4,5,6,7,8)
+    ("c1ccc2c(c1)CCCO2",    "chromane"),
+    ("CC1CCc2ccccc2O1",     "2-methylchromane"),
+    ("CC1COc2ccccc2C1",     "3-methylchromane"),
+    ("CC1CCOc2ccccc21",     "4-methylchromane"),
+    ("Cc1cccc2c1CCCO2",     "5-methylchromane"),
+    ("Cc1ccc2c(c1)CCCO2",   "6-methylchromane"),
+    ("Cc1ccc2c(c1)OCCC2",   "7-methylchromane"),
+    ("Cc1cccc2c1OCCC2",     "8-methylchromane"),
+    # chroman-2-one (CH at 3,4,5,6,7,8)
+    ("O=C1CCc2ccccc2O1",    "chroman-2-one"),
+    ("CC1Cc2ccccc2OC1=O",   "3-methylchroman-2-one"),
+    ("CC1CC(=O)Oc2ccccc21", "4-methylchroman-2-one"),
+    ("Cc1cccc2c1CCC(=O)O2", "5-methylchroman-2-one"),
+    ("Cc1ccc2c(c1)CCC(=O)O2", "6-methylchroman-2-one"),
+    ("Cc1ccc2c(c1)OC(=O)CC2", "7-methylchroman-2-one"),
+    ("Cc1cccc2c1OC(=O)CC2", "8-methylchroman-2-one"),
+    # chroman-4-one (CH at 2,3,5,6,7,8)
+    ("O=C1CCOc2ccccc21",    "chroman-4-one"),
+    ("CC1CC(=O)c2ccccc2O1", "2-methylchroman-4-one"),
+    ("CC1COc2ccccc2C1=O",   "3-methylchroman-4-one"),
+    ("Cc1cccc2c1C(=O)CCO2", "5-methylchroman-4-one"),
+    ("Cc1ccc2c(c1)C(=O)CCO2", "6-methylchroman-4-one"),
+    ("Cc1ccc2c(c1)OCCC2=O", "7-methylchroman-4-one"),
+    ("Cc1cccc2c1OCCC2=O",   "8-methylchroman-4-one"),
+    # chromone (CH at 2,3,5,6,7,8)
+    ("O=c1ccoc2ccccc12",    "chromone"),
+    ("Cc1cc(=O)c2ccccc2o1", "2-methylchromone"),
+    ("Cc1coc2ccccc2c1=O",   "3-methylchromone"),
+    ("Cc1cccc2occc(=O)c12", "5-methylchromone"),
+    ("Cc1ccc2occc(=O)c2c1", "6-methylchromone"),
+    ("Cc1ccc2c(=O)ccoc2c1", "7-methylchromone"),
+    ("Cc1cccc2c(=O)ccoc12", "8-methylchromone"),
+    # coumarin (CH at 3,4,5,6,7,8)
+    ("O=c1ccc2ccccc2o1",    "coumarin"),
+    ("Cc1cc2ccccc2oc1=O",   "3-methylcoumarin"),
+    ("Cc1cc(=O)oc2ccccc12", "4-methylcoumarin"),
+    ("Cc1cccc2oc(=O)ccc12", "5-methylcoumarin"),
+    ("Cc1ccc2oc(=O)ccc2c1", "6-methylcoumarin"),
+    ("Cc1ccc2ccc(=O)oc2c1", "7-methylcoumarin"),
+    ("Cc1cccc2ccc(=O)oc12", "8-methylcoumarin"),
+    # isochromane (CH at 1,3,4,5,6,7,8)
+    ("c1ccc2c(c1)CCOC2",    "isochromane"),
+    ("CC1OCCc2ccccc21",     "1-methylisochromane"),
+    ("CC1Cc2ccccc2CO1",     "3-methylisochromane"),
+    ("CC1COCc2ccccc21",     "4-methylisochromane"),
+    ("Cc1cccc2c1CCOC2",     "5-methylisochromane"),
+    ("Cc1ccc2c(c1)CCOC2",   "6-methylisochromane"),
+    ("Cc1ccc2c(c1)COCC2",   "7-methylisochromane"),
+    ("Cc1cccc2c1COCC2",     "8-methylisochromane"),
+    # isochroman-1-one (CH at 3,4,5,6,7,8)
+    ("O=C1OCCc2ccccc21",    "isochroman-1-one"),
+    ("CC1Cc2ccccc2C(=O)O1", "3-methylisochroman-1-one"),
+    ("CC1COC(=O)c2ccccc21", "4-methylisochroman-1-one"),
+    ("Cc1cccc2c1CCOC2=O",   "5-methylisochroman-1-one"),
+    ("Cc1ccc2c(c1)CCOC2=O", "6-methylisochroman-1-one"),
+    ("Cc1ccc2c(c1)C(=O)OCC2", "7-methylisochroman-1-one"),
+    ("Cc1cccc2c1C(=O)OCC2", "8-methylisochroman-1-one"),
+    # isocoumarin (CH at 3,4,5,6,7,8)
+    ("O=c1occc2ccccc12",    "isocoumarin"),
+    ("Cc1cc2ccccc2c(=O)o1", "3-methylisocoumarin"),
+    ("Cc1coc(=O)c2ccccc12", "4-methylisocoumarin"),
+    ("Cc1cccc2c(=O)occc12", "5-methylisocoumarin"),
+    ("Cc1ccc2c(=O)occc2c1", "6-methylisocoumarin"),
+    ("Cc1ccc2ccoc(=O)c2c1", "7-methylisocoumarin"),
+    ("Cc1cccc2ccoc(=O)c12", "8-methylisocoumarin"),
+])
+def test_phase718(smiles, expected):
+    assert smiles_to_iupac(smiles) == expected
