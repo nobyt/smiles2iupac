@@ -1979,6 +1979,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 563: fluorene (6+5+6; CH2→9; positions 1-8; pairs sum to 9)
     # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
     "c1ccc2c(c1)Cc1ccccc1-2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None},
+    # Phase 688: benzo[a/b/c]fluorene (6+5+6+6; CH2→11 or 7; positions 1-11)
+    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": {5: 1, 0: 2, 1: 3, 2: 4, 3: None, 8: None, 9: 5, 10: 6, 11: None, 12: 7, 13: 8, 14: 9, 15: 10, 16: None, 7: None, 6: 11, 4: None},  # benzo[a]fluorene (11H)
+    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": {5: 1, 0: 2, 1: 3, 2: 4, 3: None, 16: None, 15: 5, 14: None, 13: 6, 12: 7, 11: 8, 10: 9, 9: None, 8: 10, 7: None, 6: 11, 4: None},  # benzo[b]fluorene (11H)
+    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": {13: 1, 14: 2, 15: None, 16: None, 3: None, 2: 3, 1: 4, 0: 5, 5: 6, 4: None, 6: 7, 7: None, 8: 8, 9: 9, 10: None, 11: 10, 12: 11},  # benzo[c]fluorene (7H)
     # Phase 563: xanthene/thioxanthene (6+6+6; CH2→9, O/S→None; positions 1-9; pairs sum to 9)
     # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-O/S(a13,None)-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
     "c1ccc2c(c1)Cc1ccccc1O2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None, 13: None},
