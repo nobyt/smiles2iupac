@@ -1,0 +1,101 @@
+"""Phase 694: methyl derivatives of phenanthroline isomers (all 10 isomers)."""
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    # 1,10-phenanthroline (N at 1,10; C2v: 2=9, 3=8, 4=7, 5=6 → 4 unique)
+    ("c1cnc2c(c1)ccc1cccnc12",          "1,10-phenanthroline"),
+    ("Cc1ccc2ccc3cccnc3c2n1",           "2-methyl-1,10-phenanthroline"),
+    ("Cc1cnc2c(ccc3cccnc32)c1",         "3-methyl-1,10-phenanthroline"),
+    ("Cc1ccnc2c1ccc1cccnc12",           "4-methyl-1,10-phenanthroline"),
+    ("Cc1cc2cccnc2c2ncccc12",           "5-methyl-1,10-phenanthroline"),
+    # 1,8-phenanthroline (N at 1,8; positions 2-7, 9-10 are CH)
+    ("c1cnc2c(c1)ccc1cnccc12",          "1,8-phenanthroline"),
+    ("Cc1ccc2ccc3cnccc3c2n1",           "2-methyl-1,8-phenanthroline"),
+    ("Cc1cnc2c(ccc3cnccc32)c1",         "3-methyl-1,8-phenanthroline"),
+    ("Cc1ccnc2c1ccc1cnccc12",           "4-methyl-1,8-phenanthroline"),
+    ("Cc1cc2cnccc2c2ncccc12",           "5-methyl-1,8-phenanthroline"),
+    ("Cc1cc2cccnc2c2ccncc12",           "6-methyl-1,8-phenanthroline"),
+    ("Cc1nccc2c1ccc1cccnc12",           "7-methyl-1,8-phenanthroline"),
+    ("Cc1cc2c(ccc3cccnc32)cn1",         "9-methyl-1,8-phenanthroline"),
+    ("Cc1cncc2ccc3cccnc3c12",           "10-methyl-1,8-phenanthroline"),
+    # 1,7-phenanthroline (N at 1,7; positions 2-6, 8-10 are CH)
+    ("c1cnc2c(c1)ccc1ncccc12",          "1,7-phenanthroline"),
+    ("Cc1ccc2ccc3ncccc3c2n1",           "2-methyl-1,7-phenanthroline"),
+    ("Cc1cnc2c(ccc3ncccc32)c1",         "3-methyl-1,7-phenanthroline"),
+    ("Cc1ccnc2c1ccc1ncccc12",           "4-methyl-1,7-phenanthroline"),
+    ("Cc1cc2ncccc2c2ncccc12",           "5-methyl-1,7-phenanthroline"),
+    ("Cc1cc2cccnc2c2cccnc12",           "6-methyl-1,7-phenanthroline"),
+    ("Cc1ccc2c(ccc3cccnc32)n1",         "8-methyl-1,7-phenanthroline"),
+    ("Cc1cnc2ccc3cccnc3c2c1",           "9-methyl-1,7-phenanthroline"),
+    ("Cc1ccnc2ccc3cccnc3c12",           "10-methyl-1,7-phenanthroline"),
+    # 1,6-phenanthroline (N at 1,6; positions 2-5, 7-10 are CH)
+    ("c1cnc2c(c1)cnc1ccccc12",          "1,6-phenanthroline"),
+    ("Cc1ccc2cnc3ccccc3c2n1",           "2-methyl-1,6-phenanthroline"),
+    ("Cc1cnc2c(cnc3ccccc32)c1",         "3-methyl-1,6-phenanthroline"),
+    ("Cc1ccnc2c1cnc1ccccc12",           "4-methyl-1,6-phenanthroline"),
+    ("Cc1nc2ccccc2c2ncccc12",           "5-methyl-1,6-phenanthroline"),
+    ("Cc1cccc2c1ncc1cccnc12",           "7-methyl-1,6-phenanthroline"),
+    ("Cc1ccc2c(c1)ncc1cccnc12",         "8-methyl-1,6-phenanthroline"),
+    ("Cc1ccc2ncc3cccnc3c2c1",           "9-methyl-1,6-phenanthroline"),
+    ("Cc1cccc2ncc3cccnc3c12",           "10-methyl-1,6-phenanthroline"),
+    # 2,7-phenanthroline (N at 2,7; positions 1, 3-6, 8-10 are CH)
+    ("c1cnc2ccc3ccncc3c2c1",            "2,7-phenanthroline"),
+    ("Cc1ccc2c(ccc3ccncc32)n1",         "1-methyl-2,7-phenanthroline"),
+    ("Cc1cc2ccncc2c2cccnc12",           "3-methyl-2,7-phenanthroline"),
+    ("Cc1cc2ncccc2c2cnccc12",           "4-methyl-2,7-phenanthroline"),
+    ("Cc1cncc2c1ccc1ncccc12",           "5-methyl-2,7-phenanthroline"),
+    ("Cc1cc2ccc3ncccc3c2cn1",           "6-methyl-2,7-phenanthroline"),
+    ("Cc1nccc2ccc3ncccc3c12",           "8-methyl-2,7-phenanthroline"),
+    ("Cc1ccnc2ccc3ccncc3c12",           "9-methyl-2,7-phenanthroline"),
+    ("Cc1cnc2ccc3ccncc3c2c1",           "10-methyl-2,7-phenanthroline"),
+    # 2,6-phenanthroline (N at 2,6; positions 1, 3-5, 7-10 are CH)
+    ("c1ccc2c(c1)ncc1ccncc12",          "2,6-phenanthroline"),
+    ("Cc1nccc2cnc3ccccc3c12",           "1-methyl-2,6-phenanthroline"),
+    ("Cc1cc2cnc3ccccc3c2cn1",           "3-methyl-2,6-phenanthroline"),
+    ("Cc1cncc2c1cnc1ccccc12",           "4-methyl-2,6-phenanthroline"),
+    ("Cc1nc2ccccc2c2cnccc12",           "5-methyl-2,6-phenanthroline"),
+    ("Cc1cccc2c1ncc1ccncc12",           "7-methyl-2,6-phenanthroline"),
+    ("Cc1ccc2c(c1)ncc1ccncc12",         "8-methyl-2,6-phenanthroline"),
+    ("Cc1ccc2ncc3ccncc3c2c1",           "9-methyl-2,6-phenanthroline"),
+    ("Cc1cccc2ncc3ccncc3c12",           "10-methyl-2,6-phenanthroline"),
+    # 3,6-phenanthroline (N at 3,6; positions 1-2, 4-5, 7-10 are CH)
+    ("c1ccc2c(c1)ncc1cnccc12",          "3,6-phenanthroline"),
+    ("Cc1cncc2cnc3ccccc3c12",           "1-methyl-3,6-phenanthroline"),
+    ("Cc1cc2c(cn1)cnc1ccccc12",         "2-methyl-3,6-phenanthroline"),
+    ("Cc1nccc2c1cnc1ccccc12",           "4-methyl-3,6-phenanthroline"),
+    ("Cc1nc2ccccc2c2ccncc12",           "5-methyl-3,6-phenanthroline"),
+    ("Cc1cccc2c1ncc1cnccc12",           "7-methyl-3,6-phenanthroline"),
+    ("Cc1ccc2c(c1)ncc1cnccc12",         "8-methyl-3,6-phenanthroline"),
+    ("Cc1ccc2ncc3cnccc3c2c1",           "9-methyl-3,6-phenanthroline"),
+    ("Cc1cccc2ncc3cnccc3c12",           "10-methyl-3,6-phenanthroline"),
+    # 3,5-phenanthroline (N at 3,5; positions 1-2, 4, 6-10 are CH)
+    ("c1ccc2c(c1)cnc1cnccc12",          "3,5-phenanthroline"),
+    ("Cc1cccc2c1cnc1cnccc12",           "1-methyl-3,5-phenanthroline"),
+    ("Cc1nc2cnccc2c2ccccc12",           "2-methyl-3,5-phenanthroline"),
+    ("Cc1nccc2c1ncc1ccccc12",           "4-methyl-3,5-phenanthroline"),
+    ("Cc1cc2c(cn1)ncc1ccccc12",         "6-methyl-3,5-phenanthroline"),
+    ("Cc1cncc2ncc3ccccc3c12",           "7-methyl-3,5-phenanthroline"),
+    ("Cc1cccc2cnc3cnccc3c12",           "8-methyl-3,5-phenanthroline"),
+    ("Cc1ccc2cnc3cnccc3c2c1",           "9-methyl-3,5-phenanthroline"),
+    ("Cc1ccc2c(cnc3cnccc32)c1",         "10-methyl-3,5-phenanthroline"),
+    # 4,5-phenanthroline (N at 4,5; positions 1-3, 6-10 are CH)
+    ("c1ccc2c(c1)cnc1ncccc12",          "4,5-phenanthroline"),
+    ("Cc1ccc2c(cnc3ncccc32)c1",         "1-methyl-4,5-phenanthroline"),
+    ("Cc1cccc2c1cnc1ncccc12",           "2-methyl-4,5-phenanthroline"),
+    ("Cc1nc2ncccc2c2ccccc12",           "3-methyl-4,5-phenanthroline"),
+    ("Cc1ccc2c(ncc3ccccc32)n1",         "6-methyl-4,5-phenanthroline"),
+    ("Cc1cnc2ncc3ccccc3c2c1",           "7-methyl-4,5-phenanthroline"),
+    ("Cc1ccnc2ncc3ccccc3c12",           "8-methyl-4,5-phenanthroline"),
+    ("Cc1cccc2cnc3ncccc3c12",           "9-methyl-4,5-phenanthroline"),
+    ("Cc1ccc2cnc3ncccc3c2c1",           "10-methyl-4,5-phenanthroline"),
+    # 4,7-phenanthroline (N at 4,7; C2v: 1=10, 2=9, 3=8, 5=6 → 4 unique)
+    ("c1cnc2ccc3ncccc3c2c1",            "4,7-phenanthroline"),
+    ("Cc1ccnc2ccc3ncccc3c12",           "1-methyl-4,7-phenanthroline"),
+    ("Cc1cnc2ccc3ncccc3c2c1",           "2-methyl-4,7-phenanthroline"),
+    ("Cc1ccc2c(ccc3ncccc32)n1",         "3-methyl-4,7-phenanthroline"),
+    ("Cc1cc2ncccc2c2cccnc12",           "5-methyl-4,7-phenanthroline"),
+])
+def test_phase694(smiles, expected):
+    assert smiles_to_iupac(smiles) == expected
