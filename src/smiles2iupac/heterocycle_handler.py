@@ -1760,6 +1760,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2cccc-2cc1": {0: 6, 1: 5, 2: 4, 3: None, 4: 1, 5: 2, 6: 1, 7: None, 8: 4, 9: 5},  # azulene (symm: 1=3, 4=8, 5=7)
     "c1ccc2c(c1)ccc1c3ccccc3ccc21": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 6, 7: 5, 8: None, 9: None, 10: 4, 11: 3, 12: 2, 13: 1, 14: None, 15: 6, 16: 5, 17: None},  # chrysene (symm: 1=7, 2=8, 3=9, 4=10, 5=11, 6=12)
     "c1ccc2cc3c(ccc4ccccc43)cc2c1": {0: 9, 1: 10, 2: 11, 3: None, 4: 12, 5: None, 6: None, 7: 6, 8: 5, 9: None, 10: 4, 11: 3, 12: 2, 13: 1, 14: None, 15: 7, 16: None, 17: 8},  # benz[a]anthracene (K-region 5,6; bay 1/12)
+    "c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12": {7: 1, 8: None, 9: 2, 10: None, 19: None, 18: 3, 17: 4, 16: 5, 15: 6, 14: None, 13: 7, 12: 8, 11: None, 20: 9, 21: None, 3: None, 2: 10, 1: 11, 0: 12, 5: 13, 4: None, 6: 14},  # dibenz[a,h]anthracene (C2 symm: 1=8,2=9,3=10,4=11,5=12,6=13,7=14)
     # Phase 614: 13-atom tricyclics (thieno/furo-quinoline, pyrazolo-quinoline/quinoxaline)
     "c1ccc2nc3occc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # furo[2,3-b]quinoline
     "c1ccc2nc3ccoc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # furo[3,2-b]quinoline
