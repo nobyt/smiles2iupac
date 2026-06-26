@@ -1,0 +1,126 @@
+"""Phase 727: methyl derivatives of thieno/furo-fused quinolines, pyrazolo/
+pyrrolo/imidazo-fused quinolines, and pyrazolo[1,5-a]-fused quinoline/quinoxaline.
+"""
+import pytest
+from smiles2iupac import smiles_to_iupac
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    # thieno[2,3-b]quinoline (CH at 2,3,4,5,6,7,8)
+    ("c1ccc2nc3sccc3cc2c1",      "thieno[2,3-b]quinoline"),
+    ("Cc1cc2cc3ccccc3nc2s1",     "2-methylthieno[2,3-b]quinoline"),
+    ("Cc1csc2nc3ccccc3cc12",     "3-methylthieno[2,3-b]quinoline"),
+    ("Cc1c2ccccc2nc2sccc12",     "4-methylthieno[2,3-b]quinoline"),
+    ("Cc1cccc2nc3sccc3cc12",     "5-methylthieno[2,3-b]quinoline"),
+    ("Cc1ccc2nc3sccc3cc2c1",     "6-methylthieno[2,3-b]quinoline"),
+    ("Cc1ccc2cc3ccsc3nc2c1",     "7-methylthieno[2,3-b]quinoline"),
+    ("Cc1cccc2cc3ccsc3nc12",     "8-methylthieno[2,3-b]quinoline"),
+    # thieno[3,2-b]quinoline (CH at 2,3,5,6,7,8,9)
+    ("c1ccc2nc3ccsc3cc2c1",      "thieno[3,2-b]quinoline"),
+    ("Cc1cc2nc3ccccc3cc2s1",     "2-methylthieno[3,2-b]quinoline"),
+    ("Cc1csc2cc3ccccc3nc12",     "3-methylthieno[3,2-b]quinoline"),
+    ("Cc1cccc2cc3sccc3nc12",     "5-methylthieno[3,2-b]quinoline"),
+    ("Cc1ccc2cc3sccc3nc2c1",     "6-methylthieno[3,2-b]quinoline"),
+    ("Cc1ccc2nc3ccsc3cc2c1",     "7-methylthieno[3,2-b]quinoline"),
+    ("Cc1cccc2nc3ccsc3cc12",     "8-methylthieno[3,2-b]quinoline"),
+    ("Cc1c2ccccc2nc2ccsc12",     "9-methylthieno[3,2-b]quinoline"),
+    # thieno[3,4-b]quinoline (CH at 1,3,5,6,7,8,9)
+    ("c1ccc2nc3cscc3cc2c1",      "thieno[3,4-b]quinoline"),
+    ("Cc1scc2nc3ccccc3cc12",     "1-methylthieno[3,4-b]quinoline"),
+    ("Cc1scc2cc3ccccc3nc12",     "3-methylthieno[3,4-b]quinoline"),
+    ("Cc1cccc2cc3cscc3nc12",     "5-methylthieno[3,4-b]quinoline"),
+    ("Cc1ccc2cc3cscc3nc2c1",     "6-methylthieno[3,4-b]quinoline"),
+    ("Cc1ccc2nc3cscc3cc2c1",     "7-methylthieno[3,4-b]quinoline"),
+    ("Cc1cccc2nc3cscc3cc12",     "8-methylthieno[3,4-b]quinoline"),
+    ("Cc1c2ccccc2nc2cscc12",     "9-methylthieno[3,4-b]quinoline"),
+    # furo[2,3-b]quinoline (CH at 2,3,4,5,6,7,8)
+    ("c1ccc2nc3occc3cc2c1",      "furo[2,3-b]quinoline"),
+    ("Cc1cc2cc3ccccc3nc2o1",     "2-methylfuro[2,3-b]quinoline"),
+    ("Cc1coc2nc3ccccc3cc12",     "3-methylfuro[2,3-b]quinoline"),
+    ("Cc1c2ccccc2nc2occc12",     "4-methylfuro[2,3-b]quinoline"),
+    ("Cc1cccc2nc3occc3cc12",     "5-methylfuro[2,3-b]quinoline"),
+    ("Cc1ccc2nc3occc3cc2c1",     "6-methylfuro[2,3-b]quinoline"),
+    ("Cc1ccc2cc3ccoc3nc2c1",     "7-methylfuro[2,3-b]quinoline"),
+    ("Cc1cccc2cc3ccoc3nc12",     "8-methylfuro[2,3-b]quinoline"),
+    # furo[3,2-b]quinoline (CH at 2,3,5,6,7,8,9)
+    ("c1ccc2nc3ccoc3cc2c1",      "furo[3,2-b]quinoline"),
+    ("Cc1cc2nc3ccccc3cc2o1",     "2-methylfuro[3,2-b]quinoline"),
+    ("Cc1coc2cc3ccccc3nc12",     "3-methylfuro[3,2-b]quinoline"),
+    ("Cc1cccc2cc3occc3nc12",     "5-methylfuro[3,2-b]quinoline"),
+    ("Cc1ccc2cc3occc3nc2c1",     "6-methylfuro[3,2-b]quinoline"),
+    ("Cc1ccc2nc3ccoc3cc2c1",     "7-methylfuro[3,2-b]quinoline"),
+    ("Cc1cccc2nc3ccoc3cc12",     "8-methylfuro[3,2-b]quinoline"),
+    ("Cc1c2ccccc2nc2ccoc12",     "9-methylfuro[3,2-b]quinoline"),
+    # furo[3,4-b]quinoline (CH at 1,3,5,6,7,8,9)
+    ("c1ccc2nc3cocc3cc2c1",      "furo[3,4-b]quinoline"),
+    ("Cc1occ2nc3ccccc3cc12",     "1-methylfuro[3,4-b]quinoline"),
+    ("Cc1occ2cc3ccccc3nc12",     "3-methylfuro[3,4-b]quinoline"),
+    ("Cc1cccc2cc3cocc3nc12",     "5-methylfuro[3,4-b]quinoline"),
+    ("Cc1ccc2cc3cocc3nc2c1",     "6-methylfuro[3,4-b]quinoline"),
+    ("Cc1ccc2nc3cocc3cc2c1",     "7-methylfuro[3,4-b]quinoline"),
+    ("Cc1cccc2nc3cocc3cc12",     "8-methylfuro[3,4-b]quinoline"),
+    ("Cc1c2ccccc2nc2cocc12",     "9-methylfuro[3,4-b]quinoline"),
+    # 1H-pyrazolo[3,4-b]quinoline (CH at 3,4,5,6,7,8)
+    ("c1ccc2nc3[nH]ncc3cc2c1",   "1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1n[nH]c2nc3ccccc3cc12",  "3-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1c2ccccc2nc2[nH]ncc12",  "4-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1cccc2nc3[nH]ncc3cc12",  "5-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1ccc2nc3[nH]ncc3cc2c1",  "6-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1ccc2cc3cn[nH]c3nc2c1",  "7-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    ("Cc1cccc2cc3cn[nH]c3nc12",  "8-methyl-1H-pyrazolo[3,4-b]quinoline"),
+    # pyrazolo[1,5-a]quinoline (CH at 2,3,4,5,6,7,8,9)
+    ("c1ccc2c(c1)ccc1ccnn12",    "pyrazolo[1,5-a]quinoline"),
+    ("Cc1cc2ccc3ccccc3n2n1",     "2-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1cnn2c1ccc1ccccc12",     "3-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1cc2ccccc2n2nccc12",     "4-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1cc2ccnn2c2ccccc12",     "5-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1cccc2c1ccc1ccnn12",     "6-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1ccc2c(ccc3ccnn32)c1",   "7-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1ccc2ccc3ccnn3c2c1",     "8-methylpyrazolo[1,5-a]quinoline"),
+    ("Cc1cccc2ccc3ccnn3c12",     "9-methylpyrazolo[1,5-a]quinoline"),
+    # pyrazolo[1,5-a]quinoxaline (CH at 2,3,4,6,7,8,9)
+    ("c1ccc2c(c1)ncc1ccnn12",    "pyrazolo[1,5-a]quinoxaline"),
+    ("Cc1cc2cnc3ccccc3n2n1",     "2-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1cnn2c1cnc1ccccc12",     "3-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1nc2ccccc2n2nccc12",     "4-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1cccc2c1ncc1ccnn12",     "6-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1ccc2c(c1)ncc1ccnn12",   "7-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1ccc2ncc3ccnn3c2c1",     "8-methylpyrazolo[1,5-a]quinoxaline"),
+    ("Cc1cccc2ncc3ccnn3c12",     "9-methylpyrazolo[1,5-a]quinoxaline"),
+    # 1H-imidazo[4,5-b]quinoline (CH at 2,5,6,7,8,9)
+    ("c1ccc2nc3[nH]cnc3cc2c1",   "1H-imidazo[4,5-b]quinoline"),
+    ("Cc1nc2cc3ccccc3nc2[nH]1",  "2-methyl-1H-imidazo[4,5-b]quinoline"),
+    ("Cc1cccc2cc3nc[nH]c3nc12",  "5-methyl-1H-imidazo[4,5-b]quinoline"),
+    ("Cc1ccc2cc3nc[nH]c3nc2c1",  "6-methyl-1H-imidazo[4,5-b]quinoline"),
+    ("Cc1ccc2nc3[nH]cnc3cc2c1",  "7-methyl-1H-imidazo[4,5-b]quinoline"),
+    ("Cc1cccc2nc3[nH]cnc3cc12",  "8-methyl-1H-imidazo[4,5-b]quinoline"),
+    ("Cc1c2ccccc2nc2[nH]cnc12",  "9-methyl-1H-imidazo[4,5-b]quinoline"),
+    # 3H-imidazo[4,5-b]quinoline (CH at 2,5,6,7,8,9)
+    ("c1ccc2nc3nc[nH]c3cc2c1",   "3H-imidazo[4,5-b]quinoline"),
+    ("Cc1nc2nc3ccccc3cc2[nH]1",  "2-methyl-3H-imidazo[4,5-b]quinoline"),
+    ("Cc1cccc2cc3[nH]cnc3nc12",  "5-methyl-3H-imidazo[4,5-b]quinoline"),
+    ("Cc1ccc2cc3[nH]cnc3nc2c1",  "6-methyl-3H-imidazo[4,5-b]quinoline"),
+    ("Cc1ccc2nc3nc[nH]c3cc2c1",  "7-methyl-3H-imidazo[4,5-b]quinoline"),
+    ("Cc1cccc2nc3nc[nH]c3cc12",  "8-methyl-3H-imidazo[4,5-b]quinoline"),
+    ("Cc1c2ccccc2nc2nc[nH]c12",  "9-methyl-3H-imidazo[4,5-b]quinoline"),
+    # 1H-pyrrolo[3,2-b]quinoline (CH at 2,3,5,6,7,8,9)
+    ("c1ccc2nc3cc[nH]c3cc2c1",   "1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1cc2nc3ccccc3cc2[nH]1",  "2-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1c[nH]c2cc3ccccc3nc12",  "3-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1cccc2cc3[nH]ccc3nc12",  "5-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1ccc2cc3[nH]ccc3nc2c1",  "6-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1ccc2nc3cc[nH]c3cc2c1",  "7-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1cccc2nc3cc[nH]c3cc12",  "8-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    ("Cc1c2ccccc2nc2cc[nH]c12",  "9-methyl-1H-pyrrolo[3,2-b]quinoline"),
+    # 1H-pyrrolo[2,3-b]quinoline (CH at 2,3,4,5,6,7,8)
+    ("c1ccc2nc3[nH]ccc3cc2c1",   "1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1cc2cc3ccccc3nc2[nH]1",  "2-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1c[nH]c2nc3ccccc3cc12",  "3-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1c2ccccc2nc2[nH]ccc12",  "4-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1cccc2nc3[nH]ccc3cc12",  "5-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1ccc2nc3[nH]ccc3cc2c1",  "6-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1ccc2cc3cc[nH]c3nc2c1",  "7-methyl-1H-pyrrolo[2,3-b]quinoline"),
+    ("Cc1cccc2cc3cc[nH]c3nc12",  "8-methyl-1H-pyrrolo[2,3-b]quinoline"),
+])
+def test_phase727(smiles, expected):
+    assert smiles_to_iupac(smiles) == expected
