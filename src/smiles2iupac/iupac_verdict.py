@@ -21,38 +21,18 @@ from typing import Optional
 # key: 保留名 (小文字), value: None (PIN は PubChem 名を使用)
 # ---------------------------------------------------------------------------
 
-# 単独の化合物名が保留名
+# 単独の化合物名が保留名 (まだ系統名に変換していないもの)
 _RETAINED_EXACT: frozenset[str] = frozenset({
-    # ケトン類 (P-65.1.2.2)
-    "acetophenone",      # PIN: 1-phenylethanone
-    "benzophenone",      # PIN: diphenylmethanone
-    "acetone",           # PIN: propan-2-one
-    # アゾ・アミン類 (P-62.4)
-    "azobenzene",        # PIN: diphenyldiazene
-    "diphenylamine",     # PIN: N-phenylaniline
-    "triphenylamine",    # PIN: N,N-diphenylaniline
-    # 縮合環 (P-31.1.3.4 / P-31.1.3.2)
-    "biphenyl",          # PIN: 1,1'-biphenyl
-    "indoline",          # PIN: 2,3-dihydro-1H-indole
-    "phthalimide",       # PIN: isoindole-1,3-dione
-    "fluorene",          # PIN: 9H-fluorene
+    # 縮合環 (P-31.1.3)
+    "phthalimide",       # PIN: isoindole-1,3(2H)-dione
     "chromane",          # PIN: 3,4-dihydro-2H-chromene
     "coumarin",          # PIN: 2H-chromen-2-one
-    "xanthene",          # PIN: 9H-xanthene
-    "thioxanthene",      # PIN: 9H-thioxanthene
-    "carbazole",         # PIN: 9H-carbazole
-    "phenoxazine",       # PIN: 10H-phenoxazine
-    "phenothiazine",     # PIN: 10H-phenothiazine
-    # プリン塩基 (P-31.1.3.4)
-    "xanthine",          # PIN: 3,7-dihydropurine-2,6-dione
-    "adenine",
-    "guanine",
-    "caffeine",
-    "theophylline",
     # その他の慣用名
     "acetaldehyde",      # PIN: ethanal
     "acrolein",          # PIN: prop-2-enal
     "ethanohydrazide",   # 慣用名 (acetohydrazide)
+    "caffeine",
+    "theophylline",
 })
 
 # 化合物名中に現れる保留親骨格 (部分一致)

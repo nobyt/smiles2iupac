@@ -12,8 +12,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1ncc2nc[nH]c2n1",  "9H-purine"),
     # 7H-purine tautomer (NH adjacent to C5 bridgehead)
     ("c1ncc2[nH]cnc2n1",  "7H-purine"),
-    # Adenine (amino-substituted 9H-purine) unaffected
-    ("Nc1ncnc2[nH]cnc12", "adenine"),
+    # Adenine → PIN: 7H-purin-6-amine
+    ("Nc1ncnc2[nH]cnc12", "7H-purin-6-amine"),
 ])
 def test_phase513_purine_tautomers(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

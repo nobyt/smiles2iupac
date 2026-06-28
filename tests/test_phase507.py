@@ -6,7 +6,7 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    ("O=c1[nH]c(=O)c2[nH]cnc2[nH]1", "xanthine"),
+    ("O=c1[nH]c(=O)c2[nH]cnc2[nH]1", "3,7-dihydropurine-2,6-dione"),
     ("CN1C(=O)C2=C(N=CN2C)N(C)C1=O", "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione"),
     ("Cn1c(=O)c2[nH]cnc2n(C)c1=O",  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione"),
     ("Cn1cnc2c1c(=O)[nH]c(=O)n2C",  "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione"),

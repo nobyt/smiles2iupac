@@ -176,14 +176,14 @@ _RETAINED_NAMES: dict[str, str] = {
     # citric acid
     "O=C(O)CC(O)(CC(=O)O)C(=O)O":      "citric acid",
 
-    # ── Phase 137: 核酸塩基 保留名 (IUPAC 2013 P-14.5) ──
-    "Nc1ncnc2[nH]cnc12":               "adenine",
-    "Nc1nc2[nH]cnc2c(=O)[nH]1":        "guanine",
+    # ── Phase 137: 核酸塩基 (IUPAC 2013 P-14.5; adenine/guanine/xanthine は保留名、PIN は系統名) ──
+    "Nc1ncnc2[nH]cnc12":               "7H-purin-6-amine",
+    "Nc1nc2[nH]cnc2c(=O)[nH]1":        "2-amino-3,7-dihydropurin-6-one",
     "Nc1ccnc(=O)[nH]1":                "cytosine",
     # uracil → pyrimidine-2,4(1H,3H)-dione (Phase 401: use systematic name)
     # thymine → 5-methylpyrimidine-2,4(1H,3H)-dione (Phase 401: use systematic name)
-    "O=c1[nH]cnc2[nH]cnc12":          "hypoxanthine",
-    "O=c1[nH]c(=O)c2[nH]cnc2[nH]1":  "xanthine",
+    "O=c1[nH]cnc2[nH]cnc12":          "3,7-dihydropurin-6-one",
+    "O=c1[nH]c(=O)c2[nH]cnc2[nH]1":  "3,7-dihydropurine-2,6-dione",
     "c1ncc2[nH]cnc2n1":               "7H-purine",
 
     # ── Phase 146: 無機オキソ酸・オキソ酸アニオン 保留名 ──

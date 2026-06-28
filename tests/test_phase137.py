@@ -8,20 +8,20 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # adenine (6-aminopurine)
-    ("Nc1ncnc2[nH]cnc12", "adenine"),
-    # guanine (2-amino-1H-purin-6(9H)-one)
-    ("Nc1nc2[nH]cnc2c(=O)[nH]1", "guanine"),
+    # adenine → PIN: 7H-purin-6-amine (IUPAC 2013)
+    ("Nc1ncnc2[nH]cnc12", "7H-purin-6-amine"),
+    # guanine → PIN: 2-amino-3,7-dihydropurin-6-one
+    ("Nc1nc2[nH]cnc2c(=O)[nH]1", "2-amino-3,7-dihydropurin-6-one"),
     # cytosine (4-aminopyrimidin-2(1H)-one)
     ("Nc1ccnc(=O)[nH]1", "cytosine"),
     # uracil: IUPAC 2013 preferred = pyrimidine-2,4(1H,3H)-dione (Phase 401)
     ("O=c1cc[nH]c(=O)[nH]1", "pyrimidine-2,4(1H,3H)-dione"),
     # thymine: IUPAC 2013 preferred = 5-methylpyrimidine-2,4(1H,3H)-dione (Phase 401)
     ("Cc1c[nH]c(=O)[nH]c1=O", "5-methylpyrimidine-2,4(1H,3H)-dione"),
-    # hypoxanthine (3,9-dihydro-1H-purin-6(2H)-one)
-    ("O=c1[nH]cnc2[nH]cnc12", "hypoxanthine"),
-    # xanthine (3,7-dihydro-1H-purine-2,6-dione)
-    ("O=c1[nH]c(=O)c2[nH]cnc2[nH]1", "xanthine"),
+    # hypoxanthine → PIN: 3,7-dihydropurin-6-one
+    ("O=c1[nH]cnc2[nH]cnc12", "3,7-dihydropurin-6-one"),
+    # xanthine → PIN: 3,7-dihydropurine-2,6-dione
+    ("O=c1[nH]c(=O)c2[nH]cnc2[nH]1", "3,7-dihydropurine-2,6-dione"),
     # 7H-purine (NH at N7, adjacent to C5)
     ("c1ncc2[nH]cnc2n1", "7H-purine"),
     # 回帰: fused heteroaromatics unchanged (Phase 131-134)
