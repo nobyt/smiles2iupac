@@ -20,7 +20,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("CC(=O)Cl", "acetyl chloride"),
     ("CCC(=O)Cl", "propanoyl chloride"),
     # 回帰: アリールケトン (フェニルが置換基側)
-    ("O=C(C)c1ccccc1", "acetophenone"),
+    ("O=C(C)c1ccccc1", "1-phenylethanone"),
 ])
 def test_phase107_benzoyl_halide_and_n_aryl_amide(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

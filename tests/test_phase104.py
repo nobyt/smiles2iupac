@@ -14,8 +14,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccc(-c2cccnc2)cc1", "3-phenylpyridine"),
     # 多置換フェニルピリジン
     ("Cc1ccc(-c2ccncc2)cc1", "4-(4-methylphenyl)pyridine"),
-    # 回帰: ビフェニル (2つとも炭素環) は biphenyl
-    ("c1ccc(-c2ccccc2)cc1", "biphenyl"),
+    # 回帰: 1,1'-biphenyl (biphenyl は保留名)
+    ("c1ccc(-c2ccccc2)cc1", "1,1'-biphenyl"),
     # 回帰: 縮合ヘテロ芳香族 (fused) は変わらず
     ("c1ccc2[nH]ccc2c1", "1H-indole"),
     ("c1ccc2ncccc2c1", "quinoline"),

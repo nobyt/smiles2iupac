@@ -13,11 +13,11 @@ from smiles2iupac import smiles_to_iupac
     # thioxanthen-9-one (thioxanthone)
     ("O=C1c2ccccc2Sc2ccccc21",        "thioxanthen-9-one"),
     # regression: fluorene unchanged
-    ("c1ccc2c(c1)Cc1ccccc1-2",        "fluorene"),
+    ("c1ccc2c(c1)Cc1ccccc1-2",        "9H-fluorene"),
     # regression: xanthen-9-one unchanged
     ("O=C1c2ccccc2Oc2ccccc21",        "xanthen-9-one"),
     # regression: thioxanthene unchanged
-    ("c1ccc2c(c1)Cc1ccccc1S2",        "thioxanthene"),
+    ("c1ccc2c(c1)Cc1ccccc1S2",        "9H-thioxanthene"),
     # regression: benzene unchanged
     ("c1ccccc1",                       "benzene"),
 ])

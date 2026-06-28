@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: phenoxathiin unchanged (Phase 423) — O and S bridges
     ("c1ccc2c(c1)Oc1ccccc1S2",             "phenoxathiin"),
     # regression: thioxanthene unchanged (Phase 134) — one S bridge + CH2
-    ("c1ccc2c(c1)Cc1ccccc1S2",             "thioxanthene"),
+    ("c1ccc2c(c1)Cc1ccccc1S2",             "9H-thioxanthene"),
     # regression: pyrene unchanged
     ("c1cc2ccc3cccc4ccc(c1)c2c34",          "pyrene"),
     # regression: benzene unchanged

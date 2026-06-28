@@ -303,16 +303,16 @@ _RETAINED_NAMES: dict[str, str] = {
     # ── Phase 228: ホルムアルデヒド保留名 (IUPAC 2013 P-66.6.3.1) ──
     "C=O":                             "formaldehyde",
 
-    # ── Phase 180: アセトアルデヒド・アセトン保留名 (IUPAC 2013 P-31.1.3.4) ──
+    # ── Phase 180: アセトアルデヒド保留名 (IUPAC 2013 P-31.1.3.4) ──
+    # acetone は保留名; PIN は propan-2-one (IUPAC 2013 P-65.1.2.2)
     "CC=O":                            "acetaldehyde",
-    "CC(C)=O":                         "acetone",
 
     # ── Phase 229: トルエン・酢酸無水物保留名 (IUPAC 2013 P-31.1.3.4, P-65.1.1.3.2) ──
     "Cc1ccccc1":                       "toluene",
     "CC(=O)OC(C)=O":                   "acetic anhydride",
 
-    # ── Phase 268: ベンゾフェノン保留名 (IUPAC 2013 P-31.1.3.4) ──
-    "O=C(c1ccccc1)c1ccccc1":           "benzophenone",
+    # ── Phase 268: ベンゾフェノン → PIN: diphenylmethanone (IUPAC 2013 P-65.1.2.2) ──
+    "O=C(c1ccccc1)c1ccccc1":           "diphenylmethanone",
 
     # ── Phase 268: サリチル酸メチル (methyl salicylate, IUPAC 2013 P-65.1.2) ──
     "COC(=O)c1ccccc1O":                "methyl salicylate",

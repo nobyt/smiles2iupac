@@ -1191,29 +1191,14 @@ def assemble_ring_name(
     # ─── 接頭辞 ──────────────────────────────────────────────────
     prefix_part = _build_prefix(substituents)
 
-    # ─── Phase 37/106: biphenyl 保留名 ────────────────────────────
-    # benzene + phenyl 置換基 → "biphenyl" / 置換ビフェニル
+    # ─── Phase 37/106: biphenyl → PIN: 1,1'-biphenyl / X-phenylbenzene ──────
+    # biphenyl は保留名; PIN は 1,1'-biphenyl または置換フェニルベンゼン
     if base == "benzene" and not ring_chain.double_bond_locants:
         phenyl_subs = [(loc, nm) for loc, nm in substituents if nm == "phenyl"]
         other_subs = [(loc, nm) for loc, nm in substituents if nm != "phenyl"]
-        if len(phenyl_subs) == 1:
-            if not other_subs:
-                return "biphenyl"
-            # 置換ビフェニル: phenyl 接続点を C1 として他置換基の locant を振り直す
-            phenyl_loc = phenyl_subs[0][0]
-            def _bip_renumber(direction: int) -> list[tuple[int, str]]:
-                result = []
-                for loc, nm in other_subs:
-                    delta = (loc - phenyl_loc) % 6 if direction == 1 else (phenyl_loc - loc) % 6
-                    result.append((delta + 1, nm))
-                return result
-            subs_fwd = _bip_renumber(1)
-            subs_rev = _bip_renumber(-1)
-            locs_fwd = sorted(t[0] for t in subs_fwd)
-            locs_rev = sorted(t[0] for t in subs_rev)
-            best_subs = subs_fwd if locs_fwd <= locs_rev else subs_rev
-            pfx = _build_prefix(best_subs)
-            return f"{pfx}biphenyl"
+        if len(phenyl_subs) == 1 and not other_subs:
+            return "1,1'-biphenyl"
+        # 置換フェニルベンゼン: fall through to normal benzene naming (phenyl in substituents)
 
     # ─── 一置換環: ロカント 1 省略 ───────────────────────────────────
     # シクロアルカン・ベンゼン系のみ適用。

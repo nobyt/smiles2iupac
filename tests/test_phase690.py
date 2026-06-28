@@ -34,19 +34,19 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1cccc2[nH]c3ccccc3c12",   "4-methyl-9H-carbazole"),
     ("Cn1c2ccccc2c2ccccc21",       "9-methyl-9H-carbazole"),
     # phenothiazine (C2v symmetry; N at 10, S bridging; 1=9, 2=8, 3=7, 4=6)
-    ("c1ccc2c(c1)Nc1ccccc1S2",    "phenothiazine"),
-    ("Cc1cccc2c1Nc1ccccc1S2",     "1-methylphenothiazine"),
-    ("Cc1ccc2c(c1)Nc1ccccc1S2",   "2-methylphenothiazine"),
-    ("Cc1ccc2c(c1)Sc1ccccc1N2",   "3-methylphenothiazine"),
-    ("Cc1cccc2c1Sc1ccccc1N2",     "4-methylphenothiazine"),
-    ("CN1c2ccccc2Sc2ccccc21",     "10-methylphenothiazine"),
+    ("c1ccc2c(c1)Nc1ccccc1S2",    "10H-phenothiazine"),
+    ("Cc1cccc2c1Nc1ccccc1S2",     "1-methyl-10H-phenothiazine"),
+    ("Cc1ccc2c(c1)Nc1ccccc1S2",   "2-methyl-10H-phenothiazine"),
+    ("Cc1ccc2c(c1)Sc1ccccc1N2",   "3-methyl-10H-phenothiazine"),
+    ("Cc1cccc2c1Sc1ccccc1N2",     "4-methyl-10H-phenothiazine"),
+    ("CN1c2ccccc2Sc2ccccc21",     "10-methyl-10H-phenothiazine"),
     # phenoxazine (C2v symmetry; N at 10, O bridging; 1=9, 2=8, 3=7, 4=6)
-    ("c1ccc2c(c1)Nc1ccccc1O2",    "phenoxazine"),
-    ("Cc1cccc2c1Nc1ccccc1O2",     "1-methylphenoxazine"),
-    ("Cc1ccc2c(c1)Nc1ccccc1O2",   "2-methylphenoxazine"),
-    ("Cc1ccc2c(c1)Oc1ccccc1N2",   "3-methylphenoxazine"),
-    ("Cc1cccc2c1Oc1ccccc1N2",     "4-methylphenoxazine"),
-    ("CN1c2ccccc2Oc2ccccc21",     "10-methylphenoxazine"),
+    ("c1ccc2c(c1)Nc1ccccc1O2",    "10H-phenoxazine"),
+    ("Cc1cccc2c1Nc1ccccc1O2",     "1-methyl-10H-phenoxazine"),
+    ("Cc1ccc2c(c1)Nc1ccccc1O2",   "2-methyl-10H-phenoxazine"),
+    ("Cc1ccc2c(c1)Oc1ccccc1N2",   "3-methyl-10H-phenoxazine"),
+    ("Cc1cccc2c1Oc1ccccc1N2",     "4-methyl-10H-phenoxazine"),
+    ("CN1c2ccccc2Oc2ccccc21",     "10-methyl-10H-phenoxazine"),
 ])
 def test_phase690(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

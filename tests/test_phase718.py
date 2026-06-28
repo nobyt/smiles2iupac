@@ -57,13 +57,13 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)NC(=O)C2", "6-methylindolin-2-one"),
     ("Cc1cccc2c1NC(=O)C2",  "7-methylindolin-2-one"),
     # indoline (CH at 2,3,4,5,6,7)
-    ("c1ccc2c(c1)CCN2",     "indoline"),
-    ("CC1Cc2ccccc2N1",      "2-methylindoline"),
-    ("CC1CNc2ccccc21",      "3-methylindoline"),
-    ("Cc1cccc2c1CCN2",      "4-methylindoline"),
-    ("Cc1ccc2c(c1)CCN2",    "5-methylindoline"),
-    ("Cc1ccc2c(c1)NCC2",    "6-methylindoline"),
-    ("Cc1cccc2c1NCC2",      "7-methylindoline"),
+    ("c1ccc2c(c1)CCN2",     "2,3-dihydro-1H-indole"),
+    ("CC1Cc2ccccc2N1",      "2-methyl-2,3-dihydro-1H-indole"),
+    ("CC1CNc2ccccc21",      "3-methyl-2,3-dihydro-1H-indole"),
+    ("Cc1cccc2c1CCN2",      "4-methyl-2,3-dihydro-1H-indole"),
+    ("Cc1ccc2c(c1)CCN2",    "5-methyl-2,3-dihydro-1H-indole"),
+    ("Cc1ccc2c(c1)NCC2",    "6-methyl-2,3-dihydro-1H-indole"),
+    ("Cc1cccc2c1NCC2",      "7-methyl-2,3-dihydro-1H-indole"),
     # isobenzofuran-1,3-dione (CH at 4,5)
     ("O=C1OC(=O)c2ccccc21", "isobenzofuran-1,3-dione"),
     ("Cc1cccc2c1C(=O)OC2=O", "4-methylisobenzofuran-1,3-dione"),
@@ -76,10 +76,10 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)C(=O)NC2", "6-methylisoindolin-1-one"),
     ("Cc1cccc2c1C(=O)NC2",  "7-methylisoindolin-1-one"),
     # isoindoline (CH at 1,4,5)
-    ("c1ccc2c(c1)CNC2",     "isoindoline"),
-    ("CC1NCc2ccccc21",      "1-methylisoindoline"),
-    ("Cc1cccc2c1CNC2",      "4-methylisoindoline"),
-    ("Cc1ccc2c(c1)CNC2",    "5-methylisoindoline"),
+    ("c1ccc2c(c1)CNC2",     "2,3-dihydro-1H-isoindole"),
+    ("CC1NCc2ccccc21",      "1-methyl-2,3-dihydro-1H-isoindole"),
+    ("Cc1cccc2c1CNC2",      "4-methyl-2,3-dihydro-1H-isoindole"),
+    ("Cc1ccc2c(c1)CNC2",    "5-methyl-2,3-dihydro-1H-isoindole"),
     # chromane (CH at 2,3,4,5,6,7,8)
     ("c1ccc2c(c1)CCCO2",    "chromane"),
     ("CC1CCc2ccccc2O1",     "2-methylchromane"),
@@ -139,13 +139,13 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)C(=O)OCC2", "7-methylisochroman-1-one"),
     ("Cc1cccc2c1C(=O)OCC2", "8-methylisochroman-1-one"),
     # isocoumarin (CH at 3,4,5,6,7,8)
-    ("O=c1occc2ccccc12",    "isocoumarin"),
-    ("Cc1cc2ccccc2c(=O)o1", "3-methylisocoumarin"),
-    ("Cc1coc(=O)c2ccccc12", "4-methylisocoumarin"),
-    ("Cc1cccc2c(=O)occc12", "5-methylisocoumarin"),
-    ("Cc1ccc2c(=O)occc2c1", "6-methylisocoumarin"),
-    ("Cc1ccc2ccoc(=O)c2c1", "7-methylisocoumarin"),
-    ("Cc1cccc2ccoc(=O)c12", "8-methylisocoumarin"),
+    ("O=c1occc2ccccc12",    "isochromen-1-one"),
+    ("Cc1cc2ccccc2c(=O)o1", "3-methylisochromen-1-one"),
+    ("Cc1coc(=O)c2ccccc12", "4-methylisochromen-1-one"),
+    ("Cc1cccc2c(=O)occc12", "5-methylisochromen-1-one"),
+    ("Cc1ccc2c(=O)occc2c1", "6-methylisochromen-1-one"),
+    ("Cc1ccc2ccoc(=O)c2c1", "7-methylisochromen-1-one"),
+    ("Cc1cccc2ccoc(=O)c12", "8-methylisochromen-1-one"),
 ])
 def test_phase718(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

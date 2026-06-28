@@ -10,23 +10,23 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # fluorene (dibenzo[a,d][7]annulene with CH2)
-    ("C1c2ccccc2-c2ccccc21", "fluorene"),
+    ("C1c2ccccc2-c2ccccc21", "9H-fluorene"),
     # xanthene (9H-xanthene)
-    ("C1c2ccccc2Oc2ccccc21", "xanthene"),
+    ("C1c2ccccc2Oc2ccccc21", "9H-xanthene"),
     # thioxanthene
-    ("C1c2ccccc2Sc2ccccc21", "thioxanthene"),
+    ("C1c2ccccc2Sc2ccccc21", "9H-thioxanthene"),
     # coumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
     ("O=c1ccc2ccccc2o1", "coumarin"),
     # isocoumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
-    ("O=c1occc2ccccc12", "isocoumarin"),
+    ("O=c1occc2ccccc12", "isochromen-1-one"),
     # 2H-chromene
     ("C1=Cc2ccccc2OC1", "2H-chromene"),
     # 4H-chromene
     ("C1=COc2ccccc2C1", "4H-chromene"),
     # phenoxazine
-    ("c1ccc2c(c1)Nc1ccccc1O2", "phenoxazine"),
+    ("c1ccc2c(c1)Nc1ccccc1O2", "10H-phenoxazine"),
     # phenothiazine
-    ("c1ccc2c(c1)Nc1ccccc1S2", "phenothiazine"),
+    ("c1ccc2c(c1)Nc1ccccc1S2", "10H-phenothiazine"),
     # xanthen-9-one (xanthone)
     ("O=C1c2ccccc2Oc2ccccc21", "xanthen-9-one"),
     # perimidine (2,3-dihydro-1H-perimidine parent skeleton)

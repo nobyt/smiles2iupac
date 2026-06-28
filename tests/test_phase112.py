@@ -1,14 +1,14 @@
-"""Phase 112: ジフェニルアミン/トリフェニルアミン保留名 (IUPAC P-62.2.3.2)"""
+"""Phase 112: ジフェニルアミン → N-phenylaniline (IUPAC 2013 P-62.2.3.2 PIN)"""
 
 import pytest
 from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # ジフェニルアミン保留優先名
-    ("c1ccc(Nc2ccccc2)cc1", "diphenylamine"),
-    # トリフェニルアミン保留名
-    ("c1ccc(N(c2ccccc2)c2ccccc2)cc1", "triphenylamine"),
+    # diphenylamine は保留名; PIN は N-phenylaniline
+    ("c1ccc(Nc2ccccc2)cc1", "N-phenylaniline"),
+    # triphenylamine は保留名; PIN は N,N-diphenylaniline
+    ("c1ccc(N(c2ccccc2)c2ccccc2)cc1", "N,N-diphenylaniline"),
     # 回帰: N-アルキルアニリン (フェニル置換なし)
     ("c1ccc(NC)cc1", "N-methylaniline"),
     ("c1ccc(NCC)cc1", "N-ethylaniline"),

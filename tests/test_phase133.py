@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     # chromane (3,4-dihydro-2H-chromene)
     ("C1COc2ccccc2C1", "chromane"),
     # indoline (2,3-dihydroindole)
-    ("C1Cc2ccccc2N1", "indoline"),
+    ("C1Cc2ccccc2N1", "2,3-dihydro-1H-indole"),
     # indan-1-one (1-indanone)
     ("O=C1CCc2ccccc21", "indan-1-one"),
     # indolin-2-one (oxindole)

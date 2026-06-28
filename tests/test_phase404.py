@@ -11,14 +11,14 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # N-methylindoline (N at pos 1 → numeric locant)
-    ("CN1CCc2ccccc21",                "1-methylindoline"),
+    ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydro-1H-indole"),
     # C-substituted indoline (methyl on benzene ring)
-    ("Cc1ccc2c(c1)NCC2",              "6-methylindoline"),
-    ("Cc1ccc2c(c1)CCN2",              "5-methylindoline"),
+    ("Cc1ccc2c(c1)NCC2",              "6-methyl-2,3-dihydro-1H-indole"),
+    ("Cc1ccc2c(c1)CCN2",              "5-methyl-2,3-dihydro-1H-indole"),
     # N-methyl-1,2,3,4-tetrahydroquinoline
     ("CN1CCCc2ccccc21",               "1-methyl-1,2,3,4-tetrahydroquinoline"),
     # regression: unsubstituted indoline unchanged
-    ("c1ccc2c(c1)CCN2",               "indoline"),
+    ("c1ccc2c(c1)CCN2",               "2,3-dihydro-1H-indole"),
     # regression: 1,2,3,4-tetrahydroquinoline unchanged
     ("c1ccc2c(c1)CCCN2",              "1,2,3,4-tetrahydroquinoline"),
     # regression: 1-methylindole (aromatic) unchanged

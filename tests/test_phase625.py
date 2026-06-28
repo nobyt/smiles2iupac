@@ -20,11 +20,11 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2cc3ccccc3cc2c1",  "2-methylanthracene"),
     ("Cc1c2ccccc2cc2ccccc12",  "9-methylanthracene"),   # meso position
     # fluorene (C9 is sp3; positions 1–4 and 9 unique; 5–8 ≡ 1–4 by C2v symmetry)
-    ("Cc1cccc2c1Cc1ccccc1-2",  "1-methylfluorene"),
-    ("Cc1ccc2c(c1)Cc1ccccc1-2", "2-methylfluorene"),
-    ("Cc1ccc2c(c1)-c1ccccc1C2", "3-methylfluorene"),
-    ("Cc1cccc2c1-c1ccccc1C2",  "4-methylfluorene"),
-    ("CC1c2ccccc2-c2ccccc21",  "9-methylfluorene"),
+    ("Cc1cccc2c1Cc1ccccc1-2",  "1-methyl-9H-fluorene"),
+    ("Cc1ccc2c(c1)Cc1ccccc1-2", "2-methyl-9H-fluorene"),
+    ("Cc1ccc2c(c1)-c1ccccc1C2", "3-methyl-9H-fluorene"),
+    ("Cc1cccc2c1-c1ccccc1C2",  "4-methyl-9H-fluorene"),
+    ("CC1c2ccccc2-c2ccccc21",  "9-methyl-9H-fluorene"),
 ])
 def test_phase625_methyl_pah(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

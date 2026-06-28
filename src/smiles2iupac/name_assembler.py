@@ -96,14 +96,15 @@ def assemble_name(
 
     suffix = SUFFIX_MAP[principal_group_type]
 
-    # ─── Phase 120/128: 保留名の早期返却 ───────────────────────────
-    # acetophenone: 2炭素ケトン + C1 に phenyl 置換基 1個 (IUPAC 2013 PIN)
+    # ─── Phase 120/128: 特殊ケース早期返却 ───────────────────────────
+    # 1-phenylethan-1-one: 2炭素ケトン + C1 に phenyl 置換基 1個 (IUPAC 2013 PIN)
+    # acetophenone は保留名; PIN は 1-phenylethanone (P-65.1.2.2)
     if (principal_group_type == "ketone"
             and chain_length == 2
             and (suffix_locant is None or suffix_locant == 1)
             and len(substituents) == 1
             and substituents[0][1] == "phenyl"):
-        return "acetophenone"
+        return "1-phenylethanone"
 
     # guanidine: アミジン 1C + 'amino' 置換基 (IUPAC 2013 PIN P-66.4.1.3)
     if (principal_group_type == "amidine"

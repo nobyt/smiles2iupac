@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC=C=O",  "prop-1-en-1-one"),
     ("CCC=C=O", "but-1-en-1-one"),
     # regression: normal ketones unchanged
-    ("CC(=O)C",   "acetone"),
+    ("CC(=O)C",   "propan-2-one"),
     ("CC(=O)CCC", "pentan-2-one"),
 ])
 def test_phase233_ethenone(smiles, expected):

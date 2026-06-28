@@ -27,7 +27,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC=[N+]([O-])C", "N-methylethanimine N-oxide"),
     # Regressions: non-imine names unaffected
     ("CC=O",           "acetaldehyde"),
-    ("CC(=O)C",        "acetone"),
+    ("CC(=O)C",        "propan-2-one"),
 ])
 def test_phase368_imine_locant_omission(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -38,8 +38,8 @@ class TestAldehydes:
 class TestKetones:
 
     def test_propan_2_one(self):
-        # IUPAC 2013 P-31.1.3: acetone は保留 PIN
-        assert smiles_to_iupac("CC(=O)C") == "acetone"
+        # IUPAC 2013 P-65.1.2.2: acetone は保留名; PIN は propan-2-one
+        assert smiles_to_iupac("CC(=O)C") == "propan-2-one"
 
     def test_butan_2_one(self):
         assert smiles_to_iupac("CC(=O)CC") == "butan-2-one"

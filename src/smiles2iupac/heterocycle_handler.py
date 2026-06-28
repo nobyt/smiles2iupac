@@ -807,7 +807,7 @@ def _apply_hetero_suffixes(
     # 保留名が PCG (ケトン・ラクトン等) を内包する場合、-ol/-amine/-thiol への変換をスキップ
     _base_has_pcg = (
         full_base.endswith(("one", "dione"))
-        or full_base in {"coumarin", "isocoumarin"}
+        or full_base == "coumarin"
     )
     if not _base_has_pcg:
         for sub_nm, suffix, elide_e in (
@@ -909,7 +909,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)Cc1ccccc1C2":  "9,10-dihydroanthracene",
     "C1=Cc2cc3ccccc3cc2CC1":   "1,2-dihydroanthracene",
     "c1cc2c3c(cccc3c1)CCC2":   "2,3-dihydro-1H-phenalene",
-    "c1ccc2c(c1)CCN2":  "indoline",
+    "c1ccc2c(c1)CCN2":  "2,3-dihydro-1H-indole",
     "c1ccc2c(c1)CCO2":  "2,3-dihydrobenzofuran",
     "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
     "c1ccc2c(c1)CCS2":  "2,3-dihydrobenzothiophene",
@@ -964,9 +964,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)CCNC2": "1,2,3,4-tetrahydroisoquinoline",
     "c1ccc2c(c1)NCCN2": "1,2,3,4-tetrahydroquinoxaline",
     "c1ccc2c(c1)CCCS2": "thiochroman",
-    # Phase 647: indoline and isoindoline (retained names)
-    "c1ccc2c(c1)CCN2": "indoline",
-    "c1ccc2c(c1)CNC2": "isoindoline",
+    # Phase 647: indoline and isoindoline (PIN)
+    "c1ccc2c(c1)CCN2": "2,3-dihydro-1H-indole",
+    "c1ccc2c(c1)CNC2": "2,3-dihydro-1H-isoindole",
     # Phase 630: benzo-fused 7-membered saturated rings (benzazepines, benzoxepines, etc.)
     "c1ccc2c(c1)CCCCC2": "6,7,8,9-tetrahydro-5H-benzo[7]annulene",
     "c1ccc2c(c1)CCCCN2": "2,3,4,5-tetrahydro-1-benzazepine",
@@ -1050,15 +1050,15 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 267: 1,3-ベンゾジオキソール (メチレンジオキシベンゼン骨格)
     "c1ccc2c(c1)OCO2":  "1,3-benzodioxole",
     # Phase 134: 追加縮合環保留名 (IUPAC 2013 P-31.1.3, fluorene/xanthene 系)
-    "c1ccc2c(c1)Cc1ccccc1-2":  "fluorene",
-    "c1ccc2c(c1)Cc1ccccc1O2":  "xanthene",
-    "c1ccc2c(c1)Cc1ccccc1S2":  "thioxanthene",
+    "c1ccc2c(c1)Cc1ccccc1-2":  "9H-fluorene",
+    "c1ccc2c(c1)Cc1ccccc1O2":  "9H-xanthene",
+    "c1ccc2c(c1)Cc1ccccc1S2":  "9H-thioxanthene",
     "O=c1ccc2ccccc2o1":        "coumarin",
-    "O=c1occc2ccccc12":        "isocoumarin",
+    "O=c1occc2ccccc12":        "isochromen-1-one",
     "C1=COc2ccccc2C1":         "4H-chromene",
     "C1=Cc2ccccc2OC1":         "2H-chromene",
-    "c1ccc2c(c1)Nc1ccccc1O2":  "phenoxazine",
-    "c1ccc2c(c1)Nc1ccccc1S2":  "phenothiazine",
+    "c1ccc2c(c1)Nc1ccccc1O2":  "10H-phenoxazine",
+    "c1ccc2c(c1)Nc1ccccc1S2":  "10H-phenothiazine",
     "O=c1c2ccccc2oc2ccccc12":  "xanthen-9-one",
     "O=C1c2ccccc2-c2ccccc21":  "fluoren-9-one",
     "O=c1c2ccccc2sc2ccccc12":  "thioxanthen-9-one",
@@ -3029,7 +3029,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     from .substituent import name_substituent
 
     # Phase 405: isoindoline + 2 exo C=O at C1/C3 → isoindole-1,3(2H)-dione
-    if base_name == "isoindoline" and len(_exo_co_o_407) == 2:
+    if base_name == "2,3-dihydro-1H-isoindole" and len(_exo_co_o_407) == 2:
         _ring_set_405 = set(match)
         _excl_nbr_405 = _ring_set_405 | _exo_co_o_407
         _subs_405: list[tuple[int, str]] = []

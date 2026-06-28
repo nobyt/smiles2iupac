@@ -19,9 +19,9 @@ from src.smiles2iupac import smiles_to_iupac
     # methyl formate / ethyl formate (methanoate の PIN)
     ("COC=O", "methyl formate"),
     ("CCOC=O", "ethyl formate"),
-    # acetophenone (1-phenylethan-1-one の PIN)
-    ("CC(=O)c1ccccc1", "acetophenone"),
-    ("O=C(C)c1ccccc1", "acetophenone"),
+    # 1-phenylethanone (acetophenone は保留名; PIN は 1-phenylethanone)
+    ("CC(=O)c1ccccc1", "1-phenylethanone"),
+    ("O=C(C)c1ccccc1", "1-phenylethanone"),
     # N-置換体にも保留名を継承
     ("CNC=O", "N-methylformamide"),
     ("CC(=O)NC", "N-methylacetamide"),

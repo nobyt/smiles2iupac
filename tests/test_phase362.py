@@ -26,8 +26,8 @@ from smiles2iupac import smiles_to_iupac
     ("CC(=O)CC(=O)C",            "pentane-2,4-dione"),
     ("CCC(=O)CC(=O)CC",          "heptane-3,5-dione"),
     ("CC(=O)CCCC(=O)C",          "heptane-2,6-dione"),
-    # Single aryl ketone unchanged
-    ("CC(=O)c1ccccc1",           "acetophenone"),
+    # Single aryl ketone
+    ("CC(=O)c1ccccc1",           "1-phenylethanone"),
     ("CC(=O)c1ccc(C)cc1",        "1-(4-methylphenyl)ethan-1-one"),
     # Cyclic ketones unchanged
     ("O=C1CCCCC1",               "cyclohexanone"),

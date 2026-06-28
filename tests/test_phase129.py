@@ -12,7 +12,7 @@ from src.smiles2iupac import smiles_to_iupac
     # ethylketene
     ("CCC=C=O", "but-1-en-1-one"),
     # 回帰: ketones
-    ("CC(=O)C", "acetone"),
+    ("CC(=O)C", "propan-2-one"),
     ("CC(=O)CC", "butan-2-one"),
     # 回帰: aldehyde
     ("CC=O", "acetaldehyde"),

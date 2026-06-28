@@ -5311,8 +5311,9 @@ def _name_hydrazine_compound(graph, get_atom) -> str | None:
 
 def _name_azo_compound(graph, get_atom) -> str | None:
     """
-    アゾ化合物命名 (Phase 115): R-N=N-R' → azo{base} 形式。
-    例: Ph-N=N-Ph → azobenzene, Me-N=N-Me → azomethane
+    アゾ化合物命名 (Phase 115): R-N=N-R' → di{R}diazene 形式 (IUPAC 2013 PIN)。
+    例: Ph-N=N-Ph → diphenyldiazene, Me-N=N-Me → dimethyldiazene
+    azobenzene/azomethane 等は保留名; PIN は diazene 系統名。
     """
     from .functional_group import get_bond_order
     from .constants import CHAIN_PREFIX
@@ -5383,7 +5384,7 @@ def _name_azo_compound(graph, get_atom) -> str | None:
     r2_benzene = _is_plain_benzene(n2_idx)
 
     if r1_benzene and r2_benzene:
-        return "azobenzene"
+        return "diphenyldiazene"
 
     if not r1_benzene and not r2_benzene:
         c1 = _c_neighbor(n1_idx)
@@ -5401,7 +5402,7 @@ def _name_azo_compound(graph, get_atom) -> str | None:
         from .stereochemistry import _get_bond_stereo as _gbs_azo
         _nn_stereo = _gbs_azo(graph, n1_idx, n2_idx)
         _nn_pfx = f"({_nn_stereo})-" if _nn_stereo is not None else ""
-        return f"{_nn_pfx}azo{stem}ane"
+        return f"{_nn_pfx}di{stem}yldiazene"
 
     return None
 
@@ -6460,7 +6461,8 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
     ring_c_nbrs = [c for c in c_neighbors if get_atom(graph, c).in_ring]
     non_ring_c_nbrs = [c for c in c_neighbors if not get_atom(graph, c).in_ring]
 
-    # Phase 112: ジフェニルアミン / トリフェニルアミン保留名 (IUPAC P-62.2.3)
+    # Phase 112: ジフェニルアミン → PIN: N-phenylaniline (IUPAC 2013 P-62.2.3)
+    # diphenylamine/triphenylamine は保留名; PIN は N-phenylaniline / N,N-diphenylaniline
     if ring_c_nbrs and not non_ring_c_nbrs:
         def _is_plain_benzene(c_idx: int) -> bool:
             ra = next((rt for rt in (graph.ring_atom_sets or []) if c_idx in rt), None)
@@ -6470,9 +6472,9 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
         if all(_is_plain_benzene(c) for c in ring_c_nbrs):
             _n_ph = len(ring_c_nbrs)
             if _n_ph == 2:
-                return "diphenylamine"
+                return "N-phenylaniline"
             if _n_ph == 3:
-                return "triphenylamine"
+                return "N,N-diphenylaniline"
 
     if ring_c_nbrs:
         ring_c = ring_c_nbrs[0]

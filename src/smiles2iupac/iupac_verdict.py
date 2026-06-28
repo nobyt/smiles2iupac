@@ -58,15 +58,9 @@ _RETAINED_EXACT: frozenset[str] = frozenset({
 # 化合物名中に現れる保留親骨格 (部分一致)
 _RETAINED_PARENTS: tuple[str, ...] = (
     "biphenyl",
-    "indoline",
     "chromane",
     "coumarin",
-    "xanthene",
-    "thioxanthene",
-    "fluorene",
     "phthalimide",
-    "phenoxazine",
-    "phenothiazine",
     "carbazole",
 )
 

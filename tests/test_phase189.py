@@ -17,7 +17,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("CC(=O)CCl",    "1-chloropropan-2-one"),
     ("CC(=O)CN",     "1-aminopropan-2-one"),
     # 回帰: 置換基なしケトン
-    ("CC(=O)C",      "acetone"),
+    ("CC(=O)C",      "propan-2-one"),
     ("CC(=O)CC",     "butan-2-one"),
     ("CCC(=O)CC",    "pentan-3-one"),
     # 回帰: 対称ケトンはどちら方向でも同じ

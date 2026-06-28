@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: coumarin unchanged
     ("O=c1ccc2ccccc2o1",               "coumarin"),
     # regression: isocoumarin unchanged
-    ("O=c1occc2ccccc12",               "isocoumarin"),
+    ("O=c1occc2ccccc12",               "isochromen-1-one"),
     # regression: indan-1-one unchanged
     ("O=C1CCc2ccccc21",                "indan-1-one"),
     # regression: chromane unchanged

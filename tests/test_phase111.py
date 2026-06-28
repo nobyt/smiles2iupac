@@ -10,10 +10,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=C(c1ccccc1)c1ccncc1", "phenyl(pyridin-4-yl)methanone"),
     ("O=C(c1ccccc1)c1ccc(C)cc1", "(4-methylphenyl)(phenyl)methanone"),
     ("O=C(c1ccccc1)c1ccc(OC)cc1", "(4-methoxyphenyl)(phenyl)methanone"),
-    # 両方同じ → benzophenone (retained PIN, IUPAC 2013 P-31.1.3.4)
-    ("O=C(c1ccccc1)c1ccccc1", "benzophenone"),
+    # 両方同じ → diphenylmethanone (PIN; benzophenone は保留名)
+    ("O=C(c1ccccc1)c1ccccc1", "diphenylmethanone"),
     # 回帰: アルキルフェニルケトン (ロカントあり)
-    ("O=C(C)c1ccccc1", "acetophenone"),
+    ("O=C(C)c1ccccc1", "1-phenylethanone"),
     ("O=C(CC)c1ccccc1", "1-phenylpropan-1-one"),
 ])
 def test_phase111_diaryl_ketone_parentheses(smiles, expected):

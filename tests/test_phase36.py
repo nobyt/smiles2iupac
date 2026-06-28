@@ -33,5 +33,5 @@ class TestNEthylaniline:
 class TestDiphenylamine:
 
     def test_diphenylamine(self):
-        # IUPAC 2013 P-62.2.3.2: diphenylamine は保留優先名 (PIN)
-        assert smiles_to_iupac("c1ccc(Nc2ccccc2)cc1") == "diphenylamine"
+        # IUPAC 2013 P-62.2.3.2: diphenylamine は保留名; PIN は N-phenylaniline
+        assert smiles_to_iupac("c1ccc(Nc2ccccc2)cc1") == "N-phenylaniline"

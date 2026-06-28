@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: naphthalene unchanged — two rings
     ("c1ccc2ccccc2c1",             "naphthalene"),
     # regression: fluorene unchanged (Phase 134) — three rings with CH2 bridge
-    ("c1ccc2c(c1)Cc1ccccc1-2",    "fluorene"),
+    ("c1ccc2c(c1)Cc1ccccc1-2",    "9H-fluorene"),
     # regression: benzene unchanged
     ("c1ccccc1",                    "benzene"),
 ])

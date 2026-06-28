@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: chromane unchanged
     ("C1CCOc2ccccc21",                "chromane"),
     # regression: indoline unchanged
-    ("c1ccc2c(c1)CCN2",               "indoline"),
+    ("c1ccc2c(c1)CCN2",               "2,3-dihydro-1H-indole"),
     # regression: benzene unchanged
     ("c1ccccc1",                       "benzene"),
 ])

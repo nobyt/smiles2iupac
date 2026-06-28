@@ -14,7 +14,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # coumarin / isocoumarin (retained PINs, IUPAC 2013 P-31.1.3.4)
     ("O=c1ccc2ccccc2o1",  "coumarin"),
-    ("O=c1occc2ccccc12",  "isocoumarin"),
+    ("O=c1occc2ccccc12",  "isochromen-1-one"),
     # oxazolidine / isoxazolidine (retained names without locant prefix)
     ("C1CNCO1",           "oxazolidine"),
     ("C1CCNO1",           "isoxazolidine"),

@@ -9,12 +9,12 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # fluorene (CH at 1,2,3,4,9)
-    ("c1ccc2c(c1)Cc1ccccc1-2",      "fluorene"),
-    ("Cc1cccc2c1Cc1ccccc1-2",       "1-methylfluorene"),
-    ("Cc1ccc2c(c1)Cc1ccccc1-2",     "2-methylfluorene"),
-    ("Cc1ccc2c(c1)-c1ccccc1C2",     "3-methylfluorene"),
-    ("Cc1cccc2c1-c1ccccc1C2",       "4-methylfluorene"),
-    ("CC1c2ccccc2-c2ccccc21",       "9-methylfluorene"),
+    ("c1ccc2c(c1)Cc1ccccc1-2",      "9H-fluorene"),
+    ("Cc1cccc2c1Cc1ccccc1-2",       "1-methyl-9H-fluorene"),
+    ("Cc1ccc2c(c1)Cc1ccccc1-2",     "2-methyl-9H-fluorene"),
+    ("Cc1ccc2c(c1)-c1ccccc1C2",     "3-methyl-9H-fluorene"),
+    ("Cc1cccc2c1-c1ccccc1C2",       "4-methyl-9H-fluorene"),
+    ("CC1c2ccccc2-c2ccccc21",       "9-methyl-9H-fluorene"),
     # acenaphthylene (CH at 1,3,4,5; C2 symmetry: 1=2, 3=8, 4=7, 5=6)
     ("C1=Cc2cccc3cccc1c23",         "acenaphthylene"),
     ("CC1=Cc2cccc3cccc1c23",        "1-methylacenaphthylene"),

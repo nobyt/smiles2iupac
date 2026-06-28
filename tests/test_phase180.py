@@ -1,7 +1,7 @@
-"""Phase 180: アセトアルデヒド・アセトン保留名 (IUPAC 2013 P-31.1.3)
+"""Phase 180: アセトアルデヒド保留名; アセトン → PIN: propan-2-one (IUPAC 2013 P-65.1.2.2)
 
-  CC=O    → acetaldehyde  (not ethanal)
-  CC(=O)C → acetone       (not propan-2-one)
+  CC=O    → acetaldehyde  (not ethanal; retained PIN)
+  CC(=O)C → propan-2-one  (acetone は保留名; PIN は propan-2-one)
 """
 
 import pytest
@@ -9,9 +9,9 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 保留名
+    # acetaldehyde は保留 PIN; acetone は保留名 → PIN へ
     ("CC=O",         "acetaldehyde"),
-    ("CC(=O)C",      "acetone"),
+    ("CC(=O)C",      "propan-2-one"),
     # 回帰: 他のアルデヒド・ケトンは変わらない
     ("CCC=O",        "propanal"),
     ("CCCC=O",       "butanal"),

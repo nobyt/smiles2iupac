@@ -13,9 +13,9 @@ from smiles2iupac import smiles_to_iupac
     # triphenylene — three benzene rings fused in a symmetrical triangle
     ("c1ccc2c(c1)c1ccccc1c1ccccc21",    "triphenylene"),
     # regression: xanthene unchanged (Phase 134) — O bridge, no S
-    ("c1ccc2c(c1)Cc1ccccc1O2",           "xanthene"),
+    ("c1ccc2c(c1)Cc1ccccc1O2",           "9H-xanthene"),
     # regression: thioxanthene unchanged (Phase 134) — S bridge, no O
-    ("c1ccc2c(c1)Cc1ccccc1S2",           "thioxanthene"),
+    ("c1ccc2c(c1)Cc1ccccc1S2",           "9H-thioxanthene"),
     # regression: pyrene unchanged (Phase 422)
     ("c1cc2ccc3cccc4ccc(c1)c2c34",       "pyrene"),
     # regression: benzene unchanged
