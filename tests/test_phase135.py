@@ -1,5 +1,6 @@
-"""Phase 135: α-アミノ酸保留名 (IUPAC 2013 P-12.1)
+"""Phase 135: α-アミノ酸 PIN (IUPAC 2013 P-102.4)
 
+L-/D-アミノ酸の PIN は (R/S) 系統名。
 glycine, alanine, valine, leucine, isoleucine, proline,
 phenylalanine, tryptophan, methionine, serine, threonine, cysteine,
 tyrosine, asparagine, glutamine, lysine, arginine, histidine,
@@ -14,53 +15,53 @@ from src.smiles2iupac import smiles_to_iupac
     # glycine (no stereo center)
     ("NCC(=O)O", "glycine"),
     # alanine
-    ("N[C@@H](C)C(=O)O", "L-alanine"),
-    ("N[C@H](C)C(=O)O", "D-alanine"),
+    ("N[C@@H](C)C(=O)O", "(2S)-2-aminopropanoic acid"),
+    ("N[C@H](C)C(=O)O", "(2R)-2-aminopropanoic acid"),
     ("NC(C)C(=O)O", "alanine"),
     # valine
-    ("N[C@@H](C(C)C)C(=O)O", "L-valine"),
-    ("N[C@H](C(C)C)C(=O)O", "D-valine"),
+    ("N[C@@H](C(C)C)C(=O)O", "(2S)-2-amino-3-methylbutanoic acid"),
+    ("N[C@H](C(C)C)C(=O)O", "(2R)-2-amino-3-methylbutanoic acid"),
     # leucine
-    ("N[C@@H](CC(C)C)C(=O)O", "L-leucine"),
+    ("N[C@@H](CC(C)C)C(=O)O", "(2S)-2-amino-4-methylpentanoic acid"),
     # isoleucine
-    ("N[C@@H]([C@@H](C)CC)C(=O)O", "L-isoleucine"),
+    ("N[C@@H]([C@@H](C)CC)C(=O)O", "(2S,3S)-2-amino-3-methylpentanoic acid"),
     # proline
-    ("OC(=O)[C@@H]1CCCN1", "L-proline"),
-    ("OC(=O)[C@H]1CCCN1", "D-proline"),
+    ("OC(=O)[C@@H]1CCCN1", "(2S)-pyrrolidine-2-carboxylic acid"),
+    ("OC(=O)[C@H]1CCCN1", "(2R)-pyrrolidine-2-carboxylic acid"),
     # phenylalanine
-    ("N[C@@H](Cc1ccccc1)C(=O)O", "L-phenylalanine"),
-    ("N[C@H](Cc1ccccc1)C(=O)O", "D-phenylalanine"),
+    ("N[C@@H](Cc1ccccc1)C(=O)O", "(2S)-2-amino-3-phenylpropanoic acid"),
+    ("N[C@H](Cc1ccccc1)C(=O)O", "(2R)-2-amino-3-phenylpropanoic acid"),
     # tryptophan
-    ("N[C@@H](Cc1c[nH]c2ccccc12)C(=O)O", "L-tryptophan"),
+    ("N[C@@H](Cc1c[nH]c2ccccc12)C(=O)O", "(2S)-2-amino-3-(1H-indol-3-yl)propanoic acid"),
     # methionine
-    ("N[C@@H](CCSC)C(=O)O", "L-methionine"),
+    ("N[C@@H](CCSC)C(=O)O", "(2S)-2-amino-4-methylsulfanylbutanoic acid"),
     # serine
-    ("N[C@@H](CO)C(=O)O", "L-serine"),
-    ("N[C@H](CO)C(=O)O", "D-serine"),
+    ("N[C@@H](CO)C(=O)O", "(2S)-2-amino-3-hydroxypropanoic acid"),
+    ("N[C@H](CO)C(=O)O", "(2R)-2-amino-3-hydroxypropanoic acid"),
     # threonine
-    ("N[C@@H]([C@@H](O)C)C(=O)O", "L-threonine"),
+    ("N[C@@H]([C@@H](O)C)C(=O)O", "(2S,3S)-2-amino-3-hydroxybutanoic acid"),
     # cysteine
-    ("N[C@@H](CS)C(=O)O", "L-cysteine"),
+    ("N[C@@H](CS)C(=O)O", "(2R)-2-amino-3-sulfanylpropanoic acid"),
     # tyrosine
-    ("N[C@@H](Cc1ccc(O)cc1)C(=O)O", "L-tyrosine"),
+    ("N[C@@H](Cc1ccc(O)cc1)C(=O)O", "(2S)-2-amino-3-(4-hydroxyphenyl)propanoic acid"),
     # asparagine
-    ("N[C@@H](CC(=O)N)C(=O)O", "L-asparagine"),
+    ("N[C@@H](CC(=O)N)C(=O)O", "(2S)-2,4-diamino-4-oxobutanoic acid"),
     # glutamine
-    ("N[C@@H](CCC(=O)N)C(=O)O", "L-glutamine"),
+    ("N[C@@H](CCC(=O)N)C(=O)O", "(2S)-2,5-diamino-5-oxopentanoic acid"),
     # lysine
-    ("N[C@@H](CCCCN)C(=O)O", "L-lysine"),
-    ("N[C@H](CCCCN)C(=O)O", "D-lysine"),
+    ("N[C@@H](CCCCN)C(=O)O", "(2S)-2,6-diaminohexanoic acid"),
+    ("N[C@H](CCCCN)C(=O)O", "(2R)-2,6-diaminohexanoic acid"),
     # arginine
-    ("N[C@@H](CCCNC(=N)N)C(=O)O", "L-arginine"),
+    ("N[C@@H](CCCNC(=N)N)C(=O)O", "(2S)-2-amino-5-(diaminomethylideneamino)pentanoic acid"),
     # histidine
-    ("N[C@@H](Cc1cnc[nH]1)C(=O)O", "L-histidine"),
+    ("N[C@@H](Cc1cnc[nH]1)C(=O)O", "(2S)-2-amino-3-(1H-imidazol-5-yl)propanoic acid"),
     # aspartic acid
-    ("N[C@@H](CC(=O)O)C(=O)O", "L-aspartic acid"),
-    ("N[C@H](CC(=O)O)C(=O)O", "D-aspartic acid"),
+    ("N[C@@H](CC(=O)O)C(=O)O", "(2S)-2-aminobutanedioic acid"),
+    ("N[C@H](CC(=O)O)C(=O)O", "(2R)-2-aminobutanedioic acid"),
     ("NC(CC(=O)O)C(=O)O", "aspartic acid"),
     # glutamic acid
-    ("N[C@@H](CCC(=O)O)C(=O)O", "L-glutamic acid"),
-    ("N[C@H](CCC(=O)O)C(=O)O", "D-glutamic acid"),
+    ("N[C@@H](CCC(=O)O)C(=O)O", "(2S)-2-aminopentanedioic acid"),
+    ("N[C@H](CCC(=O)O)C(=O)O", "(2R)-2-aminopentanedioic acid"),
     ("NC(CCC(=O)O)C(=O)O", "glutamic acid"),
     # 回帰: non-amino-acid compounds unchanged
     ("CC(=O)O", "acetic acid"),

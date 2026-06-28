@@ -50,7 +50,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("OC(=O)CC(O)(CC(=O)O)C(=O)O", "citric acid"),
     # 回帰: amino acids still work
     ("NCC(=O)O",        "glycine"),
-    ("C[C@H](N)C(=O)O", "L-alanine"),
+    ("C[C@H](N)C(=O)O", "(2S)-2-aminopropanoic acid"),
     # 回帰: simple acids unchanged
     ("CC(=O)O",  "acetic acid"),
     ("CCCC(=O)O","butanoic acid"),

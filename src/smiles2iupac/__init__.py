@@ -55,75 +55,75 @@ from .group_namers import (
 # キー = RDKit canonical SMILES (stereo あり/なし両方)
 _RETAINED_NAMES: dict[str, str] = {
     "NCC(=O)O":                          "glycine",
-    # alanine
-    "C[C@H](N)C(=O)O":                  "L-alanine",
-    "C[C@@H](N)C(=O)O":                 "D-alanine",
+    # alanine → PIN: (2S/2R)-2-aminopropanoic acid
+    "C[C@H](N)C(=O)O":                  "(2S)-2-aminopropanoic acid",
+    "C[C@@H](N)C(=O)O":                 "(2R)-2-aminopropanoic acid",
     "CC(N)C(=O)O":                       "alanine",
-    # valine
-    "CC(C)[C@H](N)C(=O)O":              "L-valine",
-    "CC(C)[C@@H](N)C(=O)O":             "D-valine",
+    # valine → PIN: (2S/2R)-2-amino-3-methylbutanoic acid
+    "CC(C)[C@H](N)C(=O)O":              "(2S)-2-amino-3-methylbutanoic acid",
+    "CC(C)[C@@H](N)C(=O)O":             "(2R)-2-amino-3-methylbutanoic acid",
     "CC(C)C(N)C(=O)O":                   "valine",
-    # leucine
-    "CC(C)C[C@H](N)C(=O)O":             "L-leucine",
-    "CC(C)C[C@@H](N)C(=O)O":            "D-leucine",
+    # leucine → PIN: (2S/2R)-2-amino-4-methylpentanoic acid
+    "CC(C)C[C@H](N)C(=O)O":             "(2S)-2-amino-4-methylpentanoic acid",
+    "CC(C)C[C@@H](N)C(=O)O":            "(2R)-2-amino-4-methylpentanoic acid",
     "CC(C)CC(N)C(=O)O":                  "leucine",
-    # isoleucine
-    "CC[C@H](C)[C@H](N)C(=O)O":         "L-isoleucine",
-    # proline
-    "O=C(O)[C@@H]1CCCN1":               "L-proline",
-    "O=C(O)[C@H]1CCCN1":                "D-proline",
+    # isoleucine → PIN: (2S,3S)-2-amino-3-methylpentanoic acid
+    "CC[C@H](C)[C@H](N)C(=O)O":         "(2S,3S)-2-amino-3-methylpentanoic acid",
+    # proline → PIN: (2S/2R)-pyrrolidine-2-carboxylic acid
+    "O=C(O)[C@@H]1CCCN1":               "(2S)-pyrrolidine-2-carboxylic acid",
+    "O=C(O)[C@H]1CCCN1":                "(2R)-pyrrolidine-2-carboxylic acid",
     "OC(=O)C1CCCN1":                     "proline",
-    # phenylalanine
-    "N[C@@H](Cc1ccccc1)C(=O)O":          "L-phenylalanine",
-    "N[C@H](Cc1ccccc1)C(=O)O":          "D-phenylalanine",
+    # phenylalanine → PIN: (2S/2R)-2-amino-3-phenylpropanoic acid
+    "N[C@@H](Cc1ccccc1)C(=O)O":          "(2S)-2-amino-3-phenylpropanoic acid",
+    "N[C@H](Cc1ccccc1)C(=O)O":          "(2R)-2-amino-3-phenylpropanoic acid",
     "NC(Cc1ccccc1)C(=O)O":               "phenylalanine",
-    # tryptophan
-    "N[C@@H](Cc1c[nH]c2ccccc12)C(=O)O": "L-tryptophan",
-    "N[C@H](Cc1c[nH]c2ccccc12)C(=O)O":  "D-tryptophan",
-    # methionine
-    "CSCC[C@H](N)C(=O)O":               "L-methionine",
-    "CSCC[C@@H](N)C(=O)O":              "D-methionine",
+    # tryptophan → PIN: (2S/2R)-2-amino-3-(1H-indol-3-yl)propanoic acid
+    "N[C@@H](Cc1c[nH]c2ccccc12)C(=O)O": "(2S)-2-amino-3-(1H-indol-3-yl)propanoic acid",
+    "N[C@H](Cc1c[nH]c2ccccc12)C(=O)O":  "(2R)-2-amino-3-(1H-indol-3-yl)propanoic acid",
+    # methionine → PIN: (2S/2R)-2-amino-4-methylsulfanylbutanoic acid
+    "CSCC[C@H](N)C(=O)O":               "(2S)-2-amino-4-methylsulfanylbutanoic acid",
+    "CSCC[C@@H](N)C(=O)O":              "(2R)-2-amino-4-methylsulfanylbutanoic acid",
     "CSCCC(N)C(=O)O":                    "methionine",
-    # serine
-    "N[C@@H](CO)C(=O)O":                 "L-serine",
-    "N[C@H](CO)C(=O)O":                 "D-serine",
+    # serine → PIN: (2S/2R)-2-amino-3-hydroxypropanoic acid
+    "N[C@@H](CO)C(=O)O":                 "(2S)-2-amino-3-hydroxypropanoic acid",
+    "N[C@H](CO)C(=O)O":                 "(2R)-2-amino-3-hydroxypropanoic acid",
     "NC(CO)C(=O)O":                      "serine",
-    # threonine
-    "C[C@H](O)[C@H](N)C(=O)O":          "L-threonine",
-    "C[C@@H](O)[C@@H](N)C(=O)O":        "D-threonine",
-    # cysteine
-    "N[C@@H](CS)C(=O)O":                 "L-cysteine",
-    "N[C@H](CS)C(=O)O":                 "D-cysteine",
+    # threonine → PIN: (2S,3S/2R,3R)-2-amino-3-hydroxybutanoic acid
+    "C[C@H](O)[C@H](N)C(=O)O":          "(2S,3S)-2-amino-3-hydroxybutanoic acid",
+    "C[C@@H](O)[C@@H](N)C(=O)O":        "(2R,3R)-2-amino-3-hydroxybutanoic acid",
+    # cysteine → PIN: (2R/2S)-2-amino-3-sulfanylpropanoic acid
+    "N[C@@H](CS)C(=O)O":                 "(2R)-2-amino-3-sulfanylpropanoic acid",
+    "N[C@H](CS)C(=O)O":                 "(2S)-2-amino-3-sulfanylpropanoic acid",
     "NC(CS)C(=O)O":                      "cysteine",
-    # tyrosine
-    "N[C@@H](Cc1ccc(O)cc1)C(=O)O":       "L-tyrosine",
-    "N[C@H](Cc1ccc(O)cc1)C(=O)O":       "D-tyrosine",
-    # asparagine
-    "NC(=O)C[C@H](N)C(=O)O":            "L-asparagine",
-    "NC(=O)C[C@@H](N)C(=O)O":           "D-asparagine",
+    # tyrosine → PIN: (2S/2R)-2-amino-3-(4-hydroxyphenyl)propanoic acid
+    "N[C@@H](Cc1ccc(O)cc1)C(=O)O":       "(2S)-2-amino-3-(4-hydroxyphenyl)propanoic acid",
+    "N[C@H](Cc1ccc(O)cc1)C(=O)O":       "(2R)-2-amino-3-(4-hydroxyphenyl)propanoic acid",
+    # asparagine → PIN: (2S/2R)-2,4-diamino-4-oxobutanoic acid
+    "NC(=O)C[C@H](N)C(=O)O":            "(2S)-2,4-diamino-4-oxobutanoic acid",
+    "NC(=O)C[C@@H](N)C(=O)O":           "(2R)-2,4-diamino-4-oxobutanoic acid",
     "NC(=O)CC(N)C(=O)O":                 "asparagine",
-    # glutamine
-    "NC(=O)CC[C@H](N)C(=O)O":           "L-glutamine",
-    "NC(=O)CC[C@@H](N)C(=O)O":          "D-glutamine",
+    # glutamine → PIN: (2S/2R)-2,5-diamino-5-oxopentanoic acid
+    "NC(=O)CC[C@H](N)C(=O)O":           "(2S)-2,5-diamino-5-oxopentanoic acid",
+    "NC(=O)CC[C@@H](N)C(=O)O":          "(2R)-2,5-diamino-5-oxopentanoic acid",
     "NC(=O)CCC(N)C(=O)O":                "glutamine",
-    # lysine
-    "NCCCC[C@H](N)C(=O)O":              "L-lysine",
-    "NCCCC[C@@H](N)C(=O)O":             "D-lysine",
+    # lysine → PIN: (2S/2R)-2,6-diaminohexanoic acid
+    "NCCCC[C@H](N)C(=O)O":              "(2S)-2,6-diaminohexanoic acid",
+    "NCCCC[C@@H](N)C(=O)O":             "(2R)-2,6-diaminohexanoic acid",
     "NCCCCC(N)C(=O)O":                   "lysine",
-    # arginine
-    "N=C(N)NCCC[C@H](N)C(=O)O":         "L-arginine",
-    "N=C(N)NCCC[C@@H](N)C(=O)O":        "D-arginine",
-    # histidine
-    "N[C@@H](Cc1cnc[nH]1)C(=O)O":        "L-histidine",
-    "N[C@H](Cc1cnc[nH]1)C(=O)O":        "D-histidine",
+    # arginine → PIN: (2S/2R)-2-amino-5-(diaminomethylideneamino)pentanoic acid
+    "N=C(N)NCCC[C@H](N)C(=O)O":         "(2S)-2-amino-5-(diaminomethylideneamino)pentanoic acid",
+    "N=C(N)NCCC[C@@H](N)C(=O)O":        "(2R)-2-amino-5-(diaminomethylideneamino)pentanoic acid",
+    # histidine → PIN: (2S/2R)-2-amino-3-(1H-imidazol-5-yl)propanoic acid
+    "N[C@@H](Cc1cnc[nH]1)C(=O)O":        "(2S)-2-amino-3-(1H-imidazol-5-yl)propanoic acid",
+    "N[C@H](Cc1cnc[nH]1)C(=O)O":        "(2R)-2-amino-3-(1H-imidazol-5-yl)propanoic acid",
     "NC(Cc1cnc[nH]1)C(=O)O":             "histidine",
-    # aspartic acid
-    "N[C@@H](CC(=O)O)C(=O)O":            "L-aspartic acid",
-    "N[C@H](CC(=O)O)C(=O)O":            "D-aspartic acid",
+    # aspartic acid → PIN: (2S/2R)-2-aminobutanedioic acid
+    "N[C@@H](CC(=O)O)C(=O)O":            "(2S)-2-aminobutanedioic acid",
+    "N[C@H](CC(=O)O)C(=O)O":            "(2R)-2-aminobutanedioic acid",
     "NC(CC(=O)O)C(=O)O":                 "aspartic acid",
-    # glutamic acid
-    "N[C@@H](CCC(=O)O)C(=O)O":           "L-glutamic acid",
-    "N[C@H](CCC(=O)O)C(=O)O":           "D-glutamic acid",
+    # glutamic acid → PIN: (2S/2R)-2-aminopentanedioic acid
+    "N[C@@H](CCC(=O)O)C(=O)O":           "(2S)-2-aminopentanedioic acid",
+    "N[C@H](CCC(=O)O)C(=O)O":           "(2R)-2-aminopentanedioic acid",
     "NC(CCC(=O)O)C(=O)O":                "glutamic acid",
 
     # ── Phase 136: 二塩基酸・ヒドロキシ酸 保留名 (P-65.1.1.4, P-65.1.3) ──
