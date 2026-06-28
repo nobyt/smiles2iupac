@@ -160,17 +160,17 @@ _RETAINED_NAMES: dict[str, str] = {
     "O=C(O)c1cc(C(=O)O)c(C(=O)O)c(C(=O)O)c1C(=O)O": "benzene-1,2,3,4,5-pentacarboxylic acid",
     # hexacarboxylic (mellitic acid — retained name, IUPAC 2013 P-65.1.2.3)
     "O=C(O)c1c(C(=O)O)c(C(=O)O)c(C(=O)O)c(C(=O)O)c1C(=O)O": "mellitic acid",
-    # lactic acid P-65.1.1.4
-    "C[C@@H](O)C(=O)O":                 "L-lactic acid",
-    "C[C@H](O)C(=O)O":                  "D-lactic acid",
+    # lactic acid → PIN: (2R/2S)-2-hydroxypropanoic acid
+    "C[C@@H](O)C(=O)O":                 "(2R)-2-hydroxypropanoic acid",
+    "C[C@H](O)C(=O)O":                  "(2S)-2-hydroxypropanoic acid",
     "CC(O)C(=O)O":                       "lactic acid",
-    # malic acid
-    "O=C(O)C[C@H](O)C(=O)O":           "L-malic acid",
-    "O=C(O)C[C@@H](O)C(=O)O":          "D-malic acid",
+    # malic acid → PIN: (2S/2R)-2-hydroxybutanedioic acid
+    "O=C(O)C[C@H](O)C(=O)O":           "(2S)-2-hydroxybutanedioic acid",
+    "O=C(O)C[C@@H](O)C(=O)O":          "(2R)-2-hydroxybutanedioic acid",
     "O=C(O)CC(O)C(=O)O":               "malic acid",
-    # tartaric acid
-    "O=C(O)[C@@H](O)[C@H](O)C(=O)O":   "L-tartaric acid",
-    "O=C(O)[C@H](O)[C@@H](O)C(=O)O":   "D-tartaric acid",
+    # tartaric acid → PIN: (2S,3S/2R,3R)-2,3-dihydroxybutanedioic acid
+    "O=C(O)[C@@H](O)[C@H](O)C(=O)O":   "(2S,3S)-2,3-dihydroxybutanedioic acid",
+    "O=C(O)[C@H](O)[C@@H](O)C(=O)O":   "(2R,3R)-2,3-dihydroxybutanedioic acid",
     "O=C(O)[C@@H](O)[C@@H](O)C(=O)O":  "meso-tartaric acid",
     "O=C(O)C(O)C(O)C(=O)O":            "tartaric acid",
     # citric acid
