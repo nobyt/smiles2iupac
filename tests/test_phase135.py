@@ -12,8 +12,8 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # glycine (no stereo center)
-    ("NCC(=O)O", "glycine"),
+    # glycine → PIN: 2-aminoacetic acid (Phase 735)
+    ("NCC(=O)O", "2-aminoacetic acid"),
     # alanine
     ("N[C@@H](C)C(=O)O", "(2S)-2-aminopropanoic acid"),
     ("N[C@H](C)C(=O)O", "(2R)-2-aminopropanoic acid"),
@@ -58,11 +58,11 @@ from src.smiles2iupac import smiles_to_iupac
     # aspartic acid
     ("N[C@@H](CC(=O)O)C(=O)O", "(2S)-2-aminobutanedioic acid"),
     ("N[C@H](CC(=O)O)C(=O)O", "(2R)-2-aminobutanedioic acid"),
-    ("NC(CC(=O)O)C(=O)O", "aspartic acid"),
-    # glutamic acid
+    ("NC(CC(=O)O)C(=O)O", "2-aminobutanedioic acid"),
+    # glutamic acid → PIN: 2-aminopentanedioic acid (Phase 735)
     ("N[C@@H](CCC(=O)O)C(=O)O", "(2S)-2-aminopentanedioic acid"),
     ("N[C@H](CCC(=O)O)C(=O)O", "(2R)-2-aminopentanedioic acid"),
-    ("NC(CCC(=O)O)C(=O)O", "glutamic acid"),
+    ("NC(CCC(=O)O)C(=O)O", "2-aminopentanedioic acid"),
     # 回帰: non-amino-acid compounds unchanged
     ("CC(=O)O", "acetic acid"),
     ("CCCC(N)=O", "butanamide"),

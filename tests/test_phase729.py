@@ -1,6 +1,6 @@
 """Phase 729: missing methyl derivatives of imidazo/triazolo-fused pyridines,
 pyrazines, pyridazines, pyrimidines, and triazines; plus monocyclic
-1,2,4-triazine, isothiazole, oxazole, and thiazole.
+1,2,4-triazine, 1,2-thiazole (isothiazole PIN), 1,3-oxazole (oxazole PIN), and 1,3-thiazole (thiazole PIN).
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -127,15 +127,15 @@ from smiles2iupac import smiles_to_iupac
     ("c1cnncn1",                "1,2,4-triazine"),
     ("Cc1nccnn1",               "3-methyl-1,2,4-triazine"),
     ("Cc1cncnn1",               "6-methyl-1,2,4-triazine"),
-    # isothiazole (CH at 3)
-    ("c1cnsc1",                 "isothiazole"),
-    ("Cc1ccsn1",                "3-methylisothiazole"),
-    # oxazole (CH at 2)
-    ("c1cocn1",                 "oxazole"),
-    ("Cc1ncco1",                "2-methyloxazole"),
-    # thiazole (CH at 2)
-    ("c1cscn1",                 "thiazole"),
-    ("Cc1nccs1",                "2-methylthiazole"),
+    # 1,2-thiazole (isothiazole PIN)
+    ("c1cnsc1",                 "1,2-thiazole"),
+    ("Cc1ccsn1",                "3-methyl-1,2-thiazole"),
+    # 1,3-oxazole (oxazole PIN)
+    ("c1cocn1",                 "1,3-oxazole"),
+    ("Cc1ncco1",                "2-methyl-1,3-oxazole"),
+    # 1,3-thiazole (thiazole PIN)
+    ("c1cscn1",                 "1,3-thiazole"),
+    ("Cc1nccs1",                "2-methyl-1,3-thiazole"),
 ])
 def test_phase729(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

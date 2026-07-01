@@ -27,7 +27,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("OC(=O)Cc1ccccc1",     "phenylacetic acid"),
     # 回帰: 置換 > 2C 以上は通常命名
     ("OC(=O)CCCl",          "3-chloropropanoic acid"),
-    ("OC(=O)CCC(=O)O",      "succinic acid"),
+    ("OC(=O)CCC(=O)O",      "butanedioic acid"),
 ])
 def test_phase179_haloacetic_and_phenylacetic(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

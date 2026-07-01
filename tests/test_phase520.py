@@ -16,7 +16,7 @@ from smiles2iupac import smiles_to_iupac
     ("CCN(CC)CC(=O)O",  "2-(diethylamino)acetic acid"),
     # tertiary amino substituent (different groups) — square brackets b/c substituent contains comma
     ("CN(CC)CC(=O)O",   "2-[(ethyl,methyl)amino]acetic acid"),
-    # regression: primary amino still works (NCC(=O)O is retained "glycine")
+    # regression: primary amino still works
     ("NCCC(=O)O",       "3-aminopropanoic acid"),
 ])
 def test_phase520_amino_substituent(smiles, expected):

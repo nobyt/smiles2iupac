@@ -1,4 +1,4 @@
-"""Phase 613: monocyclic heteroaromatics — triazines, tetrazine, isothiazole, isoxazole, oxazole, thiazole, thieno isomers"""
+"""Phase 613: monocyclic heteroaromatics — triazines, tetrazine, 1,2-thiazole, 1,2-oxazole, 1,3-oxazole, 1,3-thiazole, thieno isomers"""
 import pytest
 from smiles2iupac import smiles_to_iupac
 
@@ -19,26 +19,26 @@ from smiles2iupac import smiles_to_iupac
     # 1,3,5-triazine
     ('c1ncncn1', '1,3,5-triazine'),
     ('Cc1ncncn1', '2-methyl-1,3,5-triazine'),
-    # isothiazole
-    ('c1cnsc1', 'isothiazole'),
-    ('Cc1ccsn1', '3-methylisothiazole'),
-    ('Cc1cnsc1', '4-methylisothiazole'),
-    ('Cc1ccns1', '5-methylisothiazole'),
-    # isoxazole
-    ('c1cnoc1', 'isoxazole'),
-    ('Cc1ccon1', '3-methylisoxazole'),
-    ('Cc1cnoc1', '4-methylisoxazole'),
-    ('Cc1ccno1', '5-methylisoxazole'),
-    # oxazole
-    ('c1cocn1', 'oxazole'),
-    ('Cc1ncco1', '2-methyloxazole'),
-    ('Cc1cocn1', '4-methyloxazole'),
-    ('Cc1cnco1', '5-methyloxazole'),
-    # thiazole
-    ('c1cscn1', 'thiazole'),
-    ('Cc1nccs1', '2-methylthiazole'),
-    ('Cc1cscn1', '4-methylthiazole'),
-    ('Cc1cncs1', '5-methylthiazole'),
+    # 1,2-thiazole (isothiazole PIN)
+    ('c1cnsc1', '1,2-thiazole'),
+    ('Cc1ccsn1', '3-methyl-1,2-thiazole'),
+    ('Cc1cnsc1', '4-methyl-1,2-thiazole'),
+    ('Cc1ccns1', '5-methyl-1,2-thiazole'),
+    # 1,2-oxazole (isoxazole PIN)
+    ('c1cnoc1', '1,2-oxazole'),
+    ('Cc1ccon1', '3-methyl-1,2-oxazole'),
+    ('Cc1cnoc1', '4-methyl-1,2-oxazole'),
+    ('Cc1ccno1', '5-methyl-1,2-oxazole'),
+    # 1,3-oxazole (oxazole PIN)
+    ('c1cocn1', '1,3-oxazole'),
+    ('Cc1ncco1', '2-methyl-1,3-oxazole'),
+    ('Cc1cocn1', '4-methyl-1,3-oxazole'),
+    ('Cc1cnco1', '5-methyl-1,3-oxazole'),
+    # 1,3-thiazole (thiazole PIN)
+    ('c1cscn1', '1,3-thiazole'),
+    ('Cc1nccs1', '2-methyl-1,3-thiazole'),
+    ('Cc1cscn1', '4-methyl-1,3-thiazole'),
+    ('Cc1cncs1', '5-methyl-1,3-thiazole'),
     # thieno[2,3-b]thiophene
     ('c1cc2ccsc2s1', 'thieno[2,3-b]thiophene'),
     ('Cc1cc2ccsc2s1', '2-methylthieno[2,3-b]thiophene'),

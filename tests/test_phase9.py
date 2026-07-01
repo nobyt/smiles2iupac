@@ -62,12 +62,12 @@ class TestDioicAcids:
         assert smiles_to_iupac("OC(=O)CC(=O)O") == "malonic acid"
 
     def test_butanedioic_acid(self):
-        # コハク酸: IUPAC 2013 P-65.1.1.4 保留名
-        assert smiles_to_iupac("OC(=O)CCC(=O)O") == "succinic acid"
+        # IUPAC 2013 PIN: butanedioic acid (Phase 735)
+        assert smiles_to_iupac("OC(=O)CCC(=O)O") == "butanedioic acid"
 
     def test_pentanedioic_acid(self):
-        # グルタル酸: IUPAC 2013 P-65.1.1.4 保留名
-        assert smiles_to_iupac("OC(=O)CCCC(=O)O") == "glutaric acid"
+        # IUPAC 2013 PIN: pentanedioic acid (Phase 735)
+        assert smiles_to_iupac("OC(=O)CCCC(=O)O") == "pentanedioic acid"
 
 
 # ─── 混合官能基 ──────────────────────────────────────────────────────────
@@ -75,8 +75,8 @@ class TestDioicAcids:
 class TestMixedFunctionalGroups:
 
     def test_2_hydroxypropanoic_acid(self):
-        # 乳酸: IUPAC 2013 P-65.1.1.4 保留名 "lactic acid"
-        assert smiles_to_iupac("CC(O)C(=O)O") == "lactic acid"
+        # IUPAC 2013 PIN: 2-hydroxypropanoic acid (Phase 735)
+        assert smiles_to_iupac("CC(O)C(=O)O") == "2-hydroxypropanoic acid"
 
     def test_3_hydroxypropanoic_acid(self):
         assert smiles_to_iupac("OCCC(=O)O") == "3-hydroxypropanoic acid"

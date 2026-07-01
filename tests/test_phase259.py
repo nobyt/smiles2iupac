@@ -22,8 +22,8 @@ from smiles2iupac import smiles_to_iupac
     ("NCC(=O)OCC",      "ethyl glycinate"),
     ("CC(N)C(=O)OC",    "methyl alaninate"),
     ("CC(N)C(=O)OCC",   "ethyl alaninate"),
-    # regression: amino acids unchanged
-    ("NCC(=O)O",        "glycine"),
+    # regression: glycine → PIN 2-aminoacetic acid (Phase 735)
+    ("NCC(=O)O",        "2-aminoacetic acid"),
     ("CC(N)C(=O)O",     "alanine"),
     # regression: benzoic acid unchanged
     ("OC(=O)c1ccccc1",  "benzoic acid"),

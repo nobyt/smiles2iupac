@@ -27,8 +27,8 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: fused heteroaromatics unchanged (Phase 131-134)
     ("c1ccc2c(c1)[nH]c1ccccc12", "9H-carbazole"),
     ("c1cnc2ncccc2c1",           "1,8-naphthyridine"),
-    # 回帰: amino acids unchanged (Phase 135)
-    ("NCC(=O)O", "glycine"),
+    # 回帰: glycine → PIN 2-aminoacetic acid (Phase 735)
+    ("NCC(=O)O", "2-aminoacetic acid"),
     # 回帰: benzene unchanged
     ("c1ccccc1", "benzene"),
 ])

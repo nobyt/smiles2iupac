@@ -261,8 +261,8 @@ _PARTIAL_UNSAT_PARENT: dict[tuple[int, str], str] = {
 _DIHETERO_PARENT_BY_LOWLOC_SIG: dict[tuple[str, ...], str] = {
     ("S", "C", "N", "C", "C"): "1,3-thiazole",
     ("O", "C", "N", "C", "C"): "1,3-oxazole",
-    ("S", "N", "C", "C", "C"): "isothiazole",
-    ("O", "N", "C", "C", "C"): "isoxazole",
+    ("S", "N", "C", "C", "C"): "1,2-thiazole",
+    ("O", "N", "C", "C", "C"): "1,2-oxazole",
     ("N", "C", "N", "C", "C"): "1H-imidazole",
     ("N", "N", "C", "C", "C"): "1H-pyrazole",
 }
@@ -588,10 +588,10 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # Phase 269: 5員二ヘテロ芳香族
     (True,  ("NH", "C", "C", "C", "N")): ("pyrazole",    True),   # 1H-pyrazole
     (True,  ("N",  "C", "C", "C", "N")): ("pyrazole",    False),  # 1-substituted
-    (True,  ("O",  "C", "C", "C", "N")): ("isoxazole",   False),
-    (True,  ("O",  "C", "C", "N", "C")): ("oxazole",     False),
-    (True,  ("S",  "C", "C", "N", "C")): ("thiazole",    False),
-    (True,  ("S",  "C", "C", "C", "N")): ("isothiazole", False),
+    (True,  ("O",  "C", "C", "C", "N")): ("1,2-oxazole",   False),
+    (True,  ("O",  "C", "C", "N", "C")): ("1,3-oxazole",   False),
+    (True,  ("S",  "C", "C", "N", "C")): ("1,3-thiazole",  False),
+    (True,  ("S",  "C", "C", "C", "N")): ("1,2-thiazole",  False),
     # Phase 401: pyrimidine di-NH tautomer → pyrimidine-2,4(1H,3H)-dione (uracil/thymine)
     (True,  ("NH", "C", "C", "C", "NH", "C")): ("pyrimidine", True),
     # Phase 400: 5員 oxazolone/thiazolone tautomers (NH-first sig, O/S in ring)
@@ -1412,10 +1412,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ncc2nc[nH]c2n1": "9H-purine",
     # Phase 141: 単環式ヘテロ芳香族 (Hantzsch-Widman が未対応) IUPAC 2013 P-31.1.3
     # 5-membered, two different heteroatoms
-    "c1cnoc1":   "isoxazole",
-    "c1cocn1":   "oxazole",
-    "c1cscn1":   "thiazole",
-    "c1cnsc1":   "isothiazole",
+    "c1cnoc1":   "1,2-oxazole",
+    "c1cocn1":   "1,3-oxazole",
+    "c1cscn1":   "1,3-thiazole",
+    "c1cnsc1":   "1,2-thiazole",
     # 5-membered oxadiazoles
     "c1conn1":   "1,2,3-oxadiazole",
     "c1ncon1":   "1,2,4-oxadiazole",
@@ -1613,7 +1613,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2snnc2c1":    "1,2,3-benzothiadiazole",
     "c1ccc2nsnc2c1":    "2,1,3-benzothiadiazole",
     "c1ccc2nonc2c1":    "2,1,3-benzoxadiazole",
-    "c1ccc2sncc2c1":    "1,2-benzisothiazole",
+    "c1ccc2sncc2c1":    "1,2-benzothiazole",
     "c1ccc2nscc2c1":    "2,1-benzisothiazole",
     # Phase 462: benzo[c]thiophene, benzo[b]selenophene, benzo[c]selenophene,
     #            1,2,3-/2,1,3-benzoselenadiazole (IUPAC 2013 P-31.1.3)

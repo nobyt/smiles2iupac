@@ -35,7 +35,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("[Ca+2].[O-]C(=O)C.[O-]C(=O)C",    "calcium diacetate"),
     # 回帰: 通常カルボン酸
     ("CC(=O)O",                          "acetic acid"),
-    ("OC(=O)CCC(=O)O",                   "succinic acid"),
+    ("OC(=O)CCC(=O)O",                   "butanedioic acid"),
     ("CC",                               "ethane"),
 ])
 def test_phase147_salts_and_dianions(smiles, expected):

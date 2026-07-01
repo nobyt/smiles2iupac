@@ -10,8 +10,8 @@ from smiles2iupac import smiles_to_iupac
     # Partially saturated (4,5-dihydro) forms
     ("C1=NCCS1",  "4,5-dihydro-1,3-thiazole"),
     ("C1=NCCO1",  "4,5-dihydro-1,3-oxazole"),
-    ("C1=NSCC1",  "4,5-dihydroisothiazole"),
-    ("C1=NOCC1",  "4,5-dihydroisoxazole"),
+    ("C1=NSCC1",  "4,5-dihydro-1,2-thiazole"),
+    ("C1=NOCC1",  "4,5-dihydro-1,2-oxazole"),
     ("C1=NCCN1",  "4,5-dihydro-1H-imidazole"),
     ("C1=NNCC1",  "4,5-dihydro-1H-pyrazole"),
     # Fully saturated forms still correct

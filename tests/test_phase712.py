@@ -1,6 +1,6 @@
 """Phase 712: methyl derivatives of simple benzene-fused aromatic heterocycles
 (benzofuran, benzo[b]thiophene, benzo[b]selenophene, 1,3-benzodioxole,
-1,3-benzoxazole, 1,3-benzothiazole, 1,2-benzisoxazole, 1,2-benzisothiazole,
+1,3-benzoxazole, 1,3-benzothiazole, 1,2-benzoxazole, 1,2-benzothiazole,
 1H-benzimidazole, 1H-indole, 1H-indazole, 2H-indazole,
 1H-benzotriazole, 1,2,3-benzothiadiazole, 1,2,3-benzoselenadiazole).
 """
@@ -51,20 +51,20 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2scnc2c1",      "5-methyl-1,3-benzothiazole"),
     ("Cc1ccc2ncsc2c1",      "6-methyl-1,3-benzothiazole"),
     ("Cc1cccc2ncsc12",      "7-methyl-1,3-benzothiazole"),
-    # 1,2-benzisoxazole (CH at 3,4,5,6,7)
+    # 1,2-benzoxazole (CH at 3,4,5,6,7)
     ("c1ccc2oncc2c1",       "1,2-benzoxazole"),
     ("Cc1noc2ccccc12",      "3-methyl-1,2-benzoxazole"),
     ("Cc1cccc2oncc12",      "4-methyl-1,2-benzoxazole"),
     ("Cc1ccc2oncc2c1",      "5-methyl-1,2-benzoxazole"),
     ("Cc1ccc2cnoc2c1",      "6-methyl-1,2-benzoxazole"),
     ("Cc1cccc2cnoc12",      "7-methyl-1,2-benzoxazole"),
-    # 1,2-benzisothiazole (CH at 3,4,5,6,7)
-    ("c1ccc2sncc2c1",       "1,2-benzisothiazole"),
-    ("Cc1nsc2ccccc12",      "3-methyl-1,2-benzisothiazole"),
-    ("Cc1cccc2sncc12",      "4-methyl-1,2-benzisothiazole"),
-    ("Cc1ccc2sncc2c1",      "5-methyl-1,2-benzisothiazole"),
-    ("Cc1ccc2cnsc2c1",      "6-methyl-1,2-benzisothiazole"),
-    ("Cc1cccc2cnsc12",      "7-methyl-1,2-benzisothiazole"),
+    # 1,2-benzothiazole (CH at 3,4,5,6,7)
+    ("c1ccc2sncc2c1",       "1,2-benzothiazole"),
+    ("Cc1nsc2ccccc12",      "3-methyl-1,2-benzothiazole"),
+    ("Cc1cccc2sncc12",      "4-methyl-1,2-benzothiazole"),
+    ("Cc1ccc2sncc2c1",      "5-methyl-1,2-benzothiazole"),
+    ("Cc1ccc2cnsc2c1",      "6-methyl-1,2-benzothiazole"),
+    ("Cc1cccc2cnsc12",      "7-methyl-1,2-benzothiazole"),
     # 1H-benzimidazole (CH at 2,4,5,6,7)
     ("c1ccc2[nH]cnc2c1",    "1H-benzimidazole"),
     ("Cc1nc2ccccc2[nH]1",   "2-methyl-1H-benzimidazole"),

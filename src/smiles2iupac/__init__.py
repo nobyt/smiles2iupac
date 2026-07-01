@@ -54,7 +54,6 @@ from .group_namers import (
 # Phase 135/136: 保留名テーブル (IUPAC 2013 P-12.1, P-65.1.1.4, P-65.1.3)
 # キー = RDKit canonical SMILES (stereo あり/なし両方)
 _RETAINED_NAMES: dict[str, str] = {
-    "NCC(=O)O":                          "glycine",
     # alanine → PIN: (2S/2R)-2-aminopropanoic acid
     "C[C@H](N)C(=O)O":                  "(2S)-2-aminopropanoic acid",
     "C[C@@H](N)C(=O)O":                 "(2R)-2-aminopropanoic acid",
@@ -120,23 +119,15 @@ _RETAINED_NAMES: dict[str, str] = {
     # aspartic acid → PIN: (2S/2R)-2-aminobutanedioic acid
     "N[C@@H](CC(=O)O)C(=O)O":            "(2S)-2-aminobutanedioic acid",
     "N[C@H](CC(=O)O)C(=O)O":            "(2R)-2-aminobutanedioic acid",
-    "NC(CC(=O)O)C(=O)O":                 "aspartic acid",
     # glutamic acid → PIN: (2S/2R)-2-aminopentanedioic acid
     "N[C@@H](CCC(=O)O)C(=O)O":           "(2S)-2-aminopentanedioic acid",
     "N[C@H](CCC(=O)O)C(=O)O":           "(2R)-2-aminopentanedioic acid",
-    "NC(CCC(=O)O)C(=O)O":                "glutamic acid",
 
     # ── Phase 136: 二塩基酸・ヒドロキシ酸 保留名 (P-65.1.1.4, P-65.1.3) ──
-    # aliphatic diacids
+    # aliphatic diacids (oxalic/malonic/adipic are retained PINs; succinic..sebacic → systematic PIN)
     "O=C(O)C(=O)O":                      "oxalic acid",
     "O=C(O)CC(=O)O":                     "malonic acid",
-    "O=C(O)CCC(=O)O":                    "succinic acid",
-    "O=C(O)CCCC(=O)O":                   "glutaric acid",
     "O=C(O)CCCCC(=O)O":                  "adipic acid",
-    "O=C(O)CCCCCC(=O)O":                 "pimelic acid",
-    "O=C(O)CCCCCCC(=O)O":               "suberic acid",
-    "O=C(O)CCCCCCCC(=O)O":              "azelaic acid",
-    "O=C(O)CCCCCCCCC(=O)O":             "sebacic acid",
     # unsaturated diacids (maleic is PIN; fumaric PIN is (E)-but-2-enedioic acid)
     "O=C(O)/C=C\\C(=O)O":               "maleic acid",
     "O=C(O)/C=C/C(=O)O":                "(E)-but-2-enedioic acid",
@@ -160,19 +151,17 @@ _RETAINED_NAMES: dict[str, str] = {
     "O=C(O)c1cc(C(=O)O)c(C(=O)O)c(C(=O)O)c1C(=O)O": "benzene-1,2,3,4,5-pentacarboxylic acid",
     # hexacarboxylic (mellitic acid — retained name, IUPAC 2013 P-65.1.2.3)
     "O=C(O)c1c(C(=O)O)c(C(=O)O)c(C(=O)O)c(C(=O)O)c1C(=O)O": "mellitic acid",
-    # lactic acid → PIN: (2R/2S)-2-hydroxypropanoic acid
+    # hydroxy acids → PINs (Phase 735)
     "C[C@@H](O)C(=O)O":                 "(2R)-2-hydroxypropanoic acid",
     "C[C@H](O)C(=O)O":                  "(2S)-2-hydroxypropanoic acid",
-    "CC(O)C(=O)O":                       "lactic acid",
-    # malic acid → PIN: (2S/2R)-2-hydroxybutanedioic acid
+    "CC(O)C(=O)O":                       "2-hydroxypropanoic acid",
     "O=C(O)C[C@H](O)C(=O)O":           "(2S)-2-hydroxybutanedioic acid",
     "O=C(O)C[C@@H](O)C(=O)O":          "(2R)-2-hydroxybutanedioic acid",
-    "O=C(O)CC(O)C(=O)O":               "malic acid",
-    # tartaric acid → PIN: (2S,3S/2R,3R)-2,3-dihydroxybutanedioic acid
+    "O=C(O)CC(O)C(=O)O":               "2-hydroxybutanedioic acid",
     "O=C(O)[C@@H](O)[C@H](O)C(=O)O":   "(2S,3S)-2,3-dihydroxybutanedioic acid",
     "O=C(O)[C@H](O)[C@@H](O)C(=O)O":   "(2R,3R)-2,3-dihydroxybutanedioic acid",
-    "O=C(O)[C@@H](O)[C@@H](O)C(=O)O":  "meso-tartaric acid",
-    "O=C(O)C(O)C(O)C(=O)O":            "tartaric acid",
+    "O=C(O)[C@@H](O)[C@@H](O)C(=O)O":  "(2R,3S)-2,3-dihydroxybutanedioic acid",
+    "O=C(O)C(O)C(O)C(=O)O":            "2,3-dihydroxybutanedioic acid",
     # citric acid
     "O=C(O)CC(O)(CC(=O)O)C(=O)O":      "citric acid",
 

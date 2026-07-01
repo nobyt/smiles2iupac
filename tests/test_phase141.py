@@ -1,6 +1,6 @@
 """Phase 141: 単環式ヘテロ芳香族 (IUPAC 2013 P-31.1.3)
 
-isoxazole, oxazole, thiazole, isothiazole,
+1,2-oxazole (isoxazole), 1,3-oxazole (oxazole), 1,3-thiazole (thiazole), 1,2-thiazole (isothiazole),
 oxadiazoles (1,2,3 / 1,2,4 / 1,2,5 / 1,3,4),
 thiadiazoles (1,2,3 / 1,2,4 / 1,2,5 / 1,3,4),
 1H-pyrazole, 1H-1,2,3-triazole, 1H-1,2,4-triazole, 1H-tetrazole,
@@ -13,10 +13,10 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # 5-membered with two different heteroatoms
-    ("c1cnoc1",   "isoxazole"),
-    ("c1cocn1",   "oxazole"),
-    ("c1cscn1",   "thiazole"),
-    ("c1cnsc1",   "isothiazole"),
+    ("c1cnoc1",   "1,2-oxazole"),
+    ("c1cocn1",   "1,3-oxazole"),
+    ("c1cscn1",   "1,3-thiazole"),
+    ("c1cnsc1",   "1,2-thiazole"),
     # oxadiazoles
     ("c1conn1",   "1,2,3-oxadiazole"),
     ("c1ncon1",   "1,2,4-oxadiazole"),

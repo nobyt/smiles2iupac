@@ -18,9 +18,9 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1NC=CO1",    "1,3-oxazol-2(3H)-one"),
     # 1,3-thiazol-2(3H)-one
     ("O=C1NC=CS1",    "1,3-thiazol-2(3H)-one"),
-    # regression: plain parent rings unchanged
-    ("c1ncco1",        "oxazole"),
-    ("c1cscn1",        "thiazole"),
+    # regression: plain parent rings → PINs (Phase 735)
+    ("c1ncco1",        "1,3-oxazole"),
+    ("c1cscn1",        "1,3-thiazole"),
     # regression: 6-membered indicated-H lactams unchanged
     ("O=C1NC=CC=C1",  "pyridin-2(1H)-one"),
     ("O=C1NC=CC=N1",  "pyrimidin-2(1H)-one"),
