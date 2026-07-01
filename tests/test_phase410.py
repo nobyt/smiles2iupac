@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     # chroman-4-one (flavanone skeleton without substituents)
     ("O=C1CCOc2ccccc21",              "chroman-4-one"),
     # regression: indan-1-one (5-membered) unchanged
-    ("O=C1CCc2ccccc21",               "indan-1-one"),
+    ("O=C1CCc2ccccc21",               "2,3-dihydroinden-1-one"),
     # regression: chromane unchanged
     ("C1CCc2ccccc2O1",                "chromane"),
     # regression: isochromane unchanged

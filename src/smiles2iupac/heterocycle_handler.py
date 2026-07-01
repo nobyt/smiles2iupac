@@ -687,16 +687,18 @@ def _collect_hetero_substituents(
         frozenset(r) for r in graph.ring_atom_sets if frozenset(r) != ring_set
     ]
 
-    # Build N-locant map: non-aromatic N atoms sorted by position → "N", "N'", "N''", ...
+    # Build N-locant map: for rings with exactly one non-aromatic N, use "N"/"N'"...
+    # For rings with multiple N atoms (e.g. piperazine), use numeric locants (IUPAC 2013).
     _N_LOCANTS = ["N", "N'", "N''", "N'''"]
     non_arom_ns = sorted(
         [idx for idx in ring_atoms
          if get_atom(graph, idx).symbol == "N" and not get_atom(graph, idx).is_aromatic],
         key=lambda idx: locant_map[idx],
     )
-    n_locant_map: dict[int, str] = {
-        idx: _N_LOCANTS[i] for i, idx in enumerate(non_arom_ns) if i < len(_N_LOCANTS)
-    }
+    if len(non_arom_ns) == 1:
+        n_locant_map: dict[int, str] = {non_arom_ns[0]: "N"}
+    else:
+        n_locant_map = {}
 
     result: list[tuple[int | str, str]] = []
 
@@ -840,7 +842,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2[nH]ccc2c1": "1H-indole",
     "c1ccc2[nH]cnc2c1": "1H-benzimidazole",
     "c1ccc2nccnc2c1":   "quinoxaline",        # benzo[g]pyrazine (Phase 130)
-    "c1ccc2occc2c1":    "benzofuran",
+    "c1ccc2occc2c1":    "1-benzofuran",
     "c1ccc2sccc2c1":    "benzo[b]thiophene",
     "c1ncc2[nH]cnc2n1": "7H-purine",
     "c1ccc2nc3ccccc3cc2c1": "acridine",
@@ -868,9 +870,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2[nH]ncc2c1": "1H-indazole",
     "c1ccc2n[nH]cc2c1": "2H-indazole",
     "c1ccc2[nH]nnc2c1": "1H-benzotriazole",
-    "c1ccc2oncc2c1":    "1,2-benzisoxazole",
+    "c1ccc2oncc2c1":    "1,2-benzoxazole",
     # Phase 133: 部分飽和縮合環 保留名 (IUPAC 2013 P-31.1.2, P-31.1.6)
-    "c1ccc2c(c1)CCC2":  "indane",
+    "c1ccc2c(c1)CCC2":  "2,3-dihydro-1H-indene",
     "c1ccc2c(c1)CCCC2": "1,2,3,4-tetrahydronaphthalene",
     "C1=Cc2ccccc2CC1":  "1,2-dihydronaphthalene",
     # Phase 633: 4,5,6,7-tetrahydrobenzo-fused 5-membered aromatic heterocycles
@@ -910,7 +912,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2cc3ccccc3cc2CC1":   "1,2-dihydroanthracene",
     "c1cc2c3c(cccc3c1)CCC2":   "2,3-dihydro-1H-phenalene",
     "c1ccc2c(c1)CCN2":  "2,3-dihydro-1H-indole",
-    "c1ccc2c(c1)CCO2":  "2,3-dihydrobenzofuran",
+    "c1ccc2c(c1)CCO2":  "2,3-dihydro-1-benzofuran",
     "c1ccc2c(c1)COC2":  "1,3-dihydro-2-benzofuran",
     "c1ccc2c(c1)CCS2":  "2,3-dihydrobenzothiophene",
     "c1ccc2c(c1)CSC2":  "1,3-dihydro-2-benzothiophene",
@@ -1037,9 +1039,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2ccccc2NC1":  "1,2-dihydroquinoline",
     # Phase 629: benzo-fused lactams with dihydro prefix
     "O=C1CNc2ccccc2N1": "3,4-dihydroquinoxalin-2(1H)-one",
-    "O=C1CCc2ccccc21":  "indan-1-one",
+    "O=C1CCc2ccccc21":  "2,3-dihydroinden-1-one",
     "O=C1CC(=O)c2ccccc21": "indane-1,3-dione",
-    "O=C1Cc2ccccc2N1":  "indolin-2-one",
+    "O=C1Cc2ccccc2N1":  "1,3-dihydroindol-2-one",
     "O=C1NCc2ccccc21":  "isoindolin-1-one",
     # Phase 409: 6-membered benzo-fused lactams
     "O=C1CCc2ccccc2N1":  "3,4-dihydroquinolin-2(1H)-one",
@@ -1096,7 +1098,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)cnc1ccccc12":        "phenanthridine",
     # Phase 418: isatin, benzofuranone, benzothiophenone
     "O=C1Nc2ccccc2C1=O":  "1H-indole-2,3-dione",
-    "O=C1COc2ccccc21":    "benzofuran-2(3H)-one",
+    "O=C1COc2ccccc21":    "1-benzofuran-2(3H)-one",
     "O=C1CSc2ccccc21":    "benzo[b]thiophen-2(3H)-one",
     # Phase 419: naphthalenones and 1,3-benzodioxol-2-one
     "O=C1CC=Cc2ccccc21":  "naphthalen-1(2H)-one",

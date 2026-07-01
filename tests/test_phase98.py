@@ -17,12 +17,12 @@ from src.smiles2iupac import smiles_to_iupac
     # 1H-benzimidazole の置換体
     ("Cc1ccc2[nH]cnc2c1", "5-methyl-1H-benzimidazole"),
     # benzofuran の置換体
-    ("Cc1ccc2occc2c1", "5-methylbenzofuran"),
+    ("Cc1ccc2occc2c1", "5-methyl-1-benzofuran"),
     # 回帰: 置換なし保留名
     ("c1ccc2[nH]ccc2c1", "1H-indole"),
     ("c1ccc2ncccc2c1", "quinoline"),
     ("c1ccc2[nH]cnc2c1", "1H-benzimidazole"),
-    ("c1ccc2occc2c1", "benzofuran"),
+    ("c1ccc2occc2c1", "1-benzofuran"),
     # 回帰: 1H-imidazole の置換
     ("Cc1c[nH]cn1", "4-methyl-1H-imidazole"),
 ])

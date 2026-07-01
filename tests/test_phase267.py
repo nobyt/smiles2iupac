@@ -12,7 +12,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2c(c1)OCO2",         "1,3-benzodioxole"),
     ("C1Oc2ccccc2O1",           "1,3-benzodioxole"),
     # regression: benzofuran and indene unchanged
-    ("c1coc2ccccc12",           "benzofuran"),
+    ("c1coc2ccccc12",           "1-benzofuran"),
     ("C1=Cc2ccccc2C1",          "1H-indene"),
 ])
 def test_phase267_benzodioxole(smiles, expected):

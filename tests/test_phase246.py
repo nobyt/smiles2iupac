@@ -14,7 +14,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: tetralin unchanged
     ("C1CCCc2ccccc12",    "1,2,3,4-tetrahydronaphthalene"),
     # regression: indane unchanged
-    ("C1CCc2ccccc21",     "indane"),
+    ("C1CCc2ccccc21",     "2,3-dihydro-1H-indene"),
     # regression: naphthalene unchanged
     ("c1ccc2ccccc2c1",    "naphthalene"),
     # regression: bicyclo unchanged

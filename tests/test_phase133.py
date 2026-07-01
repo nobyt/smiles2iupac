@@ -10,7 +10,7 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # indane (2,3-dihydro-1H-indene)
-    ("C1CCc2ccccc21", "indane"),
+    ("C1CCc2ccccc21", "2,3-dihydro-1H-indene"),
     # 1,2,3,4-tetrahydronaphthalene (tetralin)
     ("C1CCCc2ccccc21", "1,2,3,4-tetrahydronaphthalene"),
     # chromane (3,4-dihydro-2H-chromene)
@@ -18,14 +18,14 @@ from src.smiles2iupac import smiles_to_iupac
     # indoline (2,3-dihydroindole)
     ("C1Cc2ccccc2N1", "2,3-dihydro-1H-indole"),
     # indan-1-one (1-indanone)
-    ("O=C1CCc2ccccc21", "indan-1-one"),
+    ("O=C1CCc2ccccc21", "2,3-dihydroinden-1-one"),
     # indolin-2-one (oxindole)
-    ("O=C1Cc2ccccc2N1", "indolin-2-one"),
+    ("O=C1Cc2ccccc2N1", "1,3-dihydroindol-2-one"),
     # 1,2,3,4-tetrahydroquinoline
     ("C1CCNc2ccccc21", "1,2,3,4-tetrahydroquinoline"),
     # 回帰: aromatic fused systems still work
     ("c1ccc2ncccc2c1", "quinoline"),
-    ("c1ccc2occc2c1", "benzofuran"),
+    ("c1ccc2occc2c1", "1-benzofuran"),
     ("c1ccc2[nH]ccc2c1", "1H-indole"),
     # 回帰: simple rings still work
     ("C1CCCCC1", "cyclohexane"),

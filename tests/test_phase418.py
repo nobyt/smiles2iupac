@@ -12,13 +12,13 @@ from smiles2iupac import smiles_to_iupac
     # 1H-indole-2,3-dione (isatin) — two exo C=O, N1-H
     ("O=C1Nc2ccccc2C1=O",            "1H-indole-2,3-dione"),
     # benzofuran-2(3H)-one — O in ring, C2=O, C3 is CH2
-    ("O=C1COc2ccccc21",              "benzofuran-2(3H)-one"),
+    ("O=C1COc2ccccc21",              "1-benzofuran-2(3H)-one"),
     # benzo[b]thiophen-2(3H)-one — S in ring, C2=O, C3 is CH2
     ("O=C1CSc2ccccc21",              "benzo[b]thiophen-2(3H)-one"),
     # regression: 1H-indole unchanged
     ("c1ccc2[nH]ccc2c1",              "1H-indole"),
     # regression: benzofuran unchanged
-    ("c1ccc2occc2c1",                  "benzofuran"),
+    ("c1ccc2occc2c1",                  "1-benzofuran"),
     # regression: benzo[b]thiophene unchanged
     ("c1ccc2sccc2c1",                  "benzo[b]thiophene"),
     # regression: indan-2-one unchanged (Phase 411)

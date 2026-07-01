@@ -14,7 +14,7 @@ from src.smiles2iupac import smiles_to_iupac
     # カルボン酸
     ("OC(=O)c1cc2ccccc2[nH]1",  "1H-indole-2-carboxylic acid"),
     ("OC(=O)c1ccc2ccccc2n1",    "quinoline-2-carboxylic acid"),
-    ("OC(=O)c1cc2ccccc2o1",     "benzofuran-2-carboxylic acid"),
+    ("OC(=O)c1cc2ccccc2o1",     "1-benzofuran-2-carboxylic acid"),
     ("OC(=O)c1cc2ccccc2s1",     "benzo[b]thiophene-2-carboxylic acid"),
     # カルボアルデヒド
     ("O=Cc1cc2ccccc2[nH]1",     "1H-indole-2-carbaldehyde"),

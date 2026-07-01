@@ -15,7 +15,7 @@ from src.smiles2iupac import smiles_to_iupac
     # キノリン置換基
     ("OC(=O)Cc1ccc2ccccc2n1",           "2-(quinolin-2-yl)acetic acid"),
     # ベンゾフラン置換基
-    ("OC(=O)Cc1cc2ccccc2o1",            "2-(benzofuran-2-yl)acetic acid"),
+    ("OC(=O)Cc1cc2ccccc2o1",            "2-(1-benzofuran-2-yl)acetic acid"),
     # 単一環ヘテロ芳香族 (回帰)
     ("OC(=O)Cc1ccco1",                  "2-(furan-2-yl)acetic acid"),
     ("OC(=O)Cc1ccncc1",                 "2-(pyridin-4-yl)acetic acid"),

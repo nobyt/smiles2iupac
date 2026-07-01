@@ -11,9 +11,9 @@ from src.smiles2iupac import smiles_to_iupac
     ("CCC=S", "propanethial"),
     ("CCCC=S", "butanethial"),
     # thioketones (thione suffix)
-    ("CC(=S)C", "propan-2-thione"),
-    ("CCC(=S)C", "butan-2-thione"),
-    ("CCC(=S)CC", "pentan-3-thione"),
+    ("CC(=S)C", "propane-2-thione"),
+    ("CCC(=S)C", "butane-2-thione"),
+    ("CCC(=S)CC", "pentane-3-thione"),
     # 回帰: isothiocyanate (PIN: 置換命名)
     ("CCN=C=S", "ethyl isothiocyanate"),
     # 回帰: thioamide (C(=S)-N) は影響なし

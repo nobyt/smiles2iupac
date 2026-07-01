@@ -23,7 +23,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("Cn1c2ccccc2c2ccccc21",     "9-methyl-9H-carbazole"),
     # 回帰
     ("c1ccc2ncccc2c1",      "quinoline"),
-    ("c1ccc2occc2c1",       "benzofuran"),
+    ("c1ccc2occc2c1",       "1-benzofuran"),
     ("CC(=O)O",             "acetic acid"),
 ])
 def test_phase158_n_sub_fused_hetero(smiles, expected):

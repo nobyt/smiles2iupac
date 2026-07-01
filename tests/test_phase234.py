@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC=C=S",    "prop-1-ene-1-thione"),
     # regression: normal thioaldehyde unchanged
     ("CCC=S",     "propanethial"),
-    ("CC(C)=S",   "propan-2-thione"),
+    ("CC(C)=S",   "propane-2-thione"),
 ])
 def test_phase234_thioketene(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

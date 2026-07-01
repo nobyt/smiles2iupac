@@ -23,7 +23,7 @@ class TestFusedHeteroAromaticRetainedNames:
         assert smiles_to_iupac("c1ccc2[nH]cnc2c1") == "1H-benzimidazole"
 
     def test_benzofuran(self):
-        assert smiles_to_iupac("c1ccc2occc2c1") == "benzofuran"
+        assert smiles_to_iupac("c1ccc2occc2c1") == "1-benzofuran"
 
     def test_benzothiophene(self):
         assert smiles_to_iupac("c1ccc2sccc2c1") == "benzo[b]thiophene"

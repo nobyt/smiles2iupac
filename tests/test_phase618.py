@@ -50,11 +50,11 @@ from smiles2iupac import smiles_to_iupac
     ("CC1COCCS1",        "3-methyl-1,4-oxathiane"),
     ("CC1CSCCO1",        "2-methyl-1,4-oxathiane"),
     # indane (1=3 symmetric, 4=7 symmetric, 5=6 symmetric)
-    ("c1ccc2c(c1)CCC2",  "indane"),
-    ("CC1CCc2ccccc21",   "1-methylindane"),
-    ("CC1Cc2ccccc2C1",   "2-methylindane"),
-    ("Cc1cccc2c1CCC2",   "4-methylindane"),
-    ("Cc1ccc2c(c1)CCC2", "5-methylindane"),
+    ("c1ccc2c(c1)CCC2",  "2,3-dihydro-1H-indene"),
+    ("CC1CCc2ccccc21",   "1-methyl-2,3-dihydro-1H-indene"),
+    ("CC1Cc2ccccc2C1",   "2-methyl-2,3-dihydro-1H-indene"),
+    ("Cc1cccc2c1CCC2",   "4-methyl-2,3-dihydro-1H-indene"),
+    ("Cc1ccc2c(c1)CCC2", "5-methyl-2,3-dihydro-1H-indene"),
     # 1,2,3,4-tetrahydronaphthalene (1=4, 2=3, 5=8, 6=7)
     ("c1ccc2c(c1)CCCC2", "1,2,3,4-tetrahydronaphthalene"),
     ("CC1CCCc2ccccc21",  "1-methyl-1,2,3,4-tetrahydronaphthalene"),

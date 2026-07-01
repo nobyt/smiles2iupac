@@ -20,8 +20,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2sncc2c1",        "1,2-benzisothiazole"),
     ("Cc1ccc2sncc2c1",       "5-methyl-1,2-benzisothiazole"),
     # 1,2-benzisoxazole: substitutable at C3, C4, C5, C6, C7
-    ("c1ccc2oncc2c1",        "1,2-benzisoxazole"),
-    ("Cc1ccc2oncc2c1",       "5-methyl-1,2-benzisoxazole"),
+    ("c1ccc2oncc2c1",        "1,2-benzoxazole"),
+    ("Cc1ccc2oncc2c1",       "5-methyl-1,2-benzoxazole"),
     # 2,1-benzisothiazole: substitutable at C3, C4, C5, C6, C7
     ("c1ccc2nscc2c1",        "2,1-benzisothiazole"),
     ("Cc1ccc2nscc2c1",       "5-methyl-2,1-benzisothiazole"),

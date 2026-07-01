@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     # 3,4-dihydroisoquinolin-1(2H)-one
     ("O=C1NCCc2ccccc21",               "3,4-dihydroisoquinolin-1(2H)-one"),
     # regression: indolin-2-one (5-membered) unchanged
-    ("O=C1Cc2ccccc2N1",                "indolin-2-one"),
+    ("O=C1Cc2ccccc2N1",                "1,3-dihydroindol-2-one"),
     # regression: isoindolin-1-one unchanged
     ("O=C1NCc2ccccc21",                "isoindolin-1-one"),
     # regression: 1,2,3,4-tetrahydroquinoline unchanged

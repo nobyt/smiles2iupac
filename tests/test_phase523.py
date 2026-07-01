@@ -30,7 +30,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("OC(=O)c1ccccn1",   "pyridine-2-carboxylic acid"),
     # regression: benzene uses retained IUPAC 2013 names
     ("OC(=O)c1ccccc1C(=O)O",    "phthalic acid"),
-    ("OC(=O)c1cccc(C(=O)O)c1",  "isophthalic acid"),
+    ("OC(=O)c1cccc(C(=O)O)c1",  "benzene-1,3-dicarboxylic acid"),
     ("OC(=O)c1ccc(C(=O)O)cc1",  "terephthalic acid"),
     # regression: cycloalkane dicarboxylic acid unchanged
     ("OC(=O)C1CCCCC1C(=O)O",    "cyclohexane-1,2-dicarboxylic acid"),

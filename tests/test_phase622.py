@@ -41,12 +41,12 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2ccc(=O)oc2c1", "7-methylcoumarin"),
     ("Cc1cccc2ccc(=O)oc12", "8-methylcoumarin"),
     # benzofuran (O at 1)
-    ("Cc1ccc2occc2c1",   "5-methylbenzofuran"),
-    ("Cc1ccc2ccoc2c1",   "6-methylbenzofuran"),
-    ("Cc1cccc2ccoc12",   "7-methylbenzofuran"),
-    ("Cc1cc2ccccc2o1",   "2-methylbenzofuran"),
-    ("Cc1coc2ccccc12",   "3-methylbenzofuran"),
-    ("Cc1cccc2occc12",   "4-methylbenzofuran"),
+    ("Cc1ccc2occc2c1",   "5-methyl-1-benzofuran"),
+    ("Cc1ccc2ccoc2c1",   "6-methyl-1-benzofuran"),
+    ("Cc1cccc2ccoc12",   "7-methyl-1-benzofuran"),
+    ("Cc1cc2ccccc2o1",   "2-methyl-1-benzofuran"),
+    ("Cc1coc2ccccc12",   "3-methyl-1-benzofuran"),
+    ("Cc1cccc2occc12",   "4-methyl-1-benzofuran"),
     # benzo[b]thiophene (S at 1)
     ("Cc1ccc2sccc2c1",   "5-methylbenzo[b]thiophene"),
     ("Cc1ccc2ccsc2c1",   "6-methylbenzo[b]thiophene"),

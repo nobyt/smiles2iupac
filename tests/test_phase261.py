@@ -11,9 +11,9 @@ from smiles2iupac import smiles_to_iupac
     # indane-1,3-dione (diketone fused bicyclic)
     ("O=C1CC(=O)c2ccccc21", "indane-1,3-dione"),
     # regression: related indane compounds
-    ("C1CCc2ccccc21",       "indane"),
-    ("O=C1CCc2ccccc21",     "indan-1-one"),
-    ("O=C1Cc2ccccc2N1",     "indolin-2-one"),
+    ("C1CCc2ccccc21",       "2,3-dihydro-1H-indene"),
+    ("O=C1CCc2ccccc21",     "2,3-dihydroinden-1-one"),
+    ("O=C1Cc2ccccc2N1",     "1,3-dihydroindol-2-one"),
     # regression: phthalimide (N-containing, different from indane-1,3-dione)
     ("O=C1NC(=O)c2ccccc21", "phthalimide"),
 ])

@@ -467,14 +467,14 @@ def _build_name_body(
         return f"{stem}anethial"
 
     if suffix == "thione":
-        # チオケトン: IUPAC 2013 — ロカント前の e を省略 (propan-2-thione)
+        # チオケトン: 'thione' は子音始まり → terminal 'e' を保持 (propane-2-thione)
         loc = suffix_locant if suffix_locant is not None else 2
         if has_multiple_bond:
             if chain_length == 2 and ene_locs == [1] and not yne_locs:
                 return f"{stem}ene-{loc}-thione"
             mb = _format_multiple_bonds(ene_locs, yne_locs)
             return f"{stem}{mb}e-{loc}-thione"
-        return f"{stem}an-{loc}-thione"
+        return f"{stem}ane-{loc}-thione"
 
     # ─── 複数官能基 suffix ────────────────────────────────────────────
 

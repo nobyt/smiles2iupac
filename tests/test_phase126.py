@@ -9,9 +9,9 @@ from src.smiles2iupac import smiles_to_iupac
     ("C1CNCCN1", "piperazine"),
     ("N1CCNCC1", "piperazine"),
     ("C1NCCNC1", "piperazine"),
-    # N-substituted piperazine
-    ("CN1CCNCC1", "N-methylpiperazine"),
-    ("CCN1CCNCC1", "N-ethylpiperazine"),
+    # N-substituted piperazine (PIN uses numeric locants, not N-)
+    ("CN1CCNCC1", "1-methylpiperazine"),
+    ("CCN1CCNCC1", "1-ethylpiperazine"),
     # 回帰: piperidine unchanged
     ("C1CCCCN1", "piperidine"),
     # 回帰: morpholine unchanged

@@ -14,12 +14,12 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1Nc2cccc(C)c2C1=O", "7-methyl-1H-indole-2,3-dione"),
     # benzofuran-2(3H)-one: C(2,=O)-C(3,sp3)-O(1)-C7a-C4-C5-C6-C7-C3a
     # (parent in Phase 418; C2=O and O1 not methylable; C3-H2 and C4-C7 methylable)
-    ("O=C1COc2ccccc21",    "benzofuran-2(3H)-one"),
-    ("O=C1C(C)Oc2ccccc21", "3-methylbenzofuran-2(3H)-one"),
-    ("O=C1COc2cccc(C)c21", "4-methylbenzofuran-2(3H)-one"),
-    ("O=C1COc2ccc(C)cc21", "5-methylbenzofuran-2(3H)-one"),
-    ("O=C1COc2cc(C)ccc21", "6-methylbenzofuran-2(3H)-one"),
-    ("O=C1COc2c(C)cccc21", "7-methylbenzofuran-2(3H)-one"),
+    ("O=C1COc2ccccc21",    "1-benzofuran-2(3H)-one"),
+    ("O=C1C(C)Oc2ccccc21", "3-methyl-1-benzofuran-2(3H)-one"),
+    ("O=C1COc2cccc(C)c21", "4-methyl-1-benzofuran-2(3H)-one"),
+    ("O=C1COc2ccc(C)cc21", "5-methyl-1-benzofuran-2(3H)-one"),
+    ("O=C1COc2cc(C)ccc21", "6-methyl-1-benzofuran-2(3H)-one"),
+    ("O=C1COc2c(C)cccc21", "7-methyl-1-benzofuran-2(3H)-one"),
     # benzo[b]thiophen-2(3H)-one: same layout with S at position 1
     # (parent in Phase 418; C2=O and S1 not methylable; C3-H2 and C4-C7 methylable)
     ("O=C1CSc2ccccc21",    "benzo[b]thiophen-2(3H)-one"),

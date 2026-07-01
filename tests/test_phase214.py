@@ -18,8 +18,8 @@ from smiles2iupac import smiles_to_iupac
     ("S=C1CCC1",    "cyclobutanethione"),
     ("S=C1CC1",     "cyclopropanethione"),
     # regression: acyclic thioketone unaffected
-    ("CC(=S)C",     "propan-2-thione"),
-    ("CC(=S)CC",    "butan-2-thione"),
+    ("CC(=S)C",     "propane-2-thione"),
+    ("CC(=S)CC",    "butane-2-thione"),
 ])
 def test_phase214_cyclic_thioketone(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

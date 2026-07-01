@@ -16,9 +16,9 @@ from smiles2iupac import smiles_to_iupac
     # N-methylisoindolin-1-one
     ("O=C1N(C)Cc2ccccc21",            "2-methylisoindolin-1-one"),
     # 1-methylindolin-2-one
-    ("CN1C(=O)Cc2ccccc21",            "1-methylindolin-2-one"),
+    ("CN1C(=O)Cc2ccccc21",            "1-methyl-1,3-dihydroindol-2-one"),
     # regression: indolin-2-one unchanged
-    ("O=C1Cc2ccccc2N1",               "indolin-2-one"),
+    ("O=C1Cc2ccccc2N1",               "1,3-dihydroindol-2-one"),
     # regression: 1-methylindoline unchanged
     ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydro-1H-indole"),
     # regression: pyrrolidine-2,5-dione unchanged

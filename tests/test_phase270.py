@@ -23,9 +23,9 @@ from smiles2iupac import smiles_to_iupac
     ("OC(=O)c1c(C(=O)O)c(C(=O)O)c(C(=O)O)c(C(=O)O)c1", "benzene-1,2,3,4,5-pentacarboxylic acid"),
     # hexacarboxylic (mellitic acid, retained name)
     ("OC(=O)c1c(C(=O)O)c(C(=O)O)c(C(=O)O)c(C(=O)O)c1C(=O)O", "mellitic acid"),
-    # regressions: dicarboxylic retained names unchanged
+    # regressions: phthalic/terephthalic are PINs; isophthalic PIN is systematic
     ("OC(=O)c1ccccc1C(=O)O",     "phthalic acid"),
-    ("OC(=O)c1cccc(C(=O)O)c1",   "isophthalic acid"),
+    ("OC(=O)c1cccc(C(=O)O)c1",   "benzene-1,3-dicarboxylic acid"),
     ("OC(=O)c1ccc(C(=O)O)cc1",   "terephthalic acid"),
     # regression: simple benzoic acid unchanged
     ("OC(=O)c1ccccc1",            "benzoic acid"),

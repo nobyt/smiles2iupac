@@ -25,8 +25,8 @@ from smiles2iupac import smiles_to_iupac
     # C-only substitution (regression: numeric locants)
     ("CC1CCNCC1",           "4-methylpiperidine"),
     ("CC1CCCN1",            "2-methylpyrrolidine"),
-    # Piperazine with mixed C/N substitution (lower C-locant preferred)
-    ("CC1CN(C)CCN1",        "2,N'-dimethylpiperazine"),
+    # Piperazine with mixed C/N substitution (lowest locant set: {1,3} beats {2,4})
+    ("CC1CN(C)CCN1",        "1,3-dimethylpiperazine"),
 ])
 def test_phase388_mixed_locant_sort(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

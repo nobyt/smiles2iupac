@@ -17,8 +17,8 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccncc1",             "pyridine"),
     ("c1ccoc1",              "furan"),
     ("c1ccc(N=O)cc1",        "nitrosobenzene"),
-    # 回帰: 三級アミン N-oxide は変わらない (systematic naming)
-    ("C[N+](C)(C)[O-]",      "N,N-dimethylmethanamine N-oxide"),
+    # 回帰: 三級アミン oxide は変わらない (systematic naming)
+    ("C[N+](C)(C)[O-]",      "N,N-dimethylmethanamine oxide"),
 ])
 def test_phase165_hetero_n_oxide(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

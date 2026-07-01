@@ -25,9 +25,9 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1CCCCN1CC",       "N-ethylpiperidin-2-one"),
     # 8-membered azacyclooctane
     ("CN1CCCCCCC1",        "N-methylazocane"),
-    # Piperazine (two N atoms): N and N'
-    ("CN1CCNCC1",          "N-methylpiperazine"),
-    ("C1CN(C)CCN1C",       "N,N'-dimethylpiperazine"),
+    # Piperazine (two N atoms): numeric locants (IUPAC 2013)
+    ("CN1CCNCC1",          "1-methylpiperazine"),
+    ("C1CN(C)CCN1C",       "1,4-dimethylpiperazine"),
     # C-substituents still use numeric locants
     ("CC1CCCCN1",          "2-methylpiperidine"),
     # Aromatic N-heterocycles unchanged (numeric locants)

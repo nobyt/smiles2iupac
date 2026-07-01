@@ -28,7 +28,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: previously added fused heterocycles unchanged
     ("c1ccc2[nH]cnc2c1", "1H-benzimidazole"),
     ("c1ccc2ncccc2c1", "quinoline"),
-    ("c1ccc2occc2c1", "benzofuran"),
+    ("c1ccc2occc2c1", "1-benzofuran"),
     ("c1ncc2[nH]cnc2n1", "7H-purine"),
 ])
 def test_phase130_fused_heteroaromatics(smiles, expected):

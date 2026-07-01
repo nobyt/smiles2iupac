@@ -2,8 +2,9 @@
 
 oxalic acid, malonic acid, succinic acid, glutaric acid, adipic acid,
 pimelic acid, suberic acid, azelaic acid, sebacic acid,
-maleic acid, fumaric acid, (E)-cinnamic acid, (Z)-cinnamic acid,
-phthalic acid, isophthalic acid, terephthalic acid,
+maleic acid, (E)-but-2-enedioic acid (was fumaric acid),
+(E/Z)-3-phenylprop-2-enoic acid (was cinnamic acid),
+phthalic acid, benzene-1,3-dicarboxylic acid (was isophthalic acid), terephthalic acid,
 lactic acid (L/D/racemic), malic acid (L/D/racemic),
 tartaric acid (L/D/meso/racemic), citric acid
 """
@@ -25,13 +26,13 @@ from src.smiles2iupac import smiles_to_iupac
     ("OC(=O)CCCCCCCCC(=O)O", "sebacic acid"),
     # unsaturated diacids
     ("OC(=O)/C=C\\C(=O)O",   "maleic acid"),
-    ("OC(=O)/C=C/C(=O)O",    "fumaric acid"),
-    # cinnamic acid
-    ("OC(=O)/C=C/c1ccccc1",  "(E)-cinnamic acid"),
-    ("OC(=O)/C=C\\c1ccccc1", "(Z)-cinnamic acid"),
+    ("OC(=O)/C=C/C(=O)O",    "(E)-but-2-enedioic acid"),
+    # cinnamic acid → PIN: (E/Z)-3-phenylprop-2-enoic acid
+    ("OC(=O)/C=C/c1ccccc1",  "(E)-3-phenylprop-2-enoic acid"),
+    ("OC(=O)/C=C\\c1ccccc1", "(Z)-3-phenylprop-2-enoic acid"),
     # aromatic diacids
     ("OC(=O)c1ccccc1C(=O)O",       "phthalic acid"),
-    ("OC(=O)c1cccc(C(=O)O)c1",     "isophthalic acid"),
+    ("OC(=O)c1cccc(C(=O)O)c1",     "benzene-1,3-dicarboxylic acid"),
     ("OC(=O)c1ccc(C(=O)O)cc1",     "terephthalic acid"),
     # lactic acid → PIN: (2R/2S)-2-hydroxypropanoic acid
     ("C[C@@H](O)C(=O)O",    "(2R)-2-hydroxypropanoic acid"),

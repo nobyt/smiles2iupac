@@ -10,13 +10,13 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # benzofuran (CH at 2,3,4,5,6,7)
-    ("c1ccc2occc2c1",       "benzofuran"),
-    ("Cc1cc2ccccc2o1",      "2-methylbenzofuran"),
-    ("Cc1coc2ccccc12",      "3-methylbenzofuran"),
-    ("Cc1cccc2occc12",      "4-methylbenzofuran"),
-    ("Cc1ccc2occc2c1",      "5-methylbenzofuran"),
-    ("Cc1ccc2ccoc2c1",      "6-methylbenzofuran"),
-    ("Cc1cccc2ccoc12",      "7-methylbenzofuran"),
+    ("c1ccc2occc2c1",       "1-benzofuran"),
+    ("Cc1cc2ccccc2o1",      "2-methyl-1-benzofuran"),
+    ("Cc1coc2ccccc12",      "3-methyl-1-benzofuran"),
+    ("Cc1cccc2occc12",      "4-methyl-1-benzofuran"),
+    ("Cc1ccc2occc2c1",      "5-methyl-1-benzofuran"),
+    ("Cc1ccc2ccoc2c1",      "6-methyl-1-benzofuran"),
+    ("Cc1cccc2ccoc12",      "7-methyl-1-benzofuran"),
     # benzo[b]thiophene (CH at 2,3,4,5,6,7)
     ("c1ccc2sccc2c1",       "benzo[b]thiophene"),
     ("Cc1cc2ccccc2s1",      "2-methylbenzo[b]thiophene"),
@@ -52,12 +52,12 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2ncsc2c1",      "6-methyl-1,3-benzothiazole"),
     ("Cc1cccc2ncsc12",      "7-methyl-1,3-benzothiazole"),
     # 1,2-benzisoxazole (CH at 3,4,5,6,7)
-    ("c1ccc2oncc2c1",       "1,2-benzisoxazole"),
-    ("Cc1noc2ccccc12",      "3-methyl-1,2-benzisoxazole"),
-    ("Cc1cccc2oncc12",      "4-methyl-1,2-benzisoxazole"),
-    ("Cc1ccc2oncc2c1",      "5-methyl-1,2-benzisoxazole"),
-    ("Cc1ccc2cnoc2c1",      "6-methyl-1,2-benzisoxazole"),
-    ("Cc1cccc2cnoc12",      "7-methyl-1,2-benzisoxazole"),
+    ("c1ccc2oncc2c1",       "1,2-benzoxazole"),
+    ("Cc1noc2ccccc12",      "3-methyl-1,2-benzoxazole"),
+    ("Cc1cccc2oncc12",      "4-methyl-1,2-benzoxazole"),
+    ("Cc1ccc2oncc2c1",      "5-methyl-1,2-benzoxazole"),
+    ("Cc1ccc2cnoc2c1",      "6-methyl-1,2-benzoxazole"),
+    ("Cc1cccc2cnoc12",      "7-methyl-1,2-benzoxazole"),
     # 1,2-benzisothiazole (CH at 3,4,5,6,7)
     ("c1ccc2sncc2c1",       "1,2-benzisothiazole"),
     ("Cc1nsc2ccccc12",      "3-methyl-1,2-benzisothiazole"),

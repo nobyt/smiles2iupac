@@ -1,16 +1,16 @@
-"""Phase 125: アミン N-オキシド命名 (IUPAC 2013 P-68.1.1)"""
+"""Phase 125: アミン N-オキシド命名 (IUPAC 2013 P-62.4.1: suffix is 'oxide' not 'N-oxide')"""
 
 import pytest
 from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # trimethylamine N-oxide (N,N-dimethylmethanamine N-oxide が PIN)
-    ("C[N+](C)(C)[O-]", "N,N-dimethylmethanamine N-oxide"),
-    # N-methyl-N-ethylamine N-oxide (ethane is principal chain)
-    ("C[NH+](CC)[O-]", "N-methylethanamine N-oxide"),
-    # triethylamine N-oxide
-    ("CC[N+](CC)(CC)[O-]", "N,N-diethylethanamine N-oxide"),
+    # trimethylamine oxide (PIN: N,N-dimethylmethanamine oxide)
+    ("C[N+](C)(C)[O-]", "N,N-dimethylmethanamine oxide"),
+    # N-methyl-N-ethylamine oxide (ethane is principal chain)
+    ("C[NH+](CC)[O-]", "N-methylethanamine oxide"),
+    # triethylamine oxide
+    ("CC[N+](CC)(CC)[O-]", "N,N-diethylethanamine oxide"),
     # 回帰: 通常アミン (N-oxide なし)
     ("CN(C)C", "N,N-dimethylmethanamine"),
     ("CCN(C)C", "N,N-dimethylethanamine"),

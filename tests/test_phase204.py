@@ -13,8 +13,8 @@ from smiles2iupac import smiles_to_iupac
     ("C=[N+]([O-])C",    "N-methylmethanimine N-oxide"),
     # Nitrone: CH3CH=N+(CH3)-O- → N-methylethanimine N-oxide
     ("CC=[N+]([O-])C",   "N-methylethanimine N-oxide"),
-    # regression: amine N-oxide still works
-    ("C[N+](C)(C)[O-]",  "N,N-dimethylmethanamine N-oxide"),
+    # regression: amine oxide (PIN uses 'oxide', not 'N-oxide')
+    ("C[N+](C)(C)[O-]",  "N,N-dimethylmethanamine oxide"),
 ])
 def test_phase204_nitrone(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -137,15 +137,15 @@ _RETAINED_NAMES: dict[str, str] = {
     "O=C(O)CCCCCCC(=O)O":               "suberic acid",
     "O=C(O)CCCCCCCC(=O)O":              "azelaic acid",
     "O=C(O)CCCCCCCCC(=O)O":             "sebacic acid",
-    # unsaturated diacids
+    # unsaturated diacids (maleic is PIN; fumaric PIN is (E)-but-2-enedioic acid)
     "O=C(O)/C=C\\C(=O)O":               "maleic acid",
-    "O=C(O)/C=C/C(=O)O":                "fumaric acid",
-    # cinnamic acid
-    "O=C(O)/C=C/c1ccccc1":              "(E)-cinnamic acid",
-    "O=C(O)/C=C\\c1ccccc1":             "(Z)-cinnamic acid",
-    # aromatic diacids (phthalic, isophthalic, terephthalic) P-65.1.1.4
+    "O=C(O)/C=C/C(=O)O":                "(E)-but-2-enedioic acid",
+    # cinnamic acid → PIN: (E/Z)-3-phenylprop-2-enoic acid
+    "O=C(O)/C=C/c1ccccc1":              "(E)-3-phenylprop-2-enoic acid",
+    "O=C(O)/C=C\\c1ccccc1":             "(Z)-3-phenylprop-2-enoic acid",
+    # aromatic diacids (phthalic/terephthalic are PINs; isophthalic PIN is benzene-1,3-dicarboxylic acid)
     "O=C(O)c1ccccc1C(=O)O":             "phthalic acid",
-    "O=C(O)c1cccc(C(=O)O)c1":           "isophthalic acid",
+    "O=C(O)c1cccc(C(=O)O)c1":           "benzene-1,3-dicarboxylic acid",
     "O=C(O)c1ccc(C(=O)O)cc1":           "terephthalic acid",
     # ── Phase 270: benzene tri/tetracarboxylic acids (IUPAC 2013 P-65.1.2.3) ──
     # tricarboxylic (3 isomers)

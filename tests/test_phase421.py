@@ -19,7 +19,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: benzene unchanged
     ("c1ccccc1",                  "benzene"),
     # regression: indane unchanged (Phase 133)
-    ("c1ccc2c(c1)CCC2",          "indane"),
+    ("c1ccc2c(c1)CCC2",          "2,3-dihydro-1H-indene"),
 ])
 def test_phase421_acenaphthylene_acenaphthene(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -5,10 +5,10 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    ("CN=C=NC", "N,N'-dimethylcarbodiimide"),
-    ("CCN=C=NCC", "N,N'-diethylcarbodiimide"),
-    ("CCCN=C=NCCC", "N,N'-dipropylcarbodiimide"),
-    ("CN=C=NCC", "N-ethyl-N'-methylcarbodiimide"),
+    ("CN=C=NC", "N,N'-dimethylmethanediimine"),
+    ("CCN=C=NCC", "N,N'-diethylmethanediimine"),
+    ("CCCN=C=NCCC", "N,N'-dipropylmethanediimine"),
+    ("CN=C=NCC", "N-ethyl-N'-methylmethanediimine"),
 ])
-def test_phase116_carbodiimide_nn_prime(smiles, expected):
+def test_phase116_methanediimine_nn_prime(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

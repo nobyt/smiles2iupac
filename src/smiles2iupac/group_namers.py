@@ -3722,9 +3722,9 @@ def _name_carbamic_acid(graph, pgrp, get_atom) -> str:
 
 def _name_carbodiimide(graph, pgrp, get_atom) -> str:
     """
-    カルボジイミド: N,N'-di{alkyl}carbodiimide (Phase 73 / Phase 116)
-    例: CN=C=NC → N,N'-dimethylcarbodiimide
-        CCN=C=NCC → N,N'-diethylcarbodiimide
+    カルボジイミド: N,N'-di{alkyl}methanediimine (IUPAC 2013 PIN: methanediimine, not carbodiimide)
+    例: CN=C=NC → N,N'-dimethylmethanediimine
+        CCN=C=NCC → N,N'-diethylmethanediimine
     """
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
@@ -3741,7 +3741,7 @@ def _name_carbodiimide(graph, pgrp, get_atom) -> str:
             alkyl_names.append(name)
 
     if not alkyl_names:
-        return "carbodiimide"
+        return "methanediimine"
 
     def _wrap_ci(s: str) -> str:
         return f"({s})" if s.startswith("(") else s
@@ -3749,13 +3749,13 @@ def _name_carbodiimide(graph, pgrp, get_atom) -> str:
     if len(alkyl_names) == 2 and alkyl_names[0] == alkyl_names[1]:
         mult = MULTIPLIER.get(2, "di")
         w = _wrap_ci(alkyl_names[0])
-        return f"N,N'-{mult}{w}carbodiimide"
+        return f"N,N'-{mult}{w}methanediimine"
 
     names_sorted = sorted(alkyl_names)
     if len(names_sorted) == 2:
         w0, w1 = _wrap_ci(names_sorted[0]), _wrap_ci(names_sorted[1])
-        return f"N-{w0}-N'-{w1}carbodiimide"
-    return f"N-{_wrap_ci(names_sorted[0])}carbodiimide"
+        return f"N-{w0}-N'-{w1}methanediimine"
+    return f"N-{_wrap_ci(names_sorted[0])}methanediimine"
 
 
 def _name_hydroperoxide(graph, pgrp, get_atom) -> str:
@@ -4749,7 +4749,7 @@ def _name_amine_n_oxide(graph, get_atom) -> str | None:
         if amine_name is None:
             continue
 
-        return f"{amine_name} N-oxide"
+        return f"{amine_name} oxide"
 
     return None
 

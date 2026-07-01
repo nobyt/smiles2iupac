@@ -32,7 +32,7 @@ from src.smiles2iupac import smiles_to_iupac
     # perimidine (2,3-dihydro-1H-perimidine parent skeleton)
     ("C1=Nc2cccc3cccc(c23)N1", "perimidine"),
     # 回帰: Phase 133 partially saturated fused compounds unchanged
-    ("C1CCc2ccccc21", "indane"),
+    ("C1CCc2ccccc21", "2,3-dihydro-1H-indene"),
     ("C1COc2ccccc2C1", "chromane"),
     # 回帰: Phase 131–132 fused heteroaromatics unchanged
     ("c1ccc2c(c1)[nH]c1ccccc12", "9H-carbazole"),

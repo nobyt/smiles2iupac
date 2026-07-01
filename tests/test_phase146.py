@@ -31,7 +31,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: 中性アミン・カルボン酸
     ("CCN",                "ethanamine"),
     ("CC(=O)O",            "acetic acid"),
-    ("C[N+](C)(C)[O-]",    "N,N-dimethylmethanamine N-oxide"),
+    ("C[N+](C)(C)[O-]",    "N,N-dimethylmethanamine oxide"),
     ("CCCC[N+](=O)[O-]",   "1-nitrobutane"),
 ])
 def test_phase146_ions_and_acids(smiles, expected):

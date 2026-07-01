@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     # naphtho[2,1-b]thiophene — linear tricyclic, S in terminal 5-membered ring
     ("c1ccc2c(c1)ccc1sccc12",        "naphtho[2,1-b]thiophene"),
     # regression: benzofuran unchanged
-    ("c1ccc2occc2c1",                "benzofuran"),
+    ("c1ccc2occc2c1",                "1-benzofuran"),
     # regression: benzo[b]thiophene unchanged
     ("c1ccc2sccc2c1",                "benzo[b]thiophene"),
     # regression: naphthalene unchanged
