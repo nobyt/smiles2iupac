@@ -559,12 +559,12 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     # NH ピペラジン (N-H あり)
     (False, ("NH", "C", "C", "N",  "C", "C")): ("piperazine",  False),
     (False, ("NH", "C", "C", "NH", "C", "C")): ("piperazine",  False),
-    # Phase 154: 5員 O,N 飽和環 (oxazolidine = 1,3-oxazolidine; isoxazolidine = 1,2-oxazolidine)
-    (False, ("O", "C", "C", "N", "C")):           ("oxazolidine",   False),
-    (False, ("O", "C", "C", "C", "N")):           ("isoxazolidine", False),
-    # Phase 154: 5員 S,N 飽和環 (thiazolidine = 1,3-; isothiazolidine = 1,2-)
-    (False, ("S", "C", "C", "N", "C")):           ("thiazolidine",   False),
-    (False, ("S", "C", "C", "C", "N")):           ("isothiazolidine", False),
+    # Phase 737: 5員 O,N 飽和環 PINs (1,3-/1,2- locants required per IUPAC 2013 P-31.1.3)
+    (False, ("O", "C", "C", "N", "C")):           ("1,3-oxazolidine",   False),
+    (False, ("O", "C", "C", "C", "N")):           ("1,2-oxazolidine", False),
+    # Phase 737: 5員 S,N 飽和環 PINs
+    (False, ("S", "C", "C", "N", "C")):           ("1,3-thiazolidine",   False),
+    (False, ("S", "C", "C", "C", "N")):           ("1,2-thiazolidine", False),
     # Phase 154: 6員 O,N 飽和環 (1,3-oxazinane, 1,4-oxazinane 等)
     (False, ("O", "C", "C", "C", "N", "C")):      ("1,3-oxazinane",   False),
     (False, ("O", "C", "N", "C", "C", "C")):      ("1,3-oxazinane",   False),  # alt sig
@@ -3521,7 +3521,9 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                     loc = locant_map[ring_idx]
                     n_ring = len(ring)
                     loc_rev = n_ring + 2 - loc
-                    if loc_rev < loc:
+                    # Skip reversal when base_name has explicit locants (e.g. "1,2-oxazolidine"):
+                    # the rotation already encodes the correct heteroatom positions.
+                    if loc_rev < loc and not base_name[0].isdigit():
                         rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
                         locant_map = _build_locant_map(rev_rotation)
                         loc = locant_map[ring_idx]
@@ -3580,7 +3582,7 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                     loc = locant_map[ring_idx]
                     n_ring = len(ring)
                     loc_rev = n_ring + 2 - loc
-                    if loc_rev < loc:
+                    if loc_rev < loc and not base_name[0].isdigit():
                         rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
                         locant_map = _build_locant_map(rev_rotation)
                         loc = locant_map[ring_idx]

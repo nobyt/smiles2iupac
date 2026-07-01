@@ -14,11 +14,11 @@ from smiles2iupac import smiles_to_iupac
     ("C1=NOCC1",  "4,5-dihydro-1,2-oxazole"),
     ("C1=NCCN1",  "4,5-dihydro-1H-imidazole"),
     ("C1=NNCC1",  "4,5-dihydro-1H-pyrazole"),
-    # Fully saturated forms still correct
-    ("C1CSCN1",   "thiazolidine"),
-    ("C1COCN1",   "oxazolidine"),
-    ("C1CNSC1",   "isothiazolidine"),
-    ("C1CNOC1",   "isoxazolidine"),
+    # Fully saturated forms — PINs with locants (Phase 737)
+    ("C1CSCN1",   "1,3-thiazolidine"),
+    ("C1COCN1",   "1,3-oxazolidine"),
+    ("C1CNSC1",   "1,2-thiazolidine"),
+    ("C1CNOC1",   "1,2-oxazolidine"),
     ("C1CNCN1",   "imidazolidine"),
     ("C1CCNN1",   "pyrazolidine"),
 ])
