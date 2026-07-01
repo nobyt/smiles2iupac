@@ -105,8 +105,7 @@ def _name_diester(graph, pgrp, get_atom) -> str:
         acid_name = f"{stem}{_fmt_de(_ene_de, _yne_de)}edioate"
     else:
         _DIACID_RETAINED = {
-            2: "oxalate", 3: "malonate", 4: "succinate", 5: "glutarate",
-            6: "adipate", 7: "pimelate", 8: "suberate", 9: "azelate", 10: "sebacate",
+            2: "oxalate", 3: "malonate", 6: "adipate",
         }
         acid_name = _DIACID_RETAINED.get(n_acid, f"{stem}anedioate")
 
@@ -273,9 +272,8 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
                 _comb_dc = ",".join(d.strip("()") for d in _stereo_dc)
                 return f"({_comb_dc})-{base}"
         return base
-    # 保留ジアニオン名 (飽和のみ)
-    retained = {2: "oxalate", 3: "malonate", 4: "succinate", 5: "glutarate",
-                6: "adipate", 7: "pimelate", 8: "suberate", 9: "azelate", 10: "sebacate"}
+    # 保留ジアニオン名 (飽和のみ; oxalic/malonic/adipic は retained PIN)
+    retained = {2: "oxalate", 3: "malonate", 6: "adipate"}
     if n in retained:
         return retained[n]
     stem = CHAIN_PREFIX.get(n, f"C{n}")

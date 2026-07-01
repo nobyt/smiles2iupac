@@ -1,11 +1,12 @@
 """Phase 147: 複数成分 SMILES (塩命名) & ジカルボキシレート (IUPAC 2013)
 
 salt naming from dot-notation SMILES:
-  sodium acetate, disodium sulfate, dipotassium succinate,
+  sodium acetate, disodium sulfate, dipotassium butanedioate,
   azanium acetate, sodium bicarbonate
 
 dicarboxylate anion naming:
-  oxalate, malonate, succinate, glutarate, adipate
+  oxalate, malonate, butanedioate, pentanedioate, adipate
+  (succinate/glutarate → systematic PINs in Phase 736)
 """
 
 import pytest
@@ -16,8 +17,8 @@ from src.smiles2iupac import smiles_to_iupac
     # ジカルボキシレートアニオン
     ("[O-]C(=O)C(=O)[O-]",             "oxalate"),
     ("[O-]C(=O)CC(=O)[O-]",             "malonate"),
-    ("[O-]C(=O)CCC(=O)[O-]",            "succinate"),
-    ("[O-]C(=O)CCCC(=O)[O-]",           "glutarate"),
+    ("[O-]C(=O)CCC(=O)[O-]",            "butanedioate"),
+    ("[O-]C(=O)CCCC(=O)[O-]",           "pentanedioate"),
     ("[O-]C(=O)CCCCC(=O)[O-]",          "adipate"),
     # モノカルボキシレート
     ("O=C[O-]",                          "formate"),
@@ -29,7 +30,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 塩命名 (dot notation)
     ("[Na+].[O-]C(=O)C",                 "sodium acetate"),
     ("[Na+].[Na+].[O-]S(=O)(=O)[O-]",   "disodium sulfate"),
-    ("[K+].[K+].[O-]C(=O)CCC(=O)[O-]",  "dipotassium succinate"),
+    ("[K+].[K+].[O-]C(=O)CCC(=O)[O-]",  "dipotassium butanedioate"),
     ("[NH4+].CC(=O)[O-]",                "ammonium acetate"),
     ("[Na+].[O-]C(=O)O",                 "sodium bicarbonate"),
     ("[Ca+2].[O-]C(=O)C.[O-]C(=O)C",    "calcium diacetate"),

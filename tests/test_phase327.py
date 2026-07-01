@@ -2,7 +2,7 @@
 
 Dicarboxylate dianions and imidate esters of alpha,beta-unsaturated chains
 now carry the E/Z prefix. Unsaturated dicarboxylates use systematic names
-('but-2-enedioate') rather than retained names ('succinate').
+('but-2-enedioate'); saturated ones now also use systematic PINs (Phase 736).
 """
 
 import pytest
@@ -16,8 +16,8 @@ from smiles2iupac import smiles_to_iupac
     # imidate ester E/Z
     ("C/C=C/C(=N)OC",               "methyl (2E)-but-2-enimidate"),
     (r"C/C=C\C(=N)OC",              "methyl (2Z)-but-2-enimidate"),
-    # regressions: saturated dicarboxylates use retained names
-    ("[O-]C(=O)CCC(=O)[O-]",        "succinate"),
+    # regressions: saturated dicarboxylates (succinate → butanedioate PIN in Phase 736)
+    ("[O-]C(=O)CCC(=O)[O-]",        "butanedioate"),
     ("[O-]C(=O)CC(=O)[O-]",         "malonate"),
     ("[O-]C(=O)C(=O)[O-]",          "oxalate"),
     # regressions: saturated imidate esters unchanged

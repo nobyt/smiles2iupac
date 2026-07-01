@@ -18,8 +18,8 @@ from smiles2iupac import smiles_to_iupac
     # regressions: saturated telluramide unchanged
     ("CC(=[Te])N",               "ethaneteluramide"),
     ("CCC(=[Te])N",              "propaneteluramide"),
-    # regressions: saturated dicarboxylates use retained names
-    ("[O-]C(=O)CCC(=O)[O-]",     "succinate"),
+    # regressions: saturated dicarboxylates (succinate → butanedioate PIN in Phase 736)
+    ("[O-]C(=O)CCC(=O)[O-]",     "butanedioate"),
     ("[O-]C(=O)CC(=O)[O-]",      "malonate"),
     # regressions: stereo-marked dicarboxylate (phase 327)
     ("[O-]C(=O)/C=C/C(=O)[O-]",  "(2E)-but-2-enedioate"),
