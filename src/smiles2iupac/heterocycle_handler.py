@@ -875,6 +875,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "pyrazin-2(1H)-thione"
                 elif full_base == "pyridazine" and loc_str == "3":
                     base_with_suffix = "pyridazin-3(2H)-thione"
+                elif full_base.endswith("naphthyridine") and mult == "":
+                    stem = full_base[:-1]
+                    if full_base.startswith("1,") and loc_str in ("2", "4"):
+                        base_with_suffix = f"{stem}-{loc_str}(1H)-thione"
+                    elif full_base.startswith("2,") and loc_str in ("1", "3"):
+                        base_with_suffix = f"{stem}-{loc_str}(2H)-thione"
                 elif full_base == "quinoline" and loc_str in ("2", "4"):
                     base_with_suffix = f"quinolin-{loc_str}(1H)-thione"
                 elif full_base == "isoquinoline" and loc_str in ("1", "3"):
