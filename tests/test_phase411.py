@@ -13,13 +13,13 @@ from smiles2iupac import smiles_to_iupac
     # indan-2-one (5-membered ring with ketone at C2)
     ("O=C1Cc2ccccc2C1",                "indan-2-one"),
     # regression: coumarin unchanged
-    ("O=c1ccc2ccccc2o1",               "coumarin"),
+    ("O=c1ccc2ccccc2o1",               "chromen-2-one"),
     # regression: isocoumarin unchanged
     ("O=c1occc2ccccc12",               "isochromen-1-one"),
     # regression: indan-1-one unchanged
     ("O=C1CCc2ccccc21",                "2,3-dihydroinden-1-one"),
     # regression: chromane unchanged
-    ("C1CCc2ccccc2O1",                 "chromane"),
+    ("C1CCc2ccccc2O1",                 "3,4-dihydro-2H-chromene"),
     # regression: chroman-4-one unchanged
     ("O=C1CCOc2ccccc21",               "chroman-4-one"),
     # regression: benzene unchanged

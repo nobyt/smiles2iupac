@@ -40,7 +40,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccc2[nH]ccc2c1", "1H-indole"),
     # 回帰: Phase 133/134 partially saturated unchanged
     ("C1CCc2ccccc21", "2,3-dihydro-1H-indene"),
-    ("C1COc2ccccc2C1", "chromane"),
+    ("C1COc2ccccc2C1", "3,4-dihydro-2H-chromene"),
 ])
 def test_phase138_pah_retained(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

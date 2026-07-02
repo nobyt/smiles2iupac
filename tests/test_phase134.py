@@ -16,7 +16,7 @@ from src.smiles2iupac import smiles_to_iupac
     # thioxanthene
     ("C1c2ccccc2Sc2ccccc21", "9H-thioxanthene"),
     # coumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
-    ("O=c1ccc2ccccc2o1", "coumarin"),
+    ("O=c1ccc2ccccc2o1", "chromen-2-one"),
     # isocoumarin (retained PIN, IUPAC 2013 P-31.1.3.4)
     ("O=c1occc2ccccc12", "isochromen-1-one"),
     # 2H-chromene
@@ -33,7 +33,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("C1=Nc2cccc3cccc(c23)N1", "perimidine"),
     # 回帰: Phase 133 partially saturated fused compounds unchanged
     ("C1CCc2ccccc21", "2,3-dihydro-1H-indene"),
-    ("C1COc2ccccc2C1", "chromane"),
+    ("C1COc2ccccc2C1", "3,4-dihydro-2H-chromene"),
     # 回帰: Phase 131–132 fused heteroaromatics unchanged
     ("c1ccc2c(c1)[nH]c1ccccc12", "9H-carbazole"),
     ("c1cnc2ncccc2c1", "1,8-naphthyridine"),

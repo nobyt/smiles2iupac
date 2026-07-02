@@ -6,22 +6,22 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # chromane (3,4-dihydro-2H-chromene): O(1)-C(2)-C(3)-C(4)-C4a-C(5)-C(6)-C(7)-C(8)-C8a
     # (parent in Phase 133; O1 not methylable)
-    ("CC1CCc2ccccc2O1",    "2-methylchromane"),
-    ("CC1COc2ccccc2C1",    "3-methylchromane"),
-    ("CC1CCOc2ccccc21",    "4-methylchromane"),
-    ("Cc1cccc2c1CCCO2",    "5-methylchromane"),
-    ("Cc1ccc2c(c1)CCCO2",  "6-methylchromane"),
-    ("Cc1ccc2c(c1)OCCC2",  "7-methylchromane"),
-    ("Cc1cccc2c1OCCC2",    "8-methylchromane"),
+    ("CC1CCc2ccccc2O1",    "2-methyl-3,4-dihydro-2H-chromene"),
+    ("CC1COc2ccccc2C1",    "3-methyl-3,4-dihydro-2H-chromene"),
+    ("CC1CCOc2ccccc21",    "4-methyl-3,4-dihydro-2H-chromene"),
+    ("Cc1cccc2c1CCCO2",    "5-methyl-3,4-dihydro-2H-chromene"),
+    ("Cc1ccc2c(c1)CCCO2",  "6-methyl-3,4-dihydro-2H-chromene"),
+    ("Cc1ccc2c(c1)OCCC2",  "7-methyl-3,4-dihydro-2H-chromene"),
+    ("Cc1cccc2c1OCCC2",    "8-methyl-3,4-dihydro-2H-chromene"),
     # isochromane (3,4-dihydro-1H-2-benzopyran): C(1)-O(2)-C(3)-C(4)-C4a-C(5)-C(6)-C(7)-C(8)-C8a
     # (parent + 6-methyl in Phase 406; O2 not methylable)
-    ("CC1OCCc2ccccc21",    "1-methylisochromane"),
-    ("CC1Cc2ccccc2CO1",    "3-methylisochromane"),
-    ("CC1COCc2ccccc21",    "4-methylisochromane"),
-    ("Cc1cccc2c1CCOC2",    "5-methylisochromane"),
-    ("Cc1ccc2c(c1)CCOC2",  "6-methylisochromane"),
-    ("Cc1ccc2c(c1)COCC2",  "7-methylisochromane"),
-    ("Cc1cccc2c1COCC2",    "8-methylisochromane"),
+    ("CC1OCCc2ccccc21",    "1-methyl-3,4-dihydro-1H-isochromene"),
+    ("CC1Cc2ccccc2CO1",    "3-methyl-3,4-dihydro-1H-isochromene"),
+    ("CC1COCc2ccccc21",    "4-methyl-3,4-dihydro-1H-isochromene"),
+    ("Cc1cccc2c1CCOC2",    "5-methyl-3,4-dihydro-1H-isochromene"),
+    ("Cc1ccc2c(c1)CCOC2",  "6-methyl-3,4-dihydro-1H-isochromene"),
+    ("Cc1ccc2c(c1)COCC2",  "7-methyl-3,4-dihydro-1H-isochromene"),
+    ("Cc1cccc2c1COCC2",    "8-methyl-3,4-dihydro-1H-isochromene"),
     # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C4a-C(5)-C(6)-C(7)-C(8)-C8a
     # (parent in Phase 133; 1-methyl in Phase 404)
     ("CC1CCc2ccccc2N1",    "2-methyl-1,2,3,4-tetrahydroquinoline"),

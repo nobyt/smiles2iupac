@@ -809,7 +809,6 @@ def _apply_hetero_suffixes(
     # 保留名が PCG (ケトン・ラクトン等) を内包する場合、-ol/-amine/-thiol への変換をスキップ
     _base_has_pcg = (
         full_base.endswith(("one", "dione"))
-        or full_base == "coumarin"
     )
     if not _base_has_pcg:
         for sub_nm, suffix, elide_e in (
@@ -960,8 +959,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=Cc2cccc3c2C(C1)CNC3": "1,2,3,4-tetrahydrobenzo[de]isoquinoline",
     # Phase 646: 5,6,7,8-tetrahydrophenanthridine
     "C1=CC2=C(CC1)CNc1ccccc12": "5,6,7,8-tetrahydrophenanthridine",
-    "c1ccc2c(c1)CCCO2": "chromane",
-    "c1ccc2c(c1)CCOC2": "isochromane",
+    "c1ccc2c(c1)CCCO2": "3,4-dihydro-2H-chromene",
+    "c1ccc2c(c1)CCOC2": "3,4-dihydro-1H-isochromene",
     "c1ccc2c(c1)CCCN2": "1,2,3,4-tetrahydroquinoline",
     "c1ccc2c(c1)CCNC2": "1,2,3,4-tetrahydroisoquinoline",
     "c1ccc2c(c1)NCCN2": "1,2,3,4-tetrahydroquinoxaline",
@@ -1055,7 +1054,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2c(c1)Cc1ccccc1-2":  "9H-fluorene",
     "c1ccc2c(c1)Cc1ccccc1O2":  "9H-xanthene",
     "c1ccc2c(c1)Cc1ccccc1S2":  "9H-thioxanthene",
-    "O=c1ccc2ccccc2o1":        "coumarin",
+    "O=c1ccc2ccccc2o1":        "chromen-2-one",
     "O=c1occc2ccccc12":        "isochromen-1-one",
     "C1=COc2ccccc2C1":         "4H-chromene",
     "C1=Cc2ccccc2OC1":         "2H-chromene",

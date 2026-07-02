@@ -22,7 +22,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: 1,3-benzodioxole unchanged
     ("c1ccc2c(c1)OCO2",               "1,3-benzodioxole"),
     # regression: coumarin unchanged
-    ("O=c1ccc2ccccc2o1",              "coumarin"),
+    ("O=c1ccc2ccccc2o1",              "chromen-2-one"),
     # regression: benzene unchanged
     ("c1ccccc1",                        "benzene"),
 ])

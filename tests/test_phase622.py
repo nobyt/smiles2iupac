@@ -34,12 +34,12 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1c[nH]c2ccccc12", "3-methyl-1H-indole"),
     ("Cc1cccc2[nH]ccc12", "4-methyl-1H-indole"),
     # coumarin (O at 1, C=O at 2)
-    ("Cc1cc2ccccc2oc1=O",  "3-methylcoumarin"),
-    ("Cc1cc(=O)oc2ccccc12", "4-methylcoumarin"),
-    ("Cc1cccc2oc(=O)ccc12", "5-methylcoumarin"),
-    ("Cc1ccc2oc(=O)ccc2c1", "6-methylcoumarin"),
-    ("Cc1ccc2ccc(=O)oc2c1", "7-methylcoumarin"),
-    ("Cc1cccc2ccc(=O)oc12", "8-methylcoumarin"),
+    ("Cc1cc2ccccc2oc1=O",  "3-methylchromen-2-one"),
+    ("Cc1cc(=O)oc2ccccc12", "4-methylchromen-2-one"),
+    ("Cc1cccc2oc(=O)ccc12", "5-methylchromen-2-one"),
+    ("Cc1ccc2oc(=O)ccc2c1", "6-methylchromen-2-one"),
+    ("Cc1ccc2ccc(=O)oc2c1", "7-methylchromen-2-one"),
+    ("Cc1cccc2ccc(=O)oc12", "8-methylchromen-2-one"),
     # benzofuran (O at 1)
     ("Cc1ccc2occc2c1",   "5-methyl-1-benzofuran"),
     ("Cc1ccc2ccoc2c1",   "6-methyl-1-benzofuran"),

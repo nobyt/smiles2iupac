@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     # 4H-pyran-4-one (gamma-pyrone) — O1 at para to C4=O
     ("O=c1ccocc1",              "4H-pyran-4-one"),
     # regression: coumarin unchanged (2H-pyran-2-one fused with benzene)
-    ("O=c1ccc2ccccc2o1",        "coumarin"),
+    ("O=c1ccc2ccccc2o1",        "chromen-2-one"),
     # regression: chromone unchanged (4H-pyran-4-one fused with benzene)
     ("O=c1ccoc2ccccc12",        "chromone"),
     # regression: benzene unchanged

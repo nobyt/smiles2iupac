@@ -12,11 +12,11 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # unsubstituted isochromane
-    ("C1COCc2ccccc21",                "isochromane"),
+    ("C1COCc2ccccc21",                "3,4-dihydro-1H-isochromene"),
     # C-substituted (methyl on benzene ring)
-    ("Cc1ccc2c(c1)CCOC2",             "6-methylisochromane"),
+    ("Cc1ccc2c(c1)CCOC2",             "6-methyl-3,4-dihydro-1H-isochromene"),
     # regression: chromane unchanged
-    ("C1CCOc2ccccc21",                "chromane"),
+    ("C1CCOc2ccccc21",                "3,4-dihydro-2H-chromene"),
     # regression: indoline unchanged
     ("c1ccc2c(c1)CCN2",               "2,3-dihydro-1H-indole"),
     # regression: benzene unchanged

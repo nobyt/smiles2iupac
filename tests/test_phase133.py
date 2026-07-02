@@ -14,7 +14,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 1,2,3,4-tetrahydronaphthalene (tetralin)
     ("C1CCCc2ccccc21", "1,2,3,4-tetrahydronaphthalene"),
     # chromane (3,4-dihydro-2H-chromene)
-    ("C1COc2ccccc2C1", "chromane"),
+    ("C1COc2ccccc2C1", "3,4-dihydro-2H-chromene"),
     # indoline (2,3-dihydroindole)
     ("C1Cc2ccccc2N1", "2,3-dihydro-1H-indole"),
     # indan-1-one (1-indanone)
