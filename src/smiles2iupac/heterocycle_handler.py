@@ -894,6 +894,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,2,4-triazin-5(4H)-one"
                 elif full_base == "1,2,3-triazine" and loc_str == "4":
                     base_with_suffix = "1,2,3-triazin-4(3H)-one"
+                elif full_base == "1,2,4-benzotriazine" and loc_str == "3":
+                    base_with_suffix = "1,2,4-benzotriazin-3(2H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -965,6 +967,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,2,4-triazin-5(4H)-thione"
                 elif full_base == "1,2,3-triazine" and loc_str == "4":
                     base_with_suffix = "1,2,3-triazin-4(3H)-thione"
+                elif full_base == "1,2,4-benzotriazine" and loc_str == "3":
+                    base_with_suffix = "1,2,4-benzotriazin-3(2H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
