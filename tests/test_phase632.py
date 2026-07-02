@@ -18,9 +18,9 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2c(c1)CNCN2",   "1,2,3,4-tetrahydroquinazoline"),
     ("C1=CCN2C=CC=CC2=C1", "quinolizine"),
     ("c1ccc2cc3c(ccc4ccccc43)cc2c1",        "benz[a]anthracene"),
-    ("c1ccc2c(c1)Cc1c-2ccc2ccccc12",        "benzo[a]fluorene"),
-    ("c1ccc2c(c1)Cc1cc3ccccc3cc1-2",        "benzo[b]fluorene"),
-    ("c1ccc2c(c1)Cc1ccc3ccccc3c1-2",        "benzo[c]fluorene"),
+    ("c1ccc2c(c1)Cc1c-2ccc2ccccc12",        "11H-benzo[a]fluorene"),
+    ("c1ccc2c(c1)Cc1cc3ccccc3cc1-2",        "11H-benzo[b]fluorene"),
+    ("c1ccc2c(c1)Cc1ccc3ccccc3c1-2",        "7H-benzo[c]fluorene"),
     ("c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12","dibenz[a,h]anthracene"),
     # 5,6,7,8-tetrahydroquinoline: positions 2–8
     ("Cc1ccc2c(n1)CCCC2",  "2-methyl-5,6,7,8-tetrahydroquinoline"),

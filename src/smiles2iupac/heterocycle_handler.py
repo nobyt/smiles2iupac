@@ -898,9 +898,9 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "C1=CCN2C=CC=CC2=C1": "quinolizine",
     # Phase 632: additional polycyclic aromatic hydrocarbons
     "c1ccc2cc3c(ccc4ccccc43)cc2c1": "benz[a]anthracene",
-    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": "benzo[a]fluorene",
-    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": "benzo[b]fluorene",
-    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": "benzo[c]fluorene",
+    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": "11H-benzo[a]fluorene",
+    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": "11H-benzo[b]fluorene",
+    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": "7H-benzo[c]fluorene",
     "c1ccc2c(c1)ccc1cc3c(ccc4ccccc43)cc12": "dibenz[a,h]anthracene",
     # Phase 631: tricyclic partially saturated ring systems
     "c1ccc2c3c(ccc2c1)CCCC3":  "1,2,3,4-tetrahydrophenanthrene",
@@ -1982,9 +1982,9 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
     "c1ccc2c(c1)Cc1ccccc1-2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None},
     # Phase 688: benzo[a/b/c]fluorene (6+5+6+6; CH2→11 or 7; positions 1-11)
-    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": {5: 1, 0: 2, 1: 3, 2: 4, 3: None, 8: None, 9: 5, 10: 6, 11: None, 12: 7, 13: 8, 14: 9, 15: 10, 16: None, 7: None, 6: 11, 4: None},  # benzo[a]fluorene (11H)
-    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": {5: 1, 0: 2, 1: 3, 2: 4, 3: None, 16: None, 15: 5, 14: None, 13: 6, 12: 7, 11: 8, 10: 9, 9: None, 8: 10, 7: None, 6: 11, 4: None},  # benzo[b]fluorene (11H)
-    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": {13: 1, 14: 2, 15: None, 16: None, 3: None, 2: 3, 1: 4, 0: 5, 5: 6, 4: None, 6: 7, 7: None, 8: 8, 9: 9, 10: None, 11: 10, 12: 11},  # benzo[c]fluorene (7H)
+    "c1ccc2c(c1)Cc1c-2ccc2ccccc12": {5: 10, 0: 9, 1: 8, 2: 7, 3: None, 8: None, 9: 6, 10: 5, 11: None, 12: 4, 13: 3, 14: 2, 15: 1, 16: None, 7: None, 6: 11, 4: None},  # 11H-benzo[a]fluorene
+    "c1ccc2c(c1)Cc1cc3ccccc3cc1-2": {5: 1, 0: 2, 1: 3, 2: 4, 3: None, 16: None, 15: 5, 14: None, 13: 6, 12: 7, 11: 8, 10: 9, 9: None, 8: 10, 7: None, 6: 11, 4: None},  # 11H-benzo[b]fluorene
+    "c1ccc2c(c1)Cc1ccc3ccccc3c1-2": {13: 2, 14: 1, 15: None, 16: None, 3: None, 2: 11, 1: 10, 0: 9, 5: 8, 4: None, 6: 7, 7: None, 8: 6, 9: 5, 10: None, 11: 4, 12: 3},  # 7H-benzo[c]fluorene
     # Phase 563: xanthene/thioxanthene (6+6+6; CH2→9, O/S→None; positions 1-9; pairs sum to 9)
     # peripheral path: a5(1)-a0(2)-a1(3)-a2(4)-jct3-O/S(a13,None)-jct12-a11(5)-a10(6)-a9(7)-a8(8)-jct7-CH2(a6,9)-jct4
     "c1ccc2c(c1)Cc1ccccc1O2": {0: 2, 1: 3, 2: 4, 3: None, 4: None, 5: 1, 6: 9, 7: None, 8: 8, 9: 7, 10: 6, 11: 5, 12: None, 13: None},
