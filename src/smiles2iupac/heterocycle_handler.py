@@ -825,10 +825,14 @@ def _apply_hetero_suffixes(
             mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
             stem = full_base[:-1] if (elide_e and full_base.endswith("e")) else full_base
             base_with_suffix = f"{stem}-{loc_str}-{mult}{suffix}"
-            # Phase 744–752: α/γ-hydroxy N-heterocycles prefer the lactam tautomer
+            # Phase 744–758: α/γ-hydroxy N-heterocycles prefer the lactam tautomer
             if sub_nm == "hydroxy" and mult == "di":
                 if full_base == "pyrimidine" and loc_str == "2,4":
                     base_with_suffix = "pyrimidine-2,4(1H,3H)-dione"
+                elif full_base == "quinazoline" and loc_str == "2,4":
+                    base_with_suffix = "quinazoline-2,4(1H,3H)-dione"
+                elif full_base == "quinoxaline" and loc_str == "2,3":
+                    base_with_suffix = "quinoxaline-2,3(1H,4H)-dione"
             elif sub_nm == "hydroxy" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"1H-pyridin-{loc_str}-one"
@@ -890,10 +894,14 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
                     base_with_suffix = "7H-purin-2(1H)-one"
-            # Phase 749/753: α-thiol N-heterocycles prefer the thiolactam tautomer
+            # Phase 749/753/758: α-thiol N-heterocycles prefer the thiolactam tautomer
             elif sub_nm == "sulfanyl" and mult == "di":
                 if full_base == "pyrimidine" and loc_str == "2,4":
                     base_with_suffix = "pyrimidine-2,4(1H,3H)-dithione"
+                elif full_base == "quinazoline" and loc_str == "2,4":
+                    base_with_suffix = "quinazoline-2,4(1H,3H)-dithione"
+                elif full_base == "quinoxaline" and loc_str == "2,3":
+                    base_with_suffix = "quinoxaline-2,3(1H,4H)-dithione"
             elif sub_nm == "sulfanyl" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"pyridin-{loc_str}(1H)-thione"
