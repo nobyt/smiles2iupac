@@ -996,6 +996,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]quinolin-2(1H)-one"
                 elif full_base == "benzo[f]cinnoline" and loc_str == "2":  # Phase 770
                     base_with_suffix = "benzo[f]cinnolin-2(5H)-one"
+                elif full_base == "3,5-phenanthroline" and loc_str == "2":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-2(3H)-one"
+                elif full_base == "3,5-phenanthroline" and loc_str == "4":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-4(5H)-one"
+                elif full_base == "3,5-phenanthroline" and loc_str == "6":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-6(5H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -1169,6 +1175,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]quinolin-2(1H)-thione"
                 elif full_base == "benzo[f]cinnoline" and loc_str == "2":  # Phase 770
                     base_with_suffix = "benzo[f]cinnolin-2(5H)-thione"
+                elif full_base == "3,5-phenanthroline" and loc_str == "2":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-2(3H)-thione"
+                elif full_base == "3,5-phenanthroline" and loc_str == "4":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-4(5H)-thione"
+                elif full_base == "3,5-phenanthroline" and loc_str == "6":  # Phase 772
+                    base_with_suffix = "3,5-phenanthrolin-6(5H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
