@@ -857,6 +857,38 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,3-benzoxazol-2(3H)-one"
                 elif full_base == "1H-benzimidazole" and loc_str == "2":
                     base_with_suffix = "1H-benzimidazol-2(3H)-one"
+            # Phase 749: α-thiol N-heterocycles prefer the thiolactam tautomer
+            elif sub_nm == "sulfanyl" and mult == "":
+                if full_base == "pyridine" and loc_str in ("2", "4"):
+                    base_with_suffix = f"pyridin-{loc_str}(1H)-thione"
+                elif full_base == "pyrimidine" and loc_str == "2":
+                    base_with_suffix = "pyrimidin-2(1H)-thione"
+                elif full_base == "pyrimidine" and loc_str == "4":
+                    base_with_suffix = "pyrimidin-4(3H)-thione"
+                elif full_base == "pyrazine" and loc_str == "2":
+                    base_with_suffix = "pyrazin-2(1H)-thione"
+                elif full_base == "pyridazine" and loc_str == "3":
+                    base_with_suffix = "pyridazin-3(2H)-thione"
+                elif full_base == "quinoline" and loc_str in ("2", "4"):
+                    base_with_suffix = f"quinolin-{loc_str}(1H)-thione"
+                elif full_base == "isoquinoline" and loc_str in ("1", "3"):
+                    base_with_suffix = f"isoquinolin-{loc_str}(2H)-thione"
+                elif full_base == "quinoxaline" and loc_str == "2":
+                    base_with_suffix = "quinoxalin-2(1H)-thione"
+                elif full_base == "quinazoline" and loc_str == "2":
+                    base_with_suffix = "quinazolin-2(1H)-thione"
+                elif full_base == "quinazoline" and loc_str == "4":
+                    base_with_suffix = "quinazolin-4(3H)-thione"
+                elif full_base == "cinnoline" and loc_str == "4":
+                    base_with_suffix = "cinnolin-4(1H)-thione"
+                elif full_base == "phthalazine" and loc_str == "1":
+                    base_with_suffix = "phthalazin-1(2H)-thione"
+                elif full_base == "1,3-benzothiazole" and loc_str == "2":
+                    base_with_suffix = "1,3-benzothiazol-2(3H)-thione"
+                elif full_base == "1,3-benzoxazole" and loc_str == "2":
+                    base_with_suffix = "1,3-benzoxazol-2(3H)-thione"
+                elif full_base == "1H-benzimidazole" and loc_str == "2":
+                    base_with_suffix = "1H-benzimidazol-2(3H)-thione"
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
