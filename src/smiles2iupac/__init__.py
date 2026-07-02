@@ -312,7 +312,7 @@ _RETAINED_NAMES: dict[str, str] = {
 
     # ── Phase 236: 環状イミド保留名 (IUPAC 2013 P-66.8.3) ──
     # succinimide/glutarimide は PIN でないため体系名を使用 (Phase 257)
-    "O=C1NC(=O)c2ccccc21":             "phthalimide",
+    "O=C1NC(=O)c2ccccc21":             "isoindole-1,3(2H)-dione",
 
     # ── Phase 230: スチレン保留名 (IUPAC 2013 P-31.1.3.4) ──
     "C=Cc1ccccc1":                     "styrene",

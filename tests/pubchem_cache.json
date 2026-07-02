@@ -1883,7 +1883,7 @@
   },
   "VZWXIQHBIQLMPN-UHFFFAOYSA-N": {
     "inchikey": "VZWXIQHBIQLMPN-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CCCO2",
+    "smiles": "C1COc2ccccc2C1",
     "pubchem_iupac": "3,4-dihydro-2H-chromene",
     "validated": false,
     "expected_in_test": "3,4-dihydro-2H-chromene",
@@ -7182,11 +7182,11 @@
     "smiles": "O=C1NC(=O)c2ccccc21",
     "pubchem_iupac": "isoindole-1,3-dione",
     "validated": false,
-    "expected_in_test": "phthalimide",
+    "expected_in_test": "isoindole-1,3(2H)-dione",
     "iupac_verdict": "our_retained",
     "iupac_note": "'phthalimide' は IUPAC 2013 保留名。PIN は 'isoindole-1,3-dione'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": "isoindole-1,3-dione",
+    "iupac_pin": "isoindole-1,3(2H)-dione",
     "not_found": true
   },
   "MCAHWIHFGHIESP-UHFFFAOYSA-N": {
@@ -14406,7 +14406,7 @@
   },
   "HEBMCVBCEDMUOF-UHFFFAOYSA-N": {
     "inchikey": "HEBMCVBCEDMUOF-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CCOC2",
+    "smiles": "C1COCc2ccccc21",
     "pubchem_iupac": "3,4-dihydro-1H-isochromene",
     "validated": false,
     "expected_in_test": "3,4-dihydro-1H-isochromene",
@@ -19992,7 +19992,7 @@
   },
   "PSGQCCSGKGJLRL-UHFFFAOYSA-N": {
     "inchikey": "PSGQCCSGKGJLRL-UHFFFAOYSA-N",
-    "smiles": "Cc1cc(=O)oc2ccccc12",
+    "smiles": "O=c1cc(C)c2ccccc2o1",
     "pubchem_iupac": "4-methylchromen-2-one",
     "validated": false,
     "expected_in_test": "4-methylchromen-2-one",
@@ -41934,7 +41934,7 @@
   },
   "NCDSEQNSIBPEKG-UHFFFAOYSA-N": {
     "inchikey": "NCDSEQNSIBPEKG-UHFFFAOYSA-N",
-    "smiles": "CC1CC(=O)c2ccccc2O1",
+    "smiles": "O=C1CC(C)Oc2ccccc21",
     "pubchem_iupac": "2-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "2-methylchroman-4-one",
@@ -41946,7 +41946,7 @@
   },
   "PYKLMHVJWGDWOH-UHFFFAOYSA-N": {
     "inchikey": "PYKLMHVJWGDWOH-UHFFFAOYSA-N",
-    "smiles": "CC1COc2ccccc2C1=O",
+    "smiles": "O=C1C(C)COc2ccccc21",
     "pubchem_iupac": "3-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "3-methylchroman-4-one",
@@ -41958,7 +41958,7 @@
   },
   "ZFVQMWINGWSVPO-UHFFFAOYSA-N": {
     "inchikey": "ZFVQMWINGWSVPO-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1C(=O)CCO2",
+    "smiles": "O=C1CCOc2cccc(C)c21",
     "pubchem_iupac": "5-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "5-methylchroman-4-one",
@@ -41970,7 +41970,7 @@
   },
   "RJHXEPLSJAVTFW-UHFFFAOYSA-N": {
     "inchikey": "RJHXEPLSJAVTFW-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)C(=O)CCO2",
+    "smiles": "O=C1CCOc2ccc(C)cc21",
     "pubchem_iupac": "6-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "6-methylchroman-4-one",
@@ -41982,7 +41982,7 @@
   },
   "OKVHJJOYXWCTSA-UHFFFAOYSA-N": {
     "inchikey": "OKVHJJOYXWCTSA-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)OCCC2=O",
+    "smiles": "O=C1CCOc2cc(C)ccc21",
     "pubchem_iupac": "7-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "7-methylchroman-4-one",
@@ -41994,7 +41994,7 @@
   },
   "YRHXFIRIHICKTC-UHFFFAOYSA-N": {
     "inchikey": "YRHXFIRIHICKTC-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1OCCC2=O",
+    "smiles": "O=C1CCOc2c(C)cccc21",
     "pubchem_iupac": "8-methyl-2,3-dihydrochromen-4-one",
     "validated": false,
     "expected_in_test": "8-methylchroman-4-one",
@@ -42006,7 +42006,7 @@
   },
   "VTSAALCORKKACE-UHFFFAOYSA-N": {
     "inchikey": "VTSAALCORKKACE-UHFFFAOYSA-N",
-    "smiles": "CC1Cc2ccccc2C(=O)O1",
+    "smiles": "O=C1OC(C)Cc2ccccc21",
     "pubchem_iupac": "3-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "3-methylisochroman-1-one",
@@ -42018,7 +42018,7 @@
   },
   "LXVREHWADYEOQG-UHFFFAOYSA-N": {
     "inchikey": "LXVREHWADYEOQG-UHFFFAOYSA-N",
-    "smiles": "CC1COC(=O)c2ccccc21",
+    "smiles": "O=C1OCC(C)c2ccccc21",
     "pubchem_iupac": "4-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "4-methylisochroman-1-one",
@@ -42030,7 +42030,7 @@
   },
   "AVCXPCDTLAMANO-UHFFFAOYSA-N": {
     "inchikey": "AVCXPCDTLAMANO-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CCOC2=O",
+    "smiles": "O=C1OCCc2c(C)cccc21",
     "pubchem_iupac": "5-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "5-methylisochroman-1-one",
@@ -42042,7 +42042,7 @@
   },
   "QDZKTNOWBCGTBW-UHFFFAOYSA-N": {
     "inchikey": "QDZKTNOWBCGTBW-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CCOC2=O",
+    "smiles": "O=C1OCCc2cc(C)ccc21",
     "pubchem_iupac": "6-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "6-methylisochroman-1-one",
@@ -42054,7 +42054,7 @@
   },
   "CSYMRZLCEOMBAX-UHFFFAOYSA-N": {
     "inchikey": "CSYMRZLCEOMBAX-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)C(=O)OCC2",
+    "smiles": "O=C1OCCc2ccc(C)cc21",
     "pubchem_iupac": "7-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "7-methylisochroman-1-one",
@@ -42066,7 +42066,7 @@
   },
   "LPUZGLUUHLTCGK-UHFFFAOYSA-N": {
     "inchikey": "LPUZGLUUHLTCGK-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1C(=O)OCC2",
+    "smiles": "O=C1OCCc2cccc(C)c21",
     "pubchem_iupac": "8-methyl-3,4-dihydroisochromen-1-one",
     "validated": false,
     "expected_in_test": "8-methylisochroman-1-one",
@@ -42186,7 +42186,7 @@
   },
   "XVFJKYPFHFHIOV-UHFFFAOYSA-N": {
     "inchikey": "XVFJKYPFHFHIOV-UHFFFAOYSA-N",
-    "smiles": "CC1C(=O)Cc2ccccc21",
+    "smiles": "O=C1Cc2ccccc2C(C)1",
     "pubchem_iupac": "1-methyl-1,3-dihydroinden-2-one",
     "validated": false,
     "expected_in_test": "1-methylindan-2-one",
@@ -43062,7 +43062,7 @@
   },
   "OUZDKLXHTIAQAK-UHFFFAOYSA-N": {
     "inchikey": "OUZDKLXHTIAQAK-UHFFFAOYSA-N",
-    "smiles": "CC1Sc2ccccc2C1=O",
+    "smiles": "O=C1C(C)Sc2ccccc21",
     "pubchem_iupac": "2-methyl-1-benzothiophen-3-one",
     "validated": false,
     "expected_in_test": "3-methylbenzo[b]thiophen-2(3H)-one",
@@ -43074,7 +43074,7 @@
   },
   "ZODDWZDITCTJFU-UHFFFAOYSA-N": {
     "inchikey": "ZODDWZDITCTJFU-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1C(=O)CS2",
+    "smiles": "O=C1CSc2cccc(C)c21",
     "pubchem_iupac": "4-methyl-1-benzothiophen-3-one",
     "validated": false,
     "expected_in_test": "4-methylbenzo[b]thiophen-2(3H)-one",
@@ -43086,7 +43086,7 @@
   },
   "FDUUXIYDLKFEPF-UHFFFAOYSA-N": {
     "inchikey": "FDUUXIYDLKFEPF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)C(=O)CS2",
+    "smiles": "O=C1CSc2ccc(C)cc21",
     "pubchem_iupac": "5-methyl-1-benzothiophen-3-one",
     "validated": false,
     "expected_in_test": "5-methylbenzo[b]thiophen-2(3H)-one",
@@ -43098,7 +43098,7 @@
   },
   "QJONTQSRKXMSBU-UHFFFAOYSA-N": {
     "inchikey": "QJONTQSRKXMSBU-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)SCC2=O",
+    "smiles": "O=C1CSc2cc(C)ccc21",
     "pubchem_iupac": "6-methyl-1-benzothiophen-3-one",
     "validated": false,
     "expected_in_test": "6-methylbenzo[b]thiophen-2(3H)-one",
@@ -43110,7 +43110,7 @@
   },
   "SWKFRDRXEXLATD-UHFFFAOYSA-N": {
     "inchikey": "SWKFRDRXEXLATD-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1SCC2=O",
+    "smiles": "O=C1CSc2c(C)cccc21",
     "pubchem_iupac": "7-methyl-1-benzothiophen-3-one",
     "validated": false,
     "expected_in_test": "7-methylbenzo[b]thiophen-2(3H)-one",
@@ -43795,7 +43795,7 @@
   },
   "ABJKIHHNDMEBNA-UHFFFAOYSA-N": {
     "inchikey": "ABJKIHHNDMEBNA-UHFFFAOYSA-N",
-    "smiles": "Cc1coc2ccccc2c1=O",
+    "smiles": "O=c1c(C)coc2ccccc12",
     "not_found": true,
     "pubchem_iupac": "3-methylchromen-4-one",
     "validated": false,
@@ -43807,7 +43807,7 @@
   },
   "HZIAGMKDGXMDGG-UHFFFAOYSA-N": {
     "inchikey": "HZIAGMKDGXMDGG-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2occc(=O)c12",
+    "smiles": "O=c1ccoc2cccc(C)c12",
     "not_found": true,
     "pubchem_iupac": "5-methylchromen-4-one",
     "validated": false,
@@ -43819,7 +43819,7 @@
   },
   "HTXQVFXXVXOLCF-UHFFFAOYSA-N": {
     "inchikey": "HTXQVFXXVXOLCF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2occc(=O)c2c1",
+    "smiles": "O=c1ccoc2ccc(C)cc12",
     "not_found": true,
     "pubchem_iupac": "6-methylchromen-4-one",
     "validated": false,
@@ -43831,7 +43831,7 @@
   },
   "MOISBGWJJHJRIH-UHFFFAOYSA-N": {
     "inchikey": "MOISBGWJJHJRIH-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(=O)ccoc2c1",
+    "smiles": "O=c1ccoc2cc(C)ccc12",
     "not_found": true,
     "pubchem_iupac": "7-methylchromen-4-one",
     "validated": false,
@@ -43843,7 +43843,7 @@
   },
   "DLBDWKDOHINUIM-UHFFFAOYSA-N": {
     "inchikey": "DLBDWKDOHINUIM-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c(=O)ccoc12",
+    "smiles": "O=c1ccoc2c(C)cccc12",
     "not_found": true,
     "pubchem_iupac": "8-methylchromen-4-one",
     "validated": false,
@@ -44003,7 +44003,7 @@
   },
   "VNPWIDIVQOFLQS-UHFFFAOYSA-N": {
     "inchikey": "VNPWIDIVQOFLQS-UHFFFAOYSA-N",
-    "smiles": "CC1NC(=O)c2ccccc21",
+    "smiles": "O=C1NC(C)c2ccccc21",
     "not_found": true,
     "pubchem_iupac": "3-methyl-2,3-dihydroisoindol-1-one",
     "validated": false,
@@ -44015,7 +44015,7 @@
   },
   "BXUBVWIYNGVGNT-UHFFFAOYSA-N": {
     "inchikey": "BXUBVWIYNGVGNT-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CNC2=O",
+    "smiles": "O=C1NCc2c(C)cccc21",
     "not_found": true,
     "pubchem_iupac": "4-methyl-2,3-dihydroisoindol-1-one",
     "validated": false,
@@ -44027,7 +44027,7 @@
   },
   "AHKBMKCIJLCNIH-UHFFFAOYSA-N": {
     "inchikey": "AHKBMKCIJLCNIH-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CNC2=O",
+    "smiles": "O=C1NCc2cc(C)ccc21",
     "not_found": true,
     "pubchem_iupac": "5-methyl-2,3-dihydroisoindol-1-one",
     "validated": false,
@@ -44039,7 +44039,7 @@
   },
   "HFFIGYBPDNKEMJ-UHFFFAOYSA-N": {
     "inchikey": "HFFIGYBPDNKEMJ-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)C(=O)NC2",
+    "smiles": "O=C1NCc2ccc(C)cc21",
     "not_found": true,
     "pubchem_iupac": "6-methyl-2,3-dihydroisoindol-1-one",
     "validated": false,
@@ -44051,7 +44051,7 @@
   },
   "QUTSDZPSPCZXQP-UHFFFAOYSA-N": {
     "inchikey": "QUTSDZPSPCZXQP-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1C(=O)NC2",
+    "smiles": "O=C1NCc2cccc(C)c21",
     "not_found": true,
     "pubchem_iupac": "7-methyl-2,3-dihydroisoindol-1-one",
     "validated": false,
@@ -46180,6 +46180,16 @@
   "POKWIVSINQYCOZ-UHFFFAOYSA-N": {
     "inchikey": "POKWIVSINQYCOZ-UHFFFAOYSA-N",
     "smiles": "Cc1nnc2n[nH]cc2n1",
+    "not_found": true
+  },
+  "JJFUPPZOYYMAFC-UHFFFAOYSA-N": {
+    "inchikey": "JJFUPPZOYYMAFC-UHFFFAOYSA-N",
+    "smiles": "CCN1CCc2ccccc21",
+    "not_found": true
+  },
+  "MZDOARRJZYPZOJ-UHFFFAOYSA-N": {
+    "inchikey": "MZDOARRJZYPZOJ-UHFFFAOYSA-N",
+    "smiles": "Cc1ccccc1N1CCc2ccccc21",
     "not_found": true
   }
 }

@@ -12,7 +12,7 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # N-H phthalimide (already handled by __init__ lookup → unchanged)
-    ("O=C1NC(=O)c2ccccc21",           "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21",           "isoindole-1,3(2H)-dione"),
     # N-methylphthalimide
     ("CN1C(=O)c2ccccc2C1=O",          "2-methylisoindole-1,3(2H)-dione"),
     # N-ethylphthalimide

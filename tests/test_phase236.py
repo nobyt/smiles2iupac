@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1NC(=O)CC1",   "pyrrolidine-2,5-dione"),   # same compound, different SMILES
     ("O=C1CCCC(=O)N1",  "piperidine-2,6-dione"),
     ("O=C1NC(=O)CCC1",  "piperidine-2,6-dione"),
-    ("O=C1NC(=O)c2ccccc21", "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21", "isoindole-1,3(2H)-dione"),
     # regression: larger ring uses systematic name
     ("O=C1NC(=O)CCCC1", "azepane-2,7-dione"),
     # regression: lactam (only one C=O) unchanged

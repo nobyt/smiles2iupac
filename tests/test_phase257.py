@@ -27,7 +27,7 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1CCCC(=O)N1", "piperidine-2,6-dione"),
     ("O=C1NC(=O)CCC1", "piperidine-2,6-dione"),   # same compound
     # regression: phthalimide retained
-    ("O=C1NC(=O)c2ccccc21", "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21", "isoindole-1,3(2H)-dione"),
     # regression: lactams (single C=O) unchanged
     ("O=C1CCCN1",  "pyrrolidin-2-one"),
     ("O=C1CCCCN1", "piperidin-2-one"),

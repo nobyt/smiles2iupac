@@ -24,7 +24,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: pyrrolidine-2,5-dione unchanged
     ("O=C1CCC(=O)N1",                 "pyrrolidine-2,5-dione"),
     # regression: phthalimide unchanged
-    ("O=C1NC(=O)c2ccccc21",           "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21",           "isoindole-1,3(2H)-dione"),
     # regression: benzene unchanged
     ("c1ccccc1",                       "benzene"),
 ])

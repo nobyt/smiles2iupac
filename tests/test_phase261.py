@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     ("O=C1CCc2ccccc21",     "2,3-dihydroinden-1-one"),
     ("O=C1Cc2ccccc2N1",     "1,3-dihydroindol-2-one"),
     # regression: phthalimide (N-containing, different from indane-1,3-dione)
-    ("O=C1NC(=O)c2ccccc21", "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21", "isoindole-1,3(2H)-dione"),
 ])
 def test_phase261_indane_dione(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -21,7 +21,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: 1,3-benzoxazole unchanged
     ("c1ccc2ocnc2c1",                   "1,3-benzoxazole"),
     # regression: phthalimide unchanged
-    ("O=C1NC(=O)c2ccccc21",            "phthalimide"),
+    ("O=C1NC(=O)c2ccccc21",            "isoindole-1,3(2H)-dione"),
     # regression: benzene unchanged
     ("c1ccccc1",                        "benzene"),
 ])
