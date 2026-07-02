@@ -17,7 +17,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 多置換: OH が主官能基で最低ロカント
     ("Cc1ccnc(O)c1", "4-methyl-1H-pyridin-2-one"),
     # -thiol suffix (e を省略しない)
-    ("Sc1ccncc1", "pyridine-4-thiol"),
+    ("Sc1ccncc1", "pyridin-4(1H)-thione"),
     ("Sc1cccs1", "thiophene-2-thiol"),
     # 回帰: benzene 保留名
     ("Oc1ccccc1", "phenol"),

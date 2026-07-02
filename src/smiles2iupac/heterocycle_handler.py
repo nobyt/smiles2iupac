@@ -812,9 +812,9 @@ def _apply_hetero_suffixes(
     )
     if not _base_has_pcg:
         for sub_nm, suffix, elide_e in (
-            ("amino", "amine", True),
             ("hydroxy", "ol", True),
             ("sulfanyl", "thiol", False),
+            ("amino", "amine", True),
         ):
             entries = [(loc, nm) for loc, nm in substituents if nm == sub_nm]
             if not entries:
