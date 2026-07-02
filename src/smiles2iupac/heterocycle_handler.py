@@ -904,6 +904,46 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[f]quinolin-2(1H)-one"
                 elif full_base == "benzo[h]quinoline" and loc_str == "1":
                     base_with_suffix = "benzo[h]quinolin-1(10H)-one"
+                elif full_base == "1,10-phenanthroline" and loc_str == "2":  # Phase 763
+                    base_with_suffix = "1,10-phenanthrolin-2(1H)-one"
+                elif full_base == "4,7-phenanthroline" and loc_str == "3":   # Phase 763
+                    base_with_suffix = "4,7-phenanthrolin-3(4H)-one"
+                elif full_base == "1,7-phenanthroline" and loc_str == "2":   # Phase 764
+                    base_with_suffix = "1,7-phenanthrolin-2(1H)-one"
+                elif full_base == "1,7-phenanthroline" and loc_str == "8":   # Phase 764
+                    base_with_suffix = "1,7-phenanthrolin-8(7H)-one"
+                elif full_base == "1,8-phenanthroline" and loc_str == "2":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-2(1H)-one"
+                elif full_base == "1,8-phenanthroline" and loc_str == "9":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-9(8H)-one"
+                elif full_base == "1,8-phenanthroline" and loc_str == "7":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-7(8H)-one"
+                elif full_base == "2,7-phenanthroline" and loc_str == "1":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-1(2H)-one"
+                elif full_base == "2,7-phenanthroline" and loc_str == "6":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-6(7H)-one"
+                elif full_base == "2,7-phenanthroline" and loc_str == "8":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-8(7H)-one"
+                elif full_base == "2,6-phenanthroline" and loc_str == "1":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-1(2H)-one"
+                elif full_base == "2,6-phenanthroline" and loc_str == "3":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-3(2H)-one"
+                elif full_base == "2,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-5(6H)-one"
+                elif full_base == "1,6-phenanthroline" and loc_str == "2":   # Phase 765
+                    base_with_suffix = "1,6-phenanthrolin-2(1H)-one"
+                elif full_base == "1,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "1,6-phenanthrolin-5(6H)-one"
+                elif full_base == "3,6-phenanthroline" and loc_str == "2":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-2(3H)-one"
+                elif full_base == "3,6-phenanthroline" and loc_str == "4":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-4(3H)-one"
+                elif full_base == "3,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-5(6H)-one"
+                elif full_base == "4,5-phenanthroline" and loc_str == "3":   # Phase 765
+                    base_with_suffix = "4,5-phenanthrolin-3(4H)-one"
+                elif full_base == "4,5-phenanthroline" and loc_str == "6":   # Phase 765
+                    base_with_suffix = "4,5-phenanthrolin-6(5H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -985,6 +1025,46 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[f]quinolin-2(1H)-thione"
                 elif full_base == "benzo[h]quinoline" and loc_str == "1":
                     base_with_suffix = "benzo[h]quinolin-1(10H)-thione"
+                elif full_base == "1,10-phenanthroline" and loc_str == "2":  # Phase 763
+                    base_with_suffix = "1,10-phenanthrolin-2(1H)-thione"
+                elif full_base == "4,7-phenanthroline" and loc_str == "3":   # Phase 763
+                    base_with_suffix = "4,7-phenanthrolin-3(4H)-thione"
+                elif full_base == "1,7-phenanthroline" and loc_str == "2":   # Phase 764
+                    base_with_suffix = "1,7-phenanthrolin-2(1H)-thione"
+                elif full_base == "1,7-phenanthroline" and loc_str == "8":   # Phase 764
+                    base_with_suffix = "1,7-phenanthrolin-8(7H)-thione"
+                elif full_base == "1,8-phenanthroline" and loc_str == "2":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-2(1H)-thione"
+                elif full_base == "1,8-phenanthroline" and loc_str == "9":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-9(8H)-thione"
+                elif full_base == "1,8-phenanthroline" and loc_str == "7":   # Phase 764
+                    base_with_suffix = "1,8-phenanthrolin-7(8H)-thione"
+                elif full_base == "2,7-phenanthroline" and loc_str == "1":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-1(2H)-thione"
+                elif full_base == "2,7-phenanthroline" and loc_str == "6":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-6(7H)-thione"
+                elif full_base == "2,7-phenanthroline" and loc_str == "8":   # Phase 765
+                    base_with_suffix = "2,7-phenanthrolin-8(7H)-thione"
+                elif full_base == "2,6-phenanthroline" and loc_str == "1":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-1(2H)-thione"
+                elif full_base == "2,6-phenanthroline" and loc_str == "3":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-3(2H)-thione"
+                elif full_base == "2,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "2,6-phenanthrolin-5(6H)-thione"
+                elif full_base == "1,6-phenanthroline" and loc_str == "2":   # Phase 765
+                    base_with_suffix = "1,6-phenanthrolin-2(1H)-thione"
+                elif full_base == "1,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "1,6-phenanthrolin-5(6H)-thione"
+                elif full_base == "3,6-phenanthroline" and loc_str == "2":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-2(3H)-thione"
+                elif full_base == "3,6-phenanthroline" and loc_str == "4":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-4(3H)-thione"
+                elif full_base == "3,6-phenanthroline" and loc_str == "5":   # Phase 765
+                    base_with_suffix = "3,6-phenanthrolin-5(6H)-thione"
+                elif full_base == "4,5-phenanthroline" and loc_str == "3":   # Phase 765
+                    base_with_suffix = "4,5-phenanthrolin-3(4H)-thione"
+                elif full_base == "4,5-phenanthroline" and loc_str == "6":   # Phase 765
+                    base_with_suffix = "4,5-phenanthrolin-6(5H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
