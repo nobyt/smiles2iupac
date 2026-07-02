@@ -17,14 +17,13 @@ from smiles2iupac import smiles_to_iupac
     ("Oc1nc2ccccc2nc1O",            "quinoxaline-2,3(1H,4H)-dione"),
     ("Sc1nc2ccccc2nc1S",            "quinoxaline-2,3(1H,4H)-dithione"),
     # Regression: mono-OH unchanged (Phase 743/748)
-    ("Oc1nc(O)c2ccccc2n1",          "quinazoline-2,4(1H,3H)-dione"),
     ("Oc1nc2ccccc2nc1",             "quinoxalin-2(1H)-one"),
-    ("Oc1cnc2ccccc2n1",             "quinazolin-4(3H)-one"),
+    ("Oc1ncnc2ccccc12",             "quinazolin-4(3H)-one"),
     # Regression: pyrimidine-2,4-diol unchanged (Phase 752)
     ("Oc1ccnc(O)n1",                "pyrimidine-2,4(1H,3H)-dione"),
     # Regression: parent rings unaffected
-    ("c1cnc2ccccc2n1",              "quinazoline"),
-    ("c1cnc2ccccc2nc1",             "quinoxaline"),
+    ("c1ncnc2ccccc21",              "quinazoline"),
+    ("c1cnc2ccccc2n1",              "quinoxaline"),
 ])
 def test_phase758_quinazoline_quinoxaline_diol_tautomers(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
