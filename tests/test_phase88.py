@@ -14,7 +14,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: 飽和ジエステル (retained names)
     ("COC(=O)CC(=O)OC", "dimethyl malonate"),
     ("CCOC(=O)CC(=O)OCC", "diethyl malonate"),
-    ("CCOC(=O)CCC(=O)OCC", "diethyl succinate"),
+    ("CCOC(=O)CCC(=O)OCC", "diethyl butanedioate"),
 ])
 def test_phase88_diester_with_ene(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     ("OC(=O)CC=CC(=O)O",            "pent-2-enedioic acid"),
     ("OC(=O)C=CCC(=O)O",            "pent-2-enedioic acid"),
     # regressions: saturated diesters use retained names
-    ("COC(=O)CCC(=O)OC",            "dimethyl succinate"),
+    ("COC(=O)CCC(=O)OC",            "dimethyl butanedioate"),
     ("CCOC(=O)CC(=O)OCC",           "diethyl malonate"),
     # regressions: benzene diester unchanged
     ("COC(=O)c1ccc(C(=O)OC)cc1",   "dimethyl benzene-1,4-dicarboxylate"),

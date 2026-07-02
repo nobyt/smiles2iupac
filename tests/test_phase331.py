@@ -24,7 +24,7 @@ from smiles2iupac import smiles_to_iupac
     ("NC(=[Se])C(=[Se])N",         "ethanediselenoamide"),
     # regressions: diester with stereo / retained names
     ("COC(=O)/C=C/C(=O)OC",        "(2E)-dimethyl but-2-enedioate"),
-    ("COC(=O)CCC(=O)OC",           "dimethyl succinate"),
+    ("COC(=O)CCC(=O)OC",           "dimethyl butanedioate"),
     ("CCOC(=O)CC(=O)OCC",          "diethyl malonate"),
 ])
 def test_phase331_unsaturated_dithio_diselenoamide_diester_locant(smiles, expected):

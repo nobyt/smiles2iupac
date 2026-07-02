@@ -1,6 +1,6 @@
 """Phase 257: hydrazide suffix fix and cyclic imide PIN update (IUPAC 2013).
 
-  CC(=O)NN      → ethanohydrazide    (was ethanehydrazide — suffix -ohydrazide)
+  CC(=O)NN      → acetohydrazide    (was ethanehydrazide — suffix -ohydrazide)
   CCC(=O)NN     → propanohydrazide
   C=CC(=O)NN    → prop-2-enohydrazide
   O=C1CCC(=O)N1 → pyrrolidine-2,5-dione  (PIN; succinimide is not a PIN)
@@ -13,14 +13,14 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # hydrazide suffix: -ohydrazide (IUPAC 2013 P-66.3.3.1)
-    ("CC(=O)NN",      "ethanohydrazide"),
+    ("CC(=O)NN",      "acetohydrazide"),
     ("CCC(=O)NN",     "propanohydrazide"),
     ("CCCC(=O)NN",    "butanohydrazide"),
     ("CCCCC(=O)NN",   "pentanohydrazide"),
     ("C=CC(=O)NN",    "prop-2-enohydrazide"),
     # N-substituted hydrazides
-    ("CC(=O)NNC",     "N'-methylethanohydrazide"),
-    ("CC(=O)NNCC",    "N'-ethylethanohydrazide"),
+    ("CC(=O)NNC",     "N'-methylacetohydrazide"),
+    ("CC(=O)NNCC",    "N'-ethylacetohydrazide"),
     # cyclic imide PINs (IUPAC 2013 P-66.8.3)
     ("O=C1CCC(=O)N1",  "pyrrolidine-2,5-dione"),
     ("O=C1NC(=O)CC1",  "pyrrolidine-2,5-dione"),  # same compound

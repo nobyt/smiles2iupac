@@ -11,7 +11,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("NNC(=O)NN",          "carbonohydrazide"),
     # regressions: hydrazide unchanged
-    ("CC(=O)NN",           "ethanohydrazide"),
+    ("CC(=O)NN",           "acetohydrazide"),
     ("NNC(=O)N",           "semicarbazide"),
     ("NC(=O)N",            "urea"),
 ])

@@ -35,7 +35,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("NC(=N)c1ccccc1",     "benzenecarboximidamide"),
     # Regression: aliphatic forms unchanged
     ("[Se]=C(N)C",         "ethaneselenoamide"),
-    ("NNC(=O)C",           "ethanohydrazide"),
+    ("NNC(=O)C",           "acetohydrazide"),
     ("NC(=N)CC",           "propanimidamide"),
     ("CNC(=N)C",           "N-methylethanimidamide"),
 ])

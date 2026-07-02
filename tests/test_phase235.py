@@ -1,7 +1,7 @@
-"""Phase 235: dicarboxylic acid ester retained names (IUPAC 2013 P-65.1.2.4).
+"""Phase 235: dicarboxylic acid ester names (IUPAC 2013 P-65.1.2.4).
 
-Saturated diacid esters use retained names: malonate, succinate, glutarate,
-adipate, etc.  Unsaturated esters still use systematic names.
+Retained names (PINs): oxalate (C2), malonate (C3), adipate (C6).
+Systematic PINs (Phase 736): succinate→butanedioate, glutarate→pentanedioate.
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -10,8 +10,8 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("COC(=O)C(=O)OC",      "dimethyl oxalate"),
     ("COC(=O)CC(=O)OC",     "dimethyl malonate"),
-    ("COC(=O)CCC(=O)OC",    "dimethyl succinate"),
-    ("COC(=O)CCCC(=O)OC",   "dimethyl glutarate"),
+    ("COC(=O)CCC(=O)OC",    "dimethyl butanedioate"),
+    ("COC(=O)CCCC(=O)OC",   "dimethyl pentanedioate"),
     ("COC(=O)CCCCC(=O)OC",  "dimethyl adipate"),
     ("CCOC(=O)CC(=O)OCC",   "diethyl malonate"),
     # unsaturated → systematic

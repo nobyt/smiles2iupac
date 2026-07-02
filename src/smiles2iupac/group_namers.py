@@ -4406,6 +4406,8 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
     if _ene_hy or _yne_hy:
         from .name_assembler import _format_multiple_bonds as _fmt_hy
         base = f"{stem}{_fmt_hy(_ene_hy, _yne_hy)}ohydrazide"
+    elif len(acid_chain) == 2:
+        base = "acetohydrazide"
     else:
         base = f"{stem}anohydrazide"
 

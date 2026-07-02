@@ -23,7 +23,7 @@ from smiles2iupac import smiles_to_iupac
     ("CS(=O)(=O)N",             "methanesulfonamide"),
     ("CS(=O)(=O)NC",            "N-methylmethanesulfonamide"),
     ("CCS(=O)(=O)NC",           "N-methylethanesulfonamide"),
-    ("CC(=O)NN",                "ethanohydrazide"),
+    ("CC(=O)NN",                "acetohydrazide"),
     ("CCC(=O)NN",               "propanohydrazide"),
 ])
 def test_phase353_sulfonohydrazide(smiles, expected):

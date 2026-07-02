@@ -5,7 +5,7 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    ("CC(=O)NN", "ethanohydrazide"),
+    ("CC(=O)NN", "acetohydrazide"),
     ("CCC(=O)NN", "propanohydrazide"),
     ("CCCC(=O)NN", "butanohydrazide"),
     ("C(=O)NN", "methanohydrazide"),

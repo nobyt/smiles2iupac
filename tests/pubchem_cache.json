@@ -74,7 +74,8 @@
     "iupac_verdict": "our_retained",
     "iupac_note": "'pyridin-4-ol' はエノール互変異性体形の名前 (保留形)。IUPAC 2013 PIN はより安定なケト形 '1H-pyridin-4-one'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": "1H-pyridin-4-one"
+    "iupac_pin": "1H-pyridin-4-one",
+    "not_found": true
   },
   "GRFNBEZIAWKNCO-UHFFFAOYSA-N": {
     "inchikey": "GRFNBEZIAWKNCO-UHFFFAOYSA-N",
@@ -91,7 +92,8 @@
     "iupac_verdict": "our_retained",
     "iupac_note": "'pyridin-2-ol' はエノール互変異性体形の名前 (保留形)。IUPAC 2013 PIN はより安定なケト形 '1H-pyridin-2-one'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": "1H-pyridin-2-one"
+    "iupac_pin": "1H-pyridin-2-one",
+    "not_found": true
   },
   "ICGWWCLWBPLPDF-UHFFFAOYSA-N": {
     "inchikey": "ICGWWCLWBPLPDF-UHFFFAOYSA-N",
@@ -114,7 +116,8 @@
     "iupac_verdict": "our_retained",
     "iupac_note": "'pyrimidin-2-ol' はエノール互変異性体形の名前 (保留形)。IUPAC 2013 PIN はより安定なケト形 '1H-pyrimidin-2-one'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": "1H-pyrimidin-2-one"
+    "iupac_pin": "1H-pyrimidin-2-one",
+    "not_found": true
   },
   "YBDRFJXGJQULGH-UHFFFAOYSA-N": {
     "inchikey": "YBDRFJXGJQULGH-UHFFFAOYSA-N",
@@ -161,7 +164,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "WEGYGNROSJDEIW-UHFFFAOYSA-N": {
     "inchikey": "WEGYGNROSJDEIW-UHFFFAOYSA-N",
@@ -184,7 +188,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'thiophen-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "ZCBIFHNDZBSCEP-UHFFFAOYSA-N": {
     "inchikey": "ZCBIFHNDZBSCEP-UHFFFAOYSA-N",
@@ -237,7 +242,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'trifluoromethyl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "JDZLOJYSBBLXQD-UHFFFAOYSA-N": {
     "inchikey": "JDZLOJYSBBLXQD-UHFFFAOYSA-N",
@@ -248,7 +254,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'difluoromethyl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "KCXMKQUNVWSEMD-UHFFFAOYSA-N": {
     "inchikey": "KCXMKQUNVWSEMD-UHFFFAOYSA-N",
@@ -259,7 +266,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'chloromethyl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "AVSVJSGDSPDFLH-UHFFFAOYSA-N": {
     "inchikey": "AVSVJSGDSPDFLH-UHFFFAOYSA-N",
@@ -270,7 +278,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が '2,2,2-trifluoroethyl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "IIYVNMXPYWIJBL-UHFFFAOYSA-N": {
     "inchikey": "IIYVNMXPYWIJBL-UHFFFAOYSA-N",
@@ -402,7 +411,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "GKVYVZSNXXTOMQ-UHFFFAOYSA-N": {
     "inchikey": "GKVYVZSNXXTOMQ-UHFFFAOYSA-N",
@@ -413,7 +423,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HIVCQVJRXNLKCW-UHFFFAOYSA-N": {
     "inchikey": "HIVCQVJRXNLKCW-UHFFFAOYSA-N",
@@ -596,7 +607,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "FSATURPVOMZWBY-UHFFFAOYSA-N": {
     "inchikey": "FSATURPVOMZWBY-UHFFFAOYSA-N",
@@ -607,7 +619,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'thiophen-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "GGUOCFNAWIODMF-UHFFFAOYSA-N": {
     "inchikey": "GGUOCFNAWIODMF-UHFFFAOYSA-N",
@@ -630,7 +643,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "FZERHIULMFGESH-UHFFFAOYSA-N": {
     "inchikey": "FZERHIULMFGESH-UHFFFAOYSA-N",
@@ -737,7 +751,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が非標準ハイフンを挿入し置換基括弧を省略 (P-16.3.3, P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.3, P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "SKFLCXNDKRUHTA-UHFFFAOYSA-N": {
     "inchikey": "SKFLCXNDKRUHTA-UHFFFAOYSA-N",
@@ -766,7 +781,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が非標準ハイフンを挿入し置換基括弧を省略 (P-16.3.3, P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.3, P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "DMBHHRLKUKUOEG-UHFFFAOYSA-N": {
     "inchikey": "DMBHHRLKUKUOEG-UHFFFAOYSA-N",
@@ -841,11 +857,12 @@
     "smiles": "CC(=O)NN",
     "pubchem_iupac": "acetohydrazide",
     "validated": false,
-    "expected_in_test": "ethanohydrazide",
+    "expected_in_test": "acetohydrazide",
     "iupac_verdict": "our_retained",
     "iupac_note": "'ethanohydrazide' は IUPAC 2013 保留名。PIN は 'acetohydrazide'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": "acetohydrazide"
+    "iupac_pin": "acetohydrazide",
+    "not_found": true
   },
   "BAVYZALUXZFZLV-UHFFFAOYSA-N": {
     "inchikey": "BAVYZALUXZFZLV-UHFFFAOYSA-N",
@@ -886,7 +903,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "XOBKSJJDNFUZPF-UHFFFAOYSA-N": {
     "inchikey": "XOBKSJJDNFUZPF-UHFFFAOYSA-N",
@@ -974,7 +992,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "NASVTBDJHWPMOO-UHFFFAOYSA-N": {
     "inchikey": "NASVTBDJHWPMOO-UHFFFAOYSA-N",
@@ -1006,7 +1025,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "LFQSCWFLJHTTHZ-UHFFFAOYSA-N": {
     "inchikey": "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
@@ -1053,7 +1073,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BDERNNFJNOPAEC-UHFFFAOYSA-N": {
     "inchikey": "BDERNNFJNOPAEC-UHFFFAOYSA-N",
@@ -1087,7 +1108,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "UVEWQKMPXAHFST-UHFFFAOYSA-N": {
     "inchikey": "UVEWQKMPXAHFST-UHFFFAOYSA-N",
@@ -1098,7 +1120,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VULHYRAYXYTONQ-UHFFFAOYSA-N": {
     "inchikey": "VULHYRAYXYTONQ-UHFFFAOYSA-N",
@@ -1223,7 +1246,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QJFUMFCCMJJLIE-UHFFFAOYSA-N": {
     "inchikey": "QJFUMFCCMJJLIE-UHFFFAOYSA-N",
@@ -1273,7 +1297,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "YUKQRDCYNOVPGJ-UHFFFAOYSA-N": {
     "inchikey": "YUKQRDCYNOVPGJ-UHFFFAOYSA-N",
@@ -1284,7 +1309,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QMMFVYPAHWMCMS-UHFFFAOYSA-N": {
     "inchikey": "QMMFVYPAHWMCMS-UHFFFAOYSA-N",
@@ -1295,7 +1321,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "JMANVNJQNLATNU-UHFFFAOYSA-N": {
     "inchikey": "JMANVNJQNLATNU-UHFFFAOYSA-N",
@@ -1306,7 +1333,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "CUONGYYJJVDODC-UHFFFAOYSA-N": {
     "inchikey": "CUONGYYJJVDODC-UHFFFAOYSA-N",
@@ -1365,7 +1393,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "PFJVIOBMBDFBCJ-UHFFFAOYSA-N": {
     "inchikey": "PFJVIOBMBDFBCJ-UHFFFAOYSA-N",
@@ -1376,7 +1405,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "RWGFKTVRMDUZSP-UHFFFAOYSA-N": {
     "inchikey": "RWGFKTVRMDUZSP-UHFFFAOYSA-N",
@@ -1399,7 +1429,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'butan-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QWTDNUCVQCZILF-UHFFFAOYSA-N": {
     "inchikey": "QWTDNUCVQCZILF-UHFFFAOYSA-N",
@@ -1422,7 +1453,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "GWYFCOCPABKNJV-UHFFFAOYSA-N": {
     "inchikey": "GWYFCOCPABKNJV-UHFFFAOYSA-N",
@@ -1546,7 +1578,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BVQHHUQLZPXYAQ-UHFFFAOYSA-N": {
     "inchikey": "BVQHHUQLZPXYAQ-UHFFFAOYSA-N",
@@ -1557,7 +1590,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "YEJRWHAVMIAJKC-UHFFFAOYSA-N": {
     "inchikey": "YEJRWHAVMIAJKC-UHFFFAOYSA-N",
@@ -1616,7 +1650,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VYHVQEYOFIYNJP-UHFFFAOYSA-N": {
     "inchikey": "VYHVQEYOFIYNJP-UHFFFAOYSA-N",
@@ -1627,7 +1662,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "JYQQWQJCEUMXQZ-UHFFFAOYSA-N": {
     "inchikey": "JYQQWQJCEUMXQZ-UHFFFAOYSA-N",
@@ -1986,12 +2022,8 @@
     "inchikey": "DHMQDGOQFOQNFH-UHFFFAOYSA-N",
     "smiles": "NCC(=O)O",
     "pubchem_iupac": "2-aminoacetic acid",
-    "validated": false,
-    "expected_in_test": "glycine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "glycine"
   },
   "QNAYBMKLOCPYGJ-REOHCLBHSA-N": {
     "inchikey": "QNAYBMKLOCPYGJ-REOHCLBHSA-N",
@@ -2186,12 +2218,8 @@
     "inchikey": "CKLJMWTZIZZHCS-UHFFFAOYSA-N",
     "smiles": "NC(CC(=O)O)C(=O)O",
     "pubchem_iupac": "2-aminobutanedioic acid",
-    "validated": false,
-    "expected_in_test": "aspartic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "aspartic acid"
   },
   "WHUUTDBJXJRKMK-VKHMYHEASA-N": {
     "inchikey": "WHUUTDBJXJRKMK-VKHMYHEASA-N",
@@ -2212,12 +2240,8 @@
     "inchikey": "WHUUTDBJXJRKMK-UHFFFAOYSA-N",
     "smiles": "NC(CCC(=O)O)C(=O)O",
     "pubchem_iupac": "2-aminopentanedioic acid",
-    "validated": false,
-    "expected_in_test": "glutamic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "glutamic acid"
   },
   "DNSISZSEWVHGLH-UHFFFAOYSA-N": {
     "inchikey": "DNSISZSEWVHGLH-UHFFFAOYSA-N",
@@ -2247,23 +2271,15 @@
     "inchikey": "KDYFGRWQOYBRFD-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCC(=O)O",
     "pubchem_iupac": "butanedioic acid",
-    "validated": false,
-    "expected_in_test": "succinic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "succinic acid"
   },
   "JFCQEDHGNNZCLN-UHFFFAOYSA-N": {
     "inchikey": "JFCQEDHGNNZCLN-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCCC(=O)O",
     "pubchem_iupac": "pentanedioic acid",
-    "validated": false,
-    "expected_in_test": "glutaric acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "glutaric acid"
   },
   "WNLRTRBMVRJNCN-UHFFFAOYSA-N": {
     "inchikey": "WNLRTRBMVRJNCN-UHFFFAOYSA-N",
@@ -2281,45 +2297,29 @@
     "inchikey": "WLJVNTCWHIRURA-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCCCCC(=O)O",
     "pubchem_iupac": "heptanedioic acid",
-    "validated": false,
-    "expected_in_test": "pimelic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "pimelic acid"
   },
   "TYFQFVWCELRYAO-UHFFFAOYSA-N": {
     "inchikey": "TYFQFVWCELRYAO-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCCCCCC(=O)O",
     "pubchem_iupac": "octanedioic acid",
-    "validated": false,
-    "expected_in_test": "suberic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "suberic acid"
   },
   "BDJRBEYXGGNYIS-UHFFFAOYSA-N": {
     "inchikey": "BDJRBEYXGGNYIS-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCCCCCCC(=O)O",
     "pubchem_iupac": "nonanedioic acid",
-    "validated": false,
-    "expected_in_test": "azelaic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "azelaic acid"
   },
   "CXMXRPHRNRROMY-UHFFFAOYSA-N": {
     "inchikey": "CXMXRPHRNRROMY-UHFFFAOYSA-N",
     "smiles": "OC(=O)CCCCCCCCC(=O)O",
     "pubchem_iupac": "decanedioic acid",
-    "validated": false,
-    "expected_in_test": "sebacic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "sebacic acid"
   },
   "VZCYOOQTPOCHFL-UPHRSURJSA-N": {
     "inchikey": "VZCYOOQTPOCHFL-UPHRSURJSA-N",
@@ -2391,12 +2391,8 @@
     "inchikey": "JVTAAEKCZFNVCJ-UHFFFAOYSA-N",
     "smiles": "CC(O)C(=O)O",
     "pubchem_iupac": "2-hydroxypropanoic acid",
-    "validated": false,
-    "expected_in_test": "lactic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "lactic acid"
   },
   "BJEPYKJPYRNKOW-REOHCLBHSA-N": {
     "inchikey": "BJEPYKJPYRNKOW-REOHCLBHSA-N",
@@ -2416,12 +2412,8 @@
     "inchikey": "BJEPYKJPYRNKOW-UHFFFAOYSA-N",
     "smiles": "OC(=O)C(O)CC(=O)O",
     "pubchem_iupac": "2-hydroxybutanedioic acid",
-    "validated": false,
-    "expected_in_test": "malic acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "malic acid"
   },
   "FEWJPZIEWOKRBE-LWMBPPNESA-N": {
     "inchikey": "FEWJPZIEWOKRBE-LWMBPPNESA-N",
@@ -2441,23 +2433,15 @@
     "inchikey": "FEWJPZIEWOKRBE-XIXRPRMCSA-N",
     "smiles": "OC(=O)[C@@H](O)[C@@H](O)C(=O)O",
     "pubchem_iupac": "(2R,3S)-2,3-dihydroxybutanedioic acid",
-    "validated": false,
-    "expected_in_test": "meso-tartaric acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "meso-tartaric acid"
   },
   "FEWJPZIEWOKRBE-UHFFFAOYSA-N": {
     "inchikey": "FEWJPZIEWOKRBE-UHFFFAOYSA-N",
     "smiles": "OC(=O)C(O)C(O)C(=O)O",
     "pubchem_iupac": "2,3-dihydroxybutanedioic acid",
-    "validated": false,
-    "expected_in_test": "tartaric acid",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "tartaric acid"
   },
   "KRKNYBCHXYNGOX-UHFFFAOYSA-N": {
     "inchikey": "KRKNYBCHXYNGOX-UHFFFAOYSA-N",
@@ -2518,7 +2502,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "RWQNBRDOKXIBIV-UHFFFAOYSA-N": {
     "inchikey": "RWQNBRDOKXIBIV-UHFFFAOYSA-N",
@@ -2529,7 +2514,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "FDGQSTZJBFJUBT-UHFFFAOYSA-N": {
     "inchikey": "FDGQSTZJBFJUBT-UHFFFAOYSA-N",
@@ -2777,45 +2763,29 @@
     "inchikey": "CTAPFRYPJLPFDF-UHFFFAOYSA-N",
     "smiles": "c1cnoc1",
     "pubchem_iupac": "1,2-oxazole",
-    "validated": false,
-    "expected_in_test": "isoxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "isoxazole"
   },
   "ZCQWOFVYLHDMMC-UHFFFAOYSA-N": {
     "inchikey": "ZCQWOFVYLHDMMC-UHFFFAOYSA-N",
     "smiles": "c1cocn1",
     "pubchem_iupac": "1,3-oxazole",
-    "validated": false,
-    "expected_in_test": "oxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "oxazole"
   },
   "FZWLAAWBMGSTSO-UHFFFAOYSA-N": {
     "inchikey": "FZWLAAWBMGSTSO-UHFFFAOYSA-N",
     "smiles": "c1cscn1",
     "pubchem_iupac": "1,3-thiazole",
-    "validated": false,
-    "expected_in_test": "thiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "thiazole"
   },
   "ZLTPDFXIESTBQG-UHFFFAOYSA-N": {
     "inchikey": "ZLTPDFXIESTBQG-UHFFFAOYSA-N",
     "smiles": "c1cnsc1",
     "pubchem_iupac": "1,2-thiazole",
-    "validated": false,
-    "expected_in_test": "isothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "isothiazole"
   },
   "WCPAKWJPBJAGKN-UHFFFAOYSA-N": {
     "inchikey": "WCPAKWJPBJAGKN-UHFFFAOYSA-N",
@@ -2826,7 +2796,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BBVIDBNAYOIXOE-UHFFFAOYSA-N": {
     "inchikey": "BBVIDBNAYOIXOE-UHFFFAOYSA-N",
@@ -2855,7 +2826,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "YGTAZGSLCXNBQL-UHFFFAOYSA-N": {
     "inchikey": "YGTAZGSLCXNBQL-UHFFFAOYSA-N",
@@ -2890,7 +2862,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "NSPMIYGKQJPBQR-UHFFFAOYSA-N": {
     "inchikey": "NSPMIYGKQJPBQR-UHFFFAOYSA-N",
@@ -2919,7 +2892,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "FYADHXFMURLYQI-UHFFFAOYSA-N": {
     "inchikey": "FYADHXFMURLYQI-UHFFFAOYSA-N",
@@ -3032,7 +3006,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "NBIIXXVUZAFLBC-UHFFFAOYSA-N": {
     "inchikey": "NBIIXXVUZAFLBC-UHFFFAOYSA-N",
@@ -3055,7 +3030,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "SAWKFRBJGLMMES-UHFFFAOYSA-N": {
     "inchikey": "SAWKFRBJGLMMES-UHFFFAOYSA-N",
@@ -3150,7 +3126,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "UIUXUFNYAYAMOE-UHFFFAOYSA-N": {
     "inchikey": "UIUXUFNYAYAMOE-UHFFFAOYSA-N",
@@ -3191,7 +3168,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "AVXURJPOCDRRFD-UHFFFAOYSA-N": {
     "inchikey": "AVXURJPOCDRRFD-UHFFFAOYSA-N",
@@ -3208,7 +3186,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "XLYOFNOQVPJJNP-UHFFFAOYSA-M": {
     "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-M",
@@ -3249,7 +3228,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "NPYPAHLBTDXSSS-UHFFFAOYSA-N": {
     "inchikey": "NPYPAHLBTDXSSS-UHFFFAOYSA-N",
@@ -3260,7 +3240,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HBBGRARXTFLTSG-UHFFFAOYSA-N": {
     "inchikey": "HBBGRARXTFLTSG-UHFFFAOYSA-N",
@@ -3283,7 +3264,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "JLVVSXFLKOJNIY-UHFFFAOYSA-N": {
     "inchikey": "JLVVSXFLKOJNIY-UHFFFAOYSA-N",
@@ -3294,7 +3276,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "PTFCDOFLOPIGGS-UHFFFAOYSA-N": {
     "inchikey": "PTFCDOFLOPIGGS-UHFFFAOYSA-N",
@@ -3305,7 +3288,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "CWYNVVGOOAEACU-UHFFFAOYSA-N": {
     "inchikey": "CWYNVVGOOAEACU-UHFFFAOYSA-N",
@@ -3328,7 +3312,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "WVLBCYQITXONBZ-UHFFFAOYSA-N": {
     "inchikey": "WVLBCYQITXONBZ-UHFFFAOYSA-N",
@@ -3357,7 +3342,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "AATNZNJRDOVKDD-UHFFFAOYSA-N": {
     "inchikey": "AATNZNJRDOVKDD-UHFFFAOYSA-N",
@@ -3368,7 +3354,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "YHQMSHVVGOSZEW-UHFFFAOYSA-N": {
     "inchikey": "YHQMSHVVGOSZEW-UHFFFAOYSA-N",
@@ -3379,7 +3366,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HAXBLJDZJKJLHZ-UHFFFAOYSA-N": {
     "inchikey": "HAXBLJDZJKJLHZ-UHFFFAOYSA-N",
@@ -3390,7 +3378,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BDAGIHXWWSANSR-UHFFFAOYSA-M": {
     "inchikey": "BDAGIHXWWSANSR-UHFFFAOYSA-M",
@@ -3527,7 +3516,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "WNLRTRBMVRJNCN-UHFFFAOYSA-L": {
     "inchikey": "WNLRTRBMVRJNCN-UHFFFAOYSA-L",
@@ -3538,7 +3528,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BVKZGUZCCUSVTD-UHFFFAOYSA-M": {
     "inchikey": "BVKZGUZCCUSVTD-UHFFFAOYSA-M",
@@ -3549,7 +3540,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "BVKZGUZCCUSVTD-UHFFFAOYSA-L": {
     "inchikey": "BVKZGUZCCUSVTD-UHFFFAOYSA-L",
@@ -3584,7 +3576,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "USFZMSVCRYTOJT-UHFFFAOYSA-N": {
     "inchikey": "USFZMSVCRYTOJT-UHFFFAOYSA-N",
@@ -3595,7 +3588,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "UIIMBOGNXHQVGW-UHFFFAOYSA-M": {
     "inchikey": "UIIMBOGNXHQVGW-UHFFFAOYSA-M",
@@ -3606,7 +3600,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VSGNNIFQASZAOI-UHFFFAOYSA-L": {
     "inchikey": "VSGNNIFQASZAOI-UHFFFAOYSA-L",
@@ -3817,7 +3812,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "MGJKQDOBUOMPEZ-UHFFFAOYSA-N": {
     "inchikey": "MGJKQDOBUOMPEZ-UHFFFAOYSA-N",
@@ -3828,7 +3824,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "ZFSLODLOARCGLH-UHFFFAOYSA-N": {
     "inchikey": "ZFSLODLOARCGLH-UHFFFAOYSA-N",
@@ -3845,7 +3842,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "WYNCHZVNFNFDNH-UHFFFAOYSA-N": {
     "inchikey": "WYNCHZVNFNFDNH-UHFFFAOYSA-N",
@@ -3856,7 +3854,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "IZXIZTKNFFYFOF-UHFFFAOYSA-N": {
     "inchikey": "IZXIZTKNFFYFOF-UHFFFAOYSA-N",
@@ -3867,7 +3866,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "ZRJAITBRURLGCX-UHFFFAOYSA-N": {
     "inchikey": "ZRJAITBRURLGCX-UHFFFAOYSA-N",
@@ -3878,7 +3878,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "OGYGFUAIIOPWQD-UHFFFAOYSA-N": {
     "inchikey": "OGYGFUAIIOPWQD-UHFFFAOYSA-N",
@@ -3889,7 +3890,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "SLYRGJDSFOCAAI-UHFFFAOYSA-N": {
     "inchikey": "SLYRGJDSFOCAAI-UHFFFAOYSA-N",
@@ -3900,7 +3902,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "OYELEBBISJGNHJ-UHFFFAOYSA-N": {
     "inchikey": "OYELEBBISJGNHJ-UHFFFAOYSA-N",
@@ -4013,7 +4016,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "IVSZLXZYQVIEFR-UHFFFAOYSA-N": {
     "inchikey": "IVSZLXZYQVIEFR-UHFFFAOYSA-N",
@@ -4024,7 +4028,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QSNSCYSYFYORTR-UHFFFAOYSA-N": {
     "inchikey": "QSNSCYSYFYORTR-UHFFFAOYSA-N",
@@ -4113,7 +4118,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'quinolin-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "ZYIXXVCNAOYWQA-UHFFFAOYSA-N": {
     "inchikey": "ZYIXXVCNAOYWQA-UHFFFAOYSA-N",
@@ -4138,7 +4144,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QWUWMCYKGHVNAV-UHFFFAOYSA-N": {
     "inchikey": "QWUWMCYKGHVNAV-UHFFFAOYSA-N",
@@ -4149,7 +4156,8 @@
     "iupac_verdict": "pubchem_wrong",
     "iupac_note": "PubChem が '2-phenylethyl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
     "iupac_source": "IUPAC 2013 P-16.3.4.1",
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "CZZYITDELCSZES-UHFFFAOYSA-N": {
     "inchikey": "CZZYITDELCSZES-UHFFFAOYSA-N",
@@ -4160,7 +4168,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "PJANXHGTPQOBST-UHFFFAOYSA-N": {
     "inchikey": "PJANXHGTPQOBST-UHFFFAOYSA-N",
@@ -4171,7 +4180,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "NLRKCXQQSUWLCH-UHFFFAOYSA-N": {
     "inchikey": "NLRKCXQQSUWLCH-UHFFFAOYSA-N",
@@ -4236,7 +4246,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "OQURWGJAWSLGQG-UHFFFAOYSA-N": {
     "inchikey": "OQURWGJAWSLGQG-UHFFFAOYSA-N",
@@ -4247,7 +4258,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HNHVTXYLRVGMHD-UHFFFAOYSA-N": {
     "inchikey": "HNHVTXYLRVGMHD-UHFFFAOYSA-N",
@@ -4258,7 +4270,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "GSLTVFIVJMCNBH-UHFFFAOYSA-N": {
     "inchikey": "GSLTVFIVJMCNBH-UHFFFAOYSA-N",
@@ -4269,7 +4282,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "DGTNSSLYPYDJGL-UHFFFAOYSA-N": {
     "inchikey": "DGTNSSLYPYDJGL-UHFFFAOYSA-N",
@@ -4280,7 +4294,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "MGYGFNQQGAQEON-UHFFFAOYSA-N": {
     "inchikey": "MGYGFNQQGAQEON-UHFFFAOYSA-N",
@@ -4291,7 +4306,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "LGDSHSYDSCRFAB-UHFFFAOYSA-N": {
     "inchikey": "LGDSHSYDSCRFAB-UHFFFAOYSA-N",
@@ -4302,7 +4318,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "KKASGUHLXWAKEZ-UHFFFAOYSA-N": {
     "inchikey": "KKASGUHLXWAKEZ-UHFFFAOYSA-N",
@@ -4313,7 +4330,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VHBFEIBMZHEWSX-UHFFFAOYSA-N": {
     "inchikey": "VHBFEIBMZHEWSX-UHFFFAOYSA-N",
@@ -4348,7 +4366,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "CURLTUGMZLYLDI-UHFFFAOYSA-N": {
     "inchikey": "CURLTUGMZLYLDI-UHFFFAOYSA-N",
@@ -4371,7 +4390,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "IJGRMHOSHXDMSA-UHFFFAOYSA-N": {
     "inchikey": "IJGRMHOSHXDMSA-UHFFFAOYSA-N",
@@ -4382,7 +4402,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "MYMOFIZGZYHOMD-UHFFFAOYSA-N": {
     "inchikey": "MYMOFIZGZYHOMD-UHFFFAOYSA-N",
@@ -4393,7 +4414,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "QGZKDVFQNNGYKY-UHFFFAOYSA-N": {
     "inchikey": "QGZKDVFQNNGYKY-UHFFFAOYSA-N",
@@ -4404,7 +4426,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VNWKTOKETHGBQD-UHFFFAOYSA-N": {
     "inchikey": "VNWKTOKETHGBQD-UHFFFAOYSA-N",
@@ -4421,7 +4444,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "WBNQDOYYEUMPFS-UHFFFAOYSA-N": {
     "inchikey": "WBNQDOYYEUMPFS-UHFFFAOYSA-N",
@@ -4432,7 +4456,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "RTDCJKARQCRONF-UHFFFAOYSA-N": {
     "inchikey": "RTDCJKARQCRONF-UHFFFAOYSA-N",
@@ -4443,7 +4468,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "DIIIISSCIXVANO-UHFFFAOYSA-N": {
     "inchikey": "DIIIISSCIXVANO-UHFFFAOYSA-N",
@@ -4490,7 +4516,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VLGWYKOEXANHJT-UHFFFAOYSA-N": {
     "inchikey": "VLGWYKOEXANHJT-UHFFFAOYSA-N",
@@ -4501,7 +4528,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HRKZEUPYFXLVQW-UHFFFAOYSA-N": {
     "inchikey": "HRKZEUPYFXLVQW-UHFFFAOYSA-N",
@@ -4512,7 +4540,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "LYNBNVDYPNEWHG-UHFFFAOYSA-N": {
     "inchikey": "LYNBNVDYPNEWHG-UHFFFAOYSA-N",
@@ -4523,7 +4552,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "YAUVYHWOZLWWGU-UHFFFAOYSA-N": {
     "inchikey": "YAUVYHWOZLWWGU-UHFFFAOYSA-N",
@@ -4534,7 +4564,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "RQIFXTOWUNAUJC-UHFFFAOYSA-N": {
     "inchikey": "RQIFXTOWUNAUJC-UHFFFAOYSA-N",
@@ -4623,7 +4654,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "VQTUBCCKSQIDNK-UHFFFAOYSA-N": {
     "inchikey": "VQTUBCCKSQIDNK-UHFFFAOYSA-N",
@@ -4658,7 +4690,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "FVSKHRXBFJPNKK-UHFFFAOYSA-N": {
     "inchikey": "FVSKHRXBFJPNKK-UHFFFAOYSA-N",
@@ -4681,7 +4714,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "RWSOTUBLDIXVET-UHFFFAOYSA-N": {
     "inchikey": "RWSOTUBLDIXVET-UHFFFAOYSA-N",
@@ -4704,7 +4738,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "HEFNNWSXXWATRW-UHFFFAOYSA-N": {
     "inchikey": "HEFNNWSXXWATRW-UHFFFAOYSA-N",
@@ -4841,7 +4876,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "DVECBJCOGJRVPX-UHFFFAOYSA-N": {
     "inchikey": "DVECBJCOGJRVPX-UHFFFAOYSA-N",
@@ -4924,7 +4960,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "XSQUKJJJFZCRTK-UHFFFAOYSA-N": {
     "inchikey": "XSQUKJJJFZCRTK-UHFFFAOYSA-N",
@@ -4989,7 +5026,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "GNEVIACKFGQMHB-UHFFFAOYSA-N": {
     "inchikey": "GNEVIACKFGQMHB-UHFFFAOYSA-N",
@@ -5024,7 +5062,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "KDPAWGWELVVRCH-UHFFFAOYSA-N": {
     "inchikey": "KDPAWGWELVVRCH-UHFFFAOYSA-N",
@@ -5149,7 +5188,8 @@
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
-    "iupac_pin": null
+    "iupac_pin": null,
+    "not_found": true
   },
   "AEMRFAOFKBGASW-UHFFFAOYSA-N": {
     "inchikey": "AEMRFAOFKBGASW-UHFFFAOYSA-N",
@@ -5348,7 +5388,7 @@
     "smiles": "CC(=O)NNC",
     "pubchem_iupac": "N'-methylacetohydrazide",
     "validated": false,
-    "expected_in_test": "N'-methylethanohydrazide",
+    "expected_in_test": "N'-methylacetohydrazide",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -5360,7 +5400,7 @@
     "smiles": "CC(=O)NNCC",
     "pubchem_iupac": "N'-ethylacetohydrazide",
     "validated": false,
-    "expected_in_test": "N'-ethylethanohydrazide",
+    "expected_in_test": "N'-ethylacetohydrazide",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -8678,108 +8718,72 @@
     "inchikey": "CUMCMYMKECWGHO-UHFFFAOYSA-N",
     "smiles": "Cc1ccon1",
     "pubchem_iupac": "3-methyl-1,2-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "3-methylisoxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "VHWFNFITHSPBSR-UHFFFAOYSA-N": {
     "inchikey": "VHWFNFITHSPBSR-UHFFFAOYSA-N",
     "smiles": "Cc1cnoc1",
     "pubchem_iupac": "4-methyl-1,2-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methylisoxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "AGQOIYCTCOEHGR-UHFFFAOYSA-N": {
     "inchikey": "AGQOIYCTCOEHGR-UHFFFAOYSA-N",
     "smiles": "Cc1ccno1",
     "pubchem_iupac": "5-methyl-1,2-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "5-methylisoxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "PUMREIFKTMLCAF-UHFFFAOYSA-N": {
     "inchikey": "PUMREIFKTMLCAF-UHFFFAOYSA-N",
     "smiles": "Cc1cocn1",
     "pubchem_iupac": "4-methyl-1,3-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methyloxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "ZYMHCFYHVYGFMS-UHFFFAOYSA-N": {
     "inchikey": "ZYMHCFYHVYGFMS-UHFFFAOYSA-N",
     "smiles": "Cc1cnco1",
     "pubchem_iupac": "5-methyl-1,3-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "5-methyloxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "QMHIMXFNBOYPND-UHFFFAOYSA-N": {
     "inchikey": "QMHIMXFNBOYPND-UHFFFAOYSA-N",
     "smiles": "Cc1cscn1",
     "pubchem_iupac": "4-methyl-1,3-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methylthiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "RLYUNPNLXMSXAX-UHFFFAOYSA-N": {
     "inchikey": "RLYUNPNLXMSXAX-UHFFFAOYSA-N",
     "smiles": "Cc1cncs1",
     "pubchem_iupac": "5-methyl-1,3-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "5-methylthiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "YUTQRQJTFPEEPB-UHFFFAOYSA-N": {
     "inchikey": "YUTQRQJTFPEEPB-UHFFFAOYSA-N",
     "smiles": "Cc1cnsc1",
     "pubchem_iupac": "4-methyl-1,2-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methylisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "LBBKWEDRPDGXPM-UHFFFAOYSA-N": {
     "inchikey": "LBBKWEDRPDGXPM-UHFFFAOYSA-N",
     "smiles": "Cc1ccns1",
     "pubchem_iupac": "5-methyl-1,2-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "5-methylisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "FXKQPQOOZSXQAG-UHFFFAOYSA-N": {
@@ -15993,12 +15997,8 @@
     "inchikey": "CSNIZNHTOVFARY-UHFFFAOYSA-N",
     "smiles": "c1ccc2sncc2c1",
     "pubchem_iupac": "1,2-benzothiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1,2-benzisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "JGQPSDIWMGNAPE-UHFFFAOYSA-N": {
@@ -18029,24 +18029,16 @@
     "inchikey": "GUUULVAMQJLDSY-UHFFFAOYSA-N",
     "smiles": "C1=NSCC1",
     "pubchem_iupac": "4,5-dihydro-1,2-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4,5-dihydroisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "WEQPBCSPRXFQQS-UHFFFAOYSA-N": {
     "inchikey": "WEQPBCSPRXFQQS-UHFFFAOYSA-N",
     "smiles": "C1=NOCC1",
     "pubchem_iupac": "4,5-dihydro-1,2-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4,5-dihydroisoxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "MTNDZQHUAFNZQY-UHFFFAOYSA-N": {
@@ -20243,12 +20235,8 @@
     "inchikey": "GFJGRNOOYAKHNX-UHFFFAOYSA-N",
     "smiles": "Cc1ccc2sncc2c1",
     "pubchem_iupac": "5-methyl-1,2-benzothiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "5-methyl-1,2-benzisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "AINBEIXHMHVGML-UHFFFAOYSA-N": {
@@ -31946,36 +31934,24 @@
     "inchikey": "WOTIUKDGJBXFLG-UHFFFAOYSA-N",
     "smiles": "Cc1ccsn1",
     "pubchem_iupac": "3-methyl-1,2-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "3-methylisothiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "ZCHCHJQEWYIJDQ-UHFFFAOYSA-N": {
     "inchikey": "ZCHCHJQEWYIJDQ-UHFFFAOYSA-N",
     "smiles": "Cc1ncco1",
     "pubchem_iupac": "2-methyl-1,3-oxazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "2-methyloxazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "VZWOXDYRBDIHMA-UHFFFAOYSA-N": {
     "inchikey": "VZWOXDYRBDIHMA-UHFFFAOYSA-N",
     "smiles": "Cc1nccs1",
     "pubchem_iupac": "2-methyl-1,3-thiazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "2-methylthiazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "CKDAPMQEHBEIBW-UHFFFAOYSA-N": {
@@ -36591,7 +36567,7 @@
   },
   "ICZQPMMRUBWVAB-UHFFFAOYSA-N": {
     "inchikey": "ICZQPMMRUBWVAB-UHFFFAOYSA-N",
-    "smiles": "c1nc2c(o1)CCCC2",
+    "smiles": "O1C=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36603,7 +36579,7 @@
   },
   "RMFVVPBBEDMZQI-UHFFFAOYSA-N": {
     "inchikey": "RMFVVPBBEDMZQI-UHFFFAOYSA-N",
-    "smiles": "c1nc2c(s1)CCCC2",
+    "smiles": "S1C=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36615,7 +36591,7 @@
   },
   "ZIODHUMVFOUCOM-UHFFFAOYSA-N": {
     "inchikey": "ZIODHUMVFOUCOM-UHFFFAOYSA-N",
-    "smiles": "c1noc2c1CCCC2",
+    "smiles": "O1N=CC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36627,7 +36603,7 @@
   },
   "RGYKQAJMNWWHLA-UHFFFAOYSA-N": {
     "inchikey": "RGYKQAJMNWWHLA-UHFFFAOYSA-N",
-    "smiles": "c1nsc2c1CCCC2",
+    "smiles": "S1N=CC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36639,7 +36615,7 @@
   },
   "CKRLKUOWTAEKKX-UHFFFAOYSA-N": {
     "inchikey": "CKRLKUOWTAEKKX-UHFFFAOYSA-N",
-    "smiles": "C1CCc2[nH]nnc2C1",
+    "smiles": "N1N=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36651,7 +36627,7 @@
   },
   "CSHSCGOIIWOJLI-UHFFFAOYSA-N": {
     "inchikey": "CSHSCGOIIWOJLI-UHFFFAOYSA-N",
-    "smiles": "Cc1nc2c(o1)CCCC2",
+    "smiles": "CC=1OC2=C(N1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36663,17 +36639,17 @@
   },
   "FVDPNBRAYQCUSY-UHFFFAOYSA-N": {
     "inchikey": "FVDPNBRAYQCUSY-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ocnc21",
+    "smiles": "CC1CCCC2=C1N=CO2",
     "not_found": true
   },
   "YYXWFRZKXUUFBL-UHFFFAOYSA-N": {
     "inchikey": "YYXWFRZKXUUFBL-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ocnc2C1",
+    "smiles": "CC1CCC2=C(N=CO2)C1",
     "not_found": true
   },
   "SEYGDWQJRRVCBM-UHFFFAOYSA-N": {
     "inchikey": "SEYGDWQJRRVCBM-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ncoc2C1",
+    "smiles": "CC1CC2=C(N=CO2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36685,12 +36661,12 @@
   },
   "PQFQJXLECYDWIO-UHFFFAOYSA-N": {
     "inchikey": "PQFQJXLECYDWIO-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ncoc21",
+    "smiles": "CC1CCCC=2N=COC21",
     "not_found": true
   },
   "DQMSQXZUGHBBDL-UHFFFAOYSA-N": {
     "inchikey": "DQMSQXZUGHBBDL-UHFFFAOYSA-N",
-    "smiles": "Cc1nc2c(s1)CCCC2",
+    "smiles": "CC=1SC2=C(N1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36702,7 +36678,7 @@
   },
   "CYPZZDHYKITMGX-UHFFFAOYSA-N": {
     "inchikey": "CYPZZDHYKITMGX-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2scnc21",
+    "smiles": "CC1CCCC2=C1N=CS2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36714,7 +36690,7 @@
   },
   "GGNURLLSHTXXQK-UHFFFAOYSA-N": {
     "inchikey": "GGNURLLSHTXXQK-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2scnc2C1",
+    "smiles": "CC1CCC2=C(N=CS2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36726,7 +36702,7 @@
   },
   "OSAVKXRNTRCRJX-UHFFFAOYSA-N": {
     "inchikey": "OSAVKXRNTRCRJX-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ncsc2C1",
+    "smiles": "CC1CC2=C(N=CS2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36738,7 +36714,7 @@
   },
   "AGHTUFAETQMGJD-UHFFFAOYSA-N": {
     "inchikey": "AGHTUFAETQMGJD-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ncsc21",
+    "smiles": "CC1CCCC=2N=CSC21",
     "pubchem_iupac": "7-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "7-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36750,7 +36726,7 @@
   },
   "NPZFRRYICNZFBA-UHFFFAOYSA-N": {
     "inchikey": "NPZFRRYICNZFBA-UHFFFAOYSA-N",
-    "smiles": "Cc1noc2c1CCCC2",
+    "smiles": "CC1=NOC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36762,7 +36738,7 @@
   },
   "VNLGAXCCUROCMQ-UHFFFAOYSA-N": {
     "inchikey": "VNLGAXCCUROCMQ-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2oncc21",
+    "smiles": "CC1CCCC2=C1C=NO2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36774,7 +36750,7 @@
   },
   "CWJNKYCGDOKUOR-UHFFFAOYSA-N": {
     "inchikey": "CWJNKYCGDOKUOR-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2oncc2C1",
+    "smiles": "CC1CCC2=C(C=NO2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36786,17 +36762,17 @@
   },
   "IBAHSYPGOZUZIT-UHFFFAOYSA-N": {
     "inchikey": "IBAHSYPGOZUZIT-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2cnoc2C1",
+    "smiles": "CC1CC2=C(C=NO2)CC1",
     "not_found": true
   },
   "WCUKGARVGMANGX-UHFFFAOYSA-N": {
     "inchikey": "WCUKGARVGMANGX-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2cnoc21",
+    "smiles": "CC1CCCC=2C=NOC21",
     "not_found": true
   },
   "VYQSKYMKMMMCRL-UHFFFAOYSA-N": {
     "inchikey": "VYQSKYMKMMMCRL-UHFFFAOYSA-N",
-    "smiles": "Cc1nsc2c1CCCC2",
+    "smiles": "CC1=NSC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36808,12 +36784,12 @@
   },
   "OMZNXVALFHIDFA-UHFFFAOYSA-N": {
     "inchikey": "OMZNXVALFHIDFA-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2sncc21",
+    "smiles": "CC1CCCC2=C1C=NS2",
     "not_found": true
   },
   "NBKJHRJXMNTKJT-UHFFFAOYSA-N": {
     "inchikey": "NBKJHRJXMNTKJT-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2sncc2C1",
+    "smiles": "CC1CCC2=C(C=NS2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36825,7 +36801,7 @@
   },
   "AYXCYOFQQWKENP-UHFFFAOYSA-N": {
     "inchikey": "AYXCYOFQQWKENP-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2cnsc2C1",
+    "smiles": "CC1CC2=C(C=NS2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36837,7 +36813,7 @@
   },
   "JUQVECIDEKCBTA-UHFFFAOYSA-N": {
     "inchikey": "JUQVECIDEKCBTA-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2cnsc21",
+    "smiles": "CC1CCCC=2C=NSC21",
     "not_found": true
   },
   "LVQLNOWMMHLQIA-UHFFFAOYSA-N": {
@@ -36854,7 +36830,7 @@
   },
   "LYQBBEFEQFFWLR-UHFFFAOYSA-N": {
     "inchikey": "LYQBBEFEQFFWLR-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2[nH]nnc21",
+    "smiles": "CC1CCCC=2NN=NC21",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36866,7 +36842,7 @@
   },
   "NSQYXCMVSMXQRN-UHFFFAOYSA-N": {
     "inchikey": "NSQYXCMVSMXQRN-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2[nH]nnc2C1",
+    "smiles": "CC1CC2=C(NN=N2)CC1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36878,7 +36854,7 @@
   },
   "HRCMXYXVAWHBTH-UHFFFAOYSA-N": {
     "inchikey": "HRCMXYXVAWHBTH-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)NCO2",
+    "smiles": "O1CNC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]oxazole",
@@ -36890,7 +36866,7 @@
   },
   "WOHLSTOWRAOMSG-UHFFFAOYSA-N": {
     "inchikey": "WOHLSTOWRAOMSG-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)NCS2",
+    "smiles": "S1CNC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]thiazole",
@@ -36902,7 +36878,7 @@
   },
   "GCUDWDNUXMSUIK-UHFFFAOYSA-N": {
     "inchikey": "GCUDWDNUXMSUIK-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CNO2",
+    "smiles": "O1NCC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]isoxazole",
@@ -36914,7 +36890,7 @@
   },
   "JLQSRMIXXTWQJH-UHFFFAOYSA-N": {
     "inchikey": "JLQSRMIXXTWQJH-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CNS2",
+    "smiles": "S1NCC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]isothiazole",
@@ -36938,7 +36914,7 @@
   },
   "GXIBSWBIZQBRSY-UHFFFAOYSA-N": {
     "inchikey": "GXIBSWBIZQBRSY-UHFFFAOYSA-N",
-    "smiles": "CC1Nc2ccccc2O1",
+    "smiles": "CC1OC2=C(N1)C=CC=C2",
     "pubchem_iupac": "2-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36962,7 +36938,7 @@
   },
   "XGFNLASDWFBLEZ-UHFFFAOYSA-N": {
     "inchikey": "XGFNLASDWFBLEZ-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NCO2",
+    "smiles": "CC1=CC=CC2=C1NCO2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36974,7 +36950,7 @@
   },
   "VQPQYTGYGOUZPT-UHFFFAOYSA-N": {
     "inchikey": "VQPQYTGYGOUZPT-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)NCO2",
+    "smiles": "CC=1C=CC2=C(NCO2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36986,7 +36962,7 @@
   },
   "MLHMIRJLVHMZBS-UHFFFAOYSA-N": {
     "inchikey": "MLHMIRJLVHMZBS-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)OCN2",
+    "smiles": "CC1=CC2=C(NCO2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36998,7 +36974,7 @@
   },
   "JVGRAQIYXFFFRY-UHFFFAOYSA-N": {
     "inchikey": "JVGRAQIYXFFFRY-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1OCN2",
+    "smiles": "CC1=CC=CC=2NCOC21",
     "pubchem_iupac": "7-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "7-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -37010,7 +36986,7 @@
   },
   "KLCRFDWEEYSMDI-UHFFFAOYSA-N": {
     "inchikey": "KLCRFDWEEYSMDI-UHFFFAOYSA-N",
-    "smiles": "CC1Nc2ccccc2S1",
+    "smiles": "CC1SC2=C(N1)C=CC=C2",
     "pubchem_iupac": "2-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37034,7 +37010,7 @@
   },
   "LIKXUGIBSCSJBN-UHFFFAOYSA-N": {
     "inchikey": "LIKXUGIBSCSJBN-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NCS2",
+    "smiles": "CC1=CC=CC2=C1NCS2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37046,7 +37022,7 @@
   },
   "YOCNSWXEHXJBSF-UHFFFAOYSA-N": {
     "inchikey": "YOCNSWXEHXJBSF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)NCS2",
+    "smiles": "CC=1C=CC2=C(NCS2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37058,7 +37034,7 @@
   },
   "AAZMYARNNDIDOF-UHFFFAOYSA-N": {
     "inchikey": "AAZMYARNNDIDOF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)SCN2",
+    "smiles": "CC1=CC2=C(NCS2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37070,7 +37046,7 @@
   },
   "BEDQBCNTBBJGNG-UHFFFAOYSA-N": {
     "inchikey": "BEDQBCNTBBJGNG-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1SCN2",
+    "smiles": "CC1=CC=CC=2NCSC21",
     "not_found": true
   },
   "DGJHLEMGIDKVRT-UHFFFAOYSA-N": {
@@ -37087,7 +37063,7 @@
   },
   "PNKMWXZFDBJEGZ-UHFFFAOYSA-N": {
     "inchikey": "PNKMWXZFDBJEGZ-UHFFFAOYSA-N",
-    "smiles": "CC1NOc2ccccc21",
+    "smiles": "CC1NOC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "3-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37099,7 +37075,7 @@
   },
   "KGLMYWHDVBYBLY-UHFFFAOYSA-N": {
     "inchikey": "KGLMYWHDVBYBLY-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CNO2",
+    "smiles": "CC1=CC=CC2=C1CNO2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37111,7 +37087,7 @@
   },
   "HUICMQRZQIIYHV-UHFFFAOYSA-N": {
     "inchikey": "HUICMQRZQIIYHV-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CNO2",
+    "smiles": "CC=1C=CC2=C(CNO2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37123,7 +37099,7 @@
   },
   "PONWQYRPSFVIKL-UHFFFAOYSA-N": {
     "inchikey": "PONWQYRPSFVIKL-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)ONC2",
+    "smiles": "CC1=CC2=C(CNO2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37135,7 +37111,7 @@
   },
   "BAJXOIVPBZHVAP-UHFFFAOYSA-N": {
     "inchikey": "BAJXOIVPBZHVAP-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1ONC2",
+    "smiles": "CC1=CC=CC=2CNOC21",
     "pubchem_iupac": "7-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "7-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37159,7 +37135,7 @@
   },
   "FPNRHNRBCFKSLX-UHFFFAOYSA-N": {
     "inchikey": "FPNRHNRBCFKSLX-UHFFFAOYSA-N",
-    "smiles": "CC1NSc2ccccc21",
+    "smiles": "CC1NSC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "3-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37171,12 +37147,12 @@
   },
   "OZNMVOADQWIFHF-UHFFFAOYSA-N": {
     "inchikey": "OZNMVOADQWIFHF-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CNS2",
+    "smiles": "CC1=CC=CC2=C1CNS2",
     "not_found": true
   },
   "SVEADTPRCZESPJ-UHFFFAOYSA-N": {
     "inchikey": "SVEADTPRCZESPJ-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CNS2",
+    "smiles": "CC=1C=CC2=C(CNS2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37188,7 +37164,7 @@
   },
   "CLMCJTADMBKZTH-UHFFFAOYSA-N": {
     "inchikey": "CLMCJTADMBKZTH-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)SNC2",
+    "smiles": "CC1=CC2=C(CNS2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37200,7 +37176,7 @@
   },
   "ZBMXPKYGPVVGOJ-UHFFFAOYSA-N": {
     "inchikey": "ZBMXPKYGPVVGOJ-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1SNC2",
+    "smiles": "CC1=CC=CC=2CNSC21",
     "not_found": true
   },
   "OKVODYYYKBRQAK-UHFFFAOYSA-N": {
@@ -37283,7 +37259,7 @@
   },
   "OYCBPEQZQRYKSS-UHFFFAOYSA-N": {
     "inchikey": "OYCBPEQZQRYKSS-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NNC2",
+    "smiles": "CC=1C=CC=C2CNNC12",
     "not_found": true
   },
   "OALXTMWCXNPUKJ-UHFFFAOYSA-N": {
@@ -43713,7 +43689,7 @@
   },
   "XMSPPUGRTGUHLK-UHFFFAOYSA-N": {
     "inchikey": "XMSPPUGRTGUHLK-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(cnc3ccccc32)c1",
+    "smiles": "Cc1ccc2c(c1)cnc1ccccc12",
     "pubchem_iupac": "8-methylphenanthridine",
     "validated": false,
     "expected_in_test": "3-methylphenanthridine",
@@ -43743,7 +43719,7 @@
   },
   "NNEKGIHCUCBTHT-UHFFFAOYSA-N": {
     "inchikey": "NNEKGIHCUCBTHT-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1ncc1ccccc12",
+    "smiles": "c1ccc2c(c1)cnc1c(C)cccc12",
     "pubchem_iupac": "4-methylphenanthridine",
     "validated": false,
     "expected_in_test": "7-methylphenanthridine",
@@ -43755,7 +43731,7 @@
   },
   "GETVAVSPJPOZHM-UHFFFAOYSA-N": {
     "inchikey": "GETVAVSPJPOZHM-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)ncc1ccccc12",
+    "smiles": "c1ccc2c(c1)cnc1cc(C)ccc12",
     "pubchem_iupac": "3-methylphenanthridine",
     "validated": false,
     "expected_in_test": "8-methylphenanthridine",
@@ -43767,7 +43743,7 @@
   },
   "XJEDMWZLWOWOSZ-UHFFFAOYSA-N": {
     "inchikey": "XJEDMWZLWOWOSZ-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2ncc3ccccc3c2c1",
+    "smiles": "c1ccc2c(c1)cnc1ccc(C)cc12",
     "pubchem_iupac": "2-methylphenanthridine",
     "validated": false,
     "expected_in_test": "9-methylphenanthridine",
@@ -43779,7 +43755,7 @@
   },
   "WWUVWQNFCCRTGD-UHFFFAOYSA-N": {
     "inchikey": "WWUVWQNFCCRTGD-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2ncc3ccccc3c12",
+    "smiles": "c1ccc2c(c1)cnc1cccc(C)c12",
     "pubchem_iupac": "1-methylphenanthridine",
     "validated": false,
     "expected_in_test": "10-methylphenanthridine",
@@ -44748,7 +44724,7 @@
     "not_found": true,
     "pubchem_iupac": "3-methyl-2H-pyrazolo[3,4-c]pyridine",
     "validated": false,
-    "expected_in_test": "3-methyl-1H-pyrazolo[3,4-c]pyridine",
+    "expected_in_test": "3-methyl-1H-pyrazolo[5,4-c]pyridine",
     "iupac_verdict": "tautomer",
     "iupac_note": "名前の差異は指示水素の位置のみ — 互変異性体の命名",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -44889,7 +44865,7 @@
     "not_found": true,
     "pubchem_iupac": "3-methyl-2H-pyrazolo[3,4-c]pyridazine",
     "validated": false,
-    "expected_in_test": "3-methyl-1H-pyrazolo[3,4-c]pyridazine",
+    "expected_in_test": "3-methyl-1H-pyrazolo[5,4-c]pyridazine",
     "iupac_verdict": "tautomer",
     "iupac_note": "名前の差異は指示水素の位置のみ — 互変異性体の命名",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -44917,7 +44893,7 @@
     "not_found": true,
     "pubchem_iupac": "3-methyl-2H-pyrazolo[4,3-c]pyridazine",
     "validated": false,
-    "expected_in_test": "3-methyl-1H-pyrazolo[4,5-c]pyridazine",
+    "expected_in_test": "3-methyl-1H-pyrazolo[4,3-c]pyridazine",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,

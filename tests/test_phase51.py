@@ -17,10 +17,10 @@ class TestSymmetricDiester:
         assert smiles_to_iupac("CCOC(=O)CC(=O)OCC") == "diethyl malonate"
 
     def test_diethyl_succinate(self):
-        assert smiles_to_iupac("CCOC(=O)CCC(=O)OCC") == "diethyl succinate"
+        assert smiles_to_iupac("CCOC(=O)CCC(=O)OCC") == "diethyl butanedioate"
 
     def test_dimethyl_glutarate(self):
-        assert smiles_to_iupac("COC(=O)CCCC(=O)OC") == "dimethyl glutarate"
+        assert smiles_to_iupac("COC(=O)CCCC(=O)OC") == "dimethyl pentanedioate"
 
 
 class TestDiesterVsMonoester:

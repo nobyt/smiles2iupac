@@ -19,7 +19,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: 飽和
     ("CC(=O)OC", "methyl acetate"),
     ("CC(=O)Cl", "acetyl chloride"),
-    ("CC(=O)NN", "ethanohydrazide"),
+    ("CC(=O)NN", "acetohydrazide"),
     ("CC(=S)N", "ethanethioamide"),
 ])
 def test_phase85_ene_in_naming_paths(smiles, expected):

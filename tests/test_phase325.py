@@ -12,9 +12,9 @@ from smiles2iupac import smiles_to_iupac
     (r"C/C=C\C(=O)NN",           "(2Z)-but-2-enohydrazide"),
     ("C/C=C/C(=O)NNC",           "(2E)-N'-methylbut-2-enohydrazide"),
     # regressions: saturated hydrazides unchanged
-    ("CC(=O)NN",                  "ethanohydrazide"),
+    ("CC(=O)NN",                  "acetohydrazide"),
     ("CCC(=O)NN",                 "propanohydrazide"),
-    ("CC(=O)NNC",                 "N'-methylethanohydrazide"),
+    ("CC(=O)NNC",                 "N'-methylacetohydrazide"),
 ])
 def test_phase325_ez_hydrazide(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

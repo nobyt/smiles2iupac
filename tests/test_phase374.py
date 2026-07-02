@@ -29,7 +29,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC(=S)N",           "ethanethioamide"),
     ("CC(=S)NC",          "N-methylethanethioamide"),
     # Regressions: hydrazide unchanged
-    ("CC(=O)NN",          "ethanohydrazide"),
+    ("CC(=O)NN",          "acetohydrazide"),
     ("CCC(=O)NN",         "propanohydrazide"),
 ])
 def test_phase374_thiohydrazide_selenohydrazide(smiles, expected):

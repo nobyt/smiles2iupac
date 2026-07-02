@@ -12,7 +12,7 @@ from src.smiles2iupac import smiles_to_iupac
     # ベンゾヒドラジド
     ("O=C(NN)c1ccccc1",   "benzohydrazide"),
     # 脂肪族ヒドラジドは変わらない
-    ("CC(=O)NN",           "ethanohydrazide"),
+    ("CC(=O)NN",           "acetohydrazide"),
     ("CCC(=O)NN",          "propanohydrazide"),
     # カーボンサブオキシド (propa-1,2-diene-1,3-dione)
     ("O=C=C=C=O",          "propa-1,2-diene-1,3-dione"),

@@ -19,7 +19,7 @@ from src.smiles2iupac import smiles_to_iupac
     # 回帰: アミドは変わらない
     ("CC(=O)N",                "acetamide"),
     ("CC(=O)NC",               "N-methylacetamide"),
-    ("CC(=O)NN",               "ethanohydrazide"),
+    ("CC(=O)NN",               "acetohydrazide"),
     # 回帰: アルキルアジド (PIN: 置換命名)
     ("[N-]=[N+]=NC",           "azidomethane"),
     ("[N-]=[N+]=NCC",          "azidoethane"),
