@@ -902,6 +902,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "phenanthridin-6(5H)-one"
                 elif full_base == "benzo[f]quinoline" and loc_str == "2":
                     base_with_suffix = "benzo[f]quinolin-2(1H)-one"
+                elif full_base == "benzo[h]quinoline" and loc_str == "1":
+                    base_with_suffix = "benzo[h]quinolin-1(10H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -981,6 +983,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "phenanthridin-6(5H)-thione"
                 elif full_base == "benzo[f]quinoline" and loc_str == "2":
                     base_with_suffix = "benzo[f]quinolin-2(1H)-thione"
+                elif full_base == "benzo[h]quinoline" and loc_str == "1":
+                    base_with_suffix = "benzo[h]quinolin-1(10H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
