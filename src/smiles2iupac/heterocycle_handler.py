@@ -884,6 +884,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,2,4-triazin-6(1H)-one"
                 elif full_base == "1,2,4-triazine" and loc_str == "5":
                     base_with_suffix = "1,2,4-triazin-5(4H)-one"
+                elif full_base == "1,2,3-triazine" and loc_str == "4":
+                    base_with_suffix = "1,2,3-triazin-4(3H)-one"
+                elif full_base == "9H-purine" and loc_str == "2":
+                    base_with_suffix = "9H-purin-2(1H)-one"
+                elif full_base == "7H-purine" and loc_str == "2":
+                    base_with_suffix = "7H-purin-2(1H)-one"
             # Phase 749/753: α-thiol N-heterocycles prefer the thiolactam tautomer
             elif sub_nm == "sulfanyl" and mult == "di":
                 if full_base == "pyrimidine" and loc_str == "2,4":
@@ -941,6 +947,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,2,4-triazin-6(1H)-thione"
                 elif full_base == "1,2,4-triazine" and loc_str == "5":
                     base_with_suffix = "1,2,4-triazin-5(4H)-thione"
+                elif full_base == "1,2,3-triazine" and loc_str == "4":
+                    base_with_suffix = "1,2,3-triazin-4(3H)-thione"
+                elif full_base == "9H-purine" and loc_str == "2":
+                    base_with_suffix = "9H-purin-2(1H)-thione"
+                elif full_base == "7H-purine" and loc_str == "2":
+                    base_with_suffix = "7H-purin-2(1H)-thione"
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
