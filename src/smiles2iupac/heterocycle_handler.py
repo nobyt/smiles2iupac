@@ -866,7 +866,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1,3-benzoxazol-2(3H)-one"
                 elif full_base == "1H-benzimidazole" and loc_str == "2":
                     base_with_suffix = "1H-benzimidazol-2(3H)-one"
-            # Phase 749: α-thiol N-heterocycles prefer the thiolactam tautomer
+                elif full_base == "1,3,5-triazine" and loc_str == "2":
+                    base_with_suffix = "1,3,5-triazin-2(1H)-one"
+            # Phase 749/753: α-thiol N-heterocycles prefer the thiolactam tautomer
+            elif sub_nm == "sulfanyl" and mult == "di":
+                if full_base == "pyrimidine" and loc_str == "2,4":
+                    base_with_suffix = "pyrimidine-2,4(1H,3H)-dithione"
             elif sub_nm == "sulfanyl" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"pyridin-{loc_str}(1H)-thione"
