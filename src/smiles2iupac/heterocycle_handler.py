@@ -1002,6 +1002,14 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "3,5-phenanthrolin-4(5H)-one"
                 elif full_base == "3,5-phenanthroline" and loc_str == "6":  # Phase 772
                     base_with_suffix = "3,5-phenanthrolin-6(5H)-one"
+                elif full_base == "pteridine" and loc_str == "2":  # Phase 773
+                    base_with_suffix = "pteridin-2(1H)-one"
+                elif full_base == "pteridine" and loc_str == "4":  # Phase 773
+                    base_with_suffix = "pteridin-4(3H)-one"
+                elif full_base == "pteridine" and loc_str == "6":  # Phase 773
+                    base_with_suffix = "pteridin-6(5H)-one"
+                elif full_base == "pteridine" and loc_str == "7":  # Phase 773
+                    base_with_suffix = "pteridin-7(8H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -1181,6 +1189,14 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "3,5-phenanthrolin-4(5H)-thione"
                 elif full_base == "3,5-phenanthroline" and loc_str == "6":  # Phase 772
                     base_with_suffix = "3,5-phenanthrolin-6(5H)-thione"
+                elif full_base == "pteridine" and loc_str == "2":  # Phase 773
+                    base_with_suffix = "pteridin-2(1H)-thione"
+                elif full_base == "pteridine" and loc_str == "4":  # Phase 773
+                    base_with_suffix = "pteridin-4(3H)-thione"
+                elif full_base == "pteridine" and loc_str == "6":  # Phase 773
+                    base_with_suffix = "pteridin-6(5H)-thione"
+                elif full_base == "pteridine" and loc_str == "7":  # Phase 773
+                    base_with_suffix = "pteridin-7(8H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
