@@ -874,6 +874,10 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrazol-3(2H)-one"
                 elif full_base == "1,3-oxazole" and loc_str == "2":
                     base_with_suffix = "1,3-oxazol-2(3H)-one"
+                elif full_base == "1,3-thiazole" and loc_str == "2":
+                    base_with_suffix = "1,3-thiazol-2(3H)-one"
+                elif full_base == "9H-purine" and loc_str == "6":
+                    base_with_suffix = "9H-purin-6(1H)-one"
             # Phase 749/753: α-thiol N-heterocycles prefer the thiolactam tautomer
             elif sub_nm == "sulfanyl" and mult == "di":
                 if full_base == "pyrimidine" and loc_str == "2,4":
@@ -921,6 +925,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrazol-3(2H)-thione"
                 elif full_base == "1,3-oxazole" and loc_str == "2":
                     base_with_suffix = "1,3-oxazol-2(3H)-thione"
+                elif full_base == "1,3-thiazole" and loc_str == "2":
+                    base_with_suffix = "1,3-thiazol-2(3H)-thione"
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
