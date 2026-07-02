@@ -24,7 +24,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: piperidine-2,6-dione (glutarimide) unchanged
     ("O=C1CCCC(=O)N1",                "piperidine-2,6-dione"),
     # regression: 1-methylindoline unchanged
-    ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydro-1H-indole"),
+    ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydroindole"),
     # regression: benzene unchanged
     ("c1ccccc1",                       "benzene"),
 ])

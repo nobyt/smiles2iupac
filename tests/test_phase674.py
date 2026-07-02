@@ -7,7 +7,7 @@ from smiles2iupac import smiles_to_iupac
     # indoline (2,3-dihydro-1H-indole): N(1,H)-C(2)-C(3)-C3a-C4-C5-C6-C7-C7a
     # (parent in Phase 133; N1-H methylable)
     ("c1ccc2c(c1)CCN2",    "2,3-dihydro-1H-indole"),
-    ("CN1CCc2ccccc21",     "1-methyl-2,3-dihydro-1H-indole"),
+    ("CN1CCc2ccccc21",     "1-methyl-2,3-dihydroindole"),
     ("c1ccc2c(c1)CC(C)N2", "2-methyl-2,3-dihydro-1H-indole"),
     ("CC1CNc2ccccc21",     "3-methyl-2,3-dihydro-1H-indole"),
     ("Cc1cccc2c1CCN2",     "4-methyl-2,3-dihydro-1H-indole"),
@@ -18,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     # (parent in Phase 133; C2v-symmetric: 1≡3, 4≡7, 5≡6; N2-H methylable)
     ("c1ccc2c(c1)CNC2",    "2,3-dihydro-1H-isoindole"),
     ("c1ccc2c(c1)C(C)NC2", "1-methyl-2,3-dihydro-1H-isoindole"),
-    ("c1ccc2c(c1)CN(C)C2", "2-methyl-2,3-dihydro-1H-isoindole"),
+    ("c1ccc2c(c1)CN(C)C2", "2-methyl-1,3-dihydroisoindole"),
     ("c1cc(C)c2c(c1)CNC2", "4-methyl-2,3-dihydro-1H-isoindole"),
     ("Cc1ccc2c(c1)CNC2",   "5-methyl-2,3-dihydro-1H-isoindole"),
 ])

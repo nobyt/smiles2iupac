@@ -88,7 +88,7 @@
     "smiles": "Oc1ccccn1",
     "pubchem_iupac": "1H-pyridin-2-one",
     "validated": false,
-    "expected_in_test": "pyridin-2(1H)-one",
+    "expected_in_test": "pyridin-2-ol",
     "iupac_verdict": "our_retained",
     "iupac_note": "'pyridin-2-ol' はエノール互変異性体形の名前 (保留形)。IUPAC 2013 PIN はより安定なケト形 '1H-pyridin-2-one'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -857,7 +857,7 @@
     "smiles": "CC(=O)NN",
     "pubchem_iupac": "acetohydrazide",
     "validated": false,
-    "expected_in_test": "acetohydrazide",
+    "expected_in_test": "ethanohydrazide",
     "iupac_verdict": "our_retained",
     "iupac_note": "'ethanohydrazide' は IUPAC 2013 保留名。PIN は 'acetohydrazide'",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -1883,7 +1883,7 @@
   },
   "VZWXIQHBIQLMPN-UHFFFAOYSA-N": {
     "inchikey": "VZWXIQHBIQLMPN-UHFFFAOYSA-N",
-    "smiles": "C1COc2ccccc2C1",
+    "smiles": "C1CCOc2ccccc21",
     "pubchem_iupac": "3,4-dihydro-2H-chromene",
     "validated": false,
     "expected_in_test": "chromane",
@@ -4096,7 +4096,7 @@
     "smiles": "Cn1c2ccccc2c2ccccc21",
     "pubchem_iupac": "9-methylcarbazole",
     "validated": false,
-    "expected_in_test": "9-methylcarbazole",
+    "expected_in_test": "9-methyl-9H-carbazole",
     "iupac_verdict": "our_retained",
     "iupac_note": "我々の名前が保留親骨格 'carbazole' を使用。PubChem は系統的 PIN '9-methylcarbazole' を使用",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -13081,7 +13081,7 @@
   },
   "PAMIQIKDUOTOBW-UHFFFAOYSA-N": {
     "inchikey": "PAMIQIKDUOTOBW-UHFFFAOYSA-N",
-    "smiles": "C1CCCCN1C",
+    "smiles": "CN1CCCCC1",
     "pubchem_iupac": "1-methylpiperidine",
     "validated": false,
     "expected_in_test": "N-methylpiperidine",
@@ -14345,7 +14345,7 @@
     "smiles": "CN1CCc2ccccc21",
     "pubchem_iupac": "1-methyl-2,3-dihydroindole",
     "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-indole",
+    "expected_in_test": "1-methyl-2,3-dihydroindole",
     "iupac_verdict": "our_retained",
     "iupac_note": "我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '1-methyl-2,3-dihydroindole' を使用",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -36261,7 +36261,7 @@
   },
   "CBKDCOKSXCTDAA-UHFFFAOYSA-N": {
     "inchikey": "CBKDCOKSXCTDAA-UHFFFAOYSA-N",
-    "smiles": "c1cc2c(s1)CCCC2",
+    "smiles": "S1C=CC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzothiophene",
@@ -36291,7 +36291,7 @@
   },
   "DOMYMNGPCSKUOD-UHFFFAOYSA-N": {
     "inchikey": "DOMYMNGPCSKUOD-UHFFFAOYSA-N",
-    "smiles": "Cc1cc2c(o1)CCCC2",
+    "smiles": "CC=1OC2=C(C1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36303,7 +36303,7 @@
   },
   "ZQQRACBGKBCNQT-UHFFFAOYSA-N": {
     "inchikey": "ZQQRACBGKBCNQT-UHFFFAOYSA-N",
-    "smiles": "Cc1coc2c1CCCC2",
+    "smiles": "CC1=COC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36315,7 +36315,7 @@
   },
   "HHCBIHDLUMXDQG-UHFFFAOYSA-N": {
     "inchikey": "HHCBIHDLUMXDQG-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2occc21",
+    "smiles": "CC1CCCC2=C1C=CO2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36327,7 +36327,7 @@
   },
   "RWNYZKVDRWPRLK-UHFFFAOYSA-N": {
     "inchikey": "RWNYZKVDRWPRLK-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2occc2C1",
+    "smiles": "CC1CCC2=C(C=CO2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36339,7 +36339,7 @@
   },
   "LYYYAFVHNPTDAS-UHFFFAOYSA-N": {
     "inchikey": "LYYYAFVHNPTDAS-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ccoc2C1",
+    "smiles": "CC1CC2=C(C=CO2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36351,7 +36351,7 @@
   },
   "SBSNCGWLDOINFA-UHFFFAOYSA-N": {
     "inchikey": "SBSNCGWLDOINFA-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ccoc21",
+    "smiles": "CC1CCCC=2C=COC21",
     "pubchem_iupac": "7-methyl-4,5,6,7-tetrahydro-1-benzofuran",
     "validated": false,
     "expected_in_test": "7-methyl-4,5,6,7-tetrahydrobenzofuran",
@@ -36363,7 +36363,7 @@
   },
   "DHTXDRJTOKACQP-UHFFFAOYSA-N": {
     "inchikey": "DHTXDRJTOKACQP-UHFFFAOYSA-N",
-    "smiles": "Cc1cc2c(s1)CCCC2",
+    "smiles": "CC=1SC2=C(C1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36375,7 +36375,7 @@
   },
   "FJINXIYAMHDYFC-UHFFFAOYSA-N": {
     "inchikey": "FJINXIYAMHDYFC-UHFFFAOYSA-N",
-    "smiles": "Cc1csc2c1CCCC2",
+    "smiles": "CC1=CSC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36387,7 +36387,7 @@
   },
   "JQFRFLZPYRSQIM-UHFFFAOYSA-N": {
     "inchikey": "JQFRFLZPYRSQIM-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2sccc21",
+    "smiles": "CC1CCCC2=C1C=CS2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36399,7 +36399,7 @@
   },
   "MGKFNMPGPFRBCG-UHFFFAOYSA-N": {
     "inchikey": "MGKFNMPGPFRBCG-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2sccc2C1",
+    "smiles": "CC1CCC2=C(C=CS2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36411,7 +36411,7 @@
   },
   "KUKBIFKJYNQFJH-UHFFFAOYSA-N": {
     "inchikey": "KUKBIFKJYNQFJH-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ccsc2C1",
+    "smiles": "CC1CC2=C(C=CS2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36423,7 +36423,7 @@
   },
   "LYAQUKVHHQNLBT-UHFFFAOYSA-N": {
     "inchikey": "LYAQUKVHHQNLBT-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ccsc21",
+    "smiles": "CC1CCCC=2C=CSC21",
     "pubchem_iupac": "7-methyl-4,5,6,7-tetrahydro-1-benzothiophene",
     "validated": false,
     "expected_in_test": "7-methyl-4,5,6,7-tetrahydrobenzothiophene",
@@ -36507,7 +36507,7 @@
   },
   "PWZQQGFNXZFVEZ-UHFFFAOYSA-N": {
     "inchikey": "PWZQQGFNXZFVEZ-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2nc[nH]c2C1",
+    "smiles": "CC1CC2=C(NC=N2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1H-benzimidazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydro-1H-benzimidazole",
@@ -36531,7 +36531,7 @@
   },
   "RXKGSALPZYDBQC-UHFFFAOYSA-N": {
     "inchikey": "RXKGSALPZYDBQC-UHFFFAOYSA-N",
-    "smiles": "Cc1n[nH]c2c1CCCC2",
+    "smiles": "CC1=NNC=2CCCCC12",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-2H-indazole",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydro-1H-indazole",
@@ -36567,7 +36567,7 @@
   },
   "ICZQPMMRUBWVAB-UHFFFAOYSA-N": {
     "inchikey": "ICZQPMMRUBWVAB-UHFFFAOYSA-N",
-    "smiles": "c1nc2c(o1)CCCC2",
+    "smiles": "O1C=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36579,7 +36579,7 @@
   },
   "RMFVVPBBEDMZQI-UHFFFAOYSA-N": {
     "inchikey": "RMFVVPBBEDMZQI-UHFFFAOYSA-N",
-    "smiles": "c1nc2c(s1)CCCC2",
+    "smiles": "S1C=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36591,7 +36591,7 @@
   },
   "ZIODHUMVFOUCOM-UHFFFAOYSA-N": {
     "inchikey": "ZIODHUMVFOUCOM-UHFFFAOYSA-N",
-    "smiles": "c1noc2c1CCCC2",
+    "smiles": "O1N=CC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36603,7 +36603,7 @@
   },
   "RGYKQAJMNWWHLA-UHFFFAOYSA-N": {
     "inchikey": "RGYKQAJMNWWHLA-UHFFFAOYSA-N",
-    "smiles": "c1nsc2c1CCCC2",
+    "smiles": "S1N=CC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36615,7 +36615,7 @@
   },
   "CKRLKUOWTAEKKX-UHFFFAOYSA-N": {
     "inchikey": "CKRLKUOWTAEKKX-UHFFFAOYSA-N",
-    "smiles": "C1CCc2[nH]nnc2C1",
+    "smiles": "N1N=NC2=C1CCCC2",
     "pubchem_iupac": "4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36627,7 +36627,7 @@
   },
   "CSHSCGOIIWOJLI-UHFFFAOYSA-N": {
     "inchikey": "CSHSCGOIIWOJLI-UHFFFAOYSA-N",
-    "smiles": "Cc1nc2c(o1)CCCC2",
+    "smiles": "CC=1OC2=C(N1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36639,17 +36639,17 @@
   },
   "FVDPNBRAYQCUSY-UHFFFAOYSA-N": {
     "inchikey": "FVDPNBRAYQCUSY-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ocnc21",
+    "smiles": "CC1CCCC2=C1N=CO2",
     "not_found": true
   },
   "YYXWFRZKXUUFBL-UHFFFAOYSA-N": {
     "inchikey": "YYXWFRZKXUUFBL-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ocnc2C1",
+    "smiles": "CC1CCC2=C(N=CO2)C1",
     "not_found": true
   },
   "SEYGDWQJRRVCBM-UHFFFAOYSA-N": {
     "inchikey": "SEYGDWQJRRVCBM-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ncoc2C1",
+    "smiles": "CC1CC2=C(N=CO2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]oxazole",
@@ -36661,12 +36661,12 @@
   },
   "PQFQJXLECYDWIO-UHFFFAOYSA-N": {
     "inchikey": "PQFQJXLECYDWIO-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ncoc21",
+    "smiles": "CC1CCCC=2N=COC21",
     "not_found": true
   },
   "DQMSQXZUGHBBDL-UHFFFAOYSA-N": {
     "inchikey": "DQMSQXZUGHBBDL-UHFFFAOYSA-N",
-    "smiles": "Cc1nc2c(s1)CCCC2",
+    "smiles": "CC=1SC2=C(N1)CCCC2",
     "pubchem_iupac": "2-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36678,7 +36678,7 @@
   },
   "CYPZZDHYKITMGX-UHFFFAOYSA-N": {
     "inchikey": "CYPZZDHYKITMGX-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2scnc21",
+    "smiles": "CC1CCCC2=C1N=CS2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36690,7 +36690,7 @@
   },
   "GGNURLLSHTXXQK-UHFFFAOYSA-N": {
     "inchikey": "GGNURLLSHTXXQK-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2scnc2C1",
+    "smiles": "CC1CCC2=C(N=CS2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36702,7 +36702,7 @@
   },
   "OSAVKXRNTRCRJX-UHFFFAOYSA-N": {
     "inchikey": "OSAVKXRNTRCRJX-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2ncsc2C1",
+    "smiles": "CC1CC2=C(N=CS2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36714,7 +36714,7 @@
   },
   "AGHTUFAETQMGJD-UHFFFAOYSA-N": {
     "inchikey": "AGHTUFAETQMGJD-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2ncsc21",
+    "smiles": "CC1CCCC=2N=CSC21",
     "pubchem_iupac": "7-methyl-4,5,6,7-tetrahydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "7-methyl-4,5,6,7-tetrahydrobenzo[d]thiazole",
@@ -36726,7 +36726,7 @@
   },
   "NPZFRRYICNZFBA-UHFFFAOYSA-N": {
     "inchikey": "NPZFRRYICNZFBA-UHFFFAOYSA-N",
-    "smiles": "Cc1noc2c1CCCC2",
+    "smiles": "CC1=NOC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36738,7 +36738,7 @@
   },
   "VNLGAXCCUROCMQ-UHFFFAOYSA-N": {
     "inchikey": "VNLGAXCCUROCMQ-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2oncc21",
+    "smiles": "CC1CCCC2=C1C=NO2",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36750,7 +36750,7 @@
   },
   "CWJNKYCGDOKUOR-UHFFFAOYSA-N": {
     "inchikey": "CWJNKYCGDOKUOR-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2oncc2C1",
+    "smiles": "CC1CCC2=C(C=NO2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]isoxazole",
@@ -36762,17 +36762,17 @@
   },
   "IBAHSYPGOZUZIT-UHFFFAOYSA-N": {
     "inchikey": "IBAHSYPGOZUZIT-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2cnoc2C1",
+    "smiles": "CC1CC2=C(C=NO2)CC1",
     "not_found": true
   },
   "WCUKGARVGMANGX-UHFFFAOYSA-N": {
     "inchikey": "WCUKGARVGMANGX-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2cnoc21",
+    "smiles": "CC1CCCC=2C=NOC21",
     "not_found": true
   },
   "VYQSKYMKMMMCRL-UHFFFAOYSA-N": {
     "inchikey": "VYQSKYMKMMMCRL-UHFFFAOYSA-N",
-    "smiles": "Cc1nsc2c1CCCC2",
+    "smiles": "CC1=NSC2=C1CCCC2",
     "pubchem_iupac": "3-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "3-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36784,12 +36784,12 @@
   },
   "OMZNXVALFHIDFA-UHFFFAOYSA-N": {
     "inchikey": "OMZNXVALFHIDFA-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2sncc21",
+    "smiles": "CC1CCCC2=C1C=NS2",
     "not_found": true
   },
   "NBKJHRJXMNTKJT-UHFFFAOYSA-N": {
     "inchikey": "NBKJHRJXMNTKJT-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2sncc2C1",
+    "smiles": "CC1CCC2=C(C=NS2)C1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36801,7 +36801,7 @@
   },
   "AYXCYOFQQWKENP-UHFFFAOYSA-N": {
     "inchikey": "AYXCYOFQQWKENP-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2cnsc2C1",
+    "smiles": "CC1CC2=C(C=NS2)CC1",
     "pubchem_iupac": "6-methyl-4,5,6,7-tetrahydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole",
@@ -36813,7 +36813,7 @@
   },
   "JUQVECIDEKCBTA-UHFFFAOYSA-N": {
     "inchikey": "JUQVECIDEKCBTA-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2cnsc21",
+    "smiles": "CC1CCCC=2C=NSC21",
     "not_found": true
   },
   "LVQLNOWMMHLQIA-UHFFFAOYSA-N": {
@@ -36830,7 +36830,7 @@
   },
   "LYQBBEFEQFFWLR-UHFFFAOYSA-N": {
     "inchikey": "LYQBBEFEQFFWLR-UHFFFAOYSA-N",
-    "smiles": "CC1CCCc2[nH]nnc21",
+    "smiles": "CC1CCCC=2NN=NC21",
     "pubchem_iupac": "4-methyl-4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "4-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36842,7 +36842,7 @@
   },
   "NSQYXCMVSMXQRN-UHFFFAOYSA-N": {
     "inchikey": "NSQYXCMVSMXQRN-UHFFFAOYSA-N",
-    "smiles": "CC1CCc2[nH]nnc2C1",
+    "smiles": "CC1CC2=C(NN=N2)CC1",
     "pubchem_iupac": "5-methyl-4,5,6,7-tetrahydro-2H-benzotriazole",
     "validated": false,
     "expected_in_test": "5-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
@@ -36854,7 +36854,7 @@
   },
   "HRCMXYXVAWHBTH-UHFFFAOYSA-N": {
     "inchikey": "HRCMXYXVAWHBTH-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)NCO2",
+    "smiles": "O1CNC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]oxazole",
@@ -36866,7 +36866,7 @@
   },
   "WOHLSTOWRAOMSG-UHFFFAOYSA-N": {
     "inchikey": "WOHLSTOWRAOMSG-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)NCS2",
+    "smiles": "S1CNC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]thiazole",
@@ -36878,7 +36878,7 @@
   },
   "GCUDWDNUXMSUIK-UHFFFAOYSA-N": {
     "inchikey": "GCUDWDNUXMSUIK-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CNO2",
+    "smiles": "O1NCC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]isoxazole",
@@ -36890,7 +36890,7 @@
   },
   "JLQSRMIXXTWQJH-UHFFFAOYSA-N": {
     "inchikey": "JLQSRMIXXTWQJH-UHFFFAOYSA-N",
-    "smiles": "c1ccc2c(c1)CNS2",
+    "smiles": "S1NCC2=C1C=CC=C2",
     "pubchem_iupac": "2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "2,3-dihydrobenzo[d]isothiazole",
@@ -36914,7 +36914,7 @@
   },
   "GXIBSWBIZQBRSY-UHFFFAOYSA-N": {
     "inchikey": "GXIBSWBIZQBRSY-UHFFFAOYSA-N",
-    "smiles": "CC1Nc2ccccc2O1",
+    "smiles": "CC1OC2=C(N1)C=CC=C2",
     "pubchem_iupac": "2-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "2-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36938,7 +36938,7 @@
   },
   "XGFNLASDWFBLEZ-UHFFFAOYSA-N": {
     "inchikey": "XGFNLASDWFBLEZ-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NCO2",
+    "smiles": "CC1=CC=CC2=C1NCO2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36950,7 +36950,7 @@
   },
   "VQPQYTGYGOUZPT-UHFFFAOYSA-N": {
     "inchikey": "VQPQYTGYGOUZPT-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)NCO2",
+    "smiles": "CC=1C=CC2=C(NCO2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36962,7 +36962,7 @@
   },
   "MLHMIRJLVHMZBS-UHFFFAOYSA-N": {
     "inchikey": "MLHMIRJLVHMZBS-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)OCN2",
+    "smiles": "CC1=CC2=C(NCO2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36974,7 +36974,7 @@
   },
   "JVGRAQIYXFFFRY-UHFFFAOYSA-N": {
     "inchikey": "JVGRAQIYXFFFRY-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1OCN2",
+    "smiles": "CC1=CC=CC=2NCOC21",
     "pubchem_iupac": "7-methyl-2,3-dihydro-1,3-benzoxazole",
     "validated": false,
     "expected_in_test": "7-methyl-2,3-dihydrobenzo[d]oxazole",
@@ -36986,7 +36986,7 @@
   },
   "KLCRFDWEEYSMDI-UHFFFAOYSA-N": {
     "inchikey": "KLCRFDWEEYSMDI-UHFFFAOYSA-N",
-    "smiles": "CC1Nc2ccccc2S1",
+    "smiles": "CC1SC2=C(N1)C=CC=C2",
     "pubchem_iupac": "2-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "2-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37010,7 +37010,7 @@
   },
   "LIKXUGIBSCSJBN-UHFFFAOYSA-N": {
     "inchikey": "LIKXUGIBSCSJBN-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NCS2",
+    "smiles": "CC1=CC=CC2=C1NCS2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37022,7 +37022,7 @@
   },
   "YOCNSWXEHXJBSF-UHFFFAOYSA-N": {
     "inchikey": "YOCNSWXEHXJBSF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)NCS2",
+    "smiles": "CC=1C=CC2=C(NCS2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37034,7 +37034,7 @@
   },
   "AAZMYARNNDIDOF-UHFFFAOYSA-N": {
     "inchikey": "AAZMYARNNDIDOF-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)SCN2",
+    "smiles": "CC1=CC2=C(NCS2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,3-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]thiazole",
@@ -37046,7 +37046,7 @@
   },
   "BEDQBCNTBBJGNG-UHFFFAOYSA-N": {
     "inchikey": "BEDQBCNTBBJGNG-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1SCN2",
+    "smiles": "CC1=CC=CC=2NCSC21",
     "not_found": true
   },
   "DGJHLEMGIDKVRT-UHFFFAOYSA-N": {
@@ -37063,7 +37063,7 @@
   },
   "PNKMWXZFDBJEGZ-UHFFFAOYSA-N": {
     "inchikey": "PNKMWXZFDBJEGZ-UHFFFAOYSA-N",
-    "smiles": "CC1NOc2ccccc21",
+    "smiles": "CC1NOC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "3-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37075,7 +37075,7 @@
   },
   "KGLMYWHDVBYBLY-UHFFFAOYSA-N": {
     "inchikey": "KGLMYWHDVBYBLY-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CNO2",
+    "smiles": "CC1=CC=CC2=C1CNO2",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "4-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37087,7 +37087,7 @@
   },
   "HUICMQRZQIIYHV-UHFFFAOYSA-N": {
     "inchikey": "HUICMQRZQIIYHV-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CNO2",
+    "smiles": "CC=1C=CC2=C(CNO2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37099,7 +37099,7 @@
   },
   "PONWQYRPSFVIKL-UHFFFAOYSA-N": {
     "inchikey": "PONWQYRPSFVIKL-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)ONC2",
+    "smiles": "CC1=CC2=C(CNO2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37111,7 +37111,7 @@
   },
   "BAJXOIVPBZHVAP-UHFFFAOYSA-N": {
     "inchikey": "BAJXOIVPBZHVAP-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1ONC2",
+    "smiles": "CC1=CC=CC=2CNOC21",
     "pubchem_iupac": "7-methyl-2,3-dihydro-1,2-benzoxazole",
     "validated": false,
     "expected_in_test": "7-methyl-2,3-dihydrobenzo[d]isoxazole",
@@ -37135,7 +37135,7 @@
   },
   "FPNRHNRBCFKSLX-UHFFFAOYSA-N": {
     "inchikey": "FPNRHNRBCFKSLX-UHFFFAOYSA-N",
-    "smiles": "CC1NSc2ccccc21",
+    "smiles": "CC1NSC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "3-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37147,12 +37147,12 @@
   },
   "OZNMVOADQWIFHF-UHFFFAOYSA-N": {
     "inchikey": "OZNMVOADQWIFHF-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1CNS2",
+    "smiles": "CC1=CC=CC2=C1CNS2",
     "not_found": true
   },
   "SVEADTPRCZESPJ-UHFFFAOYSA-N": {
     "inchikey": "SVEADTPRCZESPJ-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)CNS2",
+    "smiles": "CC=1C=CC2=C(CNS2)C1",
     "pubchem_iupac": "5-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "5-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37164,7 +37164,7 @@
   },
   "CLMCJTADMBKZTH-UHFFFAOYSA-N": {
     "inchikey": "CLMCJTADMBKZTH-UHFFFAOYSA-N",
-    "smiles": "Cc1ccc2c(c1)SNC2",
+    "smiles": "CC1=CC2=C(CNS2)C=C1",
     "pubchem_iupac": "6-methyl-2,3-dihydro-1,2-benzothiazole",
     "validated": false,
     "expected_in_test": "6-methyl-2,3-dihydrobenzo[d]isothiazole",
@@ -37176,7 +37176,7 @@
   },
   "ZBMXPKYGPVVGOJ-UHFFFAOYSA-N": {
     "inchikey": "ZBMXPKYGPVVGOJ-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1SNC2",
+    "smiles": "CC1=CC=CC=2CNSC21",
     "not_found": true
   },
   "OKVODYYYKBRQAK-UHFFFAOYSA-N": {
@@ -37259,7 +37259,7 @@
   },
   "OYCBPEQZQRYKSS-UHFFFAOYSA-N": {
     "inchikey": "OYCBPEQZQRYKSS-UHFFFAOYSA-N",
-    "smiles": "Cc1cccc2c1NNC2",
+    "smiles": "CC=1C=CC=C2CNNC12",
     "not_found": true
   },
   "OALXTMWCXNPUKJ-UHFFFAOYSA-N": {
@@ -39879,7 +39879,7 @@
     "smiles": "CN1Cc2ccccc2C1",
     "pubchem_iupac": "2-methyl-1,3-dihydroisoindole",
     "validated": false,
-    "expected_in_test": "2-methyl-2,3-dihydro-1H-isoindole",
+    "expected_in_test": "2-methyl-1,3-dihydroisoindole",
     "iupac_verdict": "our_retained",
     "iupac_note": "我々の名前が保留親骨格 'indoline' を使用。PubChem は系統的 PIN '2-methyl-1,3-dihydroisoindole' を使用",
     "iupac_source": "IUPAC 2013 P-31.1.3",
@@ -46164,6 +46164,16 @@
   "POKWIVSINQYCOZ-UHFFFAOYSA-N": {
     "inchikey": "POKWIVSINQYCOZ-UHFFFAOYSA-N",
     "smiles": "Cc1nnc2n[nH]cc2n1",
+    "not_found": true
+  },
+  "JJFUPPZOYYMAFC-UHFFFAOYSA-N": {
+    "inchikey": "JJFUPPZOYYMAFC-UHFFFAOYSA-N",
+    "smiles": "CCN1CCc2ccccc21",
+    "not_found": true
+  },
+  "MZDOARRJZYPZOJ-UHFFFAOYSA-N": {
+    "inchikey": "MZDOARRJZYPZOJ-UHFFFAOYSA-N",
+    "smiles": "Cc1ccccc1N1CCc2ccccc21",
     "not_found": true
   }
 }

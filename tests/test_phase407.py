@@ -20,7 +20,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: indolin-2-one unchanged
     ("O=C1Cc2ccccc2N1",               "1,3-dihydroindol-2-one"),
     # regression: 1-methylindoline unchanged
-    ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydro-1H-indole"),
+    ("CN1CCc2ccccc21",                "1-methyl-2,3-dihydroindole"),
     # regression: pyrrolidine-2,5-dione unchanged
     ("O=C1CCC(=O)N1",                 "pyrrolidine-2,5-dione"),
     # regression: phthalimide unchanged
