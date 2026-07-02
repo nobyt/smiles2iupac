@@ -20,7 +20,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("Cc1ccc2ncccc2c1", "6-methylquinoline"),
     # 回帰: 単純ヘテロ芳香族
     ("Nc1ccncc1", "pyridin-4-amine"),
-    ("Oc1ccncc1", "pyridin-4-ol"),
+    ("Oc1ccncc1", "1H-pyridin-4-one"),
 ])
 def test_phase102_heteroaryl_parens_and_fused_suffix(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

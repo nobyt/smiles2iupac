@@ -825,6 +825,11 @@ def _apply_hetero_suffixes(
             mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
             stem = full_base[:-1] if (elide_e and full_base.endswith("e")) else full_base
             base_with_suffix = f"{stem}-{loc_str}-{mult}{suffix}"
+            # Phase 744: 2- and 4-hydroxypyridine/-pyrimidine prefer the lactam tautomer
+            if sub_nm == "hydroxy" and mult == "" and full_base == "pyridine" and loc_str in ("2", "4"):
+                base_with_suffix = f"1H-pyridin-{loc_str}-one"
+            elif sub_nm == "hydroxy" and mult == "" and full_base == "pyrimidine" and loc_str == "2":
+                base_with_suffix = "1H-pyrimidin-2-one"
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)

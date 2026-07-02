@@ -6,16 +6,16 @@ from src.smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # pyridinol (-ol suffix)
-    ("Oc1ccncc1", "pyridin-4-ol"),
+    ("Oc1ccncc1", "1H-pyridin-4-one"),
     ("Oc1cccnc1", "pyridin-3-ol"),
-    ("Oc1ccccn1", "pyridin-2-ol"),
+    ("Oc1ccccn1", "1H-pyridin-2-one"),
     # furanols / thiophenols
     ("Oc1ccco1", "furan-2-ol"),
     ("Oc1cccs1", "thiophen-2-ol"),
     # pyrimidinol
-    ("Oc1ncccn1", "pyrimidin-2-ol"),
+    ("Oc1ncccn1", "1H-pyrimidin-2-one"),
     # 多置換: OH が主官能基で最低ロカント
-    ("Cc1ccnc(O)c1", "4-methylpyridin-2-ol"),
+    ("Cc1ccnc(O)c1", "4-methyl-1H-pyridin-2-one"),
     # -thiol suffix (e を省略しない)
     ("Sc1ccncc1", "pyridine-4-thiol"),
     ("Sc1cccs1", "thiophene-2-thiol"),
