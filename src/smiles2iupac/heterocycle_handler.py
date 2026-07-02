@@ -864,6 +864,20 @@ def _apply_hetero_suffixes(
                         base_with_suffix = f"{stem}-{loc_str}(2H)-one"
                     elif full_base == "benzo[b][1,7]naphthyridine" and loc_str in ("1", "3"):
                         base_with_suffix = f"{stem}-{loc_str}(2H)-one"
+                    elif full_base == "benzo[b][1,5]naphthyridine" and loc_str == "2":  # Phase 771
+                        base_with_suffix = "benzo[b][1,5]naphthyridin-2(1H)-one"
+                    elif full_base == "benzo[b][1,6]naphthyridine" and loc_str == "1":  # Phase 771
+                        base_with_suffix = "benzo[b][1,6]naphthyridin-1(2H)-one"
+                    elif full_base == "benzo[b][1,6]naphthyridine" and loc_str == "3":  # Phase 771
+                        base_with_suffix = "benzo[b][1,6]naphthyridin-3(2H)-one"
+                    elif full_base == "benzo[b][1,8]naphthyridine" and loc_str == "2":  # Phase 771
+                        base_with_suffix = "benzo[b][1,8]naphthyridin-2(1H)-one"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "1":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-1(2H)-one"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "3":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-3(2H)-one"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "6":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-6(5H)-one"
                 elif full_base == "quinoline" and loc_str in ("2", "4"):
                     base_with_suffix = f"quinolin-{loc_str}(1H)-one"
                 elif full_base == "isoquinoline" and loc_str in ("1", "3"):
@@ -974,6 +988,14 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]cinnolin-5(8H)-one"
                 elif full_base == "benzo[h]cinnoline" and loc_str == "7":   # Phase 768
                     base_with_suffix = "benzo[h]cinnolin-7(10H)-one"
+                elif full_base == "benzo[f]quinoline" and loc_str == "4":  # Phase 769
+                    base_with_suffix = "benzo[f]quinolin-4(5H)-one"
+                elif full_base == "benzo[h]quinoline" and loc_str == "9":  # Phase 769
+                    base_with_suffix = "benzo[h]quinolin-9(10H)-one"
+                elif full_base == "benzo[g]quinoline" and loc_str == "2":  # Phase 769
+                    base_with_suffix = "benzo[g]quinolin-2(1H)-one"
+                elif full_base == "benzo[f]cinnoline" and loc_str == "2":  # Phase 770
+                    base_with_suffix = "benzo[f]cinnolin-2(5H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -1007,6 +1029,20 @@ def _apply_hetero_suffixes(
                         base_with_suffix = f"{stem}-{loc_str}(2H)-thione"
                     elif full_base == "benzo[b][1,7]naphthyridine" and loc_str in ("1", "3"):
                         base_with_suffix = f"{stem}-{loc_str}(2H)-thione"
+                    elif full_base == "benzo[b][1,5]naphthyridine" and loc_str == "2":  # Phase 771
+                        base_with_suffix = "benzo[b][1,5]naphthyridin-2(1H)-thione"
+                    elif full_base == "benzo[b][1,6]naphthyridine" and loc_str == "1":  # Phase 771
+                        base_with_suffix = "benzo[b][1,6]naphthyridin-1(2H)-thione"
+                    elif full_base == "benzo[b][1,6]naphthyridine" and loc_str == "3":  # Phase 771
+                        base_with_suffix = "benzo[b][1,6]naphthyridin-3(2H)-thione"
+                    elif full_base == "benzo[b][1,8]naphthyridine" and loc_str == "2":  # Phase 771
+                        base_with_suffix = "benzo[b][1,8]naphthyridin-2(1H)-thione"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "1":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-1(2H)-thione"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "3":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-3(2H)-thione"
+                    elif full_base == "benzo[c][1,6]naphthyridine" and loc_str == "6":  # Phase 771
+                        base_with_suffix = "benzo[c][1,6]naphthyridin-6(5H)-thione"
                 elif full_base == "quinoline" and loc_str in ("2", "4"):
                     base_with_suffix = f"quinolin-{loc_str}(1H)-thione"
                 elif full_base == "isoquinoline" and loc_str in ("1", "3"):
@@ -1125,6 +1161,14 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]cinnolin-5(8H)-thione"
                 elif full_base == "benzo[h]cinnoline" and loc_str == "7":   # Phase 768
                     base_with_suffix = "benzo[h]cinnolin-7(10H)-thione"
+                elif full_base == "benzo[f]quinoline" and loc_str == "4":  # Phase 769
+                    base_with_suffix = "benzo[f]quinolin-4(5H)-thione"
+                elif full_base == "benzo[h]quinoline" and loc_str == "9":  # Phase 769
+                    base_with_suffix = "benzo[h]quinolin-9(10H)-thione"
+                elif full_base == "benzo[g]quinoline" and loc_str == "2":  # Phase 769
+                    base_with_suffix = "benzo[g]quinolin-2(1H)-thione"
+                elif full_base == "benzo[f]cinnoline" and loc_str == "2":  # Phase 770
+                    base_with_suffix = "benzo[f]cinnolin-2(5H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
