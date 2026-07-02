@@ -960,6 +960,16 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]isoquinolin-3(2H)-one"
                 elif full_base == "benzo[g]quinoxaline" and loc_str == "6":   # Phase 766
                     base_with_suffix = "benzo[g]quinoxalin-6(5H)-one"
+                elif full_base == "benzo[f]quinoxaline" and loc_str == "3":  # Phase 767
+                    base_with_suffix = "benzo[f]quinoxalin-3(2H)-one"
+                elif full_base == "benzo[f]quinoxaline" and loc_str == "4":  # Phase 767
+                    base_with_suffix = "benzo[f]quinoxalin-4(5H)-one"
+                elif full_base == "benzo[g]phthalazine" and loc_str == "5":  # Phase 767
+                    base_with_suffix = "benzo[g]phthalazin-5(6H)-one"
+                elif full_base == "benzo[f]phthalazine" and loc_str == "5":  # Phase 767
+                    base_with_suffix = "benzo[f]phthalazin-5(4H)-one"
+                elif full_base == "benzo[f]phthalazine" and loc_str == "2":  # Phase 767
+                    base_with_suffix = "benzo[f]phthalazin-2(3H)-one"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "2":
@@ -1097,6 +1107,16 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "benzo[g]isoquinolin-3(2H)-thione"
                 elif full_base == "benzo[g]quinoxaline" and loc_str == "6":   # Phase 766
                     base_with_suffix = "benzo[g]quinoxalin-6(5H)-thione"
+                elif full_base == "benzo[f]quinoxaline" and loc_str == "3":  # Phase 767
+                    base_with_suffix = "benzo[f]quinoxalin-3(2H)-thione"
+                elif full_base == "benzo[f]quinoxaline" and loc_str == "4":  # Phase 767
+                    base_with_suffix = "benzo[f]quinoxalin-4(5H)-thione"
+                elif full_base == "benzo[g]phthalazine" and loc_str == "5":  # Phase 767
+                    base_with_suffix = "benzo[g]phthalazin-5(6H)-thione"
+                elif full_base == "benzo[f]phthalazine" and loc_str == "5":  # Phase 767
+                    base_with_suffix = "benzo[f]phthalazin-5(4H)-thione"
+                elif full_base == "benzo[f]phthalazine" and loc_str == "2":  # Phase 767
+                    base_with_suffix = "benzo[f]phthalazin-2(3H)-thione"
                 elif full_base == "9H-purine" and loc_str == "2":
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
