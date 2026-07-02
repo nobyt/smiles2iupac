@@ -1,6 +1,6 @@
 """Phase 559: Substituted acridine naming.
 Acridine has C2v symmetry (C1≡C8, C2≡C7, C3≡C6, C4≡C5); preferred IUPAC
-name uses the lower locant. C9 is the unique central-ring carbon adjacent to N.
+name uses the lower locant. C9 is the unique central-ring carbon gamma to N10.
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -16,8 +16,8 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2cc3ccccc3nc2c1",   "2-methylacridine"),
     ("Cc1ccc2nc3ccccc3cc2c1",   "3-methylacridine"),
     ("Cc1cccc2nc3ccccc3cc12",   "4-methylacridine"),
-    # hydroxy and amino at C9 (common in acridine dyes/drugs)
-    ("Oc1c2ccccc2nc2ccccc12",   "acridin-9-ol"),
+    # hydroxy at C9 converts to lactam (Phase 761: gamma tautomer)
+    ("Oc1c2ccccc2nc2ccccc12",   "acridin-9(10H)-one"),
     ("Nc1c2ccccc2nc2ccccc12",   "acridin-9-amine"),
 ])
 def test_phase559_acridine(smiles, expected):
