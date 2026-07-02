@@ -32,7 +32,7 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)[nH]c1ccccc12", "2-methyl-9H-carbazole"),
     ("Cc1ccc2[nH]c3ccccc3c2c1",   "3-methyl-9H-carbazole"),
     ("Cc1cccc2[nH]c3ccccc3c12",   "4-methyl-9H-carbazole"),
-    ("Cn1c2ccccc2c2ccccc21",       "9-methyl-9H-carbazole"),
+    ("Cn1c2ccccc2c2ccccc21",       "9-methylcarbazole"),
     # phenothiazine (C2v symmetry; N at 10, S bridging; 1=9, 2=8, 3=7, 4=6)
     ("c1ccc2c(c1)Nc1ccccc1S2",    "10H-phenothiazine"),
     ("Cc1cccc2c1Nc1ccccc1S2",     "1-methyl-10H-phenothiazine"),

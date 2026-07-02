@@ -3129,6 +3129,10 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
 
     if not substituents:
         return base_name
+    # Phase 739: drop indicated-H prefix when the N-H position is N-substituted
+    # (e.g. 9H-carbazole + methyl at N9 → carbazole, not 9H-carbazole)
+    if base_name == "9H-carbazole" and any(loc == 9 for loc, _ in substituents):
+        base_name = "carbazole"
     return _apply_hetero_suffixes(base_name, substituents)
 
 

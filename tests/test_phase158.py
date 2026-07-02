@@ -20,7 +20,7 @@ from src.smiles2iupac import smiles_to_iupac
     ("c1ccc2sccc2c1",       "benzo[b]thiophene"),
     # 9H-carbazole (Phase 158 拡張)
     ("c1ccc2[nH]c3ccccc3c2c1",   "9H-carbazole"),
-    ("Cn1c2ccccc2c2ccccc21",     "9-methyl-9H-carbazole"),
+    ("Cn1c2ccccc2c2ccccc21",     "9-methylcarbazole"),
     # 回帰
     ("c1ccc2ncccc2c1",      "quinoline"),
     ("c1ccc2occc2c1",       "1-benzofuran"),
