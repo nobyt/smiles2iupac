@@ -833,6 +833,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "quinazoline-2,4(1H,3H)-dione"
                 elif full_base == "quinoxaline" and loc_str == "2,3":
                     base_with_suffix = "quinoxaline-2,3(1H,4H)-dione"
+                elif full_base == "phthalazine" and loc_str == "1,4":
+                    base_with_suffix = "phthalazine-1,4(2H,3H)-dione"
             elif sub_nm == "hydroxy" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"1H-pyridin-{loc_str}-one"
@@ -872,6 +874,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-benzimidazol-2(3H)-one"
                 elif full_base == "1,3,5-triazine" and loc_str == "2":
                     base_with_suffix = "1,3,5-triazin-2(1H)-one"
+                elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
+                    base_with_suffix = "1,2,4,5-tetrazin-3(2H)-one"
                 elif full_base == "1H-imidazole" and loc_str == "2":
                     base_with_suffix = "1H-imidazol-2(3H)-one"
                 elif full_base == "1H-pyrazole" and loc_str == "3":
@@ -902,6 +906,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "quinazoline-2,4(1H,3H)-dithione"
                 elif full_base == "quinoxaline" and loc_str == "2,3":
                     base_with_suffix = "quinoxaline-2,3(1H,4H)-dithione"
+                elif full_base == "phthalazine" and loc_str == "1,4":
+                    base_with_suffix = "phthalazine-1,4(2H,3H)-dithione"
             elif sub_nm == "sulfanyl" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"pyridin-{loc_str}(1H)-thione"
@@ -945,6 +951,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrazol-3(2H)-thione"
                 elif full_base == "1,3-oxazole" and loc_str == "2":
                     base_with_suffix = "1,3-oxazol-2(3H)-thione"
+                elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
+                    base_with_suffix = "1,2,4,5-tetrazin-3(2H)-thione"
                 elif full_base == "1,3-thiazole" and loc_str == "2":
                     base_with_suffix = "1,3-thiazol-2(3H)-thione"
                 elif full_base == "9H-purine" and loc_str == "6":
