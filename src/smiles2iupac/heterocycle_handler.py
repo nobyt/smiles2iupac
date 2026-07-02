@@ -904,6 +904,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "9H-purin-6(1H)-one"
                 elif full_base == "7H-purine" and loc_str == "6":
                     base_with_suffix = "7H-purin-6(1H)-one"
+                elif full_base == "1,2,4-triazine" and loc_str == "3":  # Phase 774
+                    base_with_suffix = "1,2,4-triazin-3(2H)-one"
                 elif full_base == "1,2,4-triazine" and loc_str == "6":
                     base_with_suffix = "1,2,4-triazin-6(1H)-one"
                 elif full_base == "1,2,4-triazine" and loc_str == "5":
@@ -1091,6 +1093,8 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "9H-purin-6(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "6":
                     base_with_suffix = "7H-purin-6(1H)-thione"
+                elif full_base == "1,2,4-triazine" and loc_str == "3":  # Phase 774
+                    base_with_suffix = "1,2,4-triazin-3(2H)-thione"
                 elif full_base == "1,2,4-triazine" and loc_str == "6":
                     base_with_suffix = "1,2,4-triazin-6(1H)-thione"
                 elif full_base == "1,2,4-triazine" and loc_str == "5":
