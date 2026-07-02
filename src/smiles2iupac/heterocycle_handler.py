@@ -825,8 +825,11 @@ def _apply_hetero_suffixes(
             mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
             stem = full_base[:-1] if (elide_e and full_base.endswith("e")) else full_base
             base_with_suffix = f"{stem}-{loc_str}-{mult}{suffix}"
-            # Phase 744/745/746/747: α/γ-hydroxy N-heterocycles prefer the lactam tautomer
-            if sub_nm == "hydroxy" and mult == "":
+            # Phase 744–752: α/γ-hydroxy N-heterocycles prefer the lactam tautomer
+            if sub_nm == "hydroxy" and mult == "di":
+                if full_base == "pyrimidine" and loc_str == "2,4":
+                    base_with_suffix = "pyrimidine-2,4(1H,3H)-dione"
+            elif sub_nm == "hydroxy" and mult == "":
                 if full_base == "pyridine" and loc_str in ("2", "4"):
                     base_with_suffix = f"1H-pyridin-{loc_str}-one"
                 elif full_base == "pyrimidine" and loc_str == "2":
