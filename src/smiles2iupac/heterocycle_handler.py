@@ -1058,6 +1058,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrazolo[5,4-d]pyrimidin-4(3H)-one"
                 elif full_base == "1H-pyrazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 788
                     base_with_suffix = "1H-pyrazolo[5,4-d]pyrimidin-6(5H)-one"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "3":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-3(2H)-one"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "5":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-5(4H)-one"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "6":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-6(5H)-one"
                 elif full_base == "1,3,5-triazine" and loc_str == "2":
                     base_with_suffix = "1,3,5-triazin-2(1H)-one"
                 elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
@@ -1419,6 +1425,12 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrazolo[5,4-d]pyrimidin-4(3H)-thione"
                 elif full_base == "1H-pyrazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 788
                     base_with_suffix = "1H-pyrazolo[5,4-d]pyrimidin-6(5H)-thione"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "3":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-3(2H)-thione"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "5":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-5(4H)-thione"
+                elif full_base == "1H-pyrazolo[4,5-e]pyrazine" and loc_str == "6":  # Phase 789
+                    base_with_suffix = "1H-pyrazolo[4,5-e]pyrazin-6(5H)-thione"
                 elif full_base == "1H-imidazole" and loc_str == "2":
                     base_with_suffix = "1H-imidazol-2(3H)-thione"
                 elif full_base == "1H-pyrazole" and loc_str == "3":
