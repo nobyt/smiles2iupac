@@ -1212,6 +1212,38 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "pyrazolo[1,5-a]pyrazin-6(6H)-one"
                 elif full_base == "pyrazolo[1,5-a]pyrazine" and loc_str == "7":  # Phase 804
                     base_with_suffix = "pyrazolo[1,5-a]pyrazin-7(6H)-one"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "2":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-2(2H)-one"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "5":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-5(1H)-one"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "6":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-6(4H)-one"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "8":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-8(5H)-one"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "1":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-1(1H)-one"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "3":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-3(3H)-one"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "4":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-4(1H)-one"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "6":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-6(2H)-one"
+                elif full_base == "pyrrolo[1,2-b]pyridazine" and loc_str == "2":  # Phase 807
+                    base_with_suffix = "pyrrolo[1,2-b]pyridazin-2(1H)-one"
+                elif full_base == "pyrrolo[1,2-b]pyridazine" and loc_str == "7":  # Phase 807
+                    base_with_suffix = "pyrrolo[1,2-b]pyridazin-7(1H)-one"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "3":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-3(2H)-one"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "5":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-5(1H)-one"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "6":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-6(4H)-one"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "8":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-8(5H)-one"
+                elif full_base == "[1,2,3]triazolo[1,5-a]pyridine" and loc_str == "3":  # Phase 809
+                    base_with_suffix = "[1,2,3]triazolo[1,5-a]pyridin-3(5H)-one"
+                elif full_base == "[1,2,3]triazolo[1,5-a]pyridine" and loc_str == "7":  # Phase 809
+                    base_with_suffix = "[1,2,3]triazolo[1,5-a]pyridin-7(1H)-one"
                 elif full_base == "1,3,5-triazine" and loc_str == "2":
                     base_with_suffix = "1,3,5-triazin-2(1H)-one"
                 elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
@@ -1727,6 +1759,38 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "pyrazolo[1,5-a]pyrazin-6(6H)-thione"
                 elif full_base == "pyrazolo[1,5-a]pyrazine" and loc_str == "7":  # Phase 804
                     base_with_suffix = "pyrazolo[1,5-a]pyrazin-7(6H)-thione"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "2":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-2(2H)-thione"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "5":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-5(1H)-thione"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "6":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-6(4H)-thione"
+                elif full_base == "[1,2,4]triazolo[1,5-a]pyrazine" and loc_str == "8":  # Phase 805
+                    base_with_suffix = "[1,2,4]triazolo[1,5-a]pyrazin-8(5H)-thione"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "1":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-1(1H)-thione"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "3":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-3(3H)-thione"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "4":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-4(1H)-thione"
+                elif full_base == "pyrrolo[1,2-a]pyrazine" and loc_str == "6":  # Phase 806
+                    base_with_suffix = "pyrrolo[1,2-a]pyrazin-6(2H)-thione"
+                elif full_base == "pyrrolo[1,2-b]pyridazine" and loc_str == "2":  # Phase 807
+                    base_with_suffix = "pyrrolo[1,2-b]pyridazin-2(1H)-thione"
+                elif full_base == "pyrrolo[1,2-b]pyridazine" and loc_str == "7":  # Phase 807
+                    base_with_suffix = "pyrrolo[1,2-b]pyridazin-7(1H)-thione"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "3":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-3(2H)-thione"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "5":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-5(1H)-thione"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "6":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-6(4H)-thione"
+                elif full_base == "[1,2,4]triazolo[4,3-a]pyrazine" and loc_str == "8":  # Phase 808
+                    base_with_suffix = "[1,2,4]triazolo[4,3-a]pyrazin-8(5H)-thione"
+                elif full_base == "[1,2,3]triazolo[1,5-a]pyridine" and loc_str == "3":  # Phase 809
+                    base_with_suffix = "[1,2,3]triazolo[1,5-a]pyridin-3(5H)-thione"
+                elif full_base == "[1,2,3]triazolo[1,5-a]pyridine" and loc_str == "7":  # Phase 809
+                    base_with_suffix = "[1,2,3]triazolo[1,5-a]pyridin-7(1H)-thione"
                 elif full_base == "1H-imidazole" and loc_str == "2":
                     base_with_suffix = "1H-imidazol-2(3H)-thione"
                 elif full_base == "1H-pyrazole" and loc_str == "3":
