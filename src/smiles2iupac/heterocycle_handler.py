@@ -976,6 +976,28 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrrolo[2,3-b]pyridin-2(3H)-one"
                 elif full_base == "1H-pyrrolo[2,3-b]pyridine" and loc_str == "6":  # Phase 783
                     base_with_suffix = "1H-pyrrolo[2,3-b]pyridin-6(5H)-one"
+                elif full_base == "thieno[2,3-d]pyrimidine" and loc_str == "2":  # Phase 784
+                    base_with_suffix = "thieno[2,3-d]pyrimidin-2(1H)-one"
+                elif full_base == "thieno[2,3-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "thieno[2,3-d]pyrimidin-4(3H)-one"
+                elif full_base == "furo[2,3-d]pyrimidine" and loc_str == "2":  # Phase 784
+                    base_with_suffix = "furo[2,3-d]pyrimidin-2(1H)-one"
+                elif full_base == "furo[2,3-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "furo[2,3-d]pyrimidin-4(3H)-one"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "3":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-3(4H)-one"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-4(3H)-one"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-6(5H)-one"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "3":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-3(4H)-one"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-4(3H)-one"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-6(5H)-one"
+                elif full_base == "thieno[3,2-b]pyridine" and loc_str == "5":  # Phase 784
+                    base_with_suffix = "thieno[3,2-b]pyridin-5(4H)-one"
                 elif full_base == "1,3,5-triazine" and loc_str == "2":
                     base_with_suffix = "1,3,5-triazin-2(1H)-one"
                 elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
@@ -1255,6 +1277,28 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "1H-pyrrolo[2,3-b]pyridin-2(3H)-thione"
                 elif full_base == "1H-pyrrolo[2,3-b]pyridine" and loc_str == "6":  # Phase 783
                     base_with_suffix = "1H-pyrrolo[2,3-b]pyridin-6(5H)-thione"
+                elif full_base == "thieno[2,3-d]pyrimidine" and loc_str == "2":  # Phase 784
+                    base_with_suffix = "thieno[2,3-d]pyrimidin-2(1H)-thione"
+                elif full_base == "thieno[2,3-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "thieno[2,3-d]pyrimidin-4(3H)-thione"
+                elif full_base == "furo[2,3-d]pyrimidine" and loc_str == "2":  # Phase 784
+                    base_with_suffix = "furo[2,3-d]pyrimidin-2(1H)-thione"
+                elif full_base == "furo[2,3-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "furo[2,3-d]pyrimidin-4(3H)-thione"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "3":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-3(4H)-thione"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-4(3H)-thione"
+                elif full_base == "isothiazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 784
+                    base_with_suffix = "isothiazolo[5,4-d]pyrimidin-6(5H)-thione"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "3":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-3(4H)-thione"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "4":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-4(3H)-thione"
+                elif full_base == "isoxazolo[5,4-d]pyrimidine" and loc_str == "6":  # Phase 784
+                    base_with_suffix = "isoxazolo[5,4-d]pyrimidin-6(5H)-thione"
+                elif full_base == "thieno[3,2-b]pyridine" and loc_str == "5":  # Phase 784
+                    base_with_suffix = "thieno[3,2-b]pyridin-5(4H)-thione"
                 elif full_base == "1H-imidazole" and loc_str == "2":
                     base_with_suffix = "1H-imidazol-2(3H)-thione"
                 elif full_base == "1H-pyrazole" and loc_str == "3":
