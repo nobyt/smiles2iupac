@@ -1018,6 +1018,24 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "thieno[3,2-d]pyrimidin-2(1H)-one"
                 elif full_base == "thieno[3,2-d]pyrimidine" and loc_str == "4":  # Phase 785
                     base_with_suffix = "thieno[3,2-d]pyrimidin-4(3H)-one"
+                elif full_base == "furo[3,2-d]pyrimidine" and loc_str == "2":  # Phase 786
+                    base_with_suffix = "furo[3,2-d]pyrimidin-2(1H)-one"
+                elif full_base == "furo[3,2-d]pyrimidine" and loc_str == "4":  # Phase 786
+                    base_with_suffix = "furo[3,2-d]pyrimidin-4(3H)-one"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "3":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-3(2H)-one"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "5":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-5(4H)-one"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "7":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-7(6H)-one"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "3":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-3(2H)-one"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "5":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-5(4H)-one"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "7":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-7(6H)-one"
+                elif full_base == "1H-indole" and loc_str == "2":  # Phase 786
+                    base_with_suffix = "1H-indol-2(3H)-one"
                 elif full_base == "1,3,5-triazine" and loc_str == "2":
                     base_with_suffix = "1,3,5-triazin-2(1H)-one"
                 elif full_base == "1,2,4,5-tetrazine" and loc_str == "3":
@@ -1339,6 +1357,24 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "thieno[3,2-d]pyrimidin-2(1H)-thione"
                 elif full_base == "thieno[3,2-d]pyrimidine" and loc_str == "4":  # Phase 785
                     base_with_suffix = "thieno[3,2-d]pyrimidin-4(3H)-thione"
+                elif full_base == "furo[3,2-d]pyrimidine" and loc_str == "2":  # Phase 786
+                    base_with_suffix = "furo[3,2-d]pyrimidin-2(1H)-thione"
+                elif full_base == "furo[3,2-d]pyrimidine" and loc_str == "4":  # Phase 786
+                    base_with_suffix = "furo[3,2-d]pyrimidin-4(3H)-thione"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "3":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-3(2H)-thione"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "5":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-5(4H)-thione"
+                elif full_base == "isothiazolo[4,5-d]pyrimidine" and loc_str == "7":  # Phase 786
+                    base_with_suffix = "isothiazolo[4,5-d]pyrimidin-7(6H)-thione"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "3":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-3(2H)-thione"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "5":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-5(4H)-thione"
+                elif full_base == "isoxazolo[4,5-d]pyrimidine" and loc_str == "7":  # Phase 786
+                    base_with_suffix = "isoxazolo[4,5-d]pyrimidin-7(6H)-thione"
+                elif full_base == "1H-indole" and loc_str == "2":  # Phase 786
+                    base_with_suffix = "1H-indol-2(3H)-thione"
                 elif full_base == "1H-imidazole" and loc_str == "2":
                     base_with_suffix = "1H-imidazol-2(3H)-thione"
                 elif full_base == "1H-pyrazole" and loc_str == "3":
