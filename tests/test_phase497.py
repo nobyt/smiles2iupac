@@ -8,7 +8,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     ("c1cc2[nH]nncc-2n1",  "1H-pyrrolo[3,2-d][1,2,3]triazine"),
     ("c1ncc2[nH]nncc1-2",  "1H-pyrrolo[3,4-d][1,2,3]triazine"),
-    ("c1cc2cnnnc2[nH]1",  "1H-pyrrolo[2,3-d][1,2,3]triazine"),
+    ("c1cc2cnnnc2[nH]1",  "7H-pyrrolo[2,3-d][1,2,3]triazine"),
     ("c1nnnc2nn[nH]c12",  "1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine"),
     ("c1nnnc2[nH]nnc12",  "1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine"),
     ("c1nnnc2n[nH]nc12",  "2H-[1,2,3]triazolo[4,5-d][1,2,3]triazine"),

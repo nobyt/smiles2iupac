@@ -8,12 +8,12 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 1H-imidazo[4,5-c]pyridine (CH at 2,4,6,7)
-    ("c1cc2nc[nH]c2cn1",  "1H-imidazo[4,5-c]pyridine"),
-    ("Cc1nc2ccncc2[nH]1", "2-methyl-1H-imidazo[4,5-c]pyridine"),
-    ("Cc1nccc2nc[nH]c12", "4-methyl-1H-imidazo[4,5-c]pyridine"),
-    ("Cc1cc2nc[nH]c2cn1", "6-methyl-1H-imidazo[4,5-c]pyridine"),
-    ("Cc1cncc2[nH]cnc12", "7-methyl-1H-imidazo[4,5-c]pyridine"),
+    # 3H-imidazo[4,5-c]pyridine (NH at N3; Phase 838 correction)
+    ("c1cc2nc[nH]c2cn1",  "3H-imidazo[4,5-c]pyridine"),
+    ("Cc1nc2ccncc2[nH]1", "2-methyl-3H-imidazo[4,5-c]pyridine"),
+    ("Cc1nccc2nc[nH]c12", "4-methyl-3H-imidazo[4,5-c]pyridine"),
+    ("Cc1cc2nc[nH]c2cn1", "6-methyl-3H-imidazo[4,5-c]pyridine"),
+    ("Cc1cncc2[nH]cnc12", "7-methyl-3H-imidazo[4,5-c]pyridine"),
     # 1H-pyrazolo[3,4-c]pyridine (CH at 3,4,5,7)
     ("c1cc2c[nH]nc2cn1",  "1H-pyrazolo[3,4-c]pyridine"),
     ("Cc1[nH]nc2cnccc12", "3-methyl-1H-pyrazolo[3,4-c]pyridine"),

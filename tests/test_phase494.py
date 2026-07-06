@@ -13,7 +13,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1nncc2n[nH]cc12",  "1H-pyrazolo[3,4-d]pyridazine"),
     ("c1cc2cnncc2[nH]1",  "1H-pyrrolo[2,3-d]pyridazine"),
     ("c1cc2cncc-2[nH]n1",  "1H-pyrrolo[3,4-c]pyridazine"),
-    ("c1cc2cc[nH]c2nn1",  "1H-pyrrolo[2,3-c]pyridazine"),
+    ("c1cc2cc[nH]c2nn1",  "7H-pyrrolo[2,3-c]pyridazine"),
 ])
 def test_phase494_pyridazine_nh_fusions(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

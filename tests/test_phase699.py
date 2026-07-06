@@ -6,11 +6,11 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 1H-pyrrolo[2,3-d][1,2,3]triazine (CH at 4,5,6)
-    ("c1cc2cnnnc2[nH]1",    "1H-pyrrolo[2,3-d][1,2,3]triazine"),
-    ("Cc1nnnc2[nH]ccc12",   "4-methyl-1H-pyrrolo[2,3-d][1,2,3]triazine"),
-    ("Cc1c[nH]c2nnncc12",   "5-methyl-1H-pyrrolo[2,3-d][1,2,3]triazine"),
-    ("Cc1cc2cnnnc2[nH]1",   "6-methyl-1H-pyrrolo[2,3-d][1,2,3]triazine"),
+    # 7H-pyrrolo[2,3-d][1,2,3]triazine (NH at N7; Phase 838 correction)
+    ("c1cc2cnnnc2[nH]1",    "7H-pyrrolo[2,3-d][1,2,3]triazine"),
+    ("Cc1nnnc2[nH]ccc12",   "4-methyl-7H-pyrrolo[2,3-d][1,2,3]triazine"),
+    ("Cc1c[nH]c2nnncc12",   "5-methyl-7H-pyrrolo[2,3-d][1,2,3]triazine"),
+    ("Cc1cc2cnnnc2[nH]1",   "6-methyl-7H-pyrrolo[2,3-d][1,2,3]triazine"),
     # 1H-pyrrolo[3,2-d][1,2,3]triazine (CH at 4,6,7)
     ("c1cc2[nH]nncc-2n1",   "1H-pyrrolo[3,2-d][1,2,3]triazine"),
     ("Cc1nn[nH]c2ccnc1-2",  "4-methyl-1H-pyrrolo[3,2-d][1,2,3]triazine"),
@@ -21,11 +21,11 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1n[nH]c2ccnc-2n1",  "3-methyl-1H-pyrrolo[2,3-e][1,2,4]triazine"),
     ("Cc1cc2[nH]ncnc-2n1",  "6-methyl-1H-pyrrolo[2,3-e][1,2,4]triazine"),
     ("Cc1cnc2ncn[nH]c1-2",  "7-methyl-1H-pyrrolo[2,3-e][1,2,4]triazine"),
-    # 1H-pyrrolo[3,2-e][1,2,4]triazine (CH at 3,5,6)
-    ("c1nnc2[nH]ccc2n1",    "1H-pyrrolo[3,2-e][1,2,4]triazine"),
-    ("Cc1nnc2[nH]ccc2n1",   "3-methyl-1H-pyrrolo[3,2-e][1,2,4]triazine"),
-    ("Cc1c[nH]c2nncnc12",   "5-methyl-1H-pyrrolo[3,2-e][1,2,4]triazine"),
-    ("Cc1cc2ncnnc2[nH]1",   "6-methyl-1H-pyrrolo[3,2-e][1,2,4]triazine"),
+    # 7H-pyrrolo[3,2-e][1,2,4]triazine (NH at N7; Phase 838 correction)
+    ("c1nnc2[nH]ccc2n1",    "7H-pyrrolo[3,2-e][1,2,4]triazine"),
+    ("Cc1nnc2[nH]ccc2n1",   "3-methyl-7H-pyrrolo[3,2-e][1,2,4]triazine"),
+    ("Cc1c[nH]c2nncnc12",   "5-methyl-7H-pyrrolo[3,2-e][1,2,4]triazine"),
+    ("Cc1cc2ncnnc2[nH]1",   "6-methyl-7H-pyrrolo[3,2-e][1,2,4]triazine"),
     # 1H-pyrrolo[3,4-d]pyrimidine (CH at 2,4,5,7)
     ("c1ncc2cncc-2[nH]1",   "1H-pyrrolo[3,4-d]pyrimidine"),
     ("Cc1ncc2cncc-2[nH]1",  "2-methyl-1H-pyrrolo[3,4-d]pyrimidine"),

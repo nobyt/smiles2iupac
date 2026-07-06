@@ -18,14 +18,14 @@ from smiles2iupac import smiles_to_iupac
     ("[H]Sc1nn[nH]c2ccnc1-2",    "1H-pyrrolo[3,2-d][1,2,3]triazin-4(4H)-thione"),
     ("[H]Oc1cc2[nH]nncc-2n1",    "1H-pyrrolo[3,2-d][1,2,3]triazin-6(1H)-one"),
     ("[H]Sc1cc2[nH]nncc-2n1",    "1H-pyrrolo[3,2-d][1,2,3]triazin-6(1H)-thione"),
-    ("[H]Oc1nnc2[nH]ccc2n1",      "1H-pyrrolo[3,2-e][1,2,4]triazin-3(1H)-one"),
-    ("[H]Sc1nnc2[nH]ccc2n1",      "1H-pyrrolo[3,2-e][1,2,4]triazin-3(1H)-thione"),
-    ("[H]Oc1cc2ncnnc2[nH]1",      "1H-pyrrolo[3,2-e][1,2,4]triazin-6(1H)-one"),
-    ("[H]Sc1cc2ncnnc2[nH]1",      "1H-pyrrolo[3,2-e][1,2,4]triazin-6(1H)-thione"),
+    ("[H]Oc1nnc2[nH]ccc2n1",      "3H-pyrrolo[3,2-e][1,2,4]triazin-3(7H)-one"),
+    ("[H]Sc1nnc2[nH]ccc2n1",      "3H-pyrrolo[3,2-e][1,2,4]triazin-3(7H)-thione"),
+    ("[H]Oc1cc2ncnnc2[nH]1",      "4H-pyrrolo[3,2-e][1,2,4]triazin-6(7H)-one"),
+    ("[H]Sc1cc2ncnnc2[nH]1",      "4H-pyrrolo[3,2-e][1,2,4]triazin-6(7H)-thione"),
     ("c1cc2nccc-2[nH]n1",          "1H-pyrrolo[3,2-c]pyridazine"),
     ("c1cc2[nH]cncc-2n1",          "1H-pyrrolo[3,2-d]pyrimidine"),
     ("c1cc2[nH]nncc-2n1",          "1H-pyrrolo[3,2-d][1,2,3]triazine"),
-    ("c1nnc2[nH]ccc2n1",           "1H-pyrrolo[3,2-e][1,2,4]triazine"),
+    ("c1nnc2[nH]ccc2n1",           "7H-pyrrolo[3,2-e][1,2,4]triazine"),
 ])
 def test_phase830(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

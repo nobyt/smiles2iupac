@@ -6,12 +6,12 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # 1H-pyrrolo[2,3-d]pyrimidine (CH at 2,4,5,6)
-    ("c1ncc2cc[nH]c2n1",    "1H-pyrrolo[2,3-d]pyrimidine"),
-    ("Cc1ncc2cc[nH]c2n1",   "2-methyl-1H-pyrrolo[2,3-d]pyrimidine"),
-    ("Cc1ncnc2[nH]ccc12",   "4-methyl-1H-pyrrolo[2,3-d]pyrimidine"),
-    ("Cc1c[nH]c2ncncc12",   "5-methyl-1H-pyrrolo[2,3-d]pyrimidine"),
-    ("Cc1cc2cncnc2[nH]1",   "6-methyl-1H-pyrrolo[2,3-d]pyrimidine"),
+    # 7H-pyrrolo[2,3-d]pyrimidine (NH at N7; Phase 838 correction)
+    ("c1ncc2cc[nH]c2n1",    "7H-pyrrolo[2,3-d]pyrimidine"),
+    ("Cc1ncc2cc[nH]c2n1",   "2-methyl-7H-pyrrolo[2,3-d]pyrimidine"),
+    ("Cc1ncnc2[nH]ccc12",   "4-methyl-7H-pyrrolo[2,3-d]pyrimidine"),
+    ("Cc1c[nH]c2ncncc12",   "5-methyl-7H-pyrrolo[2,3-d]pyrimidine"),
+    ("Cc1cc2cncnc2[nH]1",   "6-methyl-7H-pyrrolo[2,3-d]pyrimidine"),
     # 1H-pyrrolo[3,2-d]pyrimidine (CH at 2,4,6,7)
     ("c1cc2[nH]cncc-2n1",   "1H-pyrrolo[3,2-d]pyrimidine"),
     ("Cc1ncc2nccc-2[nH]1",  "2-methyl-1H-pyrrolo[3,2-d]pyrimidine"),

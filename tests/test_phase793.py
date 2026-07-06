@@ -39,7 +39,7 @@ from smiles2iupac import smiles_to_iupac
     # Regressions: parent rings unchanged
     ("c1cncc2[nH]ncc12",   "1H-pyrazolo[5,4-c]pyridine"),
     ("c1cncc2cn[nH]c12",   "1H-pyrazolo[4,5-c]pyridine"),
-    ("c1cncc2[nH]cnc12",   "1H-imidazo[4,5-c]pyridine"),
+    ("c1cncc2[nH]cnc12",   "3H-imidazo[4,5-c]pyridine"),
 ])
 def test_phase793_pyrazolo_imidazo_pyridine_tautomers(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

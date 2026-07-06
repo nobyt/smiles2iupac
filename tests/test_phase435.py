@@ -11,8 +11,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1c[nH]c2ccnc-2n1",           "1H-pyrrolo[2,3-e]pyrazine"),
     # 1H-pyrazolo[4,5-e]pyrazine (corrected Phase 473/474: [4,5]<[5,4] preferred)
     ("c1cnc2[nH]ncc2n1",           "1H-pyrazolo[4,5-e]pyrazine"),
-    # 1H-imidazo[4,5-c]pyridine
-    ("c1cc2nc[nH]c2cn1",           "1H-imidazo[4,5-c]pyridine"),
+    # 3H-imidazo[4,5-c]pyridine (NH at N3; Phase 838 correction)
+    ("c1cc2nc[nH]c2cn1",           "3H-imidazo[4,5-c]pyridine"),
     # thieno[2,3-e]pyrazine (corrected Phase 473)
     ("c1cnc2sccc2n1",              "thieno[2,3-e]pyrazine"),
     # regression: 1H-pyrrolo[2,3-b]pyridine unchanged (Phase 255)

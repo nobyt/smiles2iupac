@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1cc2oncc2nn1",    "isoxazolo[4,5-c]pyridazine"),
     ("c1cc2nocc2nn1",    "isoxazolo[4,3-c]pyridazine"),
     # imidazo-c-pyridazine
-    ("c1cc2[nH]cnc2nn1", "1H-imidazo[4,5-c]pyridazine"),
+    ("c1cc2[nH]cnc2nn1", "5H-imidazo[4,5-c]pyridazine"),
     # [1,2,3]triazolo-c-pyridazine isomers
     ("c1cc2[nH]nnc2nn1", "1H-[1,2,3]triazolo[4,5-c]pyridazine"),
     ("c1cc2n[nH]nc2nn1", "2H-[1,2,3]triazolo[4,5-c]pyridazine"),

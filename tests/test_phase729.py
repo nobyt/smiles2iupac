@@ -33,18 +33,18 @@ from smiles2iupac import smiles_to_iupac
     ("c1nc2cnncc2[nH]1",        "1H-imidazo[4,5-d]pyridazine"),
     ("Cc1nc2cnncc2[nH]1",       "2-methyl-1H-imidazo[4,5-d]pyridazine"),
     ("Cc1nncc2[nH]cnc12",       "4-methyl-1H-imidazo[4,5-d]pyridazine"),
-    # 1H-imidazo[4,5-d][1,2,3]triazine (CH at 4,6)
-    ("c1nc2nnncc2[nH]1",        "1H-imidazo[4,5-d][1,2,3]triazine"),
-    ("Cc1nnnc2nc[nH]c12",       "4-methyl-1H-imidazo[4,5-d][1,2,3]triazine"),
-    ("Cc1nc2nnncc2[nH]1",       "6-methyl-1H-imidazo[4,5-d][1,2,3]triazine"),
-    # 1H-imidazo[5,4-d][1,2,3]triazine (CH at 4,6)
-    ("c1nc2cnnnc2[nH]1",        "1H-imidazo[5,4-d][1,2,3]triazine"),
-    ("Cc1nnnc2[nH]cnc12",       "4-methyl-1H-imidazo[5,4-d][1,2,3]triazine"),
-    ("Cc1nc2cnnnc2[nH]1",       "6-methyl-1H-imidazo[5,4-d][1,2,3]triazine"),
-    # 1H-imidazo[4,5-e][1,2,4]triazine (CH at 3,6)
-    ("c1nnc2[nH]cnc2n1",        "1H-imidazo[4,5-e][1,2,4]triazine"),
-    ("Cc1nnc2[nH]cnc2n1",       "3-methyl-1H-imidazo[4,5-e][1,2,4]triazine"),
-    ("Cc1nc2ncnnc2[nH]1",       "6-methyl-1H-imidazo[4,5-e][1,2,4]triazine"),
+    # 5H-imidazo[4,5-d][1,2,3]triazine (NH at N5; Phase 838 correction)
+    ("c1nc2nnncc2[nH]1",        "5H-imidazo[4,5-d][1,2,3]triazine"),
+    ("Cc1nnnc2nc[nH]c12",       "4-methyl-5H-imidazo[4,5-d][1,2,3]triazine"),
+    ("Cc1nc2nnncc2[nH]1",       "6-methyl-5H-imidazo[4,5-d][1,2,3]triazine"),
+    # 7H-imidazo[4,5-d][1,2,3]triazine (NH at N7; Phase 838 correction; was imidazo[5,4-d])
+    ("c1nc2cnnnc2[nH]1",        "7H-imidazo[4,5-d][1,2,3]triazine"),
+    ("Cc1nnnc2[nH]cnc12",       "4-methyl-7H-imidazo[4,5-d][1,2,3]triazine"),
+    ("Cc1nc2cnnnc2[nH]1",       "6-methyl-7H-imidazo[4,5-d][1,2,3]triazine"),
+    # 7H-imidazo[4,5-e][1,2,4]triazine (NH at N7; Phase 838 correction)
+    ("c1nnc2[nH]cnc2n1",        "7H-imidazo[4,5-e][1,2,4]triazine"),
+    ("Cc1nnc2[nH]cnc2n1",       "3-methyl-7H-imidazo[4,5-e][1,2,4]triazine"),
+    ("Cc1nc2ncnnc2[nH]1",       "6-methyl-7H-imidazo[4,5-e][1,2,4]triazine"),
     # 1H-imidazo[5,4-e][1,2,4]triazine (CH at 3,6)
     ("c1nnc2nc[nH]c2n1",        "1H-imidazo[5,4-e][1,2,4]triazine"),
     ("Cc1nnc2nc[nH]c2n1",       "3-methyl-1H-imidazo[5,4-e][1,2,4]triazine"),

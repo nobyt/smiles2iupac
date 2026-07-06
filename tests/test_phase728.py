@@ -87,12 +87,12 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1nccc2[nH]ccc12",       "4-methyl-1H-pyrrolo[3,2-c]pyridine"),
     ("Cc1cc2[nH]ccc2cn1",       "6-methyl-1H-pyrrolo[3,2-c]pyridine"),
     ("Cc1cncc2cc[nH]c12",       "7-methyl-1H-pyrrolo[3,2-c]pyridine"),
-    # 1H-pyrrolo[2,3-c]pyridazine (CH at 3,4,5,6)
-    ("c1cc2cc[nH]c2nn1",        "1H-pyrrolo[2,3-c]pyridazine"),
-    ("Cc1cc2cc[nH]c2nn1",       "3-methyl-1H-pyrrolo[2,3-c]pyridazine"),
-    ("Cc1cnnc2[nH]ccc12",       "4-methyl-1H-pyrrolo[2,3-c]pyridazine"),
-    ("Cc1c[nH]c2nnccc12",       "5-methyl-1H-pyrrolo[2,3-c]pyridazine"),
-    ("Cc1cc2ccnnc2[nH]1",       "6-methyl-1H-pyrrolo[2,3-c]pyridazine"),
+    # 7H-pyrrolo[2,3-c]pyridazine (NH at N7; Phase 838 correction)
+    ("c1cc2cc[nH]c2nn1",        "7H-pyrrolo[2,3-c]pyridazine"),
+    ("Cc1cc2cc[nH]c2nn1",       "3-methyl-7H-pyrrolo[2,3-c]pyridazine"),
+    ("Cc1cnnc2[nH]ccc12",       "4-methyl-7H-pyrrolo[2,3-c]pyridazine"),
+    ("Cc1c[nH]c2nnccc12",       "5-methyl-7H-pyrrolo[2,3-c]pyridazine"),
+    ("Cc1cc2ccnnc2[nH]1",       "6-methyl-7H-pyrrolo[2,3-c]pyridazine"),
     # 1H-pyrrolo[3,2-c]pyridazine (CH at 3,4,6,7)
     ("c1cc2nccc-2[nH]n1",       "1H-pyrrolo[3,2-c]pyridazine"),
     ("Cc1cc2nccc-2[nH]n1",      "3-methyl-1H-pyrrolo[3,2-c]pyridazine"),
