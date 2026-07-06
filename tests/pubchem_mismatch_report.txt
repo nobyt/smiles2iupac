@@ -1,4 +1,4 @@
-PubChem × IUPAC 2013 命名比較レポート — 2026-07-02
+PubChem × IUPAC 2013 命名比較レポート — 2026-07-07
 対象化合物数: 1
 
 凡例:
@@ -13,9 +13,9 @@ PubChem × IUPAC 2013 命名比較レポート — 2026-07-02
 
 --- [NEEDS_REVIEW]     自動分類不能 — IUPAC 2013 による手動確認が必要 (1 件) ---
 
-InChIKey: FQOBINBWTPHVEO-UHFFFAOYSA-N
-SMILES:   c1cnc2nccnc2n1
-我々の名前: pteridine
-PubChem 名: pyrazino[2,3-b]pyrazine
+InChIKey: MCSCIFLXNFLCDV-UHFFFAOYSA-N
+SMILES:   Cc1cnc(=O)[nH]1
+我々の名前: 4-methylpyrimidin-2(1H)-one
+PubChem 名: 4-methyl-1,3-dihydroimidazol-2-one
 → IUPAC 2013 規則による手動確認が必要
 

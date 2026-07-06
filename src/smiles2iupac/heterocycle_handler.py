@@ -2649,6 +2649,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1ccc2cnncc2c1":   "phthalazine",
     "c1ccc2nc3ccccc3nc2c1": "phenazine",
     "c1cnc2ncncc2n1":   "pteridine",
+    "c1cnc2nccnc2n1":   "pyrazino[2,3-b]pyrazine",  # Phase 840
     # Phase 131: 三環式縮合ヘテロ芳香族
     "c1ccc2c(c1)[nH]c1ccccc12": "9H-carbazole",
     "c1ccc2c(c1)sc1ccccc12":    "dibenzothiophene",
@@ -3002,6 +3003,7 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1cnc2ncncc2c1":    "pyrido[2,3-d]pyrimidine",
     "c1cc2cncnc2cn1":    "pyrido[3,4-d]pyrimidine",
     "c1cnc2ncncc2n1":    "pteridine",
+    "c1cnc2nccnc2n1":    "pyrazino[2,3-b]pyrazine",  # Phase 840
     "c1cnc2cscc2c1":     "thieno[3,4-b]pyridine",
     # Phase 439: oxazolo/thiazolo-pyridine and -pyrazine (fixed Phase 470)
     "c1cnc2ocnc2c1":     "oxazolo[5,4-b]pyridine",
@@ -4299,6 +4301,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2nc3ncncc3nc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: 4, 10: None, 11: None, 12: None, 13: 6},
     # Phase 593: pteridine (N@a2/a4/a6/a9; 4 sub C: 2,4,6,7)
     "c1cnc2ncncc2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: 4, 8: None, 9: None},
+    # Phase 840: pyrazino[2,3-b]pyrazine (N@a2/a4/a7/a9; all 4 CH equiv; sub C→2)
+    "c1cnc2nccnc2n1": {0: 2, 1: 3, 2: None, 3: None, 4: None, 5: 6, 6: 7, 7: None, 8: None, 9: None},
     # Phase 593: pyrido[2,3-d]pyrimidine (N@a2/a4/a8; 5 sub C: 2,4-7)
     "c1cnc2ncncc2c1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: 4, 8: None, 9: 5},
     # Phase 593: pyrido[3,4-d]pyrimidine (N@a2/a4/a7; 5 sub C: 2,4-6,8)
