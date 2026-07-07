@@ -33,6 +33,15 @@ from smiles2iupac import smiles_to_iupac
     ("CN1NCC2=CC=CC=C12",    "1-methyl-2,3-dihydroindazole"),
     # C1-methyl in 1H-isochromene (C position!) → keep -1H-
     ("CC1OCCc2ccccc21",      "1-methyl-3,4-dihydro-1H-isochromene"),
+    # Separator retained when -nH- precedes a locant digit
+    # 2,3-dihydro-1H-1,5-benzodiazepine: N1-methyl → drop -1H-, keep separator before 1,5
+    ("CN1CCC=Nc2ccccc21",    "1-methyl-2,3-dihydro-1,5-benzodiazepine"),
+    # unsubstituted → keep -1H-
+    ("C1=Nc2ccccc2NCC1",     "2,3-dihydro-1H-1,5-benzodiazepine"),
+    # 3,4-dihydro-1H-1-benzazepin-2(5H)-one: N1-methyl → drop -1H-
+    ("CN1C(=O)CCCc2ccccc21", "1-methyl-3,4-dihydro-1-benzazepin-2(5H)-one"),
+    # 2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one: N1-methyl → drop -1H-
+    ("CN1CCNC(=O)c2ccccc21", "1-methyl-2,3-dihydro-1,4-benzodiazepin-5(4H)-one"),
 ])
 def test_phase846(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

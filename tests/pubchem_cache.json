@@ -4003,15 +4003,25 @@
     "inchikey": "BLRHMMGNCXNXJL-UHFFFAOYSA-N",
     "smiles": "Cn1ccc2ccccc21",
     "pubchem_iupac": "1-methylindole",
-    "validated": true,
-    "expected_in_test": "1-methylindole"
+    "validated": false,
+    "expected_in_test": "1-methyl-1H-indole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "FGYADSCZTQOAFK-UHFFFAOYSA-N": {
     "inchikey": "FGYADSCZTQOAFK-UHFFFAOYSA-N",
     "smiles": "Cn1cnc2ccccc21",
     "pubchem_iupac": "1-methylbenzimidazole",
-    "validated": true,
-    "expected_in_test": "1-methylbenzimidazole"
+    "validated": false,
+    "expected_in_test": "1-methyl-1H-benzimidazole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "FCEHBMOGCRZNNI-UHFFFAOYSA-N": {
     "inchikey": "FCEHBMOGCRZNNI-UHFFFAOYSA-N",
@@ -12991,7 +13001,7 @@
   },
   "PAMIQIKDUOTOBW-UHFFFAOYSA-N": {
     "inchikey": "PAMIQIKDUOTOBW-UHFFFAOYSA-N",
-    "smiles": "CN1CCCCC1",
+    "smiles": "C1CCCCN1C",
     "pubchem_iupac": "1-methylpiperidine",
     "validated": false,
     "expected_in_test": "N-methylpiperidine",
@@ -14235,7 +14245,8 @@
     "smiles": "O=C1C=CC(=O)N1c1ccccc1",
     "pubchem_iupac": "1-phenylpyrrole-2,5-dione",
     "validated": true,
-    "expected_in_test": "1-phenylpyrrole-2,5-dione"
+    "expected_in_test": "1-phenyl-1H-pyrrole-2,5-dione",
+    "not_found": true
   },
   "FIRXFHJQGIIJDB-UHFFFAOYSA-N": {
     "inchikey": "FIRXFHJQGIIJDB-UHFFFAOYSA-N",
@@ -14370,14 +14381,16 @@
     "smiles": "CN1C(=O)CCc2ccccc21",
     "pubchem_iupac": "1-methyl-3,4-dihydroquinolin-2-one",
     "validated": true,
-    "expected_in_test": "1-methyl-3,4-dihydroquinolin-2-one"
+    "expected_in_test": "1-methyl-3,4-dihydroquinolin-2(1H)-one",
+    "not_found": true
   },
   "YMZLDAJXSRSNHM-UHFFFAOYSA-N": {
     "inchikey": "YMZLDAJXSRSNHM-UHFFFAOYSA-N",
     "smiles": "CN1CCc2ccccc2C1=O",
     "pubchem_iupac": "2-methyl-3,4-dihydroisoquinolin-1-one",
     "validated": true,
-    "expected_in_test": "2-methyl-3,4-dihydroisoquinolin-1-one"
+    "expected_in_test": "2-methyl-3,4-dihydroisoquinolin-1(2H)-one",
+    "not_found": true
   },
   "YWPMKTWUFVOFPL-UHFFFAOYSA-N": {
     "inchikey": "YWPMKTWUFVOFPL-UHFFFAOYSA-N",
@@ -35017,13 +35030,8 @@
     "inchikey": "IIWNRRWSRCQSLR-UHFFFAOYSA-N",
     "smiles": "CN1CCC=Nc2ccccc21",
     "pubchem_iupac": "1-methyl-2,3-dihydro-1,5-benzodiazepine",
-    "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-1,5-benzodiazepine",
-    "iupac_verdict": "tautomer",
-    "iupac_note": "名前の差異は指示水素の位置のみ — 互変異性体の命名",
-    "iupac_source": "IUPAC 2013 P-31.1.3",
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methyl-2,3-dihydro-1,5-benzodiazepine"
   },
   "WBIKBGJJWGWIPW-UHFFFAOYSA-N": {
     "inchikey": "WBIKBGJJWGWIPW-UHFFFAOYSA-N",
@@ -35070,7 +35078,7 @@
     "smiles": "CN1C(=O)CCCc2ccccc21",
     "pubchem_iupac": "1-methyl-4,5-dihydro-3H-1-benzazepin-2-one",
     "validated": false,
-    "expected_in_test": "1-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one",
+    "expected_in_test": "1-methyl-3,4-dihydro-1-benzazepin-2(5H)-one",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -35166,7 +35174,7 @@
     "smiles": "CN1CCNC(=O)c2ccccc21",
     "pubchem_iupac": "1-methyl-3,4-dihydro-2H-1,4-benzodiazepin-5-one",
     "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one",
+    "expected_in_test": "1-methyl-2,3-dihydro-1,4-benzodiazepin-5(4H)-one",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -35202,7 +35210,8 @@
     "smiles": "CN1CCNc2ccccc2C1=O",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5-one",
     "validated": true,
-    "expected_in_test": "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5-one"
+    "expected_in_test": "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one",
+    "not_found": true
   },
   "OXZMYDYIOJQKLR-UHFFFAOYSA-N": {
     "inchikey": "OXZMYDYIOJQKLR-UHFFFAOYSA-N",
@@ -36211,8 +36220,13 @@
     "inchikey": "WOJNPXDLJUEHGP-UHFFFAOYSA-N",
     "smiles": "CN1C=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindole",
-    "validated": true,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydroindole"
+    "validated": false,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "FVKONMYOYYXZAQ-UHFFFAOYSA-N": {
     "inchikey": "FVKONMYOYYXZAQ-UHFFFAOYSA-N",
@@ -36254,8 +36268,13 @@
     "inchikey": "OBEFWOVHXQTYJK-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzimidazole",
-    "validated": true,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydrobenzimidazole"
+    "validated": false,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzimidazole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "XMLUAPAWXDNVTM-UHFFFAOYSA-N": {
     "inchikey": "XMLUAPAWXDNVTM-UHFFFAOYSA-N",
@@ -36285,8 +36304,13 @@
     "inchikey": "QSYZWNWTCURLHT-UHFFFAOYSA-N",
     "smiles": "CN1N=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindazole",
-    "validated": true,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydroindazole"
+    "validated": false,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indazole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "RXKGSALPZYDBQC-UHFFFAOYSA-N": {
     "inchikey": "RXKGSALPZYDBQC-UHFFFAOYSA-N",
@@ -36580,7 +36604,7 @@
     "smiles": "CN1N=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzotriazole",
     "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydrobenzo[d][1,2,3]triazole",
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36943,7 +36967,7 @@
     "smiles": "CN1CNC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-1,2-dihydrobenzimidazole",
     "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydrobenzimidazole",
+    "expected_in_test": "1-methyl-2,3-dihydro-1H-benzimidazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36972,8 +36996,13 @@
     "inchikey": "YUNBUBMIBKDDLE-UHFFFAOYSA-N",
     "smiles": "CN1NCC2=CC=CC=C12",
     "pubchem_iupac": "1-methyl-2,3-dihydroindazole",
-    "validated": true,
-    "expected_in_test": "1-methyl-2,3-dihydroindazole"
+    "validated": false,
+    "expected_in_test": "1-methyl-2,3-dihydro-1H-indazole",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "XFKHMTSHLVURGZ-UHFFFAOYSA-N": {
     "inchikey": "XFKHMTSHLVURGZ-UHFFFAOYSA-N",
@@ -42639,8 +42668,13 @@
     "inchikey": "VCYBVWFTGAZHGH-UHFFFAOYSA-N",
     "smiles": "O=C1N(C)c2ccccc2C1=O",
     "pubchem_iupac": "1-methylindole-2,3-dione",
-    "validated": true,
-    "expected_in_test": "1-methylindole-2,3-dione"
+    "validated": false,
+    "expected_in_test": "1-methyl-1H-indole-2,3-dione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
   },
   "UEHZKEABUOAZSH-UHFFFAOYSA-N": {
     "inchikey": "UEHZKEABUOAZSH-UHFFFAOYSA-N",

@@ -90,7 +90,7 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1cccc2c1NCCCN2",  "6-methyl-2,3,4,5-tetrahydro-1H-1,5-benzodiazepine"),
     ("Cc1ccc2c(c1)NCCCN2", "7-methyl-2,3,4,5-tetrahydro-1H-1,5-benzodiazepine"),
     # 2,3-dihydro-1H-1,5-benzodiazepine: N1-C2-C3-C4=N5; unique 1–4, 6–9
-    ("CN1CCC=Nc2ccccc21",  "1-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
+    ("CN1CCC=Nc2ccccc21",  "1-methyl-2,3-dihydro-1,5-benzodiazepine"),
     ("CC1CC=Nc2ccccc2N1",  "2-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
     ("CC1C=Nc2ccccc2NC1",  "3-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
     ("CC1=Nc2ccccc2NCC1",  "4-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
@@ -99,7 +99,7 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)NCCC=N2", "8-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
     ("Cc1cccc2c1NCCC=N2",  "9-methyl-2,3-dihydro-1H-1,5-benzodiazepine"),
     # 3,4-dihydro-1H-1-benzazepin-2(5H)-one: N1; C2=O; unique 1, 3–9
-    ("CN1C(=O)CCCc2ccccc21", "1-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
+    ("CN1C(=O)CCCc2ccccc21", "1-methyl-3,4-dihydro-1-benzazepin-2(5H)-one"),
     ("CC1CCc2ccccc2NC1=O",   "3-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
     ("CC1CC(=O)Nc2ccccc2C1", "4-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
     ("CC1CCC(=O)Nc2ccccc21", "5-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
@@ -108,7 +108,7 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccc2c(c1)NC(=O)CCC2", "8-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
     ("Cc1cccc2c1NC(=O)CCC2",   "9-methyl-3,4-dihydro-1H-1-benzazepin-2(5H)-one"),
     # 2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one: N1-C2-C3-N4-C5=O; unique 1–4, 6–9
-    ("CN1CCNC(=O)c2ccccc21", "1-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
+    ("CN1CCNC(=O)c2ccccc21", "1-methyl-2,3-dihydro-1,4-benzodiazepin-5(4H)-one"),
     ("CC1CNC(=O)c2ccccc2N1", "2-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("CC1CNc2ccccc2C(=O)N1", "3-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("CN1CCNc2ccccc2C1=O",   "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5-one"),

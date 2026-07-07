@@ -4968,6 +4968,13 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
             base_name,
         )
         # Phase 846: drop mid-string -nH- (e.g. tetrahydro-1H-indole → tetrahydroindole)
+        # When the following char is a digit, keep the separator dash to avoid
+        # "dihydro1,5-benzodiazepine" (wrong) → "dihydro-1,5-benzodiazepine" (correct)
+        base_name = _re.sub(
+            r'-(\d+)H-(\d)',
+            lambda m: ("-" + m.group(2)) if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            base_name,
+        )
         base_name = _re.sub(
             r'-(\d+)H-',
             lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
