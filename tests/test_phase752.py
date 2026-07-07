@@ -17,7 +17,7 @@ from smiles2iupac import smiles_to_iupac
     ("O=c1cc[nH]c(=O)[nH]1",      "pyrimidine-2,4(1H,3H)-dione"),
     ("Cc1c[nH]c(=O)[nH]c1=O",     "5-methylpyrimidine-2,4(1H,3H)-dione"),
     # Regression: mono-OH tautomers unchanged
-    ("Oc1ccncn1",                  "pyrimidin-4(3H)-one"),
+    ("Oc1ccncn1",                  "1H-pyrimidin-6-one"),
     ("Oc1ncccn1",                  "1H-pyrimidin-2-one"),
     # Regression: plain pyrimidine unchanged
     ("c1ccncn1",                   "pyrimidine"),

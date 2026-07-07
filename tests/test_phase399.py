@@ -15,8 +15,8 @@ from smiles2iupac import smiles_to_iupac
     ("S=C1NC=CC=C1",    "pyridin-2(1H)-thione"),
     # pyrimidin-2(1H)-thione
     ("S=C1NC=CC=N1",    "pyrimidin-2(1H)-thione"),
-    # pyrimidin-4(3H)-thione
-    ("S=C1NC=NC=C1",    "pyrimidin-4(3H)-thione"),
+    # 1H-pyrimidin-6-thione (PIN: {1,6} < {3,4})
+    ("S=C1NC=NC=C1",    "1H-pyrimidin-6-thione"),
     # pyrazin-2(1H)-thione
     ("S=C1NC=CN=C1",    "pyrazin-2(1H)-thione"),
     # regression: thiourea still works

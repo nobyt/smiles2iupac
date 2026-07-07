@@ -12,9 +12,9 @@ from smiles2iupac import smiles_to_iupac
     ("Sc1ccccn1",               "pyridin-2(1H)-thione"),
     ("Sc1ccncc1",               "pyridin-4(1H)-thione"),
     ("Sc1ncccn1",               "pyrimidin-2(1H)-thione"),
-    ("Sc1ccncn1",               "pyrimidin-4(3H)-thione"),
+    ("Sc1ccncn1",               "1H-pyrimidin-6-thione"),
     ("Sc1cnccn1",               "pyrazin-2(1H)-thione"),
-    ("Sc1cccnn1",               "pyridazin-3(2H)-thione"),
+    ("Sc1cccnn1",               "1H-pyridazin-6-thione"),
     # benzo-fused bicyclic thiol → thione
     ("Sc1nc2ccccc2cc1",         "quinolin-2(1H)-thione"),
     ("Sc1ccnc2ccccc12",         "quinolin-4(1H)-thione"),
@@ -26,7 +26,7 @@ from smiles2iupac import smiles_to_iupac
     # Regression: keto (thione) SMILES unchanged
     ("S=C1NC=CC=C1",            "pyridin-2(1H)-thione"),
     ("S=C1NC=CC=N1",            "pyrimidin-2(1H)-thione"),
-    ("S=C1NC=NC=C1",            "pyrimidin-4(3H)-thione"),
+    ("S=C1NC=NC=C1",            "1H-pyrimidin-6-thione"),
     ("S=C1NC=CN=C1",            "pyrazin-2(1H)-thione"),
     # Regression: parent rings unaffected
     ("c1ccccn1",                "pyridine"),

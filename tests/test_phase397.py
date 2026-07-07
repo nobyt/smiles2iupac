@@ -6,7 +6,7 @@ Two fixes:
    minimise (heteroatom_locant_set, co_locant, nh_locant).
 
 Pyrimidin-2(1H)-one: C2=O flanked by N1H and N3 (two N neighbours).
-Pyrimidin-4(3H)-one: C4=O flanked by N3H and C5 (one N, one C; N at {1,3} wins).
+1H-pyrimidin-6-one: H at N1 (lowest locant), C=O at C6 (IUPAC P-31.1.2 PIN).
 """
 import pytest
 from smiles2iupac import smiles_to_iupac
@@ -15,8 +15,8 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # pyrimidin-2(1H)-one: C=O flanked by both N atoms
     ("O=C1NC=CC=N1",        "pyrimidin-2(1H)-one"),
-    # pyrimidin-4(3H)-one: C=O flanked by NH and C (NH at pos 3)
-    ("O=C1NC=NC=C1",        "pyrimidin-4(3H)-one"),
+    # 1H-pyrimidin-6-one: H at N1 (lowest locant set {1,6} < {3,4})
+    ("O=C1NC=NC=C1",        "1H-pyrimidin-6-one"),
     # cytosine: 4-aminopyrimidin-2(1H)-one
     ("NC1=NC(=O)NC=C1",     "4-aminopyrimidin-2(1H)-one"),
     # regression: plain pyrimidine unchanged

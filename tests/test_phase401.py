@@ -28,7 +28,7 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccncn1",                   "pyrimidine"),
     # regression: mono-ketone pyrimidinones unchanged
     ("O=C1NC=CC=N1",              "pyrimidin-2(1H)-one"),
-    ("O=C1NC=NC=C1",              "pyrimidin-4(3H)-one"),
+    ("O=C1NC=NC=C1",              "1H-pyrimidin-6-one"),
     # regression: cytosine unchanged
     ("NC1=NC(=O)NC=C1",           "4-aminopyrimidin-2(1H)-one"),
     # regression: saturated lactam unchanged

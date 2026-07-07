@@ -841,11 +841,13 @@ def _apply_hetero_suffixes(
                 elif full_base == "pyrimidine" and loc_str == "2":
                     base_with_suffix = "1H-pyrimidin-2-one"
                 elif full_base == "pyrimidine" and loc_str == "4":
-                    base_with_suffix = "pyrimidin-4(3H)-one"
+                    base_with_suffix = "1H-pyrimidin-6-one"  # Phase 842: {1,6} < {3,4}
+                    other = [({4: 6, 6: 4}.get(l, l), nm) for l, nm in other]
                 elif full_base == "pyrazine" and loc_str == "2":
                     base_with_suffix = "pyrazin-2(1H)-one"
                 elif full_base == "pyridazine" and loc_str == "3":
-                    base_with_suffix = "pyridazin-3(2H)-one"
+                    base_with_suffix = "1H-pyridazin-6-one"  # Phase 842: {1,6} < {2,3}
+                    other = [({3: 6, 6: 3, 4: 5, 5: 4}.get(l, l), nm) for l, nm in other]
                 elif full_base == "quinoxaline" and loc_str == "2":
                     base_with_suffix = "quinoxalin-2(1H)-one"
                 elif full_base == "quinazoline" and loc_str == "2":
@@ -1740,11 +1742,13 @@ def _apply_hetero_suffixes(
                 elif full_base == "pyrimidine" and loc_str == "2":
                     base_with_suffix = "pyrimidin-2(1H)-thione"
                 elif full_base == "pyrimidine" and loc_str == "4":
-                    base_with_suffix = "pyrimidin-4(3H)-thione"
+                    base_with_suffix = "1H-pyrimidin-6-thione"  # Phase 842
+                    other = [({4: 6, 6: 4}.get(l, l), nm) for l, nm in other]
                 elif full_base == "pyrazine" and loc_str == "2":
                     base_with_suffix = "pyrazin-2(1H)-thione"
                 elif full_base == "pyridazine" and loc_str == "3":
-                    base_with_suffix = "pyridazin-3(2H)-thione"
+                    base_with_suffix = "1H-pyridazin-6-thione"  # Phase 842
+                    other = [({3: 6, 6: 3, 4: 5, 5: 4}.get(l, l), nm) for l, nm in other]
                 elif full_base.endswith("naphthyridine") and mult == "":
                     stem = full_base[:-1]
                     if full_base.startswith("1,") and loc_str in ("2", "4"):
@@ -5367,7 +5371,7 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                                              if _get_atom_lact(graph, h).symbol == "N")
                                 _co2 = _lm2[ring_idx]
                                 _nh2 = _lm2[_nh_atom] if _nh_atom is not None else _inf
-                                _k: tuple = (_ok, _sk, _nk, _co2, _nh2)
+                                _k: tuple = (_ok, _sk, _nk, _nh2, _co2)  # Phase 842: NH first
                                 if _k < _bk:
                                     _bk = _k
                                     _blm = _lm2
@@ -5377,7 +5381,11 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                         loc = _bloc
                         _nh_loc = _bnh
                         _base_nh = (base_name[:-1] if base_name.endswith("e") else base_name)
-                        lactam_name = f"{_base_nh}-{loc}({_nh_loc}H)-one"
+                        # Phase 842: NH at locant 1 and C=O not at 2 → use 1H- prefix (P-14.7)
+                        if _nh_loc == 1 and loc != 2:
+                            lactam_name = f"1H-{_base_nh}-{loc}-one"
+                        else:
+                            lactam_name = f"{_base_nh}-{loc}({_nh_loc}H)-one"
                     else:
                         lactam_base = (full_base[:-1] if full_base.endswith("e") else full_base)
                         lactam_name = f"{lactam_base}-{loc}-one"
@@ -5431,7 +5439,7 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                                 _co_tl = _lm_tl[ring_idx]
                                 _nh_tl2 = (_lm_tl[_nh_atom_tl]
                                            if _nh_atom_tl is not None else _inf_tl)
-                                _k_tl: tuple = (_ok_tl, _sk_tl, _nk_tl, _co_tl, _nh_tl2)
+                                _k_tl: tuple = (_ok_tl, _sk_tl, _nk_tl, _nh_tl2, _co_tl)  # Phase 842: NH first
                                 if _k_tl < _bk_tl:
                                     _bk_tl = _k_tl
                                     _blm_tl = _lm_tl
@@ -5442,7 +5450,11 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
                         _nh_loc_tl = _bnh_tl
                         _base_nh_tl = (base_name[:-1]
                                        if base_name.endswith("e") else base_name)
-                        thiolactam_name = f"{_base_nh_tl}-{loc}({_nh_loc_tl}H)-thione"
+                        # Phase 842: NH at locant 1 and C=S not at 2 → use 1H- prefix (P-14.7)
+                        if _nh_loc_tl == 1 and loc != 2:
+                            thiolactam_name = f"1H-{_base_nh_tl}-{loc}-thione"
+                        else:
+                            thiolactam_name = f"{_base_nh_tl}-{loc}({_nh_loc_tl}H)-thione"
                     else:
                         thiolactam_name = f"{full_base}-{loc}-thione"
                     other_subs = _collect_hetero_substituents(

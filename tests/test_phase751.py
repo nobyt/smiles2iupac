@@ -15,7 +15,7 @@ from smiles2iupac import smiles_to_iupac
     ("Nc1ccncc1",               "pyridin-4-amine"),
     ("Nc1ccccn1",               "pyridin-2-amine"),
     # Regression: hydroxy-only still correct
-    ("Oc1ccncn1",               "pyrimidin-4(3H)-one"),
+    ("Oc1ccncn1",               "1H-pyrimidin-6-one"),
     ("Oc1ncccn1",               "1H-pyrimidin-2-one"),
     ("Oc1ccccn1",               "1H-pyridin-2-one"),
     # Regression: beta-OH stays as -ol even with amino group

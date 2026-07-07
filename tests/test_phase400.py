@@ -24,9 +24,9 @@ from smiles2iupac import smiles_to_iupac
     # regression: 6-membered indicated-H lactams unchanged
     ("O=C1NC=CC=C1",  "pyridin-2(1H)-one"),
     ("O=C1NC=CC=N1",  "pyrimidin-2(1H)-one"),
-    ("O=C1NC=NC=C1",  "pyrimidin-4(3H)-one"),
+    ("O=C1NC=NC=C1",  "1H-pyrimidin-6-one"),
     ("O=C1NC=CN=C1",  "pyrazin-2(1H)-one"),
-    ("O=C1C=CC=NN1",  "pyridazin-3(2H)-one"),
+    ("O=C1C=CC=NN1",  "1H-pyridazin-6-one"),
     # regression: 6-membered indicated-H thiolactams unchanged
     ("S=C1NC=CC=C1",  "pyridin-2(1H)-thione"),
     ("S=C1NC=CC=N1",  "pyrimidin-2(1H)-thione"),
