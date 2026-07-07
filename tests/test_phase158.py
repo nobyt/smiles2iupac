@@ -10,9 +10,9 @@ from src.smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    # N-methyl 縮合ヘテロ芳香族
-    ("Cn1ccc2ccccc21",      "1-methyl-1H-indole"),
-    ("Cn1cnc2ccccc21",      "1-methyl-1H-benzimidazole"),
+    # N-methyl 縮合ヘテロ芳香族 (Phase 845: N1 substituted → drop 1H- prefix)
+    ("Cn1ccc2ccccc21",      "1-methylindole"),
+    ("Cn1cnc2ccccc21",      "1-methylbenzimidazole"),
     # 回帰: NH 形
     ("c1ccc2[nH]ccc2c1",    "1H-indole"),
     ("c1ccc2[nH]cnc2c1",    "1H-benzimidazole"),

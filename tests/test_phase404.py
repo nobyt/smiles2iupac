@@ -21,8 +21,8 @@ from smiles2iupac import smiles_to_iupac
     ("c1ccc2c(c1)CCN2",               "2,3-dihydro-1H-indole"),
     # regression: 1,2,3,4-tetrahydroquinoline unchanged
     ("c1ccc2c(c1)CCCN2",              "1,2,3,4-tetrahydroquinoline"),
-    # regression: 1-methylindole (aromatic) unchanged
-    ("Cn1ccc2ccccc21",                "1-methyl-1H-indole"),
+    # regression: 1-methylindole (aromatic) — Phase 845: N1 substituted drops 1H-
+    ("Cn1ccc2ccccc21",                "1-methylindole"),
     # regression: piperidine unchanged
     ("C1CCNCC1",                      "piperidine"),
     # regression: N-methylpiperidine unchanged

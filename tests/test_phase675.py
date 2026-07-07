@@ -7,7 +7,7 @@ from smiles2iupac import smiles_to_iupac
     # 1H-indole-2,3-dione (isatin): N(1,H)-C(2,=O)-C(3,=O)-C3a-C4-C5-C6-C7-C7a
     # (parent in Phase 418; both C=O not methylable; N1-H methylable)
     ("O=C1Nc2ccccc2C1=O",    "1H-indole-2,3-dione"),
-    ("O=C1N(C)c2ccccc2C1=O", "1-methyl-1H-indole-2,3-dione"),
+    ("O=C1N(C)c2ccccc2C1=O", "1-methylindole-2,3-dione"),
     ("O=C1Nc2c(C)cccc2C1=O", "4-methyl-1H-indole-2,3-dione"),
     ("O=C1Nc2cc(C)ccc2C1=O", "5-methyl-1H-indole-2,3-dione"),
     ("O=C1Nc2ccc(C)cc2C1=O", "6-methyl-1H-indole-2,3-dione"),
