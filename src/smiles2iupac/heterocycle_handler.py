@@ -4852,9 +4852,11 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
                 if get_atom(graph, _nb_405).symbol == "H":
                     continue
                 _subs_405.append((_loc_405, name_substituent(graph, _nb_405, _ring_set_405)))
+        _n2_sub_405 = any(loc == 2 for loc, _ in _subs_405)
+        _base_405 = "isoindole-1,3-dione" if _n2_sub_405 else "isoindole-1,3(2H)-dione"
         if not _subs_405:
-            return "isoindole-1,3(2H)-dione"
-        return _format_substituents("isoindole-1,3(2H)-dione", _subs_405)
+            return _base_405
+        return _format_substituents(_base_405, _subs_405)
 
     ring_set = set(all_ring_atoms)
     substituents: list[tuple[int, str]] = []
@@ -5180,13 +5182,16 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         elif _is_pyrrole_imide_403:
             # Phase 403: maleimide / N-substituted maleimide → 1H-pyrrole-{loc}-dione
             loc_str_e = ",".join(str(l) for l in locs_sorted_e)
-            dione_name_e = f"1H-pyrrole-{loc_str_e}-{suffix_e}"
             _excl_403 = set(exo_co_oxygens_e)
             _subs_raw_403 = _collect_hetero_substituents(
                 graph, ring, locant_map, excluded_atoms=_excl_403
             )
             _n_num_403 = locant_map[_n_403] if _n_403 is not None else 1
             _subs_403 = [(_n_num_403 if loc == "N" else loc, nm) for loc, nm in _subs_raw_403]
+            # Phase 843: N-substituted → drop 1H- prefix (N1 carries substituent, not H)
+            _has_n_sub_403 = any(loc == _n_num_403 for loc, _ in _subs_403)
+            dione_name_e = (f"pyrrole-{loc_str_e}-{suffix_e}" if _has_n_sub_403
+                            else f"1H-pyrrole-{loc_str_e}-{suffix_e}")
             if not _subs_403:
                 return dione_name_e
             return _format_substituents(dione_name_e, _subs_403)
@@ -5202,12 +5207,14 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
             dione_name_e = f"pyrimidine-{loc_str_e}({_ih_str_e})-{suffix_e}"
         elif _is_isoindole_dione_405:
             # Phase 405: phthalimide / N-subst. phthalimide → isoindole-1,3(2H)-dione
-            dione_name_e = "isoindole-1,3(2H)-dione"
             _excl_405 = set(exo_co_oxygens_e)
             _subs_raw_405 = _collect_hetero_substituents(
                 graph, ring, locant_map, excluded_atoms=_excl_405
             )
             _subs_405 = [(2 if loc == "N" else loc, nm) for loc, nm in _subs_raw_405]
+            # Phase 843: N2-substituted → drop (2H) indicated H
+            dione_name_e = ("isoindole-1,3-dione" if any(loc == 2 for loc, _ in _subs_405)
+                            else "isoindole-1,3(2H)-dione")
             if not _subs_405:
                 return dione_name_e
             return _format_substituents(dione_name_e, _subs_405)

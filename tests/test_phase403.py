@@ -12,7 +12,7 @@ from smiles2iupac import smiles_to_iupac
     # maleimide (N-H)
     ("O=C1C=CC(=O)N1",                "1H-pyrrole-2,5-dione"),
     # N-phenylmaleimide
-    ("O=C1C=CC(=O)N1c1ccccc1",        "1-phenyl-1H-pyrrole-2,5-dione"),
+    ("O=C1C=CC(=O)N1c1ccccc1",        "1-phenylpyrrole-2,5-dione"),
     # regression: succinimide (no C=C in ring) → pyrrolidine-2,5-dione
     ("O=C1CCC(=O)N1",                 "pyrrolidine-2,5-dione"),
     # regression: glutarimide (6-membered) → piperidine-2,6-dione

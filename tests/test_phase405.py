@@ -14,9 +14,9 @@ from smiles2iupac import smiles_to_iupac
     # N-H phthalimide (already handled by __init__ lookup → unchanged)
     ("O=C1NC(=O)c2ccccc21",           "isoindole-1,3(2H)-dione"),
     # N-methylphthalimide
-    ("CN1C(=O)c2ccccc2C1=O",          "2-methylisoindole-1,3(2H)-dione"),
+    ("CN1C(=O)c2ccccc2C1=O",          "2-methylisoindole-1,3-dione"),
     # N-ethylphthalimide
-    ("CCN1C(=O)c2ccccc2C1=O",         "2-ethylisoindole-1,3(2H)-dione"),
+    ("CCN1C(=O)c2ccccc2C1=O",         "2-ethylisoindole-1,3-dione"),
     # regression: succinimide (no fused aromatic) unchanged
     ("O=C1CCC(=O)N1",                 "pyrrolidine-2,5-dione"),
     # regression: maleimide (no fused aromatic) unchanged
