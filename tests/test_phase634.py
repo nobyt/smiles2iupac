@@ -41,7 +41,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC1CCCC=2C=NSC21",    "7-methyl-4,5,6,7-tetrahydrobenzo[d]isothiazole"),
     # 1H-benzo[d][1,2,3]triazole: N(1,H)-N(2)-N(3)-C(3a,junc)-C(7a,junc)
     # C7a=adj to N1; C7(adj C7a), C6, C5, C4(adj C3a)
-    ("CN1N=NC2=C1CCCC2",    "1-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole"),
+    ("CN1N=NC2=C1CCCC2",    "1-methyl-4,5,6,7-tetrahydrobenzo[d][1,2,3]triazole"),
     ("CC1CCCC=2NN=NC21",    "4-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole"),
     ("CC1CC2=C(NN=N2)CC1",  "5-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole"),
     ("CC1CCC2=C(NN=N2)C1",  "6-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole"),

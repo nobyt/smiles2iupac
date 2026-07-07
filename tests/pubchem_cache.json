@@ -14235,8 +14235,7 @@
     "smiles": "O=C1C=CC(=O)N1c1ccccc1",
     "pubchem_iupac": "1-phenylpyrrole-2,5-dione",
     "validated": true,
-    "expected_in_test": "1-phenyl-1H-pyrrole-2,5-dione",
-    "not_found": true
+    "expected_in_test": "1-phenylpyrrole-2,5-dione"
   },
   "FIRXFHJQGIIJDB-UHFFFAOYSA-N": {
     "inchikey": "FIRXFHJQGIIJDB-UHFFFAOYSA-N",
@@ -36212,13 +36211,8 @@
     "inchikey": "WOJNPXDLJUEHGP-UHFFFAOYSA-N",
     "smiles": "CN1C=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindole",
-    "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydroindole"
   },
   "FVKONMYOYYXZAQ-UHFFFAOYSA-N": {
     "inchikey": "FVKONMYOYYXZAQ-UHFFFAOYSA-N",
@@ -36260,13 +36254,8 @@
     "inchikey": "OBEFWOVHXQTYJK-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzimidazole",
-    "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzimidazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydrobenzimidazole"
   },
   "XMLUAPAWXDNVTM-UHFFFAOYSA-N": {
     "inchikey": "XMLUAPAWXDNVTM-UHFFFAOYSA-N",
@@ -36296,13 +36285,8 @@
     "inchikey": "QSYZWNWTCURLHT-UHFFFAOYSA-N",
     "smiles": "CN1N=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindazole",
-    "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydroindazole"
   },
   "RXKGSALPZYDBQC-UHFFFAOYSA-N": {
     "inchikey": "RXKGSALPZYDBQC-UHFFFAOYSA-N",
@@ -36596,7 +36580,7 @@
     "smiles": "CN1N=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzotriazole",
     "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydrobenzo[d][1,2,3]triazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36959,7 +36943,7 @@
     "smiles": "CN1CNC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-1,2-dihydrobenzimidazole",
     "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-benzimidazole",
+    "expected_in_test": "1-methyl-2,3-dihydrobenzimidazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36988,13 +36972,8 @@
     "inchikey": "YUNBUBMIBKDDLE-UHFFFAOYSA-N",
     "smiles": "CN1NCC2=CC=CC=C12",
     "pubchem_iupac": "1-methyl-2,3-dihydroindazole",
-    "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-indazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methyl-2,3-dihydroindazole"
   },
   "XFKHMTSHLVURGZ-UHFFFAOYSA-N": {
     "inchikey": "XFKHMTSHLVURGZ-UHFFFAOYSA-N",
@@ -42660,13 +42639,8 @@
     "inchikey": "VCYBVWFTGAZHGH-UHFFFAOYSA-N",
     "smiles": "O=C1N(C)c2ccccc2C1=O",
     "pubchem_iupac": "1-methylindole-2,3-dione",
-    "validated": false,
-    "expected_in_test": "1-methyl-1H-indole-2,3-dione",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": true
+    "validated": true,
+    "expected_in_test": "1-methylindole-2,3-dione"
   },
   "UEHZKEABUOAZSH-UHFFFAOYSA-N": {
     "inchikey": "UEHZKEABUOAZSH-UHFFFAOYSA-N",

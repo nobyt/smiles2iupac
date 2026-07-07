@@ -31,7 +31,7 @@ from smiles2iupac import smiles_to_iupac
     ("CC1CC2=C(C=CS2)CC1",  "6-methyl-4,5,6,7-tetrahydrobenzothiophene"),
     ("CC1CCCC=2C=CSC21",    "7-methyl-4,5,6,7-tetrahydrobenzothiophene"),
     # 4,5,6,7-tetrahydro-1H-indole: N(1H)-C(2)-C(3)-C(3a)-C(4)-C(5)-C(6)-C(7)-C(7a)
-    ("CN1C=CC=2CCCCC12",    "1-methyl-4,5,6,7-tetrahydro-1H-indole"),
+    ("CN1C=CC=2CCCCC12",    "1-methyl-4,5,6,7-tetrahydroindole"),
     ("CC=1NC=2CCCCC2C1",    "2-methyl-4,5,6,7-tetrahydro-1H-indole"),
     ("CC1=CNC=2CCCCC12",    "3-methyl-4,5,6,7-tetrahydro-1H-indole"),
     ("CC1C=2C=CNC2CCC1",    "4-methyl-4,5,6,7-tetrahydro-1H-indole"),
@@ -40,12 +40,12 @@ from smiles2iupac import smiles_to_iupac
     ("CC1CCCC=2C=CNC12",    "7-methyl-4,5,6,7-tetrahydro-1H-indole"),
     # 4,5,6,7-tetrahydro-1H-benzimidazole: N(1H)-C(2)=N(3)-C(3a)-C(4)-C(5)-C(6)-C(7)-C(7a)
     # C2-symmetric (4≡7, 5≡6), positions 2, 4(≡7), 5(≡6) unique + N1, N3
-    ("CN1C=NC2=C1CCCC2",    "1-methyl-4,5,6,7-tetrahydro-1H-benzimidazole"),
+    ("CN1C=NC2=C1CCCC2",    "1-methyl-4,5,6,7-tetrahydrobenzimidazole"),
     ("CC1=NC2=C(N1)CCCC2",  "2-methyl-4,5,6,7-tetrahydro-1H-benzimidazole"),
     ("CC1CCCC=2NC=NC21",    "4-methyl-4,5,6,7-tetrahydro-1H-benzimidazole"),
     ("CC1CC2=C(NC=N2)CC1",  "5-methyl-4,5,6,7-tetrahydro-1H-benzimidazole"),
     # 4,5,6,7-tetrahydro-1H-indazole: N(1H)-N(2)=C(3)-C(3a)-C(4)-C(5)-C(6)-C(7)-C(7a)
-    ("CN1N=CC=2CCCCC12",    "1-methyl-4,5,6,7-tetrahydro-1H-indazole"),
+    ("CN1N=CC=2CCCCC12",    "1-methyl-4,5,6,7-tetrahydroindazole"),
     ("CC1=NNC=2CCCCC12",    "3-methyl-4,5,6,7-tetrahydro-1H-indazole"),
     ("CC1C=2C=NNC2CCC1",    "4-methyl-4,5,6,7-tetrahydro-1H-indazole"),
     ("CC1CC=2C=NNC2CC1",    "5-methyl-4,5,6,7-tetrahydro-1H-indazole"),

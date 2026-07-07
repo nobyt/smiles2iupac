@@ -45,13 +45,13 @@ from smiles2iupac import smiles_to_iupac
     ("CC1=CC2=C(CNS2)C=C1",  "6-methyl-2,3-dihydrobenzo[d]isothiazole"),
     ("CC1=CC=CC=2CNSC21",    "7-methyl-2,3-dihydrobenzo[d]isothiazole"),
     # 2,3-dihydro-1H-benzimidazole: C2-symmetric (N1≡N3→1, C4≡C7→4, C5≡C6→5)
-    ("CN1CNC2=C1C=CC=C2",    "1-methyl-2,3-dihydro-1H-benzimidazole"),
+    ("CN1CNC2=C1C=CC=C2",    "1-methyl-2,3-dihydrobenzimidazole"),
     ("CC1NC2=C(N1)C=CC=C2",  "2-methyl-2,3-dihydro-1H-benzimidazole"),
     ("CC1=CC=CC=2NCNC21",    "4-methyl-2,3-dihydro-1H-benzimidazole"),
     ("CC1=CC2=C(NCN2)C=C1",  "5-methyl-2,3-dihydro-1H-benzimidazole"),
-    ("CN1CNC2=C1C=CC=C2",    "1-methyl-2,3-dihydro-1H-benzimidazole"),  # 3-methyl→1-methyl (C2-sym)
+    ("CN1CNC2=C1C=CC=C2",    "1-methyl-2,3-dihydrobenzimidazole"),  # 3-methyl→1-methyl (C2-sym)
     # 2,3-dihydro-1H-indazole: N(1)-N(2)-C(3,sp3)-C(3a,junc)-C(4)-C(5)-C(6)-C(7)-C(7a,junc)
-    ("CN1NCC2=CC=CC=C12",    "1-methyl-2,3-dihydro-1H-indazole"),
+    ("CN1NCC2=CC=CC=C12",    "1-methyl-2,3-dihydroindazole"),
     ("CN1NC2=CC=CC=C2C1",    "2-methyl-2,3-dihydro-1H-indazole"),
     ("CC1NNC2=CC=CC=C12",    "3-methyl-2,3-dihydro-1H-indazole"),
     ("CC1=C2CNNC2=CC=C1",    "4-methyl-2,3-dihydro-1H-indazole"),

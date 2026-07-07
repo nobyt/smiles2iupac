@@ -4967,6 +4967,12 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
             lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
             base_name,
         )
+        # Phase 846: drop mid-string -nH- (e.g. tetrahydro-1H-indole → tetrahydroindole)
+        base_name = _re.sub(
+            r'-(\d+)H-',
+            lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            base_name,
+        )
     return _apply_hetero_suffixes(base_name, substituents)
 
 
