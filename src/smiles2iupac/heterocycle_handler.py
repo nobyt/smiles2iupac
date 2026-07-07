@@ -4945,6 +4945,21 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         base_name = "2,3-dihydroindole"
     elif base_name == "2,3-dihydro-1H-isoindole" and any(loc == 2 for loc, _ in substituents):
         base_name = "1,3-dihydroisoindole"
+    # Phase 844: drop (nH) inline indicated-H when the N at that locant is substituted
+    # (only N positions — C positions may still have H even when carrying a substituent)
+    _n_locs_844: set[int] = set()
+    for _bi844, _loc844 in locant_map_def.items():
+        if _loc844 is not None and _bi844 < len(match):
+            if get_atom(graph, match[_bi844]).symbol == "N":
+                _n_locs_844.add(_loc844)
+    _n_sub_locs_844 = _n_locs_844 & {loc for loc, _ in substituents}
+    if _n_sub_locs_844:
+        import re as _re
+        base_name = _re.sub(
+            r'\((\d+)H\)',
+            lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            base_name,
+        )
     return _apply_hetero_suffixes(base_name, substituents)
 
 

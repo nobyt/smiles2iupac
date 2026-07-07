@@ -111,7 +111,7 @@ from smiles2iupac import smiles_to_iupac
     ("CN1CCNC(=O)c2ccccc21", "1-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("CC1CNC(=O)c2ccccc2N1", "2-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("CC1CNc2ccccc2C(=O)N1", "3-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
-    ("CN1CCNc2ccccc2C1=O",   "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
+    ("CN1CCNc2ccccc2C1=O",   "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5-one"),
     ("Cc1cccc2c1C(=O)NCCN2", "6-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("Cc1ccc2c(c1)C(=O)NCCN2", "7-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),
     ("Cc1ccc2c(c1)NCCNC2=O", "8-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one"),

@@ -14380,24 +14380,16 @@
     "inchikey": "GRDNENMVSPDQBD-UHFFFAOYSA-N",
     "smiles": "CN1C(=O)CCc2ccccc21",
     "pubchem_iupac": "1-methyl-3,4-dihydroquinolin-2-one",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-3,4-dihydroquinolin-2(1H)-one",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "YMZLDAJXSRSNHM-UHFFFAOYSA-N": {
     "inchikey": "YMZLDAJXSRSNHM-UHFFFAOYSA-N",
     "smiles": "CN1CCc2ccccc2C1=O",
     "pubchem_iupac": "2-methyl-3,4-dihydroisoquinolin-1-one",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "2-methyl-3,4-dihydroisoquinolin-1(2H)-one",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "YWPMKTWUFVOFPL-UHFFFAOYSA-N": {
@@ -35222,12 +35214,8 @@
     "inchikey": "WLCOVWULXGIGKE-UHFFFAOYSA-N",
     "smiles": "CN1CCNc2ccccc2C1=O",
     "pubchem_iupac": "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5-one",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methyl-2,3-dihydro-1H-1,4-benzodiazepin-5(4H)-one",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "OXZMYDYIOJQKLR-UHFFFAOYSA-N": {

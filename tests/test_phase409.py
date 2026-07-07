@@ -10,10 +10,10 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # 3,4-dihydroquinolin-2(1H)-one (dihydroquinolinone)
     ("O=C1CCc2ccccc2N1",               "3,4-dihydroquinolin-2(1H)-one"),
-    # N-methyl-3,4-dihydroquinolin-2(1H)-one (N1 adjacent to C8a junction)
-    ("CN1C(=O)CCc2ccccc21",            "1-methyl-3,4-dihydroquinolin-2(1H)-one"),
-    # N-methyl-3,4-dihydroisoquinolin-1(2H)-one (N2 between C1=O and C3)
-    ("CN1CCc2ccccc2C1=O",              "2-methyl-3,4-dihydroisoquinolin-1(2H)-one"),
+    # N-methyl-3,4-dihydroquinolin-2-one (N1 substituted: drop (1H))
+    ("CN1C(=O)CCc2ccccc21",            "1-methyl-3,4-dihydroquinolin-2-one"),
+    # N-methyl-3,4-dihydroisoquinolin-1-one (N2 substituted: drop (2H))
+    ("CN1CCc2ccccc2C1=O",              "2-methyl-3,4-dihydroisoquinolin-1-one"),
     # 3,4-dihydroisoquinolin-1(2H)-one
     ("O=C1NCCc2ccccc21",               "3,4-dihydroisoquinolin-1(2H)-one"),
     # regression: indolin-2-one (5-membered) unchanged
