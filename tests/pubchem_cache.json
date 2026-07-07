@@ -17817,37 +17817,37 @@
     "inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
     "smiles": "CN1C(=O)C2=C(N=CN2C)N(C)C1=O",
     "pubchem_iupac": "1,3,7-trimethylpurine-2,6-dione",
-    "validated": false,
-    "expected_in_test": "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
+    "validated": true,
+    "expected_in_test": "1,3,7-trimethylpurine-2,6-dione",
+    "iupac_verdict": "pin",
+    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
     "iupac_source": null,
     "iupac_pin": null,
-    "not_found": true
+    "not_found": false
   },
   "ZFXYFBGIUFBOJW-UHFFFAOYSA-N": {
     "inchikey": "ZFXYFBGIUFBOJW-UHFFFAOYSA-N",
     "smiles": "Cn1c(=O)c2[nH]cnc2n(C)c1=O",
     "pubchem_iupac": "1,3-dimethyl-7H-purine-2,6-dione",
-    "validated": false,
-    "expected_in_test": "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
+    "validated": true,
+    "expected_in_test": "1,3-dimethyl-7H-purine-2,6-dione",
+    "iupac_verdict": "pin",
+    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
     "iupac_source": null,
     "iupac_pin": null,
-    "not_found": true
+    "not_found": false
   },
   "YAPQBXQYLJRXSA-UHFFFAOYSA-N": {
     "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "smiles": "Cn1cnc2c1c(=O)[nH]c(=O)n2C",
     "pubchem_iupac": "3,7-dimethylpurine-2,6-dione",
-    "validated": false,
-    "expected_in_test": "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
+    "validated": true,
+    "expected_in_test": "3,7-dimethylpurine-2,6-dione",
+    "iupac_verdict": "pin",
+    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
     "iupac_source": null,
     "iupac_pin": null,
-    "not_found": true
+    "not_found": false
   },
   "LEHOTFFKMJEONL-UHFFFAOYSA-N": {
     "inchikey": "LEHOTFFKMJEONL-UHFFFAOYSA-N",

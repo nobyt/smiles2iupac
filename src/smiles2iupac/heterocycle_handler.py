@@ -3182,9 +3182,10 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     "c1nncc2nsnc12":   "[1,2,5]thiadiazolo[3,4-d]pyridazine",
     "c1nnc2nsnc2n1":   "[1,2,5]thiadiazolo[3,4-e][1,2,4]triazine",
     # Phase 507: purine-2,6-dione derivatives (IUPAC 2013 P-31.1.7)
-    "Cn1c(=O)c2c(ncn2C)n(C)c1=O":                  "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "Cn1c(=O)c2[nH]cnc2n(C)c1=O":                  "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
-    "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    # Phase 847: corrected IUPAC 2013 PINs — drop dihydro/indicated-H when N is substituted
+    "Cn1c(=O)c2c(ncn2C)n(C)c1=O":                  "1,3,7-trimethylpurine-2,6-dione",
+    "Cn1c(=O)c2[nH]cnc2n(C)c1=O":                  "1,3-dimethyl-7H-purine-2,6-dione",
+    "Cn1cnc2c1c(=O)[nH]c(=O)n2C":                  "3,7-dimethylpurine-2,6-dione",
     "CN1C(=O)NC2=NC=NC21":                          "3-methyl-3,7-dihydro-1H-purine-2,6-dione",
     "CN1NC2N=CN=C2C1=O":                            "1-methyl-3,7-dihydro-1H-purine-2,6-dione",
     "O=c1[nH]cnc2nc[nH]c12":                        "1,7-dihydro-6H-purin-6-one",
