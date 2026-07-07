@@ -2869,6 +2869,8 @@ _FUSED_HETERO_RETAINED: dict[str, str] = {
     # Phase 411: chromone and indan-2-one
     "O=c1ccoc2ccccc12":  "chromone",
     "O=C1Cc2ccccc2C1":   "indan-2-one",
+    # Phase 841: standalone imidazol-2(1H)-one (both-NH keto form, Phase 407 extended core)
+    "O=c1[nH]cc[nH]1":        "imidazol-2(1H)-one",
     # Phase 412: benzo-fused azolone C2=O derivatives
     "O=c1[nH]c2ccccc2[nH]1":  "1H-benzimidazol-2(3H)-one",
     "O=c1[nH]c2ccccc2s1":     "1,3-benzothiazol-2(3H)-one",
@@ -4089,6 +4091,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 411: indan-2-one: C1(1)-C2(2,=O)-C3(3)-C3a(None)-C4..C7-C7a(None)
     # atom 0=O(exo,None), 1=C2(2), 2=C1(1), 3=C3a(None), 4=C4..7=C7, 8=C7a(None), 9=C3(3)
     "O=C1Cc2ccccc2C1":   {0: None, 1: 2, 2: 1, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 3},
+    # Phase 841: imidazol-2(1H)-one (both-NH; atom 0=O(exo,None), 1=C2(2), 2=N3(3), 3=C4(4), 4=C5(5), 5=N1(1))
+    "O=c1[nH]cc[nH]1": {0: None, 1: 2, 2: 3, 3: 4, 4: 5, 5: 1},
     # Phase 412: benzazolone C2=O retained names
     # atom 0=O(exo,None), 1=C2(2), 2=N3(3) or heteroatom3, 3=C3a(None), 4..7=C4-C7, 8=C7a(None), 9=N1/S1/O1(1)
     "O=c1[nH]c2ccccc2[nH]1": {0: None, 1: 2, 2: 3, 3: None, 4: 4, 5: 5, 6: 6, 7: 7, 8: None, 9: 1},

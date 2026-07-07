@@ -45854,14 +45854,14 @@
   },
   "MCSCIFLXNFLCDV-UHFFFAOYSA-N": {
     "inchikey": "MCSCIFLXNFLCDV-UHFFFAOYSA-N",
-    "smiles": "Cc1cnc(=O)[nH]1",
+    "smiles": "Cc1c[nH]c(=O)[nH]1",
     "pubchem_iupac": "4-methyl-1,3-dihydroimidazol-2-one",
-    "validated": false,
-    "expected_in_test": "4-methylpyrimidin-2(1H)-one",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null
+    "validated": true,
+    "expected_in_test": "4-methylimidazol-2(1H)-one",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "IUPAC 2013 PIN uses -one suffix: 4-methylimidazol-2(1H)-one; PubChem uses non-preferred 1,3-dihydro prefix form",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "4-methylimidazol-2(1H)-one"
   },
   "QWIDYOLZFAQBOB-UHFFFAOYSA-N": {
     "inchikey": "QWIDYOLZFAQBOB-UHFFFAOYSA-N",
