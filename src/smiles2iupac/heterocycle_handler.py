@@ -2629,6 +2629,35 @@ def _apply_hetero_suffixes(
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
 
+    # Phase 849: exo ring keto (sub_nm == "oxo") on N-heterocycles → -n-one suffix
+    # Arises when RDKit aromatises N-methyl lactam forms (Cn1...c(=O)... canonical).
+    # The (nH) indicated H is omitted when N at that locant carries a substituent (P-14.7.1).
+    _oxo_entries_849 = [(loc, nm) for loc, nm in substituents if nm == "oxo"]
+    if len(_oxo_entries_849) == 1:
+        _oxo_loc_849 = _oxo_entries_849[0][0]
+        _oxo_other_849 = [(loc, nm) for loc, nm in substituents if nm != "oxo"]
+        def _n_sub_849(n_loc: int) -> bool:
+            return any(l == n_loc for l, _ in _oxo_other_849)
+        _oxo_base_849: str | None = None
+        if full_base == "quinoline":
+            if _oxo_loc_849 == 2:
+                _oxo_base_849 = "quinolin-2-one" if _n_sub_849(1) else "quinolin-2(1H)-one"
+            elif _oxo_loc_849 == 4:
+                _oxo_base_849 = "quinolin-4-one" if _n_sub_849(1) else "quinolin-4(1H)-one"
+        elif full_base == "isoquinoline":
+            if _oxo_loc_849 == 1:
+                _oxo_base_849 = "isoquinolin-1-one" if _n_sub_849(2) else "isoquinolin-1(2H)-one"
+            elif _oxo_loc_849 == 3:
+                _oxo_base_849 = "isoquinolin-3-one" if _n_sub_849(2) else "isoquinolin-3(2H)-one"
+        elif full_base == "acridine" and _oxo_loc_849 == 9:
+            _oxo_base_849 = "acridin-9-one" if _n_sub_849(10) else "acridin-9(10H)-one"
+        elif full_base == "phenanthridine" and _oxo_loc_849 == 6:
+            _oxo_base_849 = "phenanthridin-6-one" if _n_sub_849(5) else "phenanthridin-6(5H)-one"
+        if _oxo_base_849 is not None:
+            if not _oxo_other_849:
+                return _oxo_base_849
+            return _format_substituents(_oxo_base_849, _oxo_other_849)
+
     return _format_substituents(full_base, substituents)
 
 
@@ -3754,7 +3783,8 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 559: acridine (14-atom tricyclic; C2v symmetry)
     # Ring A: 10a(3)-C1(2)-C2(1)-C3(0)-C4(13)-4a(12); Ring B central: 10a(3)-N10(4)-4b(5)-8a(10)-C9(11)-4a(12)
     # Ring C: 4b(5)-C8(6)-C7(7)-C6(8)-C5(9)-8a(10); GetSubstructMatch picks lower-locant atom for symmetric pairs
-    "c1ccc2nc3ccccc3cc2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None, 11: 9, 12: None, 13: 4},
+    # Phase 849: N10(4) assigned locant 10 so N-substitution is detected (e.g. 10-methylacridin-9-one)
+    "c1ccc2nc3ccccc3cc2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: 10, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None, 11: 9, 12: None, 13: 4},
     # Phase 558: 2,x-naphthyridines (N2=atom9, C8a=atom7, C4a=atom2, C1=atom8, C3=atom0, C4=atom1)
     # Both 2,6 and 2,7 have C2 symmetry; only lower-locant half included
     "c1cc2cnccc2cn1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 1, 9: None},  # 2,6
