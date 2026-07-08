@@ -2625,6 +2625,16 @@ def _apply_hetero_suffixes(
                     base_with_suffix = "9H-purin-2(1H)-thione"
                 elif full_base == "7H-purine" and loc_str == "2":
                     base_with_suffix = "7H-purin-2(1H)-thione"
+            # Phase 852: drop indicated-H from -one/-thione suffix when N at that
+            # locant carries a substituent (P-14.7.1). Covers N-substituted thiolactams
+            # where the compound arrives via the sulfanyl path (C=S → C-SH tautomer).
+            if other and base_with_suffix:
+                for _ih_loc_852 in range(20):
+                    _ih_key_852 = f"({_ih_loc_852}H)"
+                    if (_ih_key_852 in base_with_suffix
+                            and any(l == _ih_loc_852 for l, _ in other)):
+                        base_with_suffix = base_with_suffix.replace(_ih_key_852, "")
+                        break
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
