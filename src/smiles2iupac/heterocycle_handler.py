@@ -4946,6 +4946,12 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         base_name = "2,3-dihydroindole"
     elif base_name == "2,3-dihydro-1H-isoindole" and any(loc == 2 for loc, _ in substituents):
         base_name = "1,3-dihydroisoindole"
+    # Phase 848: ring systems whose indicated-H is an intrinsic part of the retained name
+    # (not a tautomeric indicator) — never drop even when N at that position is substituted.
+    # phenoxazine/phenothiazine: 10H- specifies the sp3 N bridge; present in ALL derivatives.
+    _INDICATED_H_RETAINED_NAMES: frozenset[str] = frozenset({
+        "10H-phenoxazine", "10H-phenothiazine",
+    })
     # Phase 844/845: drop indicated-H when the N at that locant is substituted
     # (only N positions — C positions may still have H even when carrying a substituent)
     _n_locs_844: set[int] = set()
@@ -4954,7 +4960,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
             if get_atom(graph, match[_bi844]).symbol == "N":
                 _n_locs_844.add(_loc844)
     _n_sub_locs_844 = _n_locs_844 & {loc for loc, _ in substituents}
-    if _n_sub_locs_844:
+    if _n_sub_locs_844 and base_name not in _INDICATED_H_RETAINED_NAMES:
         import re as _re
         # Phase 844: drop (nH) inline indicated-H
         base_name = _re.sub(
