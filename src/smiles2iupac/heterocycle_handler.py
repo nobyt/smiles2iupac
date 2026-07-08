@@ -2653,6 +2653,28 @@ def _apply_hetero_suffixes(
             _oxo_base_849 = "acridin-9-one" if _n_sub_849(10) else "acridin-9(10H)-one"
         elif full_base == "phenanthridine" and _oxo_loc_849 == 6:
             _oxo_base_849 = "phenanthridin-6-one" if _n_sub_849(5) else "phenanthridin-6(5H)-one"
+        # Phase 850: extend oxo→-one to phthalazine, quinazoline, cinnoline, quinoxaline
+        elif full_base == "phthalazine" and _oxo_loc_849 == 1:
+            _oxo_base_849 = "phthalazin-1-one" if _n_sub_849(2) else "phthalazin-1(2H)-one"
+        elif full_base == "quinazoline":
+            if _oxo_loc_849 == 4:
+                _oxo_base_849 = "quinazolin-4-one" if _n_sub_849(3) else "quinazolin-4(3H)-one"
+            elif _oxo_loc_849 == 2:
+                _oxo_base_849 = "quinazolin-2-one" if _n_sub_849(1) else "quinazolin-2(1H)-one"
+        elif full_base == "cinnoline":
+            if _oxo_loc_849 == 3:
+                _oxo_base_849 = "cinnolin-3-one" if _n_sub_849(2) else "cinnolin-3(2H)-one"
+            elif _oxo_loc_849 == 4:
+                _oxo_base_849 = "cinnolin-4-one" if _n_sub_849(1) else "cinnolin-4(1H)-one"
+        elif full_base == "quinoxaline" and _oxo_loc_849 == 2:
+            _oxo_base_849 = "quinoxalin-2-one" if _n_sub_849(1) else "quinoxalin-2(1H)-one"
+        # Phase 851: 5-6 fused rings with C=O at position 2, N at position 3
+        elif full_base == "1H-benzimidazole" and _oxo_loc_849 == 2:
+            _oxo_base_849 = "1H-benzimidazol-2-one" if _n_sub_849(3) else "1H-benzimidazol-2(3H)-one"
+        elif full_base == "1,3-benzoxazole" and _oxo_loc_849 == 2:
+            _oxo_base_849 = "1,3-benzoxazol-2-one" if _n_sub_849(3) else "1,3-benzoxazol-2(3H)-one"
+        elif full_base == "1,3-benzothiazole" and _oxo_loc_849 == 2:
+            _oxo_base_849 = "1,3-benzothiazol-2-one" if _n_sub_849(3) else "1,3-benzothiazol-2(3H)-one"
         if _oxo_base_849 is not None:
             if not _oxo_other_849:
                 return _oxo_base_849
@@ -3747,8 +3769,9 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 627: 2H-indazole (N1 at pos 1, N-H at pos 2; C3 at 3, C3a/C7a junctions)
     "c1ccc2n[nH]cc2c1": {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     # Phase 554: 1,3-benzothiazole and 1,3-benzoxazole (S/O at 1, C at 2, N at 3)
-    "c1ccc2scnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
-    "c1ccc2ocnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 4},
+    # Phase 851: N(atom6) at IUPAC position 3 assigned locant 3 so N-substitution is detected
+    "c1ccc2scnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},
+    "c1ccc2ocnc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},
     # Phase 554: 1,2-benzisothiazole, 1,2-benzisoxazole, 2,1-benzisothiazole (C at 3, heteroatoms at 1,2)
     "c1ccc2sncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
     "c1ccc2oncc2c1":    {0: 5, 1: 6, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},
