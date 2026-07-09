@@ -509,6 +509,15 @@ def _smiles_to_iupac_raw(smiles: str) -> str:
     if _is_carbonohydrazide(graph, get_atom):
         return "carbonohydrazide"
 
+    # Phase 853: 縮合芳香環内の C=S/C=O が PGRP_DISPATCH に誤捕捉されるのを防ぐ。
+    # pgrp anchor が環内にある場合、fused hetero retained check を先に実行。
+    # (例: N-methyl-benzoxazol-2-thione, N-methyl-benzothiazol-2-thione)
+    if _pgrp is not None and _pgrp.atom_indices and has_ring(graph):
+        if get_atom(graph, _pgrp.atom_indices[0]).in_ring:
+            _early_853 = _try_fused_hetero_retained(graph)
+            if _early_853 is not None:
+                return _early_853
+
     # ─── 2b. PGRP_DISPATCH: group_type → handler ──────────────────────────────
     if _pgrp is not None:
         _handler = PGRP_DISPATCH.get(_pgrp.group_type)

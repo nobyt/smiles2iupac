@@ -4003,24 +4003,16 @@
     "inchikey": "BLRHMMGNCXNXJL-UHFFFAOYSA-N",
     "smiles": "Cn1ccc2ccccc21",
     "pubchem_iupac": "1-methylindole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-1H-indole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "FGYADSCZTQOAFK-UHFFFAOYSA-N": {
     "inchikey": "FGYADSCZTQOAFK-UHFFFAOYSA-N",
     "smiles": "Cn1cnc2ccccc21",
     "pubchem_iupac": "1-methylbenzimidazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-1H-benzimidazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "FCEHBMOGCRZNNI-UHFFFAOYSA-N": {
@@ -17815,39 +17807,27 @@
   },
   "RYYVLZVUVIJVGH-UHFFFAOYSA-N": {
     "inchikey": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
-    "smiles": "CN1C(=O)C2=C(N=CN2C)N(C)C1=O",
+    "smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
     "pubchem_iupac": "1,3,7-trimethylpurine-2,6-dione",
     "validated": true,
-    "expected_in_test": "1,3,7-trimethylpurine-2,6-dione",
-    "iupac_verdict": "pin",
-    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": false
+    "expected_in_test": "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "not_found": true
   },
   "ZFXYFBGIUFBOJW-UHFFFAOYSA-N": {
     "inchikey": "ZFXYFBGIUFBOJW-UHFFFAOYSA-N",
     "smiles": "Cn1c(=O)c2[nH]cnc2n(C)c1=O",
     "pubchem_iupac": "1,3-dimethyl-7H-purine-2,6-dione",
     "validated": true,
-    "expected_in_test": "1,3-dimethyl-7H-purine-2,6-dione",
-    "iupac_verdict": "pin",
-    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": false
+    "expected_in_test": "1,3-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "not_found": true
   },
   "YAPQBXQYLJRXSA-UHFFFAOYSA-N": {
     "inchikey": "YAPQBXQYLJRXSA-UHFFFAOYSA-N",
     "smiles": "Cn1cnc2c1c(=O)[nH]c(=O)n2C",
     "pubchem_iupac": "3,7-dimethylpurine-2,6-dione",
     "validated": true,
-    "expected_in_test": "3,7-dimethylpurine-2,6-dione",
-    "iupac_verdict": "pin",
-    "iupac_note": "Phase 847: drop dihydro/indicated-H when N is substituted",
-    "iupac_source": null,
-    "iupac_pin": null,
-    "not_found": false
+    "expected_in_test": "3,7-dimethyl-3,7-dihydro-1H-purine-2,6-dione",
+    "not_found": true
   },
   "LEHOTFFKMJEONL-UHFFFAOYSA-N": {
     "inchikey": "LEHOTFFKMJEONL-UHFFFAOYSA-N",
@@ -36220,12 +36200,8 @@
     "inchikey": "WOJNPXDLJUEHGP-UHFFFAOYSA-N",
     "smiles": "CN1C=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "FVKONMYOYYXZAQ-UHFFFAOYSA-N": {
@@ -36268,12 +36244,8 @@
     "inchikey": "OBEFWOVHXQTYJK-UHFFFAOYSA-N",
     "smiles": "CN1C=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzimidazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzimidazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "XMLUAPAWXDNVTM-UHFFFAOYSA-N": {
@@ -36304,12 +36276,8 @@
     "inchikey": "QSYZWNWTCURLHT-UHFFFAOYSA-N",
     "smiles": "CN1N=CC=2CCCCC12",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydroindazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-indazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "RXKGSALPZYDBQC-UHFFFAOYSA-N": {
@@ -36604,7 +36572,7 @@
     "smiles": "CN1N=NC2=C1CCCC2",
     "pubchem_iupac": "1-methyl-4,5,6,7-tetrahydrobenzotriazole",
     "validated": false,
-    "expected_in_test": "1-methyl-4,5,6,7-tetrahydro-1H-benzo[d][1,2,3]triazole",
+    "expected_in_test": "1-methyl-4,5,6,7-tetrahydrobenzo[d][1,2,3]triazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36967,7 +36935,7 @@
     "smiles": "CN1CNC2=C1C=CC=C2",
     "pubchem_iupac": "3-methyl-1,2-dihydrobenzimidazole",
     "validated": false,
-    "expected_in_test": "1-methyl-2,3-dihydro-1H-benzimidazole",
+    "expected_in_test": "1-methyl-2,3-dihydrobenzimidazole",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -36996,12 +36964,8 @@
     "inchikey": "YUNBUBMIBKDDLE-UHFFFAOYSA-N",
     "smiles": "CN1NCC2=CC=CC=C12",
     "pubchem_iupac": "1-methyl-2,3-dihydroindazole",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-2,3-dihydro-1H-indazole",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "XFKHMTSHLVURGZ-UHFFFAOYSA-N": {
@@ -42668,12 +42632,8 @@
     "inchikey": "VCYBVWFTGAZHGH-UHFFFAOYSA-N",
     "smiles": "O=C1N(C)c2ccccc2C1=O",
     "pubchem_iupac": "1-methylindole-2,3-dione",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methyl-1H-indole-2,3-dione",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "UEHZKEABUOAZSH-UHFFFAOYSA-N": {
@@ -52859,11 +52819,245 @@
   "HXQHRUJXQJEGER-UHFFFAOYSA-N": {
     "inchikey": "HXQHRUJXQJEGER-UHFFFAOYSA-N",
     "smiles": "Cn1nnc2ccccc21",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "1-methylbenzotriazole",
+    "validated": true
   },
   "CSUGQXMRKOKBFI-UHFFFAOYSA-N": {
     "inchikey": "CSUGQXMRKOKBFI-UHFFFAOYSA-N",
     "smiles": "Cn1ncc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "1-methylindazole",
+    "validated": true
+  },
+  "CSJAXRKDCCWCSJ-UHFFFAOYSA-N": {
+    "inchikey": "CSJAXRKDCCWCSJ-UHFFFAOYSA-N",
+    "smiles": "Cn1ccc(=O)c2ccccc21",
+    "pubchem_iupac": "1-methylquinolin-4-one",
+    "validated": true
+  },
+  "QYEMNJMSULGQRD-UHFFFAOYSA-N": {
+    "inchikey": "QYEMNJMSULGQRD-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)ccc2ccccc21",
+    "pubchem_iupac": "1-methylquinolin-2-one",
+    "validated": true
+  },
+  "YJRMHIKEMDTYDR-UHFFFAOYSA-N": {
+    "inchikey": "YJRMHIKEMDTYDR-UHFFFAOYSA-N",
+    "smiles": "Cn1ccc2ccccc2c1=O",
+    "pubchem_iupac": "2-methylisoquinolin-1-one",
+    "validated": true
+  },
+  "NGAHDYQQDICYJW-UHFFFAOYSA-N": {
+    "inchikey": "NGAHDYQQDICYJW-UHFFFAOYSA-N",
+    "smiles": "Cn1cc2ccccc2cc1=O",
+    "pubchem_iupac": "2-methylisoquinolin-3-one",
+    "validated": true
+  },
+  "XUVKSPPGPPFPQN-UHFFFAOYSA-N": {
+    "inchikey": "XUVKSPPGPPFPQN-UHFFFAOYSA-N",
+    "smiles": "Cn1c2ccccc2c(=O)c2ccccc21",
+    "pubchem_iupac": "10-methylacridin-9-one",
+    "validated": true
+  },
+  "UWZASNFULUENAC-UHFFFAOYSA-N": {
+    "inchikey": "UWZASNFULUENAC-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)c2ccccc2c2ccccc21",
+    "pubchem_iupac": "5-methylphenanthridin-6-one",
+    "validated": true
+  },
+  "UHFHXGARFLWEAF-UHFFFAOYSA-N": {
+    "inchikey": "UHFHXGARFLWEAF-UHFFFAOYSA-N",
+    "smiles": "Cn1ccc(=S)c2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "1-methylquinoline-4-thione",
+    "validated": false,
+    "expected_in_test": "1-methylquinolin-4-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "PBRBGUUOYSTUHP-UHFFFAOYSA-N": {
+    "inchikey": "PBRBGUUOYSTUHP-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)ccc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "1-methylquinoline-2-thione",
+    "validated": false,
+    "expected_in_test": "1-methylquinolin-2-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "IEXYLQOPBXUDSK-UHFFFAOYSA-N": {
+    "inchikey": "IEXYLQOPBXUDSK-UHFFFAOYSA-N",
+    "smiles": "Cn1ccc2ccccc2c1=S",
+    "not_found": true,
+    "pubchem_iupac": "2-methylisoquinoline-1-thione",
+    "validated": false,
+    "expected_in_test": "2-methylisoquinolin-1-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "RONGFNVBUFRKFS-UHFFFAOYSA-N": {
+    "inchikey": "RONGFNVBUFRKFS-UHFFFAOYSA-N",
+    "smiles": "Cn1cc2ccccc2cc1=S",
+    "not_found": true
+  },
+  "FWPSNRRYLCPLPU-UHFFFAOYSA-N": {
+    "inchikey": "FWPSNRRYLCPLPU-UHFFFAOYSA-N",
+    "smiles": "Cn1ncc2ccccc2c1=S",
+    "not_found": true,
+    "pubchem_iupac": "2-methylphthalazine-1-thione",
+    "validated": false,
+    "expected_in_test": "2-methylphthalazin-1-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "UTEALFWWKJWPMW-UHFFFAOYSA-N": {
+    "inchikey": "UTEALFWWKJWPMW-UHFFFAOYSA-N",
+    "smiles": "Cn1cnc2ccccc2c1=S",
+    "not_found": true,
+    "pubchem_iupac": "3-methylquinazoline-4-thione",
+    "validated": false,
+    "expected_in_test": "3-methylquinazolin-4-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "CEJCUPYEXYJMPD-UHFFFAOYSA-N": {
+    "inchikey": "CEJCUPYEXYJMPD-UHFFFAOYSA-N",
+    "smiles": "Cn1nc2ccccc2cc1=S",
+    "not_found": true,
+    "pubchem_iupac": "2-methylcinnoline-3-thione",
+    "validated": false,
+    "expected_in_test": "2-methylcinnolin-3-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "VEPLVUFYLZGRBI-UHFFFAOYSA-N": {
+    "inchikey": "VEPLVUFYLZGRBI-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)cnc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "1-methylquinoxaline-2-thione",
+    "validated": false,
+    "expected_in_test": "1-methylquinoxalin-2-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "CDNHLXOFELOEOL-UHFFFAOYSA-N": {
+    "inchikey": "CDNHLXOFELOEOL-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)[nH]c2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1H-benzimidazole-2-thione",
+    "validated": false,
+    "expected_in_test": "3-methyl-1H-benzimidazol-2-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "LPXKHRKKOPKJBM-UHFFFAOYSA-N": {
+    "inchikey": "LPXKHRKKOPKJBM-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)c2ccccc2c2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "5-methylphenanthridine-6-thione",
+    "validated": false,
+    "expected_in_test": "5-methylphenanthridin-6-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "PYEHNKXDXBNHQQ-UHFFFAOYSA-N": {
+    "inchikey": "PYEHNKXDXBNHQQ-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)[nH]c2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1H-benzimidazol-2-one",
+    "validated": true
+  },
+  "QRMRRLXXFHXMBC-UHFFFAOYSA-N": {
+    "inchikey": "QRMRRLXXFHXMBC-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)oc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1,3-benzoxazol-2-one",
+    "validated": true
+  },
+  "LSMMRJUHLKJNLR-UHFFFAOYSA-N": {
+    "inchikey": "LSMMRJUHLKJNLR-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)sc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1,3-benzothiazol-2-one",
+    "validated": true
+  },
+  "ZXMPSTMIJQZYLV-UHFFFAOYSA-N": {
+    "inchikey": "ZXMPSTMIJQZYLV-UHFFFAOYSA-N",
+    "smiles": "Cn1ncc2ccccc2c1=O",
+    "not_found": true,
+    "pubchem_iupac": "2-methylphthalazin-1-one",
+    "validated": true
+  },
+  "FJVAQPINJBFBLI-UHFFFAOYSA-N": {
+    "inchikey": "FJVAQPINJBFBLI-UHFFFAOYSA-N",
+    "smiles": "Cn1cnc2ccccc2c1=O",
+    "not_found": true,
+    "pubchem_iupac": "3-methylquinazolin-4-one",
+    "validated": true
+  },
+  "UNONIHHEHBHRDB-UHFFFAOYSA-N": {
+    "inchikey": "UNONIHHEHBHRDB-UHFFFAOYSA-N",
+    "smiles": "Cn1nc2ccccc2cc1=O",
+    "not_found": true,
+    "pubchem_iupac": "2-methylcinnolin-3-one",
+    "validated": true
+  },
+  "CHPVQLYVDDOWNT-UHFFFAOYSA-N": {
+    "inchikey": "CHPVQLYVDDOWNT-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=O)cnc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "1-methylquinoxalin-2-one",
+    "validated": true
+  },
+  "VMOIPIVQHVFUFO-UHFFFAOYSA-N": {
+    "inchikey": "VMOIPIVQHVFUFO-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)oc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1,3-benzoxazole-2-thione",
+    "validated": false,
+    "expected_in_test": "3-methyl-1,3-benzoxazol-2-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "IRNRNPNZAKHEAW-UHFFFAOYSA-N": {
+    "inchikey": "IRNRNPNZAKHEAW-UHFFFAOYSA-N",
+    "smiles": "Cn1c(=S)sc2ccccc21",
+    "not_found": true,
+    "pubchem_iupac": "3-methyl-1,3-benzothiazole-2-thione",
+    "validated": false,
+    "expected_in_test": "3-methyl-1,3-benzothiazol-2-thione",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "SMILES:Sc1oc2ccccc2[nH]1": {
+    "smiles": "Sc1oc2ccccc2[nH]1",
+    "not_found": true
+  },
+  "SMILES:Sc1sc2ccccc2[nH]1": {
+    "smiles": "Sc1sc2ccccc2[nH]1",
     "not_found": true
   }
 }
