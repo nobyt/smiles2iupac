@@ -791,6 +791,28 @@ def _format_substituents(
     return f"{prefix}{sep}{base}"
 
 
+# Refactor step 3: table-drives the Phase 849-851 oxo->-one suffix rules.
+# (ring name, exo-keto locant) -> N locant whose substitution suppresses the
+# indicated-H in the suffix (P-14.7.1).
+_KETO_SUFFIX_TABLE: dict[tuple[str, int], int] = {
+    ("quinoline", 2): 1,
+    ("quinoline", 4): 1,
+    ("isoquinoline", 1): 2,
+    ("isoquinoline", 3): 2,
+    ("acridine", 9): 10,
+    ("phenanthridine", 6): 5,
+    ("phthalazine", 1): 2,
+    ("quinazoline", 4): 3,
+    ("quinazoline", 2): 1,
+    ("cinnoline", 3): 2,
+    ("cinnoline", 4): 1,
+    ("quinoxaline", 2): 1,
+    ("1H-benzimidazole", 2): 3,
+    ("1,3-benzoxazole", 2): 3,
+    ("1,3-benzothiazole", 2): 3,
+}
+
+
 def _apply_hetero_suffixes(
     full_base: str,
     substituents: list[tuple[int, str]],
@@ -2628,67 +2650,38 @@ def _apply_hetero_suffixes(
             # Phase 852: drop indicated-H from -one/-thione suffix when N at that
             # locant carries a substituent (P-14.7.1). Covers N-substituted thiolactams
             # where the compound arrives via the sulfanyl path (C=S → C-SH tautomer).
+            # Refactor step 4: single regex instead of a range(20) probe loop.
+            # `(1H,3H)`-style dithione markers don't match `\(\d+H\)` and are
+            # left untouched, same as before.
             if other and base_with_suffix:
-                for _ih_loc_852 in range(20):
-                    _ih_key_852 = f"({_ih_loc_852}H)"
-                    if (_ih_key_852 in base_with_suffix
-                            and any(l == _ih_loc_852 for l, _ in other)):
-                        base_with_suffix = base_with_suffix.replace(_ih_key_852, "")
-                        break
+                import re
+                _ih_match = re.search(r"\((\d+)H\)", base_with_suffix)
+                if _ih_match and any(l == int(_ih_match.group(1)) for l, _ in other):
+                    base_with_suffix = base_with_suffix.replace(_ih_match.group(0), "")
             if not other:
                 return base_with_suffix
             return _format_substituents(base_with_suffix, other)
 
-    # Phase 849: exo ring keto (sub_nm == "oxo") on N-heterocycles → -n-one suffix
-    # Arises when RDKit aromatises N-methyl lactam forms (Cn1...c(=O)... canonical).
-    # The (nH) indicated H is omitted when N at that locant carries a substituent (P-14.7.1).
-    _oxo_entries_849 = [(loc, nm) for loc, nm in substituents if nm == "oxo"]
-    if len(_oxo_entries_849) == 1:
-        _oxo_loc_849 = _oxo_entries_849[0][0]
-        _oxo_other_849 = [(loc, nm) for loc, nm in substituents if nm != "oxo"]
-        def _n_sub_849(n_loc: int) -> bool:
-            return any(l == n_loc for l, _ in _oxo_other_849)
-        _oxo_base_849: str | None = None
-        if full_base == "quinoline":
-            if _oxo_loc_849 == 2:
-                _oxo_base_849 = "quinolin-2-one" if _n_sub_849(1) else "quinolin-2(1H)-one"
-            elif _oxo_loc_849 == 4:
-                _oxo_base_849 = "quinolin-4-one" if _n_sub_849(1) else "quinolin-4(1H)-one"
-        elif full_base == "isoquinoline":
-            if _oxo_loc_849 == 1:
-                _oxo_base_849 = "isoquinolin-1-one" if _n_sub_849(2) else "isoquinolin-1(2H)-one"
-            elif _oxo_loc_849 == 3:
-                _oxo_base_849 = "isoquinolin-3-one" if _n_sub_849(2) else "isoquinolin-3(2H)-one"
-        elif full_base == "acridine" and _oxo_loc_849 == 9:
-            _oxo_base_849 = "acridin-9-one" if _n_sub_849(10) else "acridin-9(10H)-one"
-        elif full_base == "phenanthridine" and _oxo_loc_849 == 6:
-            _oxo_base_849 = "phenanthridin-6-one" if _n_sub_849(5) else "phenanthridin-6(5H)-one"
-        # Phase 850: extend oxo→-one to phthalazine, quinazoline, cinnoline, quinoxaline
-        elif full_base == "phthalazine" and _oxo_loc_849 == 1:
-            _oxo_base_849 = "phthalazin-1-one" if _n_sub_849(2) else "phthalazin-1(2H)-one"
-        elif full_base == "quinazoline":
-            if _oxo_loc_849 == 4:
-                _oxo_base_849 = "quinazolin-4-one" if _n_sub_849(3) else "quinazolin-4(3H)-one"
-            elif _oxo_loc_849 == 2:
-                _oxo_base_849 = "quinazolin-2-one" if _n_sub_849(1) else "quinazolin-2(1H)-one"
-        elif full_base == "cinnoline":
-            if _oxo_loc_849 == 3:
-                _oxo_base_849 = "cinnolin-3-one" if _n_sub_849(2) else "cinnolin-3(2H)-one"
-            elif _oxo_loc_849 == 4:
-                _oxo_base_849 = "cinnolin-4-one" if _n_sub_849(1) else "cinnolin-4(1H)-one"
-        elif full_base == "quinoxaline" and _oxo_loc_849 == 2:
-            _oxo_base_849 = "quinoxalin-2-one" if _n_sub_849(1) else "quinoxalin-2(1H)-one"
-        # Phase 851: 5-6 fused rings with C=O at position 2, N at position 3
-        elif full_base == "1H-benzimidazole" and _oxo_loc_849 == 2:
-            _oxo_base_849 = "1H-benzimidazol-2-one" if _n_sub_849(3) else "1H-benzimidazol-2(3H)-one"
-        elif full_base == "1,3-benzoxazole" and _oxo_loc_849 == 2:
-            _oxo_base_849 = "1,3-benzoxazol-2-one" if _n_sub_849(3) else "1,3-benzoxazol-2(3H)-one"
-        elif full_base == "1,3-benzothiazole" and _oxo_loc_849 == 2:
-            _oxo_base_849 = "1,3-benzothiazol-2-one" if _n_sub_849(3) else "1,3-benzothiazol-2(3H)-one"
-        if _oxo_base_849 is not None:
-            if not _oxo_other_849:
-                return _oxo_base_849
-            return _format_substituents(_oxo_base_849, _oxo_other_849)
+    # Phase 849-851 (table-driven, refactor step 3): exo ring keto
+    # (sub_nm == "oxo") on N-heterocycles → -n-one suffix. Arises when RDKit
+    # aromatises N-methyl lactam forms (Cn1...c(=O)... canonical). The (nH)
+    # indicated H is omitted when N at that locant carries a substituent
+    # (P-14.7.1).
+    _oxo_entries = [(loc, nm) for loc, nm in substituents if nm == "oxo"]
+    if len(_oxo_entries) == 1:
+        _oxo_loc = _oxo_entries[0][0]
+        _oxo_other = [(loc, nm) for loc, nm in substituents if nm != "oxo"]
+        _n_loc = _KETO_SUFFIX_TABLE.get((full_base, _oxo_loc))
+        if _n_loc is not None:
+            _stem = full_base[:-1]
+            _n_sub = any(l == _n_loc for l, _ in _oxo_other)
+            _oxo_base = (
+                f"{_stem}-{_oxo_loc}-one" if _n_sub
+                else f"{_stem}-{_oxo_loc}({_n_loc}H)-one"
+            )
+            if not _oxo_other:
+                return _oxo_base
+            return _format_substituents(_oxo_base, _oxo_other)
 
     return _format_substituents(full_base, substituents)
 
