@@ -5,7 +5,11 @@ requires-python = ">=3.11"
 dependencies = ["rdkit>=2023.9"]
 
 [dependency-groups]
-dev = ["pytest>=8", "pytest-cov"]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "pytest-xdist>=3.8.0",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -16,3 +20,6 @@ smiles2iupac = "smiles2iupac._cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/smiles2iupac"]
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
