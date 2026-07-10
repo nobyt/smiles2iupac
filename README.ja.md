@@ -147,6 +147,18 @@ uv run pytest
 uv run pytest tests/test_phase1.py -v
 ```
 
+### テストの構成方針
+
+実装の各段階（「フェーズ」）は歴史的に `tests/test_phaseNNN.py` として個別ファイルに
+分かれてきた。このフェーズ番号はコミットメッセージ・コード中のコメント・
+`docs/REFACTORING_PLAN.md` から参照されているため、**既存の `test_phaseNNN.py` は
+凍結**する — 統合・リネーム・別ファイルへの移動はしない。
+
+特定のフェーズに紐づかない新規テスト（リファクタリング中に見つかった回帰テストや、
+横断的な性質のテストなど）は、代わりに `tests/domains/test_<domain>.py`
+（例: `tests/domains/test_fused_thiones.py`）に追加する。`tests/domains/`
+ディレクトリは最初に必要になった時点で作成する。
+
 ---
 
 ## ライセンス

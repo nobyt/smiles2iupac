@@ -137,6 +137,20 @@ uv run pytest
 uv run pytest tests/test_phase1.py -v
 ```
 
+### Test organization
+
+Each implementation increment ("phase") historically got its own
+`tests/test_phaseNNN.py` file. That history is load-bearing — phase numbers
+are referenced from commit messages, code comments, and `docs/REFACTORING_PLAN.md`
+— so **existing `test_phaseNNN.py` files are frozen**: don't merge, rename,
+or move tests out of them.
+
+New tests that aren't tied to a specific implementation phase (e.g. a
+regression test discovered during refactoring, or a cross-cutting property
+test) go in `tests/domains/test_<domain>.py` instead (e.g.
+`tests/domains/test_fused_thiones.py`). Create the `tests/domains/` directory
+the first time it's needed.
+
 ---
 
 ## License
