@@ -20,22 +20,7 @@ class FunctionalGroup:
     priority: int          # FUNCTIONAL_GROUP_PRIORITY の値
 
 
-def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
-    """
-    MoleculeGraph を走査し、全官能基を検出して優先順位の高い順に返す。
-    最初の要素が principal characteristic group になる。
-
-    ハロゲン (F, Cl, Br, I) は置換基として扱い、ここには含めない。
-    芳香族化合物は現在未対応 (NotImplementedError)。
-    """
-    groups: list[FunctionalGroup] = []
-
-    # 芳香族・環状分子の場合はアルケン/アルキン検出をスキップ
-    # (ring_handler.py が環状命名を担当)
-    has_aromatic = any(a.is_aromatic for a in graph.atoms)
-
-    # --- 官能基パターン検出 ---
-    # 炭素原子のリストを走査
+def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "C":
             continue
@@ -760,8 +745,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
             ))
             continue
 
-    # アルコール: C-O-H (C に隣接する OH)
-    # ※ カルボン酸・アルデヒド・ケトンでない炭素に付く OH
+
+def _detect_alcohol_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     carbonyl_carbons = {g.atom_indices[0] for g in groups}
     for atom in graph.atoms:
         if atom.symbol != "O":
@@ -779,8 +764,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY["alcohol"],
                 ))
 
-    # ヒドロペルオキシド: C-O1-O2-H (Phase 44)
-    # Phase 45: C が carbonyl C (C=O) の場合はペルオキシ酸なので除外
+
+def _detect_hydroperoxide_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     seen_peroxy: set[tuple[int, int]] = set()
     for atom in graph.atoms:
         if atom.symbol != "O":
@@ -809,7 +794,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
             priority=FUNCTIONAL_GROUP_PRIORITY["hydroperoxide"],
         ))
 
-    # 有機ペルオキシド: C-O-O-C (H なし) (Phase 57)
+
+def _detect_peroxide_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     seen_peroxide: set[tuple[int, int]] = set()
     for atom in graph.atoms:
         if atom.symbol != "O":
@@ -845,7 +831,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
             priority=FUNCTIONAL_GROUP_PRIORITY["peroxide"],
         ))
 
-    # チオール / スルホキシド / スルホン / スルホンアミド: S 原子を走査
+
+def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "S":
             continue
@@ -1120,7 +1107,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                         priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
                     ))
 
-    # セレノール / セレニド / テルロール / テルリド / セレン酸: Se/Te 原子を走査
+
+def _detect_selenium_tellurium_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol not in ("Se", "Te"):
             continue
@@ -1208,8 +1196,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
                 ))
 
-    # アミン検出: 環外 N を走査（第一級・第二級・第三級）
-    # アミド (C=O に結合した N) は除外する
+
+def _detect_nitrogen_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "N":
             continue
@@ -1349,7 +1337,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                         priority=FUNCTIONAL_GROUP_PRIORITY["amine"],
                     ))
 
-    # アルケン: C=C (非芳香族、非環状のみ)
+
+def _detect_alkene_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     seen_double = set()
     for atom in graph.atoms:
         if atom.symbol != "C" or atom.in_ring:
@@ -1369,7 +1358,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                         priority=FUNCTIONAL_GROUP_PRIORITY["alkene"],
                     ))
 
-    # アルキン: C≡C (非環状のみ)
+
+def _detect_alkyne_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     seen_triple = set()
     for atom in graph.atoms:
         if atom.symbol != "C" or atom.in_ring:
@@ -1389,7 +1379,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                         priority=FUNCTIONAL_GROUP_PRIORITY["alkyne"],
                     ))
 
-    # ─── Phase 143: リン化合物検出 ────────────────────────────────────────
+
+def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "P" or atom.in_ring:
             continue
@@ -1526,7 +1517,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphite_ester", 84),
                 ))
 
-    # ─── Phase 242: ヒ素化合物検出 ──────────────────────────────────────
+
+def _detect_arsenic_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "As" or atom.in_ring:
             continue
@@ -1576,7 +1568,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_org", 10),
             ))
 
-    # ─── Phase 245: 有機水銀化合物検出 ─────────────────────────────────────
+
+def _detect_mercury_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "Hg" or atom.in_ring:
             continue
@@ -1590,7 +1583,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("organomercury", 6),
             ))
 
-    # ─── Phase 143: ホウ素化合物検出 ──────────────────────────────────────
+
+def _detect_boron_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "B" or atom.in_ring:
             continue
@@ -1647,7 +1641,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY["borate_ester"],
                 ))
 
-    # ─── Phase 143 / 231 / 378 / 379: ケイ素化合物検出 ──────────────────────────────────
+
+def _detect_silicon_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     seen_si: set = set()
     for atom in graph.atoms:
         if atom.symbol != "Si" or atom.in_ring:
@@ -1744,7 +1739,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY["silane_org"],
                 ))
 
-    # ─── Phase 243: ゲルマン・スタンナン検出 ─────────────────────────────
+
+def _detect_germanium_tin_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol not in ("Ge", "Sn") or atom.in_ring:
             continue
@@ -1759,7 +1755,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 8),
             ))
 
-    # ─── Phase 244: ビスマス・アンチモン・鉛 有機水素化物 ─────────────────
+
+def _detect_bismuth_antimony_lead_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol not in ("Bi", "Sb", "Pb") or atom.in_ring:
             continue
@@ -1775,7 +1772,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 7),
             ))
 
-    # ─── Phase 169: イソシアニド検出 ([C-]#[N+]-R) ───────────────────────
+
+def _detect_isocyanide_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "N" or atom.in_ring or atom.formal_charge != 1:
             continue
@@ -1798,7 +1796,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     priority=FUNCTIONAL_GROUP_PRIORITY.get("isocyanide", 37),
                 ))
 
-    # ─── Phase 146: アンモニウムイオン検出 ───────────────────────────────
+
+def _detect_ammonium_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "N" or atom.in_ring or atom.formal_charge != 1:
             continue
@@ -1825,7 +1824,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("ammonium", 11),
             ))
 
-    # ─── Phase 518: ホスホニウム / スルホニウム / アルソニウム検出 ────
+
+def _detect_phosphonium_sulfonium_arsonium_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol not in ("P", "S", "As") or atom.formal_charge != 1:
             continue
@@ -1851,7 +1851,8 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfonium", 11),
             ))
 
-    # ─── Phase 150: ニトレート/ニトライトエステル検出 ─────────────────
+
+def _detect_nitrate_nitrite_ester_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
     for atom in graph.atoms:
         if atom.symbol != "N" or atom.in_ring:
             continue
@@ -1887,6 +1888,85 @@ def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
                     atom_indices=[n_idx, o_alkyl_n[0]] + o_double,
                     priority=FUNCTIONAL_GROUP_PRIORITY["nitrite_ester"],
                 ))
+
+
+def detect_groups(graph: MoleculeGraph) -> list[FunctionalGroup]:
+    """
+    MoleculeGraph を走査し、全官能基を検出して優先順位の高い順に返す。
+    最初の要素が principal characteristic group になる。
+
+    ハロゲン (F, Cl, Br, I) は置換基として扱い、ここには含めない。
+    芳香族化合物は現在未対応 (NotImplementedError)。
+    """
+    groups: list[FunctionalGroup] = []
+
+    # 芳香族・環状分子の場合はアルケン/アルキン検出をスキップ
+    # (ring_handler.py が環状命名を担当)
+    has_aromatic = any(a.is_aromatic for a in graph.atoms)
+
+    # --- 官能基パターン検出 ---
+    # 炭素原子のリストを走査
+    _detect_carbon_anchored_groups(graph, groups)
+
+    # アルコール: C-O-H (C に隣接する OH)
+    # ※ カルボン酸・アルデヒド・ケトンでない炭素に付く OH
+    _detect_alcohol_groups(graph, groups)
+
+    # ヒドロペルオキシド: C-O1-O2-H (Phase 44)
+    # Phase 45: C が carbonyl C (C=O) の場合はペルオキシ酸なので除外
+    _detect_hydroperoxide_groups(graph, groups)
+
+    # 有機ペルオキシド: C-O-O-C (H なし) (Phase 57)
+    _detect_peroxide_groups(graph, groups)
+
+    # チオール / スルホキシド / スルホン / スルホンアミド: S 原子を走査
+    _detect_sulfur_groups(graph, groups)
+
+    # セレノール / セレニド / テルロール / テルリド / セレン酸: Se/Te 原子を走査
+    _detect_selenium_tellurium_groups(graph, groups)
+
+    # アミン検出: 環外 N を走査（第一級・第二級・第三級）
+    # アミド (C=O に結合した N) は除外する
+    _detect_nitrogen_groups(graph, groups)
+
+    # アルケン: C=C (非芳香族、非環状のみ)
+    _detect_alkene_groups(graph, groups)
+
+    # アルキン: C≡C (非環状のみ)
+    _detect_alkyne_groups(graph, groups)
+
+    # ─── Phase 143: リン化合物検出 ────────────────────────────────────────
+    _detect_phosphorus_groups(graph, groups)
+
+    # ─── Phase 242: ヒ素化合物検出 ──────────────────────────────────────
+    _detect_arsenic_groups(graph, groups)
+
+    # ─── Phase 245: 有機水銀化合物検出 ─────────────────────────────────────
+    _detect_mercury_groups(graph, groups)
+
+    # ─── Phase 143: ホウ素化合物検出 ──────────────────────────────────────
+    _detect_boron_groups(graph, groups)
+
+    # ─── Phase 143 / 231 / 378 / 379: ケイ素化合物検出 ──────────────────────────────────
+    _detect_silicon_groups(graph, groups)
+
+    # ─── Phase 243: ゲルマン・スタンナン検出 ─────────────────────────────
+    _detect_germanium_tin_groups(graph, groups)
+
+    # ─── Phase 244: ビスマス・アンチモン・鉛 有機水素化物 ─────────────────
+    _detect_bismuth_antimony_lead_groups(graph, groups)
+
+    # ─── Phase 169: イソシアニド検出 ([C-]#[N+]-R) ───────────────────────
+    _detect_isocyanide_groups(graph, groups)
+
+    # ─── Phase 146: アンモニウムイオン検出 ───────────────────────────────
+    _detect_ammonium_groups(graph, groups)
+
+    # ─── Phase 518: ホスホニウム / スルホニウム / アルソニウム検出 ────
+    _detect_phosphonium_sulfonium_arsonium_groups(graph, groups)
+
+    # ─── Phase 150: ニトレート/ニトライトエステル検出 ─────────────────
+    _detect_nitrate_nitrite_ester_groups(graph, groups)
 
     # アルカン: 上記なし
     if not groups:
