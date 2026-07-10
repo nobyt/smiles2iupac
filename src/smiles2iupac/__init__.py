@@ -514,9 +514,9 @@ def _smiles_to_iupac_raw(smiles: str) -> str:
     # (例: N-methyl-benzoxazol-2-thione, N-methyl-benzothiazol-2-thione)
     if _pgrp is not None and _pgrp.atom_indices and has_ring(graph):
         if get_atom(graph, _pgrp.atom_indices[0]).in_ring:
-            _early_853 = _try_fused_hetero_retained(graph)
-            if _early_853 is not None:
-                return _early_853
+            _early_fused_hetero_name = _try_fused_hetero_retained(graph)
+            if _early_fused_hetero_name is not None:
+                return _early_fused_hetero_name
 
     # ─── 2b. PGRP_DISPATCH: group_type → handler ──────────────────────────────
     if _pgrp is not None:

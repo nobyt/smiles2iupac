@@ -4780,25 +4780,25 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
 
     # Phase 407: also try extended core (ring atoms + exo C=O oxygens on ring carbons)
     # Needed for retained names whose parent includes an exo C=O (e.g., indolin-2-one, isoindolin-1-one)
-    _ring_set_407 = set(all_ring_atoms)
-    _exo_co_o_407: set[int] = set()
-    for _ra_407 in all_ring_atoms:
-        _a_407 = graph.rdkit_mol.GetAtomWithIdx(_ra_407)
-        if _a_407.GetSymbol() == "C":
-            for _nb_407 in _a_407.GetNeighbors():
-                _ni_407 = _nb_407.GetIdx()
-                if _ni_407 not in _ring_set_407:
-                    _bond_407 = graph.rdkit_mol.GetBondBetweenAtoms(_ra_407, _ni_407)
-                    if _nb_407.GetSymbol() == "O" and _bond_407.GetBondTypeAsDouble() == 2.0:
-                        _exo_co_o_407.add(_ni_407)
-    if _exo_co_o_407:
-        _ext_atoms_407 = sorted(all_ring_atoms) + sorted(_exo_co_o_407)
-        _ext_raw_407 = MolFragmentToSmiles(graph.rdkit_mol, _ext_atoms_407, canonical=True)
-        _ext_mol_407 = MolFromSmiles(_ext_raw_407)
-        if _ext_mol_407 is not None:
-            _ext_smi_407 = MolToSmiles(_ext_mol_407)
-            if _ext_smi_407 in _FUSED_HETERO_RETAINED and _ext_smi_407 in _FUSED_LOCANT_MAP:
-                core_smi = _ext_smi_407
+    _core_ring_set = set(all_ring_atoms)
+    _exo_carbonyl_oxygens: set[int] = set()
+    for _ring_atom_idx in all_ring_atoms:
+        _ring_rdkit_atom = graph.rdkit_mol.GetAtomWithIdx(_ring_atom_idx)
+        if _ring_rdkit_atom.GetSymbol() == "C":
+            for _neighbor_rdkit_atom in _ring_rdkit_atom.GetNeighbors():
+                _neighbor_idx = _neighbor_rdkit_atom.GetIdx()
+                if _neighbor_idx not in _core_ring_set:
+                    _neighbor_bond = graph.rdkit_mol.GetBondBetweenAtoms(_ring_atom_idx, _neighbor_idx)
+                    if _neighbor_rdkit_atom.GetSymbol() == "O" and _neighbor_bond.GetBondTypeAsDouble() == 2.0:
+                        _exo_carbonyl_oxygens.add(_neighbor_idx)
+    if _exo_carbonyl_oxygens:
+        _ext_core_atom_indices = sorted(all_ring_atoms) + sorted(_exo_carbonyl_oxygens)
+        _ext_core_smiles_raw = MolFragmentToSmiles(graph.rdkit_mol, _ext_core_atom_indices, canonical=True)
+        _ext_core_mol = MolFromSmiles(_ext_core_smiles_raw)
+        if _ext_core_mol is not None:
+            _ext_core_smiles = MolToSmiles(_ext_core_mol)
+            if _ext_core_smiles in _FUSED_HETERO_RETAINED and _ext_core_smiles in _FUSED_LOCANT_MAP:
+                core_smi = _ext_core_smiles
 
     base_name = _FUSED_HETERO_RETAINED.get(core_smi)
     locant_map_def = _FUSED_LOCANT_MAP.get(core_smi)
@@ -4918,25 +4918,25 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     from .substituent import name_substituent
 
     # Phase 405: isoindoline + 2 exo C=O at C1/C3 → isoindole-1,3(2H)-dione
-    if base_name == "2,3-dihydro-1H-isoindole" and len(_exo_co_o_407) == 2:
-        _ring_set_405 = set(match)
-        _excl_nbr_405 = _ring_set_405 | _exo_co_o_407
-        _subs_405: list[tuple[int, str]] = []
-        for _bi_405, _loc_405 in locant_map_def.items():
-            if _loc_405 is None or _loc_405 == 1:  # junctions or C=O carbons
+    if base_name == "2,3-dihydro-1H-isoindole" and len(_exo_carbonyl_oxygens) == 2:
+        _isoindole_ring_set = set(match)
+        _isoindole_excluded_neighbors = _isoindole_ring_set | _exo_carbonyl_oxygens
+        _isoindole_subs: list[tuple[int, str]] = []
+        for _ring_idx, _locant in locant_map_def.items():
+            if _locant is None or _locant == 1:  # junctions or C=O carbons
                 continue
-            _ri_405 = match[_bi_405]
-            for _nb_405 in graph.adjacency[_ri_405]:
-                if _nb_405 in _excl_nbr_405:
+            _ring_atom = match[_ring_idx]
+            for _dione_neighbor_idx in graph.adjacency[_ring_atom]:
+                if _dione_neighbor_idx in _isoindole_excluded_neighbors:
                     continue
-                if get_atom(graph, _nb_405).symbol == "H":
+                if get_atom(graph, _dione_neighbor_idx).symbol == "H":
                     continue
-                _subs_405.append((_loc_405, name_substituent(graph, _nb_405, _ring_set_405)))
-        _n2_sub_405 = any(loc == 2 for loc, _ in _subs_405)
-        _base_405 = "isoindole-1,3-dione" if _n2_sub_405 else "isoindole-1,3(2H)-dione"
-        if not _subs_405:
-            return _base_405
-        return _format_substituents(_base_405, _subs_405)
+                _isoindole_subs.append((_locant, name_substituent(graph, _dione_neighbor_idx, _isoindole_ring_set)))
+        _isoindole_n2_substituted = any(loc == 2 for loc, _ in _isoindole_subs)
+        _isoindole_base_name = "isoindole-1,3-dione" if _isoindole_n2_substituted else "isoindole-1,3(2H)-dione"
+        if not _isoindole_subs:
+            return _isoindole_base_name
+        return _format_substituents(_isoindole_base_name, _isoindole_subs)
 
     ring_set = set(all_ring_atoms)
     substituents: list[tuple[int, str]] = []
@@ -5033,24 +5033,24 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     })
     # Phase 844/845: drop indicated-H when the N at that locant is substituted
     # (only N positions — C positions may still have H even when carrying a substituent)
-    _n_locs_844: set[int] = set()
-    for _bi844, _loc844 in locant_map_def.items():
-        if _loc844 is not None and _bi844 < len(match):
-            if get_atom(graph, match[_bi844]).symbol == "N":
-                _n_locs_844.add(_loc844)
-    _n_sub_locs_844 = _n_locs_844 & {loc for loc, _ in substituents}
-    if _n_sub_locs_844 and base_name not in _INDICATED_H_RETAINED_NAMES:
+    _ring_n_locants: set[int] = set()
+    for _n_ring_idx, _n_locant in locant_map_def.items():
+        if _n_locant is not None and _n_ring_idx < len(match):
+            if get_atom(graph, match[_n_ring_idx]).symbol == "N":
+                _ring_n_locants.add(_n_locant)
+    _substituted_n_locants = _ring_n_locants & {loc for loc, _ in substituents}
+    if _substituted_n_locants and base_name not in _INDICATED_H_RETAINED_NAMES:
         import re as _re
         # Phase 844: drop (nH) inline indicated-H
         base_name = _re.sub(
             r'\((\d+)H\)',
-            lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
         # Phase 845: drop nH- prefix indicated-H (e.g. 1H-indole → indole)
         base_name = _re.sub(
             r'^(\d+)H-',
-            lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
         # Phase 846: drop mid-string -nH- (e.g. tetrahydro-1H-indole → tetrahydroindole)
@@ -5058,12 +5058,12 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         # "dihydro1,5-benzodiazepine" (wrong) → "dihydro-1,5-benzodiazepine" (correct)
         base_name = _re.sub(
             r'-(\d+)H-(\d)',
-            lambda m: ("-" + m.group(2)) if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            lambda m: ("-" + m.group(2)) if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
         base_name = _re.sub(
             r'-(\d+)H-',
-            lambda m: "" if int(m.group(1)) in _n_sub_locs_844 else m.group(0),
+            lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
     return _apply_hetero_suffixes(base_name, substituents)
@@ -5263,31 +5263,31 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
         locs_sorted_e = sorted(locs_e)
         suffix_e = "dione" if len(locs_sorted_e) == 2 else "trione"
         # Phase 403: pre-check for pyrrole-imide pattern (maleimide/N-subst. maleimide)
-        _is_pyrrole_imide_403 = False
-        _n_403: "int | None" = None
+        _is_maleimide_pyrrole = False
+        _pyrrole_n_atom: "int | None" = None
         if base_name.endswith("pyrrole"):
-            _n_403 = next((idx for idx in ring if _get_atom_lact(graph, idx).symbol == "N"), None)
-            if _n_403 is not None:
-                _nc_403 = [nb for nb in graph.adjacency[_n_403] if nb in ring_set_lactam]
-                if (len(_nc_403) == 2 and _has_exo_dbl_o(_nc_403[0]) is not None
-                        and _has_exo_dbl_o(_nc_403[1]) is not None):
-                    _is_pyrrole_imide_403 = True
+            _pyrrole_n_atom = next((idx for idx in ring if _get_atom_lact(graph, idx).symbol == "N"), None)
+            if _pyrrole_n_atom is not None:
+                _pyrrole_n_carbonyl_neighbors = [nb for nb in graph.adjacency[_pyrrole_n_atom] if nb in ring_set_lactam]
+                if (len(_pyrrole_n_carbonyl_neighbors) == 2 and _has_exo_dbl_o(_pyrrole_n_carbonyl_neighbors[0]) is not None
+                        and _has_exo_dbl_o(_pyrrole_n_carbonyl_neighbors[1]) is not None):
+                    _is_maleimide_pyrrole = True
         # Phase 405: pre-check for phthalimide / isoindole-dione pattern
-        _is_isoindole_dione_405 = False
-        _n_405: "int | None" = None
+        _is_phthalimide_isoindole = False
+        _isoindole_n_atom: "int | None" = None
         if base_name == "pyrrolidine" and len(locs_sorted_e) == 2:
-            _arom_junc_405 = [
+            _isoindole_aromatic_junctions = [
                 idx for idx in ring
                 if _get_atom_lact(graph, idx).is_aromatic
                 and any(idx in frozenset(r) for r in graph.ring_atom_sets
                         if frozenset(r) != ring_set_lactam)
             ]
-            if len(_arom_junc_405) == 2:
-                _n_405 = next(
+            if len(_isoindole_aromatic_junctions) == 2:
+                _isoindole_n_atom = next(
                     (idx for idx in ring if _get_atom_lact(graph, idx).symbol == "N"), None
                 )
-                if _n_405 is not None:
-                    _is_isoindole_dione_405 = True
+                if _isoindole_n_atom is not None:
+                    _is_phthalimide_isoindole = True
         if is_nh:
             # Phase 401: indicated-H dione — use canonical rotation (already IUPAC-optimal)
             _nh_atoms_e = [
@@ -5300,22 +5300,22 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
             _nh_str_e = ",".join(f"{l}H" for l in _nh_locs_e)
             loc_str_e = ",".join(str(l) for l in locs_sorted_e)
             dione_name_e = f"{base_name}-{loc_str_e}({_nh_str_e})-{suffix_e}"
-        elif _is_pyrrole_imide_403:
+        elif _is_maleimide_pyrrole:
             # Phase 403: maleimide / N-substituted maleimide → 1H-pyrrole-{loc}-dione
             loc_str_e = ",".join(str(l) for l in locs_sorted_e)
-            _excl_403 = set(exo_co_oxygens_e)
-            _subs_raw_403 = _collect_hetero_substituents(
-                graph, ring, locant_map, excluded_atoms=_excl_403
+            _maleimide_excluded_atoms = set(exo_co_oxygens_e)
+            _maleimide_subs_raw = _collect_hetero_substituents(
+                graph, ring, locant_map, excluded_atoms=_maleimide_excluded_atoms
             )
-            _n_num_403 = locant_map[_n_403] if _n_403 is not None else 1
-            _subs_403 = [(_n_num_403 if loc == "N" else loc, nm) for loc, nm in _subs_raw_403]
+            _maleimide_n_locant = locant_map[_pyrrole_n_atom] if _pyrrole_n_atom is not None else 1
+            _maleimide_subs = [(_maleimide_n_locant if loc == "N" else loc, nm) for loc, nm in _maleimide_subs_raw]
             # Phase 843: N-substituted → drop 1H- prefix (N1 carries substituent, not H)
-            _has_n_sub_403 = any(loc == _n_num_403 for loc, _ in _subs_403)
-            dione_name_e = (f"pyrrole-{loc_str_e}-{suffix_e}" if _has_n_sub_403
+            _maleimide_n_substituted = any(loc == _maleimide_n_locant for loc, _ in _maleimide_subs)
+            dione_name_e = (f"pyrrole-{loc_str_e}-{suffix_e}" if _maleimide_n_substituted
                             else f"1H-pyrrole-{loc_str_e}-{suffix_e}")
-            if not _subs_403:
+            if not _maleimide_subs:
                 return dione_name_e
-            return _format_substituents(dione_name_e, _subs_403)
+            return _format_substituents(dione_name_e, _maleimide_subs)
         elif base_name == "hexahydropyrimidine" and len(locs_sorted_e) >= 3:
             # Phase 402: barbituric acid → pyrimidine parent + indicated H (trione only)
             _ih_locs_e = sorted(
@@ -5326,19 +5326,19 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
             _ih_str_e = ",".join(f"{l}H" for l in _ih_locs_e)
             loc_str_e = ",".join(str(l) for l in locs_sorted_e)
             dione_name_e = f"pyrimidine-{loc_str_e}({_ih_str_e})-{suffix_e}"
-        elif _is_isoindole_dione_405:
+        elif _is_phthalimide_isoindole:
             # Phase 405: phthalimide / N-subst. phthalimide → isoindole-1,3(2H)-dione
-            _excl_405 = set(exo_co_oxygens_e)
-            _subs_raw_405 = _collect_hetero_substituents(
-                graph, ring, locant_map, excluded_atoms=_excl_405
+            _isoindole_excluded_atoms = set(exo_co_oxygens_e)
+            _isoindole_subs_raw = _collect_hetero_substituents(
+                graph, ring, locant_map, excluded_atoms=_isoindole_excluded_atoms
             )
-            _subs_405 = [(2 if loc == "N" else loc, nm) for loc, nm in _subs_raw_405]
+            _isoindole_subs = [(2 if loc == "N" else loc, nm) for loc, nm in _isoindole_subs_raw]
             # Phase 843: N2-substituted → drop (2H) indicated H
-            dione_name_e = ("isoindole-1,3-dione" if any(loc == 2 for loc, _ in _subs_405)
+            dione_name_e = ("isoindole-1,3-dione" if any(loc == 2 for loc, _ in _isoindole_subs)
                             else "isoindole-1,3(2H)-dione")
-            if not _subs_405:
+            if not _isoindole_subs:
                 return dione_name_e
-            return _format_substituents(dione_name_e, _subs_405)
+            return _format_substituents(dione_name_e, _isoindole_subs)
         else:
             rev_rotation_e = [rotation[0]] + list(reversed(rotation[1:]))
             locant_map_rev_e = _build_locant_map(rev_rotation_e)
