@@ -12,10 +12,11 @@ from smiles2iupac import smiles_to_iupac
     # C9 (unique central-ring position adjacent to N)
     ("Cc1c2ccccc2nc2ccccc12",   "9-methylacridine"),
     # outer-ring positions (lower locant wins due to C2v symmetry)
-    ("Cc1cccc2cc3ccccc3nc12",   "1-methylacridine"),
-    ("Cc1ccc2cc3ccccc3nc2c1",   "2-methylacridine"),
-    ("Cc1ccc2nc3ccccc3cc2c1",   "3-methylacridine"),
-    ("Cc1cccc2nc3ccccc3cc12",   "4-methylacridine"),
+    # Phase 854: corrected 1<->4, 2<->3 (locant map ring-swap fix)
+    ("Cc1cccc2cc3ccccc3nc12",   "4-methylacridine"),
+    ("Cc1ccc2cc3ccccc3nc2c1",   "3-methylacridine"),
+    ("Cc1ccc2nc3ccccc3cc2c1",   "2-methylacridine"),
+    ("Cc1cccc2nc3ccccc3cc12",   "1-methylacridine"),
     # hydroxy at C9 converts to lactam (Phase 761: gamma tautomer)
     ("Oc1c2ccccc2nc2ccccc12",   "acridin-9(10H)-one"),
     ("Nc1c2ccccc2nc2ccccc12",   "acridin-9-amine"),

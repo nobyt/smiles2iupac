@@ -23,16 +23,17 @@ from smiles2iupac import smiles_to_iupac
     ("O=c1[nH]c2ccccc2c2cc(C)ccc12", "9-methylphenanthridin-6(5H)-one"),
     ("O=c1[nH]c2ccccc2c2c(C)cccc12", "10-methylphenanthridin-6(5H)-one"),
     # phenanthridine: N at 5; C1-C4, C6-C10 all aromatic methylable
+    # Phase 854: corrected 1<->10, 2<->9, 3<->8, 4<->7 (locant map ring-swap fix)
     ("c1ccc2c(c1)cnc1ccccc12",    "phenanthridine"),
-    ("Cc1cccc2cnc3ccccc3c12",     "1-methylphenanthridine"),
-    ("Cc1ccc2cnc3ccccc3c2c1",     "2-methylphenanthridine"),
-    ("Cc1ccc2c(c1)cnc1ccccc12",   "3-methylphenanthridine"),
-    ("Cc1cccc2c1cnc1ccccc12",     "4-methylphenanthridine"),
+    ("Cc1cccc2cnc3ccccc3c12",     "10-methylphenanthridine"),
+    ("Cc1ccc2cnc3ccccc3c2c1",     "9-methylphenanthridine"),
+    ("Cc1ccc2c(c1)cnc1ccccc12",   "8-methylphenanthridine"),
+    ("Cc1cccc2c1cnc1ccccc12",     "7-methylphenanthridine"),
     ("c1ccc2c(c1)c(C)nc1ccccc12", "6-methylphenanthridine"),
-    ("c1ccc2c(c1)cnc1c(C)cccc12", "7-methylphenanthridine"),
-    ("c1ccc2c(c1)cnc1cc(C)ccc12", "8-methylphenanthridine"),
-    ("c1ccc2c(c1)cnc1ccc(C)cc12", "9-methylphenanthridine"),
-    ("c1ccc2c(c1)cnc1cccc(C)c12", "10-methylphenanthridine"),
+    ("c1ccc2c(c1)cnc1c(C)cccc12", "4-methylphenanthridine"),
+    ("c1ccc2c(c1)cnc1cc(C)ccc12", "3-methylphenanthridine"),
+    ("c1ccc2c(c1)cnc1ccc(C)cc12", "2-methylphenanthridine"),
+    ("c1ccc2c(c1)cnc1cccc(C)c12", "1-methylphenanthridine"),
 ])
 def test_phase684(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

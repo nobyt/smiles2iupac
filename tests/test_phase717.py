@@ -8,23 +8,25 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # acridine (CH at 1,2,3,4,9; 5=4, 6=3, 7=2, 8=1 by symmetry)
+    # Phase 854: corrected 1<->4, 2<->3 (locant map ring-swap fix)
     ("c1ccc2nc3ccccc3cc2c1",             "acridine"),
-    ("Cc1cccc2cc3ccccc3nc12",            "1-methylacridine"),
-    ("Cc1ccc2cc3ccccc3nc2c1",            "2-methylacridine"),
-    ("Cc1ccc2nc3ccccc3cc2c1",            "3-methylacridine"),
-    ("Cc1cccc2nc3ccccc3cc12",            "4-methylacridine"),
+    ("Cc1cccc2cc3ccccc3nc12",            "4-methylacridine"),
+    ("Cc1ccc2cc3ccccc3nc2c1",            "3-methylacridine"),
+    ("Cc1ccc2nc3ccccc3cc2c1",            "2-methylacridine"),
+    ("Cc1cccc2nc3ccccc3cc12",            "1-methylacridine"),
     ("Cc1c2ccccc2nc2ccccc12",            "9-methylacridine"),
     # phenanthridine (CH at 1,2,3,4,6,7,8,9,10)
+    # Phase 854: corrected 1<->10, 2<->9, 3<->8, 4<->7 (locant map ring-swap fix)
     ("c1ccc2c(c1)cnc1ccccc12",           "phenanthridine"),
-    ("Cc1cccc2cnc3ccccc3c12",            "1-methylphenanthridine"),
-    ("Cc1ccc2cnc3ccccc3c2c1",            "2-methylphenanthridine"),
-    ("Cc1ccc2c(cnc3ccccc32)c1",          "3-methylphenanthridine"),
-    ("Cc1cccc2c1cnc1ccccc12",            "4-methylphenanthridine"),
+    ("Cc1cccc2cnc3ccccc3c12",            "10-methylphenanthridine"),
+    ("Cc1ccc2cnc3ccccc3c2c1",            "9-methylphenanthridine"),
+    ("Cc1ccc2c(cnc3ccccc32)c1",          "8-methylphenanthridine"),
+    ("Cc1cccc2c1cnc1ccccc12",            "7-methylphenanthridine"),
     ("Cc1nc2ccccc2c2ccccc12",            "6-methylphenanthridine"),
-    ("Cc1cccc2c1ncc1ccccc12",            "7-methylphenanthridine"),
-    ("Cc1ccc2c(c1)ncc1ccccc12",          "8-methylphenanthridine"),
-    ("Cc1ccc2ncc3ccccc3c2c1",            "9-methylphenanthridine"),
-    ("Cc1cccc2ncc3ccccc3c12",            "10-methylphenanthridine"),
+    ("Cc1cccc2c1ncc1ccccc12",            "4-methylphenanthridine"),
+    ("Cc1ccc2c(c1)ncc1ccccc12",          "3-methylphenanthridine"),
+    ("Cc1ccc2ncc3ccccc3c2c1",            "2-methylphenanthridine"),
+    ("Cc1cccc2ncc3ccccc3c12",            "1-methylphenanthridine"),
     # phenazine (CH at 1,2; 3=2, 4=1 by symmetry)
     ("c1ccc2nc3ccccc3nc2c1",             "phenazine"),
     ("Cc1cccc2nc3ccccc3nc12",            "1-methylphenazine"),

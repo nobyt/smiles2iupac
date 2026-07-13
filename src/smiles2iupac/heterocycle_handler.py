@@ -3829,11 +3829,13 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1cnc2c(c1)ccc1ncccc12": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: None, 10: 8, 11: 9, 12: 10, 13: None},
     # Phase 561: 1,8-phenanthroline (no symmetry; 8 unique C positions: 2,3,4,5,6,7,9,10)
     "c1cnc2c(c1)ccc1cnccc12": {0: 3, 1: 2, 2: None, 3: None, 4: None, 5: 4, 6: 5, 7: 6, 8: None, 9: 7, 10: None, 11: 9, 12: 10, 13: None},
-    # Phase 559: acridine (14-atom tricyclic; C2v symmetry)
-    # Ring A: 10a(3)-C1(2)-C2(1)-C3(0)-C4(13)-4a(12); Ring B central: 10a(3)-N10(4)-4b(5)-8a(10)-C9(11)-4a(12)
-    # Ring C: 4b(5)-C8(6)-C7(7)-C6(8)-C5(9)-8a(10); GetSubstructMatch picks lower-locant atom for symmetric pairs
+    # Phase 854: acridine (14-atom tricyclic; C2v symmetry). Fixed swapped
+    # substituent locants within each outer ring (1<->4, 2<->3, and their
+    # symmetric mirrors 8<->5, 7<->6). Verified against OPSIN.
+    # Ring A: 9a(12)-C1(13)-C2(0)-C3(1)-C4(2)-4a(3); Ring B central: 9a(12)-C9(11)-8a(10)-N10(4)-4a(3)
+    # Ring C: 8a(10)-C8(9)-C7(8)-C6(7)-C5(6)-4b(5)
     # Phase 849: N10(4) assigned locant 10 so N-substitution is detected (e.g. 10-methylacridin-9-one)
-    "c1ccc2nc3ccccc3cc2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: 10, 5: None, 6: 8, 7: 7, 8: 6, 9: 5, 10: None, 11: 9, 12: None, 13: 4},
+    "c1ccc2nc3ccccc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 10, 5: None, 6: 5, 7: 6, 8: 7, 9: 8, 10: None, 11: 9, 12: None, 13: 1},
     # Phase 558: 2,x-naphthyridines (N2=atom9, C8a=atom7, C4a=atom2, C1=atom8, C3=atom0, C4=atom1)
     # Both 2,6 and 2,7 have C2 symmetry; only lower-locant half included
     "c1cc2cnccc2cn1": {0: 3, 1: 4, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 1, 9: None},  # 2,6
@@ -4225,9 +4227,12 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 417: phenanthridin-6(5H)-one (15 atoms, tricyclic)
     # 0=O(exo), 1=C6(6), 2=N5(5,H), 3=C4b(junc), 4..7=C4..1, 8=C4a(junc), 9=C10a(junc), 10..13=C10..7, 14=C6a(junc)
     "O=c1[nH]c2ccccc2c2ccccc12": {0: None, 1: 6, 2: 5, 3: None, 4: 4, 5: 3, 6: 2, 7: 1, 8: None, 9: None, 10: 10, 11: 9, 12: 8, 13: 7, 14: None},
-    # Phase 417: phenanthridine (14 atoms, tricyclic)
-    # c1ccc2c(c1)cnc1ccccc12: 0=C3, 1=C2, 2=C1, 3=C4a(junc), 4=C4b(junc), 5=C4, 6=C6, 7=N5, 8=C6a(junc), 9..12=C7..10, 13=C10a(junc)
-    "c1ccc2c(c1)cnc1ccccc12": {0: 3, 1: 2, 2: 1, 3: None, 4: None, 5: 4, 6: 6, 7: 5, 8: None, 9: 7, 10: 8, 11: 9, 12: 10, 13: None},
+    # Phase 854: phenanthridine (14 atoms, tricyclic). Fixed swapped ring locants:
+    # the ring reached from N5 via C6/C6a is 7-10 (not 1-4), and the ring reached
+    # from N5 via C4a directly is 1-4 (not 7-10). Verified against OPSIN and real
+    # PubChem CIDs (4-methyl/6-methyl/7-methylphenanthridine).
+    # c1ccc2c(c1)cnc1ccccc12: 0=C8, 1=C9, 2=C10, 3=C10a(junc), 4=C6a(junc), 5=C7, 6=C6, 7=N5, 8=C4a(junc), 9..12=C4..1, 13=C10b(junc)
+    "c1ccc2c(c1)cnc1ccccc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: 4, 10: 3, 11: 2, 12: 1, 13: None},
     # Phase 564: benzo[f]quinoline (N→5; path 1(a2)-2(a12)-3(a11)-4(a10)-N5(a9)-6(a7)-7(a6)-8(a5)-9(a0)-10(a1))
     "c1ccc2c(c1)ccc1ncccc12": {0: 9, 1: 10, 2: 1, 3: None, 4: None, 5: 8, 6: 7, 7: 6, 8: None, 9: 5, 10: 4, 11: 3, 12: 2, 13: None},
     # Phase 564: benzo[h]quinoline (N→10; path 1(a2)-2(a1)-3(a0)-4(a5)-5(a6)-6(a7)-7(a9)-8(a10)-9(a11)-N10(a12))

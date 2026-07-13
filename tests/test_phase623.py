@@ -44,10 +44,11 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1cc2cnccc2cn1", "3-methyl-2,6-naphthyridine"),
     ("Cc1nccc2cnccc12", "1-methyl-2,6-naphthyridine"),
     # acridine (N at 10)
-    ("Cc1ccc2nc3ccccc3cc2c1", "3-methylacridine"),
-    ("Cc1ccc2cc3ccccc3nc2c1", "2-methylacridine"),
-    ("Cc1cccc2cc3ccccc3nc12", "1-methylacridine"),
-    ("Cc1cccc2nc3ccccc3cc12", "4-methylacridine"),
+    # Phase 854: corrected 1<->4, 2<->3 (locant map ring-swap fix)
+    ("Cc1ccc2nc3ccccc3cc2c1", "2-methylacridine"),
+    ("Cc1ccc2cc3ccccc3nc2c1", "3-methylacridine"),
+    ("Cc1cccc2cc3ccccc3nc12", "4-methylacridine"),
+    ("Cc1cccc2nc3ccccc3cc12", "1-methylacridine"),
     ("Cc1c2ccccc2nc2ccccc12",  "9-methylacridine"),
     # pteridine (N at 1,3,5,8)
     ("Cc1cnc2ncncc2n1", "6-methylpteridine"),
