@@ -322,12 +322,22 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
 
 
 def _name_thioic_acid(graph, pgrp, get_atom) -> str:
-    """チオカルボン酸命名 (Phase 149)"""
+    """チオ/セレノカルボン酸命名 (Phase 149, Se 拡張 Phase 861)"""
     from .constants import CHAIN_PREFIX
     gtype = pgrp.group_type
+    # gtype -> (acid word for chain form, carbo-infix for ring/aromatic form)
+    _acid_word = {
+        "thioic_s_acid":   ("thioic S-acid",   "carbothioic S-acid"),
+        "thioic_o_acid":   ("thioic O-acid",   "carbothioic O-acid"),
+        "dithioic_acid":   ("dithioic acid",   "carbodithioic acid"),
+        "selenoic_se_acid": ("selenoic Se-acid", "carboselenoic Se-acid"),
+        "selenoic_o_acid":  ("selenoic O-acid",  "carboselenoic O-acid"),
+        "diselenoic_acid":  ("diselenoic acid",  "carbodiselenoic acid"),
+    }
+    chain_word, carbo_word = _acid_word[gtype]
     carbonyl_c = pgrp.atom_indices[0]
     chalcogen_idxs = {nb for nb in graph.adjacency[carbonyl_c]
-                      if get_atom(graph, nb).symbol in ("O", "S")}
+                      if get_atom(graph, nb).symbol in ("O", "S", "Se")}
     # 芳香族環に直接結合したカルボニル → benzenecarbothioic (Phase 265)
     for nb_idx in graph.adjacency[carbonyl_c]:
         if nb_idx in chalcogen_idxs:
@@ -339,23 +349,13 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
             )
             if (len(ring_atoms) == 6
                     and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
-                if gtype == "thioic_s_acid":
-                    return "benzenecarbothioic S-acid"
-                elif gtype == "thioic_o_acid":
-                    return "benzenecarbothioic O-acid"
-                else:
-                    return "benzenecarbodithioic acid"
+                return f"benzene{carbo_word}"
             # Heteroaromatic ring
             if (any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
                     and all(get_atom(graph, a).is_aromatic for a in ring_atoms)):
                 _apfx_th = _aryl_sulfonyl_prefix(graph, nb_idx, carbonyl_c, get_atom)
                 if _apfx_th is not None:
-                    if gtype == "thioic_s_acid":
-                        return f"{_apfx_th}carbothioic S-acid"
-                    elif gtype == "thioic_o_acid":
-                        return f"{_apfx_th}carbothioic O-acid"
-                    else:
-                        return f"{_apfx_th}carbodithioic acid"
+                    return f"{_apfx_th}{carbo_word}"
     acid_chain = _collect_acid_chain(graph, carbonyl_c, chalcogen_idxs, get_atom)
     n = len(acid_chain)
     stem = CHAIN_PREFIX.get(n, f"C{n}")
@@ -375,18 +375,9 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
         if _stereo_thi:
             _comb_thi = ",".join(d.strip("()") for d in _stereo_thi)
             stereo_pfx = f"({_comb_thi})-"
-    if gtype == "thioic_s_acid":
-        if not mb:
-            return f"{stereo_pfx}{stem}anethioic S-acid"
-        return f"{stereo_pfx}{stem}{mb}ethioic S-acid"
-    elif gtype == "thioic_o_acid":
-        if not mb:
-            return f"{stereo_pfx}{stem}anethioic O-acid"
-        return f"{stereo_pfx}{stem}{mb}ethioic O-acid"
-    else:  # dithioic_acid
-        if not mb:
-            return f"{stereo_pfx}{stem}anedithioic acid"
-        return f"{stereo_pfx}{stem}{mb}edithioic acid"
+    if not mb:
+        return f"{stereo_pfx}{stem}ane{chain_word}"
+    return f"{stereo_pfx}{stem}{mb}e{chain_word}"
 
 
 def _name_nitrate_ester(graph, pgrp, get_atom) -> str:
@@ -6819,6 +6810,9 @@ PGRP_DISPATCH: dict = {
     "thioic_s_acid": _name_thioic_acid,
     "thioic_o_acid": _name_thioic_acid,
     "dithioic_acid": _name_thioic_acid,
+    "selenoic_se_acid": _name_thioic_acid,
+    "selenoic_o_acid": _name_thioic_acid,
+    "diselenoic_acid": _name_thioic_acid,
     "nitrate_ester": _name_nitrate_ester,
     "nitrite_ester": _name_nitrite_ester,
     "carbamic_acid": _name_carbamic_acid,

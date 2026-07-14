@@ -1813,6 +1813,39 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # セレノカルボン酸 (Phase 861): thioic acid の Se 類縁体
+    #   C(=O)-SeH → selenoic Se-acid, C(=Se)-OH → selenoic O-acid,
+    #   C(=Se)-SeH → diselenoic acid
+    "selenoic_se_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="selenoic Se-acid",
+        chain_template="{stem}aneselenoic Se-acid",
+        chain_template_mb="{stem}{mb}selenoic Se-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "selenoic_o_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="selenoic O-acid",
+        chain_template="{stem}aneselenoic O-acid",
+        chain_template_mb="{stem}{mb}selenoic O-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "diselenoic_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="diselenoic acid",
+        chain_template="{stem}anediselenoic acid",
+        chain_template_mb="{stem}{mb}diselenoic acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 150: ニトレートエステル / ニトライトエステル ──────────
     "nitrate_ester": FunctionalGroupSpec(
         priority=88,

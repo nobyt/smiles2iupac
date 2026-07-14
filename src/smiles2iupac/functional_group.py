@@ -369,6 +369,40 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
                     priority=FUNCTIONAL_GROUP_PRIORITY["dithioic_acid"],
                 ))
                 continue
+            # セレノカルボン酸 (Phase 861): thioic acid の Se 類縁体
+            _se2_tc = [nb for nb in graph.adjacency[idx]
+                       if get_atom(graph, nb).symbol == "Se"
+                       and get_bond_order(graph, idx, nb) == 2.0]
+            _se1_tc = [nb for nb in graph.adjacency[idx]
+                       if get_atom(graph, nb).symbol == "Se"
+                       and get_bond_order(graph, idx, nb) == 1.0
+                       and (get_atom(graph, nb).num_hs >= 1
+                            or any(get_atom(graph, hh).symbol == "H"
+                                   for hh in graph.adjacency[nb]))]
+            if _o2_tc and _se1_tc:
+                # C(=O)-SeH: selenoic Se-acid
+                groups.append(FunctionalGroup(
+                    group_type="selenoic_se_acid",
+                    atom_indices=[idx] + _o2_tc + _se1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["selenoic_se_acid"],
+                ))
+                continue
+            if _se2_tc and _o1_tc:
+                # C(=Se)-OH: selenoic O-acid
+                groups.append(FunctionalGroup(
+                    group_type="selenoic_o_acid",
+                    atom_indices=[idx] + _se2_tc + _o1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["selenoic_o_acid"],
+                ))
+                continue
+            if _se2_tc and _se1_tc:
+                # C(=Se)-SeH: diselenoic acid
+                groups.append(FunctionalGroup(
+                    group_type="diselenoic_acid",
+                    atom_indices=[idx] + _se2_tc + _se1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["diselenoic_acid"],
+                ))
+                continue
 
         # チオアルデヒド / チオケトン: C=S (Phase 121)
         # N=C=S (イソチオシアネート) や C=S-N (チオアミド) は除外
