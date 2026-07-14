@@ -1436,13 +1436,18 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 atom_indices=[p_idx] + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["phosphinous_acid"],
             ))
-        elif c_neighbors and not o_neighbors and len(c_neighbors) >= 1 and any(
-            get_atom(graph, nb).symbol == "S" and get_bond_order(graph, p_idx, nb) == 2.0
-            for nb in neighbors
-        ):
+        elif (c_neighbors and not o_neighbors and len(c_neighbors) >= 1
+              and any(get_atom(graph, nb).symbol == "S"
+                      and get_bond_order(graph, p_idx, nb) == 2.0 for nb in neighbors)
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      or (get_atom(graph, nb).symbol == "S"
+                          and get_bond_order(graph, p_idx, nb) == 2.0)
+                      for nb in neighbors)):
             # ホスフィンスルフィド: R_nP(H)_{3-n}=S, n>=1 (Phase 857/859, phosphine_oxide の硫黄類縁体)
             # 以前は下の "phosphane" 分岐に落ちて =S が完全に無視されていた
             # Phase 859: n<3 の第一級/第二級 (RPH2=S, R2PH=S) も対象に拡張
+            # Phase 860: P の置換基が C/H と =S のみのときだけマッチ。N/Cl 等が付いた
+            #   ホスホノチオアミド類 (CP(=S)(N)N) を誤って phosphine sulfide と命名しない
             s_double_p = [nb for nb in neighbors
                           if get_atom(graph, nb).symbol == "S"
                           and get_bond_order(graph, p_idx, nb) == 2.0]
@@ -1503,10 +1508,15 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 atom_indices=[p_idx] + c_neighbors + o_double + o_ester_p,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphinate_ester", 85),
             ))
-        elif len(o_double) == 1 and len(c_neighbors) >= 1 and not o_single:
+        elif (len(o_double) == 1 and len(c_neighbors) >= 1 and not o_single
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      for nb in neighbors if nb not in o_double)):
             # ホスフィンオキシド: R_nP(H)_{3-n}=O, n>=1 (Phase 187/859)
             # Phase 859: n<3 の第一級/第二級 (RPH2=O, R2PH=O) も対象に拡張。
             # not o_single ガードによりエステル/酸は依然この分岐に来ない
+            # Phase 860: P の置換基が C/H と =O のみのときだけマッチ。N/Cl/F 等が
+            #   付いたホスホン酸ジアミド/ジハライド (CP(=O)(N)N, CP(=O)(Cl)Cl) を
+            #   誤って phosphine oxide と命名し置換基を落とす問題を防ぐ
             groups.append(FunctionalGroup(
                 group_type="phosphine_oxide",
                 atom_indices=[p_idx] + c_neighbors[:3] + o_double,
@@ -1567,20 +1577,27 @@ def _detect_arsenic_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) 
                 atom_indices=[as_idx] + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsinous_acid", 56),
             ))
-        elif len(o_double) == 1 and len(c_neighbors) >= 1 and not o_single:
+        elif (len(o_double) == 1 and len(c_neighbors) >= 1 and not o_single
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      for nb in neighbors if nb not in o_double)):
             # アルサンオキシド: R_nAs(H)_{3-n}=O, n>=1 (Phase 857/859, phosphine_oxide のヒ素類縁体)
             # 以前はどの分岐にもマッチせず、官能基が検出されないまま
             # 破綻した名前になっていた。Phase 859 で第一級/第二級も対象に拡張
+            # Phase 860: As の置換基が C/H と =O のみのときだけマッチ (N/Cl 等を落とさない)
             groups.append(FunctionalGroup(
                 group_type="arsane_oxide",
                 atom_indices=[as_idx] + c_neighbors[:3] + o_double,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_oxide", 60),
             ))
-        elif c_neighbors and not o_neighbors and len(c_neighbors) >= 1 and any(
-            get_atom(graph, nb).symbol == "S" and get_bond_order(graph, as_idx, nb) == 2.0
-            for nb in neighbors
-        ):
+        elif (c_neighbors and not o_neighbors and len(c_neighbors) >= 1
+              and any(get_atom(graph, nb).symbol == "S"
+                      and get_bond_order(graph, as_idx, nb) == 2.0 for nb in neighbors)
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      or (get_atom(graph, nb).symbol == "S"
+                          and get_bond_order(graph, as_idx, nb) == 2.0)
+                      for nb in neighbors)):
             # アルサンスルフィド: R_nAs(H)_{3-n}=S, n>=1 (Phase 858/859, arsane_oxide の硫黄類縁体)
+            # Phase 860: As の置換基が C/H と =S のみのときだけマッチ
             s_double_as = [nb for nb in neighbors
                            if get_atom(graph, nb).symbol == "S"
                            and get_bond_order(graph, as_idx, nb) == 2.0]
@@ -1806,10 +1823,15 @@ def _detect_bismuth_antimony_lead_groups(graph: MoleculeGraph, groups: list[Func
             s_double = [nb for nb in neighbors if get_atom(graph, nb).symbol == "S"
                         and get_bond_order(graph, central_idx, nb) == 2.0]
             _base = "bismuthane" if atom.symbol == "Bi" else "stibane"
-            if o_double:
+            # Phase 860: 中心の置換基が C/H と 1 個の =O/=S のみのときだけ
+            #   oxide/sulfide 扱い (N/Cl 等が付いた誘導体で置換基を落とさない)
+            _only_ch = lambda double_atom: all(
+                get_atom(graph, nb).symbol in ("C", "H") or nb == double_atom
+                for nb in neighbors)
+            if o_double and _only_ch(o_double[0]):
                 chalcogen_gtype = f"{_base}_oxide"
                 chalcogen_atom = o_double[0]
-            elif s_double:
+            elif s_double and _only_ch(s_double[0]):
                 chalcogen_gtype = f"{_base}_sulfide"
                 chalcogen_atom = s_double[0]
         if chalcogen_gtype is not None:
