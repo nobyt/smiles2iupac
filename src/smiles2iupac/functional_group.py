@@ -1577,6 +1577,19 @@ def _detect_arsenic_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) 
                 atom_indices=[as_idx] + c_neighbors[:3] + o_double,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_oxide", 60),
             ))
+        elif c_neighbors and not o_neighbors and len(c_neighbors) >= 3 and any(
+            get_atom(graph, nb).symbol == "S" and get_bond_order(graph, as_idx, nb) == 2.0
+            for nb in neighbors
+        ):
+            # アルサンスルフィド: R3As=S (Phase 858, arsane_oxide の硫黄類縁体)
+            s_double_as = [nb for nb in neighbors
+                           if get_atom(graph, nb).symbol == "S"
+                           and get_bond_order(graph, as_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="arsane_sulfide",
+                atom_indices=[as_idx] + c_neighbors[:3] + s_double_as,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_sulfide", 60),
+            ))
         elif c_neighbors and not o_neighbors:
             # ヒ化水素 (arsane): R_n-AsH_{3-n}
             groups.append(FunctionalGroup(
@@ -1778,9 +1791,34 @@ def _detect_bismuth_antimony_lead_groups(graph: MoleculeGraph, groups: list[Func
         if atom.symbol not in ("Bi", "Sb", "Pb") or atom.in_ring:
             continue
         central_idx = atom.idx
-        c_neighbors = [nb for nb in graph.adjacency[central_idx]
-                       if get_atom(graph, nb).symbol == "C"]
-        if c_neighbors:
+        neighbors = graph.adjacency[central_idx]
+        c_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "C"]
+        if not c_neighbors:
+            continue
+        # Phase 858: R3Bi=O/=S, R3Sb=O/=S (bismuthane/stibane oxide/sulfide,
+        # analogous to phosphine_oxide/phosphine_sulfide, Phase 187/857).
+        # Pb has no valid =O/=S analog here (exceeds normal tetravalent Pb).
+        chalcogen_gtype = None
+        chalcogen_atom = None
+        if atom.symbol in ("Bi", "Sb") and len(c_neighbors) >= 3:
+            o_double = [nb for nb in neighbors if get_atom(graph, nb).symbol == "O"
+                        and get_bond_order(graph, central_idx, nb) == 2.0]
+            s_double = [nb for nb in neighbors if get_atom(graph, nb).symbol == "S"
+                        and get_bond_order(graph, central_idx, nb) == 2.0]
+            _base = "bismuthane" if atom.symbol == "Bi" else "stibane"
+            if o_double:
+                chalcogen_gtype = f"{_base}_oxide"
+                chalcogen_atom = o_double[0]
+            elif s_double:
+                chalcogen_gtype = f"{_base}_sulfide"
+                chalcogen_atom = s_double[0]
+        if chalcogen_gtype is not None:
+            groups.append(FunctionalGroup(
+                group_type=chalcogen_gtype,
+                atom_indices=[central_idx] + c_neighbors[:3] + [chalcogen_atom],
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(chalcogen_gtype, 60),
+            ))
+        else:
             _gtype_map = {"Bi": "bismuthane_org", "Sb": "stibane_org", "Pb": "plumbane_org"}
             gtype = _gtype_map[atom.symbol]
             groups.append(FunctionalGroup(

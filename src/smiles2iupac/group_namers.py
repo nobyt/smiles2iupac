@@ -2734,6 +2734,11 @@ def _name_arsane_oxide(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "arsane oxide")
 
 
+def _name_arsane_sulfide(graph, pgrp, get_atom) -> str:
+    """アルサンスルフィド: {alkyl(s)}arsane sulfide (Phase 858, arsane_oxide の硫黄類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "arsane sulfide")
+
+
 def _name_organomercury(graph, pgrp, get_atom) -> str:
     """有機水銀: di{alkyl}mercury or {halo}({alkyl})mercury  (Phase 245)"""
     from .substituent import _name_carbon_substituent
@@ -2768,9 +2773,29 @@ def _name_organic_bismuthane(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "bismuthane")
 
 
+def _name_bismuthane_oxide(graph, pgrp, get_atom) -> str:
+    """ビスマンオキシド: {alkyl(s)}bismuthane oxide (Phase 858, phosphine_oxide のビスマス類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "bismuthane oxide")
+
+
+def _name_bismuthane_sulfide(graph, pgrp, get_atom) -> str:
+    """ビスマンスルフィド: {alkyl(s)}bismuthane sulfide (Phase 858)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "bismuthane sulfide")
+
+
 def _name_organic_stibane(graph, pgrp, get_atom) -> str:
     """有機スチバン: {alkyl(s)}stibane  (Phase 244)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "stibane")
+
+
+def _name_stibane_oxide(graph, pgrp, get_atom) -> str:
+    """スチバンオキシド: {alkyl(s)}stibane oxide (Phase 858, phosphine_oxide のアンチモン類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "stibane oxide")
+
+
+def _name_stibane_sulfide(graph, pgrp, get_atom) -> str:
+    """スチバンスルフィド: {alkyl(s)}stibane sulfide (Phase 858)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "stibane sulfide")
 
 
 def _name_organic_plumbane(graph, pgrp, get_atom) -> str:
@@ -6737,9 +6762,14 @@ PGRP_DISPATCH: dict = {
     "stannane_org": _name_organic_stannane,
     "arsane_org": _name_arsane_org,
     "arsane_oxide": _name_arsane_oxide,
+    "arsane_sulfide": _name_arsane_sulfide,
     "organomercury": _name_organomercury,
     "bismuthane_org": _name_organic_bismuthane,
+    "bismuthane_oxide": _name_bismuthane_oxide,
+    "bismuthane_sulfide": _name_bismuthane_sulfide,
     "stibane_org": _name_organic_stibane,
+    "stibane_oxide": _name_stibane_oxide,
+    "stibane_sulfide": _name_stibane_sulfide,
     "plumbane_org": _name_organic_plumbane,
     "selenonic_acid": _name_selenonic_acid,
     "seleninic_acid": _name_seleninic_acid,

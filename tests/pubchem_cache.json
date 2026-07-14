@@ -53068,5 +53068,55 @@
     "inchikey": "ULIKZLMTBMIHDQ-UHFFFAOYSA-N",
     "smiles": "CC[As](CC)(CC)=O",
     "not_found": true
+  },
+  "POPXJRHXSZWPAQ-UHFFFAOYSA-N": {
+    "inchikey": "POPXJRHXSZWPAQ-UHFFFAOYSA-N",
+    "smiles": "C[As](C)(C)=S",
+    "not_found": true
+  },
+  "PDXFZIWCZNAGOE-UHFFFAOYSA-N": {
+    "inchikey": "PDXFZIWCZNAGOE-UHFFFAOYSA-N",
+    "smiles": "CC[As](CC)(CC)=S",
+    "not_found": true
+  },
+  "VFMZULCMOXRRNQ-UHFFFAOYSA-N": {
+    "inchikey": "VFMZULCMOXRRNQ-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)(C)=O",
+    "not_found": true
+  },
+  "UNJPFNWLPUGUQY-UHFFFAOYSA-N": {
+    "inchikey": "UNJPFNWLPUGUQY-UHFFFAOYSA-N",
+    "smiles": "CC[Bi](CC)(CC)=O",
+    "not_found": true
+  },
+  "ALAWCFDKCLZVJU-UHFFFAOYSA-N": {
+    "inchikey": "ALAWCFDKCLZVJU-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)(C)=S",
+    "not_found": true
+  },
+  "WLGWDGBJKNELTD-UHFFFAOYSA-N": {
+    "inchikey": "WLGWDGBJKNELTD-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)(C)C",
+    "not_found": true
+  },
+  "XYWMKGIIJHMCDU-UHFFFAOYSA-N": {
+    "inchikey": "XYWMKGIIJHMCDU-UHFFFAOYSA-N",
+    "smiles": "C[Sb](C)(C)=O",
+    "not_found": true
+  },
+  "JKCNWCFOTQFHLC-UHFFFAOYSA-N": {
+    "inchikey": "JKCNWCFOTQFHLC-UHFFFAOYSA-N",
+    "smiles": "CC[Sb](CC)(CC)=O",
+    "not_found": true
+  },
+  "WFSHMSGJALVRMK-UHFFFAOYSA-N": {
+    "inchikey": "WFSHMSGJALVRMK-UHFFFAOYSA-N",
+    "smiles": "C[Sb](C)(C)=S",
+    "not_found": true
+  },
+  "PORFVJURJXKREL-UHFFFAOYSA-N": {
+    "inchikey": "PORFVJURJXKREL-UHFFFAOYSA-N",
+    "smiles": "C[Sb](C)C",
+    "not_found": true
   }
 }
