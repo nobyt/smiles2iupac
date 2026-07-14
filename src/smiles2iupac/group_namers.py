@@ -333,11 +333,14 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
         "selenoic_se_acid": ("selenoic Se-acid", "carboselenoic Se-acid"),
         "selenoic_o_acid":  ("selenoic O-acid",  "carboselenoic O-acid"),
         "diselenoic_acid":  ("diselenoic acid",  "carbodiselenoic acid"),
+        "telluroic_te_acid": ("telluroic Te-acid", "carbotelluroic Te-acid"),
+        "telluroic_o_acid":  ("telluroic O-acid",  "carbotelluroic O-acid"),
+        "ditelluroic_acid":  ("ditelluroic acid",  "carboditelluroic acid"),
     }
     chain_word, carbo_word = _acid_word[gtype]
     carbonyl_c = pgrp.atom_indices[0]
     chalcogen_idxs = {nb for nb in graph.adjacency[carbonyl_c]
-                      if get_atom(graph, nb).symbol in ("O", "S", "Se")}
+                      if get_atom(graph, nb).symbol in ("O", "S", "Se", "Te")}
     # 芳香族環に直接結合したカルボニル → benzenecarbothioic (Phase 265)
     for nb_idx in graph.adjacency[carbonyl_c]:
         if nb_idx in chalcogen_idxs:
@@ -6813,6 +6816,9 @@ PGRP_DISPATCH: dict = {
     "selenoic_se_acid": _name_thioic_acid,
     "selenoic_o_acid": _name_thioic_acid,
     "diselenoic_acid": _name_thioic_acid,
+    "telluroic_te_acid": _name_thioic_acid,
+    "telluroic_o_acid": _name_thioic_acid,
+    "ditelluroic_acid": _name_thioic_acid,
     "nitrate_ester": _name_nitrate_ester,
     "nitrite_ester": _name_nitrite_ester,
     "carbamic_acid": _name_carbamic_acid,

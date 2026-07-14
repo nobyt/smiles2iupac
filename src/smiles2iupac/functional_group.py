@@ -403,6 +403,40 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
                     priority=FUNCTIONAL_GROUP_PRIORITY["diselenoic_acid"],
                 ))
                 continue
+            # テルロカルボン酸 (Phase 862): thioic/selenoic acid の Te 類縁体
+            _te2_tc = [nb for nb in graph.adjacency[idx]
+                       if get_atom(graph, nb).symbol == "Te"
+                       and get_bond_order(graph, idx, nb) == 2.0]
+            _te1_tc = [nb for nb in graph.adjacency[idx]
+                       if get_atom(graph, nb).symbol == "Te"
+                       and get_bond_order(graph, idx, nb) == 1.0
+                       and (get_atom(graph, nb).num_hs >= 1
+                            or any(get_atom(graph, hh).symbol == "H"
+                                   for hh in graph.adjacency[nb]))]
+            if _o2_tc and _te1_tc:
+                # C(=O)-TeH: telluroic Te-acid
+                groups.append(FunctionalGroup(
+                    group_type="telluroic_te_acid",
+                    atom_indices=[idx] + _o2_tc + _te1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["telluroic_te_acid"],
+                ))
+                continue
+            if _te2_tc and _o1_tc:
+                # C(=Te)-OH: telluroic O-acid
+                groups.append(FunctionalGroup(
+                    group_type="telluroic_o_acid",
+                    atom_indices=[idx] + _te2_tc + _o1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["telluroic_o_acid"],
+                ))
+                continue
+            if _te2_tc and _te1_tc:
+                # C(=Te)-TeH: ditelluroic acid
+                groups.append(FunctionalGroup(
+                    group_type="ditelluroic_acid",
+                    atom_indices=[idx] + _te2_tc + _te1_tc,
+                    priority=FUNCTIONAL_GROUP_PRIORITY["ditelluroic_acid"],
+                ))
+                continue
 
         # チオアルデヒド / チオケトン: C=S (Phase 121)
         # N=C=S (イソチオシアネート) や C=S-N (チオアミド) は除外

@@ -1846,6 +1846,39 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # テルロカルボン酸 (Phase 862): thioic/selenoic acid の Te 類縁体
+    #   C(=O)-TeH → telluroic Te-acid, C(=Te)-OH → telluroic O-acid,
+    #   C(=Te)-TeH → ditelluroic acid
+    "telluroic_te_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="telluroic Te-acid",
+        chain_template="{stem}anetelluroic Te-acid",
+        chain_template_mb="{stem}{mb}telluroic Te-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "telluroic_o_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="telluroic O-acid",
+        chain_template="{stem}anetelluroic O-acid",
+        chain_template_mb="{stem}{mb}telluroic O-acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "ditelluroic_acid": FunctionalGroupSpec(
+        priority=98,
+        suffix="ditelluroic acid",
+        chain_template="{stem}aneditelluroic acid",
+        chain_template_mb="{stem}{mb}ditelluroic acid",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 150: ニトレートエステル / ニトライトエステル ──────────
     "nitrate_ester": FunctionalGroupSpec(
         priority=88,
