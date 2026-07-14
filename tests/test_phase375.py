@@ -28,8 +28,8 @@ from smiles2iupac import smiles_to_iupac
     ("CSO",            "methanesulfenic acid"),
     ("CCSO",           "ethanesulfenic acid"),
     # Regressions: sulfide unchanged
-    ("CSC",            "dimethyl sulfide"),
-    ("CSCC",           "ethyl methyl sulfide"),
+    ("CSC",            "(methylsulfanyl)methane"),
+    ("CSCC",           "(methylsulfanyl)ethane"),
 ])
 def test_phase375_sulfenyl_halide_sulfenate(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

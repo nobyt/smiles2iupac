@@ -1073,13 +1073,12 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                         atom_indices=[s_idx, carbonyl_cs[0]] + alkyl_cs,
                         priority=FUNCTIONAL_GROUP_PRIORITY["thioester"],
                     ))
-            else:
-                # チオエーテル: C-S-C
-                groups.append(FunctionalGroup(
-                    group_type="sulfide",
-                    atom_indices=[s_idx] + c_neighbors,
-                    priority=FUNCTIONAL_GROUP_PRIORITY["sulfide"],
-                ))
+            # else: チオエーテル C-S-C は独立した官能基として検出しない
+            # (Phase 855: エーテル C-O-C と同様、置換基命名側で
+            # "アルキルスルファニル" 接頭辞として自然に処理させる。
+            # IUPAC 2013 P-63.1.5 は sulfide/thioether も ether と同じく
+            # 置換命名法 (sulfanyl 接頭辞) が優先IUPAC名であり、
+            # "dialkyl sulfide" 官能基クラス名は一般名にとどまる)
         elif (len(h_neighbors) == 0 and len(c_neighbors) == 1
               and not o_double and len(n_neighbors) == 0):
             # ジスルフィド / トリスルフィド / テトラスルフィド: C-Sn-C (Phase 56/226)

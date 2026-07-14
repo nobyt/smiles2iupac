@@ -23,7 +23,7 @@ from smiles2iupac import smiles_to_iupac
 
     # ── regressions ───────────────────────────────────────────────────────
     ("C[SeH]",           "methaneselenol"),
-    ("CSC",              "dimethyl sulfide"),
+    ("CSC",              "(methylsulfanyl)methane"),
 ])
 def test_phase286_selenide_telluride_pin(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

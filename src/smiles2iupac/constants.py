@@ -412,16 +412,6 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
-    "sulfide": FunctionalGroupSpec(
-        priority=30,
-        suffix="sulfide",
-        chain_template="",
-        chain_template_mb="",
-        needs_locant=False,
-        anchor_c1=False,
-        cyclic_template=None,
-        benzene_name=None,
-    ),
     "thiol": FunctionalGroupSpec(
         priority=45,
         suffix="thiol",

@@ -3,7 +3,8 @@ Phase 26 テスト: スルホン酸・スルフィド
 
 対象 (IUPAC P-63.6, P-63.5):
   スルホン酸: C-S(=O)₂-OH → {stem}anesulfonic acid
-  スルフィド: C-S-C → {alkyl1} {alkyl2} sulfide (functional class naming)
+  スルフィド: C-S-C → (alkylsulfanyl){parent} (Phase 855: 置換命名法が優先IUPAC名。
+    "R R' sulfide" 官能基クラス名は許容名にとどまる)
 """
 from smiles2iupac import smiles_to_iupac
 
@@ -26,13 +27,13 @@ class TestSulfonicAcids:
 class TestSulfides:
 
     def test_dimethyl_sulfide(self):
-        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
+        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
 
     def test_ethyl_methyl_sulfide(self):
-        assert smiles_to_iupac("CSCC") == "ethyl methyl sulfide"
+        assert smiles_to_iupac("CSCC") == "(methylsulfanyl)ethane"
 
     def test_diethyl_sulfide(self):
-        assert smiles_to_iupac("CCSCC") == "diethyl sulfide"
+        assert smiles_to_iupac("CCSCC") == "(ethylsulfanyl)ethane"
 
     def test_methyl_phenyl_sulfide(self):
-        assert smiles_to_iupac("CSc1ccccc1") == "methyl phenyl sulfide"
+        assert smiles_to_iupac("CSc1ccccc1") == "(methylsulfanyl)benzene"

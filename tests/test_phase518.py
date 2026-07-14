@@ -19,7 +19,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: neutral phosphane still works
     ("CP(C)C",          "trimethylphosphane"),
     # regression: thioether still works
-    ("CSC",             "dimethyl sulfide"),
+    ("CSC",             "(methylsulfanyl)methane"),
 ])
 def test_phase518_onium_cations(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

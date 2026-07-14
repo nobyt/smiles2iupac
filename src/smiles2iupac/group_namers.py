@@ -2023,53 +2023,6 @@ def _name_chloroformate(graph, pgrp, get_atom) -> str:
     return f"{alkyl_name} {halide_suffix}"
 
 
-def _name_sulfide(graph, pgrp, get_atom) -> str:
-    """
-    チオエーテル命名: IUPAC 2013 P-63.6.1 dialkyl sulfide 形式
-    例: CSC → dimethyl sulfide
-        CSCC → ethyl methyl sulfide
-        CSc1ccccc1 → methyl phenyl sulfide
-    """
-    import re as _re_sf
-    from .substituent import _name_carbon_substituent, name_substituent
-
-    s_idx = pgrp.atom_indices[0]
-    c_neighbors = [nb for nb in graph.adjacency[s_idx]
-                   if get_atom(graph, nb).symbol == "C"]
-    if len(c_neighbors) < 2:
-        return "sulfide"
-
-    c1, c2 = c_neighbors[0], c_neighbors[1]
-
-    def _group_name(c_idx: int) -> str:
-        atom = get_atom(graph, c_idx)
-        if atom.in_ring and atom.is_aromatic:
-            return name_substituent(graph, c_idx, {s_idx}) or "phenyl"
-        return _name_carbon_substituent(graph, c_idx, {s_idx})
-
-    name1 = _group_name(c1)
-    name2 = _group_name(c2)
-
-    def _needs_parens(nm: str) -> bool:
-        return bool(_re_sf.search(r"[0-9]", nm)) or nm.startswith("(")
-
-    def _alpha_base(nm: str) -> str:
-        s = _re_sf.sub(r"^\(", "", nm)
-        s = _re_sf.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
-
-    if names[0] == names[1]:
-        nm = names[0]
-        prefix = f"bis({nm})" if _needs_parens(nm) else f"di{nm}"
-    else:
-        parts = [f"({nm})" if _needs_parens(nm) else nm for nm in names]
-        prefix = " ".join(parts)
-
-    return f"{prefix} sulfide"
-
-
 def _name_sulfinyl_chloride(graph, pgrp, get_atom) -> str:
     """スルフィニルハライド命名: {stem}anesulfinyl {halide} (Phase 224)"""
     from .constants import CHAIN_PREFIX
@@ -6785,7 +6738,6 @@ PGRP_DISPATCH: dict = {
     "sulfamic_acid": _name_sulfamic_acid,
     "disulfonamide": _name_disulfonamide,
     "sulfinamide": _name_sulfinamide,
-    "sulfide": _name_sulfide,
     "phosphate_ester": _name_phosphate_ester,
     "phosphonate_halfester": _name_phosphonate_halfester,
     "phosphonate_ester": _name_phosphonate_ester,

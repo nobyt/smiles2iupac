@@ -20,7 +20,7 @@ class TestDisulfide:
 class TestDisulfideVsSulfide:
 
     def test_sulfide_unchanged(self):
-        assert smiles_to_iupac("CSC") == "dimethyl sulfide"
+        assert smiles_to_iupac("CSC") == "(methylsulfanyl)methane"
 
     def test_thiol_unchanged(self):
         assert smiles_to_iupac("CCS") == "ethanethiol"

@@ -7,7 +7,7 @@ use brackets [ ] instead of parentheses ( ), per IUPAC 2013 P-16.3.4:
   Level 3: { }
 
 Examples:
-  "dimethyl sulfide"  -- level-1 only, keeps ()
+  "(methylsulfanyl)methane"  -- level-1 only, keeps ()
   "N-[(2E)-but-2-en-1-yl]urea"  -- inner (2E) forces outer to []
   "2-[4-(2-methylpropyl)phenyl]propanoic acid"  -- inner () forces outer []
 
@@ -22,7 +22,7 @@ from smiles2iupac import smiles_to_iupac
 @pytest.mark.parametrize("smiles,expected", [
     # Level-1 only: () retained
     ("CS(=O)C",              "dimethyl sulfoxide"),
-    ("CSC",                  "dimethyl sulfide"),
+    ("CSC",                  "(methylsulfanyl)methane"),
     ("OC(C)c1ccccc1",        "1-phenylethanol"),
     # Top-level stereo descriptor: always keeps ()
     ("OC(=O)/C=C/CC",        "(2E)-pent-2-enoic acid"),

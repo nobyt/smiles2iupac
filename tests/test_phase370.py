@@ -1,12 +1,21 @@
-"""Phase 370: Sulfide/disulfide preferred IUPAC 2013 names (dialkyl format).
+"""Phase 370: Disulfide preferred IUPAC 2013 names (dialkyl format).
 
-Previously _name_sulfide and _name_disulfide used substitutive forms like
-'(methylsulfanyl)methane' and '(methyldisulfanyl)methane'. IUPAC 2013 P-63.6.1
-/ P-63.7.1 require the functional-class form: group names + 'sulfide'/'disulfide'.
+Disulfides (R-S-S-R') keep the functional-class 'dialkyl disulfide' form here
+(no simple substitutive equivalent is commonly used for the -S-S- linkage as
+a substituent chain the way -S- is for sulfides).
 
-Rules (same as for sulfone/sulfoxide, Phase 369):
-  - Same groups: di<group> sulfide/disulfide
-  - Different groups: <group1> <group2> sulfide/disulfide (alphabetical)
+Sulfides (R-S-R', single S) were reverted to functional-class naming by this
+phase at the time, but that was a mistake: IUPAC 2013 treats sulfanyl exactly
+like alkoxy (P-63.1.5 parallels P-63.1.4) — the substitutive '(alkylsulfanyl)
+parent' form is the preferred IUPAC name, and 'R R' sulfide' is only an
+acceptable alternative, exactly as '(alkoxy)parent' (e.g. methoxymethane) is
+preferred over 'dialkyl ether'. Phase 855 restored substitutive sulfide
+naming; only the plain-sulfide rows below were corrected, the disulfide rows
+are untouched.
+
+Rules (disulfides only, same as for sulfone/sulfoxide, Phase 369):
+  - Same groups: di<group> disulfide
+  - Different groups: <group1> <group2> disulfide (alphabetical)
   - Complex group names (digits or parentheses) → wrap in parentheses/brackets
 """
 
@@ -16,19 +25,19 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # Symmetric sulfides
-    ("CSC",                   "dimethyl sulfide"),
-    ("CCSCC",                 "diethyl sulfide"),
-    # Asymmetric sulfides (alphabetical order)
-    ("CSCC",                  "ethyl methyl sulfide"),
-    ("CSCCC",                 "methyl propyl sulfide"),
-    ("c1ccccc1Sc1ccccc1",     "diphenyl sulfide"),
-    ("c1ccccc1SC",            "methyl phenyl sulfide"),
-    # Branched group → parens
-    ("CC(C)SC",               "methyl (propan-2-yl) sulfide"),
+    ("CSC",                   "(methylsulfanyl)methane"),
+    ("CCSCC",                 "(ethylsulfanyl)ethane"),
+    # Asymmetric sulfides (longer chain is parent)
+    ("CSCC",                  "(methylsulfanyl)ethane"),
+    ("CSCCC",                 "1-(methylsulfanyl)propane"),
+    ("c1ccccc1Sc1ccccc1",     "(phenylsulfanyl)benzene"),
+    ("c1ccccc1SC",            "(methylsulfanyl)benzene"),
+    # Branched group substituent
+    ("CC(C)SC",               "2-(methylsulfanyl)propane"),
     # Vinyl sulfides
-    ("C=CSC",                 "ethenyl methyl sulfide"),
-    # Complex (E/Z) groups → brackets
-    ("C/C=C/CSC",             "[(2E)-but-2-en-1-yl] methyl sulfide"),
+    ("C=CSC",                 "(methylsulfanyl)ethene"),
+    # Complex (E/Z) substituent
+    ("C/C=C/CSC",             "(2E)-1-(methylsulfanyl)but-2-ene"),
     # Symmetric disulfides
     ("CSSC",                  "dimethyl disulfide"),
     ("CCSSCC",                "diethyl disulfide"),

@@ -20,7 +20,7 @@ from smiles2iupac import smiles_to_iupac
     # ditelluride
     ("C[Te][Te]C",    "dimethyl ditelluride"),
     # regression: sulfide and disulfide still work
-    ("CSC",       "dimethyl sulfide"),
+    ("CSC",       "(methylsulfanyl)methane"),
     ("CSSC",      "dimethyl disulfide"),
 ])
 def test_phase223_selenide_diselenide(smiles, expected):

@@ -16,17 +16,17 @@ from smiles2iupac import smiles_to_iupac
     # Vinyl sulfoxide
     ("C=CS(=O)C",                  "ethenyl methyl sulfoxide"),
     # Vinyl sulfide
-    ("C=CSC",                      "ethenyl methyl sulfide"),
-    ("C=CSCC",                     "ethenyl ethyl sulfide"),
+    ("C=CSC",                      "(methylsulfanyl)ethene"),
+    ("C=CSCC",                     "(ethylsulfanyl)ethene"),
     # Internal alkene with sulfonyl/sulfanyl
     ("CC=CS(=O)(=O)C",             "methyl (prop-1-en-1-yl) sulfone"),
-    ("CC=CSC",                     "methyl (prop-1-en-1-yl) sulfide"),
+    ("CC=CSC",                     "1-(methylsulfanyl)prop-1-ene"),
     # Regressions: saturated cases unchanged
     ("CS(=O)(=O)C",                "dimethyl sulfone"),
     ("CS(=O)C",                    "dimethyl sulfoxide"),
-    ("CSC",                        "dimethyl sulfide"),
+    ("CSC",                        "(methylsulfanyl)methane"),
     ("CCS(=O)(=O)C",               "ethyl methyl sulfone"),
-    ("CCSC",                       "ethyl methyl sulfide"),
+    ("CCSC",                       "(methylsulfanyl)ethane"),
 ])
 def test_phase357_vinyl_sulfide_sulfone(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

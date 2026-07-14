@@ -11,15 +11,15 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── symmetric sulfides ────────────────────────────────────────────────
-    ("CSC",                    "dimethyl sulfide"),
-    ("CCSCC",                  "diethyl sulfide"),
+    ("CSC",                    "(methylsulfanyl)methane"),
+    ("CCSCC",                  "(ethylsulfanyl)ethane"),
 
     # ── asymmetric: longer chain is parent ───────────────────────────────
-    ("CSCC",                   "ethyl methyl sulfide"),
-    ("CSCCC",                  "methyl propyl sulfide"),
+    ("CSCC",                   "(methylsulfanyl)ethane"),
+    ("CSCCC",                  "1-(methylsulfanyl)propane"),
 
     # ── aryl-containing: ring is parent ─────────────────────────────────
-    ("CSc1ccccc1",             "methyl phenyl sulfide"),
+    ("CSc1ccccc1",             "(methylsulfanyl)benzene"),
 
     # ── regressions: thioester and disulfide unchanged ────────────────────
     ("CSC(=O)C",               "S-methyl ethanethioate"),
