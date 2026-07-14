@@ -2504,8 +2504,38 @@ def _name_borinic_acid(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_borane(graph, pgrp, get_atom) -> str:
-    """有機ボラン: {alkyl(s)}borane  (Phase 143)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "borane")
+    """有機ボラン: {alkyl(s)}borane or {halo}({alkyl})borane  (Phase 143/863)
+
+    Phase 863: halogen substituents on boron (e.g. difluoro(methyl)borane)
+    were previously dropped, giving just "methylborane". Mirrors
+    _name_organic_silane's halo+alkyl handling.
+    """
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+    from collections import Counter
+    _halo_map = {"Cl": "chloro", "Br": "bromo", "F": "fluoro", "I": "iodo"}
+    central = pgrp.atom_indices[0]
+    hal_nbrs = [nb for nb in graph.adjacency[central]
+                if get_atom(graph, nb).symbol in _halo_map]
+    if not hal_nbrs:
+        return _name_by_c_substituents(graph, pgrp, get_atom, "borane")
+    # Mixed: halogen + alkyl substituents — sort alphabetically, alkyl in parens
+    c_nbrs = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
+    halo_names = sorted(_halo_map[get_atom(graph, h).symbol] for h in hal_nbrs)
+    halo_counts = Counter(halo_names)
+    alkyl_names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_nbrs)
+    alkyl_counts = Counter(alkyl_names)
+    parts: list[tuple[str, str]] = []
+    for sub in sorted(halo_counts):
+        n = halo_counts[sub]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append((sub, f"{mult}{sub}"))
+    for sub in sorted(alkyl_counts):
+        n = alkyl_counts[sub]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append((sub, f"({mult}{sub})"))
+    parts.sort(key=lambda x: x[0])
+    return "".join(p for _, p in parts) + "borane"
 
 
 def _name_isocyanide(graph, pgrp, get_atom) -> str:
