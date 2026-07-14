@@ -1426,6 +1426,21 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 857: R3As=O, arsenic analog of phosphine_oxide. Previously had
+    # no FunctionalGroup at all -- matched no branch in the detection elif
+    # chain, producing a garbled fallback name. Named "arsane oxide" (not
+    # "arsine oxide") to match this codebase's existing "arsane"/"phosphane"
+    # modern-IUPAC parent-hydride convention (see arsane_org above).
+    "arsane_oxide": FunctionalGroupSpec(
+        priority=60,
+        suffix="arsane oxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "phosphonous_acid": FunctionalGroupSpec(
         priority=56,
         suffix="phosphonous acid",
@@ -1459,6 +1474,19 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     "phosphine_oxide": FunctionalGroupSpec(
         priority=60,
         suffix="phosphine oxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 857: R3P=S, sulfur analog of phosphine_oxide above. Previously
+    # had no FunctionalGroup at all -- fell into the plain "phosphane"
+    # branch, which silently dropped the =S entirely.
+    "phosphine_sulfide": FunctionalGroupSpec(
+        priority=60,
+        suffix="phosphine sulfide",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,

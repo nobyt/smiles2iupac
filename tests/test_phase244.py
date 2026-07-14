@@ -10,6 +10,10 @@ Selenium/tellurium oxyacids:
   R-Se(=O)-OH       → {stem}aneseleninic acid
   R-Se(=O)2-OH      → {stem}aneselenonic acid
   (Te analogues follow the same pattern)
+
+Phase 857: R3As=O (arsane oxide, arsenic analog of phosphine oxide).
+Previously matched no branch in the arsenic detection chain at all,
+producing a garbled fallback name instead of a real arsane-oxide name.
 """
 
 import pytest
@@ -27,6 +31,11 @@ from smiles2iupac import smiles_to_iupac
     # organoplumbanes
     ("C[PbH3]",          "methylplumbane"),
     ("CC[PbH3]",         "ethylplumbane"),
+    # arsane oxides (Phase 857)
+    ("C[As](C)(C)=O",    "trimethylarsane oxide"),
+    ("CC[As](CC)(CC)=O", "triethylarsane oxide"),
+    # regression: plain arsane unchanged
+    ("C[As](C)C",        "trimethylarsane"),
     # selenium oxyacids
     ("C[Se]O",           "methaneselenenic acid"),
     ("CC[Se]O",          "ethaneselenenic acid"),

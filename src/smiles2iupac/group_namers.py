@@ -2401,6 +2401,11 @@ def _name_phosphine_oxide(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphane oxide")
 
 
+def _name_phosphine_sulfide(graph, pgrp, get_atom) -> str:
+    """ホスファンスルフィド: {alkyl(s)}phosphane sulfide (Phase 857, phosphine_oxide の硫黄類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "phosphane sulfide")
+
+
 def _name_phosphite_ester(graph, pgrp, get_atom) -> str:
     """亜リン酸エステル: {alkyl(s)} phosphite (Phase 187)"""
     from .substituent import _name_carbon_substituent
@@ -2722,6 +2727,11 @@ def _name_organic_stannane(graph, pgrp, get_atom) -> str:
 def _name_arsane_org(graph, pgrp, get_atom) -> str:
     """有機ヒ化水素: {alkyl(s)}arsane  (Phase 245)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "arsane")
+
+
+def _name_arsane_oxide(graph, pgrp, get_atom) -> str:
+    """アルサンオキシド: {alkyl(s)}arsane oxide (Phase 857, phosphine_oxide のヒ素類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "arsane oxide")
 
 
 def _name_organomercury(graph, pgrp, get_atom) -> str:
@@ -6711,6 +6721,7 @@ PGRP_DISPATCH: dict = {
     "arsinous_acid": _name_arsinous_acid,
     "phosphane": _name_phosphane,
     "phosphine_oxide": _name_phosphine_oxide,
+    "phosphine_sulfide": _name_phosphine_sulfide,
     "phosphite_ester": _name_phosphite_ester,
     "boronic_acid": _name_boronic_acid,
     "boronate_ester": _name_boronate_ester,
@@ -6725,6 +6736,7 @@ PGRP_DISPATCH: dict = {
     "germane_org": _name_organic_germane,
     "stannane_org": _name_organic_stannane,
     "arsane_org": _name_arsane_org,
+    "arsane_oxide": _name_arsane_oxide,
     "organomercury": _name_organomercury,
     "bismuthane_org": _name_organic_bismuthane,
     "stibane_org": _name_organic_stibane,

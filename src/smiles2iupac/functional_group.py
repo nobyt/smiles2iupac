@@ -1436,6 +1436,20 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 atom_indices=[p_idx] + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["phosphinous_acid"],
             ))
+        elif c_neighbors and not o_neighbors and len(c_neighbors) >= 3 and any(
+            get_atom(graph, nb).symbol == "S" and get_bond_order(graph, p_idx, nb) == 2.0
+            for nb in neighbors
+        ):
+            # ホスフィンスルフィド: R3P=S (Phase 857, phosphine_oxide の硫黄類縁体)
+            # 以前は下の "phosphane" 分岐に落ちて =S が完全に無視されていた
+            s_double_p = [nb for nb in neighbors
+                          if get_atom(graph, nb).symbol == "S"
+                          and get_bond_order(graph, p_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="phosphine_sulfide",
+                atom_indices=[p_idx] + c_neighbors[:3] + s_double_p,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphine_sulfide", 60),
+            ))
         elif c_neighbors and not o_neighbors:
             # ホスファン: R_n-PH_{3-n}
             groups.append(FunctionalGroup(
@@ -1553,6 +1567,15 @@ def _detect_arsenic_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) 
                 group_type="arsinous_acid",
                 atom_indices=[as_idx] + c_neighbors + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsinous_acid", 56),
+            ))
+        elif len(o_double) == 1 and len(c_neighbors) >= 3 and not o_single:
+            # アルサンオキシド: R3As=O (Phase 857, phosphine_oxide のヒ素類縁体)
+            # 以前はどの分岐にもマッチせず、官能基が検出されないまま
+            # 破綻した名前になっていた
+            groups.append(FunctionalGroup(
+                group_type="arsane_oxide",
+                atom_indices=[as_idx] + c_neighbors[:3] + o_double,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_oxide", 60),
             ))
         elif c_neighbors and not o_neighbors:
             # ヒ化水素 (arsane): R_n-AsH_{3-n}

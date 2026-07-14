@@ -2,6 +2,9 @@
 
   CP(=O)(C)C    → trimethylphosphane oxide
   COP(OC)OC     → trimethyl phosphite
+
+Phase 857: R3P=S (phosphine sulfide, sulfur analog of phosphine oxide above).
+Previously fell into the plain "phosphane" branch, silently dropping the =S.
 """
 
 import pytest
@@ -14,6 +17,10 @@ from src.smiles2iupac import smiles_to_iupac
     ("O=P(C)(C)C",       "trimethylphosphane oxide"),
     ("CCP(=O)(CC)CC",    "triethylphosphane oxide"),
     ("CP(=O)(C)CC",      "ethyldimethylphosphane oxide"),
+    # ホスフィンスルフィド: R3P=S (Phase 857)
+    ("CP(=S)(C)C",       "trimethylphosphane sulfide"),
+    ("S=P(C)(C)C",       "trimethylphosphane sulfide"),
+    ("CCP(=S)(CC)CC",    "triethylphosphane sulfide"),
     # 亜リン酸トリエステル: (RO)3P
     ("COP(OC)OC",        "trimethyl phosphite"),
     ("CCOP(OCC)OCC",     "triethyl phosphite"),

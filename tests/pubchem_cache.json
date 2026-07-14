@@ -53048,5 +53048,25 @@
     "inchikey": "OFKPYIJBUWZMDX-UHFFFAOYSA-N",
     "smiles": "CC[Te](=O)(=O)CC",
     "not_found": true
+  },
+  "KTFAZNVGJUIWJM-UHFFFAOYSA-N": {
+    "inchikey": "KTFAZNVGJUIWJM-UHFFFAOYSA-N",
+    "smiles": "CP(=S)(C)C",
+    "not_found": true
+  },
+  "WTNQHMJTIHJURG-UHFFFAOYSA-N": {
+    "inchikey": "WTNQHMJTIHJURG-UHFFFAOYSA-N",
+    "smiles": "CCP(=S)(CC)CC",
+    "not_found": true
+  },
+  "JWOWJQPAYGEFFK-UHFFFAOYSA-N": {
+    "inchikey": "JWOWJQPAYGEFFK-UHFFFAOYSA-N",
+    "smiles": "C[As](C)(C)=O",
+    "not_found": true
+  },
+  "ULIKZLMTBMIHDQ-UHFFFAOYSA-N": {
+    "inchikey": "ULIKZLMTBMIHDQ-UHFFFAOYSA-N",
+    "smiles": "CC[As](CC)(CC)=O",
+    "not_found": true
   }
 }
