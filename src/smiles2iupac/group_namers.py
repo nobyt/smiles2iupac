@@ -2355,6 +2355,35 @@ def _name_phosphinic_acid(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphinic acid")
 
 
+def _name_thiophosphorus_acid(graph, pgrp, get_atom) -> str:
+    """チオホスホン/ホスフィン酸 (Phase 864).
+
+    {alkyl(s)}phospho{no|ni}{thio|dithio|trithio}ic acid.
+
+    P に付いた S の総数 (=S と -SH の合計) で thio/dithio/trithio を決める。
+    位置接頭辞 (O,O-/O,S- 等) は付けない: R-P(=S)(OH)2 と R-P(=O)(OH)(SH) は
+    速い互変異性で単離・区別できないため、IUPAC は同一名を与える。
+    """
+    from .molecule_analyzer import get_bond_order
+    central = pgrp.atom_indices[0]
+    n_c = sum(1 for nb in graph.adjacency[central]
+              if get_atom(graph, nb).symbol == "C")
+    total_s = 0
+    for nb in graph.adjacency[central]:
+        if get_atom(graph, nb).symbol != "S":
+            continue
+        bo = get_bond_order(graph, central, nb)
+        if bo == 2.0:
+            total_s += 1
+        elif bo == 1.0 and any(get_atom(graph, h).symbol == "H"
+                               for h in graph.adjacency[nb]):
+            total_s += 1
+    thio_word = {1: "thioic", 2: "dithioic", 3: "trithioic"}.get(total_s, "thioic")
+    stem = "phosphono" if n_c == 1 else "phosphino"
+    alkyls = _name_by_c_substituents(graph, pgrp, get_atom, "")
+    return f"{alkyls}{stem}{thio_word} acid"
+
+
 def _name_phosphonous_acid(graph, pgrp, get_atom) -> str:
     """ホスホナス酸: {alkyl}phosphonous acid  (Phase 241)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphonous acid")
@@ -6762,6 +6791,8 @@ PGRP_DISPATCH: dict = {
     "phosphinate_ester": _name_phosphinate_ester,
     "phosphonic_acid": _name_phosphonic_acid,
     "phosphinic_acid": _name_phosphinic_acid,
+    "phosphonothioic_acid": _name_thiophosphorus_acid,
+    "phosphinothioic_acid": _name_thiophosphorus_acid,
     "phosphonous_acid": _name_phosphonous_acid,
     "phosphinous_acid": _name_phosphinous_acid,
     "arsonic_acid": _name_arsonic_acid,

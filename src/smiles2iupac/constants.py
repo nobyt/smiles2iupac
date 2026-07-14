@@ -1366,6 +1366,28 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # チオリン酸 (Phase 864): phosphonic/phosphinic acid の S 置換体
+    #   命名は _name_thiophosphorus_acid が O,O-/O,S-/S,S- 接頭辞込みで生成
+    "phosphonothioic_acid": FunctionalGroupSpec(
+        priority=92,
+        suffix="phosphonothioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "phosphinothioic_acid": FunctionalGroupSpec(
+        priority=91,
+        suffix="phosphinothioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "arsane_org": FunctionalGroupSpec(
         priority=10,
         suffix="arsane",

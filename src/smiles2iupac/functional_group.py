@@ -1459,6 +1459,16 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                      if nb not in o_single_oh
                      and any(get_atom(graph, occ).symbol == "C"
                              for occ in graph.adjacency[nb] if occ != p_idx)]
+        # チオリン酸用: =S および -SH (Phase 864)
+        s_neighbors_p = [nb for nb in neighbors if get_atom(graph, nb).symbol == "S"]
+        s_double_p = [nb for nb in s_neighbors_p if get_bond_order(graph, p_idx, nb) == 2.0]
+        s_single_sh = [nb for nb in s_neighbors_p
+                       if get_bond_order(graph, p_idx, nb) == 1.0
+                       and any(get_atom(graph, snh).symbol == "H"
+                               for snh in graph.adjacency[nb])]
+        chalc_double = o_double + s_double_p          # =X (X = O or S)
+        chalc_single_h = o_single_oh + s_single_sh    # -XH 酸性位置
+        total_s_ct = len(s_double_p) + len(s_single_sh)
 
         if len(o_double) == 1 and len(o_single_oh) >= 2 and len(c_neighbors) == 1:
             # ホスホン酸: R-P(=O)(OH)2
@@ -1466,6 +1476,23 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 group_type="phosphonic_acid",
                 atom_indices=[p_idx] + c_neighbors + o_double + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY["phosphonic_acid"],
+            ))
+        elif (len(chalc_double) == 1 and len(chalc_single_h) == 2
+              and len(c_neighbors) == 1 and total_s_ct >= 1):
+            # チオホスホン酸: R-P(=X)(YH)(ZH), X/Y/Z のうち >=1 が S (Phase 864)
+            #   O,O-/O,S-/S,S- 接頭辞は命名時に単結合カルコゲンから導出
+            groups.append(FunctionalGroup(
+                group_type="phosphonothioic_acid",
+                atom_indices=[p_idx] + c_neighbors + chalc_double + chalc_single_h,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonothioic_acid", 98),
+            ))
+        elif (len(chalc_double) == 1 and len(chalc_single_h) == 1
+              and len(c_neighbors) == 2 and total_s_ct >= 1):
+            # チオホスフィン酸: R2-P(=X)(YH), X/Y のうち >=1 が S (Phase 864)
+            groups.append(FunctionalGroup(
+                group_type="phosphinothioic_acid",
+                atom_indices=[p_idx] + c_neighbors + chalc_double + chalc_single_h,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphinothioic_acid", 98),
             ))
         elif (len(o_double) == 1 and len(c_neighbors) == 1
               and o_ester_p and o_single_oh):
