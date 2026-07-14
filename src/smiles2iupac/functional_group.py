@@ -933,6 +933,32 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
         halogen_neighbors = [nb for nb in neighbors
                              if get_atom(graph, nb).symbol in ("Cl", "F", "Br", "I")]
         cl_neighbors = [nb for nb in neighbors if get_atom(graph, nb).symbol == "Cl"]
+
+        # チオスルホン/スルフィン酸 (Phase 865): sulfonic/sulfinic acid の S 置換体。
+        # =S と -SH をカルコゲンとして扱い、S 総数で thio/dithio/trithio を決める
+        # (位置接頭辞なし=タウトマー単一名, phosphorus 864 と同じ原則)。
+        s_double_chalc = [nb for nb in neighbors
+                          if get_atom(graph, nb).symbol == "S"
+                          and get_bond_order(graph, s_idx, nb) == 2.0]
+        s_single_sh = [nb for nb in neighbors
+                       if get_atom(graph, nb).symbol == "S"
+                       and get_bond_order(graph, s_idx, nb) == 1.0
+                       and any(get_atom(graph, snh).symbol == "H"
+                               for snh in graph.adjacency[nb])]
+        double_chalc = o_double + s_double_chalc          # =O / =S
+        single_h_chalc = o_single_oh + s_single_sh        # -OH / -SH
+        total_s_acid = len(s_double_chalc) + len(s_single_sh)
+        if (len(c_neighbors) == 1 and len(n_neighbors) == 0
+                and len(single_h_chalc) == 1 and total_s_acid >= 1
+                and not halogen_neighbors and len(double_chalc) in (1, 2)):
+            gtype_ts = "sulfonothioic_acid" if len(double_chalc) == 2 else "sulfinothioic_acid"
+            groups.append(FunctionalGroup(
+                group_type=gtype_ts,
+                atom_indices=[s_idx] + c_neighbors + double_chalc + single_h_chalc,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype_ts, 98),
+            ))
+            continue
+
         if (len(o_double) == 2 and len(c_neighbors) == 1 and len(halogen_neighbors) == 1
                 and len(n_neighbors) == 0 and not o_single_oh):
             groups.append(FunctionalGroup(

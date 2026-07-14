@@ -1634,21 +1634,21 @@ def _aryl_sulfonyl_prefix(graph, c_start, s_idx, get_atom) -> str | None:
     return None
 
 
-def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
-    """
-    スルホン酸命名: {stem}anesulfonic acid
-    例: CS(=O)(=O)O → methanesulfonic acid
-        CCCS(=O)(=O)O → propane-1-sulfonic acid
-        CC(S(=O)(=O)O)C → propane-2-sulfonic acid
+def _name_sulfur_chain_acid(graph, pgrp, get_atom, acid_word: str) -> str:
+    """共通: {stem}ane{acid_word} 形式の硫黄オキソ酸命名。
+
+    sulfonic/sulfinic acid とそのチオ変種 (Phase 865) が chain/aryl/多重結合/
+    立体表記のロジックを共有する。acid_word はチェーン語幹の直後に付く語
+    (例 "sulfonic acid", "sulfonothioic acid", "sulfinodithioic acid")。
     """
     from .constants import CHAIN_PREFIX
     s_idx = pgrp.atom_indices[0]
     c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
     if not c_on_s:
-        return "sulfonic acid"
+        return acid_word
     aryl = _aryl_sulfonyl_prefix(graph, c_on_s[0], s_idx, get_atom)
     if aryl is not None:
-        return f"{aryl}sulfonic acid"
+        return f"{aryl}{acid_word}"
     chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
@@ -1665,11 +1665,50 @@ def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
         from .name_assembler import _format_multiple_bonds as _fmt_so
         mb_str = _fmt_so(_ene_so, _yne_so)
         if len(chain) >= 3:
-            return f"{stereo_pfx_so}{stem}{mb_str}e-{locant}-sulfonic acid"
-        return f"{stereo_pfx_so}{stem}{mb_str}esulfonic acid"
+            return f"{stereo_pfx_so}{stem}{mb_str}e-{locant}-{acid_word}"
+        return f"{stereo_pfx_so}{stem}{mb_str}e{acid_word}"
     if len(chain) >= 3:
-        return f"{stem}ane-{locant}-sulfonic acid"
-    return f"{stem}anesulfonic acid"
+        return f"{stem}ane-{locant}-{acid_word}"
+    return f"{stem}ane{acid_word}"
+
+
+def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
+    """
+    スルホン酸命名: {stem}anesulfonic acid
+    例: CS(=O)(=O)O → methanesulfonic acid
+        CCCS(=O)(=O)O → propane-1-sulfonic acid
+        CC(S(=O)(=O)O)C → propane-2-sulfonic acid
+    """
+    return _name_sulfur_chain_acid(graph, pgrp, get_atom, "sulfonic acid")
+
+
+def _name_thiosulfur_acid(graph, pgrp, get_atom) -> str:
+    """チオスルホン/スルフィン酸命名 (Phase 865).
+
+    P に付く S の総数 (=S と -SH) で thio/dithio/trithio を決める。二重結合
+    カルコゲン数で sulfono (2) / sulfino (1) を判定。位置接頭辞 (O-/S-) は
+    付けない: タウトマー (=S↔-SH) は単離・区別できないため IUPAC は同一名。
+    """
+    from .molecule_analyzer import get_bond_order
+    s_idx = pgrp.atom_indices[0]
+    n_double = 0
+    total_s = 0
+    for nb in graph.adjacency[s_idx]:
+        sym = get_atom(graph, nb).symbol
+        if sym not in ("O", "S"):
+            continue
+        bo = get_bond_order(graph, s_idx, nb)
+        if bo == 2.0:
+            n_double += 1
+            if sym == "S":
+                total_s += 1
+        elif bo == 1.0 and any(get_atom(graph, h).symbol == "H"
+                               for h in graph.adjacency[nb]):
+            if sym == "S":
+                total_s += 1
+    level = "sulfono" if n_double == 2 else "sulfino"
+    thio_word = {1: "thioic", 2: "dithioic", 3: "trithioic"}.get(total_s, "thioic")
+    return _name_sulfur_chain_acid(graph, pgrp, get_atom, f"{level}{thio_word} acid")
 
 
 def _name_sulfonate_anion(graph, pgrp, get_atom) -> str:
@@ -1816,35 +1855,7 @@ def _name_sulfinic_acid(graph, pgrp, get_atom) -> str:
     例: CS(=O)O → methanesulfinic acid
         CCCS(=O)O → propane-1-sulfinic acid
     """
-    from .constants import CHAIN_PREFIX
-    s_idx = pgrp.atom_indices[0]
-    c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
-    if not c_on_s:
-        return "sulfinic acid"
-    aryl = _aryl_sulfonyl_prefix(graph, c_on_s[0], s_idx, get_atom)
-    if aryl is not None:
-        return f"{aryl}sulfinic acid"
-    chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
-    stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
-    _ene_si, _yne_si = _chain_multiple_bonds(graph, chain)
-    stereo_pfx_si = ""
-    if _ene_si:
-        from .stereochemistry import assign_stereochemistry
-        from .chain_finder import PrincipalChain
-        _pc_si = PrincipalChain(atom_indices=chain,
-                                locant_map={c: i + 1 for i, c in enumerate(chain)})
-        _stereo_si = assign_stereochemistry(graph, _pc_si)
-        if _stereo_si:
-            stereo_pfx_si = "(" + ",".join(d.strip("()") for d in _stereo_si) + ")-"
-    if _ene_si or _yne_si:
-        from .name_assembler import _format_multiple_bonds as _fmt_si
-        mb_str = _fmt_si(_ene_si, _yne_si)
-        if len(chain) >= 3:
-            return f"{stereo_pfx_si}{stem}{mb_str}e-{locant}-sulfinic acid"
-        return f"{stereo_pfx_si}{stem}{mb_str}esulfinic acid"
-    if len(chain) >= 3:
-        return f"{stem}ane-{locant}-sulfinic acid"
-    return f"{stem}anesulfinic acid"
+    return _name_sulfur_chain_acid(graph, pgrp, get_atom, "sulfinic acid")
 
 
 def _name_sulfenic_acid(graph, pgrp, get_atom) -> str:
@@ -6763,6 +6774,8 @@ PGRP_DISPATCH: dict = {
     "sulfinyl_chloride": _name_sulfinyl_chloride,
     "chloroformate": _name_chloroformate,
     "sulfonic_acid": _name_sulfonic_acid,
+    "sulfonothioic_acid": _name_thiosulfur_acid,
+    "sulfinothioic_acid": _name_thiosulfur_acid,
     "sulfonate_anion": _name_sulfonate_anion,
     "disulfonic_acid": _name_disulfonic_acid,
     "sulfinic_acid": _name_sulfinic_acid,

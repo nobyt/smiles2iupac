@@ -331,6 +331,28 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # チオスルホン/スルフィン酸 (Phase 865): 命名は _name_thiosulfur_acid が
+    #   S 総数で thio/dithio/trithio を決めて生成 (位置接頭辞なし)
+    "sulfonothioic_acid": FunctionalGroupSpec(
+        priority=65,
+        suffix="sulfonothioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "sulfinothioic_acid": FunctionalGroupSpec(
+        priority=58,
+        suffix="sulfinothioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "disulfonic_acid": FunctionalGroupSpec(
         priority=65,
         suffix="disulfonic acid",
