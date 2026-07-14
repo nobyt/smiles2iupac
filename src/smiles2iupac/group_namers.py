@@ -1140,12 +1140,13 @@ def _name_sulfoxide_sulfone(graph, pgrp, get_atom) -> str:
 
 
 def _name_selenoxide_selenone(graph, pgrp, get_atom) -> str:
-    """セレノキシド・セレノン: dialkyl selenoxide / selenone (IUPAC 2013, Phase 519)"""
+    """セレノキシド・セレノン・テルロキシド・テルロン: dialkyl selenoxide/selenone/
+    telluroxide/tellurone (IUPAC 2013, Phase 519, 856)"""
     import re as _re_seo
     from .substituent import _name_carbon_substituent, name_substituent
 
     se_idx = pgrp.atom_indices[0]
-    type_word = "selenoxide" if pgrp.group_type == "selenoxide" else "selenone"
+    type_word = pgrp.group_type
 
     c_neighbors = [nb for nb in graph.adjacency[se_idx]
                    if get_atom(graph, nb).symbol == "C"]
@@ -3310,51 +3311,6 @@ def _name_polysulfide(graph, pgrp, get_atom) -> str:
         mult = MULTIPLIER.get(2, "di")
         return f"{mult}{alkyl1} {suffix}"
     return f"{min(alkyl1, alkyl2)} {max(alkyl1, alkyl2)} {suffix}"
-
-
-def _name_selenide_telluride(graph, pgrp, get_atom) -> str:
-    """セレニド / テルリド: IUPAC 2013 dialkyl selenide/telluride 形式"""
-    import re as _re_ch
-    from .substituent import _name_carbon_substituent, name_substituent
-
-    chalcogen_idx = pgrp.atom_indices[0]
-    chalcogen = get_atom(graph, chalcogen_idx)
-    type_word = "selenide" if chalcogen.symbol == "Se" else "telluride"
-
-    c_neighbors = [nb for nb in graph.adjacency[chalcogen_idx]
-                   if get_atom(graph, nb).symbol == "C"]
-    if len(c_neighbors) < 2:
-        return type_word
-
-    c1, c2 = c_neighbors[0], c_neighbors[1]
-
-    def _group_name(c_idx: int) -> str:
-        atom = get_atom(graph, c_idx)
-        if atom.in_ring and atom.is_aromatic:
-            return name_substituent(graph, c_idx, {chalcogen_idx}) or "phenyl"
-        return _name_carbon_substituent(graph, c_idx, {chalcogen_idx})
-
-    name1 = _group_name(c1)
-    name2 = _group_name(c2)
-
-    def _needs_parens(nm: str) -> bool:
-        return bool(_re_ch.search(r"[0-9]", nm)) or nm.startswith("(")
-
-    def _alpha_base(nm: str) -> str:
-        s = _re_ch.sub(r"^\(", "", nm)
-        s = _re_ch.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
-
-    if names[0] == names[1]:
-        nm = names[0]
-        prefix = f"bis({nm})" if _needs_parens(nm) else f"di{nm}"
-    else:
-        parts = [f"({nm})" if _needs_parens(nm) else nm for nm in names]
-        prefix = " ".join(parts)
-
-    return f"{prefix} {type_word}"
 
 
 def _name_diselenide_ditelluride(graph, pgrp, get_atom) -> str:
@@ -6731,6 +6687,8 @@ PGRP_DISPATCH: dict = {
     "sulfone": _name_sulfoxide_sulfone,
     "selenoxide": _name_selenoxide_selenone,
     "selenone": _name_selenoxide_selenone,
+    "telluroxide": _name_selenoxide_selenone,
+    "tellurone": _name_selenoxide_selenone,
     "sulfonyl_azide": _name_sulfonyl_azide,
     "sulfonohydrazide": _name_sulfonohydrazide,
     "sulfinylhydrazide": _name_sulfinylhydrazide,
@@ -6805,8 +6763,6 @@ PGRP_DISPATCH: dict = {
     "disulfide": _name_disulfide,
     "trisulfide": _name_polysulfide,
     "tetrasulfide": _name_polysulfide,
-    "selenide": _name_selenide_telluride,
-    "telluride": _name_selenide_telluride,
     "diselenide": _name_diselenide_ditelluride,
     "ditelluride": _name_diselenide_ditelluride,
     "nitroso": _name_nitroso,

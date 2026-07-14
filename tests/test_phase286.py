@@ -10,16 +10,16 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # ── selenides ──────────────────────────────────────────────────────────
-    ("C[Se]C",           "dimethyl selenide"),
-    ("CC[Se]C",          "ethyl methyl selenide"),
-    ("CC[Se]CC",         "diethyl selenide"),
+    ("C[Se]C",           "methylselanylmethane"),
+    ("CC[Se]C",          "methylselanylethane"),
+    ("CC[Se]CC",         "ethylselanylethane"),
 
     # ── diselenides ────────────────────────────────────────────────────────
     ("C[Se][Se]C",       "dimethyl diselenide"),
     ("CC[Se][Se]CC",     "diethyl diselenide"),
 
     # ── tellurides ────────────────────────────────────────────────────────
-    ("C[Te]C",           "dimethyl telluride"),
+    ("C[Te]C",           "methyltellanylmethane"),
 
     # ── regressions ───────────────────────────────────────────────────────
     ("C[SeH]",           "methaneselenol"),

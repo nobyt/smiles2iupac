@@ -20325,12 +20325,8 @@
     "inchikey": "VXGOQVMIGNMUGC-UHFFFAOYSA-N",
     "smiles": "Cc1cccc2nc3ccccc3cc12",
     "pubchem_iupac": "1-methylacridine",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "4-methylacridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "XJGFWWJLMVZSIG-UHFFFAOYSA-N": {
@@ -53026,6 +53022,31 @@
   },
   "SMILES:Sc1sc2ccccc2[nH]1": {
     "smiles": "Sc1sc2ccccc2[nH]1",
+    "not_found": true
+  },
+  "LYLSNRNGMCYFSX-UHFFFAOYSA-N": {
+    "inchikey": "LYLSNRNGMCYFSX-UHFFFAOYSA-N",
+    "smiles": "C[Te](=O)C",
+    "not_found": true
+  },
+  "NHCOYZVOTRRFEI-UHFFFAOYSA-N": {
+    "inchikey": "NHCOYZVOTRRFEI-UHFFFAOYSA-N",
+    "smiles": "CC[Te](=O)CC",
+    "not_found": true
+  },
+  "BIWQYIZTPLBDLC-UHFFFAOYSA-N": {
+    "inchikey": "BIWQYIZTPLBDLC-UHFFFAOYSA-N",
+    "smiles": "CC[Te](=O)C",
+    "not_found": true
+  },
+  "CLLWGRYUYHCSAO-UHFFFAOYSA-N": {
+    "inchikey": "CLLWGRYUYHCSAO-UHFFFAOYSA-N",
+    "smiles": "C[Te](=O)(=O)C",
+    "not_found": true
+  },
+  "OFKPYIJBUWZMDX-UHFFFAOYSA-N": {
+    "inchikey": "OFKPYIJBUWZMDX-UHFFFAOYSA-N",
+    "smiles": "CC[Te](=O)(=O)CC",
     "not_found": true
   }
 }

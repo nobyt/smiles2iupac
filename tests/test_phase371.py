@@ -1,9 +1,13 @@
-"""Phase 371: Selenide/telluride/diselenide preferred IUPAC 2013 names.
+"""Phase 371: Diselenide/ditelluride preferred IUPAC 2013 names.
 
-Previously _name_selenide_telluride and _name_diselenide_ditelluride used
-substitutive forms like '(methylselanyl)methane'. IUPAC 2013 P-66.x requires
-the functional-class form analogous to sulfide (Phase 370): group names +
-'selenide'/'telluride'/'diselenide'/'ditelluride'.
+Diselenides/ditellurides keep the functional-class 'dialkyl diselenide'
+form (no simple substitutive equivalent commonly used for -Se-Se-/-Te-Te-
+as a substituent chain, same reasoning as disulfide in Phase 370).
+
+Selenides/tellurides (single Se/Te) were reverted to functional-class
+naming by this phase at the time, mirroring Phase 370's sulfide mistake --
+same fix (Phase 855/856): substitutive '(alkylselanyl)parent' /
+'(alkyltellanyl)parent' is the IUPAC 2013 preferred name.
 """
 
 import pytest
@@ -12,19 +16,19 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # Selenides
-    ("C[Se]C",               "dimethyl selenide"),
-    ("CC[Se]CC",             "diethyl selenide"),
-    ("C[Se]CC",              "ethyl methyl selenide"),
+    ("C[Se]C",               "methylselanylmethane"),
+    ("CC[Se]CC",             "ethylselanylethane"),
+    ("C[Se]CC",              "methylselanylethane"),
     # Tellurides
-    ("C[Te]C",               "dimethyl telluride"),
+    ("C[Te]C",               "methyltellanylmethane"),
     # Diselenides
     ("C[Se][Se]C",           "dimethyl diselenide"),
     ("CC[Se][Se]CC",         "diethyl diselenide"),
     # Ditellurides
     ("C[Te][Te]C",           "dimethyl ditelluride"),
-    # E/Z groups → brackets
-    ("C/C=C/C[Se]C",         "[(2E)-but-2-en-1-yl] methyl selenide"),
-    ("C/C=C/C[Te]C",         "[(2E)-but-2-en-1-yl] methyl telluride"),
+    # E/Z substituent
+    ("C/C=C/C[Se]C",         "(2E)-1-methylselanylbut-2-ene"),
+    ("C/C=C/C[Te]C",         "(2E)-1-methyltellanylbut-2-ene"),
     # Regressions: selenol/tellurole unchanged
     ("CC[SeH]",              "ethaneselenol"),
 ])

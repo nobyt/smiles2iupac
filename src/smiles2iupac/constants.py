@@ -997,10 +997,12 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
-    # ─── Phase 223: セレニド / ジセレニド / テルリド / ジテルリド ─────────
-    "selenide": FunctionalGroupSpec(
-        priority=29,
-        suffix="selenide",
+    # Phase 856: tellurone/telluroxide (C-Te(=O)(=O)-C / C-Te(=O)-C), analogous
+    # to selenone/selenoxide above. Previously mislabeled group_type="telluride"
+    # in functional_group.py, silently dropping the oxo/dioxo information.
+    "tellurone": FunctionalGroupSpec(
+        priority=31,
+        suffix="tellurone",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,
@@ -1008,19 +1010,22 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    "telluroxide": FunctionalGroupSpec(
+        priority=30,
+        suffix="telluroxide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # ─── Phase 223: ジセレニド / ジテルリド ─────────
+    # (plain selenide/telluride, C-Se-C / C-Te-C, are not detected as a distinct
+    # functional group as of Phase 856 -- see sulfide, Phase 855)
     "diselenide": FunctionalGroupSpec(
         priority=24,
         suffix="diselenide",
-        chain_template="",
-        chain_template_mb="",
-        needs_locant=False,
-        anchor_c1=False,
-        cyclic_template=None,
-        benzene_name=None,
-    ),
-    "telluride": FunctionalGroupSpec(
-        priority=28,
-        suffix="telluride",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,

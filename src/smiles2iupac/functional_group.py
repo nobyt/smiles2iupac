@@ -1159,29 +1159,24 @@ def _detect_selenium_tellurium_groups(graph: MoleculeGraph, groups: list[Functio
                 priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
             ))
         elif len(o_double) == 2 and len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
-            # セレノン / テルロン: C-Se(=O)₂-C  (Phase 519)
-            gtype = "selenone" if is_se else "telluride"
+            # セレノン / テルロン: C-Se(=O)₂-C / C-Te(=O)₂-C  (Phase 519, 856)
+            gtype = "selenone" if is_se else "tellurone"
             groups.append(FunctionalGroup(
                 group_type=gtype,
                 atom_indices=[se_idx] + list(o_double) + c_neighbors,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 31),
             ))
         elif len(o_double) == 1 and len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
-            # セレノキシド / テルロキシド: C-Se(=O)-C  (Phase 519)
-            gtype = "selenoxide" if is_se else "telluride"
+            # セレノキシド / テルロキシド: C-Se(=O)-C / C-Te(=O)-C  (Phase 519, 856)
+            gtype = "selenoxide" if is_se else "telluroxide"
             groups.append(FunctionalGroup(
                 group_type=gtype,
                 atom_indices=[se_idx] + list(o_double) + c_neighbors,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 30),
             ))
-        elif len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors and not o_double:
-            # セレニド / テルリド: C-Se-C / C-Te-C
-            gtype = "selenide" if is_se else "telluride"
-            groups.append(FunctionalGroup(
-                group_type=gtype,
-                atom_indices=[se_idx] + c_neighbors,
-                priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
-            ))
+        # elif C-Se-C / C-Te-C (セレニド/テルリド) は独立した官能基として検出しない
+        # (Phase 856: sulfide と同様、置換基命名側で "アルキルセラニル/テラニル"
+        # 接頭辞として自然に処理させる。既に非principal-group時は動作確認済み)
         elif len(c_neighbors) == 1 and len(se_neighbors) == 1 and not h_neighbors:
             # ジセレニド / ジテルリド: C-Se-Se-C / C-Te-Te-C
             se2_idx = se_neighbors[0]

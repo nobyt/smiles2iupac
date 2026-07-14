@@ -11,15 +11,15 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # selenide E/Z
-    ("C/C=C/C[Se]C",            "[(2E)-but-2-en-1-yl] methyl selenide"),
-    (r"C/C=C\C[Se]C",           "[(2Z)-but-2-en-1-yl] methyl selenide"),
+    ("C/C=C/C[Se]C",            "(2E)-1-methylselanylbut-2-ene"),
+    (r"C/C=C\C[Se]C",           "(2Z)-1-methylselanylbut-2-ene"),
     # telluride E/Z
-    ("C/C=C/C[Te]C",            "[(2E)-but-2-en-1-yl] methyl telluride"),
-    (r"C/C=C\C[Te]C",           "[(2Z)-but-2-en-1-yl] methyl telluride"),
+    ("C/C=C/C[Te]C",            "(2E)-1-methyltellanylbut-2-ene"),
+    (r"C/C=C\C[Te]C",           "(2Z)-1-methyltellanylbut-2-ene"),
     # regressions: saturated chains unchanged
-    ("C[Se]C",                  "dimethyl selenide"),
-    ("C[Se]CC",                 "ethyl methyl selenide"),
-    ("C[Te]C",                  "dimethyl telluride"),
+    ("C[Se]C",                  "methylselanylmethane"),
+    ("C[Se]CC",                 "methylselanylethane"),
+    ("C[Te]C",                  "methyltellanylmethane"),
 ])
 def test_phase345_ez_selenide_telluride_chain(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
