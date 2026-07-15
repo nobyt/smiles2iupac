@@ -5680,12 +5680,19 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
                 loc_str = f"{n_locant}-" if n_locant is not None else ""
                 return f"{loc_str}({stereo_pfx_ta}{thioyl_stem}){rbase}"
 
+    from .molecule_analyzer import get_bond_order
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
-    if not c_nbrs:
+    # N-ヒドロキシ置換基 (N-OH) を拾う (Phase 870): CC(=S)NO → N-hydroxyethanethioamide
+    n_oh = [nb for nb in graph.adjacency[n_idx]
+            if get_atom(graph, nb).symbol == "O"
+            and get_bond_order(graph, n_idx, nb) == 1.0
+            and any(get_atom(graph, h).symbol == "H" for h in graph.adjacency[nb])]
+    if not c_nbrs and not n_oh:
         return f"{stereo_pfx_ta}{parent_name}"
 
-    n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+    n_subs = ([_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+              + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
     for sub in sorted(sub_counts):
@@ -6047,12 +6054,18 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
         if _stereo_sa:
             stereo_pfx_sa = "(" + ",".join(d.strip("()") for d in _stereo_sa) + ")-"
 
+    from .molecule_analyzer import get_bond_order
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
-    if not c_nbrs:
+    n_oh = [nb for nb in graph.adjacency[n_idx]  # N-hydroxy (Phase 870)
+            if get_atom(graph, nb).symbol == "O"
+            and get_bond_order(graph, n_idx, nb) == 1.0
+            and any(get_atom(graph, h).symbol == "H" for h in graph.adjacency[nb])]
+    if not c_nbrs and not n_oh:
         return f"{stereo_pfx_sa}{parent_name}"
 
-    n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+    n_subs = ([_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+              + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
     for sub in sorted(sub_counts):
@@ -6105,12 +6118,18 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
         if _stereo_te:
             stereo_pfx_te = "(" + ",".join(d.strip("()") for d in _stereo_te) + ")-"
 
+    from .molecule_analyzer import get_bond_order
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
-    if not c_nbrs:
+    n_oh = [nb for nb in graph.adjacency[n_idx]  # N-hydroxy (Phase 870)
+            if get_atom(graph, nb).symbol == "O"
+            and get_bond_order(graph, n_idx, nb) == 1.0
+            and any(get_atom(graph, h).symbol == "H" for h in graph.adjacency[nb])]
+    if not c_nbrs and not n_oh:
         return f"{stereo_pfx_te}{parent_name}"
 
-    n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+    n_subs = ([_name_carbon_substituent(graph, c, {n_idx}) for c in c_nbrs]
+              + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
     for sub in sorted(sub_counts):
