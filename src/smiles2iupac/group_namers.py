@@ -2395,6 +2395,76 @@ def _name_thiophosphorus_acid(graph, pgrp, get_atom) -> str:
     return f"{alkyls}{stem}{thio_word} acid"
 
 
+def _phosphoramidic_n_subs(graph, get_atom, n_idx, p_idx):
+    """アミド N 上の C 置換基名リスト (ソート済み) を返す (Phase 868)。"""
+    from .substituent import _name_carbon_substituent
+    subs = [nb for nb in graph.adjacency[n_idx]
+            if nb != p_idx and get_atom(graph, nb).symbol == "C"]
+    return sorted(_name_carbon_substituent(graph, c, {n_idx, p_idx}) for c in subs)
+
+
+def _name_phosphoramidic_family(graph, pgrp, get_atom) -> str:
+    """ホスホロアミド酸/ホスホロジアミド酸/ホスホンアミド酸 (Phase 868, IUPAC 2013 P-67.1.4).
+
+    アミド N 上の置換基は N-/N'- ロカント、P 上の C 置換基は P- ロカントで引用。
+    例: CNP(=O)(O)O → N-methylphosphoramidic acid,
+        CP(=O)(N)O → P-methylphosphonamidic acid,
+        CNP(=O)(NC)O → N,N'-dimethylphosphorodiamidic acid
+    """
+    from .constants import MULTIPLIER
+    from collections import defaultdict
+    from .molecule_analyzer import get_bond_order
+    gtype = pgrp.group_type
+    p_idx = pgrp.atom_indices[0]
+    n_amide = [nb for nb in graph.adjacency[p_idx]
+               if get_atom(graph, nb).symbol == "N"
+               and get_bond_order(graph, p_idx, nb) == 1.0]
+    c_on_p = [nb for nb in graph.adjacency[p_idx]
+              if get_atom(graph, nb).symbol == "C"]
+
+    # (subname, locant) エントリを集める
+    entries: list[tuple[str, str]] = []
+    if gtype == "phosphorodiamidic_acid" and len(n_amide) == 2:
+        s0 = _phosphoramidic_n_subs(graph, get_atom, n_amide[0], p_idx)
+        s1 = _phosphoramidic_n_subs(graph, get_atom, n_amide[1], p_idx)
+        # 置換基を持つ N を優先して N (無ければ順不同)
+        if not s0 and s1:
+            s0, s1 = s1, s0
+        for sub in s0:
+            entries.append((sub, "N"))
+        for sub in s1:
+            entries.append((sub, "N'"))
+    else:
+        for n_idx in n_amide:
+            for sub in _phosphoramidic_n_subs(graph, get_atom, n_idx, p_idx):
+                entries.append((sub, "N"))
+    # P 上の C 置換基 (phosphonamidic)
+    if gtype == "phosphonamidic_acid":
+        from .substituent import _name_carbon_substituent
+        for c in c_on_p:
+            entries.append((_name_carbon_substituent(graph, c, {p_idx}), "P"))
+
+    suffix = {
+        "phosphoramidic_acid": "phosphoramidic acid",
+        "phosphorodiamidic_acid": "phosphorodiamidic acid",
+        "phosphonamidic_acid": "phosphonamidic acid",
+    }[gtype]
+
+    if not entries:
+        return suffix
+    # 同一置換基をロカントでまとめる
+    by_sub: dict[str, list[str]] = defaultdict(list)
+    for sub, loc in entries:
+        by_sub[sub].append(loc)
+    parts = []
+    for sub in sorted(by_sub):
+        locs = sorted(by_sub[sub], key=lambda x: (x.rstrip("'"), x))
+        mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
+        sub_str = f"({sub})" if sub.startswith("(") or any(c.isdigit() for c in sub) else sub
+        parts.append(f"{','.join(locs)}-{mult}{sub_str}")
+    return "-".join(parts) + suffix
+
+
 def _name_phosphonous_acid(graph, pgrp, get_atom) -> str:
     """ホスホナス酸: {alkyl}phosphonous acid  (Phase 241)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphonous acid")
@@ -6869,6 +6939,9 @@ PGRP_DISPATCH: dict = {
     "phosphinic_acid": _name_phosphinic_acid,
     "phosphonothioic_acid": _name_thiophosphorus_acid,
     "phosphinothioic_acid": _name_thiophosphorus_acid,
+    "phosphoramidic_acid": _name_phosphoramidic_family,
+    "phosphorodiamidic_acid": _name_phosphoramidic_family,
+    "phosphonamidic_acid": _name_phosphoramidic_family,
     "phosphonous_acid": _name_phosphonous_acid,
     "phosphinous_acid": _name_phosphinous_acid,
     "arsonic_acid": _name_arsonic_acid,

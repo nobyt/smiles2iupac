@@ -1512,8 +1512,36 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
         chalc_double = o_double + s_double_p          # =X (X = O or S)
         chalc_single_h = o_single_oh + s_single_sh    # -XH 酸性位置
         total_s_ct = len(s_double_p) + len(s_single_sh)
+        # アミド N (P に単結合した N): phosphoramidic 系 (Phase 868)
+        n_amide_p = [nb for nb in neighbors
+                     if get_atom(graph, nb).symbol == "N"
+                     and get_bond_order(graph, p_idx, nb) == 1.0]
 
-        if len(o_double) == 1 and len(o_single_oh) >= 2 and len(c_neighbors) == 1:
+        if (len(o_double) == 1 and len(c_neighbors) == 0
+                and len(n_amide_p) == 1 and len(o_single_oh) == 2):
+            # ホスホロアミド酸: H2N-P(=O)(OH)2 (N 置換形含む, Phase 868)
+            groups.append(FunctionalGroup(
+                group_type="phosphoramidic_acid",
+                atom_indices=[p_idx] + n_amide_p + o_double + o_single_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphoramidic_acid", 92),
+            ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 0
+              and len(n_amide_p) == 2 and len(o_single_oh) == 1):
+            # ホスホロジアミド酸: (H2N)2-P(=O)(OH) (Phase 868)
+            groups.append(FunctionalGroup(
+                group_type="phosphorodiamidic_acid",
+                atom_indices=[p_idx] + n_amide_p + o_double + o_single_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphorodiamidic_acid", 92),
+            ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 1
+              and len(n_amide_p) == 1 and len(o_single_oh) == 1):
+            # ホスホンアミド酸: R-P(=O)(NH2)(OH) (Phase 868)
+            groups.append(FunctionalGroup(
+                group_type="phosphonamidic_acid",
+                atom_indices=[p_idx] + c_neighbors + n_amide_p + o_double + o_single_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonamidic_acid", 91),
+            ))
+        elif len(o_double) == 1 and len(o_single_oh) >= 2 and len(c_neighbors) == 1:
             # ホスホン酸: R-P(=O)(OH)2
             groups.append(FunctionalGroup(
                 group_type="phosphonic_acid",
