@@ -874,13 +874,13 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     # ─── Phase 298: テルラミド ────────────────────────────────────────────
     "telluramide": FunctionalGroupSpec(
         priority=91,
-        suffix="teluramide",
-        chain_template="{stem}aneteluramide",
-        chain_template_mb="{stem}{mb}teluramide",
+        suffix="telluramide",
+        chain_template="{stem}anetelluramide",
+        chain_template_mb="{stem}{mb}telluramide",
         needs_locant=False,
         anchor_c1=True,
-        cyclic_template="cyclo{stem}ane-{loc}-carboteluramide",
-        benzene_name="benzeneteluramide",
+        cyclic_template="cyclo{stem}ane-{loc}-carbotelluramide",
+        benzene_name="benzenetelluramide",
     ),
     # ─── Phase 42: カルバメート ─────────────────────────────────────────
     "carbamate": FunctionalGroupSpec(
@@ -1223,6 +1223,18 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         benzene_name="benzenecarboximidamide",
     ),
     "carbamic_acid": FunctionalGroupSpec(
+        priority=99,
+        suffix="",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # チオ/セレノ/テルロカルバミン酸 (Phase 867): 命名は
+    #   _name_carbamo_chalcogenoic_acid が carbamo{di}{thio|seleno|telluro}ic acid を生成
+    "carbamo_chalcogenoic_acid": FunctionalGroupSpec(
         priority=99,
         suffix="",
         chain_template="",

@@ -3726,6 +3726,62 @@ def _name_carbamic_acid(graph, pgrp, get_atom) -> str:
     return f"{prefix}carbamic acid"
 
 
+def _name_carbamo_chalcogenoic_acid(graph, pgrp, get_atom) -> str:
+    """チオ/セレノ/テルロカルバミン酸 (Phase 867).
+
+    carbamo{di}{thio|seleno|telluro}ic acid。=X と -YH の重カルコゲン (S/Se/Te)
+    総数で thio(1)/dithio(2) を、元素で thio/seleno/telluro を決める。位置タグ
+    (O-/S-) は付けない — タウトマー単一名 (Phase 864/865 と同じ原則)。
+    """
+    from .molecule_analyzer import get_bond_order
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+    from collections import Counter
+    c_idx = pgrp.atom_indices[0]
+    n_idx = None
+    n_s = n_se = n_te = 0
+    for nb in graph.adjacency[c_idx]:
+        a = get_atom(graph, nb)
+        bo = get_bond_order(graph, c_idx, nb)
+        if a.symbol == "N" and bo == 1.0:
+            n_idx = nb
+        elif a.symbol in ("S", "Se", "Te") and (
+                bo == 2.0 or (bo == 1.0 and any(get_atom(graph, h).symbol == "H"
+                                                for h in graph.adjacency[nb]))):
+            if a.symbol == "S":
+                n_s += 1
+            elif a.symbol == "Se":
+                n_se += 1
+            else:
+                n_te += 1
+    if n_s:
+        elem, cnt = "thio", n_s
+    elif n_se:
+        elem, cnt = "seleno", n_se
+    else:
+        elem, cnt = "telluro", n_te
+    di = "di" if cnt == 2 else ""
+    suffix = f"carbamo{di}{elem}ic acid"
+    if n_idx is None:
+        return suffix
+    n_c_subs = [nb for nb in graph.adjacency[n_idx]
+                if nb != c_idx and get_atom(graph, nb).symbol == "C"]
+    if not n_c_subs:
+        return suffix
+    names = [_name_carbon_substituent(graph, c, {n_idx, c_idx}) for c in n_c_subs]
+    sub_counts = Counter(names)
+    parts = []
+    for sub in sorted(sub_counts):
+        cnt2 = sub_counts[sub]
+        sub_str = f"({sub})" if sub.startswith("(") else sub
+        if cnt2 == 1:
+            parts.append(f"N-{sub_str}")
+        else:
+            mult = MULTIPLIER.get(cnt2, f"{cnt2}")
+            parts.append(f"N,N-{mult}{sub_str}")
+    return ",".join(parts) + suffix
+
+
 def _name_carbodiimide(graph, pgrp, get_atom) -> str:
     """
     カルボジイミド: N,N'-di{alkyl}methanediimine (IUPAC 2013 PIN: methanediimine, not carbodiimide)
@@ -5922,7 +5978,7 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
 
 
 def _name_telluramide(graph, pgrp, get_atom) -> str:
-    """テルラミド命名: {stem}aneteluramide / N-{sub}{stem}aneteluramide (Phase 298)"""
+    """テルラミド命名: {stem}anetelluramide / N-{sub}{stem}anetelluramide (Phase 298; typo fix Phase 867)"""
     from .constants import CHAIN_PREFIX, MULTIPLIER
     from .substituent import _name_carbon_substituent
     from collections import Counter
@@ -5930,7 +5986,7 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
     carbonyl_c = pgrp.atom_indices[0]
     n_idx = next((ai for ai in pgrp.atom_indices if get_atom(graph, ai).symbol == "N"), None)
     if n_idx is None:
-        return "teluramide"
+        return "telluramide"
 
     if not get_atom(graph, carbonyl_c).in_ring and any(
         get_atom(graph, nb).in_ring for nb in graph.adjacency[carbonyl_c]
@@ -5945,9 +6001,9 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
     _ene_te, _yne_te = _chain_multiple_bonds(graph, acid_chain)
     if _ene_te or _yne_te:
         from .name_assembler import _format_multiple_bonds as _fmt_te
-        parent_name = f"{stem}{_fmt_te(_ene_te, _yne_te)}eteluramide"
+        parent_name = f"{stem}{_fmt_te(_ene_te, _yne_te)}etelluramide"
     else:
-        parent_name = f"{stem}aneteluramide"
+        parent_name = f"{stem}anetelluramide"
 
     stereo_pfx_te = ""
     if _ene_te:
@@ -6903,6 +6959,7 @@ PGRP_DISPATCH: dict = {
     "nitrate_ester": _name_nitrate_ester,
     "nitrite_ester": _name_nitrite_ester,
     "carbamic_acid": _name_carbamic_acid,
+    "carbamo_chalcogenoic_acid": _name_carbamo_chalcogenoic_acid,
     "carbodiimide": _name_carbodiimide,
     "acyl_azide": _name_acyl_azide,
     "hydrazide": _name_hydrazide,

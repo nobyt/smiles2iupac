@@ -192,6 +192,23 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
             ))
             continue
 
+        # チオ/セレノ/テルロカルバミン酸: RnN-C(=X)(YH) (Phase 867) —
+        #   thioamide/selenoamide/thiocarboxylic 検出より前に判定
+        if _is_carbamo_chalcogenoic_acid(graph, idx):
+            n_idx_cc = next(
+                (nb for nb in graph.adjacency[idx]
+                 if get_atom(graph, nb).symbol == "N"
+                 and get_bond_order(graph, idx, nb) == 1.0),
+                None,
+            )
+            _idx_cc = [idx] + ([n_idx_cc] if n_idx_cc is not None else [])
+            groups.append(FunctionalGroup(
+                group_type="carbamo_chalcogenoic_acid",
+                atom_indices=_idx_cc,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("carbamo_chalcogenoic_acid", 99),
+            ))
+            continue
+
         # S-アルキルカルバモジチオアート: N-C(=S)-S-R (Phase 351) — チオアミドより先
         if _is_s_carbamodithioate(graph, idx):
             s_double_cdt = _get_double_bonded_sulfur(graph, idx)
@@ -3016,6 +3033,45 @@ def _get_carbamic_oh(graph: MoleculeGraph, c_idx: int) -> int | None:
             if any(get_atom(graph, n).symbol == "H" for n in graph.adjacency[nb_idx]):
                 return nb_idx
     return None
+
+
+def _is_carbamo_chalcogenoic_acid(graph: MoleculeGraph, c_idx: int) -> bool:
+    """C が RnN-C(=X)(YH) パターン (X,Y ∈ O/S/Se/Te, 重カルコゲン >=1)。
+
+    カルバミン酸 (carbamic acid) のチオ/セレノ/テルロ類縁体
+    (carbamothioic/carbamoselenoic/carbamotelluroic acid, Phase 867)。
+    純粋 (重カルコゲンが単一元素) のみ対象、混成は除外。
+    """
+    if get_atom(graph, c_idx).in_ring:
+        return False
+    n_single = 0
+    dbl_chalc = None
+    single_h_chalc = None
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        bo = get_bond_order(graph, c_idx, nb_idx)
+        if nb.symbol == "N" and bo == 1.0:
+            n_single += 1
+            # N-N (ヒドラジド類) は除外
+            if any(get_atom(graph, x).symbol == "N"
+                   for x in graph.adjacency[nb_idx] if x != c_idx):
+                return False
+        elif nb.symbol in ("O", "S", "Se", "Te") and bo == 2.0:
+            dbl_chalc = nb.symbol
+        elif (nb.symbol in ("O", "S", "Se", "Te") and bo == 1.0
+              and any(get_atom(graph, h).symbol == "H"
+                      for h in graph.adjacency[nb_idx])):
+            single_h_chalc = nb.symbol
+        elif nb.symbol == "H":
+            continue
+        else:
+            return False  # 他の置換基あり → carbamic 酸ではない
+    if n_single != 1 or dbl_chalc is None or single_h_chalc is None:
+        return False
+    heavy = [c for c in (dbl_chalc, single_h_chalc) if c != "O"]
+    if not heavy or len(set(heavy)) > 1:
+        return False  # 全 O (=普通のカルバミン酸) または混成カルコゲンは対象外
+    return True
 
 
 def _is_amidine(graph: MoleculeGraph, c_idx: int) -> bool:

@@ -10,14 +10,14 @@ from smiles2iupac import smiles_to_iupac
 
 @pytest.mark.parametrize("smiles,expected", [
     # telluramide E/Z
-    ("C/C=C/C(=[Te])N",          "(2E)-but-2-eneteluramide"),
-    (r"C/C=C\C(=[Te])N",         "(2Z)-but-2-eneteluramide"),
+    ("C/C=C/C(=[Te])N",          "(2E)-but-2-enetelluramide"),
+    (r"C/C=C\C(=[Te])N",         "(2Z)-but-2-enetelluramide"),
     # dicarboxylate locant optimization (no stereo marks)
     ("[O-]C(=O)CC=CC(=O)[O-]",   "pent-2-enedioate"),
     ("[O-]C(=O)C=CCC(=O)[O-]",   "pent-2-enedioate"),
     # regressions: saturated telluramide unchanged
-    ("CC(=[Te])N",               "ethaneteluramide"),
-    ("CCC(=[Te])N",              "propaneteluramide"),
+    ("CC(=[Te])N",               "ethanetelluramide"),
+    ("CCC(=[Te])N",              "propanetelluramide"),
     # regressions: saturated dicarboxylates (succinate → butanedioate PIN in Phase 736)
     ("[O-]C(=O)CCC(=O)[O-]",     "butanedioate"),
     ("[O-]C(=O)CC(=O)[O-]",      "malonate"),

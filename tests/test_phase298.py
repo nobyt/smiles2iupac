@@ -1,6 +1,6 @@
 """Phase 298: telluramide naming (IUPAC 2013 P-66.8.3 / P-65.1.1.4).
 
-C(=[Te])-NH2 → {alkane}teluramide  (analog of thioamide / selenoamide with Te)
+C(=[Te])-NH2 → {alkane}telluramide  (analog of thioamide / selenoamide with Te)
 """
 
 import pytest
@@ -8,10 +8,10 @@ from smiles2iupac import smiles_to_iupac
 
 
 @pytest.mark.parametrize("smiles,expected", [
-    ("[Te]=CN",            "methaneteluramide"),
-    ("CC(=[Te])N",         "ethaneteluramide"),
-    ("CCC(=[Te])N",        "propaneteluramide"),
-    ("CC(=[Te])NC",        "N-methylethaneteluramide"),
+    ("[Te]=CN",            "methanetelluramide"),
+    ("CC(=[Te])N",         "ethanetelluramide"),
+    ("CCC(=[Te])N",        "propanetelluramide"),
+    ("CC(=[Te])NC",        "N-methylethanetelluramide"),
     # regressions
     ("CC(=[Se])N",         "ethaneselenoamide"),
     ("CC(=S)N",            "ethanethioamide"),

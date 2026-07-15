@@ -21,7 +21,7 @@ from smiles2iupac import smiles_to_iupac
     # selenoamide N-substituent
     ("C/C=C/CNC(=[Se])C",    "N-[(2E)-but-2-en-1-yl]ethaneselenoamide"),
     # telluramide N-substituent
-    ("C/C=C/CNC(=[Te])C",    "N-[(2E)-but-2-en-1-yl]ethaneteluramide"),
+    ("C/C=C/CNC(=[Te])C",    "N-[(2E)-but-2-en-1-yl]ethanetelluramide"),
     # sulfamic acid N-substituent
     ("C/C=C/CNS(=O)(=O)O",   "N-[(2E)-but-2-en-1-yl]sulfamic acid"),
     # sulfinamide N-substituent

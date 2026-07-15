@@ -1,7 +1,7 @@
 """Phase 866: selenourea and tellurourea (Se/Te analogues of thiourea).
 
 NC(=[Se])N and NC(=[Te])N collided with the seleno/telluramide namers and were
-wrongly given "methaneselenoamide" / "methaneteluramide", dropping the second
+wrongly given "methaneselenoamide" / "methanetelluramide", dropping the second
 nitrogen. The codebase already names NC(=S)N "thiourea"; this generalises
 _name_thiourea_if_match to the =Se / =Te chalcogens:
 
