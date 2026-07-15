@@ -1516,6 +1516,9 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
         n_amide_p = [nb for nb in neighbors
                      if get_atom(graph, nb).symbol == "N"
                      and get_bond_order(graph, p_idx, nb) == 1.0]
+        # P に付いたハロゲン: phosphono ハリド酸 (Phase 869)
+        halide_p = [nb for nb in neighbors
+                    if get_atom(graph, nb).symbol in ("F", "Cl", "Br", "I")]
 
         if (len(o_double) == 1 and len(c_neighbors) == 0
                 and len(n_amide_p) == 1 and len(o_single_oh) == 2):
@@ -1540,6 +1543,14 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 group_type="phosphonamidic_acid",
                 atom_indices=[p_idx] + c_neighbors + n_amide_p + o_double + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonamidic_acid", 91),
+            ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 1
+              and len(halide_p) == 1 and len(o_single_oh) == 1):
+            # ホスホノハリド酸: R-P(=O)(X)(OH) (Phase 869)
+            groups.append(FunctionalGroup(
+                group_type="phosphonohalidic_acid",
+                atom_indices=[p_idx] + c_neighbors + halide_p + o_double + o_single_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonohalidic_acid", 91),
             ))
         elif len(o_double) == 1 and len(o_single_oh) >= 2 and len(c_neighbors) == 1:
             # ホスホン酸: R-P(=O)(OH)2

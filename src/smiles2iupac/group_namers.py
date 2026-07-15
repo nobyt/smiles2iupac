@@ -2465,6 +2465,26 @@ def _name_phosphoramidic_family(graph, pgrp, get_atom) -> str:
     return "-".join(parts) + suffix
 
 
+def _name_phosphonohalidic_acid(graph, pgrp, get_atom) -> str:
+    """ホスホノハリド酸 (Phase 869, IUPAC 2013 P-67.1.4).
+
+    R-P(=O)(X)(OH) → P-{alkyl}phosphono{halo}idic acid。
+    例: CP(=O)(Cl)O → P-methylphosphonochloridic acid
+    """
+    from .substituent import _name_carbon_substituent
+    _halo = {"F": "fluorid", "Cl": "chlorid", "Br": "bromid", "I": "iodid"}
+    p_idx = pgrp.atom_indices[0]
+    c_on_p = [nb for nb in graph.adjacency[p_idx] if get_atom(graph, nb).symbol == "C"]
+    hal = next((get_atom(graph, nb).symbol for nb in graph.adjacency[p_idx]
+                if get_atom(graph, nb).symbol in _halo), None)
+    halo_word = _halo.get(hal, "halid")
+    if not c_on_p:
+        return f"phosphono{halo_word}ic acid"
+    c_name = _name_carbon_substituent(graph, c_on_p[0], {p_idx})
+    c_str = f"({c_name})" if c_name.startswith("(") or any(ch.isdigit() for ch in c_name) else c_name
+    return f"P-{c_str}phosphono{halo_word}ic acid"
+
+
 def _name_phosphonous_acid(graph, pgrp, get_atom) -> str:
     """ホスホナス酸: {alkyl}phosphonous acid  (Phase 241)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphonous acid")
@@ -6942,6 +6962,7 @@ PGRP_DISPATCH: dict = {
     "phosphoramidic_acid": _name_phosphoramidic_family,
     "phosphorodiamidic_acid": _name_phosphoramidic_family,
     "phosphonamidic_acid": _name_phosphoramidic_family,
+    "phosphonohalidic_acid": _name_phosphonohalidic_acid,
     "phosphonous_acid": _name_phosphonous_acid,
     "phosphinous_acid": _name_phosphinous_acid,
     "arsonic_acid": _name_arsonic_acid,

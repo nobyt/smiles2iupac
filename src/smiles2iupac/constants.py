@@ -1453,6 +1453,17 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # ホスホノハリド酸 (Phase 869): R-P(=O)(X)(OH), 命名は _name_phosphonohalidic_acid
+    "phosphonohalidic_acid": FunctionalGroupSpec(
+        priority=91,
+        suffix="phosphonohalidic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "arsane_org": FunctionalGroupSpec(
         priority=10,
         suffix="arsane",
