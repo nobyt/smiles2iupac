@@ -3780,33 +3780,36 @@ def _name_hydroperoxide(graph, pgrp, get_atom) -> str:
 
 def _name_thiourea_if_match(graph, get_atom) -> str | None:
     """
-    チオ尿素命名 (Phase 87)。
-    C(=S) を中心に N が 2 つ付き、他の C が付かない構造を検出。
-    例: NC(=S)N → "thiourea", CNC(=S)N → "N-methylthiourea"
+    チオ/セレノ/テルロ尿素命名 (Phase 87, Se/Te 拡張 Phase 866)。
+    C(=X) (X = S/Se/Te) を中心に N が 2 つ付き、他の C が付かない構造を検出。
+    例: NC(=S)N → "thiourea", NC(=[Se])N → "selenourea",
+        CNC(=S)N → "N-methylthiourea"
     """
     from .molecule_analyzer import get_bond_order
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
 
     center_idx = None
+    center_chalc = None
     n_neighbors: list[int] = []
     for a in graph.atoms:
         if a.symbol != "C":
             continue
-        if a.in_ring:  # thiolactam C is in ring; thiourea C is not
+        if a.in_ring:  # thiolactam C is in ring; (thio)urea C is not
             continue
-        dbl_s = False
+        dbl_chalc = None
         nc: list[int] = []
         other_c = False
         for nb_idx in graph.adjacency[a.idx]:
             nb = get_atom(graph, nb_idx)
-            if nb.symbol == "S" and get_bond_order(graph, a.idx, nb_idx) == 2.0:
-                dbl_s = True
+            if (nb.symbol in ("S", "Se", "Te")
+                    and get_bond_order(graph, a.idx, nb_idx) == 2.0):
+                dbl_chalc = nb.symbol
             elif nb.symbol == "N":
                 nc.append(nb_idx)
             elif nb.symbol == "C":
                 other_c = True
-        if dbl_s and len(nc) == 2 and not other_c:
+        if dbl_chalc is not None and len(nc) == 2 and not other_c:
             # N-N パターン (チオセミカルバゾン等) は除外
             n_n_bond = any(
                 get_atom(graph, x).symbol == "N"
@@ -3817,11 +3820,15 @@ def _name_thiourea_if_match(graph, get_atom) -> str | None:
             if n_n_bond:
                 continue
             center_idx = a.idx
+            center_chalc = dbl_chalc
             n_neighbors = nc
             break
 
     if center_idx is None:
         return None
+
+    chalc_word = {"S": "thiourea", "Se": "selenourea",
+                  "Te": "tellurourea"}[center_chalc]
 
     def get_subs(n_idx: int) -> list[str]:
         return sorted(
@@ -3849,15 +3856,15 @@ def _name_thiourea_if_match(graph, get_atom) -> str | None:
     subs2 = get_subs(n2)
 
     if not subs1 and not subs2:
-        return "thiourea"
+        return chalc_word
 
     if subs1 and not subs2:
-        return "-".join(build_prefix(subs1)) + "thiourea"
+        return "-".join(build_prefix(subs1)) + chalc_word
     if subs2 and not subs1:
-        return "-".join(build_prefix(subs2)) + "thiourea"
+        return "-".join(build_prefix(subs2)) + chalc_word
 
     if subs1 == subs2 and len(subs1) == 1:
-        return f"N,N'-di{subs1[0]}thiourea"
+        return f"N,N'-di{subs1[0]}{chalc_word}"
 
     first1 = subs1[0] if subs1 else ""
     first2 = subs2[0] if subs2 else ""
@@ -3865,7 +3872,7 @@ def _name_thiourea_if_match(graph, get_atom) -> str | None:
         parts = build_prefix(subs1, "") + build_prefix(subs2, "'")
     else:
         parts = build_prefix(subs2, "") + build_prefix(subs1, "'")
-    return "-".join(parts) + "thiourea"
+    return "-".join(parts) + chalc_word
 
 
 def _name_substituted_urea_if_match(graph, get_atom) -> str | None:
