@@ -5123,11 +5123,39 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
     if not hetero_rings:
         return None
 
-    # 単環のみ対応
-    if len(hetero_rings) != 1:
-        return None
+    if len(hetero_rings) == 1:
+        ring = hetero_rings[0]
+    else:
+        # Phase 872: 非縮合ヘテロ環アセンブリ (bipyridine 等)。
+        # 全環が同一シグネチャかつ相互に非縮合なら 1 環を主環に選び、
+        # 残りは環置換基 (pyridin-4-yl 等) として既存経路で命名する。
+        # (混成ヘテロ環アセンブリは seniority が非自明なため従来通り None →
+        #  以前はこの分岐が常に None で、主環ピリジンが benzene と誤名された)
+        from .molecule_analyzer import get_atom as _ga_hr
+        ring_sets = [set(r) for r in hetero_rings]
+        non_fused = all(
+            not (ring_sets[a] & ring_sets[b])
+            for a in range(len(ring_sets))
+            for b in range(a + 1, len(ring_sets))
+        )
+        sigs = {_canonical_sig(_find_best_start(list(r), graph), graph)
+                for r in hetero_rings}
+        if not non_fused or len(sigs) != 1:
+            return None
 
-    ring = hetero_rings[0]
+        # 主環選択: 環間結合原子のロカントが最小になる環を選ぶ
+        def _attach_locant(r: list[int]) -> int:
+            rot = _find_best_start(list(r), graph)
+            lm = _build_locant_map(rot)
+            r_set = set(r)
+            other = [s for s in ring_sets if s != r_set]
+            locs = [lm[a] for a in r
+                    for nb in graph.adjacency[a]
+                    if _ga_hr(graph, nb).symbol != "H"
+                    and any(nb in o for o in other)]
+            return min(locs) if locs else 99
+
+        ring = min(hetero_rings, key=_attach_locant)
 
     # 1. Phase 272: 部分不飽和環を最初にチェック (環内二重結合あり)
     # 飽和環や芳香族環は db_pairs が空 or is_aromatic で None を返すので安全

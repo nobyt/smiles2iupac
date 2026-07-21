@@ -327,6 +327,19 @@ def _name_aryl_substituent(graph: "MoleculeGraph", root_idx: int, excluded: set[
     # attachment locant
     if root_idx in rotation:
         locant = rotation.index(root_idx) + 1
+        # Phase 872: 付け根ロカントは最小を選ぶ。_match_retained は canonical な
+        # rotation を 1 方向だけ返すため、ヘテロ原子ロカントを保つ鏡像方向
+        # (位置1固定で残りを反転) も比較し、attachment を低くできるなら採用。
+        # 例: pyridine の meta 結合は 5 ではなく 3, ortho は 6 ではなく 2。
+        from .molecule_analyzer import get_atom as _ga_sub
+        mirror = [rotation[0]] + rotation[1:][::-1]
+
+        def _het_locs(rot: list[int]) -> tuple[int, ...]:
+            return tuple(sorted(i + 1 for i, a in enumerate(rot)
+                                if _ga_sub(graph, a).symbol != "C"))
+
+        if root_idx in mirror and _het_locs(mirror) == _het_locs(rotation):
+            locant = min(locant, mirror.index(root_idx) + 1)
     else:
         locant = 1  # fallback
 
