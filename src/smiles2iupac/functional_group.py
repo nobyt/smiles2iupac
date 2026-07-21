@@ -1519,6 +1519,10 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
         # P に付いたハロゲン: phosphono ハリド酸 (Phase 869)
         halide_p = [nb for nb in neighbors
                     if get_atom(graph, nb).symbol in ("F", "Cl", "Br", "I")]
+        # P=N イミド: phosphonimidic 酸 (Phase 871)
+        n_imido_p = [nb for nb in neighbors
+                     if get_atom(graph, nb).symbol == "N"
+                     and get_bond_order(graph, p_idx, nb) == 2.0]
 
         if (len(o_double) == 1 and len(c_neighbors) == 0
                 and len(n_amide_p) == 1 and len(o_single_oh) == 2):
@@ -1551,6 +1555,14 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 group_type="phosphonohalidic_acid",
                 atom_indices=[p_idx] + c_neighbors + halide_p + o_double + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonohalidic_acid", 91),
+            ))
+        elif (len(o_double) == 0 and len(n_imido_p) == 1
+              and len(o_single_oh) == 2 and len(c_neighbors) == 1):
+            # ホスホンイミド酸: R-P(=NH)(OH)2 (=O を =NH で置換, Phase 871)
+            groups.append(FunctionalGroup(
+                group_type="phosphonimidic_acid",
+                atom_indices=[p_idx] + c_neighbors + n_imido_p + o_single_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonimidic_acid", 92),
             ))
         elif len(o_double) == 1 and len(o_single_oh) >= 2 and len(c_neighbors) == 1:
             # ホスホン酸: R-P(=O)(OH)2

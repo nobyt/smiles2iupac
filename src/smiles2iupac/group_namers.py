@@ -2485,6 +2485,42 @@ def _name_phosphonohalidic_acid(graph, pgrp, get_atom) -> str:
     return f"P-{c_str}phosphono{halo_word}ic acid"
 
 
+def _name_phosphonimidic_acid(graph, pgrp, get_atom) -> str:
+    """ホスホンイミド酸 (Phase 871, IUPAC 2013 P-67.1.4): R-P(=NH)(OH)2.
+
+    P 上の C 置換基は P- ロカント、イミド N 上の置換基は N- ロカントで引用。
+    例: CP(=N)(O)O → P-methylphosphonimidic acid,
+        CP(=NC)(O)O → N,P-dimethylphosphonimidic acid
+    """
+    from .substituent import _name_carbon_substituent
+    from .molecule_analyzer import get_bond_order
+    from .constants import MULTIPLIER
+    from collections import defaultdict
+    p_idx = pgrp.atom_indices[0]
+    entries: list[tuple[str, str]] = []
+    for nb in graph.adjacency[p_idx]:
+        a = get_atom(graph, nb)
+        if a.symbol == "C":
+            entries.append((_name_carbon_substituent(graph, nb, {p_idx}), "P"))
+        elif a.symbol == "N" and get_bond_order(graph, p_idx, nb) == 2.0:
+            for cc in graph.adjacency[nb]:
+                if get_atom(graph, cc).symbol == "C":
+                    entries.append((_name_carbon_substituent(graph, cc, {nb}), "N"))
+    suffix = "phosphonimidic acid"
+    if not entries:
+        return suffix
+    by_sub: dict[str, list[str]] = defaultdict(list)
+    for sub, loc in entries:
+        by_sub[sub].append(loc)
+    parts = []
+    for sub in sorted(by_sub):
+        locs = sorted(by_sub[sub])
+        mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
+        sub_str = f"({sub})" if sub.startswith("(") or any(c.isdigit() for c in sub) else sub
+        parts.append(f"{','.join(locs)}-{mult}{sub_str}")
+    return "-".join(parts) + suffix
+
+
 def _name_phosphonous_acid(graph, pgrp, get_atom) -> str:
     """ホスホナス酸: {alkyl}phosphonous acid  (Phase 241)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphonous acid")
@@ -6982,6 +7018,7 @@ PGRP_DISPATCH: dict = {
     "phosphorodiamidic_acid": _name_phosphoramidic_family,
     "phosphonamidic_acid": _name_phosphoramidic_family,
     "phosphonohalidic_acid": _name_phosphonohalidic_acid,
+    "phosphonimidic_acid": _name_phosphonimidic_acid,
     "phosphonous_acid": _name_phosphonous_acid,
     "phosphinous_acid": _name_phosphinous_acid,
     "arsonic_acid": _name_arsonic_acid,
