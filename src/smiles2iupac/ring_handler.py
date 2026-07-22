@@ -1198,7 +1198,27 @@ def assemble_ring_name(
         other_subs = [(loc, nm) for loc, nm in substituents if nm != "phenyl"]
         if len(phenyl_subs) == 1 and not other_subs:
             return "1,1'-biphenyl"
-        # 置換フェニルベンゼン: fall through to normal benzene naming (phenyl in substituents)
+        # Phase 874: 置換ビフェニル PIN。フェニル結合炭素を 1 位として
+        # 他の置換基を再番号付けし {prefix}-1,1'-biphenyl を返す。
+        # (もう一方の環に置換基があると substituent 名が "(4-methylphenyl)" 等に
+        #  なり nm=="phenyl" にマッチしないので、片環置換のみ本分岐に来る)
+        if (len(phenyl_subs) == 1 and other_subs
+                and all(isinstance(loc, int) for loc, _ in substituents)):
+            from .name_assembler import _build_prefix as _bp_bph
+            p_loc = phenyl_subs[0][0]
+            best: tuple | None = None
+            best_dir = 1
+            for d in (1, -1):
+                new_locs = tuple(sorted(
+                    ((d * (loc - p_loc)) % 6) + 1 for loc, _ in other_subs))
+                if best is None or new_locs < best:
+                    best = new_locs
+                    best_dir = d
+            renumbered = [
+                (((best_dir * (loc - p_loc)) % 6) + 1, nm) for loc, nm in other_subs
+            ]
+            return f"{_bp_bph(renumbered)}-1,1'-biphenyl"
+        # 置換フェニルベンゼン (未対応形): fall through to normal benzene naming
 
     # ─── 一置換環: ロカント 1 省略 ───────────────────────────────────
     # シクロアルカン・ベンゼン系のみ適用。
