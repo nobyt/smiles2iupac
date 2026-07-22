@@ -61,6 +61,15 @@ def build_molecule_graph(smiles: str) -> MoleculeGraph:
 
     # 立体化学情報を割り当て
     Chem.AssignStereochemistry(mol, cleanIt=True, force=True)
+    # Phase 873: 疑似不斉中心 (1,4-二置換シクロヘキサン等) の小文字 r/s を含む
+    # 正確な CIP ラベルを付与。legacy AssignStereochemistry は疑似不斉中心に
+    # _CIPCode を付けず環立体化学が欠落していた。既存の大文字 R/S は不変
+    # (rdCIPLabeler は legacy と一致、疑似不斉のみ追加)。
+    try:
+        from rdkit.Chem import rdCIPLabeler
+        rdCIPLabeler.AssignCIPLabels(mol)
+    except Exception:
+        pass  # rdCIPLabeler 不在時は legacy ラベルのままフォールバック
 
     # SSSR (最小環系) を AddHs 前に取得（重原子インデックスが変わらない）
     ring_info = mol.GetRingInfo()
@@ -100,12 +109,19 @@ def build_molecule_graph(smiles: str) -> MoleculeGraph:
         bo = bond.GetBondTypeAsDouble()
 
         # E/Z stereo
+        # Phase 873: rdCIPLabeler は bond stereo enum を STEREOTRANS/CIS に変換し
+        # 正しい E/Z を _CIPCode に格納する。まず _CIPCode を読み、無ければ
+        # legacy の STEREOE/STEREOZ enum にフォールバック。
         stereo = None
-        s = bond.GetStereo()
-        if s == rdchem.BondStereo.STEREOE:
-            stereo = "E"
-        elif s == rdchem.BondStereo.STEREOZ:
-            stereo = "Z"
+        _bond_cip = bond.GetPropsAsDict().get("_CIPCode")
+        if _bond_cip in ("E", "Z"):
+            stereo = _bond_cip
+        else:
+            s = bond.GetStereo()
+            if s == rdchem.BondStereo.STEREOE:
+                stereo = "E"
+            elif s == rdchem.BondStereo.STEREOZ:
+                stereo = "Z"
 
         bonds.append(BondInfo(begin_idx=bi, end_idx=ei, bond_order=bo, stereo=stereo))
 
