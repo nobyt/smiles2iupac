@@ -736,6 +736,12 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
         _bph = _name_biphenyl_assembly(graph)
         if _bph is not None:
             return _bph
+    # Phase 876: ビフェニル + carbo 系接尾辞 (COOH/CHO/CN) → [1,1'-biphenyl]-X-...
+    elif pgrp_type in ("carboxylic_acid", "aldehyde", "nitrile"):
+        from .ring_handler import _name_biphenyl_carbo_suffix
+        _bph_s = _name_biphenyl_carbo_suffix(graph, pgrp)
+        if _bph_s is not None:
+            return _bph_s
 
     # 主環の選択とロカント割り当て（主官能基アンカーを C1 にする）
     pgrp_atoms_list = pgrp.atom_indices if pgrp is not None else []

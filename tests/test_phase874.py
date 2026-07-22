@@ -39,7 +39,7 @@ from smiles2iupac import smiles_to_iupac
     ("Clc1ccccc1",             "chlorobenzene"),
     # regression: hetero ring assembly & suffix biphenyl keep their naming
     ("c1ccc(-c2ccncc2)cc1",    "4-phenylpyridine"),
-    ("OC(=O)c1ccc(-c2ccccc2)cc1", "4-phenylbenzoic acid"),
+    ("OC(=O)c1ccc(-c2ccccc2)cc1", "[1,1'-biphenyl]-4-carboxylic acid"),  # Phase 876
     # regression: two phenyls (terphenyl-ish) unchanged
     ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,4-diphenylbenzene"),
 ])

@@ -41,7 +41,7 @@ from smiles2iupac import smiles_to_iupac
     # regression: non-biphenyl and out-of-scope assemblies unchanged
     ("Cc1ccccc1C",               "1,2-dimethylbenzene"),
     ("c1ccc(-c2ccncc2)cc1",      "4-phenylpyridine"),
-    ("OC(=O)c1ccc(-c2ccccc2)cc1", "4-phenylbenzoic acid"),
+    ("OC(=O)c1ccc(-c2ccccc2)cc1", "[1,1'-biphenyl]-4-carboxylic acid"),  # Phase 876
     ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,4-diphenylbenzene"),
     ("c1ccc2ccccc2c1",           "naphthalene"),
 ])

@@ -611,6 +611,90 @@ def _try_biphenyl(
     return None
 
 
+def _find_benzene_biphenyl(graph: "MoleculeGraph"):
+    """2 つの非縮合・全炭素ベンゼン環が単結合で連結した環アセンブリを検出。
+
+    条件を満たせば (r1_set, r2_set, c1, c2) を返す (c1∈r1, c2∈r2 が結合炭素)。
+    ヘテロ環/縮合/3 環以上/複数橋結合は None。
+    """
+    from .molecule_analyzer import get_atom as _ga
+    ring_sets = [set(r) for r in (graph.ring_atom_sets or [])]
+    if len(ring_sets) != 2:
+        return None
+    r1, r2 = ring_sets
+    for r in (r1, r2):
+        if len(r) != 6 or not all(
+            _ga(graph, a).symbol == "C" and _ga(graph, a).is_aromatic for a in r
+        ):
+            return None
+    if r1 & r2:
+        return None
+    bridges = [(a, b) for a in r1 for b in graph.adjacency[a] if b in r2]
+    if len(bridges) != 1:
+        return None
+    c1, c2 = bridges[0]
+    return r1, r2, c1, c2
+
+
+# carbo-family suffix: 環に結合した環外原子経由の主官能基
+_BIPHENYL_CARBO_SUFFIX: dict[str, str] = {
+    "carboxylic_acid": "carboxylic acid",
+    "aldehyde": "carbaldehyde",
+    "nitrile": "carbonitrile",
+}
+
+
+def _name_biphenyl_carbo_suffix(graph: "MoleculeGraph", pgrp) -> str | None:
+    """ビフェニルに carbo 系接尾辞 (COOH/CHO/CN) が 1 つ付いた場合の PIN
+    (Phase 876, IUPAC 2013 P-28.2.1)。他に置換基が無い形のみ対象:
+    "[1,1'-biphenyl]-{loc}-carboxylic acid" 等。それ以外は None。"""
+    from .molecule_analyzer import get_atom as _ga
+    suffix_word = _BIPHENYL_CARBO_SUFFIX.get(pgrp.group_type)
+    if suffix_word is None:
+        return None
+    found = _find_benzene_biphenyl(graph)
+    if found is None:
+        return None
+    r1, r2, c1, c2 = found
+    ring_all = r1 | r2
+    # 主官能基の環アンカー: pgrp 原子の環内隣接炭素
+    anchor = None
+    exo_atoms = set(pgrp.atom_indices)
+    for a in pgrp.atom_indices:
+        for nb in graph.adjacency[a]:
+            if nb in ring_all:
+                anchor = nb
+                break
+        if anchor is not None:
+            break
+    if anchor is None:
+        return None
+    host = r1 if anchor in r1 else r2
+    conn = c1 if host is r1 else c2
+    other_conn = c2 if host is r1 else c1
+    # 他の置換基があればスコープ外 (Phase 876 は接尾辞のみ)
+    for a in ring_all:
+        for nb in graph.adjacency[a]:
+            if nb in ring_all or _ga(graph, nb).symbol == "H":
+                continue
+            if nb in exo_atoms or (a in (c1, c2) and nb in (c1, c2)):
+                continue
+            return None  # 追加置換基あり
+    # host 環を conn=1 として周回し、anchor の最小ロカントを求める
+    order = [conn]
+    prev, cur = None, conn
+    while len(order) < 6:
+        nxt = next((nb for nb in graph.adjacency[cur]
+                    if nb in host and nb != prev), None)
+        if nxt is None:
+            break
+        order.append(nxt)
+        prev, cur = cur, nxt
+    idx = order.index(anchor)
+    loc = min(((1 * idx) % 6) + 1, ((-1 * idx) % 6) + 1)
+    return f"[1,1'-biphenyl]-{loc}-{suffix_word}"
+
+
 def _name_biphenyl_assembly(graph: "MoleculeGraph") -> str | None:
     """置換ビフェニルを atom-level で命名 (Phase 874/875, IUPAC 2013 P-28.2.1)。
 
@@ -619,25 +703,14 @@ def _name_biphenyl_assembly(graph: "MoleculeGraph") -> str | None:
     割り当てて "{prefix}-1,1'-biphenyl" を返す。片環置換 (Phase 874) と両環置換
     (Phase 875) を統一的に処理。対象外 (ヘテロ環/縮合/3 環以上/主官能基あり) は None。
     """
-    from .molecule_analyzer import get_atom as _ga, get_bond_order as _gbo
+    from .molecule_analyzer import get_atom as _ga
     from .substituent import name_substituent
     from .constants import MULTIPLIER
 
-    ring_sets = [set(r) for r in (graph.ring_atom_sets or [])]
-    if len(ring_sets) != 2:
-        return None  # 3 環以上 (terphenyl 等) や単環は対象外
-    r1, r2 = ring_sets
-    for r in (r1, r2):
-        if len(r) != 6 or not all(
-            _ga(graph, a).symbol == "C" and _ga(graph, a).is_aromatic for a in r
-        ):
-            return None  # 全炭素ベンゼン環でなければ対象外 (bipyridine 等)
-    if r1 & r2:
-        return None  # 縮合 (naphthalene)
-    bridges = [(a, b) for a in r1 for b in graph.adjacency[a] if b in r2]
-    if len(bridges) != 1:
+    found = _find_benzene_biphenyl(graph)
+    if found is None:
         return None
-    c1, c2 = bridges[0]
+    r1, r2, c1, c2 = found
 
     def _ring_subs(ring: set, conn: int, other_conn: int):
         # conn を起点に環を一周する順序を作る (index 0 = conn = locant 1)
