@@ -730,6 +730,13 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
             pgrp = None
             pgrp_type = "alkane"
 
+    # Phase 874/875: 置換ビフェニル (2 ベンゼン環アセンブリ) を atom-level で命名
+    if pgrp_type == "alkane":
+        from .ring_handler import _name_biphenyl_assembly
+        _bph = _name_biphenyl_assembly(graph)
+        if _bph is not None:
+            return _bph
+
     # 主環の選択とロカント割り当て（主官能基アンカーを C1 にする）
     pgrp_atoms_list = pgrp.atom_indices if pgrp is not None else []
     ring_chain = find_principal_ring(graph, rings, pgrp_type, pgrp_atoms_list)

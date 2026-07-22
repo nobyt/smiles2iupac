@@ -611,6 +611,101 @@ def _try_biphenyl(
     return None
 
 
+def _name_biphenyl_assembly(graph: "MoleculeGraph") -> str | None:
+    """置換ビフェニルを atom-level で命名 (Phase 874/875, IUPAC 2013 P-28.2.1)。
+
+    2 つの非縮合・全炭素ベンゼン環が単結合で連結した環アセンブリのみ対象。
+    両環の置換基を結合炭素=1 として集め、primed/unprimed を最小ロカント則で
+    割り当てて "{prefix}-1,1'-biphenyl" を返す。片環置換 (Phase 874) と両環置換
+    (Phase 875) を統一的に処理。対象外 (ヘテロ環/縮合/3 環以上/主官能基あり) は None。
+    """
+    from .molecule_analyzer import get_atom as _ga, get_bond_order as _gbo
+    from .substituent import name_substituent
+    from .constants import MULTIPLIER
+
+    ring_sets = [set(r) for r in (graph.ring_atom_sets or [])]
+    if len(ring_sets) != 2:
+        return None  # 3 環以上 (terphenyl 等) や単環は対象外
+    r1, r2 = ring_sets
+    for r in (r1, r2):
+        if len(r) != 6 or not all(
+            _ga(graph, a).symbol == "C" and _ga(graph, a).is_aromatic for a in r
+        ):
+            return None  # 全炭素ベンゼン環でなければ対象外 (bipyridine 等)
+    if r1 & r2:
+        return None  # 縮合 (naphthalene)
+    bridges = [(a, b) for a in r1 for b in graph.adjacency[a] if b in r2]
+    if len(bridges) != 1:
+        return None
+    c1, c2 = bridges[0]
+
+    def _ring_subs(ring: set, conn: int, other_conn: int):
+        # conn を起点に環を一周する順序を作る (index 0 = conn = locant 1)
+        order = [conn]
+        prev, cur = None, conn
+        while len(order) < 6:
+            nxt = next((nb for nb in graph.adjacency[cur]
+                        if nb in ring and nb != prev), None)
+            if nxt is None:
+                break
+            order.append(nxt)
+            prev, cur = cur, nxt
+        subs: list[tuple[int, str]] = []  # (order-index, substituent name)
+        for i, a in enumerate(order):
+            for nb in graph.adjacency[a]:
+                if nb in ring or nb == other_conn or _ga(graph, nb).symbol == "H":
+                    continue
+                subs.append((i, name_substituent(graph, nb, ring)))
+        return subs
+
+    subs1 = _ring_subs(r1, c1, c2)
+    subs2 = _ring_subs(r2, c2, c1)
+    if not subs1 and not subs2:
+        return "1,1'-biphenyl"
+
+    def _entries(subs, d: int, primed: bool):
+        out = []
+        for i, nm in subs:
+            n = ((d * i) % 6) + 1
+            out.append(((n, 1 if primed else 0), f"{n}'" if primed else f"{n}", nm))
+        return out
+
+    # unprimed 環と各環の番号方向を全探索し最小ロカント則で選ぶ
+    best_entries = None
+    best_key = None
+    for unprimed_first in (True, False):
+        sU, sP = (subs1, subs2) if unprimed_first else (subs2, subs1)
+        for dU in (1, -1):
+            for dP in (1, -1):
+                ents = _entries(sU, dU, False) + _entries(sP, dP, True)
+                loc_key = tuple(sorted(k for k, _, _ in ents))
+                # tiebreak: アルファベット順置換基に低ロカント
+                alpha_key = tuple(sorted((nm, k) for k, _, nm in ents))
+                key = (loc_key, alpha_key)
+                if best_key is None or key < best_key:
+                    best_key = key
+                    best_entries = ents
+
+    def _alpha(name: str) -> str:
+        for m in ("di", "tri", "tetra", "penta", "hexa"):
+            if name.startswith(m):
+                return name[len(m):]
+        return name
+
+    by_name: dict[str, list[tuple[tuple[int, int], str]]] = {}
+    for k, cite, nm in best_entries:
+        by_name.setdefault(nm, []).append((k, cite))
+    parts = []
+    for nm in sorted(by_name, key=_alpha):
+        items = sorted(by_name[nm])
+        cites = ",".join(c for _, c in items)
+        n = len(items)
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        nm_str = f"({nm})" if nm.startswith("(") else nm
+        parts.append(f"{cites}-{mult}{nm_str}")
+    return f"{'-'.join(parts)}-1,1'-biphenyl"
+
+
 def _assign_naphthalene_locants(
     ring1: list[int],
     ring2: list[int],
@@ -1198,27 +1293,9 @@ def assemble_ring_name(
         other_subs = [(loc, nm) for loc, nm in substituents if nm != "phenyl"]
         if len(phenyl_subs) == 1 and not other_subs:
             return "1,1'-biphenyl"
-        # Phase 874: 置換ビフェニル PIN。フェニル結合炭素を 1 位として
-        # 他の置換基を再番号付けし {prefix}-1,1'-biphenyl を返す。
-        # (もう一方の環に置換基があると substituent 名が "(4-methylphenyl)" 等に
-        #  なり nm=="phenyl" にマッチしないので、片環置換のみ本分岐に来る)
-        if (len(phenyl_subs) == 1 and other_subs
-                and all(isinstance(loc, int) for loc, _ in substituents)):
-            from .name_assembler import _build_prefix as _bp_bph
-            p_loc = phenyl_subs[0][0]
-            best: tuple | None = None
-            best_dir = 1
-            for d in (1, -1):
-                new_locs = tuple(sorted(
-                    ((d * (loc - p_loc)) % 6) + 1 for loc, _ in other_subs))
-                if best is None or new_locs < best:
-                    best = new_locs
-                    best_dir = d
-            renumbered = [
-                (((best_dir * (loc - p_loc)) % 6) + 1, nm) for loc, nm in other_subs
-            ]
-            return f"{_bp_bph(renumbered)}-1,1'-biphenyl"
-        # 置換フェニルベンゼン (未対応形): fall through to normal benzene naming
+        # Phase 874/875: 置換ビフェニルは _name_biphenyl_assembly (atom-level) が
+        # _name_cyclic で先に処理するため、ここに来る置換フェニルベンゼンは
+        # ビフェニル以外 (3 環以上等)。通常のベンゼン命名にフォールスルー。
 
     # ─── 一置換環: ロカント 1 省略 ───────────────────────────────────
     # シクロアルカン・ベンゼン系のみ適用。
