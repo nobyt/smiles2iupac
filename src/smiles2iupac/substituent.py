@@ -592,6 +592,35 @@ def _name_carbon_substituent(
         if ring_has_hetero:
             return _name_aryl_substituent(graph, root_idx, excluded)
 
+        # Phase 877: ビフェニルが置換基のとき → [1,1'-biphenyl]-{loc}-yl PIN。
+        # (従来は下の BFS が環間結合を越えて 12 原子集め len!=6 で "phenyl" に
+        #  フォールバックし 2 つめの環を完全に脱落させていた)
+        from .ring_handler import _find_benzene_biphenyl
+        _bp = _find_benzene_biphenyl(graph)
+        if _bp is not None:
+            _r1b, _r2b, _c1b, _c2b = _bp
+            _both = _r1b | _r2b
+            if root_idx in _both:
+                _host = _r1b if root_idx in _r1b else _r2b
+                _conn = _c1b if _host is _r1b else _c2b
+                _order = [_conn]
+                _prev, _cur = None, _conn
+                while len(_order) < 6:
+                    _nxt = next((nb for nb in graph.adjacency[_cur]
+                                 if nb in _host and nb != _prev), None)
+                    if _nxt is None:
+                        break
+                    _order.append(_nxt)
+                    _prev, _cur = _cur, _nxt
+                # 環に他の置換基が無い純ビフェニルのみ PIN を返す
+                _ext = [nb for a in _both for nb in graph.adjacency[a]
+                        if nb not in _both and nb not in excluded
+                        and nb != root_idx and get_atom(graph, nb).symbol != "H"]
+                if root_idx in _order and not _ext:
+                    _i = _order.index(root_idx)
+                    _loc = min((_i % 6) + 1, ((-_i) % 6) + 1)
+                    return f"[1,1'-biphenyl]-{_loc}-yl"
+
         # root から到達できる芳香族炭素環 C を収集
         aryl_cs: set[int] = set()
         q = [root_idx]
