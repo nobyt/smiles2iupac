@@ -621,6 +621,42 @@ def _name_carbon_substituent(
                     _loc = min((_i % 6) + 1, ((-_i) % 6) + 1)
                     return f"[1,1'-biphenyl]-{_loc}-yl"
 
+        # Phase 878: 縮合ナフタレンが置換基のとき → naphthalen-{loc}-yl PIN。
+        # (従来は下の BFS が環間結合を越えて10原子集め len!=6 で "phenyl" に
+        #  フォールバックし縮環系全体を脱落させていた:
+        #  CC(=O)c1ccc2ccccc2c1 が acetophenone と同名になっていた)
+        from .ring_handler import _assign_naphthalene_locants
+        _arom_six_all = [
+            list(rt) for rt in (graph.ring_atom_sets or [])
+            if len(rt) == 6 and all(get_atom(graph, a).is_aromatic for a in rt)
+        ]
+        _nap_pair = None
+        for _i2 in range(len(_arom_six_all)):
+            for _j2 in range(_i2 + 1, len(_arom_six_all)):
+                _r1c, _r2c = _arom_six_all[_i2], _arom_six_all[_j2]
+                if len(set(_r1c) & set(_r2c)) == 2 and root_idx in (set(_r1c) | set(_r2c)):
+                    _nap_pair = (_r1c, _r2c)
+                    break
+            if _nap_pair is not None:
+                break
+        if _nap_pair is not None:
+            _nr1, _nr2 = _nap_pair
+            _nall = set(_nr1) | set(_nr2)
+            # 3つめの環がこのペアに縮合していない（アントラセン等ではない）ことを確認
+            _isolated = not any(
+                set(_r) & _nall and set(_r) not in (set(_nr1), set(_nr2))
+                for _r in _arom_six_all
+            )
+            if _isolated and all(get_atom(graph, a).symbol == "C" for a in _nall):
+                _ext = [nb for a in _nall for nb in graph.adjacency[a]
+                        if nb not in _nall and nb not in excluded
+                        and nb != root_idx and get_atom(graph, nb).symbol != "H"]
+                if not _ext:
+                    _rc = _assign_naphthalene_locants(_nr1, _nr2, graph, [])
+                    _nloc = _rc.locant_map.get(root_idx)
+                    if _nloc is not None:
+                        return f"naphthalen-{_nloc}-yl"
+
         # root から到達できる芳香族炭素環 C を収集
         aryl_cs: set[int] = set()
         q = [root_idx]
