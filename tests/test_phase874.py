@@ -40,8 +40,9 @@ from smiles2iupac import smiles_to_iupac
     # regression: hetero ring assembly & suffix biphenyl keep their naming
     ("c1ccc(-c2ccncc2)cc1",    "4-phenylpyridine"),
     ("OC(=O)c1ccc(-c2ccccc2)cc1", "[1,1'-biphenyl]-4-carboxylic acid"),  # Phase 876
-    # regression: two phenyls (terphenyl-ish) unchanged
-    ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,4-diphenylbenzene"),
+    # regression: linear terphenyl now gets its PIN (Phase 881, was the
+    # non-PIN "1,4-diphenylbenzene" until then)
+    ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,1':4',1''-terphenyl"),
 ])
 def test_phase874_substituted_biphenyl_pin(smiles, expected):
     assert smiles_to_iupac(smiles) == expected

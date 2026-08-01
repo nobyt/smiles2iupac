@@ -790,6 +790,79 @@ def _name_biphenyl_assembly(graph: "MoleculeGraph") -> str | None:
     return f"{'-'.join(parts)}-1,1'-biphenyl"
 
 
+def _find_terphenyl(graph: "MoleculeGraph"):
+    """3 つの非縮合・全炭素ベンゼン環が直鎖状に単結合 2 本で連結した環アセンブリ
+    (o-/m-/p-terphenyl の骨格) を検出する (Phase 881)。
+
+    中央環が両端の環それぞれと単結合 1 本ずつで結合し、両端の環同士は無結合
+    であること。見つかれば (central, outer0, outer1, connA_central,
+    connA_outer, connB_central, connB_outer) を返す。それ以外 (縮合/3 環超/
+    分岐/環同士が全結合等) は None。
+    """
+    from .molecule_analyzer import get_atom as _ga
+    ring_sets = [set(r) for r in (graph.ring_atom_sets or [])]
+    if len(ring_sets) != 3:
+        return None
+    for r in ring_sets:
+        if len(r) != 6 or not all(
+            _ga(graph, a).symbol == "C" and _ga(graph, a).is_aromatic for a in r
+        ):
+            return None
+    for i in range(3):
+        for j in range(i + 1, 3):
+            if ring_sets[i] & ring_sets[j]:
+                return None  # 縮合系は対象外
+
+    def _bridge(ra: set, rb: set):
+        bs = [(a, b) for a in ra for b in graph.adjacency[a] if b in rb]
+        return bs[0] if len(bs) == 1 else None
+
+    for i in range(3):
+        others = [j for j in range(3) if j != i]
+        b0 = _bridge(ring_sets[i], ring_sets[others[0]])
+        b1 = _bridge(ring_sets[i], ring_sets[others[1]])
+        if b0 is None or b1 is None:
+            continue
+        if _bridge(ring_sets[others[0]], ring_sets[others[1]]) is not None:
+            continue  # 端環同士が直接結合 → 直鎖ではない
+        connA_central, connA_outer = b0
+        connB_central, connB_outer = b1
+        return (ring_sets[i], ring_sets[others[0]], ring_sets[others[1]],
+                connA_central, connA_outer, connB_central, connB_outer)
+    return None
+
+
+def _name_terphenyl_assembly(graph: "MoleculeGraph") -> str | None:
+    """無置換の直鎖ターフェニル (o-/m-/p-terphenyl) の PIN (Phase 881,
+    IUPAC 2013 P-28.2.1)。中央環の 2 つの結合炭素の位置関係から
+    "1,1':2',1''-terphenyl" (ortho) / "...:3',1''-..." (meta) /
+    "...:4',1''-..." (para) を返す。環に他の置換基がある場合は対象外 (None)。
+    """
+    from .molecule_analyzer import get_atom as _ga
+    found = _find_terphenyl(graph)
+    if found is None:
+        return None
+    central, outer0, outer1, connA_c, _connA_o, connB_c, _connB_o = found
+    all_ring_atoms = central | outer0 | outer1
+    for a in all_ring_atoms:
+        for nb in graph.adjacency[a]:
+            if nb in all_ring_atoms or _ga(graph, nb).symbol == "H":
+                continue
+            return None  # 環外の置換基あり → スコープ外
+    order = [connA_c]
+    prev, cur = None, connA_c
+    while len(order) < 6:
+        nxt = next((nb for nb in graph.adjacency[cur]
+                    if nb in central and nb != prev), None)
+        if nxt is None:
+            break
+        order.append(nxt)
+        prev, cur = cur, nxt
+    idx = order.index(connB_c)
+    loc = min((idx % 6) + 1, ((-idx) % 6) + 1)
+    return f"1,1':{loc}',1''-terphenyl"
+
+
 def _assign_naphthalene_locants(
     ring1: list[int],
     ring2: list[int],

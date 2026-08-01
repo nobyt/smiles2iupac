@@ -42,7 +42,8 @@ from smiles2iupac import smiles_to_iupac
     ("Cc1ccccc1C",               "1,2-dimethylbenzene"),
     ("c1ccc(-c2ccncc2)cc1",      "4-phenylpyridine"),
     ("OC(=O)c1ccc(-c2ccccc2)cc1", "[1,1'-biphenyl]-4-carboxylic acid"),  # Phase 876
-    ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,4-diphenylbenzene"),
+    # Phase 881: linear terphenyl now gets its PIN, was non-PIN before then
+    ("c1ccc(-c2ccc(-c3ccccc3)cc2)cc1", "1,1':4',1''-terphenyl"),
     ("c1ccc2ccccc2c1",           "naphthalene"),
 ])
 def test_phase875_both_ring_biphenyl(smiles, expected):
