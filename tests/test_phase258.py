@@ -3,7 +3,8 @@
   NNC(=O)OC  → methyl hydrazinecarboxylate  (N-N detected in carbamate)
   NNC(=O)OCC → ethyl hydrazinecarboxylate
   NC(=S)S    → carbamodithioic acid          (retained name, IUPAC 2013)
-  OC(=S)S    → carbonodithioic O-acid
+  OC(=S)S    → carbonodithioic O,S-acid      (corrected by Phase 882, was
+                                               wrongly "carbonodithioic O-acid")
 """
 
 import pytest
@@ -17,7 +18,7 @@ from smiles2iupac import smiles_to_iupac
     ("NNC(=O)OCCC", "propyl hydrazinecarboxylate"),
     # dithiocarbamic acid
     ("NC(=S)S",     "carbamodithioic acid"),
-    ("OC(=S)S",     "carbonodithioic O-acid"),
+    ("OC(=S)S",     "carbonodithioic O,S-acid"),  # Phase 882: was wrongly "...O-acid"
     # regression: carbamates unchanged
     ("NC(=O)OC",    "methyl carbamate"),
     ("NC(=O)OCC",   "ethyl carbamate"),

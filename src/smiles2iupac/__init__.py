@@ -247,7 +247,16 @@ _RETAINED_NAMES: dict[str, str] = {
 
     # ── Phase 258: ジチオカルバミン酸・関連保留名 (IUPAC 2013 P-65.1.1) ──
     "NC(=S)S":                         "carbamodithioic acid",
-    "OC(=S)S":                         "carbonodithioic O-acid",
+    # Phase 882: carbonic acid の非置換 O,S 版チオ酸ファミリー (IUPAC 2013 P-65.2.3.2)。
+    # 炭酸 HO-C(=O)-OH の 3 カルコゲン位置 (二重結合 1 + 単結合(酸性 H) 2) を O/S で
+    # 網羅。carbono(di)thioic acid は「非カルボン酸型」(炭素置換基 R が無い) なので
+    # 単一タグ (O-acid/S-acid, Phase149 のチオカルボン酸式) ではなく 2 位置とも
+    # 明記する O,O-/O,S-/S,S- タグを使う (ChEBI:36958, PubChem CID 117859 ほかで確認)。
+    # 元の "carbonodithioic O-acid" は誤り (実在名は O,S-acid) — 訂正。
+    "OC(O)=S":                         "carbonothioic O,O-acid",   # HO-C(=S)-OH (二重結合が S)
+    "O=C(O)S":                         "carbonothioic O,S-acid",   # HO-C(=O)-SH (単結合の片方が S)
+    "OC(=S)S":                         "carbonodithioic O,S-acid", # HO-C(=S)-SH (二重結合+単結合1つが S)
+    "O=C(S)S":                         "carbonodithioic S,S-acid", # HS-C(=O)-SH (単結合2つとも S)
 
     # ── Phase 163: 炭素・炭素化合物特殊保留名 ──
     "O=C=O":                           "carbon dioxide",
