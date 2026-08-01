@@ -636,18 +636,24 @@ def _find_benzene_biphenyl(graph: "MoleculeGraph"):
     return r1, r2, c1, c2
 
 
-# carbo-family suffix: 環に結合した環外原子経由の主官能基
+# carbo-family suffix (環外炭素経由) + 環に直結する ol/amine 接尾辞 (Phase 880)
 _BIPHENYL_CARBO_SUFFIX: dict[str, str] = {
     "carboxylic_acid": "carboxylic acid",
     "aldehyde": "carbaldehyde",
     "nitrile": "carbonitrile",
+    "alcohol": "ol",
+    "amine": "amine",
 }
 
 
 def _name_biphenyl_carbo_suffix(graph: "MoleculeGraph", pgrp) -> str | None:
-    """ビフェニルに carbo 系接尾辞 (COOH/CHO/CN) が 1 つ付いた場合の PIN
-    (Phase 876, IUPAC 2013 P-28.2.1)。他に置換基が無い形のみ対象:
-    "[1,1'-biphenyl]-{loc}-carboxylic acid" 等。それ以外は None。"""
+    """ビフェニルに carbo 系接尾辞 (COOH/CHO/CN) または環直結の ol/amine が
+    1 つ付いた場合の PIN (Phase 876/880, IUPAC 2013 P-28.2.1)。他に置換基が
+    無い形のみ対象: "[1,1'-biphenyl]-{loc}-carboxylic acid" /
+    "[1,1'-biphenyl]-{loc}-ol" / "[1,1'-biphenyl]-{loc}-amine" 等。
+    ol/amine は pgrp 原子 (O/N) 自身が環炭素に直結するため、anchor 探索ループが
+    そのまま同じロジックで機能する (carbo 系は環外炭素経由で 1 ホップ余分)。
+    それ以外は None。"""
     from .molecule_analyzer import get_atom as _ga
     suffix_word = _BIPHENYL_CARBO_SUFFIX.get(pgrp.group_type)
     if suffix_word is None:
@@ -657,10 +663,15 @@ def _name_biphenyl_carbo_suffix(graph: "MoleculeGraph", pgrp) -> str | None:
         return None
     r1, r2, c1, c2 = found
     ring_all = r1 | r2
-    # 主官能基の環アンカー: pgrp 原子の環内隣接炭素
+    # 主官能基の環アンカー: pgrp 原子の環内隣接炭素。
+    # ol/amine は pgrp.atom_indices に環炭素自身も含まれる（carbo 系は環外原子のみ）
+    # ので、まず a 自身が環内かを確認してから隣接探索にフォールバックする。
     anchor = None
     exo_atoms = set(pgrp.atom_indices)
     for a in pgrp.atom_indices:
+        if a in ring_all:
+            anchor = a
+            break
         for nb in graph.adjacency[a]:
             if nb in ring_all:
                 anchor = nb
