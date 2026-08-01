@@ -602,6 +602,7 @@ def _name_carbon_substituent(
             _both = _r1b | _r2b
             if root_idx in _both:
                 _host = _r1b if root_idx in _r1b else _r2b
+                _other = _r2b if _host is _r1b else _r1b
                 _conn = _c1b if _host is _r1b else _c2b
                 _order = [_conn]
                 _prev, _cur = None, _conn
@@ -612,11 +613,16 @@ def _name_carbon_substituent(
                         break
                     _order.append(_nxt)
                     _prev, _cur = _cur, _nxt
-                # 環に他の置換基が無い純ビフェニルのみ PIN を返す
+                # 環に他の置換基が無い純ビフェニルのみ PIN を返す。
+                # かつ相方の環が既に親構造 (excluded) に属していないこと
+                # (そうでなければ親の環を誤って置換基自身の一部として扱ってしまう:
+                #  例 Oc1ccc(-c2ccccc2)cc1 の phenol 環 (親, excluded) を biphenyl
+                #  の片割れとみなし置換基 "phenyl" を非化学的な "[1,1'-biphenyl]-1-yl"
+                #  ―環融合炭素への4本目の結合―にしてしまうバグがあった)
                 _ext = [nb for a in _both for nb in graph.adjacency[a]
                         if nb not in _both and nb not in excluded
                         and nb != root_idx and get_atom(graph, nb).symbol != "H"]
-                if root_idx in _order and not _ext:
+                if root_idx in _order and not _ext and not (_other & excluded):
                     _i = _order.index(root_idx)
                     _loc = min((_i % 6) + 1, ((-_i) % 6) + 1)
                     return f"[1,1'-biphenyl]-{_loc}-yl"
