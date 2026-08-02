@@ -251,6 +251,32 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 884: C-S(=NR)-C, the =NR analog of sulfoxide. Previously matched
+    # no branch at all (n_neighbors>=1 excluded it from the thioether check
+    # too) and fell through to a plain thioether name, dropping =N entirely.
+    "sulfilimine": FunctionalGroupSpec(
+        priority=32,
+        suffix="sulfilimine",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 884: C-S(=O)(=NR)-C, the =NR analog of sulfone (O,N both on S).
+    # Previously matched the plain sulfoxide branch and dropped =N entirely
+    # ("dimethyl sulfoxide" instead of a name that reflects the imine).
+    "sulfoximine": FunctionalGroupSpec(
+        priority=34,
+        suffix="sulfoximine",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "sulfonyl_azide": FunctionalGroupSpec(
         priority=44,
         suffix="sulfonyl azide",
@@ -1561,6 +1587,18 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 884: R3As=NR', nitrogen analog of arsane_oxide/arsane_sulfide.
+    # Previously fell into the plain "arsane" branch, dropping =N entirely.
+    "arsane_imine": FunctionalGroupSpec(
+        priority=60,
+        suffix="arsanimine",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "phosphonous_acid": FunctionalGroupSpec(
         priority=56,
         suffix="phosphonous acid",
@@ -1607,6 +1645,19 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     "phosphine_sulfide": FunctionalGroupSpec(
         priority=60,
         suffix="phosphine sulfide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 884: R3P=NR' (iminophosphorane), nitrogen analog of phosphine_oxide/
+    # phosphine_sulfide above. Previously fell into the plain "phosphane"
+    # branch, dropping =N entirely ("trimethylphosphane" for CP(C)(C)=N).
+    "phosphine_imine": FunctionalGroupSpec(
+        priority=60,
+        suffix="phosphanimine",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,

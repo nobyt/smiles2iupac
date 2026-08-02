@@ -1152,6 +1152,33 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                 ))
             else:
                 pass  # will not match sulfoxide (len(c_neighbors)==1)
+        elif (len(o_double) == 1 and len(c_neighbors) == 2
+              and any(get_atom(graph, nb).symbol == "N"
+                      and get_bond_order(graph, s_idx, nb) == 2.0 for nb in n_neighbors)):
+            # スルホキシイミン (sulfoximine): C-S(=O)(=NR)-C (Phase 884, sulfoxide
+            # の =NR 類縁体。以前は下の sulfoxide 分岐に取られ =N が丸ごと
+            # 脱落していた ("dimethyl sulfoxide" と誤命名, drops the imine)。
+            # sulfoxide/sulfone より前に置いて優先させる。
+            n_double_s = [nb for nb in n_neighbors
+                          if get_bond_order(graph, s_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="sulfoximine",
+                atom_indices=[s_idx] + o_double + n_double_s + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfoximine", 60),
+            ))
+        elif (len(o_double) == 0 and len(c_neighbors) == 2
+              and any(get_atom(graph, nb).symbol == "N"
+                      and get_bond_order(graph, s_idx, nb) == 2.0 for nb in n_neighbors)):
+            # スルフィルイミン (sulfilimine): C-S(=NR)-C (Phase 884). 以前は
+            # チオエーテル分岐にも一致せず (n_neighbors>=1 で弾かれ)、最終的に
+            # 単純チオエーテルとして =N を落として命名されていた。
+            n_double_s = [nb for nb in n_neighbors
+                          if get_bond_order(graph, s_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="sulfilimine",
+                atom_indices=[s_idx] + n_double_s + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfilimine", 60),
+            ))
         elif len(o_double) == 2 and len(c_neighbors) == 2:
             # スルホン: C-S(=O)₂-C
             groups.append(FunctionalGroup(
@@ -1645,6 +1672,24 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 atom_indices=[p_idx] + c_neighbors[:3] + s_double_p,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphine_sulfide", 60),
             ))
+        elif (c_neighbors and not o_neighbors
+              and any(get_atom(graph, nb).symbol == "N"
+                      and get_bond_order(graph, p_idx, nb) == 2.0 for nb in neighbors)
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      or (get_atom(graph, nb).symbol == "N"
+                          and get_bond_order(graph, p_idx, nb) == 2.0)
+                      for nb in neighbors)):
+            # イミノホスホラン (iminophosphorane): R_nP(H)_{3-n}=NR' (Phase 884,
+            # phosphine_oxide/sulfide の窒素類縁体)。以前は下の "phosphane" 分岐に
+            # 落ちて =N が完全に無視されていた ("trimethylphosphane" と誤命名)。
+            n_double_p = [nb for nb in neighbors
+                          if get_atom(graph, nb).symbol == "N"
+                          and get_bond_order(graph, p_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="phosphine_imine",
+                atom_indices=[p_idx] + c_neighbors[:3] + n_double_p,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphine_imine", 60),
+            ))
         elif c_neighbors and not o_neighbors:
             # ホスファン: R_n-PH_{3-n}
             groups.append(FunctionalGroup(
@@ -1794,6 +1839,23 @@ def _detect_arsenic_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) 
                 group_type="arsane_sulfide",
                 atom_indices=[as_idx] + c_neighbors[:3] + s_double_as,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_sulfide", 60),
+            ))
+        elif (c_neighbors and not o_neighbors and len(c_neighbors) >= 1
+              and any(get_atom(graph, nb).symbol == "N"
+                      and get_bond_order(graph, as_idx, nb) == 2.0 for nb in neighbors)
+              and all(get_atom(graph, nb).symbol in ("C", "H")
+                      or (get_atom(graph, nb).symbol == "N"
+                          and get_bond_order(graph, as_idx, nb) == 2.0)
+                      for nb in neighbors)):
+            # アルサンイミン: R_nAs(H)_{3-n}=NR' (Phase 884, arsane_oxide/sulfide の
+            # 窒素類縁体)。以前は "arsane" 分岐に落ちて =N が完全に無視されていた。
+            n_double_as = [nb for nb in neighbors
+                           if get_atom(graph, nb).symbol == "N"
+                           and get_bond_order(graph, as_idx, nb) == 2.0]
+            groups.append(FunctionalGroup(
+                group_type="arsane_imine",
+                atom_indices=[as_idx] + c_neighbors[:3] + n_double_as,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("arsane_imine", 60),
             ))
         elif c_neighbors and not o_neighbors:
             # ヒ化水素 (arsane): R_n-AsH_{3-n}

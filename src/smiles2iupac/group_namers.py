@@ -1083,32 +1083,17 @@ def _name_sulfonate_sulfinate_ester(graph, pgrp, get_atom) -> str:
     return f"{stereo_pfx_ssest}{ester_alkyl} {acid_name}"
 
 
-def _name_sulfoxide_sulfone(graph, pgrp, get_atom) -> str:
-    """
-    スルホキシド・スルホン命名: IUPAC 2013 P-65.3.1 dialkyl sulfone/sulfoxide 形式
-    例: CS(=O)C       → dimethyl sulfoxide
-        CS(=O)(=O)C   → dimethyl sulfone
-        CS(=O)CC      → ethyl methyl sulfoxide
-        CS(=O)(=O)CC  → ethyl methyl sulfone
-    """
+def _dual_c_group_prefix(graph, central_idx, c1, c2, get_atom) -> str:
+    """中心原子 (S 等) に付いた 2 つの C 置換基から "dimethyl"/"ethyl methyl"
+    のような接頭辞を組み立てる (Phase 519 の sulfoxide/sulfone 命名を抽出)。"""
     import re as _re_sox
     from .substituent import _name_carbon_substituent, name_substituent
-
-    s_idx = pgrp.atom_indices[0]
-    type_word = "sulfoxide" if pgrp.group_type == "sulfoxide" else "sulfone"
-
-    c_neighbors = [nb for nb in graph.adjacency[s_idx]
-                   if get_atom(graph, nb).symbol == "C"]
-    if len(c_neighbors) < 2:
-        return type_word
-
-    c1, c2 = c_neighbors[0], c_neighbors[1]
 
     def _group_name(c_idx: int) -> str:
         atom = get_atom(graph, c_idx)
         if atom.in_ring and atom.is_aromatic:
-            return name_substituent(graph, c_idx, {s_idx}) or "phenyl"
-        return _name_carbon_substituent(graph, c_idx, {s_idx})
+            return name_substituent(graph, c_idx, {central_idx}) or "phenyl"
+        return _name_carbon_substituent(graph, c_idx, {central_idx})
 
     name1 = _group_name(c1)
     name2 = _group_name(c2)
@@ -1125,11 +1110,66 @@ def _name_sulfoxide_sulfone(graph, pgrp, get_atom) -> str:
 
     if names[0] == names[1]:
         nm = names[0]
-        prefix = f"bis({nm})" if _needs_parens(nm) else f"di{nm}"
-    else:
-        parts = [f"({nm})" if _needs_parens(nm) else nm for nm in names]
-        prefix = " ".join(parts)
+        return f"bis({nm})" if _needs_parens(nm) else f"di{nm}"
+    parts = [f"({nm})" if _needs_parens(nm) else nm for nm in names]
+    return " ".join(parts)
 
+
+def _name_sulfoxide_sulfone(graph, pgrp, get_atom) -> str:
+    """
+    スルホキシド・スルホン命名: IUPAC 2013 P-65.3.1 dialkyl sulfone/sulfoxide 形式
+    例: CS(=O)C       → dimethyl sulfoxide
+        CS(=O)(=O)C   → dimethyl sulfone
+        CS(=O)CC      → ethyl methyl sulfoxide
+        CS(=O)(=O)CC  → ethyl methyl sulfone
+    """
+    s_idx = pgrp.atom_indices[0]
+    type_word = "sulfoxide" if pgrp.group_type == "sulfoxide" else "sulfone"
+
+    c_neighbors = [nb for nb in graph.adjacency[s_idx]
+                   if get_atom(graph, nb).symbol == "C"]
+    if len(c_neighbors) < 2:
+        return type_word
+
+    prefix = _dual_c_group_prefix(graph, s_idx, c_neighbors[0], c_neighbors[1], get_atom)
+    return f"{prefix} {type_word}"
+
+
+def _name_sulfilimine_sulfoximine(graph, pgrp, get_atom) -> str:
+    """
+    スルフィルイミン・スルホキシイミン命名 (Phase 884, sulfoxide/sulfone の
+    =NR 類縁体, IUPAC 2013 P-65.3.1 系). N 上の置換基があれば "N-{name}-"
+    接頭辞を付ける (OPSIN 検証済み: N-methyl-S,S-dimethylsulfilimine ->
+    CN=S(C)C; S,S- ロカント無しの "N-methyldimethylsulfilimine" も OPSIN は
+    受理するので、既存 sulfoxide/sulfone と同じ S ロカント省略スタイルを踏襲)。
+    例: CS(C)=N        → dimethyl sulfilimine
+        CS(C)=NC       → N-methyldimethyl sulfilimine
+        CS(C)(=O)=N    → dimethyl sulfoximine
+        CS(C)(=O)=NC   → N-methyldimethyl sulfoximine
+    """
+    from .substituent import _name_carbon_substituent
+    from .molecule_analyzer import get_bond_order
+
+    s_idx = pgrp.atom_indices[0]
+    type_word = pgrp.group_type  # "sulfilimine" or "sulfoximine"
+
+    c_neighbors = [nb for nb in graph.adjacency[s_idx]
+                   if get_atom(graph, nb).symbol == "C"]
+    n_double = [nb for nb in graph.adjacency[s_idx]
+                if get_atom(graph, nb).symbol == "N"
+                and get_bond_order(graph, s_idx, nb) == 2.0]
+
+    if len(c_neighbors) < 2 or not n_double:
+        return type_word
+
+    prefix = _dual_c_group_prefix(graph, s_idx, c_neighbors[0], c_neighbors[1], get_atom)
+
+    n_idx = n_double[0]
+    n_sub = [nb for nb in graph.adjacency[n_idx]
+              if nb != s_idx and get_atom(graph, nb).symbol == "C"]
+    if n_sub:
+        n_name = _name_carbon_substituent(graph, n_sub[0], {n_idx, s_idx})
+        return f"N-{n_name}{prefix} {type_word}"
     return f"{prefix} {type_word}"
 
 
@@ -2566,6 +2606,52 @@ def _name_phosphine_sulfide(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphane sulfide")
 
 
+def _name_phosphine_arsane_imine(graph, pgrp, get_atom, base: str) -> str:
+    """イミノホスホラン/アルサンイミン: {alkyl(s)}{base}imine, N 置換基があれば
+    "N-{name}" 接頭辞 (Phase 884, phosphine_oxide/sulfide・arsane_oxide/sulfide
+    の窒素類縁体). OPSIN 検証済み: N-methyltrimethylphosphanimine -> CN=P(C)(C)C
+    (borane/silane の "-amine" 接尾辞と異なり、P/As の =NR は "-imine" 接尾辞
+    かつ N 置換基は N-接頭辞 -- carbon の imine 命名 (N-methylethanimine) と
+    同じ locant スタイル)。"""
+    from .molecule_analyzer import get_bond_order
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+    from collections import Counter
+
+    central = pgrp.atom_indices[0]
+    c_neighbors = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
+    n_double = [nb for nb in graph.adjacency[central]
+                if get_atom(graph, nb).symbol == "N"
+                and get_bond_order(graph, central, nb) == 2.0]
+    stem = base[:-1] + "imine"  # phosphane -> phosphanimine / arsane -> arsanimine
+    if not n_double:
+        return stem
+
+    n_idx = n_double[0]
+    n_sub = [nb for nb in graph.adjacency[n_idx]
+             if nb != central and get_atom(graph, nb).symbol == "C"]
+    n_prefix = ""
+    if n_sub:
+        n_name = _name_carbon_substituent(graph, n_sub[0], {n_idx, central})
+        n_prefix = f"N-{n_name}"
+
+    if not c_neighbors:
+        return f"{n_prefix}{stem}"
+
+    names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_neighbors)
+    counts = Counter(names)
+    parts = []
+    for sub in sorted(counts):
+        n = counts[sub]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append(f"{mult}{sub}")
+    return f"{n_prefix}{''.join(parts)}{stem}"
+
+
+def _name_phosphine_imine(graph, pgrp, get_atom) -> str:
+    return _name_phosphine_arsane_imine(graph, pgrp, get_atom, "phosphane")
+
+
 def _name_phosphite_ester(graph, pgrp, get_atom) -> str:
     """亜リン酸エステル: {alkyl(s)} phosphite (Phase 187)"""
     from .substituent import _name_carbon_substituent
@@ -2970,6 +3056,11 @@ def _name_arsane_oxide(graph, pgrp, get_atom) -> str:
 def _name_arsane_sulfide(graph, pgrp, get_atom) -> str:
     """アルサンスルフィド: {alkyl(s)}arsane sulfide (Phase 858, arsane_oxide の硫黄類縁体)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "arsane sulfide")
+
+
+def _name_arsane_imine(graph, pgrp, get_atom) -> str:
+    """アルサンイミン: {alkyl(s)}arsanimine (Phase 884, arsane_oxide/sulfide の窒素類縁体)"""
+    return _name_phosphine_arsane_imine(graph, pgrp, get_atom, "arsane")
 
 
 def _name_organomercury(graph, pgrp, get_atom) -> str:
@@ -7037,6 +7128,8 @@ PGRP_DISPATCH: dict = {
     "sulfinate_ester": _name_sulfonate_sulfinate_ester,
     "sulfoxide": _name_sulfoxide_sulfone,
     "sulfone": _name_sulfoxide_sulfone,
+    "sulfilimine": _name_sulfilimine_sulfoximine,
+    "sulfoximine": _name_sulfilimine_sulfoximine,
     "selenoxide": _name_selenoxide_selenone,
     "selenone": _name_selenoxide_selenone,
     "telluroxide": _name_selenoxide_selenone,
@@ -7071,6 +7164,7 @@ PGRP_DISPATCH: dict = {
     "phosphane": _name_phosphane,
     "phosphine_oxide": _name_phosphine_oxide,
     "phosphine_sulfide": _name_phosphine_sulfide,
+    "phosphine_imine": _name_phosphine_imine,
     "phosphite_ester": _name_phosphite_ester,
     "boronic_acid": _name_boronic_acid,
     "boronate_ester": _name_boronate_ester,
@@ -7087,6 +7181,7 @@ PGRP_DISPATCH: dict = {
     "arsane_org": _name_arsane_org,
     "arsane_oxide": _name_arsane_oxide,
     "arsane_sulfide": _name_arsane_sulfide,
+    "arsane_imine": _name_arsane_imine,
     "organomercury": _name_organomercury,
     "bismuthane_org": _name_organic_bismuthane,
     "bismuthane_oxide": _name_bismuthane_oxide,
