@@ -2069,7 +2069,22 @@ def _detect_germanium_tin_groups(graph: MoleculeGraph, groups: list[FunctionalGr
         central_idx = atom.idx
         c_neighbors = [nb for nb in graph.adjacency[central_idx]
                        if get_atom(graph, nb).symbol == "C"]
-        if c_neighbors:
+        if not c_neighbors:
+            continue
+        # Phase 886: R_nEl(OH)_{4-n} -- ol/diol/triol family, silanol_org のGe/Sn類縁体
+        # (以前は germane_org/stannane_org に落ちて -OH が丸ごと脱落していた)
+        o_oh = [nb for nb in graph.adjacency[central_idx]
+                if get_atom(graph, nb).symbol == "O"
+                and any(get_atom(graph, onh).symbol == "H"
+                        for onh in graph.adjacency[nb])]
+        if o_oh:
+            gtype = "germanol_org" if atom.symbol == "Ge" else "stannanol_org"
+            groups.append(FunctionalGroup(
+                group_type=gtype,
+                atom_indices=[central_idx] + c_neighbors + o_oh,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 9),
+            ))
+        else:
             gtype = "germane_org" if atom.symbol == "Ge" else "stannane_org"
             groups.append(FunctionalGroup(
                 group_type=gtype,
@@ -2117,7 +2132,22 @@ def _detect_bismuth_antimony_lead_groups(graph: MoleculeGraph, groups: list[Func
                 priority=FUNCTIONAL_GROUP_PRIORITY.get(chalcogen_gtype, 60),
             ))
         else:
+            # Phase 886: R_nEl(OH)_{m-n} -- ol/diol/triol family (silanol_org の
+            # Bi/Sb/Pb 類縁体)。以前は org 分岐に落ちて -OH が丸ごと脱落していた
+            o_oh = [nb for nb in neighbors if get_atom(graph, nb).symbol == "O"
+                    and any(get_atom(graph, onh).symbol == "H"
+                            for onh in graph.adjacency[nb])]
+            _ol_gtype_map = {"Bi": "bismuthanol_org", "Sb": "stibanol_org",
+                              "Pb": "plumbanol_org"}
             _gtype_map = {"Bi": "bismuthane_org", "Sb": "stibane_org", "Pb": "plumbane_org"}
+            if o_oh:
+                gtype = _ol_gtype_map[atom.symbol]
+                groups.append(FunctionalGroup(
+                    group_type=gtype,
+                    atom_indices=[central_idx] + c_neighbors + o_oh,
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 9),
+                ))
+                continue
             gtype = _gtype_map[atom.symbol]
             groups.append(FunctionalGroup(
                 group_type=gtype,

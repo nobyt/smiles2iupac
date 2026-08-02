@@ -1802,6 +1802,18 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 886: R_n-Ge(OH)_{4-n}, Ge analog of silanol_org. Previously fell
+    # into germane_org, dropping the -OH entirely.
+    "germanol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="germanol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "stannane_org": FunctionalGroupSpec(
         priority=8,
         suffix="stannane",
@@ -1812,9 +1824,31 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 886: R_n-Sn(OH)_{4-n}, Sn analog of silanol_org.
+    "stannanol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="stannanol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "bismuthane_org": FunctionalGroupSpec(
         priority=7,
         suffix="bismuthane",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 886: R_n-Bi(OH)_{3-n}, Bi analog of silanol_org.
+    "bismuthanol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="bismuthanol",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,
@@ -1855,6 +1889,17 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 886: R_n-Sb(OH)_{3-n}, Sb analog of silanol_org.
+    "stibanol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="stibanol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "stibane_oxide": FunctionalGroupSpec(
         priority=60,
         suffix="stibane oxide",
@@ -1878,6 +1923,17 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     "plumbane_org": FunctionalGroupSpec(
         priority=7,
         suffix="plumbane",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 886: R_n-Pb(OH)_{4-n}, Pb analog of silanol_org.
+    "plumbanol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="plumbanol",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,

@@ -3095,13 +3095,15 @@ def _name_disilazane(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_germane(graph, pgrp, get_atom) -> str:
-    """有機ゲルマン: {alkyl(s)}germane  (Phase 243)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "germane")
+    """有機ゲルマン: {alkyl(s)}germane or {halo}({alkyl})germane[amine]
+    (Phase 243/886, halide/amino は B/Si Phase 863/883 と同じ助関数を再利用)"""
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "germane")
 
 
 def _name_organic_stannane(graph, pgrp, get_atom) -> str:
-    """有機スタンナン: {alkyl(s)}stannane  (Phase 243)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "stannane")
+    """有機スタンナン: {alkyl(s)}stannane or {halo}({alkyl})stannane[amine]
+    (Phase 243/886, halide/amino は B/Si Phase 863/883 と同じ助関数を再利用)"""
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "stannane")
 
 
 def _name_arsane_org(graph, pgrp, get_atom) -> str:
@@ -3154,8 +3156,9 @@ def _name_organomercury(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_bismuthane(graph, pgrp, get_atom) -> str:
-    """有機ビスマン: {alkyl(s)}bismuthane  (Phase 244)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "bismuthane")
+    """有機ビスマン: {alkyl(s)}bismuthane or {halo}({alkyl})bismuthane[amine]
+    (Phase 244/886, halide/amino は B/Si Phase 863/883 と同じ助関数を再利用)"""
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "bismuthane")
 
 
 def _name_bismuthane_oxide(graph, pgrp, get_atom) -> str:
@@ -3169,8 +3172,9 @@ def _name_bismuthane_sulfide(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_stibane(graph, pgrp, get_atom) -> str:
-    """有機スチバン: {alkyl(s)}stibane  (Phase 244)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "stibane")
+    """有機スチバン: {alkyl(s)}stibane or {halo}({alkyl})stibane[amine]
+    (Phase 244/886, halide/amino は B/Si Phase 863/883 と同じ助関数を再利用)"""
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "stibane")
 
 
 def _name_stibane_oxide(graph, pgrp, get_atom) -> str:
@@ -3184,8 +3188,9 @@ def _name_stibane_sulfide(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_plumbane(graph, pgrp, get_atom) -> str:
-    """有機プルンバン: {alkyl(s)}plumbane  (Phase 244)"""
-    return _name_by_c_substituents(graph, pgrp, get_atom, "plumbane")
+    """有機プルンバン: {alkyl(s)}plumbane or {halo}({alkyl})plumbane[amine]
+    (Phase 244/886, halide/amino は B/Si Phase 863/883 と同じ助関数を再利用)"""
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "plumbane")
 
 
 def _name_chalcogen_oxyacid(graph, pgrp, get_atom, suffix: str) -> str:
@@ -3239,22 +3244,31 @@ def _name_tellurenic_acid(graph, pgrp, get_atom) -> str:
     return _name_chalcogen_oxyacid(graph, pgrp, get_atom, "tellurenic acid")
 
 
-def _name_organic_silanol(graph, pgrp, get_atom) -> str:
-    """シラノール/ジオール/トリオール: {alkyl(s)}silanol/silanediol/silanetriol (Phase 231/379)"""
+def _name_element_ol_family(graph, pgrp, get_atom, base: str) -> str:
+    """{alkyl(s)}{base}ol/{base}diol/{base}triol/{base}tetraol -- 14 族水素化物
+    (Si/Ge/Sn/Pb 等) の -OH 置換体 (Phase 231/379/886)。base は "silane"/"germane"
+    等の完全形で渡す: 単一 -ol (母音接尾辞) の前だけ語尾 e を脱落させ
+    (germane+ol -> germanol)、di/tri/tetraol (子音始まり) は脱落させない
+    (germanediol) -- amine 接尾辞 (Phase 883) と同じ脱落規則。"""
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
     from collections import Counter
-    _OH_SUFFIX = {1: "silanol", 2: "silanediol", 3: "silanetriol", 4: "silanetetraol"}
-    si_idx = pgrp.atom_indices[0]
-    c_neighbors = [nb for nb in graph.adjacency[si_idx]
+    _OH_SUFFIX = {
+        1: base[:-1] + "ol",
+        2: f"{base}diol",
+        3: f"{base}triol",
+        4: f"{base}tetraol",
+    }
+    central = pgrp.atom_indices[0]
+    c_neighbors = [nb for nb in graph.adjacency[central]
                    if get_atom(graph, nb).symbol == "C"]
-    o_oh = [nb for nb in graph.adjacency[si_idx]
+    o_oh = [nb for nb in graph.adjacency[central]
             if get_atom(graph, nb).symbol == "O"
             and any(get_atom(graph, onh).symbol == "H" for onh in graph.adjacency[nb])]
-    suffix = _OH_SUFFIX.get(len(o_oh), "silanol")
+    suffix = _OH_SUFFIX.get(len(o_oh), base[:-1] + "ol")
     if not c_neighbors:
         return suffix
-    alkyl_names = [_name_carbon_substituent(graph, c, {si_idx}) for c in c_neighbors]
+    alkyl_names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
     counts = Counter(alkyl_names)
     parts = []
     for sub in sorted(counts):
@@ -3262,6 +3276,39 @@ def _name_organic_silanol(graph, pgrp, get_atom) -> str:
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
     return "".join(parts) + suffix
+
+
+def _name_organic_silanol(graph, pgrp, get_atom) -> str:
+    """シラノール/ジオール/トリオール: {alkyl(s)}silanol/silanediol/silanetriol (Phase 231/379)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "silane")
+
+
+def _name_organic_germanol(graph, pgrp, get_atom) -> str:
+    """ゲルマノール/ジオール/トリオール: {alkyl(s)}germanol/germanediol/germanetriol
+    (Phase 886, silanol の Ge 類縁体)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "germane")
+
+
+def _name_organic_stannanol(graph, pgrp, get_atom) -> str:
+    """スタンナノール/ジオール/トリオール: {alkyl(s)}stannanol/stannanediol/stannanetriol
+    (Phase 886, silanol の Sn 類縁体)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "stannane")
+
+
+def _name_organic_plumbanol(graph, pgrp, get_atom) -> str:
+    """プルンバノール/ジオール/トリオール: {alkyl(s)}plumbanol/plumbanediol/plumbanetriol
+    (Phase 886, silanol の Pb 類縁体)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "plumbane")
+
+
+def _name_organic_bismuthanol(graph, pgrp, get_atom) -> str:
+    """ビスマノール: {alkyl(s)}bismuthanol/bismuthanediol (Phase 886)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "bismuthane")
+
+
+def _name_organic_stibanol(graph, pgrp, get_atom) -> str:
+    """スチバノール: {alkyl(s)}stibanol/stibanediol (Phase 886)"""
+    return _name_element_ol_family(graph, pgrp, get_atom, "stibane")
 
 
 def _name_carbamate(graph, pgrp, get_atom) -> str:
@@ -7239,7 +7286,9 @@ PGRP_DISPATCH: dict = {
     "disiloxane_org": _name_disiloxane,
     "disilazane_org": _name_disilazane,
     "germane_org": _name_organic_germane,
+    "germanol_org": _name_organic_germanol,
     "stannane_org": _name_organic_stannane,
+    "stannanol_org": _name_organic_stannanol,
     "arsane_org": _name_arsane_org,
     "arsane_oxide": _name_arsane_oxide,
     "arsane_sulfide": _name_arsane_sulfide,
@@ -7248,10 +7297,13 @@ PGRP_DISPATCH: dict = {
     "bismuthane_org": _name_organic_bismuthane,
     "bismuthane_oxide": _name_bismuthane_oxide,
     "bismuthane_sulfide": _name_bismuthane_sulfide,
+    "bismuthanol_org": _name_organic_bismuthanol,
     "stibane_org": _name_organic_stibane,
     "stibane_oxide": _name_stibane_oxide,
     "stibane_sulfide": _name_stibane_sulfide,
+    "stibanol_org": _name_organic_stibanol,
     "plumbane_org": _name_organic_plumbane,
+    "plumbanol_org": _name_organic_plumbanol,
     "selenonic_acid": _name_selenonic_acid,
     "seleninic_acid": _name_seleninic_acid,
     "selenenic_acid": _name_selenenic_acid,
