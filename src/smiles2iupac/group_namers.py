@@ -2669,24 +2669,65 @@ def _name_borinic_acid(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "borinic acid")
 
 
-def _name_organic_borane(graph, pgrp, get_atom) -> str:
-    """有機ボラン: {alkyl(s)}borane or {halo}({alkyl})borane  (Phase 143/863)
+def _simple_amino_neighbors(graph, get_atom, central) -> list[int]:
+    """中心原子 (B/Si) に直結する単純 -NH2 (無置換アミノ) 隣接原子を返す (Phase 883).
 
-    Phase 863: halogen substituents on boron (e.g. difluoro(methyl)borane)
-    were previously dropped, giving just "methylborane". Mirrors
-    _name_organic_silane's halo+alkyl handling.
+    N が central 以外に重原子隣接を持つ場合 (置換アミノ, イミン等) は対象外。
+    """
+    from .molecule_analyzer import get_bond_order
+    out = []
+    for nb in graph.adjacency[central]:
+        atom = get_atom(graph, nb)
+        if atom.symbol != "N" or atom.formal_charge != 0:
+            continue
+        if get_bond_order(graph, central, nb) != 1.0:
+            continue
+        heavy_nbrs = [x for x in graph.adjacency[nb]
+                      if x != central and get_atom(graph, x).symbol != "H"]
+        if heavy_nbrs:
+            continue
+        out.append(nb)
+    return out
+
+
+def _amino_suffix_word(base: str, n: int) -> str:
+    """borane/silane 語幹 + n 個の -NH2 → amine 接尾辞付き語 (Phase 883).
+
+    1 個: 母音接尾辞の前で語尾 e を脱落 (borane+amine → boranamine)。
+    2 個以上: 脱落なし (di/tri は子音始まり、boranediamine / silanetriamine)。
+    """
+    if n == 0:
+        return base
+    if n == 1:
+        return base[:-1] + "amine"
+    mult = {2: "di", 3: "tri"}.get(n, "")
+    return f"{base}{mult}amine"
+
+
+def _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, base: str) -> str:
+    """有機ボラン/シランの halo + alkyl 接頭辞 + amine 接尾辞 統一命名 (Phase 863/883).
+
+    {halo/alkyl 混合接頭辞 (アルファベット順)}{base(+amine 接尾辞)}
+    例: difluoro(methyl)borane / methylboranediamine / fluoro(methyl)boranamine
     """
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
     from collections import Counter
     _halo_map = {"Cl": "chloro", "Br": "bromo", "F": "fluoro", "I": "iodo"}
     central = pgrp.atom_indices[0]
+    c_nbrs = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
     hal_nbrs = [nb for nb in graph.adjacency[central]
                 if get_atom(graph, nb).symbol in _halo_map]
+    amino_nbrs = _simple_amino_neighbors(graph, get_atom, central)
+    tail = _amino_suffix_word(base, len(amino_nbrs))
+    if not hal_nbrs and not amino_nbrs:
+        return _name_by_c_substituents(graph, pgrp, get_atom, base)
+    if not hal_nbrs and not c_nbrs:
+        return tail
     if not hal_nbrs:
-        return _name_by_c_substituents(graph, pgrp, get_atom, "borane")
-    # Mixed: halogen + alkyl substituents — sort alphabetically, alkyl in parens
-    c_nbrs = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
+        # ハロゲンとの混在が無ければアルキルは括弧無し (methylboranediamine)
+        return _name_by_c_substituents(graph, pgrp, get_atom, tail)
+    # 混合: ハロゲン + アルキル置換基 — アルファベット順、アルキルは括弧付き
     halo_names = sorted(_halo_map[get_atom(graph, h).symbol] for h in hal_nbrs)
     halo_counts = Counter(halo_names)
     alkyl_names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_nbrs)
@@ -2701,7 +2742,24 @@ def _name_organic_borane(graph, pgrp, get_atom) -> str:
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append((sub, f"({mult}{sub})"))
     parts.sort(key=lambda x: x[0])
-    return "".join(p for _, p in parts) + "borane"
+    return "".join(p for _, p in parts) + tail
+
+
+def _name_organic_borane(graph, pgrp, get_atom) -> str:
+    """有機ボラン: {alkyl(s)}borane or {halo}({alkyl})borane[amine]  (Phase 143/863/883)
+
+    Phase 863: halogen substituents on boron (e.g. difluoro(methyl)borane)
+    were previously dropped, giving just "methylborane". Phase 883: simple
+    -NH2 substituents (e.g. CB(N)N) were ALSO dropped, giving the same
+    "methylborane" -- confidently wrong (info loss, and collided with the
+    plain-halide-only compound too). Per IUPAC (verified via OPSIN
+    parse-back: "methylboranediamine" -> CB(N)N), amino groups on boron take
+    the "-amine"/"-diamine"/"-triamine" SUFFIX (mirroring how amine is
+    always a suffix on carbon parents, e.g. methanediamine), NOT a prefix
+    like "amino(methyl)borane" (which OPSIN parses to a different molecule:
+    an aminomethyl substituent ON boron, i.e. NCB, not CB(N)N).
+    """
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "borane")
 
 
 def _name_isocyanide(graph, pgrp, get_atom) -> str:
@@ -2772,34 +2830,19 @@ def _name_arsonium(graph, pgrp, get_atom) -> str:
 
 
 def _name_organic_silane(graph, pgrp, get_atom) -> str:
-    """有機シラン: {alkyl(s)}silane or {halo}({alkyl})silane  (Phase 143/249)"""
-    from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
-    from collections import Counter
-    _halo_map = {"Cl": "chloro", "Br": "bromo", "F": "fluoro", "I": "iodo"}
+    """有機シラン: {alkyl(s)}silane or {halo}({alkyl})silane[amine]  (Phase 143/249/883)
+
+    Phase 883: simple -NH2 substituents (e.g. C[Si](N)(N)N) were previously
+    dropped, giving just "methylsilane". See _name_organic_borane's
+    docstring for the amine-suffix rationale (OPSIN-verified:
+    "methylsilanetriamine" -> C[Si](N)(N)N).
+    """
     central = pgrp.atom_indices[0]
     c_nbrs = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
-    hal_nbrs = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol in _halo_map]
-    if not c_nbrs:
+    amino_nbrs = _simple_amino_neighbors(graph, get_atom, central)
+    if not c_nbrs and not amino_nbrs:
         return "silane"
-    if not hal_nbrs:
-        return _name_by_c_substituents(graph, pgrp, get_atom, "silane")
-    # Mixed: halogen + alkyl substituents — sort alphabetically, alkyl in parens
-    halo_names = sorted(_halo_map[get_atom(graph, h).symbol] for h in hal_nbrs)
-    halo_counts = Counter(halo_names)
-    alkyl_names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_nbrs)
-    alkyl_counts = Counter(alkyl_names)
-    parts: list[tuple[str, str]] = []
-    for sub in sorted(halo_counts):
-        n = halo_counts[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        parts.append((sub, f"{mult}{sub}"))
-    for sub in sorted(alkyl_counts):
-        n = alkyl_counts[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        parts.append((sub, f"({mult}{sub})"))
-    parts.sort(key=lambda x: x[0])
-    return "".join(p for _, p in parts) + "silane"
+    return _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, "silane")
 
 
 def _name_silyl_ether(graph, pgrp, get_atom) -> str:
