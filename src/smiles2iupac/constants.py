@@ -337,6 +337,20 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 885: C-S(=O)(=NR)-NR'2, the =NR-extended analog of sulfinamide.
+    # Previously matched the sulfinamide branch (which doesn't check N bond
+    # order) and silently dropped the imide =N -- "methanesulfinamide" for
+    # CS(=O)(=N)N, a DIFFERENT real compound with only 1 O and no imide N.
+    "sulfonimidamide": FunctionalGroupSpec(
+        priority=42,
+        suffix="sulfonimidamide",
+        chain_template="{stem}anesulfonimidamide",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "sulfonic_acid": FunctionalGroupSpec(
         priority=65,
         suffix="sulfonic acid",

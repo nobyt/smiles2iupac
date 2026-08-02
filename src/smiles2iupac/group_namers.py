@@ -1616,6 +1616,67 @@ def _name_sulfinamide(graph, pgrp, get_atom) -> str:
     return f"{stereo_pfx_sfin}{prefix}{base}"
 
 
+def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
+    """スルホンイミドアミド: {stem}anesulfonimidamide (Phase 885, sulfinamide の
+    =NR 拡張版, IUPAC P-65.3.1)。アミド N (単結合, -NR'2) は N-, イミド N
+    (二重結合, =NR) は N'- 接頭辞 (OPSIN 検証済み)。
+    例: CS(=O)(=N)N   → methanesulfonimidamide
+        CS(=O)(=N)NC  → N-methylmethanesulfonimidamide
+        CS(=O)(=NC)N  → N'-methylmethanesulfonimidamide
+    """
+    from .constants import CHAIN_PREFIX, MULTIPLIER
+    from .substituent import _name_carbon_substituent
+    from .molecule_analyzer import get_bond_order
+    from collections import Counter
+
+    s_idx = pgrp.atom_indices[0]
+    c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
+    if not c_on_s:
+        return "sulfonimidamide"
+
+    chain_sia, locant_sia = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
+    stem = CHAIN_PREFIX.get(len(chain_sia), f"C{len(chain_sia)}")
+    if len(chain_sia) >= 3:
+        base = f"{stem}ane-{locant_sia}-sulfonimidamide"
+    else:
+        base = f"{stem}anesulfonimidamide"
+
+    n_all = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
+    n_double = [nb for nb in n_all if get_bond_order(graph, s_idx, nb) == 2.0]
+    n_single = [nb for nb in n_all if get_bond_order(graph, s_idx, nb) == 1.0]
+
+    def _n_prefix(n_idx: int, label: str) -> str:
+        c_on_n = [nb for nb in graph.adjacency[n_idx] if get_atom(graph, nb).symbol == "C"]
+        if not c_on_n:
+            return ""
+        subs = [_name_carbon_substituent(graph, c, {n_idx, s_idx}) for c in c_on_n]
+        counts = Counter(subs)
+        parts = []
+        for sub in sorted(counts):
+            cnt = counts[sub]
+            sub_str = f"({sub})" if sub.startswith("(") else sub
+            if cnt == 1:
+                parts.append(f"{label}-{sub_str}")
+            else:
+                mult = MULTIPLIER.get(cnt, f"{cnt}")
+                locs = ",".join([label] * cnt)
+                parts.append(f"{locs}-{mult}{sub_str}")
+        return "-".join(parts)
+
+    prefix_parts = []
+    if n_single:
+        p = _n_prefix(n_single[0], "N")
+        if p:
+            prefix_parts.append(p)
+    if n_double:
+        p = _n_prefix(n_double[0], "N'")
+        if p:
+            prefix_parts.append(p)
+
+    prefix = "-".join(prefix_parts)
+    return f"{prefix}{base}"
+
+
 def _aryl_sulfonyl_prefix(graph, c_start, s_idx, get_atom) -> str | None:
     """
     c_start が芳香環の C であれば環の接頭辞を返す。
@@ -7141,6 +7202,7 @@ PGRP_DISPATCH: dict = {
     "sulfamic_acid": _name_sulfamic_acid,
     "disulfonamide": _name_disulfonamide,
     "sulfinamide": _name_sulfinamide,
+    "sulfonimidamide": _name_sulfonimidamide,
     "phosphate_ester": _name_phosphate_ester,
     "phosphonate_halfester": _name_phosphonate_halfester,
     "phosphonate_ester": _name_phosphonate_ester,

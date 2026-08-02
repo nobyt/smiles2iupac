@@ -1116,6 +1116,25 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                 atom_indices=[s_idx] + o_double + c_neighbors + [n1_idx] + n2_nbrs,
                 priority=FUNCTIONAL_GROUP_PRIORITY["sulfinylhydrazide"],
             ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 1 and len(n_neighbors) == 2
+              and sum(1 for nb in n_neighbors
+                      if get_bond_order(graph, s_idx, nb) == 2.0) == 1
+              and sum(1 for nb in n_neighbors
+                      if get_bond_order(graph, s_idx, nb) == 1.0) == 1):
+            # スルホンイミドアミド (sulfonimidamide): C-S(=O)(=NR)-NR'2 (Phase 885,
+            # sulfinamide の =N 拡張版, IUPAC P-65.3.1)。以前は下の sulfinamide
+            # 分岐が n_neighbors の結合次数を見ずに掴んでしまい、=N が丸ごと
+            # 脱落していた ("methanesulfinamide" と誤命名, a DIFFERENT real
+            # compound with only 1 O and no imide N)。sulfinamide より前に置く。
+            n_double_sia = [nb for nb in n_neighbors
+                            if get_bond_order(graph, s_idx, nb) == 2.0]
+            n_single_sia = [nb for nb in n_neighbors
+                             if get_bond_order(graph, s_idx, nb) == 1.0]
+            groups.append(FunctionalGroup(
+                group_type="sulfonimidamide",
+                atom_indices=[s_idx] + o_double + c_neighbors + n_double_sia + n_single_sia,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfonimidamide", 60),
+            ))
         elif (len(o_double) == 1 and len(c_neighbors) == 1 and len(n_neighbors) >= 1):
             # スルフィナミド: C-S(=O)-N
             groups.append(FunctionalGroup(
@@ -1153,12 +1172,16 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
             else:
                 pass  # will not match sulfoxide (len(c_neighbors)==1)
         elif (len(o_double) == 1 and len(c_neighbors) == 2
-              and any(get_atom(graph, nb).symbol == "N"
-                      and get_bond_order(graph, s_idx, nb) == 2.0 for nb in n_neighbors)):
+              and sum(1 for nb in n_neighbors
+                      if get_bond_order(graph, s_idx, nb) == 2.0) == 1):
             # スルホキシイミン (sulfoximine): C-S(=O)(=NR)-C (Phase 884, sulfoxide
             # の =NR 類縁体。以前は下の sulfoxide 分岐に取られ =N が丸ごと
             # 脱落していた ("dimethyl sulfoxide" と誤命名, drops the imine)。
             # sulfoxide/sulfone より前に置いて優先させる。
+            # Phase 885: =N がちょうど1個の場合のみ (元は any() で 2個の場合も
+            # 誤って一致し、S(=NR)2 のスルホンジイミドを "dimethyl sulfoxide"
+            # 相当に潰してしまっていた -- 2個以上は対象外にして未対応のまま
+            # フォールスルーさせる方が「間違った自信ありげな名前」より安全)。
             n_double_s = [nb for nb in n_neighbors
                           if get_bond_order(graph, s_idx, nb) == 2.0]
             groups.append(FunctionalGroup(
@@ -1167,11 +1190,13 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfoximine", 60),
             ))
         elif (len(o_double) == 0 and len(c_neighbors) == 2
-              and any(get_atom(graph, nb).symbol == "N"
-                      and get_bond_order(graph, s_idx, nb) == 2.0 for nb in n_neighbors)):
+              and sum(1 for nb in n_neighbors
+                      if get_bond_order(graph, s_idx, nb) == 2.0) == 1):
             # スルフィルイミン (sulfilimine): C-S(=NR)-C (Phase 884). 以前は
             # チオエーテル分岐にも一致せず (n_neighbors>=1 で弾かれ)、最終的に
             # 単純チオエーテルとして =N を落として命名されていた。
+            # Phase 885: =N がちょうど1個の場合のみ (2個 = スルホンジイミド、
+            # 別化合物。同じ理由で対象外にしてフォールスルーさせる)。
             n_double_s = [nb for nb in n_neighbors
                           if get_bond_order(graph, s_idx, nb) == 2.0]
             groups.append(FunctionalGroup(
