@@ -29,6 +29,7 @@ _PRIORITY: dict[str, int] = {
     "P":  4,
     "Se": 5,
     "Te": 6,
+    "B":  7,   # Phase 888: 最低優先 (IUPAC 置換命名法のヘテロ原子優先順位で最下位)
 }
 
 
@@ -612,6 +613,11 @@ _RETAINED_NAMES: dict[tuple[bool, tuple[str, ...]], tuple[str, bool]] = {
     (False, ("S", "C", "C", "C", "C", "S")):      ("1,2-dithiane",    False),
     (False, ("O", "C", "C", "S", "C")):           ("1,3-oxathiolane", False),
     (False, ("O", "C", "C", "S", "C", "C")):      ("1,4-oxathiane",   False),
+    # Phase 888: 環状ホウ素酸エステル (1,3,2-dioxaborolane/-dioxaborinane,
+    # ピナコールボロン酸エステル等の骨格; IUPAC 置換命名法, O が B より優先
+    # されるため O が始端・最小ロカント側になる)
+    (False, ("O", "B", "O", "C", "C")):           ("1,3,2-dioxaborolane", False),
+    (False, ("O", "B", "O", "C", "C", "C")):      ("1,3,2-dioxaborinane", False),
     # Phase 380: 環状スルファート/スルフィット (O,O,S 環)
     (False, ("O", "C", "C", "O", "S")):           ("1,3,2-dioxathiolane", False),
     (False, ("O", "C", "C", "C", "O", "S")):      ("1,3,2-dioxathiane",   False),

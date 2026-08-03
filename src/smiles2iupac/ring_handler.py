@@ -46,7 +46,11 @@ class RingChain:
 
 # ─── 環検出 ─────────────────────────────────────────────────────────
 
-_HETERO_SYMBOLS = frozenset({"N", "O", "S", "P", "Se", "Te"})
+# Phase 888: "B" (boron) added -- cyclic boronic esters (1,3,2-dioxaborolane/
+# -dioxaborinane, e.g. pinacol boronates) were falling entirely into the
+# carbocycle path (boron silently read as an ordinary ring carbon, producing
+# structurally wrong names like "methylcyclopentane" for CB1OCCO1).
+_HETERO_SYMBOLS = frozenset({"N", "O", "S", "P", "Se", "Te", "B"})
 
 
 def has_ring(graph: "MoleculeGraph") -> bool:
