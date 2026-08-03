@@ -4307,7 +4307,7 @@ def _name_substituted_urea_if_match(graph, get_atom) -> str | None:
     """
     from .molecule_analyzer import get_bond_order
     from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
+    from .constants import MULTIPLIER, CHAIN_PREFIX
 
     # Find urea center: C with double O, 2 N, 0 other C (must be acyclic)
     center_idx = None
@@ -4334,12 +4334,39 @@ def _name_substituted_urea_if_match(graph, get_atom) -> str | None:
     if center_idx is None:
         return None
 
+    def _sulfonyl_prefix(s_idx: int, n_idx: int) -> str | None:
+        """N 上のスルホニル置換基 R-SO2- を "{alkane}sulfonyl" として命名する
+        (Phase 887: スルホニル尿素, 例 CS(=O)(=O)NC(=O)N -> N-methanesulfonylurea).
+        R-SO2- 以外の形 (エステル等) には一致しない。n_idx (尿素 N 自身、S との
+        結合点) は「余分な置換基」から除外する。"""
+        o_dbl = [nb for nb in graph.adjacency[s_idx]
+                 if get_atom(graph, nb).symbol == "O"
+                 and get_bond_order(graph, s_idx, nb) == 2.0]
+        c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
+        if len(o_dbl) != 2 or len(c_on_s) != 1:
+            return None
+        other = [nb for nb in graph.adjacency[s_idx]
+                 if nb not in o_dbl and nb not in c_on_s and nb != n_idx
+                 and get_atom(graph, nb).symbol != "H"]
+        if other:
+            return None
+        chain_su, _ = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
+        stem = CHAIN_PREFIX.get(len(chain_su), f"C{len(chain_su)}")
+        return f"{stem}anesulfonyl"
+
     def get_subs(n_idx: int) -> list[str]:
-        return sorted(
-            _name_carbon_substituent(graph, c, {n_idx})
-            for c in graph.adjacency[n_idx]
-            if get_atom(graph, c).symbol == "C" and c != center_idx
-        )
+        subs: list[str] = []
+        for nb in graph.adjacency[n_idx]:
+            if nb == center_idx:
+                continue
+            nb_atom = get_atom(graph, nb)
+            if nb_atom.symbol == "C":
+                subs.append(_name_carbon_substituent(graph, nb, {n_idx}))
+            elif nb_atom.symbol == "S":
+                sp = _sulfonyl_prefix(nb, n_idx)
+                if sp is not None:
+                    subs.append(sp)
+        return sorted(subs)
 
     def build_prefix(subs: list[str], prime: str = "") -> list[str]:
         from collections import Counter
@@ -4403,13 +4430,14 @@ def _is_urea(graph, get_atom) -> bool:
             elif nb.symbol == "C":
                 c_count += 1
         if dbl_o is not None and n_count == 2 and c_count == 0:
-            # 両 N が C 置換基を持たない (純粋な NH₂) こと
-            # ただし carbonyl C 自身は除外して判定
+            # 両 N が 純粋な NH₂ であること (carbonyl C 以外の隣接原子は全て H)。
+            # Phase 887: 元は C 置換基だけを除外していたため、S(=O)(=O)- (スル
+            # ホニル) 等の非炭素置換基が付いた N (スルホニル尿素の橋渡し N 等)
+            # を素通しし、"CS(=O)(=O)NC(=O)N" (methanesulfonyl urea) を情報が
+            # 丸ごと欠落した裸の "urea" にしてしまっていた。
             all_nh2 = all(
-                not any(
-                    get_atom(graph, nb2).symbol == "C" and nb2 != a.idx
-                    for nb2 in graph.adjacency[n_nb]
-                )
+                all(get_atom(graph, nb2).symbol == "H"
+                    for nb2 in graph.adjacency[n_nb] if nb2 != a.idx)
                 for n_nb in n_neighbors
             )
             if all_nh2:
