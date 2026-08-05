@@ -1621,6 +1621,23 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 atom_indices=[p_idx] + c_neighbors + n_amide_p + o_double + o_single_oh,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphonamidic_acid", 91),
             ))
+        elif (len(o_double) == 1 and len(c_neighbors) == 0 and len(n_amide_p) == 1
+              and len(o_single_oh) < 2):
+            # ホスホルアミド酸エステル: (RO)_n-P(=O)(NH2)(OH)_{2-n}, n>=1
+            # (Phase 890, phosphoramidic_acid のエステル形。以前はどの分岐にも
+            # 一致せず後段の "phosphate_ester" 分岐 (P への N 置換基を全く見ない)
+            # に取られ、アミノ基が丸ごと脱落していた
+            # 例: "COP(=O)(N)OC" が "dimethyl phosphate" 相当に化けていた)
+            o_ester_pa = [nb for nb in o_single
+                          if nb not in o_single_oh
+                          and any(get_atom(graph, occ).symbol == "C"
+                                  for occ in graph.adjacency[nb] if occ != p_idx)]
+            if o_ester_pa:
+                groups.append(FunctionalGroup(
+                    group_type="phosphoramidate_ester",
+                    atom_indices=[p_idx] + n_amide_p + o_double + o_ester_pa + o_single_oh,
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphoramidate_ester", 87),
+                ))
         elif (len(o_double) == 1 and len(c_neighbors) == 1
               and len(halide_p) == 1 and len(o_single_oh) == 1):
             # ホスホノハリド酸: R-P(=O)(X)(OH) (Phase 869)

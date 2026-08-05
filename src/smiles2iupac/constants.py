@@ -1435,6 +1435,20 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 890: (RO)_n-P(=O)(NH2)(OH)_{2-n}, the ester form of
+    # phosphoramidic_acid (Phase 868). Previously fell into the generic
+    # phosphate_ester branch (which never checks for an N on P), dropping
+    # the amino group entirely.
+    "phosphoramidate_ester": FunctionalGroupSpec(
+        priority=87,
+        suffix="phosphoramidate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "phosphonate_halfester": FunctionalGroupSpec(
         priority=86,
         suffix="phosphonate",

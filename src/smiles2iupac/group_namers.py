@@ -2364,6 +2364,65 @@ def _name_phosphate_ester(graph, pgrp, get_atom) -> str:
     return " ".join(parts) + " phosphate"
 
 
+def _name_phosphoramidate_ester(graph, pgrp, get_atom) -> str:
+    """ホスホルアミド酸エステル: {esters} phosphoramidate /
+    {esters} N-{sub}phosphoramidate (Phase 890, phosphate_ester の N 置換体).
+    例: COP(=O)(N)OC  → dimethyl phosphoramidate
+        COP(=O)(NC)OC → dimethyl N-methylphosphoramidate
+    """
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+    from .molecule_analyzer import get_bond_order
+    from collections import Counter
+
+    p_idx = pgrp.atom_indices[0]
+    o_ester_idxs = [nb for nb in graph.adjacency[p_idx]
+                    if get_atom(graph, nb).symbol == "O"
+                    and get_bond_order(graph, p_idx, nb) == 1.0]
+    alkyl_names = []
+    for o_idx in o_ester_idxs:
+        c_nbrs = [nb for nb in graph.adjacency[o_idx]
+                  if nb != p_idx and get_atom(graph, nb).symbol == "C"]
+        if c_nbrs:
+            alkyl_names.append(_name_carbon_substituent(graph, c_nbrs[0], {o_idx}))
+        else:
+            alkyl_names.append("hydrogen")
+    alkyl_names.sort()
+    counts = Counter(alkyl_names)
+    organic_subs = sorted(s for s in counts if s != "hydrogen")
+    parts = []
+    for sub in organic_subs:
+        n = counts[sub]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append(f"{mult}{sub}")
+    if "hydrogen" in counts:
+        n = counts["hydrogen"]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append(f"{mult}hydrogen")
+    ester_prefix = " ".join(parts)
+
+    n_idx = next(nb for nb in graph.adjacency[p_idx]
+                 if get_atom(graph, nb).symbol == "N"
+                 and get_bond_order(graph, p_idx, nb) == 1.0)
+    n_subs = [nb for nb in graph.adjacency[n_idx] if get_atom(graph, nb).symbol == "C"]
+    n_prefix = ""
+    if n_subs:
+        names = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_subs]
+        sc = Counter(names)
+        n_parts = []
+        for sub in sorted(sc):
+            cnt = sc[sub]
+            sub_str = f"({sub})" if sub.startswith("(") else sub
+            if cnt == 1:
+                n_parts.append(f"N-{sub_str}")
+            else:
+                mult = MULTIPLIER.get(cnt, str(cnt))
+                n_parts.append(f"N,N-{mult}{sub_str}")
+        n_prefix = "-".join(n_parts)
+
+    return f"{ester_prefix} {n_prefix}phosphoramidate"
+
+
 def _name_phosphonate_halfester(graph, pgrp, get_atom) -> str:
     """{ester_alkyl} hydrogen {p_alkyl}phosphonate  (Phase 253)"""
     from .substituent import _name_carbon_substituent
@@ -7347,6 +7406,7 @@ PGRP_DISPATCH: dict = {
     "sulfinamide": _name_sulfinamide,
     "sulfonimidamide": _name_sulfonimidamide,
     "phosphate_ester": _name_phosphate_ester,
+    "phosphoramidate_ester": _name_phosphoramidate_ester,
     "phosphonate_halfester": _name_phosphonate_halfester,
     "phosphonate_ester": _name_phosphonate_ester,
     "phosphonothioate_ester": _name_phosphonothioate_ester,
