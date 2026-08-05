@@ -779,6 +779,51 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 889: carbamimidic acid family -- isourea/isothiourea, the O/S
+    # ester and free-acid forms of H2N-C(=NH)-OH. Previously these matched
+    # the generic imidic_acid/imidate_ester (or amidine) detectors, which
+    # assume the third substituent on the central C is a plain carbon chain
+    # -- here it's -NH2, and that whole group was silently dropped.
+    "carbamimidic_acid": FunctionalGroupSpec(
+        priority=90,
+        suffix="carbamimidic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "carbamimidate_ester": FunctionalGroupSpec(
+        priority=88,
+        suffix="carbamimidate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "carbamimidothioic_acid": FunctionalGroupSpec(
+        priority=90,
+        suffix="carbamimidothioic acid",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "carbamimidothioate_ester": FunctionalGroupSpec(
+        priority=88,
+        suffix="carbamimidothioate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "peroxy_ester": FunctionalGroupSpec(
         priority=95,
         suffix="peroxoate",

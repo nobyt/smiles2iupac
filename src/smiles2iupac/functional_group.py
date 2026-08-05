@@ -730,6 +730,27 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
                 ))
                 continue
 
+        # カルバムイミド酸ファミリー: C(=NR)(NR'2)(O/S-R'') (Phase 889,
+        # isourea/isothiourea = carbamimidic acid の O/S エステル・酸形)。
+        # generic imidic_acid/imidate_ester (R-C(=NH)-O(H/R), R は C 置換基)
+        # より先に検出しないと、中心 C に付いたもう一方の N (アミン側) が
+        # どちらの検出にも現れず丸ごと脱落する
+        # (例: "CN=C(N)OC" が "methyl N-methylmethanimidate" 相当 = CN=COC
+        #  に化けて NH2 が消えていた)。
+        _cif = _get_carbamimidic_family(graph, idx)
+        if _cif is not None:
+            n_imine_cif, n_amine_cif, x_idx_cif, x_elem_cif, is_ester_cif = _cif
+            if x_elem_cif == "O":
+                gtype = "carbamimidate_ester" if is_ester_cif else "carbamimidic_acid"
+            else:
+                gtype = "carbamimidothioate_ester" if is_ester_cif else "carbamimidothioic_acid"
+            groups.append(FunctionalGroup(
+                group_type=gtype,
+                atom_indices=[idx, n_imine_cif, n_amine_cif, x_idx_cif],
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 96),
+            ))
+            continue
+
         # イミド酸: C(=N)(O-H) — imidic acid (imidate_ester より先に検出)
         if _is_imidic_acid(graph, idx):
             n_idx_ia = next(
@@ -2537,6 +2558,54 @@ def _has_double_bonded_oxygen(graph: MoleculeGraph, c_idx: int) -> bool:
     return False
 
 
+def _get_carbamimidic_family(graph: MoleculeGraph, c_idx: int):
+    """C が carbamimidic acid ファミリー C(=NR)(NR'2)(X-R'') (X=O/S) かを
+    チェックする (Phase 889: isourea/isothiourea = carbamimidic acid の
+    O/S エステル・酸形)。中心 C に他の C 置換基が無いこと (アミジンの
+    "R" 位置が -NH2 に置き換わった形に固有 -- 通常の R-C(=NH)-OR' 型
+    imidate/imidic acid とはここで区別する)。
+
+    Returns:
+        (n_imine_idx, n_amine_idx, x_idx, x_element, is_ester) または None
+    """
+    n_imine = None
+    n_amine = None
+    x_idx = None
+    x_elem = None
+    is_ester = False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == "C":
+            return None
+        bo = get_bond_order(graph, c_idx, nb_idx)
+        if nb.symbol == "N" and bo == 2.0:
+            if n_imine is not None:
+                return None
+            n_imine = nb_idx
+        elif nb.symbol == "N" and bo == 1.0:
+            if n_amine is not None:
+                return None
+            n_amine = nb_idx
+        elif nb.symbol in ("O", "S") and bo == 1.0:
+            if x_idx is not None:
+                return None
+            has_c = any(get_atom(graph, n2).symbol == "C"
+                        for n2 in graph.adjacency[nb_idx] if n2 != c_idx)
+            has_h = any(get_atom(graph, n2).symbol == "H"
+                        for n2 in graph.adjacency[nb_idx])
+            if has_c and not has_h:
+                is_ester = True
+            elif not has_c and has_h:
+                is_ester = False
+            else:
+                return None
+            x_idx = nb_idx
+            x_elem = nb.symbol
+    if n_imine is None or n_amine is None or x_idx is None:
+        return None
+    return (n_imine, n_amine, x_idx, x_elem, is_ester)
+
+
 def _is_imidic_acid(graph: MoleculeGraph, c_idx: int) -> bool:
     """C が C(=N)(O-H) パターン（イミド酸）かチェック。"""
     has_imine_n = False
@@ -3243,7 +3312,17 @@ def _is_carbamo_chalcogenoic_acid(graph: MoleculeGraph, c_idx: int) -> bool:
 
 
 def _is_amidine(graph: MoleculeGraph, c_idx: int) -> bool:
-    """C が C(=N)(N) パターン（アミジン、N置換形も含む）かチェック。"""
+    """C が C(=N)(N) パターン（アミジン、N置換形も含む）かチェック。
+
+    Phase 889: 中心 C に O/S 置換基が付いている場合は isourea/isothiourea
+    (O-C(=NR)-NR2 / S-C(=NR)-NR2) であってアミジンではない。以前はこの区別を
+    せず、"CN=C(N)OC" (isourea) / "CN=C(N)SC" (isothiourea) を両方とも
+    アミジン扱いにして O-methyl/S-methyl を丸ごと落とし、同じ誤名
+    "N'-methylmethanimidamide" に衝突させていた。
+    """
+    if any(get_atom(graph, nb_idx).symbol in ("O", "S")
+           for nb_idx in graph.adjacency[c_idx]):
+        return False
     has_imine_n = False
     has_amine_n = False
     for nb_idx in graph.adjacency[c_idx]:

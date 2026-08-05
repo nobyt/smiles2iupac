@@ -498,6 +498,60 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
     return f"{stereo_pfx_ia}{n_prefix_ia}{base_name}"
 
 
+def _name_carbamimidic_family(graph, pgrp, get_atom) -> str:
+    """
+    カルバムイミド酸ファミリー命名 (Phase 889: isourea/isothiourea, IUPAC
+    P-66.4.1): H2N-C(=NH)-OH/SH (酸) / H2N-C(=NH)-OR/SR (エステル)。
+    アミン N (単結合) は N-, イミン N (二重結合) は N'- 接頭辞
+    (OPSIN 検証済み: "methyl N'-methylcarbamimidate" -> CN=C(N)OC)。
+    例: NC(=N)O      → carbamimidic acid
+        NC(=N)S      → carbamimidothioic acid
+        CN=C(N)OC    → methyl N'-methylcarbamimidate
+        COC(=N)NC    → methyl N-methylcarbamimidate
+        CN=C(N)SC    → methyl N'-methylcarbamimidothioate
+    """
+    from .constants import MULTIPLIER
+    from .substituent import _name_carbon_substituent
+    from collections import Counter
+
+    c_idx, n_imine_idx, n_amine_idx, x_idx = pgrp.atom_indices
+    is_thio = get_atom(graph, x_idx).symbol == "S"
+    is_ester = pgrp.group_type in ("carbamimidate_ester", "carbamimidothioate_ester")
+    acid_word = "carbamimidothioic acid" if is_thio else "carbamimidic acid"
+    ester_word = "carbamimidothioate" if is_thio else "carbamimidate"
+
+    def _n_prefix(n_idx: int, label: str) -> str:
+        c_subs = [nb for nb in graph.adjacency[n_idx]
+                  if nb != c_idx and get_atom(graph, nb).symbol == "C"]
+        if not c_subs:
+            return ""
+        names = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_subs]
+        counts = Counter(names)
+        parts = []
+        for sub in sorted(counts):
+            cnt = counts[sub]
+            sub_str = f"({sub})" if sub.startswith("(") else sub
+            if cnt == 1:
+                parts.append(f"{label}-{sub_str}")
+            else:
+                mult = MULTIPLIER.get(cnt, str(cnt))
+                locs = ",".join([label] * cnt)
+                parts.append(f"{locs}-{mult}{sub_str}")
+        return "-".join(parts)
+
+    n_pfx = _n_prefix(n_amine_idx, "N")
+    np_pfx = _n_prefix(n_imine_idx, "N'")
+    prefix = "-".join(p for p in (n_pfx, np_pfx) if p)
+
+    if not is_ester:
+        return f"{prefix}{acid_word}"
+
+    r_subs = [nb for nb in graph.adjacency[x_idx]
+              if nb != c_idx and get_atom(graph, nb).symbol == "C"]
+    alkyl_name = _name_carbon_substituent(graph, r_subs[0], {x_idx}) if r_subs else "methyl"
+    return f"{alkyl_name} {prefix}{ester_word}"
+
+
 def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
     """
     イミダートエステル命名: {alkyl} {stem}imidate / {alkyl} N-{sub}{stem}imidate
@@ -6706,7 +6760,10 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     # N 置換基: N の隣接原子（carbonyl_c を除く）
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
                if nb != carbonyl_c and get_atom(graph, nb).symbol == "C"]
-    # N-hydroxy 置換基 (Phase 61: hydroxamic acid)
+    # N-hydroxy 置換基 (Phase 61: hydroxamic acid) / N-alkoxy 置換基
+    # (Phase 889: Weinreb アミド R-C(=O)-N(R')-OR'' 等。以前は O に C 置換基が
+    # 付いている (H が無い) 場合、hydroxy 判定にも外れて丸ごと無視されていた
+    # 例: "N-methylacetamide" for CC(=O)N(C)OC — N-OCH3 が消えていた)
     o_nbrs = [nb for nb in graph.adjacency[n_idx]
               if get_atom(graph, nb).symbol == "O"]
     n_hydroxy_subs = []
@@ -6715,6 +6772,13 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
                     for nb2 in graph.adjacency[o_nb])
         if has_h:
             n_hydroxy_subs.append("hydroxy")
+            continue
+        c_on_o = [nb2 for nb2 in graph.adjacency[o_nb]
+                  if nb2 != n_idx and get_atom(graph, nb2).symbol == "C"]
+        if len(c_on_o) == 1:
+            from .substituent import _make_oxy_name
+            alkyl_name = _name_carbon_substituent(graph, c_on_o[0], {o_nb})
+            n_hydroxy_subs.append(_make_oxy_name(alkyl_name))
 
     if not c_nbrs and not n_hydroxy_subs and not chain_sub_parts:
         return f"{stereo_prefix_sta}{parent_name}"
@@ -7237,6 +7301,10 @@ def _name_amidine_pgrp(graph, pgrp, get_atom) -> str | None:
 PGRP_DISPATCH: dict = {
     "imidic_acid": _name_imidic_acid,
     "imidate_ester": _name_imidate_ester,
+    "carbamimidic_acid": _name_carbamimidic_family,
+    "carbamimidate_ester": _name_carbamimidic_family,
+    "carbamimidothioic_acid": _name_carbamimidic_family,
+    "carbamimidothioate_ester": _name_carbamimidic_family,
     "diester": _dispatch_diester,
     "ester": _dispatch_ester,
     "diacid_halide": _name_diacid_halide,
