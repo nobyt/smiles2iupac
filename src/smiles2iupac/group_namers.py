@@ -299,15 +299,27 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
                 return "benzoate"
     acid_chain = _collect_acid_chain(graph, carbonyl_c, o_idxs, get_atom)
     n = len(acid_chain)
+
+    # Phase 893: 主鎖上の置換基 (amino/hydroxy/halo 等) を接頭辞に収集する。
+    # 以前はこの関数が置換基を一切見ておらず、中性酸 (一般の chain-finder
+    # 経路を通り collect_substituents で正しく置換基を集める) と異なり、
+    # アニオン形はどんな置換基でも丸ごと脱落していた
+    # (例: alanine の共役塩基 CC(N)C(=O)[O-] が "propanoate" になり、
+    #  2-アミノ基が消えて中性の "propanoate" と衝突していた)。
+    from .substituent import collect_substituents as _cs_cox
+    _chain_lmap_cox = {c: i + 1 for i, c in enumerate(acid_chain)}
+    _chain_subs_cox = _cs_cox(graph, acid_chain, _chain_lmap_cox, list(o_idxs))
+    sub_prefix = "-".join(f"{loc}-{nm}" for loc, nm in sorted(_chain_subs_cox))
+
     if n == 1:
-        return "formate"
+        return f"{sub_prefix}formate"
     if n == 2:
-        return "acetate"
+        return f"{sub_prefix}acetate"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
     ene, yne = _chain_multiple_bonds(graph, acid_chain)
     if ene or yne:
         from .name_assembler import _format_multiple_bonds as _fmt
-        base_name = f"{stem}{_fmt(ene, yne)}oate"
+        base_name = f"{sub_prefix}{stem}{_fmt(ene, yne)}oate"
         if ene:
             from .stereochemistry import assign_stereochemistry
             from .chain_finder import PrincipalChain
@@ -318,7 +330,7 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
                 _comb_cox = ",".join(d.strip("()") for d in _stereo_cox)
                 return f"({_comb_cox})-{base_name}"
         return base_name
-    return f"{stem}anoate"
+    return f"{sub_prefix}{stem}anoate"
 
 
 def _name_thioic_acid(graph, pgrp, get_atom) -> str:
