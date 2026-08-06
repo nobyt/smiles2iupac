@@ -5201,6 +5201,19 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
     nh_prefix = "1H-" if is_nh else ""
     full_base = f"{nh_prefix}{base_name}"
 
+    # Phase 891: 環内 N+ (イミダゾリウム/ピリジニウム等のカチオン性芳香ヘテロ環)
+    # → "{base}-{loc}-ium" 接尾辞。以前は charge を全く見ておらず、
+    # "C[n+]1ccccc1" (N-メチルピリジニウム) が中性の "1-methylpyridine" と
+    # 誤命名されていた (電荷を丸ごと脱落, OPSIN 検証済み:
+    # "1,3-dimethylimidazol-3-ium" -> Cn1cc[n+](C)c1)。
+    from .molecule_analyzer import get_atom as _ga_ium
+    _charged_ring_atoms = [a for a in ring if _ga_ium(graph, a).formal_charge == 1]
+    if _charged_ring_atoms:
+        _ium_loc = locant_map.get(_charged_ring_atoms[0])
+        if _ium_loc is not None:
+            _ium_stem = full_base[:-1] if full_base.endswith("e") else full_base
+            full_base = f"{_ium_stem}-{_ium_loc}-ium"
+
     # Phase 22: 外環主官能基（カルボン酸・アルデヒド・アミド・ニトリル）の検出
     _EXOCYCLIC_SUFFIX: dict[str, str] = {
         "carboxylic_acid": "carboxylic acid",
