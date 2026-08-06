@@ -199,17 +199,31 @@ _HW_MULT: dict[int, str] = {1: "", 2: "di", 3: "tri", 4: "tetra"}
 
 def _match_multi_het_ring(ring: list[int], graph: "MoleculeGraph") -> str | None:
     """
-    複数ヘテロ原子を持つ非芳香族環 (7-10員) を a-命名法で返す。
-    例: 7員環 2O(1,4) → '1,4-dioxepane', 7員環 N+O → '1-oxa-4-azepane'
+    複数ヘテロ原子を持つ非芳香族環 (7員以上) を a-命名法で返す。
+    7-10員: Hantzsch-Widman 系接尾辞 (epane/ocane/onane/ecane)。
+    11員以上 (Phase 892): "cyclo{アルカン語幹}ane" -- クラウンエーテル等の
+    大環状ポリエーテル/ポリアミンが対象。以前はこの関数が 7-10員限定で
+    None を返し、呼び出し元 name_heterocycle も None を返して炭素環経路に
+    落ち、環内の O/N が全て脱落していた
+    (例: 15員環 5-O "1,4,7,10,13-pentaoxacyclopentadecane" 相当が
+    "cyclopentadecane" と誤命名されていた)。
+    例: 7員環 2O(1,4) → '1,4-dioxepane', 7員環 N+O → '1-oxa-4-azepane',
+        15員環 5O → '1,4,7,10,13-pentaoxacyclopentadecane'
     """
     from collections import defaultdict
+    from .constants import MULTIPLIER, CHAIN_PREFIX
 
     if _is_aromatic_ring(ring, graph):
         return None
     n = len(ring)
     suffix = _HW_MULTI_SUFFIX.get(n)
     if suffix is None:
-        return None
+        if n < 11:
+            return None
+        stem = CHAIN_PREFIX.get(n)
+        if stem is None:
+            return None
+        suffix = f"cyclo{stem}ane"
 
     het_indices = [idx for idx in ring if _atom_sig(graph, idx) != "C"]
     if len(het_indices) < 2:
@@ -232,10 +246,14 @@ def _match_multi_het_ring(ring: list[int], graph: "MoleculeGraph") -> str | None
     for i, sym in enumerate(sorted_syms):
         locs = sorted(by_sym[sym])
         loc_str = ",".join(str(x) for x in locs)
-        mult = _HW_MULT.get(len(locs), str(len(locs)))
+        mult = MULTIPLIER.get(len(locs), str(len(locs)))
         base = _HW_HET_BASE[sym]
         if i == len(sorted_syms) - 1:
-            parts.append(f"{loc_str}-{mult}{base}{suffix}")
+            # epane/ocane/onane/ecane はいずれも母音始まりなので 'a' を脱落
+            # (ox+epane=oxepane)。Phase 892 の "cyclo...ane" は子音始まりなので
+            # 'a' を残す (oxa+cyclopentadecane=oxacyclopentadecane)。
+            base_full = base if suffix[:1] in "aeiou" else base + "a"
+            parts.append(f"{loc_str}-{mult}{base_full}{suffix}")
         else:
             parts.append(f"{loc_str}-{mult}{base}a")
 
