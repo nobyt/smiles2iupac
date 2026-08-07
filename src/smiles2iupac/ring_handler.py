@@ -50,7 +50,10 @@ class RingChain:
 # -dioxaborinane, e.g. pinacol boronates) were falling entirely into the
 # carbocycle path (boron silently read as an ordinary ring carbon, producing
 # structurally wrong names like "methylcyclopentane" for CB1OCCO1).
-_HETERO_SYMBOLS = frozenset({"N", "O", "S", "P", "Se", "Te", "B"})
+# Phase 894: "Si"/"Ge" added -- same bug for silacyclopentane-type rings
+# (single-heteroatom Hantzsch-Widman names only; see heterocycle_handler.py
+# for why the two-heteroatom "dioxasilolane" family was NOT added here).
+_HETERO_SYMBOLS = frozenset({"N", "O", "S", "P", "Se", "Te", "B", "Si", "Ge"})
 
 
 def has_ring(graph: "MoleculeGraph") -> bool:

@@ -29,7 +29,9 @@ _PRIORITY: dict[str, int] = {
     "P":  4,
     "Se": 5,
     "Te": 6,
-    "B":  7,   # Phase 888: 最低優先 (IUPAC 置換命名法のヘテロ原子優先順位で最下位)
+    "Si": 7,   # Phase 894: Si/Ge は B より優先 (IUPAC 置換命名法の優先順位で
+    "Ge": 8,   # ...Si>Ge>Sn>Pb>B の順)
+    "B":  9,   # Phase 888: 最低優先 (IUPAC 置換命名法のヘテロ原子優先順位で最下位)
 }
 
 
@@ -162,6 +164,20 @@ _HW_NAMES: dict[tuple[int, str], str] = {
     (8, "O"): "oxocane",
     (8, "S"): "thiocane",
     (8, "P"): "phosphocane",
+    # Phase 894: Si/Ge Hantzsch-Widman 名 (silacyclopentane 等が炭素環に
+    # 誤命名されていた -- boron ring 対応 Phase 888 の Si/Ge 類縁体)。
+    (3, "Si"): "silirane",
+    (4, "Si"): "siletane",
+    (5, "Si"): "silolane",
+    (6, "Si"): "silinane",
+    (7, "Si"): "silepane",
+    (8, "Si"): "silocane",
+    (3, "Ge"): "germirane",
+    (4, "Ge"): "germetane",
+    (5, "Ge"): "germolane",
+    (6, "Ge"): "germinane",
+    (7, "Ge"): "germepane",
+    (8, "Ge"): "germocane",
 }
 
 
@@ -192,6 +208,12 @@ _HW_MULTI_SUFFIX: dict[int, str] = {
     7: "epane", 8: "ocane", 9: "onane", 10: "ecane",
 }
 # ヘテロ原子ベースプレフィックス (末尾 'a' を除いた形)
+# Phase 894: Si/Ge はここに追加しない -- 単一ヘテロ原子の Hantzsch-Widman 名
+# (_HW_NAMES, silolane 等) は OPSIN で検証済みだが、この多ヘテロ原子 a-命名法
+# 経路で生成される "sila" ロカント付き名は OPSIN が解析できず未検証のまま
+# (例: "5,5-dimethyl-1-oxa-5-silocane" が "Unable to assign all locants"
+# で失敗)。確証の無い新しい命名パターンを導入するより、確認済みの単一ヘテロ
+# 原子ケースだけに絞る方が安全。
 _HW_HET_BASE: dict[str, str] = {"O": "ox", "N": "az", "S": "thi"}
 _HW_HET_PRIO: dict[str, int] = {"O": 0, "S": 1, "N": 2}
 _HW_MULT: dict[int, str] = {1: "", 2: "di", 3: "tri", 4: "tetra"}
