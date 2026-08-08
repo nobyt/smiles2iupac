@@ -353,6 +353,22 @@ def _build_name_body(
             return f"{stem}anol"
         return f"{stem}an-{loc}-ol"
 
+    if suffix == "olate":
+        # アルコキシドアニオン (Phase 895): "ol" と同じ規則で "-olate" を生成
+        # (OPSIN 検証済み: ethanolate/methanolate は "an" 保持、ロカント省略)
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            if chain_length == 2:
+                if has_ene and not has_yne:
+                    return f"{stem}enolate"
+                if has_yne and not has_ene:
+                    return f"{stem}ynolate"
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}-{loc}-olate"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}anolate"
+        return f"{stem}an-{loc}-olate"
+
     if suffix == "one":
         # ケトン: 1炭素鎖はロカント省略 (diphenylmethanone)
         if chain_length == 1:

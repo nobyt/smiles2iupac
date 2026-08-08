@@ -211,6 +211,20 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template="cyclo{stem}an-{loc}-ol",
         benzene_name="phenol",
     ),
+    # Phase 895: alkoxide anion R-O(-) (deprotonated alcohol, e.g. the anion
+    # half of sodium ethoxide). Mirrors "alcohol" exactly with -olate instead
+    # of -ol (IUPAC 2013 P-65.6.3.3). Previously undetected entirely --
+    # CC[O-] fell to a generic substituent path and produced "oxyethane".
+    "alkoxide": FunctionalGroupSpec(
+        priority=50,
+        suffix="olate",
+        chain_template="{stem}an-{loc}-olate",
+        chain_template_mb="{stem}{mb}-{loc}-olate",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}an-{loc}-olate",
+        benzene_name="phenolate",
+    ),
     "sulfonate_ester": FunctionalGroupSpec(
         priority=87,
         suffix="sulfonate",

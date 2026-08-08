@@ -1044,6 +1044,42 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
         return "diacid halide"
 
     c1, c2 = carbonyl_cs[0], carbonyl_cs[1]
+
+    # Phase 895: 両カルボニル C がベンゼン環の置換基の場合
+    # → "benzene-X,Y-dicarbonyl {halide}" (Phase 311 の _name_dioic_acid の
+    # 環ロジックをミラー)。以前はこのケースも下の線形鎖ロジック
+    # (_collect_acid_chain が環外へ出られず acid_carbons=1 に潰れる) に
+    # 落ち、環全体が脱落していた
+    # (例: phthaloyl chloride "O=C(Cl)c1ccccc1C(=O)Cl" が芳香環を丸ごと
+    #  無視した "methanedioyl dichloride" になっていた)。
+    def _ring_attachment_dah(c_idx: int):
+        for nb_idx in graph.adjacency[c_idx]:
+            nb = get_atom(graph, nb_idx)
+            if nb.symbol == "C" and nb.in_ring:
+                ring = next(
+                    (rt for rt in (graph.ring_atom_sets or []) if nb_idx in rt), None)
+                return nb_idx, ring
+        return None, None
+
+    ring_c1, ring1 = _ring_attachment_dah(c1)
+    ring_c2, ring2 = _ring_attachment_dah(c2)
+    if (ring1 is not None and ring2 is not None and set(ring1) == set(ring2)
+            and len(ring1) == 6
+            and all(get_atom(graph, a).symbol == "C" and get_atom(graph, a).is_aromatic
+                    for a in ring1)):
+        from .ring_handler import _assign_ring_locants
+        ring_chain_dah = _assign_ring_locants(
+            graph, sorted(set(ring1)), True, "arene", [ring_c1, ring_c2])
+        loc1_dah = ring_chain_dah.locant_map.get(ring_c1, 1)
+        loc2_dah = ring_chain_dah.locant_map.get(ring_c2, 2)
+        locs_dah = sorted([loc1_dah, loc2_dah])
+        halide_names_sorted_dah = sorted(halide_names)
+        if halide_names_sorted_dah[0] == halide_names_sorted_dah[1]:
+            halide_str_dah = f"di{halide_names_sorted_dah[0]}"
+        else:
+            halide_str_dah = f"{halide_names_sorted_dah[0]} {halide_names_sorted_dah[1]}"
+        return f"benzene-{locs_dah[0]},{locs_dah[1]}-dicarbonyl {halide_str_dah}"
+
     chain_fwd = _collect_acid_chain(graph, c1, set(), get_atom)
     chain_rev = _collect_acid_chain(graph, c2, set(), get_atom)
     ene_fwd, yne_fwd = _chain_multiple_bonds(graph, chain_fwd)

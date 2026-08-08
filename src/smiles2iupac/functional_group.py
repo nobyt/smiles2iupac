@@ -869,6 +869,20 @@ def _detect_alcohol_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) 
                     atom_indices=[c_idx, o_idx],
                     priority=FUNCTIONAL_GROUP_PRIORITY["alcohol"],
                 ))
+        elif (c_neighbors and not h_neighbors and atom.formal_charge == -1
+              and len(neighbors) == 1):
+            # Phase 895: アルコキシドアニオン R-O(-) (Phase49 のカルボキシレート
+            # [O-] と異なり、隣接に C=O が無い単純な脱プロトン化アルコール)。
+            # 以前はこの O-アニオンを検出する分岐が無く、一般の置換基命名系に
+            # 落ちて "oxyethane" のような無意味な名前になっていた
+            # (e.g. sodium ethoxide の陰イオン部分 CC[O-])。
+            c_idx = c_neighbors[0]
+            if c_idx not in carbonyl_carbons:
+                groups.append(FunctionalGroup(
+                    group_type="alkoxide",
+                    atom_indices=[c_idx, o_idx],
+                    priority=FUNCTIONAL_GROUP_PRIORITY.get("alkoxide", 40),
+                ))
 
 
 def _detect_hydroperoxide_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -> None:
