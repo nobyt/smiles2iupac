@@ -1933,6 +1933,17 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 898: R_n-Ge(SH)_{4-n}, Ge analog of silanethiol_org (see below).
+    "germanethiol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="germanethiol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "stannane_org": FunctionalGroupSpec(
         priority=8,
         suffix="stannane",
@@ -1947,6 +1958,17 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     "stannanol_org": FunctionalGroupSpec(
         priority=9,
         suffix="stannanol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 898: R_n-Sn(SH)_{4-n}, Sn analog of silanethiol_org.
+    "stannanethiol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="stannanethiol",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,
@@ -2124,6 +2146,19 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
     "silanol_org": FunctionalGroupSpec(
         priority=9,
         suffix="silanol",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 898: R_n-Si(SH)_{4-n}, S analog of silanol_org. Previously
+    # undetected -- fell to silane_org, dropping -SH entirely (e.g.
+    # "trimethylsilane" for what should be trimethylsilanethiol).
+    "silanethiol_org": FunctionalGroupSpec(
+        priority=9,
+        suffix="silanethiol",
         chain_template="",
         chain_template_mb="",
         needs_locant=False,

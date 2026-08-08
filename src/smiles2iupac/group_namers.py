@@ -3500,6 +3500,52 @@ def _name_organic_stannanol(graph, pgrp, get_atom) -> str:
     return _name_element_ol_family(graph, pgrp, get_atom, "stannane")
 
 
+def _name_element_thiol_family(graph, pgrp, get_atom, base: str) -> str:
+    """{alkyl(s)}{base}thiol/{base}dithiol/{base}trithiol/{base}tetrathiol --
+    14 族水素化物 (Si/Ge/Sn 等) の -SH 置換体 (Phase 898, _name_element_ol_family
+    の S 類縁体)。"thiol" 系接尾辞は全て子音始まりなので語幹の e は脱落しない
+    (silane+thiol -> silanethiol, ol 系の Phase895/896 の教訓と対照的)。"""
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+    from collections import Counter
+    _SH_SUFFIX = {
+        1: f"{base}thiol", 2: f"{base}dithiol",
+        3: f"{base}trithiol", 4: f"{base}tetrathiol",
+    }
+    central = pgrp.atom_indices[0]
+    c_neighbors = [nb for nb in graph.adjacency[central]
+                   if get_atom(graph, nb).symbol == "C"]
+    s_sh = [nb for nb in graph.adjacency[central]
+            if get_atom(graph, nb).symbol == "S"
+            and any(get_atom(graph, snh).symbol == "H" for snh in graph.adjacency[nb])]
+    suffix = _SH_SUFFIX.get(len(s_sh), f"{base}thiol")
+    if not c_neighbors:
+        return suffix
+    alkyl_names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
+    counts = Counter(alkyl_names)
+    parts = []
+    for sub in sorted(counts):
+        n = counts[sub]
+        mult = MULTIPLIER.get(n, "") if n > 1 else ""
+        parts.append(f"{mult}{sub}")
+    return "".join(parts) + suffix
+
+
+def _name_organic_silanethiol(graph, pgrp, get_atom) -> str:
+    """シラネチオール/ジチオール: {alkyl(s)}silanethiol/silanedithiol (Phase 898)"""
+    return _name_element_thiol_family(graph, pgrp, get_atom, "silane")
+
+
+def _name_organic_germanethiol(graph, pgrp, get_atom) -> str:
+    """ゲルマネチオール: {alkyl(s)}germanethiol (Phase 898, silanethiol の Ge 類縁体)"""
+    return _name_element_thiol_family(graph, pgrp, get_atom, "germane")
+
+
+def _name_organic_stannanethiol(graph, pgrp, get_atom) -> str:
+    """スタンナネチオール: {alkyl(s)}stannanethiol (Phase 898, silanethiol の Sn 類縁体)"""
+    return _name_element_thiol_family(graph, pgrp, get_atom, "stannane")
+
+
 def _name_organic_plumbanol(graph, pgrp, get_atom) -> str:
     """プルンバノール/ジオール/トリオール: {alkyl(s)}plumbanol/plumbanediol/plumbanetriol
     (Phase 886, silanol の Pb 類縁体)"""
@@ -7536,8 +7582,10 @@ PGRP_DISPATCH: dict = {
     "disilazane_org": _name_disilazane,
     "germane_org": _name_organic_germane,
     "germanol_org": _name_organic_germanol,
+    "germanethiol_org": _name_organic_germanethiol,
     "stannane_org": _name_organic_stannane,
     "stannanol_org": _name_organic_stannanol,
+    "stannanethiol_org": _name_organic_stannanethiol,
     "arsane_org": _name_arsane_org,
     "arsane_oxide": _name_arsane_oxide,
     "arsane_sulfide": _name_arsane_sulfide,
@@ -7560,6 +7608,7 @@ PGRP_DISPATCH: dict = {
     "tellurinic_acid": _name_tellurinic_acid,
     "tellurenic_acid": _name_tellurenic_acid,
     "silanol_org": _name_organic_silanol,
+    "silanethiol_org": _name_organic_silanethiol,
     "isocyanide": _name_isocyanide,
     "ammonium": _name_ammonium,
     "phosphanium": _name_phosphanium,
