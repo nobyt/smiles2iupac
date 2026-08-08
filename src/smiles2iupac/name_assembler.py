@@ -464,6 +464,34 @@ def _build_name_body(
             return f"{stem}anetellurol"
         return f"{stem}ane-{loc}-tellurol"
 
+    if suffix == "thiolate":
+        # チオラートアニオン (Phase 896): "thiol" と同じ規則 (子音始まりのため e 保持)
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc}-thiolate"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}anethiolate"
+        return f"{stem}ane-{loc}-thiolate"
+
+    if suffix == "selenolate":
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc}-selenolate"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}aneselenolate"
+        return f"{stem}ane-{loc}-selenolate"
+
+    if suffix == "tellurolate":
+        loc = suffix_locant if suffix_locant is not None else 1
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}e-{loc}-tellurolate"
+        if chain_length <= 2 and loc == 1:
+            return f"{stem}anetellurolate"
+        return f"{stem}ane-{loc}-tellurolate"
+
     if suffix == "dithiol":
         # ジチオール: -dithiol は子音始まりのため e を保持 (ethane-1,2-dithiol)
         if chain_length == 1:

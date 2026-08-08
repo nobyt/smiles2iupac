@@ -1654,6 +1654,50 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
     return "-".join(prefix_parts) + base
 
 
+def _name_sulfenamide(graph, pgrp, get_atom) -> str:
+    """スルフェンアミド: {stem}anesulfenamide (Phase 896, IUPAC P-65.3.1).
+    例: CSN     → methanesulfenamide
+        CSNC    → N-methylmethanesulfenamide
+    """
+    from .constants import CHAIN_PREFIX, MULTIPLIER
+    from .substituent import _name_carbon_substituent
+    from collections import Counter
+
+    s_idx = pgrp.atom_indices[0]
+    c_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "C"]
+    if not c_on_s:
+        return "sulfenamide"
+
+    chain_sen, locant_sen = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
+    stem = CHAIN_PREFIX.get(len(chain_sen), f"C{len(chain_sen)}")
+    if len(chain_sen) >= 3:
+        base = f"{stem}ane-{locant_sen}-sulfenamide"
+    else:
+        base = f"{stem}anesulfenamide"
+
+    n_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
+    if not n_on_s:
+        return base
+    n_idx = n_on_s[0]
+    c_on_n = [nb for nb in graph.adjacency[n_idx] if get_atom(graph, nb).symbol == "C"]
+    if not c_on_n:
+        return base
+
+    n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
+    sub_counts = Counter(n_subs)
+    prefix_parts = []
+    for sub in sorted(sub_counts):
+        cnt = sub_counts[sub]
+        sub_str = f"({sub})" if sub.startswith("(") else sub
+        if cnt == 1:
+            prefix_parts.append(f"N-{sub_str}")
+        else:
+            mult = MULTIPLIER.get(cnt, f"{cnt}")
+            prefix_parts.append(f"N,N-{mult}{sub_str}")
+    prefix = "-".join(prefix_parts)
+    return f"{prefix}{base}"
+
+
 def _name_sulfinamide(graph, pgrp, get_atom) -> str:
     """スルフィナミド: {stem}anesulfinamide  (Phase 200)
     例: CS(=O)N → methanesulfinamide
@@ -7435,6 +7479,7 @@ PGRP_DISPATCH: dict = {
     "sulfenic_acid": _name_sulfenic_acid,
     "sulfenyl_halide": _name_sulfenyl_halide,
     "sulfenate_ester": _name_sulfenate_ester,
+    "sulfenamide": _name_sulfenamide,
     "sulfonate_ester": _name_sulfonate_sulfinate_ester,
     "sulfinate_ester": _name_sulfonate_sulfinate_ester,
     "sulfoxide": _name_sulfoxide_sulfone,

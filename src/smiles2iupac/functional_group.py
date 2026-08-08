@@ -1082,6 +1082,18 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                     atom_indices=[s_idx] + c_neighbors + [o_ester_idx],
                     priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfenate_ester", 74),
                 ))
+        elif (len(n_neighbors) >= 1 and len(c_neighbors) == 1
+              and len(o_double) == 0 and len(h_neighbors) == 0
+              and not halogen_neighbors and not o_single):
+            # スルフェンアミド: C-S-N (Phase 896). 以前は検出が無く、
+            # N 側の置換基を丸ごと落とした簡略チオエーテル名になっていた
+            # (例: "CSNC" (N-methylmethanesulfenamide) が
+            #  "sulfanylmethane" = methanethiol 相当に化けていた)。
+            groups.append(FunctionalGroup(
+                group_type="sulfenamide",
+                atom_indices=[s_idx] + c_neighbors + n_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("sulfenamide", 74),
+            ))
         elif len(h_neighbors) >= 1 and len(c_neighbors) == 1 and not o_double:
             # チオール: C-SH
             c_idx = c_neighbors[0]
@@ -1089,6 +1101,17 @@ def _detect_sulfur_groups(graph: MoleculeGraph, groups: list[FunctionalGroup]) -
                 group_type="thiol",
                 atom_indices=[c_idx, s_idx],
                 priority=FUNCTIONAL_GROUP_PRIORITY["thiol"],
+            ))
+        elif (len(c_neighbors) == 1 and len(h_neighbors) == 0 and not o_double
+              and atom.formal_charge == -1 and len(neighbors) == 1):
+            # チオラートアニオン (Phase 896): アルコキシド (Phase 895) の S 類縁体。
+            # 以前は検出が無く "sulfanylethane" のような無意味な (電荷が丸ごと
+            # 脱落した) 名前になっていた
+            c_idx = c_neighbors[0]
+            groups.append(FunctionalGroup(
+                group_type="thiolate",
+                atom_indices=[c_idx, s_idx],
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("thiolate", 40),
             ))
         elif (len(o_double) == 2 and len(n_neighbors) == 2 and len(c_neighbors) == 0):
             # スルファミド: H2N-S(=O)₂-NH2 (Phase 67)
@@ -1355,6 +1378,16 @@ def _detect_selenium_tellurium_groups(graph: MoleculeGraph, groups: list[Functio
                 group_type=gtype,
                 atom_indices=[c_neighbors[0], se_idx],
                 priority=FUNCTIONAL_GROUP_PRIORITY[gtype],
+            ))
+        elif (len(c_neighbors) == 1 and len(h_neighbors) == 0 and not o_double
+              and atom.formal_charge == -1 and len(neighbors) == 1):
+            # セレノラート / テルロラートアニオン (Phase 896): チオラート
+            # (同 Phase) / アルコキシド (Phase 895) の Se/Te 類縁体
+            gtype = "selenolate" if is_se else "tellurolate"
+            groups.append(FunctionalGroup(
+                group_type=gtype,
+                atom_indices=[c_neighbors[0], se_idx],
+                priority=FUNCTIONAL_GROUP_PRIORITY.get(gtype, 40),
             ))
         elif len(o_double) == 2 and len(c_neighbors) == 2 and len(se_neighbors) == 0 and not h_neighbors:
             # セレノン / テルロン: C-Se(=O)₂-C / C-Te(=O)₂-C  (Phase 519, 856)

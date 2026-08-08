@@ -488,6 +488,18 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 896: sulfenamide C-S-N. Previously undetected entirely -- fell
+    # through to a plain thioether-style name, dropping the N side.
+    "sulfenamide": FunctionalGroupSpec(
+        priority=74,
+        suffix="sulfenamide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "thiol": FunctionalGroupSpec(
         priority=45,
         suffix="thiol",
@@ -516,6 +528,40 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         needs_locant=True,
         anchor_c1=False,
         cyclic_template="cyclo{stem}ane-{loc}-tellurol",
+        benzene_name=None,
+    ),
+    # Phase 896: chalcogenolate anions (S/Se/Te), the thiol/selenol/tellurol
+    # analogs of the alkoxide fix (Phase 895). Previously undetected --
+    # CC[S-] fell to a generic path and produced "sulfanylethane" (charge
+    # silently dropped).
+    "thiolate": FunctionalGroupSpec(
+        priority=45,
+        suffix="thiolate",
+        chain_template="{stem}ane-{loc}-thiolate",
+        chain_template_mb="{stem}{mb}-{loc}-thiolate",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}ane-{loc}-thiolate",
+        benzene_name="benzenethiolate",
+    ),
+    "selenolate": FunctionalGroupSpec(
+        priority=44,
+        suffix="selenolate",
+        chain_template="{stem}ane-{loc}-selenolate",
+        chain_template_mb="{stem}{mb}-{loc}-selenolate",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}ane-{loc}-selenolate",
+        benzene_name=None,
+    ),
+    "tellurolate": FunctionalGroupSpec(
+        priority=43,
+        suffix="tellurolate",
+        chain_template="{stem}ane-{loc}-tellurolate",
+        chain_template_mb="{stem}{mb}-{loc}-tellurolate",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template="cyclo{stem}ane-{loc}-tellurolate",
         benzene_name=None,
     ),
     "amine": FunctionalGroupSpec(
