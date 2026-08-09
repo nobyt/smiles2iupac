@@ -1515,7 +1515,17 @@ def _detect_nitrogen_groups(graph: MoleculeGraph, groups: list[FunctionalGroup])
             ))
             continue
 
-        if len(h_neighbors) >= 2 and len(c_neighbors) == 1:
+        if atom.formal_charge == -1 and len(c_neighbors) >= 1 and not o_all:
+            # アザニドアニオン (Phase 899): アルコキシド/チオラート/ホスファニド
+            # (Phase 895/896/899) の N 類縁体。以前は検出が無く、電荷が丸ごと
+            # 脱落した中性アミノ置換基名になっていた
+            # (例: "CC[NH-]" が中性エチルアミン相当の "aminoethane" に化けていた)。
+            groups.append(FunctionalGroup(
+                group_type="azanide",
+                atom_indices=[n_idx] + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("azanide", 40),
+            ))
+        elif len(h_neighbors) >= 2 and len(c_neighbors) == 1:
             # 第一級アミン: NH₂ に C が 1 個
             c_idx = c_neighbors[0]
             if _has_double_bonded_oxygen(graph, c_idx):
@@ -1799,6 +1809,15 @@ def _detect_phosphorus_groups(graph: MoleculeGraph, groups: list[FunctionalGroup
                 group_type="phosphine_imine",
                 atom_indices=[p_idx] + c_neighbors[:3] + n_double_p,
                 priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphine_imine", 60),
+            ))
+        elif c_neighbors and not o_neighbors and atom.formal_charge == -1:
+            # ホスファニドアニオン (Phase 899): アルコキシド/チオラート
+            # (Phase 895/896) の P 類縁体。以前は検出が無く、電荷が丸ごと
+            # 脱落した中性 "phosphane" 名になっていた。
+            groups.append(FunctionalGroup(
+                group_type="phosphanide",
+                atom_indices=[p_idx] + c_neighbors,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("phosphanide", 40),
             ))
         elif c_neighbors and not o_neighbors:
             # ホスファン: R_n-PH_{3-n}

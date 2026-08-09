@@ -1432,6 +1432,31 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 899: azanide anion (R-NH(-) / R2N(-)), the anionic counterpart of
+    # ammonium/azanium. Previously undetected -- CC[NH-] fell through to a
+    # generic path and produced the neutral-looking "aminoethane".
+    "azanide": FunctionalGroupSpec(
+        priority=40,
+        suffix="azanide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    # Phase 899: phosphanide anion, the anionic counterpart of phosphanium.
+    # Previously undetected -- CC[P-]C fell to the neutral "phosphane" name.
+    "phosphanide": FunctionalGroupSpec(
+        priority=40,
+        suffix="phosphanide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 518: ホスホニウム / スルホニウム / アルソニウム ────────────
     "phosphanium": FunctionalGroupSpec(
         priority=11,

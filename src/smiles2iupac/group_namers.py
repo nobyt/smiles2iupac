@@ -3171,6 +3171,18 @@ def _name_phosphanium(graph, pgrp, get_atom) -> str:
     return _name_by_c_substituents(graph, pgrp, get_atom, "phosphanium")
 
 
+def _name_azanide(graph, pgrp, get_atom) -> str:
+    """アザニドアニオン: {alkyl(s)}azanide (Phase 899, azanium の対をなす
+    アニオン。アルコキシド/チオラート (Phase895/896) の N 類縁体)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "azanide")
+
+
+def _name_phosphanide(graph, pgrp, get_atom) -> str:
+    """ホスファニドアニオン: {alkyl(s)}phosphanide (Phase 899, phosphanium の
+    対をなすアニオン)"""
+    return _name_by_c_substituents(graph, pgrp, get_atom, "phosphanide")
+
+
 def _name_sulfonium(graph, pgrp, get_atom) -> str:
     """スルホニウム: triRsulfonium (IUPAC 2013 P-73.4, Phase 518)"""
     return _name_by_c_substituents(graph, pgrp, get_atom, "sulfonium")
@@ -7611,7 +7623,9 @@ PGRP_DISPATCH: dict = {
     "silanethiol_org": _name_organic_silanethiol,
     "isocyanide": _name_isocyanide,
     "ammonium": _name_ammonium,
+    "azanide": _name_azanide,
     "phosphanium": _name_phosphanium,
+    "phosphanide": _name_phosphanide,
     "sulfonium": _name_sulfonium,
     "arsonium": _name_arsonium,
     "carbamate": _dispatch_carbamate,
