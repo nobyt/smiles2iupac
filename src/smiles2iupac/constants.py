@@ -1357,6 +1357,29 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name=None,
     ),
+    # Phase 901: Se/Te analogs of thiocyanate. Previously undetected --
+    # Se-C#N / Te-C#N fell to a generic "selanyl/tellanyl"-substituted
+    # nitrile name that also collided the anion with the neutral acid.
+    "selenocyanate": FunctionalGroupSpec(
+        priority=50,
+        suffix="selenocyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "tellurocyanate": FunctionalGroupSpec(
+        priority=50,
+        suffix="tellurocyanate",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "amidine": FunctionalGroupSpec(
         priority=96,
         suffix="imidamide",

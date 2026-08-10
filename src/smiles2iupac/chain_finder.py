@@ -61,7 +61,8 @@ def find_principal_chain(
 
     # When the principal group is not a nitrile, terminal C≡N carbons are named
     # as "cyano" substituents (IUPAC P-65.2.1.1), so exclude them from the chain.
-    nitrile_types = {"nitrile", "dinitrile", "isocyanate", "cyanate", "isothiocyanate", "thiocyanate"}
+    nitrile_types = {"nitrile", "dinitrile", "isocyanate", "cyanate", "isothiocyanate", "thiocyanate",
+                      "selenocyanate", "tellurocyanate"}
     if principal_grp is None or principal_grp.group_type not in nitrile_types:
         cyano_c: set[int] = set()
         for ci in c_idxs:

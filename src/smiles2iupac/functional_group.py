@@ -666,6 +666,40 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
             ))
             continue
 
+        # セレノシアン酸エステル: Se-C≡N (Phase 901, thiocyanate の Se 類縁体)
+        # 以前は未検出で、Se-C(#N) が単なる selanyl 置換ニトリルとして命名され
+        # ([Se-]C#N と [SeH]C#N が同じ名前に衝突する等) 別バグと同型だった。
+        if _is_chalcocyanate(graph, idx, "Se"):
+            n_idx_sc = _get_triple_bonded_nitrogen(graph, idx)
+            se_idx_sc = _get_chalcocyanate_chalcogen(graph, idx, "Se")
+            indices = [idx]
+            if n_idx_sc is not None:
+                indices.append(n_idx_sc)
+            if se_idx_sc is not None:
+                indices.append(se_idx_sc)
+            groups.append(FunctionalGroup(
+                group_type="selenocyanate",
+                atom_indices=indices,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("selenocyanate", 73),
+            ))
+            continue
+
+        # テルロシアン酸エステル: Te-C≡N (Phase 901, thiocyanate の Te 類縁体)
+        if _is_chalcocyanate(graph, idx, "Te"):
+            n_idx_tec = _get_triple_bonded_nitrogen(graph, idx)
+            te_idx_tec = _get_chalcocyanate_chalcogen(graph, idx, "Te")
+            indices = [idx]
+            if n_idx_tec is not None:
+                indices.append(n_idx_tec)
+            if te_idx_tec is not None:
+                indices.append(te_idx_tec)
+            groups.append(FunctionalGroup(
+                group_type="tellurocyanate",
+                atom_indices=indices,
+                priority=FUNCTIONAL_GROUP_PRIORITY.get("tellurocyanate", 73),
+            ))
+            continue
+
         # ニトリル: C≡N (末端)
         if _is_nitrile(graph, idx):
             n_idx = _get_triple_bonded_nitrogen(graph, idx)
@@ -3523,6 +3557,33 @@ def _get_thiocyanate_sulfur(graph: MoleculeGraph, c_idx: int) -> int | None:
     for nb_idx in graph.adjacency[c_idx]:
         nb = get_atom(graph, nb_idx)
         if nb.symbol == "S" and get_bond_order(graph, c_idx, nb_idx) == 1.0:
+            return nb_idx
+    return None
+
+
+def _is_chalcocyanate(graph: MoleculeGraph, c_idx: int, chalc: str) -> bool:
+    """C が X-C≡N パターン (X=Se/Te のセレノシアン酸/テルロシアン酸エステル,
+    Phase 901: _is_thiocyanate の Se/Te 類縁体) かチェック。"""
+    has_triple_n = False
+    has_single_x = False
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        bo = get_bond_order(graph, c_idx, nb_idx)
+        if nb.symbol == "N" and bo == 3.0:
+            n_heavy = [n for n in graph.adjacency[nb_idx]
+                       if n != c_idx and get_atom(graph, n).symbol != "H"]
+            if not n_heavy:
+                has_triple_n = True
+        elif nb.symbol == chalc and bo == 1.0:
+            has_single_x = True
+    return has_triple_n and has_single_x
+
+
+def _get_chalcocyanate_chalcogen(graph: MoleculeGraph, c_idx: int, chalc: str) -> int | None:
+    """セレノシアン酸/テルロシアン酸エステル C の Se/Te インデックスを返す。"""
+    for nb_idx in graph.adjacency[c_idx]:
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == chalc and get_bond_order(graph, c_idx, nb_idx) == 1.0:
             return nb_idx
     return None
 

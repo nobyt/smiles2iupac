@@ -4305,6 +4305,36 @@ def _name_thiocyanate(graph, pgrp, get_atom) -> str:
     return "thiocyanate"
 
 
+def _name_selenocyanate(graph, pgrp, get_atom) -> str:
+    """セレノシアン酸エステル: selenocyanato{alkane} PIN (Phase 901,
+    thiocyanate の Se 類縁体); HSeC≡N → selenocyanic acid; [Se-]C≡N → selenocyanate"""
+    cyano_c = pgrp.atom_indices[0]
+    se_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
+    if se_idx is not None:
+        for nb in graph.adjacency[se_idx]:
+            if nb != cyano_c and get_atom(graph, nb).symbol == "C":
+                return _name_isocyanate_substitutive(graph, nb, se_idx, "selenocyanato", get_atom)
+        if get_atom(graph, se_idx).formal_charge == -1:
+            return "selenocyanate"
+        return "selenocyanic acid"
+    return "selenocyanate"
+
+
+def _name_tellurocyanate(graph, pgrp, get_atom) -> str:
+    """テルロシアン酸エステル: tellurocyanato{alkane} PIN (Phase 901,
+    thiocyanate の Te 類縁体); HTeC≡N → tellurocyanic acid; [Te-]C≡N → tellurocyanate"""
+    cyano_c = pgrp.atom_indices[0]
+    te_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
+    if te_idx is not None:
+        for nb in graph.adjacency[te_idx]:
+            if nb != cyano_c and get_atom(graph, nb).symbol == "C":
+                return _name_isocyanate_substitutive(graph, nb, te_idx, "tellurocyanato", get_atom)
+        if get_atom(graph, te_idx).formal_charge == -1:
+            return "tellurocyanate"
+        return "tellurocyanic acid"
+    return "tellurocyanate"
+
+
 def _name_carbamic_acid(graph, pgrp, get_atom) -> str:
     """カルバミン酸: carbamic acid / N-alkylcarbamic acid (Phase 71)"""
     from .substituent import _name_carbon_substituent
@@ -7666,6 +7696,8 @@ PGRP_DISPATCH: dict = {
     "isothiocyanate": _name_isothiocyanate,
     "cyanate": _name_cyanate,
     "thiocyanate": _name_thiocyanate,
+    "selenocyanate": _name_selenocyanate,
+    "tellurocyanate": _name_tellurocyanate,
     "carboxylate": _name_carboxylate,
     "dicarboxylate": _name_dicarboxylate,
     "dioic_acid": _name_dioic_acid,
