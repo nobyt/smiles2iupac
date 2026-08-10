@@ -4272,7 +4272,9 @@ def _name_diisothiocyanate(graph, pgrp, get_atom) -> str:
 
 
 def _name_cyanate(graph, pgrp, get_atom) -> str:
-    """シアン酸エステル: cyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HOCN → cyanic acid"""
+    """シアン酸エステル: cyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HOCN → cyanic acid.
+    Phase 900: [O-]C#N (シアン酸イオン) は O の formal_charge を見て区別する
+    -- 以前はこれを見ておらず、中性の "cyanic acid" と同じ名前に衝突していた。"""
     cyano_c = pgrp.atom_indices[0]
     n_idx = pgrp.atom_indices[1] if len(pgrp.atom_indices) > 1 else None
     o_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
@@ -4280,12 +4282,16 @@ def _name_cyanate(graph, pgrp, get_atom) -> str:
         for nb in graph.adjacency[o_idx]:
             if nb != cyano_c and get_atom(graph, nb).symbol == "C":
                 return _name_isocyanate_substitutive(graph, nb, o_idx, "cyanato", get_atom)
+        if get_atom(graph, o_idx).formal_charge == -1:
+            return "cyanate"
         return "cyanic acid"
     return "cyanate"
 
 
 def _name_thiocyanate(graph, pgrp, get_atom) -> str:
-    """チオシアン酸エステル: thiocyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HSC≡N → thiocyanic acid"""
+    """チオシアン酸エステル: thiocyanato{alkane} PIN (IUPAC 2013 P-65.3.1); HSC≡N → thiocyanic acid.
+    Phase 900: [S-]C#N (チオシアン酸イオン) は S の formal_charge を見て区別する
+    -- 以前はこれを見ておらず、中性の "thiocyanic acid" と同じ名前に衝突していた。"""
     cyano_c = pgrp.atom_indices[0]
     n_idx = pgrp.atom_indices[1] if len(pgrp.atom_indices) > 1 else None
     s_idx = pgrp.atom_indices[2] if len(pgrp.atom_indices) > 2 else None
@@ -4293,6 +4299,8 @@ def _name_thiocyanate(graph, pgrp, get_atom) -> str:
         for nb in graph.adjacency[s_idx]:
             if nb != cyano_c and get_atom(graph, nb).symbol == "C":
                 return _name_isocyanate_substitutive(graph, nb, s_idx, "thiocyanato", get_atom)
+        if get_atom(graph, s_idx).formal_charge == -1:
+            return "thiocyanate"
         return "thiocyanic acid"
     return "thiocyanate"
 
