@@ -864,6 +864,22 @@ def _detect_carbon_anchored_groups(graph: MoleculeGraph, groups: list[Functional
             ))
             continue
 
+        # アシルヒドラゾン: C=N-NH-C(=O)R (Phase 907) — アシルヒドラジドとケトン/
+        # アルデヒドが縮合した一般形。ウレア側 NH2 を持つセミカルバゾンは既に
+        # 上で判定済みなので、ここに来る時点でその特殊形ではない。
+        # kethydrazone/aldhydrazone (C=N-NH2 の単純ヒドラゾン) より先に判定する
+        # — さもないと N2 側のアシル基が無視され "acetamide" 等に化けてしまう。
+        _ah = _is_acylhydrazone_or_thio(graph, idx)
+        if _ah is not None:
+            n_idx_ah = _get_hydrazone_nitrogen(graph, idx)
+            indices = [idx] + ([n_idx_ah] if n_idx_ah is not None else [])
+            groups.append(FunctionalGroup(
+                group_type=_ah,
+                atom_indices=indices,
+                priority=FUNCTIONAL_GROUP_PRIORITY[_ah],
+            ))
+            continue
+
         # ヒドラゾン: C=N-NH₂ / C=N-NHR (Phase 43)
         if _is_kethydrazone(graph, idx):
             n_idx_hz = _get_hydrazone_nitrogen(graph, idx)
@@ -3658,6 +3674,51 @@ def _is_semicarbazone_or_thio(
         return "aldsemicarbazone" if (h_count >= 1 and c_count <= 1) else "semicarbazone"
     else:
         return "aldthiosemicarbazone" if (h_count >= 1 and c_count <= 1) else "thiosemicarbazone"
+
+
+def _is_acylhydrazone_or_thio(
+    graph: MoleculeGraph, c_idx: int
+) -> str | None:
+    """C が C=N-NH-C(=O)R (アシルヒドラゾン; アシルヒドラジドとケトン/アルデヒドが
+    縮合した一般形) または C=N-NH-C(=S)R かチェック。Phase 907.
+    C1 (imine 側) から検出。戻り値は group_type 文字列 or None。
+    セミカルバゾン (ウレア側に NH2 を持つ特殊形) はこの関数より先に判定される
+    前提 (検出ループでの呼び出し順で保証する) ので、ここでは NH2 の有無を問わない。
+    """
+    n1_idx = _get_imine_double_bonded_nitrogen(graph, c_idx)
+    if n1_idx is None:
+        return None
+    if get_atom(graph, c_idx).in_ring and get_atom(graph, n1_idx).in_ring:
+        return None
+
+    n2_candidates = [nb for nb in graph.adjacency[n1_idx]
+                     if nb != c_idx and get_atom(graph, nb).symbol == "N"
+                     and get_bond_order(graph, n1_idx, nb) == 1.0]
+    if not n2_candidates:
+        return None
+    n2_idx = n2_candidates[0]
+
+    c2_candidates = [nb for nb in graph.adjacency[n2_idx]
+                     if nb != n1_idx and get_atom(graph, nb).symbol == "C"
+                     and get_bond_order(graph, n2_idx, nb) == 1.0]
+    if not c2_candidates:
+        return None
+    c2_idx = c2_candidates[0]
+
+    has_carbonyl = _get_double_bonded_oxygen(graph, c2_idx) is not None
+    has_thio = _get_double_bonded_sulfur(graph, c2_idx) is not None
+    if not (has_carbonyl or has_thio):
+        return None
+
+    h_count = sum(1 for nb in graph.adjacency[c_idx] if get_atom(graph, nb).symbol == "H")
+    c_count = sum(1 for nb in graph.adjacency[c_idx]
+                  if nb != n1_idx and get_atom(graph, nb).symbol == "C")
+    is_ald = h_count >= 1 and c_count <= 1
+
+    if has_carbonyl:
+        return "aldacylhydrazone" if is_ald else "acylhydrazone"
+    else:
+        return "aldthioacylhydrazone" if is_ald else "thioacylhydrazone"
 
 
 def _is_peroxyacid(graph: MoleculeGraph, c_idx: int) -> bool:

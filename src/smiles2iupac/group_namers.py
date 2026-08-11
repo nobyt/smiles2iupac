@@ -1836,14 +1836,14 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
 
 
 def _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom) -> set[int]:
-    """carbonyl_c に二重結合しているカルコゲン (=O/=S) のインデックス集合を
+    """carbonyl_c に二重結合しているカルコゲン (=O/=S/=Se) のインデックス集合を
     返す (Phase905)。エステル/チオエステル系命名で酸鎖の置換基を集める際、
-    このカルボニル自身の =O/=S を除外し忘れると "oxo"/"thioxo" という
+    このカルボニル自身の =O/=S/=Se を除外し忘れると "oxo"/"thioxo" という
     偽の置換基として拾われてしまう (例: CSC(=O)C が "S-methyl
     1-oxoethanethioate" と誤命名される)。"""
     from .molecule_analyzer import get_bond_order as _gbo_cdb
     return {nb for nb in graph.adjacency[carbonyl_c]
-            if get_atom(graph, nb).symbol in ("O", "S")
+            if get_atom(graph, nb).symbol in ("O", "S", "Se")
             and _gbo_cdb(graph, carbonyl_c, nb) == 2.0}
 
 
@@ -4910,6 +4910,11 @@ def _name_semicarbazone(graph, pgrp, get_atom) -> str:
     n = chain.length
     stem = CHAIN_PREFIX.get(n, f"C{n}")
 
+    from .substituent import collect_substituents as _cs_sc
+    from .name_assembler import _build_prefix as _build_prefix_sc
+    _subs_sc = _cs_sc(graph, chain.atom_indices, chain.locant_map, pgrp.atom_indices)
+    chain_sub_prefix_sc = _build_prefix_sc(_subs_sc)
+
     _ene_sc, _yne_sc = _chain_multiple_bonds(graph, chain.atom_indices)
     stereo_pfx_sc = ""
     if _ene_sc:
@@ -4945,16 +4950,16 @@ def _name_semicarbazone(graph, pgrp, get_atom) -> str:
         from .name_assembler import _format_multiple_bonds as _fmt_sc
         mb_sc = _fmt_sc(_ene_sc, _yne_sc)
         if is_ald:
-            return f"{full_pfx}{stem}{mb_sc}al {suffix}"
+            return f"{full_pfx}{chain_sub_prefix_sc}{stem}{mb_sc}al {suffix}"
         else:
             loc = chain.locant_map.get(hydrazone_c, 2)
-            return f"{full_pfx}{stem}{mb_sc}-{loc}-one {suffix}"
+            return f"{full_pfx}{chain_sub_prefix_sc}{stem}{mb_sc}-{loc}-one {suffix}"
 
     if is_ald:
-        return f"{full_pfx}{stem}anal {suffix}"
+        return f"{full_pfx}{chain_sub_prefix_sc}{stem}anal {suffix}"
     else:
         loc = chain.locant_map.get(hydrazone_c, 2)
-        return f"{full_pfx}{stem}an-{loc}-one {suffix}"
+        return f"{full_pfx}{chain_sub_prefix_sc}{stem}an-{loc}-one {suffix}"
 
 
 def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
@@ -5020,6 +5025,11 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
     n = chain.length
     stem = CHAIN_PREFIX.get(n, f"C{n}")
 
+    from .substituent import collect_substituents as _cs_hz
+    from .name_assembler import _build_prefix as _build_prefix_hz
+    _subs_hz2 = _cs_hz(graph, chain.atom_indices, chain.locant_map, pgrp.atom_indices)
+    chain_sub_prefix_hz = _build_prefix_hz(_subs_hz2)
+
     _ene_hz, _yne_hz = _chain_multiple_bonds(graph, chain.atom_indices)
     stereo_pfx_hz = ""
     if _ene_hz:
@@ -5034,15 +5044,15 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
         from .name_assembler import _format_multiple_bonds as _fmt_hz
         mb_hz = _fmt_hz(_ene_hz, _yne_hz)
         if pgrp.group_type == "aldhydrazone":
-            parent_name = f"{stem}{mb_hz}al"
+            parent_name = f"{chain_sub_prefix_hz}{stem}{mb_hz}al"
         else:
             loc = chain.locant_map.get(hydrazone_c, 2)
-            parent_name = f"{stem}{mb_hz}-{loc}-one"
+            parent_name = f"{chain_sub_prefix_hz}{stem}{mb_hz}-{loc}-one"
     elif pgrp.group_type == "aldhydrazone":
-        parent_name = f"{stem}anal"
+        parent_name = f"{chain_sub_prefix_hz}{stem}anal"
     else:
         loc = chain.locant_map.get(hydrazone_c, 2)
-        parent_name = f"{stem}an-{loc}-one"
+        parent_name = f"{chain_sub_prefix_hz}{stem}an-{loc}-one"
 
     # N2 置換基名
     n2_sub_names = sorted(_name_carbon_substituent(graph, c, {n2_idx}) for c in n2_sub_cs)
@@ -5214,6 +5224,114 @@ def _name_acyl_azide(graph, pgrp, get_atom) -> str:
     return f"{stem}anoyl azide"
 
 
+def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
+    """
+    アシルヒドラゾン命名 (Phase 907): アシルヒドラジドとケトン/アルデヒドが
+    縮合した R-C(=O)-NH-N=CR'R'' (または C(=S)) の一般形。セミカルバゾンと
+    異なりウレア側 NH2 を持たない。ヒドラジド側を親として
+    N'-{アルキリデン}...(チオ)ヒドラジド の形式で命名する。
+    例: CC(=O)N/N=C/c1ccccc1 → N'-benzylideneacetohydrazide
+        CC(=O)N/N=C(C)/CC(F)(F)F → N'-(4,4,4-trifluorobutan-2-ylidene)acetohydrazide
+
+    以前は N2 (末端 N) が =C を持つケースが _is_hydrazide のセミカルバゾン
+    除外ロジックで弾かれた後、そのまま _is_amide (priority=95) に落ちて
+    ヒドラゾン側が丸ごと消え "acetamide" のような誤名になっていた
+    (kethydrazone/aldhydrazone の priority=53 では amide に勝てないため)。
+    """
+    from .constants import CHAIN_PREFIX, MULTIPLIER
+    from .substituent import _name_carbon_substituent, collect_substituents
+    from .name_assembler import _build_prefix, _needs_bis_tris as _nbp_ah
+    from collections import Counter
+
+    gtype = pgrp.group_type
+    is_thio = "thio" in gtype
+    imine_c = pgrp.atom_indices[0]
+    n1_idx = pgrp.atom_indices[1]
+    n2_idx = next(nb for nb in graph.adjacency[n1_idx]
+                  if nb != imine_c and get_atom(graph, nb).symbol == "N")
+    c2_idx = next(nb for nb in graph.adjacency[n2_idx]
+                  if nb != n1_idx and get_atom(graph, nb).symbol == "C")
+
+    excluded = {n1_idx, n2_idx}
+
+    # 芳香環に直接結合したカルボニル → benzo(thio)hydrazide / ring-N-carbo(thio)hydrazide
+    acyl_base: str | None = None
+    for nb_idx in graph.adjacency[c2_idx]:
+        if nb_idx in excluded:
+            continue
+        nb = get_atom(graph, nb_idx)
+        if nb.symbol == "C" and nb.is_aromatic and nb.in_ring:
+            ring_atoms = next(
+                (set(rt) for rt in (graph.ring_atom_sets or []) if nb_idx in rt), set()
+            )
+            if (len(ring_atoms) == 6
+                    and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
+                acyl_base = "benzothiohydrazide" if is_thio else "benzohydrazide"
+            else:
+                has_het_ah = any(get_atom(graph, a).symbol != "C" for a in ring_atoms)
+                if has_het_ah and all(get_atom(graph, a).is_aromatic for a in ring_atoms):
+                    _apfx_ah = _aryl_sulfonyl_prefix(graph, nb_idx, c2_idx, get_atom)
+                    if _apfx_ah is not None:
+                        acyl_base = (f"{_apfx_ah}carbothiohydrazide" if is_thio
+                                     else f"{_apfx_ah}carbohydrazide")
+            break
+
+    if acyl_base is None:
+        acid_chain = _collect_acid_chain(graph, c2_idx, excluded, get_atom)
+        stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+        _lmap_ah = {c: i + 1 for i, c in enumerate(acid_chain)}
+        _excl_ah = set(excluded) | _carbonyl_dbl_bonded(graph, c2_idx, get_atom)
+        _subs_ah = collect_substituents(graph, acid_chain, _lmap_ah, list(_excl_ah))
+        if _subs_ah and (len(acid_chain) == 1
+                          or (len(acid_chain) == 2 and len({nm for _, nm in _subs_ah}) == 1)):
+            _subs_ah = [(None, nm) for _, nm in _subs_ah]
+        chain_sub_prefix_ah = _build_prefix(_subs_ah)
+
+        _ene_ah, _yne_ah = _chain_multiple_bonds(graph, acid_chain)
+        if is_thio:
+            if _ene_ah or _yne_ah:
+                from .name_assembler import _format_multiple_bonds as _fmt_ah
+                acyl_base = f"{chain_sub_prefix_ah}{stem}{_fmt_ah(_ene_ah, _yne_ah)}thiohydrazide"
+            else:
+                acyl_base = f"{chain_sub_prefix_ah}{stem}anethiohydrazide"
+        else:
+            if _ene_ah or _yne_ah:
+                from .name_assembler import _format_multiple_bonds as _fmt_ah
+                acyl_base = f"{chain_sub_prefix_ah}{stem}{_fmt_ah(_ene_ah, _yne_ah)}ohydrazide"
+            elif len(acid_chain) == 2:
+                acyl_base = f"{chain_sub_prefix_ah}acetohydrazide"
+            else:
+                acyl_base = f"{chain_sub_prefix_ah}{stem}anohydrazide"
+
+    # N-置換基 (アシル側 N2, 通常は無いが念のため)
+    extra_n2_c = [nb for nb in graph.adjacency[n2_idx]
+                  if nb != n1_idx and nb != c2_idx and get_atom(graph, nb).symbol == "C"]
+    n_subs = [_name_carbon_substituent(graph, c, {n2_idx}) for c in extra_n2_c]
+
+    prefix_parts: list[str] = []
+    if n_subs:
+        sub_counts = Counter(n_subs)
+        for sub in sorted(sub_counts):
+            cnt = sub_counts[sub]
+            sub_str = f"({sub})" if _nbp_ah(sub) else sub
+            if cnt == 1:
+                prefix_parts.append(f"N-{sub_str}")
+            else:
+                prefix_parts.append(f"N,N-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
+
+    alk_name = _alkylidene_name(graph, imine_c, n1_idx, get_atom)
+    alk_str = f"({alk_name})" if _nbp_ah(alk_name) else alk_name
+    prefix_parts.append(f"N'-{alk_str}")
+
+    # C=N (アシルヒドラゾン結合) の E/Z
+    from .stereochemistry import _get_bond_stereo as _gbs_ah
+    cn_stereo = _gbs_ah(graph, imine_c, n1_idx)
+    cn_pfx_ah = f"({cn_stereo})-" if cn_stereo is not None else ""
+
+    return f"{cn_pfx_ah}" + "-".join(prefix_parts) + acyl_base
+
+
 def _name_hydrazide(graph, pgrp, get_atom) -> str:
     """
     ヒドラジド命名: {stem}anohydrazide (Phase 75/178/186/257)
@@ -5373,12 +5491,23 @@ def _name_thiohydrazide(graph, pgrp, get_atom) -> str:
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    from .substituent import collect_substituents as _cs_thz
+    from .name_assembler import _build_prefix as _build_prefix_thz
+    _lmap_thz = {c: i + 1 for i, c in enumerate(acid_chain)}
+    _thz_excl = set(excluded) | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    _subs_thz = _cs_thz(graph, acid_chain, _lmap_thz, list(_thz_excl))
+    if _subs_thz and (len(acid_chain) == 1
+                       or (len(acid_chain) == 2 and len({nm for _, nm in _subs_thz}) == 1)):
+        _subs_thz = [(None, nm) for _, nm in _subs_thz]
+    chain_sub_prefix_thz = _build_prefix_thz(_subs_thz)
+
     _ene_thz, _yne_thz = _chain_multiple_bonds(graph, acid_chain)
     if _ene_thz or _yne_thz:
         from .name_assembler import _format_multiple_bonds as _fmt_thz
-        base = f"{stem}{_fmt_thz(_ene_thz, _yne_thz)}thiohydrazide"
+        base = f"{chain_sub_prefix_thz}{stem}{_fmt_thz(_ene_thz, _yne_thz)}thiohydrazide"
     else:
-        base = f"{stem}anethiohydrazide"
+        base = f"{chain_sub_prefix_thz}{stem}anethiohydrazide"
 
     n_subs: list[str] = []
     if n_acyl is not None:
@@ -5456,12 +5585,23 @@ def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    from .substituent import collect_substituents as _cs_shz
+    from .name_assembler import _build_prefix as _build_prefix_shz
+    _lmap_shz = {c: i + 1 for i, c in enumerate(acid_chain)}
+    _shz_excl = set(excluded) | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    _subs_shz = _cs_shz(graph, acid_chain, _lmap_shz, list(_shz_excl))
+    if _subs_shz and (len(acid_chain) == 1
+                       or (len(acid_chain) == 2 and len({nm for _, nm in _subs_shz}) == 1)):
+        _subs_shz = [(None, nm) for _, nm in _subs_shz]
+    chain_sub_prefix_shz = _build_prefix_shz(_subs_shz)
+
     _ene_shz, _yne_shz = _chain_multiple_bonds(graph, acid_chain)
     if _ene_shz or _yne_shz:
         from .name_assembler import _format_multiple_bonds as _fmt_shz
-        base = f"{stem}{_fmt_shz(_ene_shz, _yne_shz)}selenohydrazide"
+        base = f"{chain_sub_prefix_shz}{stem}{_fmt_shz(_ene_shz, _yne_shz)}selenohydrazide"
     else:
-        base = f"{stem}aneselenohydrazide"
+        base = f"{chain_sub_prefix_shz}{stem}aneselenohydrazide"
 
     n_subs: list[str] = []
     if n_acyl is not None:
@@ -6963,6 +7103,12 @@ def _alkylidene_name(graph, imine_c: int, n_idx: int, get_atom) -> str:
     C=N の C 側 (imine_c) からアルキリデン名を返す (Phase 118)。
     例: imine_c + CH3 chain → "ethylidene"
         imine_c + Ph → "benzylidene"
+        imine_c + CH2CF3 chain → "2,2,2-trifluoroethylidene"
+
+    Phase907: 以前は鎖長のみカウントしており、鎖上のハロゲン/オキソ等の
+    置換基が黙って消えていた (例: PhN=C(C)CC(F)(F)F → "N-butylideneaniline"
+    と誤命名され CF3 が丸ごと落ちる)。find_principal_chain + collect_substituents
+    を使って通常のケトン/アルデヒド鎖と同じロジックで鎖と置換基を決定する。
     """
     from .constants import CHAIN_PREFIX
 
@@ -6970,24 +7116,6 @@ def _alkylidene_name(graph, imine_c: int, n_idx: int, get_atom) -> str:
              if nb != n_idx and get_atom(graph, nb).symbol == "C"]
 
     ring_cs = [c for c in c_nbs if get_atom(graph, c).in_ring]
-    chain_cs = [c for c in c_nbs if not get_atom(graph, c).in_ring]
-
-    # アルキル鎖の長さを DFS で収集
-    chain = [imine_c]
-    visited: set[int] = {imine_c, n_idx}
-    visited.update(ring_cs)
-    q = list(chain_cs)
-    for c in q:
-        if c not in visited:
-            visited.add(c)
-            chain.append(c)
-            for nb in graph.adjacency[c]:
-                if (nb not in visited
-                        and get_atom(graph, nb).symbol == "C"
-                        and not get_atom(graph, nb).in_ring):
-                    q.append(nb)
-
-    stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
 
     if ring_cs:
         ring_c = ring_cs[0]
@@ -6995,11 +7123,45 @@ def _alkylidene_name(graph, imine_c: int, n_idx: int, get_atom) -> str:
         if (ring_set and len(ring_set) == 6
                 and all(get_atom(graph, a).symbol == "C" and get_atom(graph, a).is_aromatic
                         for a in ring_set)):
-            if len(chain) == 1:
+            chain_cs = [c for c in c_nbs if not get_atom(graph, c).in_ring]
+            if not chain_cs:
                 return "benzylidene"
+            # 環に加えて鎖側もある稀なケース: 近似的に鎖長のみ数える
+            chain_len = 1
+            visited: set[int] = {imine_c, n_idx, ring_c}
+            q = list(chain_cs)
+            for c in q:
+                if c not in visited:
+                    visited.add(c)
+                    chain_len += 1
+                    for nb in graph.adjacency[c]:
+                        if (nb not in visited and get_atom(graph, nb).symbol == "C"
+                                and not get_atom(graph, nb).in_ring):
+                            q.append(nb)
+            stem = CHAIN_PREFIX.get(chain_len, f"C{chain_len}")
             return f"phenyl{stem}ylidene"
 
-    return f"{stem}ylidene"
+    from .chain_finder import find_principal_chain
+    from .substituent import collect_substituents
+    from .name_assembler import _build_prefix
+    from .functional_group import FunctionalGroup, FUNCTIONAL_GROUP_PRIORITY
+
+    pseudo_pgrp = FunctionalGroup(
+        group_type="imine", atom_indices=[imine_c, n_idx],
+        priority=FUNCTIONAL_GROUP_PRIORITY["imine"],
+    )
+    chain = find_principal_chain(graph, pseudo_pgrp)
+    n = chain.length
+    stem = CHAIN_PREFIX.get(n, f"C{n}")
+    subs = collect_substituents(graph, chain.atom_indices, chain.locant_map, [imine_c, n_idx])
+    sub_prefix = _build_prefix(subs)
+    loc = chain.locant_map.get(imine_c, 1)
+
+    if n == 1:
+        return f"{sub_prefix}methylidene"
+    if n == 2 and loc == 1:
+        return f"{sub_prefix}ethylidene"
+    return f"{sub_prefix}{stem}an-{loc}-ylidene"
 
 
 def _name_n_substituted_imine(
@@ -7035,7 +7197,9 @@ def _name_n_substituted_imine(
                     else:
                         arylamine = "aniline"
                     alk = _alkylidene_name(graph, imine_c, n_idx, get_atom)
-                    return f"N-{alk}{arylamine}"
+                    from .name_assembler import _needs_bis_tris as _nbp_alk
+                    alk_str = f"({alk})" if _nbp_alk(alk) else alk
+                    return f"N-{alk_str}{arylamine}"
 
     pseudo_pgrp = FunctionalGroup(
         group_type="imine",
@@ -7864,6 +8028,10 @@ PGRP_DISPATCH: dict = {
     "aldthiosemicarbazone": _name_semicarbazone,
     "aldhydrazone": _name_substituted_hydrazone,
     "kethydrazone": _name_substituted_hydrazone,
+    "acylhydrazone": _name_acylhydrazone,
+    "aldacylhydrazone": _name_acylhydrazone,
+    "thioacylhydrazone": _name_acylhydrazone,
+    "aldthioacylhydrazone": _name_acylhydrazone,
 }
 
 

@@ -1059,6 +1059,52 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template=None,
         benzene_name="benzaldehyde hydrazone",
     ),
+    # ─── Phase 907: アシルヒドラゾン (アシルヒドラジド + ケトン/アルデヒド) ──
+    # C=N-NH-C(=O)R 一般形。ウレア側 NH2 を持つセミカルバゾンと異なり、
+    # ヒドラジド側の酸は任意。専用の _name_acylhydrazone がヒドラジド側を
+    # 親として "N'-{alkylidene}...ohydrazide" 形式で命名するため、chain_template
+    # 系は使わない (carbamate/hydrazide と同じパターン)。priority はこの炭素で
+    # 同時に検出される amide (95) より高くする必要がある。
+    "acylhydrazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="ylidenehydrazide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldacylhydrazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="ylidenehydrazide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "thioacylhydrazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="ylidenethiohydrazide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=True,
+        anchor_c1=False,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
+    "aldthioacylhydrazone": FunctionalGroupSpec(
+        priority=96,
+        suffix="ylidenethiohydrazide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     # ─── Phase 44: ヒドロペルオキシド ───────────────────────────────────
     "hydroperoxide": FunctionalGroupSpec(
         priority=47,
