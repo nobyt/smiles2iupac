@@ -595,6 +595,12 @@ def _smiles_to_iupac_raw(smiles: str) -> str:
     if _o_hya_name is not None:
         return _o_hya_name
 
+    # Phase 910: N,O-両置換ヒドロキシルアミン (CONCC → N-ethyl-O-methylhydroxylamine)
+    from .group_namers import _name_no_disubstituted_hydroxylamine
+    _no_hya_name = _name_no_disubstituted_hydroxylamine(graph, get_atom)
+    if _no_hya_name is not None:
+        return _no_hya_name
+
     # Phase 347: O-置換オキシム (CC=NOC → O-methylethanal oxime)
     from .group_namers import _name_o_substituted_oxime
     _o_oxime_name = _name_o_substituted_oxime(graph, get_atom)

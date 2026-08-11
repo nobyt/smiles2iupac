@@ -5830,6 +5830,21 @@ def _name_amine_n_oxide(graph, get_atom) -> str | None:
     return None
 
 
+def _hydroxylamine_alpha_key(name: str) -> str:
+    """Alphabetization key for hydroxylamine N-/O-substituent names.
+
+    _name_carbon_substituent already embeds its OWN locants in the returned
+    string (e.g. "2,2,2-trifluoroethyl"), unlike the (locant, name) tuples
+    _build_prefix normally sorts — so a plain sorted(names) would alphabetize
+    by the leading digit, not the substituent word (e.g. "2,2,2-trifluoroethyl"
+    sorting before "methyl" is wrong; "methyl" < "trifluoroethyl" alphabetically).
+    """
+    import re
+    s = name[1:] if name.startswith("(") else name
+    m = re.match(r"^[\d,]+-", s)
+    return s[m.end():] if m else s
+
+
 def _name_n_substituted_hydroxylamine(graph, get_atom) -> str | None:
     """
     N-置換ヒドロキシルアミンの命名 (Phase 202):
@@ -5902,7 +5917,7 @@ def _name_n_substituted_hydroxylamine(graph, get_atom) -> str | None:
 
         # Build N-prefix: e.g. N-methyl, N,N-dimethyl
         n_prefix_parts = []
-        for sub_name in sorted(counts.keys()):
+        for sub_name in sorted(counts.keys(), key=_hydroxylamine_alpha_key):
             cnt = counts[sub_name]
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             sub_str = f"({sub_name})" if sub_name.startswith("(") else sub_name
@@ -5910,7 +5925,7 @@ def _name_n_substituted_hydroxylamine(graph, get_atom) -> str | None:
                 n_prefix_parts.append(f"N-{sub_str}")
             else:
                 n_prefix_parts.append(f"N,N-{mult}{sub_str}")
-        n_prefix = ",".join(n_prefix_parts)
+        n_prefix = "-".join(n_prefix_parts)
 
         return f"{n_prefix}hydroxylamine"
 
@@ -5950,6 +5965,92 @@ def _name_o_substituted_hydroxylamine(graph, get_atom) -> str | None:
         alkyl = _name_carbon_substituent(graph, o_c_nbrs[0], {o_idx})
         alkyl_str = f"({alkyl})" if alkyl.startswith("(") else alkyl
         return f"O-{alkyl_str}hydroxylamine"
+
+    return None
+
+
+def _name_no_disubstituted_hydroxylamine(graph, get_atom) -> str | None:
+    """
+    N,O-両置換ヒドロキシルアミンの命名 (Phase 910): R-NH-O-R' / R2N-O-R'
+    → N-alkyl-O-alkylhydroxylamine (N・O 両方にアルキル基がある場合)
+    例: CONCC        → N-ethyl-O-methylhydroxylamine
+        CN(C)OC      → N,N-dimethyl-O-methylhydroxylamine
+    Phase 202 (_name_n_substituted_hydroxylamine) は O が -OH の場合のみ、
+    Phase 346 (_name_o_substituted_hydroxylamine) は N が無置換の場合のみを
+    扱うため、両方が置換された場合はどちらにもマッチせず、アミンとして
+    誤認識され O 側の置換基が完全に消えるバグがあった。
+    """
+    from .functional_group import get_bond_order, _has_double_bonded_oxygen
+    from .substituent import _name_carbon_substituent
+    from .constants import MULTIPLIER
+
+    for idx in range(len(graph.atoms)):
+        atom = get_atom(graph, idx)
+        if atom.symbol != "N" or atom.in_ring:
+            continue
+
+        neighbors = graph.adjacency[idx]
+        c_nbrs = [nb for nb in neighbors if get_atom(graph, nb).symbol == "C"]
+        o_nbrs = [nb for nb in neighbors if get_atom(graph, nb).symbol == "O"]
+        if len(c_nbrs) < 1 or len(o_nbrs) != 1:
+            continue
+
+        o_idx = o_nbrs[0]
+        bo_no = get_bond_order(graph, idx, o_idx)
+        if bo_no != 1.0:
+            continue
+
+        # O must carry exactly one C substituent (no H, no other heavy neighbor)
+        o_c_nbrs = [nb for nb in graph.adjacency[o_idx]
+                    if nb != idx and get_atom(graph, nb).symbol == "C"]
+        o_other_heavy = [nb for nb in graph.adjacency[o_idx]
+                          if nb != idx and get_atom(graph, nb).symbol not in ("C", "H")]
+        if len(o_c_nbrs) != 1 or o_other_heavy:
+            continue
+
+        # All N-C bonds must be single
+        if not all(get_bond_order(graph, idx, c) == 1.0 for c in c_nbrs):
+            continue
+
+        # Exclude N-substituted amides (Weinreb-amide-style hydroxamic esters):
+        # e.g. CC(=O)N(C)OC → N-methoxy-N-methylacetamide (handled separately)
+        if any(_has_double_bonded_oxygen(graph, c) for c in c_nbrs):
+            continue
+
+        # Exclude amidoxime ethers: C neighbor has C=N
+        def _has_double_bonded_nitrogen(c_idx: int) -> bool:
+            for nb in graph.adjacency[c_idx]:
+                if get_atom(graph, nb).symbol == "N" and get_bond_order(graph, c_idx, nb) == 2.0:
+                    return True
+            return False
+        if any(_has_double_bonded_nitrogen(c) for c in c_nbrs):
+            continue
+
+        o_c = o_c_nbrs[0]
+        o_alkyl = _name_carbon_substituent(graph, o_c, {o_idx})
+
+        n_subs = [_name_carbon_substituent(graph, c, {idx}) for c in c_nbrs]
+
+        # Group by substituent NAME across both N and O positions (OPSIN-verified
+        # merged style, e.g. "N,N,O-trimethylhydroxylamine" for Me2N-O-Me), not
+        # per-heteroatom — identical substituents on N and O cite one shared
+        # locant-letter list + multiplier rather than repeating the name twice.
+        tags_by_name: dict[str, list[str]] = {}
+        for sub_name in n_subs:
+            tags_by_name.setdefault(sub_name, []).append("N")
+        tags_by_name.setdefault(o_alkyl, []).append("O")
+
+        parts = []
+        for sub_name, tags in tags_by_name.items():
+            tags = sorted(tags)  # N before O
+            cnt = len(tags)
+            sub_str = f"({sub_name})" if sub_name.startswith("(") else sub_name
+            locant_str = ",".join(tags)
+            mult = MULTIPLIER.get(cnt, f"{cnt}") if cnt > 1 else ""
+            parts.append((sub_name, f"{locant_str}-{mult}{sub_str}"))
+        parts.sort(key=lambda t: _hydroxylamine_alpha_key(t[0]))
+
+        return "-".join(p[1] for p in parts) + "hydroxylamine"
 
     return None
 
