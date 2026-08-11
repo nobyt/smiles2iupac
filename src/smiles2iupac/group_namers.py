@@ -1342,6 +1342,15 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
     else:
         chain_sn, locant_sn = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
         stem = CHAIN_PREFIX.get(len(chain_sn), f"C{len(chain_sn)}")
+
+        from .substituent import collect_substituents as _cs_snam
+        from .name_assembler import _build_prefix as _build_prefix_snam
+        _lmap_snam = {c: i + 1 for i, c in enumerate(chain_sn)}
+        _subs_snam = _cs_snam(graph, chain_sn, _lmap_snam, [s_idx])
+        if len(chain_sn) == 1:
+            _subs_snam = [(None, nm) for _, nm in _subs_snam]
+        acid_sub_prefix = _build_prefix_snam(_subs_snam)
+
         _ene_sn, _yne_sn = _chain_multiple_bonds(graph, chain_sn)
         if _ene_sn:
             from .stereochemistry import assign_stereochemistry
@@ -1355,14 +1364,14 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
             from .name_assembler import _format_multiple_bonds as _fmt_sn
             mb_str = _fmt_sn(_ene_sn, _yne_sn)
             if len(chain_sn) >= 3:
-                base = f"{stem}{mb_str}e-{locant_sn}-sulfonamide"
+                base = f"{acid_sub_prefix}{stem}{mb_str}e-{locant_sn}-sulfonamide"
             else:
-                base = f"{stem}{mb_str}esulfonamide"
+                base = f"{acid_sub_prefix}{stem}{mb_str}esulfonamide"
         else:
             if len(chain_sn) >= 3:
-                base = f"{stem}ane-{locant_sn}-sulfonamide"
+                base = f"{acid_sub_prefix}{stem}ane-{locant_sn}-sulfonamide"
             else:
-                base = f"{stem}anesulfonamide"
+                base = f"{acid_sub_prefix}{stem}anesulfonamide"
 
     # N 上の置換基
     n_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
@@ -1898,6 +1907,20 @@ def _name_sulfur_chain_acid(graph, pgrp, get_atom, acid_word: str) -> str:
         return f"{aryl}{acid_word}"
     chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
+
+    # 主鎖上の置換基 (halo/hydroxy/amino 等) を接頭辞に収集する。
+    # 以前はこの関数が置換基を一切見ておらず、trifluoromethanesulfonic acid
+    # (triflic acid, FC(F)(F)S(=O)(=O)O) が3つのFを丸ごと落として
+    # "methanesulfonic acid" になる、というような衝突が起きていた
+    # (Phase893 の carboxylate anion と同じバグの型)。
+    from .substituent import collect_substituents as _cs_sa
+    from .name_assembler import _build_prefix as _build_prefix_sa
+    _lmap_sa = {c: i + 1 for i, c in enumerate(chain)}
+    _subs_sa = _cs_sa(graph, chain, _lmap_sa, [s_idx])
+    if len(chain) == 1:
+        _subs_sa = [(None, nm) for _, nm in _subs_sa]
+    sub_prefix = _build_prefix_sa(_subs_sa)
+
     _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
     stereo_pfx_so = ""
     if _ene_so:
@@ -1912,11 +1935,11 @@ def _name_sulfur_chain_acid(graph, pgrp, get_atom, acid_word: str) -> str:
         from .name_assembler import _format_multiple_bonds as _fmt_so
         mb_str = _fmt_so(_ene_so, _yne_so)
         if len(chain) >= 3:
-            return f"{stereo_pfx_so}{stem}{mb_str}e-{locant}-{acid_word}"
-        return f"{stereo_pfx_so}{stem}{mb_str}e{acid_word}"
+            return f"{stereo_pfx_so}{sub_prefix}{stem}{mb_str}e-{locant}-{acid_word}"
+        return f"{stereo_pfx_so}{sub_prefix}{stem}{mb_str}e{acid_word}"
     if len(chain) >= 3:
-        return f"{stem}ane-{locant}-{acid_word}"
-    return f"{stem}ane{acid_word}"
+        return f"{sub_prefix}{stem}ane-{locant}-{acid_word}"
+    return f"{sub_prefix}{stem}ane{acid_word}"
 
 
 def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
@@ -1970,16 +1993,25 @@ def _name_sulfonate_anion(graph, pgrp, get_atom) -> str:
         return f"{aryl}sulfonate"
     chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
+
+    from .substituent import collect_substituents as _cs_sat
+    from .name_assembler import _build_prefix as _build_prefix_sat
+    _lmap_sat = {c: i + 1 for i, c in enumerate(chain)}
+    _subs_sat = _cs_sat(graph, chain, _lmap_sat, [s_idx])
+    if len(chain) == 1:
+        _subs_sat = [(None, nm) for _, nm in _subs_sat]
+    sub_prefix = _build_prefix_sat(_subs_sat)
+
     _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
     if _ene_so or _yne_so:
         from .name_assembler import _format_multiple_bonds as _fmt_so
         mb_str = _fmt_so(_ene_so, _yne_so)
         if len(chain) >= 3:
-            return f"{stem}{mb_str}e-{locant}-sulfonate"
-        return f"{stem}{mb_str}esulfonate"
+            return f"{sub_prefix}{stem}{mb_str}e-{locant}-sulfonate"
+        return f"{sub_prefix}{stem}{mb_str}esulfonate"
     if len(chain) >= 3:
-        return f"{stem}ane-{locant}-sulfonate"
-    return f"{stem}anesulfonate"
+        return f"{sub_prefix}{stem}ane-{locant}-sulfonate"
+    return f"{sub_prefix}{stem}anesulfonate"
 
 
 def _name_disulfonic_acid(graph, pgrp, get_atom) -> str:
@@ -1999,10 +2031,18 @@ def _name_disulfonic_acid(graph, pgrp, get_atom) -> str:
     lm_rev = {c: len(chain) - i for i, c in enumerate(chain)}
     locs_fwd = sorted(lm_fwd.get(c, 0) for c, _ in c_pivots)
     locs_rev = sorted(lm_rev.get(c, 0) for c, _ in c_pivots)
-    locs = locs_fwd if locs_fwd <= locs_rev else locs_rev
+    use_fwd = locs_fwd <= locs_rev
+    locs = locs_fwd if use_fwd else locs_rev
+    lmap = lm_fwd if use_fwd else lm_rev
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     loc_str = ",".join(str(l) for l in locs)
-    return f"{stem}ane-{loc_str}-disulfonic acid"
+
+    from .substituent import collect_substituents as _cs_dsa
+    from .name_assembler import _build_prefix as _build_prefix_dsa
+    _subs_dsa = _cs_dsa(graph, chain, lmap, s_atoms)
+    sub_prefix = _build_prefix_dsa(_subs_dsa)
+
+    return f"{sub_prefix}{stem}ane-{loc_str}-disulfonic acid"
 
 
 def _name_disulfonamide(graph, pgrp, get_atom) -> str:
@@ -2022,10 +2062,18 @@ def _name_disulfonamide(graph, pgrp, get_atom) -> str:
     lm_rev = {c: len(chain) - i for i, c in enumerate(chain)}
     locs_fwd = sorted(lm_fwd.get(c, 0) for c, _ in c_pivots)
     locs_rev = sorted(lm_rev.get(c, 0) for c, _ in c_pivots)
-    locs = locs_fwd if locs_fwd <= locs_rev else locs_rev
+    use_fwd = locs_fwd <= locs_rev
+    locs = locs_fwd if use_fwd else locs_rev
+    lmap = lm_fwd if use_fwd else lm_rev
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     loc_str = ",".join(str(l) for l in locs)
-    return f"{stem}ane-{loc_str}-disulfonamide"
+
+    from .substituent import collect_substituents as _cs_dsm
+    from .name_assembler import _build_prefix as _build_prefix_dsm
+    _subs_dsm = _cs_dsm(graph, chain, lmap, s_atoms)
+    sub_prefix = _build_prefix_dsm(_subs_dsm)
+
+    return f"{sub_prefix}{stem}ane-{loc_str}-disulfonamide"
 
 
 def _name_diimine(graph, pgrp, get_atom) -> str:
@@ -2223,6 +2271,15 @@ def _name_sulfonyl_chloride(graph, pgrp, get_atom) -> str:
         return f"{aryl}sulfonyl {halide_name}"
     chain_sc, locant_sc = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain_sc), f"C{len(chain_sc)}")
+
+    from .substituent import collect_substituents as _cs_sc
+    from .name_assembler import _build_prefix as _build_prefix_sc
+    _lmap_sc = {c: i + 1 for i, c in enumerate(chain_sc)}
+    _subs_sc = _cs_sc(graph, chain_sc, _lmap_sc, [s_idx])
+    if len(chain_sc) == 1:
+        _subs_sc = [(None, nm) for _, nm in _subs_sc]
+    sub_prefix_sc = _build_prefix_sc(_subs_sc)
+
     _ene_sc, _yne_sc = _chain_multiple_bonds(graph, chain_sc)
     stereo_pfx_sc = ""
     if _ene_sc:
@@ -2237,11 +2294,11 @@ def _name_sulfonyl_chloride(graph, pgrp, get_atom) -> str:
         from .name_assembler import _format_multiple_bonds as _fmt_sc
         mb_str = _fmt_sc(_ene_sc, _yne_sc)
         if len(chain_sc) >= 3:
-            return f"{stereo_pfx_sc}{stem}{mb_str}e-{locant_sc}-sulfonyl {halide_name}"
-        return f"{stereo_pfx_sc}{stem}{mb_str}esulfonyl {halide_name}"
+            return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}{mb_str}e-{locant_sc}-sulfonyl {halide_name}"
+        return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}{mb_str}esulfonyl {halide_name}"
     if len(chain_sc) >= 3:
-        return f"{stem}ane-{locant_sc}-sulfonyl {halide_name}"
-    return f"{stem}anesulfonyl {halide_name}"
+        return f"{sub_prefix_sc}{stem}ane-{locant_sc}-sulfonyl {halide_name}"
+    return f"{sub_prefix_sc}{stem}anesulfonyl {halide_name}"
 
 
 def _name_chloroformate(graph, pgrp, get_atom) -> str:
