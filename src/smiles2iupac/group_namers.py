@@ -6875,16 +6875,36 @@ def _name_anhydride(graph, pgrp, get_atom) -> str:
                         return f"{_apfx_anh}carboxylic"
         return None
 
+    def _sub_prefix_anh(carbonyl_c: int, chain: list[int]) -> str:
+        """カルボニル C の鎖上の置換基 (halo 等) を接頭辞にする。以前は
+        _acid_stem_name が鎖長だけから酸名を決めており、置換基を一切見て
+        いなかったため trifluoroacetic anhydride (TFAA, 一般的な試薬) が
+        6個のFを丸ごと落として "acetic anhydride" になっていた。"""
+        from .substituent import collect_substituents as _cs_anh
+        from .name_assembler import _build_prefix as _build_prefix_anh
+        o_excl = {nb for nb in graph.adjacency[carbonyl_c]
+                  if get_atom(graph, nb).symbol == "O"}
+        lmap = {c: i + 1 for i, c in enumerate(chain)}
+        subs = _cs_anh(graph, chain, lmap, list(o_excl))
+        if not subs:
+            return ""
+        # 1-2炭素鎖で置換基の種類が1つだけなら (retained name "acetic acid"
+        # 等と同じ規約に合わせ) ロカント省略
+        if len(chain) == 1 or (len(chain) == 2 and len({nm for _, nm in subs}) == 1):
+            subs = [(None, nm) for _, nm in subs]
+        return _build_prefix_anh(subs)
+
     def _acid_stem_name(carbonyl_c: int, chain: list[int]) -> str:
         aryl = _aryl_acid_name(carbonyl_c)
         if aryl is not None:
             return aryl
+        sub_prefix_anh = _sub_prefix_anh(carbonyl_c, chain)
         _ene, _yne = _chain_multiple_bonds(graph, chain)
         if not _ene and not _yne and len(chain) in _ACID_RETAINED:
-            return _ACID_RETAINED[len(chain)]
+            return f"{sub_prefix_anh}{_ACID_RETAINED[len(chain)]}"
         stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
         if _ene or _yne:
-            acid_name = f"{stem}{_fmt_anh(_ene, _yne)}oic"
+            acid_name = f"{sub_prefix_anh}{stem}{_fmt_anh(_ene, _yne)}oic"
             if _ene:
                 from .stereochemistry import assign_stereochemistry
                 from .chain_finder import PrincipalChain
@@ -6895,7 +6915,7 @@ def _name_anhydride(graph, pgrp, get_atom) -> str:
                     _combined = ",".join(d.strip("()") for d in _stereo)
                     return f"({_combined})-{acid_name}"
             return acid_name
-        return f"{stem}anoic"
+        return f"{sub_prefix_anh}{stem}anoic"
 
     acid1 = _acid_stem_name(c1, chain1)
     acid2 = _acid_stem_name(c2, chain2)
@@ -7236,12 +7256,13 @@ def _name_substituted_amidine(graph, amidine_c: int,
     acid_carbons = _collect_acid_chain(graph, amidine_c, excl, get_atom)
     n_acid = len(acid_carbons)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
+    chain_sub_prefix_ai = _pivot_chain_sub_prefix(graph, acid_carbons, excl, get_atom)
     _ene_ai, _yne_ai = _chain_multiple_bonds(graph, acid_carbons)
     if _ene_ai or _yne_ai:
         from .name_assembler import _format_multiple_bonds as _fmt_ai
-        parent_name = f"{stem}{_fmt_ai(_ene_ai, _yne_ai)}imidamide"
+        parent_name = f"{chain_sub_prefix_ai}{stem}{_fmt_ai(_ene_ai, _yne_ai)}imidamide"
     else:
-        parent_name = f"{stem}animidamide"
+        parent_name = f"{chain_sub_prefix_ai}{stem}animidamide"
 
     stereo_pfx_ai = ""
     if _ene_ai:
