@@ -1061,6 +1061,36 @@ def _name_carbon_substituent(
                     s_parts.append(f"{loc_str}-{mult}{nm}")
             return f"{'-'.join(s_parts)}{prefix}yl"
 
+        # ケトン置換アルキル: -CH2-C(=O)-CH3 → "2-oxopropyl" 等 (Phase906)
+        # root 自身の =O は上のアシル分岐で先に処理済みなので、ここで見つかる
+        # のは鎖の非末端位置の =O のみ (以前はここに検出ロジックが一切なく、
+        # CC(=O)OCC(=O)C の O-アルキル側 -CH2-C(=O)-CH3 が丸ごと "propyl" に
+        # なりケトンが消えていた)
+        oxo_subs: list[tuple[int, str]] = []
+        for pos, c_idx in enumerate(chain_path, 1):
+            for nb_idx in graph.adjacency[c_idx]:
+                if nb_idx in excluded or nb_idx in carbon_set:
+                    continue
+                if get_atom(graph, nb_idx).symbol != "O":
+                    continue
+                if _gbo(graph, c_idx, nb_idx) == 2.0:
+                    oxo_subs.append((pos, "oxo"))
+        if oxo_subs:
+            from collections import defaultdict as _dd_ox
+            ox_by_name: dict[str, list[int]] = _dd_ox(list)
+            for pos, nm in oxo_subs:
+                ox_by_name[nm].append(pos)
+            ox_parts: list[str] = []
+            for nm in sorted(ox_by_name.keys()):
+                locs = sorted(ox_by_name[nm])
+                mult = MULTIPLIER.get(len(locs), "")
+                if n == 1:
+                    ox_parts.append(f"{mult}{nm}")
+                else:
+                    loc_str = ",".join(str(l) for l in locs)
+                    ox_parts.append(f"{loc_str}-{mult}{nm}")
+            return f"{'-'.join(ox_parts)}{prefix}yl"
+
         return f"{prefix}yl"
 
     # 分岐置換基 (isopropyl 等): 再帰的に命名
