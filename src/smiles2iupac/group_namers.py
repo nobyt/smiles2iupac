@@ -99,15 +99,22 @@ def _name_diester(graph, pgrp, get_atom) -> str:
         _ene_de, _yne_de = ene_fwd_de, yne_fwd_de
     n_acid = len(acid_carbons)
 
+    locant_map_de = {c: i + 1 for i, c in enumerate(acid_carbons)}
+    from .substituent import collect_substituents as _cs_de
+    from .name_assembler import _build_prefix as _bp_de
+    _excl_de = set(pgrp.atom_indices) | ester_os
+    _subs_de = _cs_de(graph, acid_carbons, locant_map_de, list(_excl_de))
+    chain_sub_prefix_de = _bp_de(_subs_de)
+
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
     if _ene_de or _yne_de:
         from .name_assembler import _format_multiple_bonds as _fmt_de
-        acid_name = f"{stem}{_fmt_de(_ene_de, _yne_de)}edioate"
+        acid_name = f"{chain_sub_prefix_de}{stem}{_fmt_de(_ene_de, _yne_de)}edioate"
     else:
         _DIACID_RETAINED = {
             2: "oxalate", 3: "malonate", 6: "adipate",
         }
-        acid_name = _DIACID_RETAINED.get(n_acid, f"{stem}anedioate")
+        acid_name = f"{chain_sub_prefix_de}{_DIACID_RETAINED.get(n_acid, f'{stem}anedioate')}"
 
     stereo_pfx_de = ""
     if _ene_de:
@@ -258,10 +265,17 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
         chain = chain_fwd_dc
         _ene_dc, _yne_dc = ene_fwd_dc, yne_fwd_dc
     n = len(chain)
+
+    locant_map_dc = {c: i + 1 for i, c in enumerate(chain)}
+    from .substituent import collect_substituents as _cs_dc
+    from .name_assembler import _build_prefix as _bp_dc
+    _subs_dc = _cs_dc(graph, chain, locant_map_dc, list(set(pgrp.atom_indices)))
+    chain_sub_prefix_dc = _bp_dc(_subs_dc)
+
     if _ene_dc or _yne_dc:
         from .name_assembler import _format_multiple_bonds as _fmt_dc
         stem = CHAIN_PREFIX.get(n, f"C{n}")
-        base = f"{stem}{_fmt_dc(_ene_dc, _yne_dc)}edioate"
+        base = f"{chain_sub_prefix_dc}{stem}{_fmt_dc(_ene_dc, _yne_dc)}edioate"
         if _ene_dc:
             from .stereochemistry import assign_stereochemistry
             from .chain_finder import PrincipalChain
@@ -275,9 +289,9 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
     # 保留ジアニオン名 (飽和のみ; oxalic/malonic/adipic は retained PIN)
     retained = {2: "oxalate", 3: "malonate", 6: "adipate"}
     if n in retained:
-        return retained[n]
+        return f"{chain_sub_prefix_dc}{retained[n]}"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
-    return f"{stem}anedioate"
+    return f"{chain_sub_prefix_dc}{stem}anedioate"
 
 
 def _name_carboxylate(graph, pgrp, get_atom) -> str:
@@ -307,9 +321,10 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
     # (例: alanine の共役塩基 CC(N)C(=O)[O-] が "propanoate" になり、
     #  2-アミノ基が消えて中性の "propanoate" と衝突していた)。
     from .substituent import collect_substituents as _cs_cox
+    from .name_assembler import _build_prefix as _bp_cox
     _chain_lmap_cox = {c: i + 1 for i, c in enumerate(acid_chain)}
     _chain_subs_cox = _cs_cox(graph, acid_chain, _chain_lmap_cox, list(o_idxs))
-    sub_prefix = "-".join(f"{loc}-{nm}" for loc, nm in sorted(_chain_subs_cox))
+    sub_prefix = _bp_cox(_chain_subs_cox)
 
     if n == 1:
         return f"{sub_prefix}formate"
@@ -374,6 +389,15 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, carbonyl_c, chalcogen_idxs, get_atom)
     n = len(acid_chain)
     stem = CHAIN_PREFIX.get(n, f"C{n}")
+
+    locant_map_thi = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_thi
+    from .name_assembler import _build_prefix as _bp_thi
+    _subs_thi = _cs_thi(graph, acid_chain, locant_map_thi, list(set(pgrp.atom_indices) | chalcogen_idxs))
+    if _subs_thi and (n == 1 or (n == 2 and len({nm for _, nm in _subs_thi}) == 1)):
+        _subs_thi = [(None, nm) for _, nm in _subs_thi]
+    chain_sub_prefix_thi = _bp_thi(_subs_thi)
+
     ene, yne = _chain_multiple_bonds(graph, acid_chain)
     if ene or yne:
         from .name_assembler import _format_multiple_bonds as _fmt
@@ -391,8 +415,8 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
             _comb_thi = ",".join(d.strip("()") for d in _stereo_thi)
             stereo_pfx = f"({_comb_thi})-"
     if not mb:
-        return f"{stereo_pfx}{stem}ane{chain_word}"
-    return f"{stereo_pfx}{stem}{mb}e{chain_word}"
+        return f"{stereo_pfx}{chain_sub_prefix_thi}{stem}ane{chain_word}"
+    return f"{stereo_pfx}{chain_sub_prefix_thi}{stem}{mb}e{chain_word}"
 
 
 def _name_nitrate_ester(graph, pgrp, get_atom) -> str:
@@ -469,12 +493,21 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, c_idx, o_idxs | n_idxs, get_atom)
     n_c = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_c, f"C{n_c}")
+
+    locant_map_ia = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_ia
+    from .name_assembler import _build_prefix as _bp_ia
+    _subs_ia = _cs_ia(graph, acid_chain, locant_map_ia, list(o_idxs | n_idxs))
+    if _subs_ia and (n_c == 1 or (n_c == 2 and len({nm for _, nm in _subs_ia}) == 1)):
+        _subs_ia = [(None, nm) for _, nm in _subs_ia]
+    chain_sub_prefix_ia = _bp_ia(_subs_ia)
+
     _ene_ia, _yne_ia = _chain_multiple_bonds(graph, acid_chain)
     if _ene_ia or _yne_ia:
         from .name_assembler import _format_multiple_bonds as _fmt_ia
-        base_name = f"{stem}{_fmt_ia(_ene_ia, _yne_ia)}imidic acid"
+        base_name = f"{chain_sub_prefix_ia}{stem}{_fmt_ia(_ene_ia, _yne_ia)}imidic acid"
     else:
-        base_name = f"{stem}animidic acid"
+        base_name = f"{chain_sub_prefix_ia}{stem}animidic acid"
 
     stereo_pfx_ia = ""
     if _ene_ia:
@@ -1097,11 +1130,21 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
 
     n = len(acid_carbons)
     stem = CHAIN_PREFIX.get(n, f"C{n}")
+
+    locant_map_dah = {c: i + 1 for i, c in enumerate(acid_carbons)}
+    from .substituent import collect_substituents as _cs_dah
+    from .name_assembler import _build_prefix as _bp_dah
+    _halide_atom_idxs_dah = {nb for c in (c1, c2) for nb in graph.adjacency[c]
+                              if get_atom(graph, nb).symbol in halogen_syms}
+    _excl_dah = set(pgrp.atom_indices) | _halide_atom_idxs_dah
+    _subs_dah = _cs_dah(graph, acid_carbons, locant_map_dah, list(_excl_dah))
+    chain_sub_prefix_dah = _bp_dah(_subs_dah)
+
     if _ene_dah or _yne_dah:
         from .name_assembler import _format_multiple_bonds as _fmt_dah
-        chain_part = f"{stem}{_fmt_dah(_ene_dah, _yne_dah)}edioyl"
+        chain_part = f"{chain_sub_prefix_dah}{stem}{_fmt_dah(_ene_dah, _yne_dah)}edioyl"
     else:
-        chain_part = f"{stem}anedioyl"
+        chain_part = f"{chain_sub_prefix_dah}{stem}anedioyl"
 
     stereo_pfx_dah = ""
     if _ene_dah:
@@ -1836,14 +1879,14 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
 
 
 def _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom) -> set[int]:
-    """carbonyl_c に二重結合しているカルコゲン (=O/=S/=Se) のインデックス集合を
-    返す (Phase905)。エステル/チオエステル系命名で酸鎖の置換基を集める際、
-    このカルボニル自身の =O/=S/=Se を除外し忘れると "oxo"/"thioxo" という
-    偽の置換基として拾われてしまう (例: CSC(=O)C が "S-methyl
-    1-oxoethanethioate" と誤命名される)。"""
+    """carbonyl_c に二重結合しているカルコゲン (=O/=S/=Se/=Te) のインデックス
+    集合を返す (Phase905, Te 追加は Phase907)。エステル/チオエステル系命名で
+    酸鎖の置換基を集める際、このカルボニル自身の =O/=S/=Se/=Te を除外し忘れると
+    "oxo"/"thioxo"/"sulfanyl" 等の偽の置換基として拾われてしまう (例:
+    CSC(=O)C が "S-methyl 1-oxoethanethioate" と誤命名される)。"""
     from .molecule_analyzer import get_bond_order as _gbo_cdb
     return {nb for nb in graph.adjacency[carbonyl_c]
-            if get_atom(graph, nb).symbol in ("O", "S", "Se")
+            if get_atom(graph, nb).symbol in ("O", "S", "Se", "Te")
             and _gbo_cdb(graph, carbonyl_c, nb) == 2.0}
 
 
@@ -5110,12 +5153,22 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    n_pa = len(acid_chain)
+    locant_map_pa = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_pa
+    from .name_assembler import _build_prefix as _bp_pa
+    _subs_pa = _cs_pa(graph, acid_chain, locant_map_pa, list(excluded))
+    if _subs_pa and (n_pa == 1 or (n_pa == 2 and len({nm for _, nm in _subs_pa}) == 1)):
+        _subs_pa = [(None, nm) for _, nm in _subs_pa]
+    chain_sub_prefix_pa = _bp_pa(_subs_pa)
+
     _ene_pa, _yne_pa = _chain_multiple_bonds(graph, acid_chain)
     if _ene_pa or _yne_pa:
         from .name_assembler import _format_multiple_bonds as _fmt_pa
-        parent_pa = f"{stem}{_fmt_pa(_ene_pa, _yne_pa)}eperoxoic acid"
+        parent_pa = f"{chain_sub_prefix_pa}{stem}{_fmt_pa(_ene_pa, _yne_pa)}eperoxoic acid"
     else:
-        parent_pa = f"{stem}aneperoxoic acid"
+        parent_pa = f"{chain_sub_prefix_pa}{stem}aneperoxoic acid"
     stereo_pfx_pa = ""
     if _ene_pa:
         from .stereochemistry import assign_stereochemistry
@@ -5212,16 +5265,25 @@ def _name_acyl_azide(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, c_idx, excl, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
+
+    locant_map_aa = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_aa
+    from .name_assembler import _build_prefix as _bp_aa
+    _subs_aa = _cs_aa(graph, acid_chain, locant_map_aa, list(excl))
+    if _subs_aa and (n_acid == 1 or (n_acid == 2 and len({nm for _, nm in _subs_aa}) == 1)):
+        _subs_aa = [(None, nm) for _, nm in _subs_aa]
+    chain_sub_prefix_aa = _bp_aa(_subs_aa)
+
     # 保留名: formyl (1C) / acetyl (2C)
     if n_acid == 1:
-        return "formyl azide"
+        return f"{chain_sub_prefix_aa}formyl azide"
     if n_acid == 2:
-        return "acetyl azide"
+        return f"{chain_sub_prefix_aa}acetyl azide"
     _ene_aa, _yne_aa = _chain_multiple_bonds(graph, acid_chain)
     if _ene_aa or _yne_aa:
         from .name_assembler import _format_multiple_bonds as _fmt_aa
-        return f"{stem}{_fmt_aa(_ene_aa, _yne_aa)}oyl azide"
-    return f"{stem}anoyl azide"
+        return f"{chain_sub_prefix_aa}{stem}{_fmt_aa(_ene_aa, _yne_aa)}oyl azide"
+    return f"{chain_sub_prefix_aa}{stem}anoyl azide"
 
 
 def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
@@ -6019,30 +6081,33 @@ def _name_nitrone(graph, get_atom) -> str | None:
 
         imine_c = c_dbl[0]
 
-        # Build imine parent name: find chain length from imine_c
-        # Walk from imine_c (excluding N) to get the chain
-        visited: set[int] = {idx, o_idx}
-        chain_atoms = [imine_c]
-        visited.add(imine_c)
-        queue = [nb for nb in graph.adjacency[imine_c]
-                 if nb not in visited and get_atom(graph, nb).symbol == "C"
-                 and not get_atom(graph, nb).in_ring]
-        while queue:
-            c = queue.pop(0)
-            if c not in visited:
-                visited.add(c)
-                chain_atoms.append(c)
-                for nb in graph.adjacency[c]:
-                    if nb not in visited and get_atom(graph, nb).symbol == "C":
-                        queue.append(nb)
+        # Phase908: build the imine parent chain (and its substituents) via
+        # find_principal_chain/collect_substituents instead of a naive DFS
+        # that only counted chain length -- the old code dropped every
+        # substituent on the chain, e.g. a CF3-substituted nitrone collided
+        # with the plain unsubstituted one (both -> "N-methylethanimine
+        # N-oxide"). Nitrone always anchors the imine carbon at locant 1
+        # (an-1-imine), matching aldehyde's anchor_c1=True chain-orientation
+        # rule, so "aldehyde" is reused here purely for that orientation
+        # behavior (chain_template itself is never consulted).
+        from .chain_finder import find_principal_chain as _fpc_nit
+        from .functional_group import FunctionalGroup as _FG_nit, FUNCTIONAL_GROUP_PRIORITY as _FGP_nit
+        from .substituent import collect_substituents as _cs_nit
+        from .name_assembler import _build_prefix as _bp_nit
 
-        chain_len = len(chain_atoms)
+        _pseudo_nit = _FG_nit(group_type="aldehyde", atom_indices=[imine_c],
+                               priority=_FGP_nit["aldehyde"])
+        _chain_nit = _fpc_nit(graph, _pseudo_nit)
+        chain_len = _chain_nit.length
         stem = CHAIN_PREFIX.get(chain_len, f"C{chain_len}")
 
+        _subs_nit = _cs_nit(graph, _chain_nit.atom_indices, _chain_nit.locant_map, [idx, o_idx])
+        chain_sub_prefix_nit = _bp_nit(_subs_nit)
+
         if chain_len <= 2:
-            imine_name = f"{stem}animine"
+            imine_name = f"{chain_sub_prefix_nit}{stem}animine"
         else:
-            imine_name = f"{stem}an-1-imine"
+            imine_name = f"{chain_sub_prefix_nit}{stem}an-1-imine"
 
         # N-substituents from c_sgl
         n_subs = [_name_carbon_substituent(graph, c, {idx}) for c in c_sgl]
@@ -6058,8 +6123,9 @@ def _name_nitrone(graph, get_atom) -> str | None:
                 mult = MULTIPLIER.get(cnt, f"{cnt}")
                 prefix_parts.append(f"N,N-{mult}{sub_str}")
         n_prefix = ",".join(prefix_parts)
+        sep_nit = "-" if n_prefix and chain_sub_prefix_nit else ""
 
-        return f"{n_prefix}{imine_name} N-oxide"
+        return f"{n_prefix}{sep_nit}{imine_name} N-oxide"
 
     return None
 
@@ -6099,22 +6165,30 @@ def _name_diazo_compound(graph, get_atom) -> str | None:
         excluded = {idx}
         excluded.update(graph.adjacency[terminal_n])  # terminal N を除外
 
-        # BFS で炭素鎖を収集
-        chain: list[int] = []
-        visited = {diazo_c}
-        queue = [diazo_c]
-        while queue:
-            cur = queue.pop(0)
-            chain.append(cur)
-            for nb in graph.adjacency[cur]:
-                if nb not in visited and get_atom(graph, nb).symbol == "C":
-                    visited.add(nb)
-                    queue.append(nb)
+        # Phase908: 以前は炭素数のみ数える BFS で、鎖上の置換基が丸ごと
+        # 落ちていた (例: FC(F)(F)C=[N+]=[N-] が "diazoethane" になり、
+        # 無関係な本物の diazoethane と衝突していた)。diazo_c は常に鎖の
+        # 起点として扱う (locant は付与しない、既存の "diazo{stem}ane" 表記
+        # を踏襲) ので、aldehyde の anchor_c1=True を chain 方向決定にだけ
+        # 流用する (nitrone の Phase908 修正と同じ手法)。
+        from .chain_finder import find_principal_chain as _fpc_diazo
+        from .functional_group import FunctionalGroup as _FG_diazo, FUNCTIONAL_GROUP_PRIORITY as _FGP_diazo
+        from .substituent import collect_substituents as _cs_diazo
+        from .name_assembler import _build_prefix as _bp_diazo
 
-        n_c = len(chain)
+        _pseudo_diazo = _FG_diazo(group_type="aldehyde", atom_indices=[diazo_c],
+                                   priority=_FGP_diazo["aldehyde"])
+        _chain_diazo = _fpc_diazo(graph, _pseudo_diazo)
+        n_c = _chain_diazo.length
         stem = CHAIN_PREFIX.get(n_c)
         if stem is None:
             return None
+        _subs_diazo = _cs_diazo(graph, _chain_diazo.atom_indices, _chain_diazo.locant_map,
+                                 list(excluded))
+        chain_sub_prefix_diazo = _bp_diazo(_subs_diazo)
+        if chain_sub_prefix_diazo:
+            _diazo_loc = _chain_diazo.locant_map.get(diazo_c, 1)
+            return f"{_diazo_loc}-diazo-{chain_sub_prefix_diazo}{stem}ane"
         return f"diazo{stem}ane"
 
     return None
@@ -6358,22 +6432,6 @@ def _name_azo_compound(graph, get_atom) -> str | None:
                 return nb
         return None
 
-    def _chain_len(c_start: int) -> int:
-        """c_start から N1/N2 を除外したグラフを DFS し炭素数を返す"""
-        visited: set[int] = {n1_idx, n2_idx, c_start}
-        stack = [c_start]
-        count = 1
-        while stack:
-            node = stack.pop()
-            for nb in graph.adjacency[node]:
-                if nb in visited:
-                    continue
-                if get_atom(graph, nb).symbol == "C":
-                    visited.add(nb)
-                    stack.append(nb)
-                    count += 1
-        return count
-
     def _is_plain_benzene(n_idx: int) -> bool:
         """N が無置換ベンゼン環の C に直結しているか確認"""
         c = _c_neighbor(n_idx)
@@ -6407,18 +6465,28 @@ def _name_azo_compound(graph, get_atom) -> str | None:
         c2 = _c_neighbor(n2_idx)
         if c1 is None or c2 is None:
             return None
-        len1 = _chain_len(c1)
-        len2 = _chain_len(c2)
-        if len1 != len2 or len1 == 0:
-            return None
-        stem = CHAIN_PREFIX.get(len1)
-        if stem is None:
-            return None
+        # Phase908: previously used a bare chain-length DFS + CHAIN_PREFIX,
+        # which only ever produced "di{alkane}yldiazene" from carbon COUNT
+        # alone -- any substituent (halogen, etc.) on either side silently
+        # vanished, e.g. bis(trifluoromethyl)diazene ("FC(F)(F)N=NC(F)(F)F",
+        # a real, well-known reagent in fluorine chemistry) collided with
+        # plain dimethyldiazene since both sides have 1 carbon. Now reuses
+        # the same shared substituent namer as every other R-group builder.
+        from .substituent import _name_carbon_substituent as _ncs_azo
+        r1_name = _ncs_azo(graph, c1, {n1_idx, n2_idx})
+        r2_name = _ncs_azo(graph, c2, {n1_idx, n2_idx})
         # Phase 352: E/Z on N=N bond
         from .stereochemistry import _get_bond_stereo as _gbs_azo
         _nn_stereo = _gbs_azo(graph, n1_idx, n2_idx)
         _nn_pfx = f"({_nn_stereo})-" if _nn_stereo is not None else ""
-        return f"{_nn_pfx}di{stem}yldiazene"
+        from .name_assembler import _needs_bis_tris as _nbt_azo
+        if r1_name == r2_name:
+            if _nbt_azo(r1_name):
+                return f"{_nn_pfx}bis({r1_name})diazene"
+            return f"{_nn_pfx}di{r1_name}diazene"
+        names_sorted = sorted([r1_name, r2_name])
+        parts = [f"({n})" if _nbt_azo(n) else n for n in names_sorted]
+        return f"{_nn_pfx}{parts[0]}{parts[1]}diazene"
 
     return None
 
@@ -6487,12 +6555,23 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
                     if nb != carbonyl_c and get_atom(graph, nb).symbol == "C")
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    n_ta = len(acid_chain)
+    locant_map_ta = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_ta
+    from .name_assembler import _build_prefix as _bp_ta
+    _subs_ta = _cs_ta(graph, acid_chain, locant_map_ta,
+                       list(set(excluded) | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)))
+    if _subs_ta and (n_ta == 1 or (n_ta == 2 and len({nm for _, nm in _subs_ta}) == 1)):
+        _subs_ta = [(None, nm) for _, nm in _subs_ta]
+    chain_sub_prefix_ta = _bp_ta(_subs_ta)
+
     _ene_ta, _yne_ta = _chain_multiple_bonds(graph, acid_chain)
     if _ene_ta or _yne_ta:
         from .name_assembler import _format_multiple_bonds as _fmt_ta
-        parent_name = f"{stem}{_fmt_ta(_ene_ta, _yne_ta)}ethioamide"
+        parent_name = f"{chain_sub_prefix_ta}{stem}{_fmt_ta(_ene_ta, _yne_ta)}ethioamide"
     else:
-        parent_name = f"{stem}anethioamide"
+        parent_name = f"{chain_sub_prefix_ta}{stem}anethioamide"
 
     stereo_pfx_ta = ""
     if _ene_ta:
@@ -6619,11 +6698,18 @@ def _name_dithioamide(graph, pgrp, get_atom) -> str:
         _ene_dta, _yne_dta = ene_fwd_dta, yne_fwd_dta
 
     stem = CHAIN_PREFIX.get(len(chain_dta), f"C{len(chain_dta)}")
+
+    locant_map_dta = {c: i + 1 for i, c in enumerate(chain_dta)}
+    from .substituent import collect_substituents as _cs_dta
+    from .name_assembler import _build_prefix as _bp_dta
+    _subs_dta = _cs_dta(graph, chain_dta, locant_map_dta, list(set(pgrp.atom_indices)))
+    chain_sub_prefix_dta = _bp_dta(_subs_dta)
+
     if _ene_dta or _yne_dta:
         from .name_assembler import _format_multiple_bonds as _fmt_dta
-        parent_dta = f"{stem}{_fmt_dta(_ene_dta, _yne_dta)}edithioamide"
+        parent_dta = f"{chain_sub_prefix_dta}{stem}{_fmt_dta(_ene_dta, _yne_dta)}edithioamide"
     else:
-        parent_dta = f"{stem}anedithioamide"
+        parent_dta = f"{chain_sub_prefix_dta}{stem}anedithioamide"
 
     stereo_pfx_dta = ""
     if _ene_dta:
@@ -6691,11 +6777,18 @@ def _name_diselenoamide(graph, pgrp, get_atom) -> str:
         _ene_dsa, _yne_dsa = ene_fwd_dsa, yne_fwd_dsa
 
     stem = CHAIN_PREFIX.get(len(chain_dsa), f"C{len(chain_dsa)}")
+
+    locant_map_dsa = {c: i + 1 for i, c in enumerate(chain_dsa)}
+    from .substituent import collect_substituents as _cs_dsa
+    from .name_assembler import _build_prefix as _bp_dsa
+    _subs_dsa = _cs_dsa(graph, chain_dsa, locant_map_dsa, list(set(pgrp.atom_indices)))
+    chain_sub_prefix_dsa = _bp_dsa(_subs_dsa)
+
     if _ene_dsa or _yne_dsa:
         from .name_assembler import _format_multiple_bonds as _fmt_dsa
-        parent_dsa = f"{stem}{_fmt_dsa(_ene_dsa, _yne_dsa)}ediselenoamide"
+        parent_dsa = f"{chain_sub_prefix_dsa}{stem}{_fmt_dsa(_ene_dsa, _yne_dsa)}ediselenoamide"
     else:
-        parent_dsa = f"{stem}anediselenoamide"
+        parent_dsa = f"{chain_sub_prefix_dsa}{stem}anediselenoamide"
 
     stereo_pfx_dsa = ""
     if _ene_dsa:
@@ -6892,12 +6985,23 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
                     if nb != carbonyl_c and get_atom(graph, nb).symbol == "C")
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    n_sa = len(acid_chain)
+    locant_map_sa = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_sa
+    from .name_assembler import _build_prefix as _bp_sa
+    _subs_sa = _cs_sa(graph, acid_chain, locant_map_sa,
+                       list(set(excluded) | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)))
+    if _subs_sa and (n_sa == 1 or (n_sa == 2 and len({nm for _, nm in _subs_sa}) == 1)):
+        _subs_sa = [(None, nm) for _, nm in _subs_sa]
+    chain_sub_prefix_sa = _bp_sa(_subs_sa)
+
     _ene_sa, _yne_sa = _chain_multiple_bonds(graph, acid_chain)
     if _ene_sa or _yne_sa:
         from .name_assembler import _format_multiple_bonds as _fmt_sa
-        parent_name = f"{stem}{_fmt_sa(_ene_sa, _yne_sa)}eselenoamide"
+        parent_name = f"{chain_sub_prefix_sa}{stem}{_fmt_sa(_ene_sa, _yne_sa)}eselenoamide"
     else:
-        parent_name = f"{stem}aneselenoamide"
+        parent_name = f"{chain_sub_prefix_sa}{stem}aneselenoamide"
 
     stereo_pfx_sa = ""
     if _ene_sa:
@@ -6956,12 +7060,23 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
                     if nb != carbonyl_c and get_atom(graph, nb).symbol == "C")
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    n_te = len(acid_chain)
+    locant_map_te = {c: i + 1 for i, c in enumerate(acid_chain)}
+    from .substituent import collect_substituents as _cs_te
+    from .name_assembler import _build_prefix as _bp_te
+    _subs_te = _cs_te(graph, acid_chain, locant_map_te,
+                       list(set(excluded) | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)))
+    if _subs_te and (n_te == 1 or (n_te == 2 and len({nm for _, nm in _subs_te}) == 1)):
+        _subs_te = [(None, nm) for _, nm in _subs_te]
+    chain_sub_prefix_te = _bp_te(_subs_te)
+
     _ene_te, _yne_te = _chain_multiple_bonds(graph, acid_chain)
     if _ene_te or _yne_te:
         from .name_assembler import _format_multiple_bonds as _fmt_te
-        parent_name = f"{stem}{_fmt_te(_ene_te, _yne_te)}etelluramide"
+        parent_name = f"{chain_sub_prefix_te}{stem}{_fmt_te(_ene_te, _yne_te)}etelluramide"
     else:
-        parent_name = f"{stem}anetelluramide"
+        parent_name = f"{chain_sub_prefix_te}{stem}anetelluramide"
 
     stereo_pfx_te = ""
     if _ene_te:
@@ -8101,29 +8216,28 @@ def _name_diazonium(graph, get_atom) -> str | None:
             # Fallthrough for complex aryl cases (not handled here)
             continue
 
-        # Chain case: aliphatic diazonium
-        chain = [c_idx]
-        visited_c = {c_idx, idx}
-        # Extend chain to find the alkyl chain
-        current = c_idx
-        while True:
-            c_nbrs_chain = [nb for nb in graph.adjacency[current]
-                           if get_atom(graph, nb).symbol == "C"
-                           and nb not in visited_c
-                           and not get_atom(graph, nb).in_ring]
-            if not c_nbrs_chain:
-                break
-            # Pick longest chain (simplified: just follow first)
-            nxt = c_nbrs_chain[0]
-            chain.append(nxt)
-            visited_c.add(nxt)
-            current = nxt
+        # Chain case: aliphatic diazonium.
+        # Phase908: previously a naive "just follow first neighbor" walk
+        # that only counted length -- neither picked the true longest chain
+        # on branching substrates nor kept any substituent, so e.g.
+        # 2,2,2-trifluoroethyldiazonium collapsed to plain "ethanediazonium".
+        # The diazonium carbon is always locant 1 (no locant is ever shown),
+        # matching aldehyde's anchor_c1=True chain-orientation rule.
+        from .chain_finder import find_principal_chain as _fpc_dz
+        from .functional_group import FunctionalGroup as _FG_dz, FUNCTIONAL_GROUP_PRIORITY as _FGP_dz
+        from .substituent import collect_substituents as _cs_dz
+        from .name_assembler import _build_prefix as _bp_dz
 
-        n_chain = len(chain)
+        _pseudo_dz = _FG_dz(group_type="aldehyde", atom_indices=[c_idx],
+                             priority=_FGP_dz["aldehyde"])
+        _chain_dz = _fpc_dz(graph, _pseudo_dz)
+        n_chain = _chain_dz.length
         stem = CHAIN_PREFIX.get(n_chain)
         if stem is None:
             continue
-        return f"{stem}anediazonium"
+        _subs_dz = _cs_dz(graph, _chain_dz.atom_indices, _chain_dz.locant_map, [idx])
+        chain_sub_prefix_dz = _bp_dz(_subs_dz)
+        return f"{chain_sub_prefix_dz}{stem}anediazonium"
 
     return None
 
@@ -8321,18 +8435,28 @@ def _name_acyl_peroxide(graph, get_atom) -> str | None:
             chain1 = _collect_acid_chain(graph, c1_idx, {o1_idx}, get_atom)
             chain2 = _collect_acid_chain(graph, c2_idx, {o2_idx}, get_atom)
 
-            def _acyl_name(chain: list[int]) -> str:
+            from .substituent import collect_substituents as _cs_ap
+            from .name_assembler import _build_prefix as _bp_ap
+
+            def _acyl_name(chain: list[int], ester_o: int) -> str:
                 n = len(chain)
                 stem = CHAIN_PREFIX.get(n, f"C{n}")
+                carbonyl_c = chain[0]
+                excl = {ester_o} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+                locant_map = {c: i + 1 for i, c in enumerate(chain)}
+                subs = _cs_ap(graph, chain, locant_map, list(excl))
+                if subs and (n == 1 or (n == 2 and len({nm for _, nm in subs}) == 1)):
+                    subs = [(None, nm) for _, nm in subs]
+                sub_prefix = _bp_ap(subs)
                 ene_locs, yne_locs = _chain_mb(graph, chain)
                 if ene_locs or yne_locs:
-                    return f"{stem}{_fmt_mb(ene_locs, yne_locs)}oyl"
+                    return f"{sub_prefix}{stem}{_fmt_mb(ene_locs, yne_locs)}oyl"
                 if n == 1:
-                    return "formyl"
-                return f"{stem}anoyl"
+                    return f"{sub_prefix}formyl"
+                return f"{sub_prefix}{stem}anoyl"
 
-            acyl1 = _acyl_name(chain1)
-            acyl2 = _acyl_name(chain2)
+            acyl1 = _acyl_name(chain1, o1_idx)
+            acyl2 = _acyl_name(chain2, o2_idx)
 
             if acyl1 == acyl2:
                 return f"di{acyl1} peroxide"
