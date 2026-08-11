@@ -566,10 +566,21 @@ def _name_carbon_substituent(
             n_acyl = len(acyl_carbons)
             if n_acyl == 1:
                 return "formyl"
+            # 鎖上の置換基 (halo 等) を接頭辞にする。以前はここで鎖長だけから
+            # acetyl/propanoyl 等の名前を決めており、置換基を一切見ていな
+            # かったため、trifluoroacetyl (CF3-C(=O)-) が "acetyl" になり
+            # N-(trifluoroacetyl)アミドの3つのFが丸ごと落ちていた。
+            from .name_assembler import _build_prefix as _build_prefix_acyl
+            lmap_acyl = {c: i + 1 for i, c in enumerate(acyl_carbons)}
+            subs_acyl = collect_substituents(
+                graph, acyl_carbons, lmap_acyl, list(excluded) + [nb_idx])
+            if subs_acyl and (n_acyl == 2 and len({nm for _, nm in subs_acyl}) == 1):
+                subs_acyl = [(None, nm) for _, nm in subs_acyl]
+            sub_prefix_acyl = _build_prefix_acyl(subs_acyl)
             if n_acyl == 2:
-                return "acetyl"
+                return f"{sub_prefix_acyl}acetyl"
             stem = CHAIN_PREFIX.get(n_acyl, f"C{n_acyl}")
-            return f"{stem}anoyl"
+            return f"{sub_prefix_acyl}{stem}anoyl"
 
     # 置換基の炭素を DFS で列挙
     sub_carbons = _collect_substituent_carbons(graph, root_idx, excluded)

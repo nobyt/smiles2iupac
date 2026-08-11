@@ -598,12 +598,14 @@ def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
     acid_chain = _collect_acid_chain(graph, c_idx, {o_idx}, get_atom)
     n_c = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_c, f"C{n_c}")
+    _im_excl = {o_idx} | ({n_idx} if n_idx is not None else set())
+    chain_sub_prefix_im = _pivot_chain_sub_prefix(graph, acid_chain, _im_excl, get_atom)
     _ene_im, _yne_im = _chain_multiple_bonds(graph, acid_chain)
     if _ene_im or _yne_im:
         from .name_assembler import _format_multiple_bonds as _fmt_im
-        acid_name = f"{stem}{_fmt_im(_ene_im, _yne_im)}imidate"
+        acid_name = f"{chain_sub_prefix_im}{stem}{_fmt_im(_ene_im, _yne_im)}imidate"
     else:
-        acid_name = f"{stem}animidate"
+        acid_name = f"{chain_sub_prefix_im}{stem}animidate"
 
     stereo_pfx_im = ""
     if _ene_im:
@@ -1831,6 +1833,18 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
 
     prefix = "-".join(prefix_parts)
     return f"{prefix}{base}"
+
+
+def _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom) -> set[int]:
+    """carbonyl_c に二重結合しているカルコゲン (=O/=S) のインデックス集合を
+    返す (Phase905)。エステル/チオエステル系命名で酸鎖の置換基を集める際、
+    このカルボニル自身の =O/=S を除外し忘れると "oxo"/"thioxo" という
+    偽の置換基として拾われてしまう (例: CSC(=O)C が "S-methyl
+    1-oxoethanethioate" と誤命名される)。"""
+    from .molecule_analyzer import get_bond_order as _gbo_cdb
+    return {nb for nb in graph.adjacency[carbonyl_c]
+            if get_atom(graph, nb).symbol in ("O", "S")
+            and _gbo_cdb(graph, carbonyl_c, nb) == 2.0}
 
 
 def _pivot_chain_sub_prefix(graph, chain, excluded_atoms, get_atom) -> str:
@@ -3962,12 +3976,14 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {s_idx}, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
+    _ts_excl = {s_idx} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    chain_sub_prefix_ts = _pivot_chain_sub_prefix(graph, acid_chain, _ts_excl, get_atom)
     _ene_ts, _yne_ts = _chain_multiple_bonds(graph, acid_chain)
     if _ene_ts or _yne_ts:
         from .name_assembler import _format_multiple_bonds as _fmt_ts
-        acid_name = f"{stem}{_fmt_ts(_ene_ts, _yne_ts)}ethioate"
+        acid_name = f"{chain_sub_prefix_ts}{stem}{_fmt_ts(_ene_ts, _yne_ts)}ethioate"
     else:
-        acid_name = f"{stem}anethioate"
+        acid_name = f"{chain_sub_prefix_ts}{stem}anethioate"
 
     # E/Z 立体化学
     stereo_prefix = ""
@@ -4005,7 +4021,9 @@ def _name_o_thioester(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {o_idx}, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
-    return f"O-{o_alkyl} {stem}anethioate"
+    _ot_excl = {o_idx} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    chain_sub_prefix_ot = _pivot_chain_sub_prefix(graph, acid_chain, _ot_excl, get_atom)
+    return f"O-{o_alkyl} {chain_sub_prefix_ot}{stem}anethioate"
 
 
 def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
@@ -4029,7 +4047,9 @@ def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
     acid_chain = _collect_acid_chain(graph, carbonyl_c, {s_ester_idx}, get_atom)
     n_acid = len(acid_chain)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
-    return f"S-{s_alkyl} {stem}anedithioate"
+    _sd_excl = {s_ester_idx} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    chain_sub_prefix_sd = _pivot_chain_sub_prefix(graph, acid_chain, _sd_excl, get_atom)
+    return f"S-{s_alkyl} {chain_sub_prefix_sd}{stem}anedithioate"
 
 
 def _name_disulfide(graph, pgrp, get_atom) -> str:
@@ -5245,14 +5265,25 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
 
     acid_chain = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+
+    from .substituent import collect_substituents as _cs_hy
+    from .name_assembler import _build_prefix as _build_prefix_hy
+    _lmap_hy = {c: i + 1 for i, c in enumerate(acid_chain)}
+    _hy_excl = excluded | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
+    _subs_hy = _cs_hy(graph, acid_chain, _lmap_hy, list(_hy_excl))
+    if _subs_hy and (len(acid_chain) == 1
+                      or (len(acid_chain) == 2 and len({nm for _, nm in _subs_hy}) == 1)):
+        _subs_hy = [(None, nm) for _, nm in _subs_hy]
+    chain_sub_prefix_hy = _build_prefix_hy(_subs_hy)
+
     _ene_hy, _yne_hy = _chain_multiple_bonds(graph, acid_chain)
     if _ene_hy or _yne_hy:
         from .name_assembler import _format_multiple_bonds as _fmt_hy
-        base = f"{stem}{_fmt_hy(_ene_hy, _yne_hy)}ohydrazide"
+        base = f"{chain_sub_prefix_hy}{stem}{_fmt_hy(_ene_hy, _yne_hy)}ohydrazide"
     elif len(acid_chain) == 2:
-        base = "acetohydrazide"
+        base = f"{chain_sub_prefix_hy}acetohydrazide"
     else:
-        base = f"{stem}anohydrazide"
+        base = f"{chain_sub_prefix_hy}{stem}anohydrazide"
 
     stereo_pfx_hy = ""
     if _ene_hy:
@@ -7097,9 +7128,17 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     _chain_lmap_amid = {c: i + 1 for i, c in enumerate(acid_carbons)}
     _chain_subs_amid = _cs_amid(graph, acid_carbons, _chain_lmap_amid,
                                  [n_idx] + _o_atoms_amid)
+    # 同じ置換基名は倍数詞でまとめる (Phase905; 以前は単純結合で
+    # "2-fluoro-2-fluoro-2-fluoro" のようになり "2,2,2-trifluoro" にならなかった)
+    _by_name_amid: dict[str, list[int]] = {}
+    for _loc_am, _snm_am in _chain_subs_amid:
+        _by_name_amid.setdefault(_snm_am, []).append(_loc_am)
     chain_sub_parts: list[str] = []
-    for _loc_am, _snm_am in sorted(_chain_subs_amid):
-        chain_sub_parts.append(f"{_loc_am}-{_snm_am}")
+    for _snm_am in sorted(_by_name_amid):
+        _locs_am = sorted(_by_name_amid[_snm_am])
+        _loc_str_am = ",".join(str(l) for l in _locs_am)
+        _mult_am = MULTIPLIER.get(len(_locs_am), "") if len(_locs_am) > 1 else ""
+        chain_sub_parts.append(f"{_loc_str_am}-{_mult_am}{_snm_am}")
 
     # N 置換基: N の隣接原子（carbonyl_c を除く）
     c_nbrs = [nb for nb in graph.adjacency[n_idx]
