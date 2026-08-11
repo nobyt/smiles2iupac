@@ -8183,37 +8183,19 @@ def _name_diazonium(graph, get_atom) -> str | None:
         c_idx = c_nbrs[0]
         c_atom = get_atom(graph, c_idx)
 
-        # Benzene ring case: benzenediazonium or substituted arene-diazonium
+        # Benzene ring case: benzenediazonium or substituted arene-diazonium.
+        # Phase908: previously only matched a COMPLETELY unsubstituted
+        # benzene ring ("benzenediazonium"); any ring substituent (e.g. the
+        # very common 4-methylbenzenediazonium / p-toluenediazonium, a
+        # textbook Sandmeyer/azo-coupling reagent) fell all the way through
+        # to a generic, nonsensical fallback ("1-(N)-4-methylbenzene",
+        # silently dropping the diazonium group's charge entirely). Reuses
+        # the same `_aryl_sulfonyl_prefix` ring-substituent builder already
+        # used by the sulfonic/sulfonamide/hydrazide/thioamide ring branches.
         if c_atom.in_ring and c_atom.is_aromatic:
-            # Collect all aromatic ring atoms (BFS)
-            ring_members: list[int] = []
-            visited: set[int] = set()
-            stack = [c_idx]
-            while stack:
-                cur = stack.pop()
-                if cur in visited:
-                    continue
-                visited.add(cur)
-                cur_atom = get_atom(graph, cur)
-                if not cur_atom.in_ring or cur_atom.symbol not in ("C", "N", "O", "S"):
-                    continue
-                ring_members.append(cur)
-                for nb in graph.adjacency[cur]:
-                    if nb not in visited and get_atom(graph, nb).in_ring:
-                        stack.append(nb)
-
-            # Only handle simple 6-membered carbocyclic ring (benzene)
-            if len(ring_members) == 6 and all(get_atom(graph, a).symbol == "C" for a in ring_members):
-                # Check for no other substituents on ring (simple benzenediazonium)
-                ring_set = set(ring_members)
-                non_ring_subs = [(rc, nb) for rc in ring_members
-                                 for nb in graph.adjacency[rc]
-                                 if nb not in ring_set
-                                 and get_atom(graph, nb).symbol not in ("H",)
-                                 and nb != idx]
-                if not non_ring_subs:
-                    return "benzenediazonium"
-            # Fallthrough for complex aryl cases (not handled here)
+            _apfx_dzm = _aryl_sulfonyl_prefix(graph, c_idx, idx, get_atom)
+            if _apfx_dzm is not None:
+                return f"{_apfx_dzm}diazonium"
             continue
 
         # Chain case: aliphatic diazonium.

@@ -234,3 +234,18 @@ def test_phase908_diazo_compound_chain_substituent(smiles, expected):
 ])
 def test_phase908_diazonium_chain_substituent(smiles, expected):
     assert smiles_to_iupac(smiles) == expected
+
+
+@pytest.mark.parametrize("smiles,expected", [
+    ("Cc1ccc(cc1)[N+]#N", "4-methylbenzenediazonium"),
+    ("FC(F)(F)c1ccccc1[N+]#N", "2-(trifluoromethyl)benzenediazonium"),
+    ("Clc1ccccc1[N+]#N", "2-chlorobenzenediazonium"),
+    ("c1ccccc1[N+]#N", "benzenediazonium"),
+])
+def test_phase908_arenediazonium_ring_substituent(smiles, expected):
+    """Previously ANY ring substituent on an arenediazonium salt fell to a
+    nonsensical generic fallback (e.g. "1-(N)-4-methylbenzene", dropping
+    the diazonium group's charge entirely) since only a bare, fully
+    unsubstituted benzene ring was matched. Fixed by reusing the shared
+    `_aryl_sulfonyl_prefix` ring-substituent builder."""
+    assert smiles_to_iupac(smiles) == expected
