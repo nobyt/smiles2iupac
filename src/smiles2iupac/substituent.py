@@ -1244,24 +1244,38 @@ def _name_branched_substituent(
     # ロカントなし不飽和 (n<3): "en"/"yn" → suffix は直接 "yl"
     unsat_has_locant = any(c.isdigit() for c in unsaturation)
 
+    # Phase 914: 分岐置換基自身の主鎖上の立体中心 (R/S)・E/Z も
+    # _name_carbon_substituent の直鎖パス (Phase 912) 同様チェックしていな
+    # かった。例: -CH(CH3)CH2CH3 が [C@H] 付きでも stereo が丸ごと消えていた。
+    stereo_pfx_br = ""
+    try:
+        from .stereochemistry import assign_stereochemistry as _as_br
+        from .chain_finder import PrincipalChain as _pc_cls_br
+        _pc_br = _pc_cls_br(atom_indices=main_path, locant_map=main_locant)
+        _stereo_br = _as_br(graph, _pc_br)
+        if _stereo_br:
+            stereo_pfx_br = "(" + ",".join(d.strip("()") for d in _stereo_br) + ")-"
+    except Exception:
+        pass
+
     if root_pos == 1:
         # root が鎖の末端: 従来の {prefix}{sub}yl 形式
         if not substituent_prefix:
-            return f"{prefix}{unsaturation}yl"
+            return f"{stereo_pfx_br}{prefix}{unsaturation}yl"
         if unsaturation:
             if unsat_has_locant:
-                return f"{substituent_prefix}{prefix}{unsaturation}-1-yl"
-            return f"{substituent_prefix}{prefix}{unsaturation}yl"
-        return f"{substituent_prefix}{prefix}yl"
+                return f"{stereo_pfx_br}{substituent_prefix}{prefix}{unsaturation}-1-yl"
+            return f"{stereo_pfx_br}{substituent_prefix}{prefix}{unsaturation}yl"
+        return f"{stereo_pfx_br}{substituent_prefix}{prefix}yl"
     else:
         # root が内部炭素: propan-2-yl 形式 (IUPAC 2013 PIN)
         if not substituent_prefix:
             if unsaturation:
-                return f"{prefix}an{unsaturation}-{root_pos}-yl"
-            return f"{prefix}an-{root_pos}-yl"
+                return f"{stereo_pfx_br}{prefix}an{unsaturation}-{root_pos}-yl"
+            return f"{stereo_pfx_br}{prefix}an-{root_pos}-yl"
         if unsaturation:
-            return f"{substituent_prefix}{prefix}an{unsaturation}-{root_pos}-yl"
-        return f"{substituent_prefix}{prefix}an-{root_pos}-yl"
+            return f"{stereo_pfx_br}{substituent_prefix}{prefix}an{unsaturation}-{root_pos}-yl"
+        return f"{stereo_pfx_br}{substituent_prefix}{prefix}an-{root_pos}-yl"
 
 
 def _find_through_path(
