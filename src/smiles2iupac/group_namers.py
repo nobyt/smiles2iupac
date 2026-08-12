@@ -117,7 +117,7 @@ def _name_diester(graph, pgrp, get_atom) -> str:
         acid_name = f"{chain_sub_prefix_de}{_DIACID_RETAINED.get(n_acid, f'{stem}anedioate')}"
 
     stereo_pfx_de = ""
-    if _ene_de:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_de = PrincipalChain(atom_indices=acid_carbons,
@@ -272,26 +272,30 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
     _subs_dc = _cs_dc(graph, chain, locant_map_dc, list(set(pgrp.atom_indices)))
     chain_sub_prefix_dc = _bp_dc(_subs_dc)
 
+    # Phase 913: compute once, unconditionally (was only inside the ene/yne
+    # branch below, so a pure R/S stereocenter with no double bond -- e.g. on
+    # a substituted malonate/succinate-style dianion -- silently lost its
+    # descriptor entirely, not just misplaced).
+    stereo_pfx_dc = ""
+    from .stereochemistry import assign_stereochemistry
+    from .chain_finder import PrincipalChain
+    _pc_dc = PrincipalChain(atom_indices=chain,
+                            locant_map={c: i + 1 for i, c in enumerate(chain)})
+    _stereo_dc = assign_stereochemistry(graph, _pc_dc)
+    if _stereo_dc:
+        stereo_pfx_dc = "(" + ",".join(d.strip("()") for d in _stereo_dc) + ")-"
+
     if _ene_dc or _yne_dc:
         from .name_assembler import _format_multiple_bonds as _fmt_dc
         stem = CHAIN_PREFIX.get(n, f"C{n}")
         base = f"{chain_sub_prefix_dc}{stem}{_fmt_dc(_ene_dc, _yne_dc)}edioate"
-        if _ene_dc:
-            from .stereochemistry import assign_stereochemistry
-            from .chain_finder import PrincipalChain
-            _pc_dc = PrincipalChain(atom_indices=chain,
-                                    locant_map={c: i + 1 for i, c in enumerate(chain)})
-            _stereo_dc = assign_stereochemistry(graph, _pc_dc)
-            if _stereo_dc:
-                _comb_dc = ",".join(d.strip("()") for d in _stereo_dc)
-                return f"({_comb_dc})-{base}"
-        return base
+        return f"{stereo_pfx_dc}{base}"
     # 保留ジアニオン名 (飽和のみ; oxalic/malonic/adipic は retained PIN)
     retained = {2: "oxalate", 3: "malonate", 6: "adipate"}
     if n in retained:
-        return f"{chain_sub_prefix_dc}{retained[n]}"
+        return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{retained[n]}"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
-    return f"{chain_sub_prefix_dc}{stem}anedioate"
+    return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{stem}anedioate"
 
 
 def _name_carboxylate(graph, pgrp, get_atom) -> str:
@@ -332,20 +336,22 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
         return f"{sub_prefix}acetate"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
     ene, yne = _chain_multiple_bonds(graph, acid_chain)
+    # Phase 913: compute once, unconditionally (was only inside the ene/yne
+    # branch, so a pure R/S stereocenter with no double bond silently lost
+    # its descriptor entirely).
+    from .stereochemistry import assign_stereochemistry
+    from .chain_finder import PrincipalChain
+    _pc_cox = PrincipalChain(atom_indices=acid_chain,
+                             locant_map={c: i + 1 for i, c in enumerate(acid_chain)})
+    _stereo_cox = assign_stereochemistry(graph, _pc_cox)
+    stereo_pfx_cox = ""
+    if _stereo_cox:
+        stereo_pfx_cox = "(" + ",".join(d.strip("()") for d in _stereo_cox) + ")-"
     if ene or yne:
         from .name_assembler import _format_multiple_bonds as _fmt
         base_name = f"{sub_prefix}{stem}{_fmt(ene, yne)}oate"
-        if ene:
-            from .stereochemistry import assign_stereochemistry
-            from .chain_finder import PrincipalChain
-            _pc_cox = PrincipalChain(atom_indices=acid_chain,
-                                     locant_map={c: i + 1 for i, c in enumerate(acid_chain)})
-            _stereo_cox = assign_stereochemistry(graph, _pc_cox)
-            if _stereo_cox:
-                _comb_cox = ",".join(d.strip("()") for d in _stereo_cox)
-                return f"({_comb_cox})-{base_name}"
-        return base_name
-    return f"{sub_prefix}{stem}anoate"
+        return f"{stereo_pfx_cox}{base_name}"
+    return f"{stereo_pfx_cox}{sub_prefix}{stem}anoate"
 
 
 def _name_thioic_acid(graph, pgrp, get_atom) -> str:
@@ -405,7 +411,7 @@ def _name_thioic_acid(graph, pgrp, get_atom) -> str:
     else:
         mb = ""
     stereo_pfx = ""
-    if ene:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_thi = PrincipalChain(atom_indices=acid_chain,
@@ -510,7 +516,7 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
         base_name = f"{chain_sub_prefix_ia}{stem}animidic acid"
 
     stereo_pfx_ia = ""
-    if _ene_ia:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_ia = PrincipalChain(atom_indices=acid_chain,
@@ -641,7 +647,7 @@ def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
         acid_name = f"{chain_sub_prefix_im}{stem}animidate"
 
     stereo_pfx_im = ""
-    if _ene_im:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_im = PrincipalChain(atom_indices=acid_chain,
@@ -899,7 +905,7 @@ def _name_ester(graph, pgrp, get_atom) -> str:
 
     # E/Z 立体化学 (Phase 316)
     stereo_prefix = ""
-    if _ene_e:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_e = PrincipalChain(atom_indices=acid_carbons,
@@ -1028,7 +1034,7 @@ def _name_acid_halide(graph, pgrp, get_atom) -> str:
 
     # E/Z 立体化学 (Phase 316)
     _stereo_prefix_ah = ""
-    if _ene_h:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_ah = PrincipalChain(atom_indices=acid_carbons,
@@ -1147,7 +1153,7 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
         chain_part = f"{chain_sub_prefix_dah}{stem}anedioyl"
 
     stereo_pfx_dah = ""
-    if _ene_dah:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_dah = PrincipalChain(atom_indices=acid_carbons,
@@ -1195,7 +1201,7 @@ def _name_sulfonate_sulfinate_ester(graph, pgrp, get_atom) -> str:
             acid_stem = CHAIN_PREFIX.get(n, f"C{n}")
             acid_sub_prefix_se = _pivot_chain_sub_prefix(graph, acid_chain_se, {s_idx}, get_atom)
             _ene_ssest, _yne_ssest = _chain_multiple_bonds(graph, acid_chain_se)
-            if _ene_ssest:
+            if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
                 from .stereochemistry import assign_stereochemistry
                 from .chain_finder import PrincipalChain
                 _pc_ssest = PrincipalChain(
@@ -1382,7 +1388,7 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
         acid_sub_prefix = _pivot_chain_sub_prefix(graph, chain_sn, {s_idx}, get_atom)
 
         _ene_sn, _yne_sn = _chain_multiple_bonds(graph, chain_sn)
-        if _ene_sn:
+        if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
             from .stereochemistry import assign_stereochemistry
             from .chain_finder import PrincipalChain
             _pc_snam = PrincipalChain(atom_indices=chain_sn,
@@ -1760,7 +1766,7 @@ def _name_sulfinamide(graph, pgrp, get_atom) -> str:
     sub_prefix_sfin = _pivot_chain_sub_prefix(graph, chain_sn, {s_idx}, get_atom)
     _ene_sn, _yne_sn = _chain_multiple_bonds(graph, chain_sn)
     stereo_pfx_sfin = ""
-    if _ene_sn:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_sfin = PrincipalChain(atom_indices=chain_sn,
@@ -1983,7 +1989,7 @@ def _name_sulfur_chain_acid(graph, pgrp, get_atom, acid_word: str) -> str:
 
     _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
     stereo_pfx_so = ""
-    if _ene_so:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_so = PrincipalChain(atom_indices=chain,
@@ -1998,8 +2004,8 @@ def _name_sulfur_chain_acid(graph, pgrp, get_atom, acid_word: str) -> str:
             return f"{stereo_pfx_so}{sub_prefix}{stem}{mb_str}e-{locant}-{acid_word}"
         return f"{stereo_pfx_so}{sub_prefix}{stem}{mb_str}e{acid_word}"
     if len(chain) >= 3:
-        return f"{sub_prefix}{stem}ane-{locant}-{acid_word}"
-    return f"{sub_prefix}{stem}ane{acid_word}"
+        return f"{stereo_pfx_so}{sub_prefix}{stem}ane-{locant}-{acid_word}"
+    return f"{stereo_pfx_so}{sub_prefix}{stem}ane{acid_word}"
 
 
 def _name_sulfonic_acid(graph, pgrp, get_atom) -> str:
@@ -2220,7 +2226,7 @@ def _name_sulfenic_acid(graph, pgrp, get_atom) -> str:
     sub_prefix = _pivot_chain_sub_prefix(graph, chain, {s_idx}, get_atom)
     _ene_se, _yne_se = _chain_multiple_bonds(graph, chain)
     stereo_pfx_se = ""
-    if _ene_se:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_se = PrincipalChain(atom_indices=chain,
@@ -2235,8 +2241,8 @@ def _name_sulfenic_acid(graph, pgrp, get_atom) -> str:
             return f"{stereo_pfx_se}{sub_prefix}{stem}{mb_str}e-{locant}-sulfenic acid"
         return f"{stereo_pfx_se}{sub_prefix}{stem}{mb_str}esulfenic acid"
     if len(chain) >= 3:
-        return f"{sub_prefix}{stem}ane-{locant}-sulfenic acid"
-    return f"{sub_prefix}{stem}anesulfenic acid"
+        return f"{stereo_pfx_se}{sub_prefix}{stem}ane-{locant}-sulfenic acid"
+    return f"{stereo_pfx_se}{sub_prefix}{stem}anesulfenic acid"
 
 
 def _name_sulfenyl_halide(graph, pgrp, get_atom) -> str:
@@ -2327,7 +2333,7 @@ def _name_sulfonyl_chloride(graph, pgrp, get_atom) -> str:
 
     _ene_sc, _yne_sc = _chain_multiple_bonds(graph, chain_sc)
     stereo_pfx_sc = ""
-    if _ene_sc:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_sc = PrincipalChain(atom_indices=chain_sc,
@@ -2342,8 +2348,8 @@ def _name_sulfonyl_chloride(graph, pgrp, get_atom) -> str:
             return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}{mb_str}e-{locant_sc}-sulfonyl {halide_name}"
         return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}{mb_str}esulfonyl {halide_name}"
     if len(chain_sc) >= 3:
-        return f"{sub_prefix_sc}{stem}ane-{locant_sc}-sulfonyl {halide_name}"
-    return f"{sub_prefix_sc}{stem}anesulfonyl {halide_name}"
+        return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}ane-{locant_sc}-sulfonyl {halide_name}"
+    return f"{stereo_pfx_sc}{sub_prefix_sc}{stem}anesulfonyl {halide_name}"
 
 
 def _name_chloroformate(graph, pgrp, get_atom) -> str:
@@ -4017,7 +4023,7 @@ def _name_thioester(graph, pgrp, get_atom) -> str:
 
     # E/Z 立体化学
     stereo_prefix = ""
-    if _ene_ts:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_ts = PrincipalChain(atom_indices=acid_chain,
@@ -4938,7 +4944,7 @@ def _name_semicarbazone(graph, pgrp, get_atom) -> str:
 
     _ene_sc, _yne_sc = _chain_multiple_bonds(graph, chain.atom_indices)
     stereo_pfx_sc = ""
-    if _ene_sc:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_sc = PrincipalChain(atom_indices=chain.atom_indices,
@@ -5053,7 +5059,7 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
 
     _ene_hz, _yne_hz = _chain_multiple_bonds(graph, chain.atom_indices)
     stereo_pfx_hz = ""
-    if _ene_hz:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain as _PC_hz
         _pc_hz = _PC_hz(atom_indices=chain.atom_indices, locant_map=chain.locant_map)
@@ -5148,7 +5154,7 @@ def _name_peroxyacid(graph, pgrp, get_atom) -> str:
     else:
         parent_pa = f"{chain_sub_prefix_pa}{stem}aneperoxoic acid"
     stereo_pfx_pa = ""
-    if _ene_pa:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_pa = PrincipalChain(atom_indices=acid_chain,
@@ -5444,7 +5450,7 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
         base = f"{chain_sub_prefix_hy}{stem}anohydrazide"
 
     stereo_pfx_hy = ""
-    if _ene_hy:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_hy = PrincipalChain(atom_indices=acid_chain,
@@ -6661,7 +6667,7 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
         parent_name = f"{chain_sub_prefix_ta}{stem}anethioamide"
 
     stereo_pfx_ta = ""
-    if _ene_ta:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_ta = PrincipalChain(atom_indices=acid_chain,
@@ -6799,7 +6805,7 @@ def _name_dithioamide(graph, pgrp, get_atom) -> str:
         parent_dta = f"{chain_sub_prefix_dta}{stem}anedithioamide"
 
     stereo_pfx_dta = ""
-    if _ene_dta:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_dta = PrincipalChain(atom_indices=chain_dta,
@@ -6878,7 +6884,7 @@ def _name_diselenoamide(graph, pgrp, get_atom) -> str:
         parent_dsa = f"{chain_sub_prefix_dsa}{stem}anediselenoamide"
 
     stereo_pfx_dsa = ""
-    if _ene_dsa:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_dsa = PrincipalChain(atom_indices=chain_dsa,
@@ -7091,7 +7097,7 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
         parent_name = f"{chain_sub_prefix_sa}{stem}aneselenoamide"
 
     stereo_pfx_sa = ""
-    if _ene_sa:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_sa = PrincipalChain(atom_indices=acid_chain,
@@ -7166,7 +7172,7 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
         parent_name = f"{chain_sub_prefix_te}{stem}anetelluramide"
 
     stereo_pfx_te = ""
-    if _ene_te:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_te = PrincipalChain(atom_indices=acid_chain,
@@ -7273,22 +7279,25 @@ def _name_anhydride(graph, pgrp, get_atom) -> str:
             return aryl
         sub_prefix_anh = _sub_prefix_anh(carbonyl_c, chain)
         _ene, _yne = _chain_multiple_bonds(graph, chain)
+        # Phase 913: compute once, unconditionally (was only inside the
+        # ene/yne branch, so a pure R/S stereocenter with no double bond --
+        # e.g. trifluoro*chloro*acetic anhydride style substituted acids --
+        # silently lost its descriptor entirely).
+        from .stereochemistry import assign_stereochemistry
+        from .chain_finder import PrincipalChain
+        _pc = PrincipalChain(atom_indices=chain,
+                             locant_map={c: i + 1 for i, c in enumerate(chain)})
+        _stereo = assign_stereochemistry(graph, _pc)
+        stereo_pfx_anh = ""
+        if _stereo:
+            stereo_pfx_anh = "(" + ",".join(d.strip("()") for d in _stereo) + ")-"
         if not _ene and not _yne and len(chain) in _ACID_RETAINED:
-            return f"{sub_prefix_anh}{_ACID_RETAINED[len(chain)]}"
+            return f"{stereo_pfx_anh}{sub_prefix_anh}{_ACID_RETAINED[len(chain)]}"
         stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
         if _ene or _yne:
             acid_name = f"{sub_prefix_anh}{stem}{_fmt_anh(_ene, _yne)}oic"
-            if _ene:
-                from .stereochemistry import assign_stereochemistry
-                from .chain_finder import PrincipalChain
-                _pc = PrincipalChain(atom_indices=chain,
-                                     locant_map={c: i + 1 for i, c in enumerate(chain)})
-                _stereo = assign_stereochemistry(graph, _pc)
-                if _stereo:
-                    _combined = ",".join(d.strip("()") for d in _stereo)
-                    return f"({_combined})-{acid_name}"
-            return acid_name
-        return f"{sub_prefix_anh}{stem}anoic"
+            return f"{stereo_pfx_anh}{acid_name}"
+        return f"{stereo_pfx_anh}{sub_prefix_anh}{stem}anoic"
 
     acid1 = _acid_stem_name(c1, chain1)
     acid2 = _acid_stem_name(c2, chain2)
@@ -7477,7 +7486,7 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
 
     # E/Z stereo prefix
     stereo_prefix_sta = ""
-    if _ene_a:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_sta = PrincipalChain(atom_indices=acid_carbons,
@@ -7689,7 +7698,7 @@ def _name_substituted_amidine(graph, amidine_c: int,
         parent_name = f"{chain_sub_prefix_ai}{stem}animidamide"
 
     stereo_pfx_ai = ""
-    if _ene_ai:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_ai = PrincipalChain(atom_indices=acid_carbons,
@@ -7911,7 +7920,7 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
 
     # E/Z stereo for parent chain double bonds
     stereo_pfx_am = ""
-    if _ene_am:
+    if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
         from .stereochemistry import assign_stereochemistry
         from .chain_finder import PrincipalChain
         _pc_am = PrincipalChain(atom_indices=parent_chain,
