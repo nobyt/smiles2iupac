@@ -479,7 +479,7 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
                 _sn_ia = [_name_carbon_substituent(graph, nb, {_ni_ia}) for nb in _nsubs_ia]
                 _cnt_ia = _Ctr_ia(_sn_ia)
                 _pts_ia: list[str] = []
-                for _s in sorted(_cnt_ia):
+                for _s in sorted(_cnt_ia, key=_substituent_alpha_key):
                     _c = _cnt_ia[_s]
                     _ss = f"({_s})" if _s.startswith("(") else _s
                     if _c == 1:
@@ -529,7 +529,7 @@ def _name_imidic_acid(graph, pgrp, get_atom) -> str:
             sub_names_ia = [_name_carbon_substituent(graph, nb, {n_idx}) for nb in n_subs_ia]
             cnt_map_ia = _Ctr_ia(sub_names_ia)
             parts_ia = []
-            for sub in sorted(cnt_map_ia):
+            for sub in sorted(cnt_map_ia, key=_substituent_alpha_key):
                 cnt = cnt_map_ia[sub]
                 sub_str_ia = f"({sub})" if sub.startswith("(") else sub
                 if cnt == 1:
@@ -573,7 +573,7 @@ def _name_carbamimidic_family(graph, pgrp, get_atom) -> str:
         names = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_subs]
         counts = Counter(names)
         parts = []
-        for sub in sorted(counts):
+        for sub in sorted(counts, key=_substituent_alpha_key):
             cnt = counts[sub]
             sub_str = f"({sub})" if sub.startswith("(") else sub
             if cnt == 1:
@@ -662,7 +662,7 @@ def _name_imidate_ester(graph, pgrp, get_atom) -> str | None:
             sub_names = [_name_carbon_substituent(graph, nb, {n_idx}) for nb in n_subs]
             cnt_map = _Ctr(sub_names)
             parts = []
-            for sub in sorted(cnt_map):
+            for sub in sorted(cnt_map, key=_substituent_alpha_key):
                 cnt = cnt_map[sub]
                 sub_str = f"({sub})" if _nbp_im(sub) else sub
                 if cnt == 1:
@@ -1108,7 +1108,7 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
         loc1_dah = ring_chain_dah.locant_map.get(ring_c1, 1)
         loc2_dah = ring_chain_dah.locant_map.get(ring_c2, 2)
         locs_dah = sorted([loc1_dah, loc2_dah])
-        halide_names_sorted_dah = sorted(halide_names)
+        halide_names_sorted_dah = sorted(halide_names, key=_substituent_alpha_key)
         if halide_names_sorted_dah[0] == halide_names_sorted_dah[1]:
             halide_str_dah = f"di{halide_names_sorted_dah[0]}"
         else:
@@ -1156,7 +1156,7 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
         if _stereo_dah:
             stereo_pfx_dah = "(" + ",".join(d.strip("()") for d in _stereo_dah) + ")-"
 
-    halide_names_sorted = sorted(halide_names)
+    halide_names_sorted = sorted(halide_names, key=_substituent_alpha_key)
     if halide_names_sorted[0] == halide_names_sorted[1]:
         halide_str = f"di{halide_names_sorted[0]}"
     else:
@@ -1249,12 +1249,7 @@ def _dual_c_group_prefix(graph, central_idx, c1, c2, get_atom) -> str:
     def _needs_parens(nm: str) -> bool:
         return bool(_re_sox.search(r"[0-9]", nm)) or nm.startswith("(")
 
-    def _alpha_base(nm: str) -> str:
-        s = _re_sox.sub(r"^\(", "", nm)
-        s = _re_sox.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
+    names = sorted([name1, name2], key=_substituent_alpha_key)
 
     if names[0] == names[1]:
         nm = names[0]
@@ -1347,12 +1342,7 @@ def _name_selenoxide_selenone(graph, pgrp, get_atom) -> str:
     def _needs_parens(nm: str) -> bool:
         return bool(_re_seo.search(r"[0-9]", nm)) or nm.startswith("(")
 
-    def _alpha_base(nm: str) -> str:
-        s = _re_seo.sub(r"^\(", "", nm)
-        s = _re_seo.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
+    names = sorted([name1, name2], key=_substituent_alpha_key)
 
     if names[0] == names[1]:
         nm = names[0]
@@ -1459,7 +1449,7 @@ def _name_sulfonamide(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         # Wrap in parens if stereo prefix or locant-bearing (e.g. "pyridin-2-yl" → "(pyridin-2-yl)")
         sub_str = (f"({sub})"
@@ -1550,7 +1540,7 @@ def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
     n2_subs = [_name_carbon_substituent(graph, c, {n2_idx}) for c in c_on_n2]
     sub_counts = Counter(n2_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -1581,7 +1571,7 @@ def _name_sulfamic_acid(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -1619,12 +1609,12 @@ def _name_n_substituted_sulfamide(graph, pgrp, get_atom) -> str:
         return "sulfamide"
 
     # Assign N/N' labels in alphabetical order of substituent name
-    sub_names_sorted = sorted(sub for _, sub in all_sub_pairs)
+    sub_names_sorted = sorted((sub for _, sub in all_sub_pairs), key=_substituent_alpha_key)
     sub_counts_sf = Counter(sub_names_sorted)
 
     # Re-label: alphabetically first unique substituent gets "N", second gets "N'"
     n_labels = ["N", "N'"]
-    unique_subs = sorted(sub_counts_sf.keys())
+    unique_subs = sorted(sub_counts_sf.keys(), key=_substituent_alpha_key)
     prefix_parts_sf: list[str] = []
     label_idx = 0
     for sub in unique_subs:
@@ -1695,7 +1685,7 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
     n2_subs = [_name_carbon_substituent(graph, c, {n2_idx}) for c in c_on_n2]
     sub_counts = Counter(n2_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -1739,7 +1729,7 @@ def _name_sulfenamide(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -1803,7 +1793,7 @@ def _name_sulfinamide(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -1853,7 +1843,7 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
         subs = [_name_carbon_substituent(graph, c, {n_idx, s_idx}) for c in c_on_n]
         counts = Counter(subs)
         parts = []
-        for sub in sorted(counts):
+        for sub in sorted(counts, key=_substituent_alpha_key):
             cnt = counts[sub]
             sub_str = f"({sub})" if sub.startswith("(") else sub
             if cnt == 1:
@@ -2451,7 +2441,7 @@ def _name_carbonate(graph, pgrp, get_atom) -> str:
     alkyl_names.sort()
     counts = Counter(alkyl_names)
     parts = []
-    for name in sorted(counts):
+    for name in sorted(counts, key=_substituent_alpha_key):
         cnt = counts[name]
         if cnt == 1:
             parts.append(name)
@@ -2488,7 +2478,7 @@ def _name_carbonothioate(graph, pgrp, get_atom) -> str:
     alkyl_names.sort()
     counts = Counter(alkyl_names)
     parts = []
-    for name in sorted(counts):
+    for name in sorted(counts, key=_substituent_alpha_key):
         cnt = counts[name]
         if cnt == 1:
             parts.append(name)
@@ -2524,7 +2514,7 @@ def _name_carbonodithioate(graph, pgrp, get_atom) -> str:
     alkyl_names.sort()
     counts = Counter(alkyl_names)
     parts = []
-    for name in sorted(counts):
+    for name in sorted(counts, key=_substituent_alpha_key):
         cnt = counts[name]
         if cnt == 1:
             parts.append(name)
@@ -2553,10 +2543,9 @@ def _name_phosphate_ester(graph, pgrp, get_atom) -> str:
             alkyl_names.append(_name_carbon_substituent(graph, c_neighbors[0], {o_idx}))
         else:
             alkyl_names.append("hydrogen")
-    alkyl_names.sort()
     counts = Counter(alkyl_names)
     # 有機置換基をアルファベット順に並べ、hydrogen を最後に
-    organic_subs = sorted(s for s in counts if s != "hydrogen")
+    organic_subs = sorted((s for s in counts if s != "hydrogen"), key=_substituent_alpha_key)
     parts = []
     for sub in organic_subs:
         n = counts[sub]
@@ -2592,9 +2581,8 @@ def _name_phosphoramidate_ester(graph, pgrp, get_atom) -> str:
             alkyl_names.append(_name_carbon_substituent(graph, c_nbrs[0], {o_idx}))
         else:
             alkyl_names.append("hydrogen")
-    alkyl_names.sort()
     counts = Counter(alkyl_names)
-    organic_subs = sorted(s for s in counts if s != "hydrogen")
+    organic_subs = sorted((s for s in counts if s != "hydrogen"), key=_substituent_alpha_key)
     parts = []
     for sub in organic_subs:
         n = counts[sub]
@@ -2615,7 +2603,7 @@ def _name_phosphoramidate_ester(graph, pgrp, get_atom) -> str:
         names = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_subs]
         sc = Counter(names)
         n_parts = []
-        for sub in sorted(sc):
+        for sub in sorted(sc, key=_substituent_alpha_key):
             cnt = sc[sub]
             sub_str = f"({sub})" if sub.startswith("(") else sub
             if cnt == 1:
@@ -2642,7 +2630,7 @@ def _name_phosphonate_halfester(graph, pgrp, get_atom) -> str:
                   if nb != p_idx and get_atom(graph, nb).symbol == "C"]
         if c_nbrs:
             ester_names.append(_name_carbon_substituent(graph, c_nbrs[0], {o_idx}))
-    ester_names.sort()
+    ester_names.sort(key=_substituent_alpha_key)
     p_alkyl = _name_carbon_substituent(graph, pc_neighbors[0], {p_idx}) if pc_neighbors else ""
     return " ".join(ester_names) + " hydrogen " + p_alkyl + "phosphonate"
 
@@ -2668,10 +2656,9 @@ def _name_phosphonate_ester(graph, pgrp, get_atom) -> str:
             ester_names.append(_name_carbon_substituent(graph, c_neighbors[0], {o_idx}))
         else:
             ester_names.append("hydrogen")
-    ester_names.sort()
     counts_ester = Counter(ester_names)
     parts = []
-    for sub in sorted(counts_ester):
+    for sub in sorted(counts_ester, key=_substituent_alpha_key):
         n = counts_ester[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -2687,9 +2674,7 @@ def _name_phosphonate_ester(graph, pgrp, get_atom) -> str:
 def _name_phosphinate_ester(graph, pgrp, get_atom) -> str:
     """ホスフィネートエステル: R' diRphosphinate  (Phase 145)"""
     from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
     from .molecule_analyzer import get_bond_order
-    from collections import Counter
     p_idx = pgrp.atom_indices[0]
     pc_neighbors = [nb for nb in graph.adjacency[p_idx] if get_atom(graph, nb).symbol == "C"]
     o_ester_idxs = [nb for nb in graph.adjacency[p_idx]
@@ -2705,23 +2690,15 @@ def _name_phosphinate_ester(graph, pgrp, get_atom) -> str:
         ester_part = ester_names[0]
     else:
         ester_part = "hydrogen"
-    pc_names = sorted(_name_carbon_substituent(graph, c, {p_idx}) for c in pc_neighbors)
-    counts_pc = Counter(pc_names)
-    pc_parts = []
-    for sub in sorted(counts_pc):
-        n = counts_pc[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        pc_parts.append(f"{mult}{sub}")
-    p_part = "".join(pc_parts)
+    pc_names = [_name_carbon_substituent(graph, c, {p_idx}) for c in pc_neighbors]
+    p_part = _format_substituent_group(pc_names)
     return f"{ester_part} {p_part}phosphinate"
 
 
 def _name_phosphonothioate_ester(graph, pgrp, get_atom) -> str:
     """ホスホノチオアートエステル: diR' Rphosphonothioate (Phase 372)"""
     from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
     from .molecule_analyzer import get_bond_order
-    from collections import Counter
     p_idx = pgrp.atom_indices[0]
     pc_neighbors = [nb for nb in graph.adjacency[p_idx] if get_atom(graph, nb).symbol == "C"]
     o_ester_idxs = [nb for nb in graph.adjacency[p_idx]
@@ -2735,14 +2712,7 @@ def _name_phosphonothioate_ester(graph, pgrp, get_atom) -> str:
             ester_names.append(_name_carbon_substituent(graph, c_neighbors[0], {o_idx}))
         else:
             ester_names.append("hydrogen")
-    ester_names.sort()
-    counts_ester = Counter(ester_names)
-    parts = []
-    for sub in sorted(counts_ester):
-        n = counts_ester[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        parts.append(f"{mult}{sub}")
-    ester_part = " ".join(parts)
+    ester_part = _format_substituent_group(ester_names, sep=" ")
     if pc_neighbors:
         p_alkyl = _name_carbon_substituent(graph, pc_neighbors[0], {p_idx})
     else:
@@ -2761,23 +2731,45 @@ def _name_phosphonic_acid(graph, pgrp, get_atom) -> str:
     return f"{sub}phosphonic acid"
 
 
+def _format_substituent_group(names: list[str], sep: str = "") -> str:
+    """複数の完成済み置換基名（自身のロカントを内包しうる）をグループ化し、
+    アルファベット順（内包ロカントを無視）にソートして連結する共通ヘルパー。
+
+    `_name_carbon_substituent` が返す名前は既に自己完結した文字列
+    (例: "2,2,2-trifluoroethyl") のため、`_build_prefix` が使う
+    (locant, name) タプル方式のソート/倍数詞処理とは別に、この関数で
+    同じ規則 (`_substituent_alpha_key` でのソート、`_needs_bis_tris` による
+    bis/tris・カッコ付与) を再現する。
+    """
+    from .constants import MULTIPLIER
+    from .name_assembler import _needs_bis_tris, _BIS_MULTIPLIER
+    from collections import Counter
+    counts = Counter(names)
+    parts = []
+    for sub in sorted(counts, key=_substituent_alpha_key):
+        n = counts[sub]
+        if n > 1 and _needs_bis_tris(sub):
+            mult = _BIS_MULTIPLIER.get(n, f"({n}x)")
+            parts.append(f"{mult}({sub})")
+        elif _needs_bis_tris(sub):
+            # single occurrence, but the name carries its own locants
+            # (e.g. "2,2,2-trifluoroethyl") — needs parens for disambiguation
+            parts.append(f"({sub})")
+        else:
+            mult = MULTIPLIER.get(n, "") if n > 1 else ""
+            parts.append(f"{mult}{sub}")
+    return sep.join(parts)
+
+
 def _name_by_c_substituents(graph, pgrp, get_atom, suffix: str) -> str:
     """共通ヘルパー: 中心原子の C 隣接から置換基名を組み立て + suffix を返す。"""
     from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
-    from collections import Counter
     central = pgrp.atom_indices[0]
     c_neighbors = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
     if not c_neighbors:
         return suffix
-    names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_neighbors)
-    counts = Counter(names)
-    parts = []
-    for sub in sorted(counts):
-        n = counts[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        parts.append(f"{mult}{sub}")
-    return "".join(parts) + suffix
+    names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
+    return _format_substituent_group(names) + suffix
 
 
 def _name_phosphinic_acid(graph, pgrp, get_atom) -> str:
@@ -2819,7 +2811,8 @@ def _phosphoramidic_n_subs(graph, get_atom, n_idx, p_idx):
     from .substituent import _name_carbon_substituent
     subs = [nb for nb in graph.adjacency[n_idx]
             if nb != p_idx and get_atom(graph, nb).symbol == "C"]
-    return sorted(_name_carbon_substituent(graph, c, {n_idx, p_idx}) for c in subs)
+    return sorted((_name_carbon_substituent(graph, c, {n_idx, p_idx}) for c in subs),
+                  key=_substituent_alpha_key)
 
 
 def _name_phosphoramidic_family(graph, pgrp, get_atom) -> str:
@@ -2876,7 +2869,7 @@ def _name_phosphoramidic_family(graph, pgrp, get_atom) -> str:
     for sub, loc in entries:
         by_sub[sub].append(loc)
     parts = []
-    for sub in sorted(by_sub):
+    for sub in sorted(by_sub, key=_substituent_alpha_key):
         locs = sorted(by_sub[sub], key=lambda x: (x.rstrip("'"), x))
         mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
         sub_str = f"({sub})" if sub.startswith("(") or any(c.isdigit() for c in sub) else sub
@@ -2932,7 +2925,7 @@ def _name_phosphonimidic_acid(graph, pgrp, get_atom) -> str:
     for sub, loc in entries:
         by_sub[sub].append(loc)
     parts = []
-    for sub in sorted(by_sub):
+    for sub in sorted(by_sub, key=_substituent_alpha_key):
         locs = sorted(by_sub[sub])
         mult = MULTIPLIER.get(len(locs), "") if len(locs) > 1 else ""
         sub_str = f"({sub})" if sub.startswith("(") or any(c.isdigit() for c in sub) else sub
@@ -2994,8 +2987,6 @@ def _name_phosphine_arsane_imine(graph, pgrp, get_atom, base: str) -> str:
     同じ locant スタイル)。"""
     from .molecule_analyzer import get_bond_order
     from .substituent import _name_carbon_substituent
-    from .constants import MULTIPLIER
-    from collections import Counter
 
     central = pgrp.atom_indices[0]
     c_neighbors = [nb for nb in graph.adjacency[central] if get_atom(graph, nb).symbol == "C"]
@@ -3017,14 +3008,8 @@ def _name_phosphine_arsane_imine(graph, pgrp, get_atom, base: str) -> str:
     if not c_neighbors:
         return f"{n_prefix}{stem}"
 
-    names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_neighbors)
-    counts = Counter(names)
-    parts = []
-    for sub in sorted(counts):
-        n = counts[sub]
-        mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        parts.append(f"{mult}{sub}")
-    return f"{n_prefix}{''.join(parts)}{stem}"
+    names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
+    return f"{n_prefix}{_format_substituent_group(names)}{stem}"
 
 
 def _name_phosphine_imine(graph, pgrp, get_atom) -> str:
@@ -3048,7 +3033,7 @@ def _name_phosphite_ester(graph, pgrp, get_atom) -> str:
         return "phosphite"
     counts = Counter(alkyl_names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3074,7 +3059,7 @@ def _name_borate_ester(graph, pgrp, get_atom) -> str:
     counts = Counter(alkoxy_names)
     all_same = len(counts) == 1
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, f"{n}") if n > 1 else ""
         if all_same:
@@ -3111,7 +3096,7 @@ def _name_boronate_ester(graph, pgrp, get_atom) -> str:
     )
     counts = Counter(ester_names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3193,20 +3178,20 @@ def _name_borane_silane_with_halo_amino(graph, pgrp, get_atom, base: str) -> str
         # ハロゲンとの混在が無ければアルキルは括弧無し (methylboranediamine)
         return _name_by_c_substituents(graph, pgrp, get_atom, tail)
     # 混合: ハロゲン + アルキル置換基 — アルファベット順、アルキルは括弧付き
-    halo_names = sorted(_halo_map[get_atom(graph, h).symbol] for h in hal_nbrs)
+    halo_names = [_halo_map[get_atom(graph, h).symbol] for h in hal_nbrs]
     halo_counts = Counter(halo_names)
-    alkyl_names = sorted(_name_carbon_substituent(graph, c, {central}) for c in c_nbrs)
+    alkyl_names = [_name_carbon_substituent(graph, c, {central}) for c in c_nbrs]
     alkyl_counts = Counter(alkyl_names)
     parts: list[tuple[str, str]] = []
-    for sub in sorted(halo_counts):
+    for sub in sorted(halo_counts, key=_substituent_alpha_key):
         n = halo_counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append((sub, f"{mult}{sub}"))
-    for sub in sorted(alkyl_counts):
+    for sub in sorted(alkyl_counts, key=_substituent_alpha_key):
         n = alkyl_counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append((sub, f"({mult}{sub})"))
-    parts.sort(key=lambda x: x[0])
+    parts.sort(key=lambda x: _substituent_alpha_key(x[0]))
     return "".join(p for _, p in parts) + tail
 
 
@@ -3341,14 +3326,14 @@ def _name_silyl_ether(graph, pgrp, get_atom) -> str:
             alkyl = _name_carbon_substituent(graph, c_on_o, {o_idx})
             alkoxy_groups.append(_make_oxy_name(alkyl))
     alkyl_groups = [_name_carbon_substituent(graph, c, {central}) for c in c_nbrs]
-    all_groups = sorted(alkoxy_groups) + sorted(alkyl_groups)
+    all_groups = alkoxy_groups + alkyl_groups
     cnt = Counter(all_groups)
     parts: list[tuple[str, str]] = []
-    for sub in sorted(cnt):
+    for sub in sorted(cnt, key=_substituent_alpha_key):
         n = cnt[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append((sub, f"{mult}{sub}"))
-    parts.sort(key=lambda x: x[0])
+    parts.sort(key=lambda x: _substituent_alpha_key(x[0]))
     return "".join(p for _, p in parts) + "silane"
 
 
@@ -3369,7 +3354,7 @@ def _name_disilane(graph, pgrp, get_atom) -> str:
         return "disilane"
     counts = Counter(names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3393,7 +3378,7 @@ def _name_disiloxane(graph, pgrp, get_atom) -> str:
         return "disiloxane"
     counts = Counter(names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3417,7 +3402,7 @@ def _name_disilazane(graph, pgrp, get_atom) -> str:
         return "disilazane"
     counts = Counter(names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3468,21 +3453,23 @@ def _name_organomercury(graph, pgrp, get_atom) -> str:
     _halo_names = {"Cl": "chloro", "Br": "bromo", "F": "fluoro", "I": "iodo"}
     if not c_nbrs:
         return "mercury"
-    alkyl_names = sorted(_name_carbon_substituent(graph, c, {hg_idx}) for c in c_nbrs)
+    if not hal_nbrs:
+        alkyl_names = [_name_carbon_substituent(graph, c, {hg_idx}) for c in c_nbrs]
+        return _format_substituent_group(alkyl_names) + "mercury"
+    alkyl_names = [_name_carbon_substituent(graph, c, {hg_idx}) for c in c_nbrs]
     counts = Counter(alkyl_names)
-    # Build alkyl part with multipliers
+    # Build alkyl part with multipliers (always parenthesized when mixed with halogen)
     alkyl_parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
-        alkyl_parts.append(f"({mult}{sub})" if hal_nbrs else f"{mult}{sub}")
-    if hal_nbrs:
-        halo_parts = sorted(_halo_names.get(get_atom(graph, h).symbol, "halo") for h in hal_nbrs)
-        # Sort all substituents alphabetically (strip parens for sorting)
-        all_subs = [(p.strip("()"), p) for p in halo_parts + alkyl_parts]
-        all_subs.sort(key=lambda x: x[0])
-        return "".join(p for _, p in all_subs) + "mercury"
-    return "".join(alkyl_parts) + "mercury"
+        alkyl_parts.append(f"({mult}{sub})")
+    halo_parts = sorted((_halo_names.get(get_atom(graph, h).symbol, "halo") for h in hal_nbrs),
+                        key=_substituent_alpha_key)
+    # Sort all substituents alphabetically (strip parens for sorting)
+    all_subs = [(p.strip("()"), p) for p in halo_parts + alkyl_parts]
+    all_subs.sort(key=lambda x: _substituent_alpha_key(x[0]))
+    return "".join(p for _, p in all_subs) + "mercury"
 
 
 def _name_organic_bismuthane(graph, pgrp, get_atom) -> str:
@@ -3602,7 +3589,7 @@ def _name_element_ol_family(graph, pgrp, get_atom, base: str) -> str:
     alkyl_names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
     counts = Counter(alkyl_names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3650,7 +3637,7 @@ def _name_element_thiol_family(graph, pgrp, get_atom, base: str) -> str:
     alkyl_names = [_name_carbon_substituent(graph, c, {central}) for c in c_neighbors]
     counts = Counter(alkyl_names)
     parts = []
-    for sub in sorted(counts):
+    for sub in sorted(counts, key=_substituent_alpha_key):
         n = counts[sub]
         mult = MULTIPLIER.get(n, "") if n > 1 else ""
         parts.append(f"{mult}{sub}")
@@ -3795,7 +3782,7 @@ def _name_carbamate(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_nbrs]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -3850,7 +3837,7 @@ def _name_o_thiocarbamate(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_nbrs]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -3901,7 +3888,7 @@ def _name_s_carbamothioate(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_nbrs]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -3952,7 +3939,7 @@ def _name_s_carbamodithioate(graph, pgrp, get_atom) -> str:
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_nbrs]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -4126,12 +4113,7 @@ def _name_disulfide(graph, pgrp, get_atom) -> str:
     def _needs_parens(nm: str) -> bool:
         return bool(_re_ds.search(r"[0-9]", nm)) or nm.startswith("(")
 
-    def _alpha_base(nm: str) -> str:
-        s = _re_ds.sub(r"^\(", "", nm)
-        s = _re_ds.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
+    names = sorted([name1, name2], key=_substituent_alpha_key)
 
     if names[0] == names[1]:
         nm = names[0]
@@ -4196,12 +4178,7 @@ def _name_diselenide_ditelluride(graph, pgrp, get_atom) -> str:
     def _needs_parens(nm: str) -> bool:
         return bool(_re_dch.search(r"[0-9]", nm)) or nm.startswith("(")
 
-    def _alpha_base(nm: str) -> str:
-        s = _re_dch.sub(r"^\(", "", nm)
-        s = _re_dch.sub(r"^(di|tri|tetra|bis|tris)", "", s)
-        return s.lower()
-
-    names = sorted([name1, name2], key=_alpha_base)
+    names = sorted([name1, name2], key=_substituent_alpha_key)
 
     if names[0] == names[1]:
         nm = names[0]
@@ -4499,7 +4476,7 @@ def _name_carbamic_acid(graph, pgrp, get_atom) -> str:
         names2 = [_name_carbon_substituent(graph, c, {n2_idx}) for c in c_on_n2]
         cnt_map2 = Counter(names2)
         parts2 = []
-        for sub in sorted(cnt_map2):
+        for sub in sorted(cnt_map2, key=_substituent_alpha_key):
             cnt = cnt_map2[sub]
             if cnt == 1:
                 parts2.append(f"2-{sub}")
@@ -4520,7 +4497,7 @@ def _name_carbamic_acid(graph, pgrp, get_atom) -> str:
     names = [_name_carbon_substituent(graph, c, {n_idx, carbonyl_c}) for c in n_c_subs]
     sub_counts = Counter(names)
     parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -4577,7 +4554,7 @@ def _name_carbamo_chalcogenoic_acid(graph, pgrp, get_atom) -> str:
     names = [_name_carbon_substituent(graph, c, {n_idx, c_idx}) for c in n_c_subs]
     sub_counts = Counter(names)
     parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt2 = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt2 == 1:
@@ -4619,7 +4596,7 @@ def _name_carbodiimide(graph, pgrp, get_atom) -> str:
         w = _wrap_ci(alkyl_names[0])
         return f"N,N'-{mult}{w}methanediimine"
 
-    names_sorted = sorted(alkyl_names)
+    names_sorted = sorted(alkyl_names, key=_substituent_alpha_key)
     if len(names_sorted) == 2:
         w0, w1 = _wrap_ci(names_sorted[0]), _wrap_ci(names_sorted[1])
         return f"N-{w0}-N'-{w1}methanediimine"
@@ -4694,15 +4671,16 @@ def _name_thiourea_if_match(graph, get_atom) -> str | None:
 
     def get_subs(n_idx: int) -> list[str]:
         return sorted(
-            _name_carbon_substituent(graph, c, {n_idx})
-            for c in graph.adjacency[n_idx]
-            if get_atom(graph, c).symbol == "C" and c != center_idx
+            (_name_carbon_substituent(graph, c, {n_idx})
+             for c in graph.adjacency[n_idx]
+             if get_atom(graph, c).symbol == "C" and c != center_idx),
+            key=_substituent_alpha_key,
         )
 
     def build_prefix(subs: list[str], prime: str = "") -> list[str]:
         from collections import Counter
         parts: list[str] = []
-        for sub, cnt in sorted(Counter(subs).items()):
+        for sub, cnt in sorted(Counter(subs).items(), key=lambda t: _substituent_alpha_key(t[0])):
             tag = f"N{prime}"
             needs_p = sub.startswith("(") or any(c.isdigit() for c in sub)
             sub_str = f"({sub})" if needs_p else sub
@@ -4805,12 +4783,12 @@ def _name_substituted_urea_if_match(graph, get_atom) -> str | None:
                 sp = _sulfonyl_prefix(nb, n_idx)
                 if sp is not None:
                     subs.append(sp)
-        return sorted(subs)
+        return sorted(subs, key=_substituent_alpha_key)
 
     def build_prefix(subs: list[str], prime: str = "") -> list[str]:
         from collections import Counter
         parts: list[str] = []
-        for sub, cnt in sorted(Counter(subs).items()):
+        for sub, cnt in sorted(Counter(subs).items(), key=lambda t: _substituent_alpha_key(t[0])):
             tag = f"N{prime}"
             needs_p = sub.startswith("(") or any(c.isdigit() for c in sub)
             sub_str = f"({sub})" if needs_p else sub
@@ -5052,7 +5030,7 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
                 _n2hz = sorted(_name_carbon_substituent(graph, c, {n2_idx}) for c in n2_sub_cs)
                 _ctz = Counter(_n2hz)
                 _sp_hz: list[str] = []
-                for _sn in sorted(_ctz):
+                for _sn in sorted(_ctz, key=_substituent_alpha_key):
                     _ct = _ctz[_sn]
                     _ss = (f"({_sn})" if _sn.startswith("(") or any(c.isdigit() for c in _sn)
                            else _sn)
@@ -5101,7 +5079,7 @@ def _name_substituted_hydrazone(graph, pgrp, get_atom) -> str | None:
     n2_sub_names = sorted(_name_carbon_substituent(graph, c, {n2_idx}) for c in n2_sub_cs)
     sub_count = Counter(n2_sub_names)
     sub_parts = []
-    for sub_name in sorted(sub_count.keys()):
+    for sub_name in sorted(sub_count.keys(), key=_substituent_alpha_key):
         cnt = sub_count[sub_name]
         mult = MULTIPLIER.get(cnt, "")
         sub_str_hz = f"({sub_name})" if sub_name.startswith("(") else sub_name
@@ -5374,7 +5352,7 @@ def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
     prefix_parts: list[str] = []
     if n_subs:
         sub_counts = Counter(n_subs)
-        for sub in sorted(sub_counts):
+        for sub in sorted(sub_counts, key=_substituent_alpha_key):
             cnt = sub_counts[sub]
             sub_str = f"({sub})" if _nbp_ah(sub) else sub
             if cnt == 1:
@@ -5497,14 +5475,14 @@ def _name_hydrazide(graph, pgrp, get_atom) -> str:
     from .name_assembler import _needs_bis_tris as _nbp
     from collections import Counter
     prefix_parts: list[str] = []
-    for sub in sorted(Counter(n_subs)):
+    for sub in sorted(Counter(n_subs), key=_substituent_alpha_key):
         cnt = Counter(n_subs)[sub]
         sub_str = f"({sub})" if _nbp(sub) else sub
         if cnt == 1:
             prefix_parts.append(f"N-{sub_str}")
         else:
             prefix_parts.append(f"N,N-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
-    for sub in sorted(Counter(np_subs)):
+    for sub in sorted(Counter(np_subs), key=_substituent_alpha_key):
         cnt = Counter(np_subs)[sub]
         sub_str = f"({sub})" if _nbp(sub) else sub
         if cnt == 1:
@@ -5591,14 +5569,14 @@ def _name_thiohydrazide(graph, pgrp, get_atom) -> str:
     from .name_assembler import _needs_bis_tris as _nbp_thz
     from collections import Counter as _Cthz
     prefix_parts: list[str] = []
-    for sub in sorted(_Cthz(n_subs)):
+    for sub in sorted(_Cthz(n_subs), key=_substituent_alpha_key):
         cnt = _Cthz(n_subs)[sub]
         sub_str = f"({sub})" if _nbp_thz(sub) else sub
         if cnt == 1:
             prefix_parts.append(f"N-{sub_str}")
         else:
             prefix_parts.append(f"N,N-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
-    for sub in sorted(_Cthz(np_subs)):
+    for sub in sorted(_Cthz(np_subs), key=_substituent_alpha_key):
         cnt = _Cthz(np_subs)[sub]
         sub_str = f"({sub})" if _nbp_thz(sub) else sub
         if cnt == 1:
@@ -5685,14 +5663,14 @@ def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
     from .name_assembler import _needs_bis_tris as _nbp_shz
     from collections import Counter as _Cshz
     prefix_parts: list[str] = []
-    for sub in sorted(_Cshz(n_subs)):
+    for sub in sorted(_Cshz(n_subs), key=_substituent_alpha_key):
         cnt = _Cshz(n_subs)[sub]
         sub_str = f"({sub})" if _nbp_shz(sub) else sub
         if cnt == 1:
             prefix_parts.append(f"N-{sub_str}")
         else:
             prefix_parts.append(f"N,N-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
-    for sub in sorted(_Cshz(np_subs)):
+    for sub in sorted(_Cshz(np_subs), key=_substituent_alpha_key):
         cnt = _Cshz(np_subs)[sub]
         sub_str = f"({sub})" if _nbp_shz(sub) else sub
         if cnt == 1:
@@ -5830,14 +5808,17 @@ def _name_amine_n_oxide(graph, get_atom) -> str | None:
     return None
 
 
-def _hydroxylamine_alpha_key(name: str) -> str:
-    """Alphabetization key for hydroxylamine N-/O-substituent names.
+def _substituent_alpha_key(name: str) -> str:
+    """Alphabetization key for pre-formatted substituent name strings.
 
     _name_carbon_substituent already embeds its OWN locants in the returned
     string (e.g. "2,2,2-trifluoroethyl"), unlike the (locant, name) tuples
     _build_prefix normally sorts — so a plain sorted(names) would alphabetize
     by the leading digit, not the substituent word (e.g. "2,2,2-trifluoroethyl"
     sorting before "methyl" is wrong; "methyl" < "trifluoroethyl" alphabetically).
+    Used anywhere multiple independently-named substituent strings (as opposed
+    to (locant, name) tuples) are sorted together, e.g. hydroxylamine N-/O-
+    substituents or _name_by_c_substituents' ammonium/phosphane/silane R-groups.
     """
     import re
     s = name[1:] if name.startswith("(") else name
@@ -5917,7 +5898,7 @@ def _name_n_substituted_hydroxylamine(graph, get_atom) -> str | None:
 
         # Build N-prefix: e.g. N-methyl, N,N-dimethyl
         n_prefix_parts = []
-        for sub_name in sorted(counts.keys(), key=_hydroxylamine_alpha_key):
+        for sub_name in sorted(counts.keys(), key=_substituent_alpha_key):
             cnt = counts[sub_name]
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             sub_str = f"({sub_name})" if sub_name.startswith("(") else sub_name
@@ -6048,7 +6029,7 @@ def _name_no_disubstituted_hydroxylamine(graph, get_atom) -> str | None:
             locant_str = ",".join(tags)
             mult = MULTIPLIER.get(cnt, f"{cnt}") if cnt > 1 else ""
             parts.append((sub_name, f"{locant_str}-{mult}{sub_str}"))
-        parts.sort(key=lambda t: _hydroxylamine_alpha_key(t[0]))
+        parts.sort(key=lambda t: _substituent_alpha_key(t[0]))
 
         return "-".join(p[1] for p in parts) + "hydroxylamine"
 
@@ -6214,7 +6195,7 @@ def _name_nitrone(graph, get_atom) -> str | None:
         n_subs = [_name_carbon_substituent(graph, c, {idx}) for c in c_sgl]
         counts = Counter(n_subs)
         prefix_parts = []
-        for sub in sorted(counts):
+        for sub in sorted(counts, key=_substituent_alpha_key):
             cnt = counts[sub]
             needs_p = sub.startswith("(") or any(c.isdigit() for c in sub)
             sub_str = f"({sub})" if needs_p else sub
@@ -6339,6 +6320,11 @@ def _name_nitrosamine(graph, get_atom) -> str | None:
             clean = sub_name
             if sub_name.startswith("(") and ")-" in sub_name:
                 clean = sub_name[sub_name.index(")-") + 2:]
+            # Also strip a leading digit-locant (e.g. "2,2,2-trifluoroethyl")
+            # so substituted chains aren't invisible to the stem match and
+            # silently lose to a shorter, unsubstituted chain as parent.
+            import re as _re_cl
+            clean = _re_cl.sub(r'^[\d,]+-', '', clean)
             for n_c, stem in CHAIN_PREFIX.items():
                 if clean.startswith(stem):
                     return n_c
@@ -6366,7 +6352,7 @@ def _name_nitrosamine(graph, get_atom) -> str | None:
             parent_amine_base = parent_amine[_end_na:]
 
         # Build N-substituent prefixes (other C subs + nitroso); alphabetical
-        n_prefixes_raw = sorted(other_subs + ["nitroso"])
+        n_prefixes_raw = sorted(other_subs + ["nitroso"], key=_substituent_alpha_key)
         n_prefixes_wrapped = [f"({p})" if p.startswith("(") else p for p in n_prefixes_raw]
         # Join as "N-{sub1}-N-{sub2}{parentamine}" (no trailing dash)
         n_part = "N-" + "-N-".join(n_prefixes_wrapped)
@@ -6483,12 +6469,12 @@ def _name_hydrazine_compound(graph, get_atom) -> str | None:
         if sub_names[0] == sub_names[1]:
             mult = MULTIPLIER.get(2, "di")
             return f"1,1-{mult}{sub_names[0]}hydrazine"
-        s1, s2 = sorted(sub_names)
+        s1, s2 = sorted(sub_names, key=_substituent_alpha_key)
         return f"1,1-{s1}-1-{s2}hydrazine"
 
     # 1,2-二置換: 各 N に1つ
     if len(sub_c_list) == 1 and len(terminal_c) == 1:
-        s1, s2 = sorted([sub_names[0], term_names[0]])
+        s1, s2 = sorted([sub_names[0], term_names[0]], key=_substituent_alpha_key)
         if s1 == s2:
             return f"1,2-di{s1}hydrazine"
         return f"1-{s1}-2-{s2}hydrazine"
@@ -6585,7 +6571,7 @@ def _name_azo_compound(graph, get_atom) -> str | None:
             if _nbt_azo(r1_name):
                 return f"{_nn_pfx}bis({r1_name})diazene"
             return f"{_nn_pfx}di{r1_name}diazene"
-        names_sorted = sorted([r1_name, r2_name])
+        names_sorted = sorted([r1_name, r2_name], key=_substituent_alpha_key)
         parts = [f"({n})" if _nbt_azo(n) else n for n in names_sorted]
         return f"{_nn_pfx}{parts[0]}{parts[1]}diazene"
 
@@ -6633,7 +6619,7 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
                     _ns_ta = [_name_carbon_substituent(graph, c, {n_idx}) for c in _cn_ta]
                     _sc_ta = Counter(_ns_ta)
                     _pp_ta = []
-                    for _s in sorted(_sc_ta):
+                    for _s in sorted(_sc_ta, key=_substituent_alpha_key):
                         _c = _sc_ta[_s]
                         _ss = f"({_s})" if _s.startswith("(") else _s
                         if _c == 1:
@@ -6730,7 +6716,7 @@ def _name_thioamide(graph, pgrp, get_atom) -> str:
               + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -7066,7 +7052,7 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
                     _ns_sea = [_name_carbon_substituent(graph, c, {n_idx}) for c in _cn_sea]
                     _sc_sea = Counter(_ns_sea)
                     _pp_sea = []
-                    for _s in sorted(_sc_sea):
+                    for _s in sorted(_sc_sea, key=_substituent_alpha_key):
                         _c = _sc_sea[_s]
                         _ss = f"({_s})" if _s.startswith("(") else _s
                         if _c == 1:
@@ -7128,7 +7114,7 @@ def _name_selenoamide(graph, pgrp, get_atom) -> str:
               + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -7203,7 +7189,7 @@ def _name_telluramide(graph, pgrp, get_atom) -> str:
               + ["hydroxy"] * len(n_oh))
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -7307,7 +7293,7 @@ def _name_anhydride(graph, pgrp, get_atom) -> str:
     acid1 = _acid_stem_name(c1, chain1)
     acid2 = _acid_stem_name(c2, chain2)
 
-    acids = sorted([acid1, acid2])
+    acids = sorted([acid1, acid2], key=_substituent_alpha_key)
     if acids[0] == acids[1]:
         return f"{acids[0]} anhydride"
     return f"{acids[0]} {acids[1]} anhydride"
@@ -7446,7 +7432,7 @@ def _name_n_substituted_imine(
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_subs]
     sub_counts = Counter(n_subs)
     prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if sub.startswith("(") else sub
         if cnt == 1:
@@ -7514,7 +7500,7 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     for _loc_am, _snm_am in _chain_subs_amid:
         _by_name_amid.setdefault(_snm_am, []).append(_loc_am)
     chain_sub_parts: list[str] = []
-    for _snm_am in sorted(_by_name_amid):
+    for _snm_am in sorted(_by_name_amid, key=_substituent_alpha_key):
         _locs_am = sorted(_by_name_amid[_snm_am])
         _loc_str_am = ",".join(str(l) for l in _locs_am)
         _mult_am = MULTIPLIER.get(len(_locs_am), "") if len(_locs_am) > 1 else ""
@@ -7551,7 +7537,7 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     sub_counts = Counter(n_subs)
     n_prefix_parts: list[str] = []
     from .name_assembler import _needs_bis_tris as _nbp
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if _nbp(sub) else sub
         if cnt == 1:
@@ -7565,11 +7551,29 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
 
     def _alpha_key_amide(part: str) -> tuple:
         import re as _re
-        is_letter = bool(_re.match(r'^N[,N]*-', part))
-        s = _re.sub(r'^[\d,]+-', '', part)
-        s = _re.sub(r'^N[,N]*-', '', s)
+        # N-prefix must be stripped BEFORE stripping a leading digit-locant,
+        # since the digit locant lives inside the substituent name that
+        # follows "N-"/"N,N-" (e.g. "N-(2,2,2-trifluoroethyl)"), not at the
+        # very start of `part` — stripping digits first (the old order) never
+        # matched, leaving the locant in place and sorting it before "N-methyl"
+        # by raw ASCII ('2' < 'm').
+        m = _re.match(r"^(N(?:,N'*)*)-", part)
+        is_letter = bool(m)
+        # chain_sub_parts entries (no "N-" prefix) always self-generate their
+        # own multiplying prefix in THIS function's own grouping code above
+        # (never a composite substituent's own name), so stripping it is
+        # always safe there; only guard N-prefixed parts, where a bare
+        # "N-(2,2,2-trifluoroethyl)" is a single composite substituent.
+        is_multiplied = (not m) or "," in m.group(1)
+        s = part[m.end():] if m else part
         s = _re.sub(r'^\(', '', s)
-        s = _re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
+        s = _re.sub(r'^[\d,]+-', '', s)
+        if is_multiplied:
+            # only strip a multiplying prefix when `part` itself showed real
+            # multiplication ("N,N-"); a bare "N-(2,2,2-trifluoroethyl)" is a
+            # single composite substituent whose name happens to start with
+            # "tri" and must alphabetize as "trifluoroethyl", not "fluoroethyl"
+            s = _re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
         return (s.lower(), is_letter)
 
     all_parts = sorted(chain_sub_parts + n_prefix_parts, key=_alpha_key_amide)
@@ -7628,7 +7632,8 @@ def _name_substituted_amidine(graph, amidine_c: int,
         # making naming independent of SMILES parsing order.
         amine_ns_sorted = sorted(
             amine_ns,
-            key=lambda n: (-len(_get_n_subs(n)), sorted(_get_n_subs(n))),
+            key=lambda n: (-len(_get_n_subs(n)),
+                           sorted(_get_n_subs(n), key=_substituent_alpha_key)),
         )
         amine_labels = ["N", "N'"]
         for i, n_idx in enumerate(amine_ns_sorted):
@@ -7654,7 +7659,7 @@ def _name_substituted_amidine(graph, amidine_c: int,
             by_alkyl[alky].append(label)
 
         result_parts: list[str] = []
-        for alky in sorted(by_alkyl):
+        for alky in sorted(by_alkyl, key=_substituent_alpha_key):
             labels = sorted(by_alkyl[alky])
             alky_str = f"({alky})" if alky.startswith("(") else alky
             if len(labels) == 1:
@@ -7733,7 +7738,7 @@ def _name_substituted_amidine(graph, amidine_c: int,
         prefix_parts.append("N-hydroxy")
 
     sub_counts = Counter(n_subs)
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         sub_str = f"({sub})" if _nbp(sub) else sub
         if cnt == 1:
@@ -7747,7 +7752,7 @@ def _name_substituted_amidine(graph, amidine_c: int,
         prefix_parts.append("N'-hydroxy")
 
     np_counts = Counter(np_subs)
-    for sub in sorted(np_counts):
+    for sub in sorted(np_counts, key=_substituent_alpha_key):
         cnt = np_counts[sub]
         sub_str = f"({sub})" if _nbp(sub) else sub
         if cnt == 1:
@@ -7857,7 +7862,7 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
 
         sub_counts = Counter(n_subs)
         prefix_parts = []
-        for sub in sorted(sub_counts):
+        for sub in sorted(sub_counts, key=_substituent_alpha_key):
             cnt = sub_counts[sub]
             needs_p = sub.startswith("(") or any(c.isdigit() for c in sub)
             sub_str = f"({sub})" if needs_p else sub
@@ -7920,11 +7925,19 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
     _chain_locant_map = {c: i + 1 for i, c in enumerate(parent_chain)}
     _pgrp_excluded = {n_idx}
     _chain_subs = _cs_am(graph, parent_chain, _chain_locant_map, list(_pgrp_excluded))
+    from collections import defaultdict as _dd_am
+    _by_name_am: dict[str, list[int]] = _dd_am(list)
+    for _loc, _sname in _chain_subs:
+        _by_name_am[_sname].append(_loc)
     chain_sub_parts: list[str] = []
-    for _loc, _sname in sorted(_chain_subs):
+    for _sname, _locs in _by_name_am.items():
+        _locs = sorted(_locs)
+        _cnt = len(_locs)
         _needs_p2 = _sname.startswith("(") or any(ch.isdigit() for ch in _sname)
         _sstr2 = f"({_sname})" if _needs_p2 else _sname
-        chain_sub_parts.append(f"{_loc}-{_sstr2}")
+        _mult = MULTIPLIER.get(_cnt, "") if _cnt > 1 else ""
+        _loc_str = ",".join(str(l) for l in _locs)
+        chain_sub_parts.append(f"{_loc_str}-{_mult}{_sstr2}")
 
     # N 上の置換基（親鎖以外）
     n_subs = [
@@ -7944,7 +7957,7 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
 
     sub_counts = Counter(n_subs)
     n_prefix_parts = []
-    for sub in sorted(sub_counts):
+    for sub in sorted(sub_counts, key=_substituent_alpha_key):
         cnt = sub_counts[sub]
         needs_p = sub.startswith("(") or any(c.isdigit() for c in sub)
         sub_str = f"({sub})" if needs_p else sub
@@ -7956,11 +7969,19 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
 
     def _alpha_key(part: str) -> tuple:
         import re
-        is_letter = bool(re.match(r'^N[,N]*-', part))
-        s = re.sub(r'^[\d,]+-', '', part)
-        s = re.sub(r'^N[,N]*-', '', s)
+        m = re.match(r"^(N(?:,N'*)*)-", part)
+        is_letter = bool(m)
+        # chain_sub_parts entries (no "N-" prefix) always self-generate their
+        # own multiplying prefix above (never a composite substituent's own
+        # name), so stripping it is always safe there; only guard N-prefixed
+        # parts, where a bare "N-(2,2,2-trifluoroethyl)" is a single
+        # composite substituent whose name happens to start with "tri".
+        is_multiplied = (not m) or "," in m.group(1)
+        s = part[m.end():] if m else part
         s = re.sub(r'^\(', '', s)
-        s = re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
+        s = re.sub(r'^[\d,]+-', '', s)
+        if is_multiplied:
+            s = re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
         return (s.lower(), is_letter)
 
     all_parts = sorted(chain_sub_parts + n_prefix_parts, key=_alpha_key)
@@ -8036,7 +8057,7 @@ def _name_amidine_pgrp(graph, pgrp, get_atom) -> str | None:
                 if _cn_am:
                     _ns = [_name_carbon_substituent(graph, c, {_n_amine}) for c in _cn_am]
                     _sc = Counter(_ns)
-                    for _s in sorted(_sc):
+                    for _s in sorted(_sc, key=_substituent_alpha_key):
                         _c = _sc[_s]
                         _ss = f"({_s})" if _s.startswith("(") else _s
                         if _c == 1:
@@ -8050,7 +8071,7 @@ def _name_amidine_pgrp(graph, pgrp, get_atom) -> str | None:
                 if _cn_im:
                     _ns2 = [_name_carbon_substituent(graph, c, {_n_imine}) for c in _cn_im]
                     _sc2 = Counter(_ns2)
-                    for _s in sorted(_sc2):
+                    for _s in sorted(_sc2, key=_substituent_alpha_key):
                         _c = _sc2[_s]
                         _ss = f"({_s})" if _s.startswith("(") else _s
                         if _c == 1:
@@ -8397,7 +8418,8 @@ def _name_sulfate_ester(graph, get_atom) -> str | None:
             continue  # neither ester nor monoester found
 
         alkyl_names = sorted(
-            _name_carbon_substituent(graph, c, {o}) for o, c in ester_cs
+            (_name_carbon_substituent(graph, c, {o}) for o, c in ester_cs),
+            key=_substituent_alpha_key,
         )
 
         if len(ester_cs) == 1:
@@ -8458,7 +8480,8 @@ def _name_sulfite_ester(graph, get_atom) -> str | None:
         if not ester_cs:
             continue
         alkyl_names = sorted(
-            _name_carbon_substituent(graph, c, {o}) for o, c in ester_cs
+            (_name_carbon_substituent(graph, c, {o}) for o, c in ester_cs),
+            key=_substituent_alpha_key,
         )
         if len(ester_cs) == 1:
             return f"{alkyl_names[0]} hydrogen sulfite"
@@ -8543,7 +8566,7 @@ def _name_acyl_peroxide(graph, get_atom) -> str | None:
 
             if acyl1 == acyl2:
                 return f"di{acyl1} peroxide"
-            acyls = sorted([acyl1, acyl2])
+            acyls = sorted([acyl1, acyl2], key=_substituent_alpha_key)
             return f"{acyls[0]} {acyls[1]} peroxide"
 
     return None
@@ -8608,7 +8631,7 @@ def _name_cyanamide(graph, get_atom) -> str | None:
 
         counts = Counter(alkyl_names)
         prefix_parts = []
-        for nm in sorted(set(alkyl_names)):
+        for nm in sorted(set(alkyl_names), key=_substituent_alpha_key):
             cnt = counts[nm]
             mult = MULTIPLIER.get(cnt, f"{cnt}") if cnt > 1 else ""
             prefix_parts.append(f"{mult}{nm}")

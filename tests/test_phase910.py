@@ -53,7 +53,7 @@ class TestNODisubstitutedHydroxylamine:
         assert smiles_to_iupac("CC(=O)N(C)OC") == "N-methoxy-N-methylacetamide"
         assert (
             smiles_to_iupac("CC(=O)N(C)OCC(F)(F)F")
-            == "N-(2,2,2-trifluoroethoxy)-N-methylacetamide"
+            == "N-methyl-N-(2,2,2-trifluoroethoxy)acetamide"
         )
 
 
