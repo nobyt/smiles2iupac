@@ -829,6 +829,24 @@ def _name_carbon_substituent(
     if root_is_terminal and _is_linear_chain(graph, sub_carbons, excluded):
         prefix = CHAIN_PREFIX.get(n, f"C{n}")
         chain_path = _find_longest_path(graph, root_idx, excluded, carbon_set)
+
+        # 置換基自身の鎖上の立体中心 (R/S) ・多重結合 (E/Z) 記述子 (Phase 912):
+        # _name_carbon_substituent はこれまで一切 chiral_tag/E-Z を見ておらず、
+        # 置換基自体が不斉中心を持つ場合 (例: -CH(Cl)CH3 の C1) その (R)/(S) が
+        # 常に無言で消えていた。単純直鎖置換基パス全体で共有する 1 回だけの計算。
+        stereo_pfx_sub = ""
+        try:
+            from .stereochemistry import assign_stereochemistry as _as_sub
+            from .chain_finder import PrincipalChain as _pc_cls_sub
+            _pc_sub0 = _pc_cls_sub(
+                atom_indices=chain_path,
+                locant_map={c: j + 1 for j, c in enumerate(chain_path)})
+            _stereo_sub0 = _as_sub(graph, _pc_sub0)
+            if _stereo_sub0:
+                stereo_pfx_sub = "(" + ",".join(d.strip("()") for d in _stereo_sub0) + ")-"
+        except Exception:
+            pass
+
         # 鎖末端が COOH の場合: carboxymethyl / 2-carboxyethyl 等 (Phase 161)
         from .molecule_analyzer import get_bond_order as _gbo_co
         last_c = chain_path[-1]
@@ -848,9 +866,9 @@ def _name_carbon_substituent(
             alkyl_n = n - 1  # COOH C を除いたアルキル鎖の長さ
             alkyl_pfx = CHAIN_PREFIX.get(alkyl_n, f"C{alkyl_n}")
             if alkyl_n == 1:
-                return "carboxymethyl"
+                return f"{stereo_pfx_sub}carboxymethyl"
             else:
-                return f"{alkyl_n}-carboxy{alkyl_pfx}yl"
+                return f"{stereo_pfx_sub}{alkyl_n}-carboxy{alkyl_pfx}yl"
 
         # 鎖端に芳香環が付いている場合は分岐置換基パスへ (Phase 160)
         has_aryl_nb = any(
@@ -909,23 +927,13 @@ def _name_carbon_substituent(
                 # C≡C: n=2 → "ethynyl"; n>=3 → "prop-1-yn-1-yl" 等
                 loc = i + 1
                 if n == 2:
-                    return f"{prefix}ynyl"
-                return f"{prefix}-{loc}-yn-1-yl"
+                    return f"{stereo_pfx_sub}{prefix}ynyl"
+                return f"{stereo_pfx_sub}{prefix}-{loc}-yn-1-yl"
             if bo == 2.0:
                 # C=C: n=2 → "ethenyl"; n>=3 → "prop-2-en-1-yl" 等
+                # (stereo_pfx_sub already includes this bond's E/Z, computed
+                # once above alongside any chain R/S centers)
                 loc = i + 1
-                stereo_pfx_sub = ""
-                try:
-                    from .stereochemistry import assign_stereochemistry
-                    from .chain_finder import PrincipalChain
-                    _pc_sub = PrincipalChain(
-                        atom_indices=chain_path,
-                        locant_map={c: j + 1 for j, c in enumerate(chain_path)})
-                    _stereo_sub = assign_stereochemistry(graph, _pc_sub)
-                    if _stereo_sub:
-                        stereo_pfx_sub = "(" + ",".join(d.strip("()") for d in _stereo_sub) + ")-"
-                except Exception:
-                    pass
                 if n == 2:
                     return f"{stereo_pfx_sub}{prefix}enyl"
                 return f"{stereo_pfx_sub}{prefix}-{loc}-en-1-yl"
@@ -953,7 +961,7 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     hal_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{'-'.join(hal_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(hal_parts)}{prefix}yl"
 
         # ヒドロキシ置換アルキル: HO-CH₂- → hydroxymethyl, HO-CH₂CH₂- → 2-hydroxyethyl (Phase 274)
         hy_subs: list[tuple[int, str]] = []
@@ -989,7 +997,7 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     hy_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{'-'.join(hy_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(hy_parts)}{prefix}yl"
 
         # アミノ置換アルキル: H₂N-CH₂- → aminomethyl, H₂N-CH₂CH₂- → 2-aminoethyl 等 (Phase 216)
         # 鎖上の N 置換基を探す
@@ -1027,7 +1035,7 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     amino_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{'-'.join(amino_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(amino_parts)}{prefix}yl"
 
         # スルファニル置換アルキル: HS-CH2- → sulfanylmethyl 等 (Phase 514)
         sulfanyl_subs: list[tuple[int, str]] = []
@@ -1059,7 +1067,7 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     s_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{'-'.join(s_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(s_parts)}{prefix}yl"
 
         # ケトン置換アルキル: -CH2-C(=O)-CH3 → "2-oxopropyl" 等 (Phase906)
         # root 自身の =O は上のアシル分岐で先に処理済みなので、ここで見つかる
@@ -1089,9 +1097,9 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     ox_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{'-'.join(ox_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(ox_parts)}{prefix}yl"
 
-        return f"{prefix}yl"
+        return f"{stereo_pfx_sub}{prefix}yl"
 
     # 分岐置換基 (isopropyl 等): 再帰的に命名
     return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
