@@ -1485,15 +1485,16 @@ def _name_sulfonyl_azide(graph, pgrp, get_atom) -> str:
     stem = CHAIN_PREFIX.get(len(chain_sa), f"C{len(chain_sa)}")
     sub_prefix_sa = _pivot_chain_sub_prefix(graph, chain_sa, {s_idx}, get_atom)
     _ene_sa, _yne_sa = _chain_multiple_bonds(graph, chain_sa)
+    stereo_pfx_sa = _chain_stereo_prefix(graph, chain_sa)
     if _ene_sa or _yne_sa:
         from .name_assembler import _format_multiple_bonds as _fmt_sa
         mb_str = _fmt_sa(_ene_sa, _yne_sa)
         if len(chain_sa) >= 3:
-            return f"{sub_prefix_sa}{stem}{mb_str}e-{locant_sa}-sulfonyl azide"
-        return f"{sub_prefix_sa}{stem}{mb_str}esulfonyl azide"
+            return f"{stereo_pfx_sa}{sub_prefix_sa}{stem}{mb_str}e-{locant_sa}-sulfonyl azide"
+        return f"{stereo_pfx_sa}{sub_prefix_sa}{stem}{mb_str}esulfonyl azide"
     if len(chain_sa) >= 3:
-        return f"{sub_prefix_sa}{stem}ane-{locant_sa}-sulfonyl azide"
-    return f"{sub_prefix_sa}{stem}anesulfonyl azide"
+        return f"{stereo_pfx_sa}{sub_prefix_sa}{stem}ane-{locant_sa}-sulfonyl azide"
+    return f"{stereo_pfx_sa}{sub_prefix_sa}{stem}anesulfonyl azide"
 
 
 def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
@@ -1507,6 +1508,7 @@ def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
     if not c_on_s:
         return "sulfonohydrazide"
     aryl = _aryl_sulfonyl_prefix(graph, c_on_s[0], s_idx, get_atom)
+    stereo_pfx_sh = ""
     if aryl is not None:
         base = f"{aryl}sulfonohydrazide"
     else:
@@ -1514,6 +1516,7 @@ def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
         stem = CHAIN_PREFIX.get(len(chain_sh), f"C{len(chain_sh)}")
         sub_prefix_sh = _pivot_chain_sub_prefix(graph, chain_sh, {s_idx}, get_atom)
         _ene_sh, _yne_sh = _chain_multiple_bonds(graph, chain_sh)
+        stereo_pfx_sh = _chain_stereo_prefix(graph, chain_sh)
         if _ene_sh or _yne_sh:
             from .name_assembler import _format_multiple_bonds as _fmt_sh
             mb_str = _fmt_sh(_ene_sh, _yne_sh)
@@ -1530,19 +1533,19 @@ def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
     # N' substituents on the terminal N2
     n1_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
     if not n1_on_s:
-        return base
+        return f"{stereo_pfx_sh}{base}"
     n1_idx = n1_on_s[0]
     from .functional_group import get_bond_order as _gbo_sh
     n2_nbrs = [nb for nb in graph.adjacency[n1_idx]
                if nb != s_idx and get_atom(graph, nb).symbol == "N"
                and _gbo_sh(graph, n1_idx, nb) == 1.0]
     if not n2_nbrs:
-        return base
+        return f"{stereo_pfx_sh}{base}"
     n2_idx = n2_nbrs[0]
     c_on_n2 = [nb for nb in graph.adjacency[n2_idx]
                 if nb != n1_idx and get_atom(graph, nb).symbol == "C"]
     if not c_on_n2:
-        return base
+        return f"{stereo_pfx_sh}{base}"
     n2_subs = [_name_carbon_substituent(graph, c, {n2_idx}) for c in c_on_n2]
     sub_counts = Counter(n2_subs)
     prefix_parts = []
@@ -1555,7 +1558,7 @@ def _name_sulfonohydrazide(graph, pgrp, get_atom) -> str:
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             prefix_parts.append(f"N',N'-{mult}{sub_str}")
     prefix = "-".join(prefix_parts)
-    return f"{prefix}{base}"
+    return f"{stereo_pfx_sh}{prefix}{base}"
 
 
 def _name_sulfamic_acid(graph, pgrp, get_atom) -> str:
@@ -1654,6 +1657,7 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
     if not c_on_s:
         return "sulfinylhydrazide"
     aryl_sfh = _aryl_sulfonyl_prefix(graph, c_on_s[0], s_idx, get_atom)
+    stereo_pfx_sfh = ""
     if aryl_sfh is not None:
         base = f"{aryl_sfh}sulfinylhydrazide"
     else:
@@ -1661,6 +1665,7 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
         stem = CHAIN_PREFIX.get(len(chain_sfh), f"C{len(chain_sfh)}")
         sub_prefix_sfh = _pivot_chain_sub_prefix(graph, chain_sfh, {s_idx}, get_atom)
         _ene_sfh, _yne_sfh = _chain_multiple_bonds(graph, chain_sfh)
+        stereo_pfx_sfh = _chain_stereo_prefix(graph, chain_sfh)
         if _ene_sfh or _yne_sfh:
             from .name_assembler import _format_multiple_bonds as _fmt_sfh
             mb_str = _fmt_sfh(_ene_sfh, _yne_sfh)
@@ -1676,18 +1681,18 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
 
     n1_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
     if not n1_on_s:
-        return base
+        return f"{stereo_pfx_sfh}{base}"
     n1_idx = n1_on_s[0]
     n2_nbrs = [nb for nb in graph.adjacency[n1_idx]
                if nb != s_idx and get_atom(graph, nb).symbol == "N"
                and _gbo_sfh(graph, n1_idx, nb) == 1.0]
     if not n2_nbrs:
-        return base
+        return f"{stereo_pfx_sfh}{base}"
     n2_idx = n2_nbrs[0]
     c_on_n2 = [nb for nb in graph.adjacency[n2_idx]
                 if nb != n1_idx and get_atom(graph, nb).symbol == "C"]
     if not c_on_n2:
-        return base
+        return f"{stereo_pfx_sfh}{base}"
     n2_subs = [_name_carbon_substituent(graph, c, {n2_idx}) for c in c_on_n2]
     sub_counts = Counter(n2_subs)
     prefix_parts = []
@@ -1699,7 +1704,7 @@ def _name_sulfinylhydrazide(graph, pgrp, get_atom) -> str:
         else:
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             prefix_parts.append(f"N',N'-{mult}{sub_str}")
-    return "-".join(prefix_parts) + base
+    return f"{stereo_pfx_sfh}" + "-".join(prefix_parts) + base
 
 
 def _name_sulfenamide(graph, pgrp, get_atom) -> str:
@@ -1719,6 +1724,7 @@ def _name_sulfenamide(graph, pgrp, get_atom) -> str:
     chain_sen, locant_sen = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain_sen), f"C{len(chain_sen)}")
     sub_prefix_sen = _pivot_chain_sub_prefix(graph, chain_sen, {s_idx}, get_atom)
+    stereo_pfx_sen = _chain_stereo_prefix(graph, chain_sen)
     if len(chain_sen) >= 3:
         base = f"{sub_prefix_sen}{stem}ane-{locant_sen}-sulfenamide"
     else:
@@ -1726,11 +1732,11 @@ def _name_sulfenamide(graph, pgrp, get_atom) -> str:
 
     n_on_s = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol == "N"]
     if not n_on_s:
-        return base
+        return f"{stereo_pfx_sen}{base}"
     n_idx = n_on_s[0]
     c_on_n = [nb for nb in graph.adjacency[n_idx] if get_atom(graph, nb).symbol == "C"]
     if not c_on_n:
-        return base
+        return f"{stereo_pfx_sen}{base}"
 
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in c_on_n]
     sub_counts = Counter(n_subs)
@@ -1744,7 +1750,7 @@ def _name_sulfenamide(graph, pgrp, get_atom) -> str:
             mult = MULTIPLIER.get(cnt, f"{cnt}")
             prefix_parts.append(f"N,N-{mult}{sub_str}")
     prefix = "-".join(prefix_parts)
-    return f"{prefix}{base}"
+    return f"{stereo_pfx_sen}{prefix}{base}"
 
 
 def _name_sulfinamide(graph, pgrp, get_atom) -> str:
@@ -1833,6 +1839,7 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
     chain_sia, locant_sia = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain_sia), f"C{len(chain_sia)}")
     sub_prefix_sia = _pivot_chain_sub_prefix(graph, chain_sia, {s_idx}, get_atom)
+    stereo_pfx_sia = _chain_stereo_prefix(graph, chain_sia)
     if len(chain_sia) >= 3:
         base = f"{sub_prefix_sia}{stem}ane-{locant_sia}-sulfonimidamide"
     else:
@@ -1871,7 +1878,7 @@ def _name_sulfonimidamide(graph, pgrp, get_atom) -> str:
             prefix_parts.append(p)
 
     prefix = "-".join(prefix_parts)
-    return f"{prefix}{base}"
+    return f"{stereo_pfx_sia}{prefix}{base}"
 
 
 def _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom) -> set[int]:
@@ -1884,6 +1891,26 @@ def _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom) -> set[int]:
     return {nb for nb in graph.adjacency[carbonyl_c]
             if get_atom(graph, nb).symbol in ("O", "S", "Se", "Te")
             and _gbo_cdb(graph, carbonyl_c, nb) == 2.0}
+
+
+def _chain_stereo_prefix(graph, chain: list[int]) -> str:
+    """鎖 (locant 1 から順) の R/S・E/Z 記述子をまとめた接頭辞文字列を返す
+    (Phase 914)。空なら "" を返す。
+
+    Phase 913 で `assign_stereochemistry` が 29 箇所すべて ene/yne 限定で
+    呼ばれておりピュアな R/S 中心が落ちていたバグを直したが、その後さらに
+    別の ~25 個の同系関数 (sulfenamide/sulfonate anion/sulfonimidamide 等)
+    は `assign_stereochemistry` 自体を一切呼んでいなかったことが判明した。
+    毎回 6 行のボイラープレートを書く代わりにこの共通ヘルパーを使う。
+    """
+    from .stereochemistry import assign_stereochemistry
+    from .chain_finder import PrincipalChain
+    pc = PrincipalChain(atom_indices=chain,
+                         locant_map={c: i + 1 for i, c in enumerate(chain)})
+    stereo = assign_stereochemistry(graph, pc)
+    if not stereo:
+        return ""
+    return "(" + ",".join(d.strip("()") for d in stereo) + ")-"
 
 
 def _pivot_chain_sub_prefix(graph, chain, excluded_atoms, get_atom) -> str:
@@ -2061,17 +2088,18 @@ def _name_sulfonate_anion(graph, pgrp, get_atom) -> str:
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
 
     sub_prefix = _pivot_chain_sub_prefix(graph, chain, {s_idx}, get_atom)
+    stereo_pfx_soa = _chain_stereo_prefix(graph, chain)
 
     _ene_so, _yne_so = _chain_multiple_bonds(graph, chain)
     if _ene_so or _yne_so:
         from .name_assembler import _format_multiple_bonds as _fmt_so
         mb_str = _fmt_so(_ene_so, _yne_so)
         if len(chain) >= 3:
-            return f"{sub_prefix}{stem}{mb_str}e-{locant}-sulfonate"
-        return f"{sub_prefix}{stem}{mb_str}esulfonate"
+            return f"{stereo_pfx_soa}{sub_prefix}{stem}{mb_str}e-{locant}-sulfonate"
+        return f"{stereo_pfx_soa}{sub_prefix}{stem}{mb_str}esulfonate"
     if len(chain) >= 3:
-        return f"{sub_prefix}{stem}ane-{locant}-sulfonate"
-    return f"{sub_prefix}{stem}anesulfonate"
+        return f"{stereo_pfx_soa}{sub_prefix}{stem}ane-{locant}-sulfonate"
+    return f"{stereo_pfx_soa}{sub_prefix}{stem}anesulfonate"
 
 
 def _name_disulfonic_acid(graph, pgrp, get_atom) -> str:
@@ -2098,8 +2126,9 @@ def _name_disulfonic_acid(graph, pgrp, get_atom) -> str:
     loc_str = ",".join(str(l) for l in locs)
 
     sub_prefix = _pivot_chain_sub_prefix(graph, ordered_chain, s_atoms, get_atom)
+    stereo_pfx_dsa = _chain_stereo_prefix(graph, ordered_chain)
 
-    return f"{sub_prefix}{stem}ane-{loc_str}-disulfonic acid"
+    return f"{stereo_pfx_dsa}{sub_prefix}{stem}ane-{loc_str}-disulfonic acid"
 
 
 def _name_disulfonamide(graph, pgrp, get_atom) -> str:
@@ -2126,8 +2155,9 @@ def _name_disulfonamide(graph, pgrp, get_atom) -> str:
     loc_str = ",".join(str(l) for l in locs)
 
     sub_prefix = _pivot_chain_sub_prefix(graph, ordered_chain, s_atoms, get_atom)
+    stereo_pfx_dsam = _chain_stereo_prefix(graph, ordered_chain)
 
-    return f"{sub_prefix}{stem}ane-{loc_str}-disulfonamide"
+    return f"{stereo_pfx_dsam}{sub_prefix}{stem}ane-{loc_str}-disulfonamide"
 
 
 def _name_diimine(graph, pgrp, get_atom) -> str:
@@ -2150,10 +2180,13 @@ def _name_diimine(graph, pgrp, get_atom) -> str:
     lm_rev = {c: len(chain) - i for i, c in enumerate(chain)}
     locs_fwd = sorted(lm_fwd.get(c, 0) for c, _ in c_pivots)
     locs_rev = sorted(lm_rev.get(c, 0) for c, _ in c_pivots)
-    locs = locs_fwd if locs_fwd <= locs_rev else locs_rev
+    use_fwd = locs_fwd <= locs_rev
+    locs = locs_fwd if use_fwd else locs_rev
+    ordered_chain = chain if use_fwd else list(reversed(chain))
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     loc_str = ",".join(str(l) for l in locs)
-    return f"{stem}ane-{loc_str}-diimine"
+    stereo_pfx_di = _chain_stereo_prefix(graph, ordered_chain)
+    return f"{stereo_pfx_di}{stem}ane-{loc_str}-diimine"
 
 
 def _name_dial(graph, pgrp, get_atom):
@@ -2262,16 +2295,17 @@ def _name_sulfenyl_halide(graph, pgrp, get_atom) -> str:
     chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     sub_prefix = _pivot_chain_sub_prefix(graph, chain, {s_idx}, get_atom)
+    stereo_pfx_sfh = _chain_stereo_prefix(graph, chain)
     _ene_sfh, _yne_sfh = _chain_multiple_bonds(graph, chain)
     if _ene_sfh or _yne_sfh:
         from .name_assembler import _format_multiple_bonds as _fmt_sfh
         mb_str = _fmt_sfh(_ene_sfh, _yne_sfh)
         if len(chain) >= 3:
-            return f"{sub_prefix}{stem}{mb_str}e-{locant}-sulfenyl {hal_name}"
-        return f"{sub_prefix}{stem}{mb_str}esulfenyl {hal_name}"
+            return f"{stereo_pfx_sfh}{sub_prefix}{stem}{mb_str}e-{locant}-sulfenyl {hal_name}"
+        return f"{stereo_pfx_sfh}{sub_prefix}{stem}{mb_str}esulfenyl {hal_name}"
     if len(chain) >= 3:
-        return f"{sub_prefix}{stem}ane-{locant}-sulfenyl {hal_name}"
-    return f"{sub_prefix}{stem}anesulfenyl {hal_name}"
+        return f"{stereo_pfx_sfh}{sub_prefix}{stem}ane-{locant}-sulfenyl {hal_name}"
+    return f"{stereo_pfx_sfh}{sub_prefix}{stem}anesulfenyl {hal_name}"
 
 
 def _name_sulfenate_ester(graph, pgrp, get_atom) -> str:
@@ -2296,16 +2330,17 @@ def _name_sulfenate_ester(graph, pgrp, get_atom) -> str:
     chain, locant = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     sub_prefix = _pivot_chain_sub_prefix(graph, chain, {s_idx}, get_atom)
+    stereo_pfx_sfe = _chain_stereo_prefix(graph, chain)
     _ene_sfe, _yne_sfe = _chain_multiple_bonds(graph, chain)
     if _ene_sfe or _yne_sfe:
         from .name_assembler import _format_multiple_bonds as _fmt_sfe
         mb_str = _fmt_sfe(_ene_sfe, _yne_sfe)
         if len(chain) >= 3:
-            return f"{alkyl} {sub_prefix}{stem}{mb_str}e-{locant}-sulfenate"
-        return f"{alkyl} {sub_prefix}{stem}{mb_str}esulfenate"
+            return f"{alkyl} {stereo_pfx_sfe}{sub_prefix}{stem}{mb_str}e-{locant}-sulfenate"
+        return f"{alkyl} {stereo_pfx_sfe}{sub_prefix}{stem}{mb_str}esulfenate"
     if len(chain) >= 3:
-        return f"{alkyl} {sub_prefix}{stem}ane-{locant}-sulfenate"
-    return f"{alkyl} {sub_prefix}{stem}anesulfenate"
+        return f"{alkyl} {stereo_pfx_sfe}{sub_prefix}{stem}ane-{locant}-sulfenate"
+    return f"{alkyl} {stereo_pfx_sfe}{sub_prefix}{stem}anesulfenate"
 
 
 def _name_sulfonyl_chloride(graph, pgrp, get_atom) -> str:
@@ -2404,16 +2439,17 @@ def _name_sulfinyl_chloride(graph, pgrp, get_atom) -> str:
     chain_sc, locant_sc = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain_sc), f"C{len(chain_sc)}")
     sub_prefix_sc = _pivot_chain_sub_prefix(graph, chain_sc, {s_idx}, get_atom)
+    stereo_pfx_sfc = _chain_stereo_prefix(graph, chain_sc)
     _ene_sc, _yne_sc = _chain_multiple_bonds(graph, chain_sc)
     if _ene_sc or _yne_sc:
         from .name_assembler import _format_multiple_bonds as _fmt_sc
         mb_str = _fmt_sc(_ene_sc, _yne_sc)
         if len(chain_sc) >= 3:
-            return f"{sub_prefix_sc}{stem}{mb_str}e-{locant_sc}-sulfinyl {halide_name}"
-        return f"{sub_prefix_sc}{stem}{mb_str}esulfinyl {halide_name}"
+            return f"{stereo_pfx_sfc}{sub_prefix_sc}{stem}{mb_str}e-{locant_sc}-sulfinyl {halide_name}"
+        return f"{stereo_pfx_sfc}{sub_prefix_sc}{stem}{mb_str}esulfinyl {halide_name}"
     if len(chain_sc) >= 3:
-        return f"{sub_prefix_sc}{stem}ane-{locant_sc}-sulfinyl {halide_name}"
-    return f"{sub_prefix_sc}{stem}anesulfinyl {halide_name}"
+        return f"{stereo_pfx_sfc}{sub_prefix_sc}{stem}ane-{locant_sc}-sulfinyl {halide_name}"
+    return f"{stereo_pfx_sfc}{sub_prefix_sc}{stem}anesulfinyl {halide_name}"
 
 
 def _name_carbonate(graph, pgrp, get_atom) -> str:
@@ -3526,16 +3562,17 @@ def _name_chalcogen_oxyacid(graph, pgrp, get_atom, suffix: str) -> str:
     chain, locant = _chain_through_pivot(graph, c_on_x[0], {central}, get_atom)
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     sub_prefix = _pivot_chain_sub_prefix(graph, chain, {central}, get_atom)
+    stereo_pfx_cox = _chain_stereo_prefix(graph, chain)
     _ene, _yne = _chain_multiple_bonds(graph, chain)
     if _ene or _yne:
         from .name_assembler import _format_multiple_bonds as _fmt
         mb_str = _fmt(_ene, _yne)
         if len(chain) >= 3:
-            return f"{sub_prefix}{stem}{mb_str}e-{locant}-{suffix}"
-        return f"{sub_prefix}{stem}{mb_str}e{suffix}"
+            return f"{stereo_pfx_cox}{sub_prefix}{stem}{mb_str}e-{locant}-{suffix}"
+        return f"{stereo_pfx_cox}{sub_prefix}{stem}{mb_str}e{suffix}"
     if len(chain) >= 3:
-        return f"{sub_prefix}{stem}ane-{locant}-{suffix}"
-    return f"{sub_prefix}{stem}ane{suffix}"
+        return f"{stereo_pfx_cox}{sub_prefix}{stem}ane-{locant}-{suffix}"
+    return f"{stereo_pfx_cox}{sub_prefix}{stem}ane{suffix}"
 
 
 def _name_selenonic_acid(graph, pgrp, get_atom) -> str:
@@ -4059,7 +4096,8 @@ def _name_o_thioester(graph, pgrp, get_atom) -> str:
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
     _ot_excl = {o_idx} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
     chain_sub_prefix_ot = _pivot_chain_sub_prefix(graph, acid_chain, _ot_excl, get_atom)
-    return f"O-{o_alkyl} {chain_sub_prefix_ot}{stem}anethioate"
+    stereo_pfx_ot = _chain_stereo_prefix(graph, acid_chain)
+    return f"O-{o_alkyl} {stereo_pfx_ot}{chain_sub_prefix_ot}{stem}anethioate"
 
 
 def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
@@ -4085,7 +4123,8 @@ def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
     _sd_excl = {s_ester_idx} | _carbonyl_dbl_bonded(graph, carbonyl_c, get_atom)
     chain_sub_prefix_sd = _pivot_chain_sub_prefix(graph, acid_chain, _sd_excl, get_atom)
-    return f"S-{s_alkyl} {chain_sub_prefix_sd}{stem}anedithioate"
+    stereo_pfx_sd = _chain_stereo_prefix(graph, acid_chain)
+    return f"S-{s_alkyl} {stereo_pfx_sd}{chain_sub_prefix_sd}{stem}anedithioate"
 
 
 def _name_disulfide(graph, pgrp, get_atom) -> str:
@@ -4252,7 +4291,8 @@ def _name_nitroso(graph, pgrp, get_atom) -> str:
     if n_c == 1 or (n_c == 2 and len(subs_nitroso) == 1):
         subs_nitroso = [(None, nm) for _, nm in subs_nitroso]
     prefix = _build_prefix_nitroso(subs_nitroso)
-    return f"{prefix}{stem}ane"
+    stereo_pfx_ns = _chain_stereo_prefix(graph, chain)
+    return f"{stereo_pfx_ns}{prefix}{stem}ane"
 
 
 def _name_azide(graph, pgrp, get_atom) -> str:
@@ -4371,8 +4411,9 @@ def _name_di_xisocyanate(graph, pgrp, get_atom, prefix: str) -> str:
 
     sub_prefix = _pivot_chain_sub_prefix(graph, ordered_chain, {n1, n2}, get_atom)
     sep = "-" if sub_prefix else ""
+    stereo_pfx_dxi = _chain_stereo_prefix(graph, ordered_chain)
 
-    return f"{sub_prefix}{sep}{loc_str}-di{prefix}{stem}ane"
+    return f"{stereo_pfx_dxi}{sub_prefix}{sep}{loc_str}-di{prefix}{stem}ane"
 
 
 def _get_bond_order(graph, a: int, b: int) -> float:
@@ -4775,7 +4816,8 @@ def _name_substituted_urea_if_match(graph, get_atom) -> str | None:
         chain_su, _ = _chain_through_pivot(graph, c_on_s[0], {s_idx}, get_atom)
         stem = CHAIN_PREFIX.get(len(chain_su), f"C{len(chain_su)}")
         sub_prefix_su = _pivot_chain_sub_prefix(graph, chain_su, {s_idx}, get_atom)
-        return f"{sub_prefix_su}{stem}anesulfonyl"
+        stereo_pfx_su = _chain_stereo_prefix(graph, chain_su)
+        return f"{stereo_pfx_su}{sub_prefix_su}{stem}anesulfonyl"
 
     def get_subs(n_idx: int) -> list[str]:
         subs: list[str] = []
@@ -5234,7 +5276,8 @@ def _name_peroxyester(graph, pgrp, get_atom) -> str:
         prefix = _build_prefix(subs)
         acid_base = f"{prefix}{acid_base}"
 
-    return f"{alkyl_name} {acid_base}"
+    stereo_pfx_pe = _chain_stereo_prefix(graph, acid_carbons)
+    return f"{alkyl_name} {stereo_pfx_pe}{acid_base}"
 
 
 def _name_acyl_azide(graph, pgrp, get_atom) -> str:
@@ -5257,17 +5300,18 @@ def _name_acyl_azide(graph, pgrp, get_atom) -> str:
     if _subs_aa and (n_acid == 1 or (n_acid == 2 and len({nm for _, nm in _subs_aa}) == 1)):
         _subs_aa = [(None, nm) for _, nm in _subs_aa]
     chain_sub_prefix_aa = _bp_aa(_subs_aa)
+    stereo_pfx_aa = _chain_stereo_prefix(graph, acid_chain)
 
     # 保留名: formyl (1C) / acetyl (2C)
     if n_acid == 1:
-        return f"{chain_sub_prefix_aa}formyl azide"
+        return f"{stereo_pfx_aa}{chain_sub_prefix_aa}formyl azide"
     if n_acid == 2:
-        return f"{chain_sub_prefix_aa}acetyl azide"
+        return f"{stereo_pfx_aa}{chain_sub_prefix_aa}acetyl azide"
     _ene_aa, _yne_aa = _chain_multiple_bonds(graph, acid_chain)
     if _ene_aa or _yne_aa:
         from .name_assembler import _format_multiple_bonds as _fmt_aa
-        return f"{chain_sub_prefix_aa}{stem}{_fmt_aa(_ene_aa, _yne_aa)}oyl azide"
-    return f"{chain_sub_prefix_aa}{stem}anoyl azide"
+        return f"{stereo_pfx_aa}{chain_sub_prefix_aa}{stem}{_fmt_aa(_ene_aa, _yne_aa)}oyl azide"
+    return f"{stereo_pfx_aa}{chain_sub_prefix_aa}{stem}anoyl azide"
 
 
 def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
@@ -5322,9 +5366,11 @@ def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
                                      else f"{_apfx_ah}carbohydrazide")
             break
 
+    stereo_pfx_ah = ""
     if acyl_base is None:
         acid_chain = _collect_acid_chain(graph, c2_idx, excluded, get_atom)
         stem = CHAIN_PREFIX.get(len(acid_chain), f"C{len(acid_chain)}")
+        stereo_pfx_ah = _chain_stereo_prefix(graph, acid_chain)
 
         _lmap_ah = {c: i + 1 for i, c in enumerate(acid_chain)}
         _excl_ah = set(excluded) | _carbonyl_dbl_bonded(graph, c2_idx, get_atom)
@@ -5375,7 +5421,10 @@ def _name_acylhydrazone(graph, pgrp, get_atom) -> str:
     cn_stereo = _gbs_ah(graph, imine_c, n1_idx)
     cn_pfx_ah = f"({cn_stereo})-" if cn_stereo is not None else ""
 
-    return f"{cn_pfx_ah}" + "-".join(prefix_parts) + acyl_base
+    # 鎖側接頭辞が数字ロカントで始まる場合 (例 "2,2-dichloro...") はハイフンが
+    # 無いと直前の N'-アルキリデン語と読みが衝突する ("benzylidene2,2-..." のように)
+    _sep_ah = "-" if acyl_base and acyl_base[0].isdigit() else ""
+    return f"{stereo_pfx_ah}{cn_pfx_ah}" + "-".join(prefix_parts) + _sep_ah + acyl_base
 
 
 def _name_hydrazide(graph, pgrp, get_atom) -> str:
@@ -5549,6 +5598,7 @@ def _name_thiohydrazide(graph, pgrp, get_atom) -> str:
     chain_sub_prefix_thz = _build_prefix_thz(_subs_thz)
 
     _ene_thz, _yne_thz = _chain_multiple_bonds(graph, acid_chain)
+    stereo_pfx_thz = _chain_stereo_prefix(graph, acid_chain)
     if _ene_thz or _yne_thz:
         from .name_assembler import _format_multiple_bonds as _fmt_thz
         base = f"{chain_sub_prefix_thz}{stem}{_fmt_thz(_ene_thz, _yne_thz)}thiohydrazide"
@@ -5569,7 +5619,7 @@ def _name_thiohydrazide(graph, pgrp, get_atom) -> str:
         np_subs = [_name_carbon_substituent(graph, c, {n_terminal}) for c in c_on_nterm]
 
     if not n_subs and not np_subs:
-        return base
+        return f"{stereo_pfx_thz}{base}"
 
     from .constants import MULTIPLIER
     from .name_assembler import _needs_bis_tris as _nbp_thz
@@ -5589,7 +5639,7 @@ def _name_thiohydrazide(graph, pgrp, get_atom) -> str:
             prefix_parts.append(f"N'-{sub_str}")
         else:
             prefix_parts.append(f"N',N'-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
-    return "-".join(prefix_parts) + base
+    return f"{stereo_pfx_thz}" + "-".join(prefix_parts) + base
 
 
 def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
@@ -5643,6 +5693,7 @@ def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
     chain_sub_prefix_shz = _build_prefix_shz(_subs_shz)
 
     _ene_shz, _yne_shz = _chain_multiple_bonds(graph, acid_chain)
+    stereo_pfx_shz = _chain_stereo_prefix(graph, acid_chain)
     if _ene_shz or _yne_shz:
         from .name_assembler import _format_multiple_bonds as _fmt_shz
         base = f"{chain_sub_prefix_shz}{stem}{_fmt_shz(_ene_shz, _yne_shz)}selenohydrazide"
@@ -5663,7 +5714,7 @@ def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
         np_subs = [_name_carbon_substituent(graph, c, {n_terminal}) for c in c_on_nterm]
 
     if not n_subs and not np_subs:
-        return base
+        return f"{stereo_pfx_shz}{base}"
 
     from .constants import MULTIPLIER
     from .name_assembler import _needs_bis_tris as _nbp_shz
@@ -5683,7 +5734,7 @@ def _name_selenohydrazide(graph, pgrp, get_atom) -> str:
             prefix_parts.append(f"N'-{sub_str}")
         else:
             prefix_parts.append(f"N',N'-{MULTIPLIER.get(cnt, str(cnt))}{sub_str}")
-    return "-".join(prefix_parts) + base
+    return f"{stereo_pfx_shz}" + "-".join(prefix_parts) + base
 
 
 def _name_hetero_n_oxide(graph, get_atom) -> str | None:
@@ -6123,9 +6174,10 @@ def _name_o_substituted_oxime(graph, get_atom) -> str | None:
         from .stereochemistry import _get_bond_stereo as _gbs_oox
         _cn_st_oox = _gbs_oox(graph, oxime_c, idx)
         cn_pfx_oox = f"({_cn_st_oox})-" if _cn_st_oox is not None else ""
+        stereo_pfx_oox = _chain_stereo_prefix(graph, chain)
 
         sep_oox = "-" if sub_prefix_oox else ""
-        return f"{cn_pfx_oox}O-{alkyl_str}{sep_oox}{base}"
+        return f"{stereo_pfx_oox}{cn_pfx_oox}O-{alkyl_str}{sep_oox}{base}"
 
     return None
 
@@ -8563,12 +8615,13 @@ def _name_acyl_peroxide(graph, get_atom) -> str | None:
                 if subs and (n == 1 or (n == 2 and len({nm for _, nm in subs}) == 1)):
                     subs = [(None, nm) for _, nm in subs]
                 sub_prefix = _bp_ap(subs)
+                stereo_pfx_ap = _chain_stereo_prefix(graph, chain)
                 ene_locs, yne_locs = _chain_mb(graph, chain)
                 if ene_locs or yne_locs:
-                    return f"{sub_prefix}{stem}{_fmt_mb(ene_locs, yne_locs)}oyl"
+                    return f"{stereo_pfx_ap}{sub_prefix}{stem}{_fmt_mb(ene_locs, yne_locs)}oyl"
                 if n == 1:
-                    return f"{sub_prefix}formyl"
-                return f"{sub_prefix}{stem}anoyl"
+                    return f"{stereo_pfx_ap}{sub_prefix}formyl"
+                return f"{stereo_pfx_ap}{sub_prefix}{stem}anoyl"
 
             acyl1 = _acyl_name(chain1, o1_idx)
             acyl2 = _acyl_name(chain2, o2_idx)

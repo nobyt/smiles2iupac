@@ -577,10 +577,23 @@ def _name_carbon_substituent(
             if subs_acyl and (n_acyl == 2 and len({nm for _, nm in subs_acyl}) == 1):
                 subs_acyl = [(None, nm) for _, nm in subs_acyl]
             sub_prefix_acyl = _build_prefix_acyl(subs_acyl)
+            # Phase 914: acyl-as-substituent branch (e.g. "2-chloropropanoyl"
+            # used as an O-/S-/N-acyl substituent) never checked chirality
+            # either, same gap as the plain-alkyl branch fixed in Phase 912.
+            stereo_pfx_acyl = ""
+            try:
+                from .stereochemistry import assign_stereochemistry as _as_acyl
+                from .chain_finder import PrincipalChain as _pc_cls_acyl
+                _pc_acyl = _pc_cls_acyl(atom_indices=acyl_carbons, locant_map=lmap_acyl)
+                _stereo_acyl = _as_acyl(graph, _pc_acyl)
+                if _stereo_acyl:
+                    stereo_pfx_acyl = "(" + ",".join(d.strip("()") for d in _stereo_acyl) + ")-"
+            except Exception:
+                pass
             if n_acyl == 2:
-                return f"{sub_prefix_acyl}acetyl"
+                return f"{stereo_pfx_acyl}{sub_prefix_acyl}acetyl"
             stem = CHAIN_PREFIX.get(n_acyl, f"C{n_acyl}")
-            return f"{sub_prefix_acyl}{stem}anoyl"
+            return f"{stereo_pfx_acyl}{sub_prefix_acyl}{stem}anoyl"
 
     # 置換基の炭素を DFS で列挙
     sub_carbons = _collect_substituent_carbons(graph, root_idx, excluded)
