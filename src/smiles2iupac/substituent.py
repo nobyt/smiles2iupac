@@ -549,6 +549,70 @@ def _name_carbon_substituent(
         nb = get_atom(graph, nb_idx)
         if nb.symbol == "O" and _gbo(graph, root_idx, nb_idx) == 2.0:
             # root が カルボニル C → acyl 置換基
+
+            # Phase 916: エステル/アミド/チオエステルが置換基として現れる場合
+            # (例: -C(=O)OCH3, -C(=O)NH2, -C(=O)SCH3) の判定を、"formyl"/
+            # "benzoyl" のショートカットより先に行う。以前はここで root の
+            # =O 以外の隣接原子を一切見ておらず、炭素のみを辿る
+            # `_collect_substituent_carbons` が O/N/S を素通りできないため
+            # エステルの -OCH3 やアミドの -NH2 が丸ごと見えなくなり、
+            # 「メトキシカルボニル」が「ホルミル」に、「カルバモイル」も
+            # 同様に「ホルミル」に化けていた (どちらも root 単独 1 炭素の
+            # "アルデヒド由来アシル" と誤認識されていた)。
+            _other_hetero = [
+                x for x in graph.adjacency[root_idx]
+                if x != nb_idx and x not in excluded
+                and get_atom(graph, x).symbol in ("O", "N", "S")
+            ]
+            for het_idx in _other_hetero:
+                het_atom = get_atom(graph, het_idx)
+                if het_atom.symbol == "N":
+                    # アミド窒素 → carbamoyl / N-alkylcarbamoyl / N,N-dialkylcarbamoyl
+                    n_c_subs = [x for x in graph.adjacency[het_idx]
+                                if x != root_idx and get_atom(graph, x).symbol == "C"]
+                    if not n_c_subs:
+                        return "carbamoyl"
+                    import re as _re_cbm
+                    from collections import Counter as _Ctr_cbm
+                    from .constants import MULTIPLIER as _MULT_cbm
+
+                    def _alpha_key_cbm(s: str) -> str:
+                        s = s[1:] if s.startswith("(") else s
+                        m = _re_cbm.match(r"^[\d,]+-", s)
+                        return s[m.end():] if m else s
+
+                    n_names = [_name_carbon_substituent(graph, c, {het_idx})
+                               for c in n_c_subs]
+                    counts_cbm = _Ctr_cbm(n_names)
+                    parts_cbm = []
+                    for sub in sorted(counts_cbm, key=_alpha_key_cbm):
+                        cnt = counts_cbm[sub]
+                        sub_str = f"({sub})" if sub.startswith("(") else sub
+                        if cnt == 1:
+                            parts_cbm.append(f"N-{sub_str}")
+                        else:
+                            mult = _MULT_cbm.get(cnt, f"{cnt}")
+                            parts_cbm.append(f"N,N-{mult}{sub_str}")
+                    # "N-" 接頭辞を含むためロカント "4-N-..." のような曖昧さを
+                    # 避けるべく常にカッコで囲む (OPSIN で "4-N-methylcarbamoyl..."
+                    # が "Cannot find in scope fragment with atom with locant N4"
+                    # で解析不能になることを確認済み)
+                    return "(" + "-".join(parts_cbm) + "carbamoyl)"
+                if het_atom.symbol == "O":
+                    o_c_subs = [x for x in graph.adjacency[het_idx]
+                                if x != root_idx and get_atom(graph, x).symbol == "C"]
+                    if o_c_subs:
+                        # エステル -C(=O)-O-R → (R-oxy)carbonyl
+                        o_alkyl = _name_carbon_substituent(graph, o_c_subs[0], {het_idx})
+                        return f"{_make_oxy_name(o_alkyl)}carbonyl"
+                if het_atom.symbol == "S":
+                    s_c_subs = [x for x in graph.adjacency[het_idx]
+                                if x != root_idx and get_atom(graph, x).symbol == "C"]
+                    if s_c_subs:
+                        # チオエステル -C(=O)-S-R → (R-sulfanyl)carbonyl
+                        s_alkyl = _name_carbon_substituent(graph, s_c_subs[0], {het_idx})
+                        return f"{_make_sulfanyl_name(s_alkyl)}carbonyl"
+
             # 芳香族環に直接結合したカルボニル → benzoyl (Phase 265)
             for aryl_nb in graph.adjacency[root_idx]:
                 if aryl_nb in excluded or aryl_nb == nb_idx:
