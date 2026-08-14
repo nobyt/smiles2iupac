@@ -220,6 +220,7 @@ def _name_dioic_acid(graph, pgrp, get_atom):
             # Try both ring directions; pick the one giving the lowest locants.
             rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
             best_locs: list[int] | None = None
+            best_rot_dc = rotation
             for rot in (rotation, rev_rotation):
                 loc_map_het = {atom: i + 1 for i, atom in enumerate(rot)}
                 h_l1 = loc_map_het.get(ring_c1)
@@ -228,8 +229,22 @@ def _name_dioic_acid(graph, pgrp, get_atom):
                     pair = sorted([h_l1, h_l2])
                     if best_locs is None or pair < best_locs:
                         best_locs = pair
+                        best_rot_dc = rot
             if best_locs is not None:
-                return f"{ind_h}{het_name}-{best_locs[0]},{best_locs[1]}-dicarboxylic acid"
+                # Phase 919: このブランチも環上の他の置換基 (halo/alkyl 等)
+                # を一切収集していなかった (同じ "siloed heteroaromatic ring
+                # namer" 系統のバグ、Phase917/918 と同根)。
+                from .heterocycle_handler import (
+                    _collect_hetero_substituents as _chs_dc,
+                )
+                from .name_assembler import _build_prefix as _bpfx_dc
+                best_lm_dc = {atom: i + 1 for i, atom in enumerate(best_rot_dc)}
+                rsubs_dc = _chs_dc(
+                    graph, ring_list, best_lm_dc, excluded_atoms={c1, c2}
+                )
+                rpfx_dc = _bpfx_dc(rsubs_dc) if rsubs_dc else ""
+                return (f"{rpfx_dc}{ind_h}{het_name}"
+                        f"-{best_locs[0]},{best_locs[1]}-dicarboxylic acid")
 
     stem = CHAIN_PREFIX.get(ring_size, f"C{ring_size}")
     return f"cyclo{stem}ane-{locs[0]},{locs[1]}-dicarboxylic acid"
@@ -7920,6 +7935,7 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
             if ring_c in ring_set
             for a in ring_set
         )
+        _ring_amine_subs: list[tuple[int, str]] = []
         if rc_atom.is_aromatic and ring_size == 6 and not ring_has_hetero:
             parent_name = "aniline"
         elif rc_atom.is_aromatic and ring_size == 6 and ring_has_hetero:
@@ -7935,9 +7951,30 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
                 match = _match_retained(ring_ordered, graph)
                 if match is not None:
                     base_nm, _is_nh, rotation = match
-                    locant = rotation.index(ring_c) + 1 if ring_c in rotation else 1
+                    # Phase 919: 反転方向を試さず環方向を固定していた上に、
+                    # 環上の他の置換基 (halo/alkyl 等) も一切収集していな
+                    # かった (Phase917/918 と同根の "siloed heteroaromatic
+                    # ring namer" バグ; 第二級/第三級アミン特有のこの分岐
+                    # だけが影響を受け、置換基なしの第一級アミン (別経路)
+                    # は元々正しかった)。
+                    rev_rotation_am = [rotation[0]] + list(reversed(rotation[1:]))
+                    best_locant_am = None
+                    best_rot_am = rotation
+                    for rot in (rotation, rev_rotation_am):
+                        loc = rot.index(ring_c) + 1 if ring_c in rot else None
+                        if loc is not None and (best_locant_am is None or loc < best_locant_am):
+                            best_locant_am = loc
+                            best_rot_am = rot
+                    locant = best_locant_am if best_locant_am is not None else 1
                     stem_nm = base_nm[:-1] if base_nm.endswith("e") else base_nm
                     parent_name = f"{stem_nm}-{locant}-amine"
+                    from .heterocycle_handler import (
+                        _collect_hetero_substituents as _chs_am2,
+                    )
+                    best_lm_am = {a: i + 1 for i, a in enumerate(best_rot_am)}
+                    _ring_amine_subs = _chs_am2(
+                        graph, ring_ordered, best_lm_am, excluded_atoms={n_idx}
+                    )
                 else:
                     parent_name = "amine"  # fallback
             else:
@@ -7964,7 +8001,19 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
             if _nb_sym2 in _HAL_NAMES_N2:
                 n_subs.append(_HAL_NAMES_N2[_nb_sym2])
 
-        if not n_subs:
+        # 環上の他の置換基 (halo/alkyl 等; ヘテロ芳香族分岐でのみ収集される)
+        ring_prefix_parts: list[str] = []
+        if _ring_amine_subs:
+            _ring_by_name: dict[str, list[int]] = {}
+            for _loc_ram, _nm_ram in _ring_amine_subs:
+                _ring_by_name.setdefault(_nm_ram, []).append(_loc_ram)
+            for _nm_ram, _locs_ram in _ring_by_name.items():
+                _locs_ram = sorted(_locs_ram)
+                _mult_ram = MULTIPLIER.get(len(_locs_ram), "") if len(_locs_ram) > 1 else ""
+                _loc_str_ram = ",".join(str(l) for l in _locs_ram)
+                ring_prefix_parts.append(f"{_loc_str_ram}-{_mult_ram}{_nm_ram}")
+
+        if not n_subs and not ring_prefix_parts:
             return parent_name
 
         sub_counts = Counter(n_subs)
@@ -7978,7 +8027,19 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
             else:
                 mult = MULTIPLIER.get(cnt, f"{cnt}")
                 prefix_parts.append(f"N,N-{mult}{sub_str}")
-        prefix = "-".join(prefix_parts)
+
+        if not ring_prefix_parts:
+            prefix = "-".join(prefix_parts)
+            return f"{prefix}{parent_name}"
+
+        def _alpha_key_am_ring(part: str) -> str:
+            import re as _re_amr
+            s = _re_amr.sub(r'^N[,N]*-', '', part)
+            s = _re_amr.sub(r'^[\d,]+-', '', s)
+            return s
+
+        all_parts = sorted(ring_prefix_parts + prefix_parts, key=_alpha_key_am_ring)
+        prefix = "-".join(all_parts)
         return f"{prefix}{parent_name}"
 
     # 非環アミン: chain_through_pivot で N を内点として含む最長鎖を選ぶ
