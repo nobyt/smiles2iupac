@@ -981,6 +981,48 @@ def _name_acyclic(graph, detect_groups, principal_group,
     # 主鎖探索・ロカント割り当て
     chain = find_principal_chain(graph, pgrp)
 
+    # Phase 921: 分岐ポリオール (trimethylolpropane, pentaerythritol 型) 対応。
+    # diol/triol/tetraol/pentaol/hexaol は複数の alcohol インスタンスを
+    # マージした group だが、4級炭素等から3本以上の CH2OH 枝が出る分子では
+    # どの単純鎖も全インスタンスを同時には含められない。chain_finder.py の
+    # Phase921 修正で「主鎖に乗る個数を最大化」する鎖は選ばれるようになった
+    # ので、ここでは実際に主鎖に乗った (C, O) インスタンス数を数え直し、
+    # マージ型を実態に合わせて格下げする（乗らなかったインスタンスは
+    # pgrp.atom_indices から外れ、後続の collect_substituents で通常の
+    # 置換基 (hydroxymethyl 等) として命名される）。
+    # 各 -OH インスタンスは O 原子で数える (C は数えない): geminal diol
+    # (例: methanediol, ethane-1,1-diol) では aggregate_groups() の重複除去
+    # により同じ C が1度しか atom_indices に現れず、O の数だけが実インスタンス
+    # 数と一致するため、O -> 隣接 C という向きで辿る (diol/triol 分岐と同じ手法)。
+    _polyol_multi_types = {"diol": 2, "triol": 3, "tetraol": 4, "pentaol": 5, "hexaol": 6}
+    if pgrp is not None and pgrp.group_type in _polyol_multi_types:
+        _kept_o: list[int] = []
+        _kept_c: list[int] = []
+        _seen_c: set[int] = set()
+        for _ai in pgrp.atom_indices:
+            if get_atom(graph, _ai).symbol != "O":
+                continue
+            _c_ai = next(
+                (nb for nb in graph.adjacency[_ai] if get_atom(graph, nb).symbol == "C"),
+                None,
+            )
+            if _c_ai is not None and _c_ai in chain.locant_map:
+                _kept_o.append(_ai)
+                if _c_ai not in _seen_c:
+                    _seen_c.add(_c_ai)
+                    _kept_c.append(_c_ai)
+        _new_count = len(_kept_o)
+        if _new_count < _polyol_multi_types[pgrp.group_type]:
+            _count_to_type = {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol", 6: "hexaol"}
+            if _new_count >= 1:
+                pgrp = FunctionalGroup(
+                    group_type=_count_to_type[_new_count],
+                    atom_indices=_kept_c + _kept_o,
+                    priority=pgrp.priority,
+                )
+            else:
+                pgrp = None
+
     # 多重結合ロカント
     mb = get_multiple_bond_locants(graph, chain)
 

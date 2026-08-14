@@ -92,12 +92,17 @@ def find_principal_chain(
     all_paths = _enumerate_carbon_paths(graph, c_idxs)
 
     # required_carbons を含む経路のみに絞る
+    # (Phase 921) 全てを含む経路が存在しない場合 (例: quaternary 中心から
+    # 3本以上の CH2OH 枝が出る trimethylolpropane 型の分岐ポリオール) でも、
+    # IUPAC P-44.1.1 規則 (a): 主特性基原子を最大数含む鎖を優先 に従い、
+    # required_carbons との重なりが最大の経路群に絞る（従来は全経路にフォール
+    # バックしており、重なりゼロの経路まで許容してしまっていた）。
     if required_carbons:
-        filtered = [p for p in all_paths if required_carbons.issubset(set(p))]
-        if not filtered:
-            # required を含む経路がない場合は全経路を使う（エラー回避）
-            filtered = all_paths
-        all_paths = filtered
+        overlaps = [len(required_carbons & set(p)) for p in all_paths]
+        max_overlap = max(overlaps) if overlaps else 0
+        filtered = [p for p, ov in zip(all_paths, overlaps) if ov == max_overlap]
+        if filtered:
+            all_paths = filtered
 
     if not all_paths:
         # 炭素が1つしかない場合
