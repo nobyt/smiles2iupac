@@ -2014,12 +2014,28 @@ def _aryl_sulfonyl_prefix(graph, c_start, s_idx, get_atom) -> str | None:
             ind_h = "1H-" if has_ind_h else ""
             rev_rotation = [rotation[0]] + list(reversed(rotation[1:]))
             best_loc: int | None = None
+            best_rot = rotation
             for rot in (rotation, rev_rotation):
                 loc = {a: i + 1 for i, a in enumerate(rot)}.get(c_start)
                 if loc is not None and (best_loc is None or loc < best_loc):
                     best_loc = loc
+                    best_rot = rot
             if best_loc is not None:
-                return f"{ind_h}{het_name}-{best_loc}-"
+                # Phase 918: この分岐は環上の他の置換基 (halo/hydroxy/alkyl
+                # 等) を一切収集していなかった (直前のベンゼン分岐は
+                # collect_ring_substituents で正しく収集している)。この
+                # ヘルパーは _name_thioamide/sulfonic-acid-family/diazonium
+                # 等 多数の呼び出し元から共有されているため、ここ1箇所の
+                # 修正で全て一括修正される (例: "6-chloropyridine-3-yl"
+                # スルホン酸などで塩素が丸ごと消えていた不具合も同時に直る)。
+                from .heterocycle_handler import (
+                    _collect_hetero_substituents as _chs_asp,
+                )
+                from .name_assembler import _build_prefix as _bpfx_asp
+                best_lm = {a: i + 1 for i, a in enumerate(best_rot)}
+                rsubs = _chs_asp(graph, ring_list, best_lm, excluded_atoms={s_idx})
+                rpfx = _bpfx_asp(rsubs) if rsubs else ""
+                return f"{rpfx}{ind_h}{het_name}-{best_loc}-"
 
     return None
 
