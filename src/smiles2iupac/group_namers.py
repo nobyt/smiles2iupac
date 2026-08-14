@@ -833,6 +833,20 @@ def _name_ester(graph, pgrp, get_atom) -> str:
                 _rot_e = _fbs_e(_ring_list_e, graph)
                 _lm_e = {a: i + 1 for i, a in enumerate(_rot_e)}
                 _rloc_e = _lm_e.get(acid_ring_c)
+                # Phase 917: _find_best_start はヘテロ原子自身の優先度のみで
+                # 開始点を決め、環方向 (時計回り/反時計回り) は外環主官能基
+                # (このエステルの酸側の付け根) の位置を一切見ずに固定していた
+                # ため、"methyl pyridine-6-carboxylate" のように本来ロカント
+                # 2 で済むはずの位置に不必要に高いロカントを与えていた
+                # (name_heterocycle の _EXOCYCLIC_SUFFIX 分岐に既にある同じ
+                # 反転チェックをここにも適用)。
+                if _rloc_e is not None and len(_rot_e) >= 2:
+                    _n_e = len(_rot_e)
+                    _rloc_rev_e = _n_e + 2 - _rloc_e
+                    if _rloc_rev_e < _rloc_e:
+                        _rot_e = [_rot_e[0]] + list(reversed(_rot_e[1:]))
+                        _lm_e = {a: i + 1 for i, a in enumerate(_rot_e)}
+                        _rloc_e = _lm_e.get(acid_ring_c)
                 if _rloc_e is not None:
                     _is_arom_e = _iar_e(_ring_list_e, graph)
                     _csig_e_val = _csig_e(_rot_e, graph)
@@ -841,7 +855,23 @@ def _name_ester(graph, pgrp, get_atom) -> str:
                         _rbase_e, _nh_e = _retained_e
                         if _nh_e:
                             _rbase_e = f"1H-{_rbase_e}"
-                        return f"{alkyl_name} {_rbase_e}-{_rloc_e}-carboxylate"
+                        # Phase 917: このブランチは環上の他の置換基 (halo/
+                        # hydroxy/alkyl 等) を一切収集していなかった。純ベ
+                        # ンゼン環の場合 (直前の分岐) は _rsubs_b で正しく
+                        # 収集しているのに、ヘテロ芳香族側だけ抜けていた
+                        # ため "methyl 5-chloropyridine-2-carboxylate" の
+                        # ような化合物で塩素が丸ごと消えていた。
+                        from .heterocycle_handler import (
+                            _collect_hetero_substituents as _chs_e,
+                        )
+                        from .name_assembler import _build_prefix as _bpfx_e
+                        _rsubs_e = _chs_e(
+                            graph, _ring_list_e, _lm_e, excluded_atoms={carbonyl_c}
+                        )
+                        if not _rsubs_e:
+                            return f"{alkyl_name} {_rbase_e}-{_rloc_e}-carboxylate"
+                        _rpfx_e = _bpfx_e(_rsubs_e)
+                        return f"{alkyl_name} {_rpfx_e}{_rbase_e}-{_rloc_e}-carboxylate"
 
     # Phase 188: 非芳香族環に結合したカルボニル → cycloalkanecarboxylate 型
     for _nb188 in graph.adjacency[carbonyl_c]:
