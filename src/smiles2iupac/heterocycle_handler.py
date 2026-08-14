@@ -5722,10 +5722,34 @@ def name_heterocycle(graph: "MoleculeGraph") -> str | None:
     def _loc_sort(loc: "int | str") -> tuple:
         return (0, loc, "") if isinstance(loc, int) else (1, 0, loc)
 
+    # Phase 920: hydroxy/sulfanyl/amino のいずれかは _apply_hetero_suffixes
+    # によって後で -ol/-thiol/-amine サフィックスに昇格されうる (主官能基)。
+    # それを知らずに全置換基を同列に扱って「置換基ロカント集合全体の最小化」
+    # だけで方向を決めていたため、後で主官能基になる置換基がハロゲン等の
+    # 他の置換基より優先的に低いロカントを得られず、IUPAC の
+    # "主官能基サフィックスのロカント最小化 > 置換基ロカントの最小化" という
+    # 優先順位に反していた (例: Nc1ccc(nc1)Cl が本来 "6-chloropyridin-3-amine"
+    # (amine=3) であるべきところ "2-chloropyridin-5-amine" (amine=5) になる)。
+    # _apply_hetero_suffixes 自身の探索順 (hydroxy > sulfanyl > amino) と
+    # 保留名が既にケトン/ラクトン等の主官能基を内包する場合のスキップ条件を
+    # そのままミラーする。
+    _promo_order = ("hydroxy", "sulfanyl", "amino")
+    _base_has_pcg_r = full_base.endswith(("one", "dione"))
+
+    def _promo_locs(subs: list[tuple["int | str", str]]) -> list[int]:
+        if _base_has_pcg_r:
+            return []
+        for nm_check in _promo_order:
+            locs = sorted(loc for loc, nm in subs
+                          if nm == nm_check and isinstance(loc, int))
+            if locs:
+                return locs
+        return []
+
     def _subs_key(subs: list[tuple["int | str", str]]) -> tuple:
         ordered = sorted(subs, key=lambda x: _loc_sort(x[0]))
         locs = sorted(_loc_sort(loc) for loc, _ in subs)
-        return (locs, [nm for _, nm in ordered])
+        return (_promo_locs(subs), locs, [nm for _, nm in ordered])
 
     candidate_subs.sort(key=_subs_key)
     substituents = candidate_subs[0]
