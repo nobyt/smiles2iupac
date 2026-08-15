@@ -67,6 +67,24 @@ def _needs_bis_tris(name: str) -> bool:
     return False
 
 
+def _needs_bis_tris_multiplier(name: str) -> bool:
+    """
+    複数個ある場合に di/tri ではなく bis/tris を必要とするか判定する。
+
+    `_needs_bis_tris` のスーパーセット。chlorocarbonyl/methoxycarbonyl 等
+    の "X-carbonyl" 複合置換基は、1個だけの時は括弧なし ("4-methoxy-
+    carbonylbenzoic acid", Phase916 で確立済み・変更しない) だが、2個以上
+    を "di"/"tri" で連結すると "dichlorocarbonyl" が「(dichloro)carbonyl」
+    (carbonyl 炭素に Cl が2つ付いた別の構造) と区別つかなくなるため、
+    複数個の時だけ bis/tris + 括弧が必要 (Phase 923)。
+    """
+    if _needs_bis_tris(name):
+        return True
+    if name.endswith("carbonyl") and name != "carbonyl":
+        return True
+    return False
+
+
 def assemble_name(
     chain_length: int,
     principal_group_type: str,
@@ -205,7 +223,7 @@ def _build_prefix(substituents: list[tuple[int, str]]) -> str:
         if not locs:
             # ロカントなし (1炭素鎖等)
             n = n_total
-            if n > 1 and _needs_bis_tris(name):
+            if n > 1 and _needs_bis_tris_multiplier(name):
                 mult = _BIS_MULTIPLIER.get(n, f"({n}×)")
                 parts.append(f"{mult}({name})")
                 prev_parens = True
@@ -228,7 +246,7 @@ def _build_prefix(substituents: list[tuple[int, str]]) -> str:
         prev_parens = False
         n = len(locs)
         loc_str = ",".join(str(l) for l in locs)
-        if n > 1 and _needs_bis_tris(name):
+        if n > 1 and _needs_bis_tris_multiplier(name):
             # 複合置換基が複数: bis/tris + 括弧
             mult = _BIS_MULTIPLIER.get(n, f"({n}×)")
             parts.append(f"{loc_str}-{mult}({name})")

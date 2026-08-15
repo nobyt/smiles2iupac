@@ -168,10 +168,40 @@ def name_substituent(
             if any(c.isdigit() for c in alkyl) or "-" in alkyl:
                 return f"({alkyl}){sfx}"
             return f"{alkyl}{sfx}"
-        if n_oxo == 2:
-            return "sulfonyl"
-        if n_oxo == 1:
-            return "sulfinyl"
+        # Phase 922/923: -S(=O)n- root with no OTHER carbon substituent must
+        # still inspect what else is attached (a bare "sulfonyl"/"sulfinyl"
+        # has no free valence) -- -SO3H is "sulfo", -SO2H is "sulfino",
+        # -SO2Cl/-SOCl/... is "{halo}sulfonyl"/"{halo}sulfinyl", -SO2NH2 is
+        # "sulfamoyl", -SONH2 is "sulfinamoyl". Previously all of these
+        # silently collapsed to bare "sulfonyl"/"sulfinyl", dropping the
+        # halogen/amino/hydroxyl entirely.
+        if n_oxo in (1, 2):
+            _sfx_bare = "sulfonyl" if n_oxo == 2 else "sulfinyl"
+            _sfx_oh = "sulfo" if n_oxo == 2 else "sulfino"
+            _sfx_n = "sulfamoyl" if n_oxo == 2 else "sulfinamoyl"
+            _other_nbrs = [nb for nb in neighbors if nb not in excluded]
+            _halo = next(
+                (nb for nb in _other_nbrs if get_atom(graph, nb).symbol in ("F", "Cl", "Br", "I")),
+                None,
+            )
+            if _halo is not None:
+                return f"{HALOGEN_PREFIX[get_atom(graph, _halo).symbol]}{_sfx_bare}"
+            _n_nb = next((nb for nb in _other_nbrs if get_atom(graph, nb).symbol == "N"), None)
+            if _n_nb is not None:
+                _n_c_subs = [
+                    x for x in graph.adjacency[_n_nb]
+                    if x != root_idx and get_atom(graph, x).symbol == "C"
+                ]
+                if not _n_c_subs:
+                    return _sfx_n
+            _oh_present = any(
+                get_atom(graph, nb).symbol == "O"
+                and any(get_atom(graph, h).symbol == "H" for h in graph.adjacency[nb])
+                for nb in _other_nbrs
+            )
+            if _oh_present:
+                return _sfx_oh
+            return _sfx_bare
         return "sulfanyl"
 
     # セレン/テルル置換基: -SeH → selanyl, -TeH → tellanyl, -Se-R → (R)selanyl
@@ -559,6 +589,20 @@ def _name_carbon_substituent(
             # 「メトキシカルボニル」が「ホルミル」に、「カルバモイル」も
             # 同様に「ホルミル」に化けていた (どちらも root 単独 1 炭素の
             # "アルデヒド由来アシル" と誤認識されていた)。
+            # Phase 922: acyl HALIDE as a substituent (-C(=O)Cl etc.) has no
+            # OTHER carbon neighbor either, so it fell into the same
+            # single-carbon "formyl" shortcut below as plain -CHO, silently
+            # dropping the halogen (e.g. -C(=O)Cl became "formyl" instead of
+            # "chlorocarbonyl"). Checked first since it's not O/N/S.
+            _acyl_halo = next(
+                (x for x in graph.adjacency[root_idx]
+                 if x != nb_idx and x not in excluded
+                 and get_atom(graph, x).symbol in ("F", "Cl", "Br", "I")),
+                None,
+            )
+            if _acyl_halo is not None:
+                return f"{HALOGEN_PREFIX[get_atom(graph, _acyl_halo).symbol]}carbonyl"
+
             _other_hetero = [
                 x for x in graph.adjacency[root_idx]
                 if x != nb_idx and x not in excluded
