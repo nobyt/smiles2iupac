@@ -523,21 +523,36 @@ def _name_nitrogen_substituent(
         if _gbo(graph, n_idx, c_neighbors[0]) == 3.0:
             return "cyano"
 
-    # Phase 520: 二級/三級アミノ置換基: N-H + R → {R}amino; N(R)(R') → {R,R'}amino
+    # Phase 520/925: 二級/三級アミノ置換基: N-H + R → {R}amino; N(R)(R') → {R,R'}amino
     _r_cs = [c for c in c_neighbors if c not in _excl]
     if _r_cs:
         from .constants import MULTIPLIER as _MULT_N
-        _r_names = sorted(_name_carbon_substituent(graph, c, {n_idx}) for c in _r_cs)
+
+        def _alpha_key_n(name: str) -> str:
+            import re as _re_n
+            s = name[1:] if name.startswith("(") else name
+            m = _re_n.match(r"^[\d,]+-", s)
+            return s[m.end():] if m else s
+
+        _r_names_raw = [_name_carbon_substituent(graph, c, {n_idx}) for c in _r_cs]
+        _r_names = sorted(_r_names_raw, key=_alpha_key_n)
         if len(set(_r_names)) == 1:
             _mult_n = _MULT_N.get(len(_r_names), "")
             _rn = _r_names[0]
             _rn_fmt = f"({_rn})" if any(ch.isdigit() for ch in _rn) or "-" in _rn else _rn
             return f"{_mult_n}{_rn_fmt}amino"
-        _parts_n = [
-            f"({n})" if any(ch.isdigit() for ch in n) or "-" in n else n
-            for n in _r_names
-        ]
-        return "(" + ",".join(_parts_n) + ")amino"
+        # Phase 925: asymmetric N,N-disubstituted amino (different R, R')
+        # substituents must EACH always be individually bracketed and
+        # concatenated directly with NO separator -- the previous
+        # comma-joined "(ethyl,methyl)amino" format (established since
+        # Phase520) does not actually round-trip through OPSIN to the
+        # correct structure (confirmed via RDKit: OPSIN silently merges
+        # the two comma-separated names into a single, different alkyl
+        # group instead of two independent N-substituents). Always
+        # bracketing both (not just ones with digits/hyphens) avoids any
+        # ambiguity with a bare concatenation like "ethylmethylamino",
+        # which could misread as one composite substituent name.
+        return "".join(f"({n})" for n in _r_names) + "amino"
 
     # N-H のみ (primary amino fallback)
     if len(h_neighbors) >= 1:

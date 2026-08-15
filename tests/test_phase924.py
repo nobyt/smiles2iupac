@@ -40,23 +40,30 @@ of the other `_multi_map` group types.
    substituents are NOT plain -NH2/-NH- groups that can become ordinary
    substituents the way an off-chain -CH2OH or -CH2NH2 branch can --
    they need to be named as N-alkyl prefixes on the resulting amine
-   parent (correct name, confirmed via OPSIN: "N-(3-aminopropyl)-N-
-   propylpropane-1,3-diamine"), which this fix's mechanism cannot
-   produce. The FIRST version of this fix applied the same downgrade
+   parent. The FIRST version of this fix applied the same downgrade
    logic unconditionally and silently DROPPED the tertiary nitrogen's
    extra branches entirely (worse than the PRE-EXISTING bug, which at
    least produced an invalid-but-honest-looking name that OPSIN would
    reject rather than a valid-but-wrong, silently-incomplete one).
    Caught by the pre-existing full suite (`test_phase63.py`) before any
-   commit. Fixed with a purity guard (`_is_pure_primary_amine_merge`):
-   the new geminal-walk and downgrade logic only applies when EVERY
-   nitrogen in the merged group has exactly one carbon neighbor (i.e.
-   every instance is a plain primary amine); mixed primary+secondary/
-   tertiary merges fall through to the untouched, pre-existing
-   (already broken -- "propane-1,3-triamine" was ALREADY an invalid,
-   OPSIN-unparseable name before this session, confirmed via OPSIN)
-   generic code path, deliberately left as a known, pre-existing,
-   out-of-scope bug for a future session rather than half-fixed here.
+   commit. Fixed AT THE TIME with a purity guard
+   (`_is_pure_primary_amine_merge`) restricting the new geminal-walk/
+   downgrade logic to merges where every nitrogen has exactly one
+   carbon neighbor, deliberately leaving the mixed-merge case as a
+   known, pre-existing, out-of-scope bug for "a future session."
+
+   That future session turned out to be the very next phase: Phase 925
+   fixed this properly at the true root (aggregate_groups() itself no
+   longer merges "amine" instances into diamine/triamine at all when
+   any instance is secondary/tertiary), routing this case through the
+   existing, correct single-amine + N-substituent-prefix pathway
+   instead. `NCCCN(CCCN)CCC` now correctly produces
+   "3-[(3-aminopropyl)(propyl)amino]propan-1-amine" (OPSIN+RDKit
+   verified) rather than the invalid "propane-1,3-triamine". The
+   `_is_pure_primary_amine_merge` guard added in THIS phase is now
+   effectively unreachable dead code (mixed merges can no longer even
+   occur after Phase925's upstream fix) but was left in place as
+   harmless defense-in-depth rather than removed.
 
 All fixed names round-trip verified via OPSIN + RDKit canonical-SMILES
 matching. Full suite (13491 tests with this file) run clean twice --
@@ -102,12 +109,11 @@ class TestPlainAmineRegressions:
 
 class TestMixedPrimaryTertiaryAmineMergeUnaffected:
     def test_tris_aminopropylamine_type_unchanged_by_this_fix(self):
-        # Pre-existing bug, NOT fixed by this phase (deliberately out of
-        # scope -- see module docstring point 3): this name is already
-        # invalid (OPSIN: "Mismatch between locant and multiplier counts
-        # (2 and 3)") both before and after this phase's changes. The
-        # purpose of this test is only to confirm the NEW geminal/
-        # branching-downgrade logic added in this phase does not further
-        # corrupt this pre-existing wrong output into something worse
-        # (e.g. silently dropping the tertiary nitrogen's substituents).
-        assert smiles_to_iupac("NCCCN(CCCN)CCC") == "propane-1,3-triamine"
+        # As of Phase925 this case is properly fixed at the root (see
+        # module docstring point 3 update) -- this test now just confirms
+        # the Phase924 purity guard continues to coexist correctly with
+        # the Phase925 upstream fix rather than re-breaking it.
+        assert (
+            smiles_to_iupac("NCCCN(CCCN)CCC")
+            == "3-[(3-aminopropyl)(propyl)amino]propan-1-amine"
+        )

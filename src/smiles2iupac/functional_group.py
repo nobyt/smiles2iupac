@@ -3363,6 +3363,21 @@ def aggregate_groups(
     if multi_type is None:
         return groups  # 3+ ketones 等の未対応ケースはそのまま返す
 
+    # Phase 925: アミンのマージ特例: 二級/三級アミン (N-アルキル置換あり) が
+    # 混ざっている場合は diamine/triamine に集約しない。第一級アミンの
+    # atom_indices は [C, N] (2要素) だが、二級/三級は [N, C1, C2, ...]
+    # (N のアルキル置換基すべてを含む3要素以上) であり、マージ後は
+    # collect_substituents の除外セットにこれら N-アルキル置換基の炭素まで
+    # 丸ごと入ってしまい、鎖上のどの原子からも到達不能になって黙って消える
+    # (例: CNCCNC が本来 "N,N'-dimethylethane-1,2-diamine" であるべきところ、
+    # 両方の N-メチル基が消えて別分子の "ethane-1,2-diamine" になっていた)。
+    # 二級/三級アミンは既存の _name_secondary_tertiary_amine (N-alkyl 接頭辞
+    # 構築ロジック) が正しく処理できるため、マージせず単独の "amine" のまま
+    # 残すことでその既存の正しい経路にフォールバックさせる。
+    if top_type == "amine" and graph is not None:
+        if any(len(g.atom_indices) != 2 for g in top_groups):
+            return groups  # 二級/三級アミンが混在するのでマージしない
+
     # アミドのマージ特例: 同一 N 原子を共有する 2 つのアミド (N-アシルアミド) は
     # diamide に集約しない (CC(=O)NC(=O)C = N-acetylacetamide はそのまま)
     if top_type == "amide" and len(top_groups) == 2 and graph is not None:
