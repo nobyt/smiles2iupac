@@ -981,38 +981,58 @@ def _name_acyclic(graph, detect_groups, principal_group,
     # 主鎖探索・ロカント割り当て
     chain = find_principal_chain(graph, pgrp)
 
-    # Phase 921/922: 分岐ポリオール/ポリケトン (trimethylolpropane,
-    # pentaerythritol 型) 対応。diol/triol/.../dione/trione/... は複数の
-    # alcohol/ketone インスタンスをマージした group だが、4級炭素等から
-    # 3本以上の枝が出る分子ではどの単純鎖も全インスタンスを同時には含め
-    # られない。chain_finder.py の Phase921 修正で「主鎖に乗る個数を最大化」
-    # する鎖は選ばれるようになったので、ここでは実際に主鎖に乗ったインス
-    # タンス数を数え直し、マージ型を実態に合わせて格下げする（乗らなかった
-    # インスタンスは pgrp.atom_indices から外れ、後続の collect_substituents
-    # で通常の置換基 (hydroxymethyl, acetyl 等) として命名される）。
-    # 各インスタンスは O 原子で数える (C は数えない): geminal diol
-    # (例: methanediol, ethane-1,1-diol) では aggregate_groups() の重複除去
-    # により同じ C が1度しか atom_indices に現れず、O の数だけが実インスタンス
-    # 数と一致するため、O -> 隣接 C という向きで辿る (diol/triol 分岐と同じ
-    # 手法。ketone は geminal 化しえないが同じロジックで問題なく数えられる)。
-    _polyol_families: dict[str, tuple[int, dict[int, str]]] = {
-        "diol": (2, {1: "alcohol", 2: "diol"}),
-        "triol": (3, {1: "alcohol", 2: "diol", 3: "triol"}),
-        "tetraol": (4, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol"}),
-        "pentaol": (5, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol"}),
-        "hexaol": (6, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol", 6: "hexaol"}),
-        "dione": (2, {1: "ketone", 2: "dione"}),
-        "trione": (3, {1: "ketone", 2: "dione", 3: "trione"}),
-        "tetraone": (4, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone"}),
-        "pentaone": (5, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone", 5: "pentaone"}),
+    # Phase 921/922/923: 分岐ポリオール/ポリケトン/ポリアミン
+    # (trimethylolpropane, pentaerythritol 型) 対応。diol/triol/.../
+    # dione/trione/.../diamine/triamine は複数の alcohol/ketone/amine
+    # インスタンスをマージした group だが、4級炭素等から3本以上の枝が出る
+    # 分子ではどの単純鎖も全インスタンスを同時には含められない。
+    # chain_finder.py の Phase921 修正で「主鎖に乗る個数を最大化」する鎖は
+    # 選ばれるようになったので、ここでは実際に主鎖に乗ったインスタンス数を
+    # 数え直し、マージ型を実態に合わせて格下げする（乗らなかったインスタンス
+    # は pgrp.atom_indices から外れ、後続の collect_substituents で通常の
+    # 置換基 (hydroxymethyl, acetyl, aminomethyl 等) として命名される）。
+    # 各インスタンスはヘテロ原子 (O/N) で数える (C は数えない): geminal
+    # (例: methanediol, ethane-1,1-diol, propane-1,1,1-triamine) では
+    # aggregate_groups() の重複除去により同じ C が1度しか atom_indices に
+    # 現れず、ヘテロ原子の数だけが実インスタンス数と一致するため、
+    # ヘテロ原子 -> 隣接 C という向きで辿る (diol/triol 分岐と同じ手法。
+    # ketone は geminal 化しえないが同じロジックで問題なく数えられる)。
+    _polyol_families: dict[str, tuple[int, dict[int, str], str]] = {
+        "diol": (2, {1: "alcohol", 2: "diol"}, "O"),
+        "triol": (3, {1: "alcohol", 2: "diol", 3: "triol"}, "O"),
+        "tetraol": (4, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol"}, "O"),
+        "pentaol": (5, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol"}, "O"),
+        "hexaol": (6, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol", 6: "hexaol"}, "O"),
+        "dione": (2, {1: "ketone", 2: "dione"}, "O"),
+        "trione": (3, {1: "ketone", 2: "dione", 3: "trione"}, "O"),
+        "tetraone": (4, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone"}, "O"),
+        "pentaone": (5, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone", 5: "pentaone"}, "O"),
+        "diamine": (2, {1: "amine", 2: "diamine"}, "N"),
+        "triamine": (3, {1: "amine", 2: "diamine", 3: "triamine"}, "N"),
     }
-    if pgrp is not None and pgrp.group_type in _polyol_families:
-        _orig_count, _count_to_type = _polyol_families[pgrp.group_type]
+    # diamine/triamine の各インスタンスが「第一級アミンのみ」で構成されて
+    # いる場合に限りこのロジックを適用する。第二級/第三級アミンが混ざって
+    # マージされた場合 (例: 中心 N が3本の C 分岐を持つ tris-aminopropylamine
+    # 型分子) は、はみ出したインスタンスが「ただの -NH2 置換基」ではなく
+    # N 上のさらなる置換基 (N-alkyl prefix) を伴うため、この単純な
+    # ヘテロ原子カウント方式では正しく命名できない (はみ出した分岐が
+    # collect_substituents に一切見えなくなり黙って消える) — 既存の
+    # (すでに壊れていた) 挙動を維持し、新たな破損を防ぐガード (Phase 923)。
+    _is_pure_primary_amine_merge = True
+    if pgrp is not None and pgrp.group_type in ("diamine", "triamine"):
+        for _ai in pgrp.atom_indices:
+            if get_atom(graph, _ai).symbol == "N":
+                _n_c_nbrs = [nb for nb in graph.adjacency[_ai] if get_atom(graph, nb).symbol == "C"]
+                if len(_n_c_nbrs) != 1:
+                    _is_pure_primary_amine_merge = False
+                    break
+    if pgrp is not None and pgrp.group_type in _polyol_families and _is_pure_primary_amine_merge:
+        _orig_count, _count_to_type, _hetero_sym = _polyol_families[pgrp.group_type]
         _kept_o: list[int] = []
         _kept_c: list[int] = []
         _seen_c: set[int] = set()
         for _ai in pgrp.atom_indices:
-            if get_atom(graph, _ai).symbol != "O":
+            if get_atom(graph, _ai).symbol != _hetero_sym:
                 continue
             _c_ai = next(
                 (nb for nb in graph.adjacency[_ai] if get_atom(graph, nb).symbol == "C"),
@@ -1046,6 +1066,18 @@ def _name_acyclic(graph, detect_groups, principal_group,
             for ai in pgrp.atom_indices:
                 atom = get_atom(graph, ai)
                 if atom.symbol == "O":
+                    for nb in graph.adjacency[ai]:
+                        if get_atom(graph, nb).symbol == "C" and nb in chain.locant_map:
+                            suffix_locants_list.append(chain.locant_map[nb])
+                            break
+        elif pgrp.group_type in ("diamine", "triamine") and _is_pure_primary_amine_merge:
+            # Phase 923: ジェミナルポリアミン対応 (例: propane-1,1,1-triamine
+            # の CCC(N)(N)N) -- diol/triol と同じ理由・同じ手法で、各 N から
+            # 親 C のロカントを収集 (重複許可)。第二級/第三級アミン混在の
+            # マージには適用しない (上の downgrade ブロックと同じガード理由)。
+            for ai in pgrp.atom_indices:
+                atom = get_atom(graph, ai)
+                if atom.symbol == "N":
                     for nb in graph.adjacency[ai]:
                         if get_atom(graph, nb).symbol == "C" and nb in chain.locant_map:
                             suffix_locants_list.append(chain.locant_map[nb])
