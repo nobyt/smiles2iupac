@@ -981,21 +981,33 @@ def _name_acyclic(graph, detect_groups, principal_group,
     # 主鎖探索・ロカント割り当て
     chain = find_principal_chain(graph, pgrp)
 
-    # Phase 921: 分岐ポリオール (trimethylolpropane, pentaerythritol 型) 対応。
-    # diol/triol/tetraol/pentaol/hexaol は複数の alcohol インスタンスを
-    # マージした group だが、4級炭素等から3本以上の CH2OH 枝が出る分子では
-    # どの単純鎖も全インスタンスを同時には含められない。chain_finder.py の
-    # Phase921 修正で「主鎖に乗る個数を最大化」する鎖は選ばれるようになった
-    # ので、ここでは実際に主鎖に乗った (C, O) インスタンス数を数え直し、
-    # マージ型を実態に合わせて格下げする（乗らなかったインスタンスは
-    # pgrp.atom_indices から外れ、後続の collect_substituents で通常の
-    # 置換基 (hydroxymethyl 等) として命名される）。
-    # 各 -OH インスタンスは O 原子で数える (C は数えない): geminal diol
+    # Phase 921/922: 分岐ポリオール/ポリケトン (trimethylolpropane,
+    # pentaerythritol 型) 対応。diol/triol/.../dione/trione/... は複数の
+    # alcohol/ketone インスタンスをマージした group だが、4級炭素等から
+    # 3本以上の枝が出る分子ではどの単純鎖も全インスタンスを同時には含め
+    # られない。chain_finder.py の Phase921 修正で「主鎖に乗る個数を最大化」
+    # する鎖は選ばれるようになったので、ここでは実際に主鎖に乗ったインス
+    # タンス数を数え直し、マージ型を実態に合わせて格下げする（乗らなかった
+    # インスタンスは pgrp.atom_indices から外れ、後続の collect_substituents
+    # で通常の置換基 (hydroxymethyl, acetyl 等) として命名される）。
+    # 各インスタンスは O 原子で数える (C は数えない): geminal diol
     # (例: methanediol, ethane-1,1-diol) では aggregate_groups() の重複除去
     # により同じ C が1度しか atom_indices に現れず、O の数だけが実インスタンス
-    # 数と一致するため、O -> 隣接 C という向きで辿る (diol/triol 分岐と同じ手法)。
-    _polyol_multi_types = {"diol": 2, "triol": 3, "tetraol": 4, "pentaol": 5, "hexaol": 6}
-    if pgrp is not None and pgrp.group_type in _polyol_multi_types:
+    # 数と一致するため、O -> 隣接 C という向きで辿る (diol/triol 分岐と同じ
+    # 手法。ketone は geminal 化しえないが同じロジックで問題なく数えられる)。
+    _polyol_families: dict[str, tuple[int, dict[int, str]]] = {
+        "diol": (2, {1: "alcohol", 2: "diol"}),
+        "triol": (3, {1: "alcohol", 2: "diol", 3: "triol"}),
+        "tetraol": (4, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol"}),
+        "pentaol": (5, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol"}),
+        "hexaol": (6, {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol", 6: "hexaol"}),
+        "dione": (2, {1: "ketone", 2: "dione"}),
+        "trione": (3, {1: "ketone", 2: "dione", 3: "trione"}),
+        "tetraone": (4, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone"}),
+        "pentaone": (5, {1: "ketone", 2: "dione", 3: "trione", 4: "tetraone", 5: "pentaone"}),
+    }
+    if pgrp is not None and pgrp.group_type in _polyol_families:
+        _orig_count, _count_to_type = _polyol_families[pgrp.group_type]
         _kept_o: list[int] = []
         _kept_c: list[int] = []
         _seen_c: set[int] = set()
@@ -1012,8 +1024,7 @@ def _name_acyclic(graph, detect_groups, principal_group,
                     _seen_c.add(_c_ai)
                     _kept_c.append(_c_ai)
         _new_count = len(_kept_o)
-        if _new_count < _polyol_multi_types[pgrp.group_type]:
-            _count_to_type = {1: "alcohol", 2: "diol", 3: "triol", 4: "tetraol", 5: "pentaol", 6: "hexaol"}
+        if _new_count < _orig_count:
             if _new_count >= 1:
                 pgrp = FunctionalGroup(
                     group_type=_count_to_type[_new_count],
