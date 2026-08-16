@@ -85,17 +85,20 @@ def _name_diester(graph, pgrp, get_atom) -> str:
             return f"{mult}{alkyl1} {acid_name}"
         return f"{min(alkyl1, alkyl2)} {max(alkyl1, alkyl2)} {acid_name}"
 
-    chain_fwd_de = _collect_acid_chain(graph, c1, ester_os, get_atom)
-    chain_rev_de = _collect_acid_chain(graph, c2, ester_os, get_atom)
-    ene_fwd_de, yne_fwd_de = _chain_multiple_bonds(graph, chain_fwd_de)
-    ene_rev_de, yne_rev_de = _chain_multiple_bonds(graph, chain_rev_de)
+    # Phase 929: c1/c2 それぞれから独立に最長の腕を辿ると、無関係な長鎖
+    # 置換基がある場合にもう一方のエステル炭素を含まない鎖に迷い込む
+    # ことがあったため、c1-c2 を実際に繋ぐ鎖を明示的に求める。
+    acid_carbons = _find_dual_anchor_chain(graph, c1, c2, ester_os, get_atom)
+    if acid_carbons is None:
+        return "diester"
+    ene_fwd_de, yne_fwd_de = _chain_multiple_bonds(graph, acid_carbons)
+    ene_rev_de, yne_rev_de = _chain_multiple_bonds(graph, list(reversed(acid_carbons)))
     mb_fwd_de = sorted(ene_fwd_de + yne_fwd_de)
     mb_rev_de = sorted(ene_rev_de + yne_rev_de)
     if mb_rev_de and (not mb_fwd_de or mb_rev_de < mb_fwd_de):
-        acid_carbons = chain_rev_de
+        acid_carbons = list(reversed(acid_carbons))
         _ene_de, _yne_de = ene_rev_de, yne_rev_de
     else:
-        acid_carbons = chain_fwd_de
         _ene_de, _yne_de = ene_fwd_de, yne_fwd_de
     n_acid = len(acid_carbons)
 
@@ -267,17 +270,20 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
         return "dioate"
     c1 = c_idxs[0]
     c2 = c_idxs[1] if len(c_idxs) >= 2 else c1
-    chain_fwd_dc = _collect_acid_chain(graph, c1, set(), get_atom)
-    chain_rev_dc = _collect_acid_chain(graph, c2, set(), get_atom)
-    ene_fwd_dc, yne_fwd_dc = _chain_multiple_bonds(graph, chain_fwd_dc)
-    ene_rev_dc, yne_rev_dc = _chain_multiple_bonds(graph, chain_rev_dc)
+    # Phase 929: c1/c2 それぞれから独立に最長の腕を辿ると、無関係な長鎖
+    # 置換基がある場合にもう一方のカルボキシレート炭素を含まない鎖に
+    # 迷い込むことがあったため、c1-c2 を実際に繋ぐ鎖を明示的に求める。
+    chain = _find_dual_anchor_chain(graph, c1, c2, set(), get_atom)
+    if chain is None:
+        return "dioate"
+    ene_fwd_dc, yne_fwd_dc = _chain_multiple_bonds(graph, chain)
+    ene_rev_dc, yne_rev_dc = _chain_multiple_bonds(graph, list(reversed(chain)))
     mb_fwd_dc = sorted(ene_fwd_dc + yne_fwd_dc)
     mb_rev_dc = sorted(ene_rev_dc + yne_rev_dc)
     if mb_rev_dc and (not mb_fwd_dc or mb_rev_dc < mb_fwd_dc):
-        chain = chain_rev_dc
+        chain = list(reversed(chain))
         _ene_dc, _yne_dc = ene_rev_dc, yne_rev_dc
     else:
-        chain = chain_fwd_dc
         _ene_dc, _yne_dc = ene_fwd_dc, yne_fwd_dc
     n = len(chain)
 
@@ -1166,17 +1172,24 @@ def _name_diacid_halide(graph, pgrp, get_atom) -> str:
             halide_str_dah = f"{halide_names_sorted_dah[0]} {halide_names_sorted_dah[1]}"
         return f"benzene-{locs_dah[0]},{locs_dah[1]}-dicarbonyl {halide_str_dah}"
 
-    chain_fwd = _collect_acid_chain(graph, c1, set(), get_atom)
-    chain_rev = _collect_acid_chain(graph, c2, set(), get_atom)
-    ene_fwd, yne_fwd = _chain_multiple_bonds(graph, chain_fwd)
-    ene_rev, yne_rev = _chain_multiple_bonds(graph, chain_rev)
+    # Phase 929: 以前は c1/c2 それぞれから独立に「最長の1本の腕」を辿り
+    # 長い方を採用していたため、中心付近に無関係な長鎖アルキル置換基が
+    # あると、選ばれた鎖にもう一方のカルボニル C が含まれないことがあった
+    # (両方とも c1 または c2 いずれか片方しか含まない鎖になり、実質もう
+    # 一方の酸ハロゲン化物が鎖の外の別の "オクタン" 等として扱われる)。
+    # c1-c2 を実際に繋ぐ鎖を明示的に求める。
+    chain_dah = _find_dual_anchor_chain(graph, c1, c2, set(), get_atom)
+    if chain_dah is None:
+        return "diacid halide"
+    ene_fwd, yne_fwd = _chain_multiple_bonds(graph, chain_dah)
+    ene_rev, yne_rev = _chain_multiple_bonds(graph, list(reversed(chain_dah)))
     mb_fwd = sorted(ene_fwd + yne_fwd)
     mb_rev = sorted(ene_rev + yne_rev)
     if mb_rev and (not mb_fwd or mb_rev < mb_fwd):
-        acid_carbons = chain_rev
+        acid_carbons = list(reversed(chain_dah))
         _ene_dah, _yne_dah = ene_rev, yne_rev
     else:
-        acid_carbons = chain_fwd
+        acid_carbons = chain_dah
         _ene_dah, _yne_dah = ene_fwd, yne_fwd
 
     n = len(acid_carbons)
@@ -2221,6 +2234,53 @@ def _name_disulfonamide(graph, pgrp, get_atom) -> str:
     return f"{stereo_pfx_dsam}{sub_prefix}{stem}ane-{loc_str}-disulfonamide"
 
 
+def _find_dual_anchor_chain(graph, c1: int, c2: int, excluded: set, get_atom):
+    """c1 と c2 (2つの同種官能基の付け根炭素) を両方含む最長鎖を返す。
+
+    Phase 929: diester/diacid_halide/dithioamide/dicarboxylate/diimine の
+    各命名関数は以前、素朴に「c1 から最長の1本の腕」(`_collect_acid_chain`
+    を excluded_set=set() でそのまま呼ぶだけ) を辿っており、中心炭素に
+    無関係な長鎖アルキル置換基 (例: hexyl) が付いていると、そちらの方が
+    c2 へ至る経路より長いため鎖がそちらへ迷い込み、選ばれた鎖に c2 が
+    一切含まれない (=もう一方のカルボニル/アシル/イミン等が鎖の外に
+    出てしまい、鎖長だけからステムを決めるコードと組み合わさって、丸ごと
+    別の間違った長さの鎖として振る舞う、あるいはロカントが欠落する)
+    というバグが複数箇所に共通して存在した。c1-c2 間を実際に繋ぐ経路を
+    BFS で明示的に求めてから、その両端をそれぞれ最長になるよう延長する
+    ことで、常に c1 と c2 の両方を含む正しい鎖を構築する。
+
+    見つからない場合 (通常は起こらないが、環などで炭素経路が存在しない
+    場合) は None を返す。
+    """
+    from collections import deque
+    _parent: dict[int, int | None] = {c1: None}
+    _queue = deque([c1])
+    while _queue:
+        _cur = _queue.popleft()
+        if _cur == c2:
+            break
+        for _nb in graph.adjacency[_cur]:
+            if _nb in _parent or _nb in excluded:
+                continue
+            if get_atom(graph, _nb).symbol != "C":
+                continue
+            _parent[_nb] = _cur
+            _queue.append(_nb)
+    if c2 not in _parent:
+        return None
+    _core_path = []
+    _node: int | None = c2
+    while _node is not None:
+        _core_path.append(_node)
+        _node = _parent[_node]
+    _core_path.reverse()  # c1 ... c2
+
+    _core_excl = set(_core_path) | set(excluded)
+    _left_arm = _collect_acid_chain(graph, c1, _core_excl, get_atom)
+    _right_arm = _collect_acid_chain(graph, c2, _core_excl, get_atom)
+    return list(reversed(_left_arm[1:])) + _core_path + _right_arm[1:]
+
+
 def _name_diimine(graph, pgrp, get_atom) -> str:
     """ジイミン命名: alkane-X,Y-diimine (Phase 301)"""
     from .constants import CHAIN_PREFIX
@@ -2236,7 +2296,11 @@ def _name_diimine(graph, pgrp, get_atom) -> str:
     if len(c_pivots) < 2:
         return "diimine"
     c1, n1 = c_pivots[0]
-    chain, _ = _chain_through_pivot(graph, c1, {n1}, get_atom)
+    c2, n2 = c_pivots[1]
+    chain = _find_dual_anchor_chain(graph, c1, c2, {n1, n2}, get_atom)
+    if chain is None:
+        return "diimine"
+
     lm_fwd = {c: i + 1 for i, c in enumerate(chain)}
     lm_rev = {c: len(chain) - i for i, c in enumerate(chain)}
     locs_fwd = sorted(lm_fwd.get(c, 0) for c, _ in c_pivots)
@@ -2247,7 +2311,19 @@ def _name_diimine(graph, pgrp, get_atom) -> str:
     stem = CHAIN_PREFIX.get(len(chain), f"C{len(chain)}")
     loc_str = ",".join(str(l) for l in locs)
     stereo_pfx_di = _chain_stereo_prefix(graph, ordered_chain)
-    return f"{stereo_pfx_di}{stem}ane-{loc_str}-diimine"
+
+    # Phase 929: 鎖上の置換基 (例: 中心炭素の ethyl/methyl 分岐) を一切
+    # 収集していなかったため、CC(C=N)(C=N)CC のような分岐ジイミンで
+    # 置換基が丸ごと消えていた (正しくは "2-ethyl-2-methylpropane-1,3-
+    # diimine" となるべきところ単に "propane-1,3-diimine" になっていた)。
+    from .substituent import collect_substituents as _cs_di
+    from .name_assembler import _build_prefix as _bp_di
+    _lmap_di = {c: i + 1 for i, c in enumerate(ordered_chain)}
+    _excl_di = {n1, n2}
+    _subs_di = _cs_di(graph, ordered_chain, _lmap_di, list(_excl_di))
+    _sub_prefix_di = _bp_di(_subs_di)
+
+    return f"{_sub_prefix_di}{stereo_pfx_di}{stem}ane-{loc_str}-diimine"
 
 
 def _name_dial(graph, pgrp, get_atom):
@@ -6890,17 +6966,20 @@ def _name_dithioamide(graph, pgrp, get_atom) -> str:
         if get_atom(graph, ai).symbol in ("S", "N"):
             excl.add(ai)
 
-    chain_fwd_dta = _collect_acid_chain(graph, c1, excl, get_atom)
-    chain_rev_dta = _collect_acid_chain(graph, c2, excl, get_atom)
-    ene_fwd_dta, yne_fwd_dta = _chain_multiple_bonds(graph, chain_fwd_dta)
-    ene_rev_dta, yne_rev_dta = _chain_multiple_bonds(graph, chain_rev_dta)
+    # Phase 929: c1/c2 それぞれから独立に最長の腕を辿ると、無関係な長鎖
+    # 置換基がある場合にもう一方のチオアミド炭素を含まない鎖に迷い込む
+    # ことがあったため、c1-c2 を実際に繋ぐ鎖を明示的に求める。
+    chain_dta = _find_dual_anchor_chain(graph, c1, c2, excl, get_atom)
+    if chain_dta is None:
+        return "dithioamide"
+    ene_fwd_dta, yne_fwd_dta = _chain_multiple_bonds(graph, chain_dta)
+    ene_rev_dta, yne_rev_dta = _chain_multiple_bonds(graph, list(reversed(chain_dta)))
     mb_fwd_dta = sorted(ene_fwd_dta + yne_fwd_dta)
     mb_rev_dta = sorted(ene_rev_dta + yne_rev_dta)
     if mb_rev_dta and (not mb_fwd_dta or mb_rev_dta < mb_fwd_dta):
-        chain_dta = chain_rev_dta
+        chain_dta = list(reversed(chain_dta))
         _ene_dta, _yne_dta = ene_rev_dta, yne_rev_dta
     else:
-        chain_dta = chain_fwd_dta
         _ene_dta, _yne_dta = ene_fwd_dta, yne_fwd_dta
 
     stem = CHAIN_PREFIX.get(len(chain_dta), f"C{len(chain_dta)}")
@@ -6969,17 +7048,19 @@ def _name_diselenoamide(graph, pgrp, get_atom) -> str:
         if get_atom(graph, ai).symbol in ("Se", "N"):
             excl.add(ai)
 
-    chain_fwd_dsa = _collect_acid_chain(graph, c1, excl, get_atom)
-    chain_rev_dsa = _collect_acid_chain(graph, c2, excl, get_atom)
-    ene_fwd_dsa, yne_fwd_dsa = _chain_multiple_bonds(graph, chain_fwd_dsa)
-    ene_rev_dsa, yne_rev_dsa = _chain_multiple_bonds(graph, chain_rev_dsa)
+    # Phase 929: dithioamide と同根のバグ。c1-c2 を実際に繋ぐ鎖を
+    # 明示的に求める (詳細は _find_dual_anchor_chain のコメント参照)。
+    chain_dsa = _find_dual_anchor_chain(graph, c1, c2, excl, get_atom)
+    if chain_dsa is None:
+        return "diselenoamide"
+    ene_fwd_dsa, yne_fwd_dsa = _chain_multiple_bonds(graph, chain_dsa)
+    ene_rev_dsa, yne_rev_dsa = _chain_multiple_bonds(graph, list(reversed(chain_dsa)))
     mb_fwd_dsa = sorted(ene_fwd_dsa + yne_fwd_dsa)
     mb_rev_dsa = sorted(ene_rev_dsa + yne_rev_dsa)
     if mb_rev_dsa and (not mb_fwd_dsa or mb_rev_dsa < mb_fwd_dsa):
-        chain_dsa = chain_rev_dsa
+        chain_dsa = list(reversed(chain_dsa))
         _ene_dsa, _yne_dsa = ene_rev_dsa, yne_rev_dsa
     else:
-        chain_dsa = chain_fwd_dsa
         _ene_dsa, _yne_dsa = ene_fwd_dsa, yne_fwd_dsa
 
     stem = CHAIN_PREFIX.get(len(chain_dsa), f"C{len(chain_dsa)}")
