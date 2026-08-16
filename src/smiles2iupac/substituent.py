@@ -1056,23 +1056,27 @@ def _name_carbon_substituent(
                 break
         if has_thioether_sub:
             return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
-        # 多重結合 (二重・三重) が鎖内にあるか確認
+        # 多重結合 (二重・三重) が鎖内にあるか確認。Phase928: 以前はここで
+        # 即 return していたため、多重結合と (Phase927 で統合した) ハロゲン/
+        # ヒドロキシ/アミノ/スルファニル/ケトンが同じ鎖に同時にあると後者が
+        # 丸ごと消えていた (例: -CH2-CH=CH-CH2-OH が "but-2-en-1-yl" になり
+        # 末端ヒドロキシルが消滅)。末尾の "yl" 部分の語形だけ動的に決め、
+        # 下のヘテロ原子接頭辞と組み合わせられるようにする。
+        _yl_suffix = f"{prefix}yl"
         for i in range(len(chain_path) - 1):
             bo = _gbo(graph, chain_path[i], chain_path[i + 1])
             if bo == 3.0:
                 # C≡C: n=2 → "ethynyl"; n>=3 → "prop-1-yn-1-yl" 等
                 loc = i + 1
-                if n == 2:
-                    return f"{stereo_pfx_sub}{prefix}ynyl"
-                return f"{stereo_pfx_sub}{prefix}-{loc}-yn-1-yl"
+                _yl_suffix = f"{prefix}ynyl" if n == 2 else f"{prefix}-{loc}-yn-1-yl"
+                break
             if bo == 2.0:
                 # C=C: n=2 → "ethenyl"; n>=3 → "prop-2-en-1-yl" 等
                 # (stereo_pfx_sub already includes this bond's E/Z, computed
                 # once above alongside any chain R/S centers)
                 loc = i + 1
-                if n == 2:
-                    return f"{stereo_pfx_sub}{prefix}enyl"
-                return f"{stereo_pfx_sub}{prefix}-{loc}-en-1-yl"
+                _yl_suffix = f"{prefix}enyl" if n == 2 else f"{prefix}-{loc}-en-1-yl"
+                break
         # Phase 927: ハロゲン / ヒドロキシ / アミノ / スルファニル / ケトン
         # (oxo) 置換アルキルの検出を1回の走査に統合。
         # 以前はこれら5種類をそれぞれ独立した「見つかったら即 return」の
@@ -1144,9 +1148,9 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     _het_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(_het_parts)}{prefix}yl"
+            return f"{stereo_pfx_sub}{'-'.join(_het_parts)}{_yl_suffix}"
 
-        return f"{stereo_pfx_sub}{prefix}yl"
+        return f"{stereo_pfx_sub}{_yl_suffix}"
 
     # 分岐置換基 (isopropyl 等): 再帰的に命名
     return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)
