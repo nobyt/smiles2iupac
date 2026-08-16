@@ -3388,6 +3388,29 @@ def aggregate_groups(
         if n_idxs[0] is not None and n_idxs[0] == n_idxs[1]:
             return groups  # 共有 N があるのでマージしない
 
+    # Phase 926: アミドのマージ特例その2 (Phase925 のアミンと同根バグ)。
+    # amide の atom_indices は [C(carbonyl), O, N] で常に固定 (置換度に
+    # 関わらず同じ形なので Phase925 のアミンのような形状チェックはできない)。
+    # 二級/三級アミド (N-アルキル置換あり) がマージされると N がマージ後の
+    # 除外セットに含まれ、その N 上の N-アルキル置換基が collect_substituents
+    # から到達不能になり黙って消える (例: 2つの N-メチルアミドが両方とも
+    # N-メチルを失って "2-ethylpropanediamide" になっていた)。第一級/二級/
+    # 三級それぞれ既存の _name_secondary_tertiary_amide が正しく処理できる
+    # ため、N がカルボニル C 以外の炭素を持つインスタンスが混ざっていれば
+    # マージしない。
+    if top_type == "amide" and graph is not None:
+        def _amide_n_is_substituted(g: FunctionalGroup) -> bool:
+            n_idx = next((ai for ai in g.atom_indices if get_atom(graph, ai).symbol == "N"), None)
+            if n_idx is None:
+                return False
+            carbonyl_c = g.atom_indices[0]
+            return any(
+                nb != carbonyl_c and get_atom(graph, nb).symbol == "C"
+                for nb in graph.adjacency[n_idx]
+            )
+        if any(_amide_n_is_substituted(g) for g in top_groups):
+            return groups  # N-置換アミドが混在するのでマージしない
+
     seen: set[int] = set()
     merged_atoms: list[int] = []
     for g in top_groups:

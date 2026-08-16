@@ -7581,6 +7581,24 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     excluded = {n_idx}
     excluded.update(nb for nb in graph.adjacency[n_idx]
                     if nb != carbonyl_c and get_atom(graph, nb).symbol == "C")
+    # Phase 926: 他の (別の) アミドのカルボニル炭素を除外しておく。
+    # Phase925 で N-置換アミドの diamide マージを止めたことで、鎖上に別の
+    # アミド基がぶら下がる分子 (例: CNC(=O)CC(=O)NC の対称ジアミド) が
+    # この経路に初めて到達するようになったが、_collect_acid_chain は
+    # 「炭素のみをたどる最長鎖」なので、別アミドのカルボニル C も普通の
+    # 鎖炭素として素通りしてしまい、そのアミド全体を鎖の一部として誤って
+    # 呑み込んでいた (例: "3-oxo-3-propanamidopropanamide" という、元の
+    # 構造と一致しない名前になっていた)。他のアミドのカルボニル C を
+    # あらかじめ除外することで、そこで鎖を止め、既存の (分岐アミドに対して
+    # 既に正しく動く) collect_substituents の carbamoyl 系置換基命名に
+    # 委ねる。
+    from .functional_group import _is_amide as _is_amide_ntra
+    _other_amide_c = {
+        idx for idx in range(len(graph.atoms))
+        if idx != carbonyl_c and get_atom(graph, idx).symbol == "C"
+        and _is_amide_ntra(graph, idx)
+    }
+    excluded.update(_other_amide_c)
     acid_carbons = _collect_acid_chain(graph, carbonyl_c, excluded, get_atom)
     stem = CHAIN_PREFIX.get(len(acid_carbons), f"C{len(acid_carbons)}")
 

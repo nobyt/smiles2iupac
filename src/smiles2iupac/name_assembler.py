@@ -619,6 +619,14 @@ def _build_name_body(
             return f"{stem}{mb}imidamide"
         return f"{stem}animidamide"
 
+    if suffix == "diimidamide":
+        # Phase 926: ジアミジン、C1 と Cn に固定 (butanediimidamide 等),
+        # dinitrile/dioic acid と同型
+        if has_multiple_bond:
+            mb = _format_multiple_bonds(ene_locs, yne_locs)
+            return f"{stem}{mb}ediimidamide"
+        return f"{stem}anediimidamide"
+
     if suffix == "thioamide":
         # Phase 41: チオアミド C1 固定 (ethanethioamide)
         if has_multiple_bond:

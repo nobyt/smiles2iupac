@@ -1436,6 +1436,20 @@ FUNCTIONAL_GROUPS: dict[str, FunctionalGroupSpec] = {
         cyclic_template="cyclo{stem}ane-{loc}-carboximidamide",
         benzene_name="benzenecarboximidamide",
     ),
+    # Phase 926: _multi_map の ("amidine", 2): "diamidine" が参照する
+    # FUNCTIONAL_GROUPS エントリが存在せず SUFFIX_MAP[KeyError] でクラッシュ
+    # していた。amidine の不規則接尾辞 "imidamide" を dinitrile/dioic_acid
+    # と同じパターンで倍化: "diimidamide" ("butanediimidamide" 等)。
+    "diamidine": FunctionalGroupSpec(
+        priority=96,
+        suffix="diimidamide",
+        chain_template="",
+        chain_template_mb="",
+        needs_locant=False,
+        anchor_c1=True,
+        cyclic_template=None,
+        benzene_name=None,
+    ),
     "carbamic_acid": FunctionalGroupSpec(
         priority=99,
         suffix="",
