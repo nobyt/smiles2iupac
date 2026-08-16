@@ -1073,167 +1073,78 @@ def _name_carbon_substituent(
                 if n == 2:
                     return f"{stereo_pfx_sub}{prefix}enyl"
                 return f"{stereo_pfx_sub}{prefix}-{loc}-en-1-yl"
-        # ハロゲン置換アルキル: CF3 → "trifluoromethyl" 等 (IUPAC P-61.7)
+        # Phase 927: ハロゲン / ヒドロキシ / アミノ / スルファニル / ケトン
+        # (oxo) 置換アルキルの検出を1回の走査に統合。
+        # 以前はこれら5種類をそれぞれ独立した「見つかったら即 return」の
+        # ブロックとして順に (ハロゲン→ヒドロキシ→アミノ→スルファニル→
+        # ケトンの優先順で) チェックしており、鎖上の同じ (または別の)
+        # 位置に2種類以上が同時に存在する場合、最初に一致した種類だけが
+        # 生き残り残りは黙って消えていた。例えば -CH2-C(=O)-NH2 (末端
+        # カルボキサミド、ケトン(=O)とアミノ(NH2)が同じ C に同時に存在)
+        # は "アミノ" 側の判定が先に走って即 return するため "2-amino-
+        # ethyl" になり、末端の =O (oxo) が完全に消えていた
+        # (Phase926 で発見; CC(=O)NCC(=O)N が誤って "N-(2-aminoethyl)-
+        # acetamide" になっていた)。全種類を先にまとめて収集してから
+        # 最後に一度だけ整形することで、同じ鎖に複数種類が共存していても
+        # 全て保持されるようにする。
         _HAL_PREFIX = {"F": "fluoro", "Cl": "chloro", "Br": "bromo", "I": "iodo"}
-        hal_subs: list[tuple[int, str]] = []
+        from .molecule_analyzer import get_bond_order as _gbo_hy
+        _het_subs: list[tuple[int, str]] = []
         for pos, c_idx in enumerate(chain_path, 1):
             for nb_idx in graph.adjacency[c_idx]:
                 if nb_idx in excluded or nb_idx in carbon_set:
                     continue
-                nb_sym = get_atom(graph, nb_idx).symbol
+                nb_atom_het = get_atom(graph, nb_idx)
+                nb_sym = nb_atom_het.symbol
                 if nb_sym in _HAL_PREFIX:
-                    hal_subs.append((pos, _HAL_PREFIX[nb_sym]))
-        if hal_subs:
-            from collections import defaultdict
-            hal_by_name: dict[str, list[int]] = defaultdict(list)
-            for pos, nm in hal_subs:
-                hal_by_name[nm].append(pos)
-            hal_parts: list[str] = []
-            for nm in sorted(hal_by_name.keys()):
-                locs = sorted(hal_by_name[nm])
+                    _het_subs.append((pos, _HAL_PREFIX[nb_sym]))
+                elif nb_sym == "O":
+                    _bo_het = _gbo_hy(graph, c_idx, nb_idx)
+                    if _bo_het == 2.0:
+                        _het_subs.append((pos, "oxo"))
+                    elif _bo_het == 1.0:
+                        # 自由 OH: H を持ち、他 C に結合していない (エーテルでない)
+                        _has_h_het = any(get_atom(graph, hh).symbol == "H"
+                                         for hh in graph.adjacency[nb_idx])
+                        _c_nbs_het = [nb2 for nb2 in graph.adjacency[nb_idx]
+                                      if nb2 != c_idx and nb2 not in excluded
+                                      and get_atom(graph, nb2).symbol == "C"]
+                        if _has_h_het and not _c_nbs_het:
+                            _het_subs.append((pos, "hydroxy"))
+                elif nb_sym == "N":
+                    # N が環内・非芳香族の場合はスキップ
+                    if nb_atom_het.in_ring:
+                        continue
+                    # 三重結合 N (ニトリル/イソニトリル) はアミノ扱いしない
+                    if _gbo(graph, c_idx, nb_idx) == 3.0:
+                        continue
+                    _n_c_het = [cc for cc in graph.adjacency[nb_idx]
+                                if cc != c_idx and get_atom(graph, cc).symbol == "C"]
+                    if not _n_c_het:  # primary amine (NH2 or NH)
+                        _het_subs.append((pos, "amino"))
+                elif nb_sym == "S":
+                    _has_h_s_het = any(get_atom(graph, hh).symbol == "H"
+                                       for hh in graph.adjacency[nb_idx])
+                    _c_nbs_s_het = [nb2 for nb2 in graph.adjacency[nb_idx]
+                                    if nb2 != c_idx and nb2 not in excluded
+                                    and get_atom(graph, nb2).symbol == "C"]
+                    if _has_h_s_het and not _c_nbs_s_het:
+                        _het_subs.append((pos, "sulfanyl"))
+        if _het_subs:
+            from collections import defaultdict as _dd_het
+            _het_by_name: dict[str, list[int]] = _dd_het(list)
+            for pos, nm in _het_subs:
+                _het_by_name[nm].append(pos)
+            _het_parts: list[str] = []
+            for nm in sorted(_het_by_name.keys()):
+                locs = sorted(_het_by_name[nm])
                 mult = MULTIPLIER.get(len(locs), "")
                 if n == 1:
-                    hal_parts.append(f"{mult}{nm}")
+                    _het_parts.append(f"{mult}{nm}")
                 else:
                     loc_str = ",".join(str(l) for l in locs)
-                    hal_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(hal_parts)}{prefix}yl"
-
-        # ヒドロキシ置換アルキル: HO-CH₂- → hydroxymethyl, HO-CH₂CH₂- → 2-hydroxyethyl (Phase 274)
-        hy_subs: list[tuple[int, str]] = []
-        for pos, c_idx in enumerate(chain_path, 1):
-            for nb_idx in graph.adjacency[c_idx]:
-                if nb_idx in excluded or nb_idx in carbon_set:
-                    continue
-                nb_atom_hy = get_atom(graph, nb_idx)
-                if nb_atom_hy.symbol != "O":
-                    continue
-                # 自由 OH: H を持ち、他 C に結合していない (エーテルでない)
-                hy_has_h = any(get_atom(graph, hh).symbol == "H"
-                               for hh in graph.adjacency[nb_idx])
-                hy_c_nbs = [nb2 for nb2 in graph.adjacency[nb_idx]
-                            if nb2 != c_idx and nb2 not in excluded
-                            and get_atom(graph, nb2).symbol == "C"]
-                # C=O でない (シングル結合) かつ OH かつ エーテルでない
-                from .molecule_analyzer import get_bond_order as _gbo_hy
-                if (_gbo_hy(graph, c_idx, nb_idx) == 1.0
-                        and hy_has_h and not hy_c_nbs):
-                    hy_subs.append((pos, "hydroxy"))
-        if hy_subs:
-            from collections import defaultdict as _dd_hy
-            hy_by_name: dict[str, list[int]] = _dd_hy(list)
-            for pos, nm in hy_subs:
-                hy_by_name[nm].append(pos)
-            hy_parts: list[str] = []
-            for nm in sorted(hy_by_name.keys()):
-                locs = sorted(hy_by_name[nm])
-                mult = MULTIPLIER.get(len(locs), "")
-                if n == 1:
-                    hy_parts.append(f"{mult}{nm}")
-                else:
-                    loc_str = ",".join(str(l) for l in locs)
-                    hy_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(hy_parts)}{prefix}yl"
-
-        # アミノ置換アルキル: H₂N-CH₂- → aminomethyl, H₂N-CH₂CH₂- → 2-aminoethyl 等 (Phase 216)
-        # 鎖上の N 置換基を探す
-        amino_subs: list[tuple[int, str]] = []
-        for pos, c_idx in enumerate(chain_path, 1):
-            for nb_idx in graph.adjacency[c_idx]:
-                if nb_idx in excluded or nb_idx in carbon_set:
-                    continue
-                if get_atom(graph, nb_idx).symbol != "N":
-                    continue
-                n_atom = get_atom(graph, nb_idx)
-                # N が環内・非芳香族の場合はスキップ
-                if n_atom.in_ring:
-                    continue
-                # N に付いている H 数と C 数を確認
-                n_h = sum(1 for hh in graph.adjacency[nb_idx] if get_atom(graph, hh).symbol == "H")
-                n_c = [cc for cc in graph.adjacency[nb_idx]
-                       if cc != c_idx and get_atom(graph, cc).symbol == "C"]
-                # 三重結合 N (ニトリル/イソニトリル) はアミノ扱いしない
-                if _gbo(graph, c_idx, nb_idx) == 3.0:
-                    continue
-                if not n_c and n_h >= 0:  # primary amine (NH2 or NH)
-                    amino_subs.append((pos, "amino"))
-        if amino_subs:
-            from collections import defaultdict
-            amino_by_name: dict[str, list[int]] = defaultdict(list)
-            for pos, nm in amino_subs:
-                amino_by_name[nm].append(pos)
-            amino_parts: list[str] = []
-            for nm in sorted(amino_by_name.keys()):
-                locs = sorted(amino_by_name[nm])
-                mult = MULTIPLIER.get(len(locs), "")
-                if n == 1:
-                    amino_parts.append(f"{mult}{nm}")
-                else:
-                    loc_str = ",".join(str(l) for l in locs)
-                    amino_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(amino_parts)}{prefix}yl"
-
-        # スルファニル置換アルキル: HS-CH2- → sulfanylmethyl 等 (Phase 514)
-        sulfanyl_subs: list[tuple[int, str]] = []
-        for pos, c_idx in enumerate(chain_path, 1):
-            for nb_idx in graph.adjacency[c_idx]:
-                if nb_idx in excluded or nb_idx in carbon_set:
-                    continue
-                nb_atom_s = get_atom(graph, nb_idx)
-                if nb_atom_s.symbol != "S":
-                    continue
-                s_has_h = any(get_atom(graph, hh).symbol == "H"
-                              for hh in graph.adjacency[nb_idx])
-                s_c_nbs = [nb2 for nb2 in graph.adjacency[nb_idx]
-                           if nb2 != c_idx and nb2 not in excluded
-                           and get_atom(graph, nb2).symbol == "C"]
-                if s_has_h and not s_c_nbs:
-                    sulfanyl_subs.append((pos, "sulfanyl"))
-        if sulfanyl_subs:
-            from collections import defaultdict as _dd_s
-            s_by_name: dict[str, list[int]] = _dd_s(list)
-            for pos, nm in sulfanyl_subs:
-                s_by_name[nm].append(pos)
-            s_parts: list[str] = []
-            for nm in sorted(s_by_name.keys()):
-                locs = sorted(s_by_name[nm])
-                mult = MULTIPLIER.get(len(locs), "")
-                if n == 1:
-                    s_parts.append(f"{mult}{nm}")
-                else:
-                    loc_str = ",".join(str(l) for l in locs)
-                    s_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(s_parts)}{prefix}yl"
-
-        # ケトン置換アルキル: -CH2-C(=O)-CH3 → "2-oxopropyl" 等 (Phase906)
-        # root 自身の =O は上のアシル分岐で先に処理済みなので、ここで見つかる
-        # のは鎖の非末端位置の =O のみ (以前はここに検出ロジックが一切なく、
-        # CC(=O)OCC(=O)C の O-アルキル側 -CH2-C(=O)-CH3 が丸ごと "propyl" に
-        # なりケトンが消えていた)
-        oxo_subs: list[tuple[int, str]] = []
-        for pos, c_idx in enumerate(chain_path, 1):
-            for nb_idx in graph.adjacency[c_idx]:
-                if nb_idx in excluded or nb_idx in carbon_set:
-                    continue
-                if get_atom(graph, nb_idx).symbol != "O":
-                    continue
-                if _gbo(graph, c_idx, nb_idx) == 2.0:
-                    oxo_subs.append((pos, "oxo"))
-        if oxo_subs:
-            from collections import defaultdict as _dd_ox
-            ox_by_name: dict[str, list[int]] = _dd_ox(list)
-            for pos, nm in oxo_subs:
-                ox_by_name[nm].append(pos)
-            ox_parts: list[str] = []
-            for nm in sorted(ox_by_name.keys()):
-                locs = sorted(ox_by_name[nm])
-                mult = MULTIPLIER.get(len(locs), "")
-                if n == 1:
-                    ox_parts.append(f"{mult}{nm}")
-                else:
-                    loc_str = ",".join(str(l) for l in locs)
-                    ox_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(ox_parts)}{prefix}yl"
+                    _het_parts.append(f"{loc_str}-{mult}{nm}")
+            return f"{stereo_pfx_sub}{'-'.join(_het_parts)}{prefix}yl"
 
         return f"{stereo_pfx_sub}{prefix}yl"
 
