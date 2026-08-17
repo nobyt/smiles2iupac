@@ -3701,93 +3701,93 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)ncc1ccnn12":  {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: None, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},  # pyrazolo[1,5-a]quinoxaline
     # Phase 616: simple NH monocyclics
     "c1cn[nH]c1": {0: 4, 1: 3, 2: None, 3: None, 4: 5},  # 1H-pyrazole
-    "c1c[nH]nn1": {0: 4, 1: 5, 2: None, 3: None, 4: None},  # 1H-1,2,3-triazole
-    "c1nc[nH]n1": {0: 3, 1: None, 2: 5, 3: None, 4: None},  # 1H-1,2,4-triazole
+    "c1c[nH]nn1": {0: 4, 1: 5, 2: 1, 3: None, 4: None},  # 1H-1,2,3-triazole
+    "c1nc[nH]n1": {0: 3, 1: None, 2: 5, 3: 1, 4: None},  # 1H-1,2,4-triazole
     "c1nn[nH]n1": {0: 5, 1: None, 2: None, 3: None, 4: None},  # 1H-tetrazole (atom 0 = only C)
-    "c1nnn[nH]1": {0: 5, 1: None, 2: None, 3: None, 4: None},  # 1H-tetrazole (alternate canonical)
+    "c1nnn[nH]1": {0: 5, 1: None, 2: None, 3: None, 4: 1},  # 1H-tetrazole (alternate canonical)
     "c1cn[nH]n1": {0: 4, 1: 4, 2: None, 3: None, 4: None},  # 2H-1,2,3-triazole (C4=C5 symmetric)
     # Phase 617: NH-containing bicyclic heteroaromatics
-    "c1cnc2[nH]nnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cnc2[nH]nnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
     "c1cnc2nn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
-    "c1cc2[nH]nnc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-c]pyridazine
+    "c1cc2[nH]nnc2nn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-c]pyridazine
     "c1nnnc2nn[nH]c12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
-    "c1ncc2[nH]nnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d]pyrimidine
-    "c1nnc2[nH]nnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
-    "c1cnc2[nH]nnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e]pyrazine
+    "c1ncc2[nH]nnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d]pyrimidine
+    "c1nnc2[nH]nnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
+    "c1cnc2[nH]nnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e]pyrazine
     "c1cc2nn[nH]c2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridazine
     "c1cc2nn[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridine
-    "c1nnnc2[nH]nnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine
+    "c1nnnc2[nH]nnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: 1, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine
     "c1ncc2nn[nH]c2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d]pyrimidine
     "c1nnc2nn[nH]c2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-e][1,2,4]triazine
-    "c1cnc2[nH]cnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 1H-imidazo[4,5-b]pyridine
-    "c1ccc2nc3[nH]cnc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-imidazo[4,5-b]quinoline
-    "c1cc2[nH]cnc2nn1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-c]pyridazine
+    "c1cnc2[nH]cnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 1, 5: 2, 6: None, 7: None, 8: 7},  # 1H-imidazo[4,5-b]pyridine
+    "c1ccc2nc3[nH]cnc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-imidazo[4,5-b]quinoline
+    "c1cc2[nH]cnc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-c]pyridazine
     "c1cc2nc[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
-    "c1cc2[nH]cnc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
+    "c1cc2[nH]cnc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
     "c1nc2nnncc2[nH]1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-imidazo[4,5-d][1,2,3]triazine
-    "c1nc2cnncc2[nH]1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-imidazo[4,5-d]pyridazine
-    "c1nnc2[nH]cnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e][1,2,4]triazine
+    "c1nc2cnncc2[nH]1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 4, 7: None, 8: 1},  # 1H-imidazo[4,5-d]pyridazine
+    "c1nnc2[nH]cnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e][1,2,4]triazine
     "c1cnc2[nH]cnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e]pyrazine
     "c1nc2cnnnc2[nH]1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-d][1,2,3]triazine
     "c1nnc2nc[nH]c2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-e][1,2,4]triazine
-    "c1cnc2[nH]ncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
+    "c1cnc2[nH]ncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
     "c1cnc2n[nH]cc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
-    "c1ccc2nc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrazolo[3,4-b]quinoline
-    "c1cc2c[nH]nc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-c]pyridazine
-    "c1cc2c[nH]nc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[3,4-c]pyridine
+    "c1ccc2nc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrazolo[3,4-b]quinoline
+    "c1cc2c[nH]nc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-c]pyridazine
+    "c1cc2c[nH]nc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 1, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[3,4-c]pyridine
     "c1nnnc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[3,4-d][1,2,3]triazine
     "c1nncc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[3,4-d]pyridazine
-    "c1ncc2c[nH]nc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-d]pyrimidine
-    "c1n[nH]c2cnnc-2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-e][1,2,4]triazine
+    "c1ncc2c[nH]nc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: 1, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-d]pyrimidine
+    "c1n[nH]c2cnnc-2n1": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-e][1,2,4]triazine
     "c1cnc2n[nH]cc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[3,4-e]pyrazine
-    "c1cnc2c[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,3-b]pyridine
+    "c1cnc2c[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 1, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,3-b]pyridine
     "c1cc2n[nH]cc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-c]pyridazine
-    "c1nn[nH]c2cnnc1-2": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-d][1,2,3]triazine
+    "c1nn[nH]c2cnnc1-2": {0: 4, 1: None, 2: None, 3: 1, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-d][1,2,3]triazine
     "c1ncc2n[nH]cc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-d]pyrimidine
     "c1nnc2n[nH]cc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-e][1,2,4]triazine
     "c1cnc2cn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,5-b]pyridine
-    "c1cc2[nH]ncc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,5-c]pyridazine
-    "c1cc2[nH]ncc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrazolo[4,5-c]pyridine
-    "c1nncc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[4,5-d]pyridazine
-    "c1ncc2[nH]ncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-d]pyrimidine
-    "c1nnc2[nH]ncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e][1,2,4]triazine
-    "c1cnc2[nH]ncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e]pyrazine
+    "c1cc2[nH]ncc2nn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,5-c]pyridazine
+    "c1cc2[nH]ncc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrazolo[4,5-c]pyridine
+    "c1nncc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: 1, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[4,5-d]pyridazine
+    "c1ncc2[nH]ncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-d]pyrimidine
+    "c1nnc2[nH]ncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e][1,2,4]triazine
+    "c1cnc2[nH]ncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e]pyrazine
     "c1cc2cn[nH]c2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-c]pyridazine
     "c1cc2cn[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[5,4-c]pyridine
-    "c1nnnc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[5,4-d][1,2,3]triazine
+    "c1nnnc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 1, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[5,4-d][1,2,3]triazine
     "c1ncc2cn[nH]c2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-d]pyrimidine
-    "c1cnc2[nH]ccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # 1H-pyrrolo[2,3-b]pyridine
-    "c1ccc2nc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrrolo[2,3-b]quinoline
-    "c1cc2cc[nH]c2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-c]pyridazine
-    "c1cc2cc[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 2, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrrolo[2,3-c]pyridine
-    "c1cc2cnnnc2[nH]1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-d][1,2,3]triazine
-    "c1cc2cnncc2[nH]1": {0: 2, 1: 3, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: None},  # 1H-pyrrolo[2,3-d]pyridazine
-    "c1ncc2cc[nH]c2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: 6, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-d]pyrimidine
-    "c1cc2[nH]ncnc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e][1,2,4]triazine
-    "c1c[nH]c2ccnc-2n1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e]pyrazine
-    "c1cnc2cc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: None, 7: None, 8: 7},  # 1H-pyrrolo[3,2-b]pyridine
-    "c1ccc2nc3cc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-pyrrolo[3,2-b]quinoline
-    "c1cc2nccc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[3,2-c]pyridazine
-    "c1cc2[nH]ccc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,2-c]pyridine
-    "c1cc2[nH]nncc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d][1,2,3]triazine
-    "c1cc2[nH]cncc-2n1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d]pyrimidine
-    "c1nnc2[nH]ccc2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,2-e][1,2,4]triazine
-    "c1c[nH]c2cncc-2c1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: 4},  # 1H-pyrrolo[3,4-b]pyridine
-    "c1cc2cncc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[3,4-c]pyridazine
-    "c1ncc2[nH]nncc1-2": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-d][1,2,3]triazine
-    "c1ncc2cncc-2[nH]1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: None},  # 1H-pyrrolo[3,4-d]pyrimidine
-    "c1n[nH]c2cncc-2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e][1,2,4]triazine
-    "c1c[nH]c2cncc-2n1": {0: 3, 1: 2, 2: None, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e]pyrazine
+    "c1cnc2[nH]ccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},  # 1H-pyrrolo[2,3-b]pyridine
+    "c1ccc2nc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrrolo[2,3-b]quinoline
+    "c1cc2cc[nH]c2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-c]pyridazine
+    "c1cc2cc[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 2, 5: 1, 6: None, 7: 7, 8: None},  # 1H-pyrrolo[2,3-c]pyridine
+    "c1cc2cnnnc2[nH]1": {0: 6, 1: 5, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrrolo[2,3-d][1,2,3]triazine
+    "c1cc2cnncc2[nH]1": {0: 2, 1: 3, 2: None, 3: 4, 4: None, 5: None, 6: 7, 7: None, 8: 1},  # 1H-pyrrolo[2,3-d]pyridazine
+    "c1ncc2cc[nH]c2n1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: 6, 6: 7, 7: None, 8: None},  # 1H-pyrrolo[2,3-d]pyrimidine
+    "c1cc2[nH]ncnc-2n1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e][1,2,4]triazine
+    "c1c[nH]c2ccnc-2n1": {0: 3, 1: 2, 2: 1, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-e]pyrazine
+    "c1cnc2cc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 2, 6: 1, 7: None, 8: 7},  # 1H-pyrrolo[3,2-b]pyridine
+    "c1ccc2nc3cc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 3, 7: 2, 8: 1, 9: None, 10: 9, 11: None, 12: 8},  # 1H-pyrrolo[3,2-b]quinoline
+    "c1cc2nccc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: None, 4: 6, 5: 7, 6: None, 7: 1, 8: None},  # 1H-pyrrolo[3,2-c]pyridazine
+    "c1cc2[nH]ccc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,2-c]pyridine
+    "c1cc2[nH]nncc-2n1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d][1,2,3]triazine
+    "c1cc2[nH]cncc-2n1": {0: 6, 1: 7, 2: None, 3: 1, 4: 2, 5: None, 6: 4, 7: None, 8: None},  # 1H-pyrrolo[3,2-d]pyrimidine
+    "c1nnc2[nH]ccc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,2-e][1,2,4]triazine
+    "c1c[nH]c2cncc-2c1": {0: 3, 1: 2, 2: 1, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: 4},  # 1H-pyrrolo[3,4-b]pyridine
+    "c1cc2cncc-2[nH]n1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: None, 7: 1, 8: None},  # 1H-pyrrolo[3,4-c]pyridazine
+    "c1ncc2[nH]nncc1-2": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-d][1,2,3]triazine
+    "c1ncc2cncc-2[nH]1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: 1},  # 1H-pyrrolo[3,4-d]pyrimidine
+    "c1n[nH]c2cncc-2n1": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e][1,2,4]triazine
+    "c1c[nH]c2cncc-2n1": {0: 3, 1: 2, 2: 1, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e]pyrazine
     "c1cnc2n[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 2H-[1,2,3]triazolo[4,5-b]pyridine
     "c1cc2n[nH]nc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridazine
-    "c1cc2n[nH]nc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridine
+    "c1cc2n[nH]nc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridine
     "c1nnnc2n[nH]nc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
     "c1ncc2n[nH]nc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d]pyrimidine
     "c1nnc2n[nH]nc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
     "c1cnc2n[nH]nc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e]pyrazine
     "c1cnc2nc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 3H-imidazo[4,5-b]pyridine
     "c1ccc2nc3nc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 3H-imidazo[4,5-b]quinoline
-    "c1ncc2[nH]cnc2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 7H-purine
+    "c1ncc2[nH]cnc2n1": {0: 2, 1: None, 2: 6, 3: None, 4: 7, 5: 8, 6: None, 7: None, 8: None},  # 7H-purine
     "c1ncc2nc[nH]c2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 9H-purine
     # Phase 618: non-aromatic and partially aromatic ring locants
     "c1ccc2c(c1)CCCC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},  # 1,2,3,4-tetrahydronaphthalene
@@ -4320,18 +4320,18 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2cc3cc4ccccc4cc3cc2c1": {0: 2, 1: 3, 2: 4, 3: None, 4: 6, 5: None, 6: 11, 7: None, 8: 7, 9: 8, 10: 9, 11: 10, 12: None, 13: 12, 14: None, 15: 5, 16: None, 17: 1},
     # Phase 579: 1H-naphtho[2,3-d]imidazole (N1H@b6, N3@b8; 7 sub C: 2,4-9)
     # canonical: c1ccc2cc3[nH]cnc3cc2c1; junctions: b3,b5,b9,b11
-    "c1ccc2cc3[nH]cnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 4, 11: None, 12: 5},
+    "c1ccc2cc3[nH]cnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: 1, 7: 2, 8: None, 9: None, 10: 4, 11: None, 12: 5},
     # Phase 579: 1H-naphtho[2,3-d]pyrazole (N1H@b6, N2@b7; 7 sub C: 3-9)
     # canonical: c1ccc2cc3[nH]ncc3cc2c1
-    "c1ccc2cc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    "c1ccc2cc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: 1, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
     # Phase 579: 1H-naphtho[2,1-d]imidazole (N1H@b10, N3@b11; 7 sub C: 2,4-9)
     # canonical: c1ccc2c(c1)ccc1[nH]cnc12; junctions: b3,b4,b8,b12
-    "c1ccc2c(c1)ccc1[nH]cnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    "c1ccc2c(c1)ccc1[nH]cnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 1, 10: 2, 11: None, 12: None},
     # 3H tautomeric canonical alias (MolFragmentToSmiles gives this form for many substituted cases)
     "c1ccc2c(c1)ccc1nc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
     # Phase 579: 1H-naphtho[2,1-d]pyrazole (N1H@b11, N2@b10; 7 sub C: 3-9)
     # canonical: c1ccc2c(c1)ccc1cn[nH]c12
-    "c1ccc2c(c1)ccc1cn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: None, 12: None},
+    "c1ccc2c(c1)ccc1cn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: 1, 12: None},
     # Phase 579: naphtho[1,2-d]oxazole (O@1→b9, N@3→b11; 7 sub C: 2,4-9)
     # canonical: c1ccc2c(c1)ccc1ocnc12; junctions: b3,b4,b8,b12
     "c1ccc2c(c1)ccc1ocnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
@@ -4340,7 +4340,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)ccc1scnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
     # Phase 581: 1H-naphtho[1,2-d][1,2,3]triazole (N1H@b11, N2@b10, N3@b9; 6 sub C: 4-9)
     # canonical: c1ccc2c(c1)ccc1nn[nH]c12; junctions: b3,b4,b8,b12
-    "c1ccc2c(c1)ccc1nn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: None, 12: None},
+    "c1ccc2c(c1)ccc1nn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: None, 11: 1, 12: None},
     # Phase 581: naphtho[2,3-d][1,2,3]oxadiazole (O@b6, N@b7, N@b8; 6 sub C: 4-9)
     "c1ccc2cc3onnc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: None, 8: None, 9: None, 10: 4, 11: None, 12: 5},
     # Phase 581: naphtho[1,2-d][1,2,3]oxadiazole (O@b9, N@b10, N@b11; 6 sub C: 4-9)
@@ -4377,9 +4377,9 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 583: naphtho[1,2-d]pyrimidine (N@a10/a12; 8 sub C: 2,4-10)
     "c1ccc2c(c1)ccc1cncnc12": {0: 8, 1: 9, 2: 10, 3: None, 4: None, 5: 7, 6: 6, 7: 5, 8: None, 9: 4, 10: None, 11: 2, 12: None, 13: None},
     # Phase 584: 1H-benzo[f]indole (N@a6; 8 sub C: 2-9)
-    "c1ccc2cc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: None, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
+    "c1ccc2cc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: 9, 5: None, 6: 1, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},
     # Phase 584: 1H-benzo[g]indole (N@a11; 8 sub C: 2-9)
-    "c1ccc2c(c1)ccc1cc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: None, 12: None},
+    "c1ccc2c(c1)ccc1cc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: 2, 11: 1, 12: None},
     # Phase 585: benzo[b][1,7]naphthyridine (N@a4/a7; 8 sub C: 1,3-9)
     "c1ccc2nc3cnccc3cc2c1": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: 3, 9: 4, 10: None, 11: 5, 12: None, 13: 6},
     # Phase 585: benzo[b][1,8]naphthyridine (N@a4/a6; 8 sub C: 2-9)
@@ -4723,10 +4723,10 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ccc2c(c1)ccc1sccc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: 1, 12: None},
     # Phase 575: 9H-pyrido[2,3-b]indole (α-carboline; N@1→b8, N-H@9→b6; C positions 2-8)
     # canonical: c1ccc2c(c1)[nH]c1ncccc12
-    "c1ccc2c(c1)[nH]c1ncccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None, 9: 2, 10: 3, 11: 4, 12: None},
+    "c1ccc2c(c1)[nH]c1ncccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: 9, 7: None, 8: None, 9: 2, 10: 3, 11: 4, 12: None},
     # Phase 575: 9H-pyrido[3,4-b]indole (β-carboline; N@2→b9, N-H@9→b6; C positions 1,3-8)
     # canonical: c1ccc2c(c1)[nH]c1cnccc12
-    "c1ccc2c(c1)[nH]c1cnccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: 1, 9: None, 10: 3, 11: 4, 12: None},
+    "c1ccc2c(c1)[nH]c1cnccc12": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: 8, 6: 9, 7: None, 8: 1, 9: None, 10: 3, 11: 4, 12: None},
     # Phase 574: 9H-fluoren-9-one (C2v; 14 atoms; 4 unique pairs: {1,8}→b3, {2,7}→b4, {3,6}→b10, {4,5}→b9)
     # canonical: O=C1c2ccccc2-c2ccccc21
     # junctions: 2(→ring1-ring2), 7(→ring1-5ring), 8(→ring2-5ring), 13(→ring2-C9); O at 0, C9=O at 1

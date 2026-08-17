@@ -1,0 +1,106 @@
+# Nomenclature Gap Audit (Track B)
+
+Generated 2026-08-18 per the "implement missing IUPAC features" plan. Unlike
+`docs/locant_map_audit.md` (Track A: known-wrong answers from an existing
+code path), this doc tracks **rule classes with no code path at all**.
+
+## Method
+
+1. **B1 — mine `tests/pubchem_cache.json`**: ran every `validated: False`
+   cache entry (4,011 of 6,978) through `smiles_to_iupac`, diffed against
+   PubChem's `IUPACName`, and classified mismatches with the existing
+   `iupac_verdict.classify_mismatch()`.
+2. **B2 — targeted probes**: directly exercised specific rule classes
+   suspected to be unimplemented based on `README.md`'s coverage table and
+   the small size of `stereochemistry.py` (64 lines).
+
+## B1 results: real-world corpus shows almost no hard gaps
+
+| Bucket | Count | Meaning |
+|---|---|---|
+| Exact match | 1 | (most cache entries are mismatches by construction — this cache tracks known diffs) |
+| Crash (exception) | 1 | `CC=N(CC)CC` — `ValueError: Invalid SMILES`. Root cause: the cached SMILES itself is chemically invalid (neutral trivalent N can't carry a double bond + 2 single bonds without a formal + charge) — a **bad cache entry**, not an engine gap. |
+| `pubchem_wrong` | 392 | Already-classified: PubChem violates IUPAC 2013 formatting (not our gap) |
+| `pubchem_retained` / `our_retained` / `tautomer` | 47 | Already-classified retained-name/tautomer preference differences |
+| `needs_review` (unclassified) | 1,947 | See below |
+
+The 1,947 "needs_review" rows were spot-checked (30-row sample) and are
+overwhelmingly **PubChem choosing a trivial/retained name where we produce
+the systematic PIN** (`alanine` vs `2-aminopropanoic acid`, `malonic acid`
+vs `propanedioic acid`, `cumene` vs `(propan-2-yl)benzene`, `citric acid`
+vs `2-hydroxypropane-1,2,3-tricarboxylic acid`) or a **locant-omission
+convention difference** (`nitroethane` vs PubChem's `1-nitroethane` on an
+unambiguous monosubstituted chain). None of the sampled rows indicate a
+missing rule class — they're the same "which name is PIN" judgment calls
+this project's PubChem-verdict pipeline already triages routinely.
+
+**Conclusion: the engine's functional-group/ring coverage is already close
+to complete for real-world compounds.** B1 does not surface a hidden crash
+backlog. The genuine gaps are structural (whole descriptor classes), found
+instead by B2's targeted probing.
+
+## B2 results: three confirmed structural gaps
+
+### 1. Isotopic labeling — not implemented at all
+```python
+smiles_to_iupac("[2H]C([2H])([2H])C(=O)O")   # -> "acetic acid"   (deuterium silently dropped)
+smiles_to_iupac("C[13CH2]C(=O)O")            # -> "propanoic acid" (13C silently dropped)
+```
+No isotope-related code exists anywhere in `src/` (confirmed by grep). IUPAC
+2013 P-82 isotope nomenclature (e.g. `(2,2,2-²H₃)acetic acid`) has zero
+support. Any isotope-labeled input silently loses the label with no error —
+same silent-wrongness shape as the Track A locant bugs, but structural
+rather than a table lookup gap.
+
+### 2. Axial chirality (allenes, atropisomers) — not implemented
+```python
+smiles_to_iupac("CC(F)=C=C(Cl)C")              # -> "4-chloro-2-fluoropenta-2,3-diene" (no descriptor)
+smiles_to_iupac(r"C(/C(=C=C(\C)F)Cl)")         # -> "2-chloro-4-fluoropenta-2,3-diene" (no descriptor, DIFFERENT locants for the same input intent)
+```
+`stereochemistry.py` (64 lines) only maps CIP tetrahedral/double-bond codes
+to `(R)`/`(E)`-style descriptors; it has no path for axial (`Ra`/`Sa`) or
+planar chirality. Worse than a simple omission: the two input
+representations above encode the same substitution pattern with opposite
+explicit stereo bonds, yet produce differently-numbered names with neither
+descriptor — suggesting the numbering routine isn't even stably ignoring
+the stereo bonds, it's arbitrarily picking different equivalent atoms.
+
+### 3. Complex (non-simple) polycyclic von Baeyer systems — confirmed wrong, not just unsupported
+```python
+smiles_to_iupac("C1CC2CCC1CC2")        # -> "bicyclo[2.2.2]octane"  (correct)
+smiles_to_iupac("C1CC2CC1C1CCCCC21")   # -> "cyclohexane"           (WRONG — silently drops 5 of 11 ring atoms)
+```
+The second SMILES is a genuine, valid, connected tricyclic hydrocarbon (11
+atoms, 3 SSSR rings of size 5/5/6 — confirmed via RDKit `GetRingInfo`).
+Simple bridged bicyclics (`polycyclic_handler.py`) and retained names
+(adamantane) work; this shows the fallback path for *irregular* tricyclic+
+fused/bridged combinations doesn't fail loudly — it falls through to a
+handler that names only a fragment as if it were the whole molecule. This
+is the most severe of the three B2 findings (wrong answer with no error,
+versus 1/2's silent-drop-but-otherwise-sane names) and the best B3
+starting point given it's a correctness bug in existing code, not
+new-nomenclature-from-scratch work like isotopes/axial chirality.
+
+## Recommended B3 priority
+
+1. **Tricyclic+ von Baeyer fallback bug** (finding 3) — highest severity
+   (wrong name, not just missing detail), and likely the smallest, most
+   contained fix (probably a fallback/fallthrough guard in
+   `polycyclic_handler.py` or wherever ring-cluster detection dispatches,
+   similar in shape to the Track A `_FUSED_LOCANT_MAP` `None`-locant bug:
+   find where it silently accepts a partial ring match instead of erroring
+   or extending von Baeyer bridge notation).
+2. **Isotopic labeling** (finding 1) — self-contained new feature, doesn't
+   interact with existing naming logic beyond adding an isotope prefix
+   token; good candidary for `name_assembler.py`'s prefix-assembly path.
+   Lower urgency than (1) since B1 found zero real-world isotope-labeled
+   compounds in the mined corpus (isotope-labeled entries are rare in
+   general small-molecule corpora).
+3. **Axial/planar chirality** (finding 2) — highest implementation cost
+   (needs new stereo-perception logic beyond what `stereochemistry.py`
+   currently does, likely including RDKit's newer stereo API for
+   atropisomers), lowest observed real-world frequency. Do last.
+
+Explicitly not pursued in this pass (per plan Track B4): the 3 OPSIN-
+unsupported f-locant fused-ring names in `docs/opsin_skip_list.md`, and
+anything that would require new work in the Rust port.

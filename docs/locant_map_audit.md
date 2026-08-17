@@ -13,9 +13,24 @@ triage list, not a to-do list — verify each with a real substituted SMILES
 before changing the map (see Phase 849/851 for the pattern: add a test,
 then flip `None` to the correct locant).
 
+**Phase 930 update (2026-08-18):** systematic adversarial probing (attach a
+methyl at every heteroatom that still carries an implicit H — the only
+positions a substituent could plausibly reach — then check whether it
+survives into the name) found 106/108 such probeable positions were
+confirmed bugs. 63 were fixed in Phase 930 (the locant is simply the
+ring system's own indicated-H locant, already encoded in its retained
+name). The remaining ~43 need deeper fixes (symmetric/tautomeric ring
+systems where multiple automorphic substructure matches compete for the
+same molecule, plus one confirmed wrong entry in `_FUSED_HETERO_RETAINED`
+itself) — see `docs/nomenclature_gap_audit.md` and
+`tests/test_phase930.py`'s module docstring. The remaining ~1,500
+heteroatom `None`s have 0 implicit H (aromatic pyridine-type N, ether
+O/S, carbonyl O) and are not substitutable via simple substitution in the
+first place, so are very likely legitimate.
+
 ```
-_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3229 total None locants
-Heteroatom (N/O/S/Se/Te) None locants: 1611
+_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3166 total None locants
+Heteroatom (N/O/S/Se/Te) None locants: 1548
 
   c1cnon1                                        atom  2  N  -> None
   c1cnon1                                        atom  3  O  -> None
@@ -91,11 +106,9 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1ccc2c(c1)ncc1ccnn12                          atom 12  N  -> None
   c1cn[nH]c1                                     atom  2  N  -> None
   c1cn[nH]c1                                     atom  3  N  -> None
-  c1c[nH]nn1                                     atom  2  N  -> None
   c1c[nH]nn1                                     atom  3  N  -> None
   c1c[nH]nn1                                     atom  4  N  -> None
   c1nc[nH]n1                                     atom  1  N  -> None
-  c1nc[nH]n1                                     atom  3  N  -> None
   c1nc[nH]n1                                     atom  4  N  -> None
   c1nn[nH]n1                                     atom  1  N  -> None
   c1nn[nH]n1                                     atom  2  N  -> None
@@ -104,19 +117,16 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnn[nH]1                                     atom  1  N  -> None
   c1nnn[nH]1                                     atom  2  N  -> None
   c1nnn[nH]1                                     atom  3  N  -> None
-  c1nnn[nH]1                                     atom  4  N  -> None
   c1cn[nH]n1                                     atom  2  N  -> None
   c1cn[nH]n1                                     atom  3  N  -> None
   c1cn[nH]n1                                     atom  4  N  -> None
   c1cnc2[nH]nnc2c1                               atom  2  N  -> None
-  c1cnc2[nH]nnc2c1                               atom  4  N  -> None
   c1cnc2[nH]nnc2c1                               atom  5  N  -> None
   c1cnc2[nH]nnc2c1                               atom  6  N  -> None
   c1cnc2nn[nH]c2c1                               atom  2  N  -> None
   c1cnc2nn[nH]c2c1                               atom  4  N  -> None
   c1cnc2nn[nH]c2c1                               atom  5  N  -> None
   c1cnc2nn[nH]c2c1                               atom  6  N  -> None
-  c1cc2[nH]nnc2nn1                               atom  3  N  -> None
   c1cc2[nH]nnc2nn1                               atom  4  N  -> None
   c1cc2[nH]nnc2nn1                               atom  5  N  -> None
   c1cc2[nH]nnc2nn1                               atom  7  N  -> None
@@ -128,18 +138,15 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnnc2nn[nH]c12                               atom  6  N  -> None
   c1nnnc2nn[nH]c12                               atom  7  N  -> None
   c1ncc2[nH]nnc2n1                               atom  1  N  -> None
-  c1ncc2[nH]nnc2n1                               atom  4  N  -> None
   c1ncc2[nH]nnc2n1                               atom  5  N  -> None
   c1ncc2[nH]nnc2n1                               atom  6  N  -> None
   c1ncc2[nH]nnc2n1                               atom  8  N  -> None
   c1nnc2[nH]nnc2n1                               atom  1  N  -> None
   c1nnc2[nH]nnc2n1                               atom  2  N  -> None
-  c1nnc2[nH]nnc2n1                               atom  4  N  -> None
   c1nnc2[nH]nnc2n1                               atom  5  N  -> None
   c1nnc2[nH]nnc2n1                               atom  6  N  -> None
   c1nnc2[nH]nnc2n1                               atom  8  N  -> None
   c1cnc2[nH]nnc2n1                               atom  2  N  -> None
-  c1cnc2[nH]nnc2n1                               atom  4  N  -> None
   c1cnc2[nH]nnc2n1                               atom  5  N  -> None
   c1cnc2[nH]nnc2n1                               atom  6  N  -> None
   c1cnc2[nH]nnc2n1                               atom  8  N  -> None
@@ -155,7 +162,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnnc2[nH]nnc12                               atom  1  N  -> None
   c1nnnc2[nH]nnc12                               atom  2  N  -> None
   c1nnnc2[nH]nnc12                               atom  3  N  -> None
-  c1nnnc2[nH]nnc12                               atom  5  N  -> None
   c1nnnc2[nH]nnc12                               atom  6  N  -> None
   c1nnnc2[nH]nnc12                               atom  7  N  -> None
   c1ncc2nn[nH]c2n1                               atom  1  N  -> None
@@ -170,19 +176,15 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnc2nn[nH]c2n1                               atom  6  N  -> None
   c1nnc2nn[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]cnc2c1                               atom  2  N  -> None
-  c1cnc2[nH]cnc2c1                               atom  4  N  -> None
   c1cnc2[nH]cnc2c1                               atom  6  N  -> None
   c1ccc2nc3[nH]cnc3cc2c1                         atom  4  N  -> None
-  c1ccc2nc3[nH]cnc3cc2c1                         atom  6  N  -> None
   c1ccc2nc3[nH]cnc3cc2c1                         atom  8  N  -> None
-  c1cc2[nH]cnc2nn1                               atom  3  N  -> None
   c1cc2[nH]cnc2nn1                               atom  5  N  -> None
   c1cc2[nH]cnc2nn1                               atom  7  N  -> None
   c1cc2[nH]cnc2nn1                               atom  8  N  -> None
   c1cc2nc[nH]c2cn1                               atom  3  N  -> None
   c1cc2nc[nH]c2cn1                               atom  5  N  -> None
   c1cc2nc[nH]c2cn1                               atom  8  N  -> None
-  c1cc2[nH]cnc2cn1                               atom  3  N  -> None
   c1cc2[nH]cnc2cn1                               atom  5  N  -> None
   c1cc2[nH]cnc2cn1                               atom  8  N  -> None
   c1nc2nnncc2[nH]1                               atom  1  N  -> None
@@ -193,10 +195,8 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nc2cnncc2[nH]1                               atom  1  N  -> None
   c1nc2cnncc2[nH]1                               atom  4  N  -> None
   c1nc2cnncc2[nH]1                               atom  5  N  -> None
-  c1nc2cnncc2[nH]1                               atom  8  N  -> None
   c1nnc2[nH]cnc2n1                               atom  1  N  -> None
   c1nnc2[nH]cnc2n1                               atom  2  N  -> None
-  c1nnc2[nH]cnc2n1                               atom  4  N  -> None
   c1nnc2[nH]cnc2n1                               atom  6  N  -> None
   c1nnc2[nH]cnc2n1                               atom  8  N  -> None
   c1cnc2[nH]cnc2n1                               atom  2  N  -> None
@@ -214,19 +214,15 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnc2nc[nH]c2n1                               atom  6  N  -> None
   c1nnc2nc[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]ncc2c1                               atom  2  N  -> None
-  c1cnc2[nH]ncc2c1                               atom  4  N  -> None
   c1cnc2[nH]ncc2c1                               atom  5  N  -> None
   c1cnc2n[nH]cc2c1                               atom  2  N  -> None
   c1cnc2n[nH]cc2c1                               atom  4  N  -> None
   c1cnc2n[nH]cc2c1                               atom  5  N  -> None
   c1ccc2nc3[nH]ncc3cc2c1                         atom  4  N  -> None
-  c1ccc2nc3[nH]ncc3cc2c1                         atom  6  N  -> None
   c1ccc2nc3[nH]ncc3cc2c1                         atom  7  N  -> None
-  c1cc2c[nH]nc2nn1                               atom  4  N  -> None
   c1cc2c[nH]nc2nn1                               atom  5  N  -> None
   c1cc2c[nH]nc2nn1                               atom  7  N  -> None
   c1cc2c[nH]nc2nn1                               atom  8  N  -> None
-  c1cc2c[nH]nc2cn1                               atom  4  N  -> None
   c1cc2c[nH]nc2cn1                               atom  5  N  -> None
   c1cc2c[nH]nc2cn1                               atom  8  N  -> None
   c1nnnc2n[nH]cc12                               atom  1  N  -> None
@@ -239,11 +235,9 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nncc2n[nH]cc12                               atom  5  N  -> None
   c1nncc2n[nH]cc12                               atom  6  N  -> None
   c1ncc2c[nH]nc2n1                               atom  1  N  -> None
-  c1ncc2c[nH]nc2n1                               atom  5  N  -> None
   c1ncc2c[nH]nc2n1                               atom  6  N  -> None
   c1ncc2c[nH]nc2n1                               atom  8  N  -> None
   c1n[nH]c2cnnc-2n1                              atom  1  N  -> None
-  c1n[nH]c2cnnc-2n1                              atom  2  N  -> None
   c1n[nH]c2cnnc-2n1                              atom  5  N  -> None
   c1n[nH]c2cnnc-2n1                              atom  6  N  -> None
   c1n[nH]c2cnnc-2n1                              atom  8  N  -> None
@@ -252,7 +246,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1cnc2n[nH]cc2n1                               atom  5  N  -> None
   c1cnc2n[nH]cc2n1                               atom  8  N  -> None
   c1cnc2c[nH]nc2c1                               atom  2  N  -> None
-  c1cnc2c[nH]nc2c1                               atom  5  N  -> None
   c1cnc2c[nH]nc2c1                               atom  6  N  -> None
   c1cc2n[nH]cc2nn1                               atom  3  N  -> None
   c1cc2n[nH]cc2nn1                               atom  4  N  -> None
@@ -260,7 +253,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1cc2n[nH]cc2nn1                               atom  8  N  -> None
   c1nn[nH]c2cnnc1-2                              atom  1  N  -> None
   c1nn[nH]c2cnnc1-2                              atom  2  N  -> None
-  c1nn[nH]c2cnnc1-2                              atom  3  N  -> None
   c1nn[nH]c2cnnc1-2                              atom  6  N  -> None
   c1nn[nH]c2cnnc1-2                              atom  7  N  -> None
   c1ncc2n[nH]cc2n1                               atom  1  N  -> None
@@ -275,28 +267,22 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1cnc2cn[nH]c2c1                               atom  2  N  -> None
   c1cnc2cn[nH]c2c1                               atom  5  N  -> None
   c1cnc2cn[nH]c2c1                               atom  6  N  -> None
-  c1cc2[nH]ncc2nn1                               atom  3  N  -> None
   c1cc2[nH]ncc2nn1                               atom  4  N  -> None
   c1cc2[nH]ncc2nn1                               atom  7  N  -> None
   c1cc2[nH]ncc2nn1                               atom  8  N  -> None
-  c1cc2[nH]ncc2cn1                               atom  3  N  -> None
   c1cc2[nH]ncc2cn1                               atom  4  N  -> None
   c1cc2[nH]ncc2cn1                               atom  8  N  -> None
   c1nncc2[nH]ncc12                               atom  1  N  -> None
   c1nncc2[nH]ncc12                               atom  2  N  -> None
-  c1nncc2[nH]ncc12                               atom  5  N  -> None
   c1nncc2[nH]ncc12                               atom  6  N  -> None
   c1ncc2[nH]ncc2n1                               atom  1  N  -> None
-  c1ncc2[nH]ncc2n1                               atom  4  N  -> None
   c1ncc2[nH]ncc2n1                               atom  5  N  -> None
   c1ncc2[nH]ncc2n1                               atom  8  N  -> None
   c1nnc2[nH]ncc2n1                               atom  1  N  -> None
   c1nnc2[nH]ncc2n1                               atom  2  N  -> None
-  c1nnc2[nH]ncc2n1                               atom  4  N  -> None
   c1nnc2[nH]ncc2n1                               atom  5  N  -> None
   c1nnc2[nH]ncc2n1                               atom  8  N  -> None
   c1cnc2[nH]ncc2n1                               atom  2  N  -> None
-  c1cnc2[nH]ncc2n1                               atom  4  N  -> None
   c1cnc2[nH]ncc2n1                               atom  5  N  -> None
   c1cnc2[nH]ncc2n1                               atom  8  N  -> None
   c1cc2cn[nH]c2nn1                               atom  4  N  -> None
@@ -309,75 +295,52 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1nnnc2[nH]ncc12                               atom  1  N  -> None
   c1nnnc2[nH]ncc12                               atom  2  N  -> None
   c1nnnc2[nH]ncc12                               atom  3  N  -> None
-  c1nnnc2[nH]ncc12                               atom  5  N  -> None
   c1nnnc2[nH]ncc12                               atom  6  N  -> None
   c1ncc2cn[nH]c2n1                               atom  1  N  -> None
   c1ncc2cn[nH]c2n1                               atom  5  N  -> None
   c1ncc2cn[nH]c2n1                               atom  6  N  -> None
   c1ncc2cn[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]ccc2c1                               atom  2  N  -> None
-  c1cnc2[nH]ccc2c1                               atom  4  N  -> None
   c1ccc2nc3[nH]ccc3cc2c1                         atom  4  N  -> None
-  c1ccc2nc3[nH]ccc3cc2c1                         atom  6  N  -> None
-  c1cc2cc[nH]c2nn1                               atom  5  N  -> None
   c1cc2cc[nH]c2nn1                               atom  7  N  -> None
   c1cc2cc[nH]c2nn1                               atom  8  N  -> None
-  c1cc2cc[nH]c2cn1                               atom  5  N  -> None
   c1cc2cc[nH]c2cn1                               atom  8  N  -> None
   c1cc2cnnnc2[nH]1                               atom  4  N  -> None
   c1cc2cnnnc2[nH]1                               atom  5  N  -> None
   c1cc2cnnnc2[nH]1                               atom  6  N  -> None
-  c1cc2cnnnc2[nH]1                               atom  8  N  -> None
   c1cc2cnncc2[nH]1                               atom  4  N  -> None
   c1cc2cnncc2[nH]1                               atom  5  N  -> None
-  c1cc2cnncc2[nH]1                               atom  8  N  -> None
   c1ncc2cc[nH]c2n1                               atom  1  N  -> None
-  c1ncc2cc[nH]c2n1                               atom  6  N  -> None
   c1ncc2cc[nH]c2n1                               atom  8  N  -> None
-  c1cc2[nH]ncnc-2n1                              atom  3  N  -> None
   c1cc2[nH]ncnc-2n1                              atom  4  N  -> None
   c1cc2[nH]ncnc-2n1                              atom  6  N  -> None
   c1cc2[nH]ncnc-2n1                              atom  8  N  -> None
-  c1c[nH]c2ccnc-2n1                              atom  2  N  -> None
   c1c[nH]c2ccnc-2n1                              atom  6  N  -> None
   c1c[nH]c2ccnc-2n1                              atom  8  N  -> None
   c1cnc2cc[nH]c2c1                               atom  2  N  -> None
-  c1cnc2cc[nH]c2c1                               atom  6  N  -> None
   c1ccc2nc3cc[nH]c3cc2c1                         atom  4  N  -> None
-  c1ccc2nc3cc[nH]c3cc2c1                         atom  8  N  -> None
   c1cc2nccc-2[nH]n1                              atom  3  N  -> None
-  c1cc2nccc-2[nH]n1                              atom  7  N  -> None
   c1cc2nccc-2[nH]n1                              atom  8  N  -> None
-  c1cc2[nH]ccc2cn1                               atom  3  N  -> None
   c1cc2[nH]ccc2cn1                               atom  8  N  -> None
-  c1cc2[nH]nncc-2n1                              atom  3  N  -> None
   c1cc2[nH]nncc-2n1                              atom  4  N  -> None
   c1cc2[nH]nncc-2n1                              atom  5  N  -> None
   c1cc2[nH]nncc-2n1                              atom  8  N  -> None
-  c1cc2[nH]cncc-2n1                              atom  3  N  -> None
   c1cc2[nH]cncc-2n1                              atom  5  N  -> None
   c1cc2[nH]cncc-2n1                              atom  8  N  -> None
   c1nnc2[nH]ccc2n1                               atom  1  N  -> None
   c1nnc2[nH]ccc2n1                               atom  2  N  -> None
-  c1nnc2[nH]ccc2n1                               atom  4  N  -> None
   c1nnc2[nH]ccc2n1                               atom  8  N  -> None
-  c1c[nH]c2cncc-2c1                              atom  2  N  -> None
   c1c[nH]c2cncc-2c1                              atom  5  N  -> None
   c1cc2cncc-2[nH]n1                              atom  4  N  -> None
-  c1cc2cncc-2[nH]n1                              atom  7  N  -> None
   c1cc2cncc-2[nH]n1                              atom  8  N  -> None
   c1ncc2[nH]nncc1-2                              atom  1  N  -> None
-  c1ncc2[nH]nncc1-2                              atom  4  N  -> None
   c1ncc2[nH]nncc1-2                              atom  5  N  -> None
   c1ncc2[nH]nncc1-2                              atom  6  N  -> None
   c1ncc2cncc-2[nH]1                              atom  1  N  -> None
   c1ncc2cncc-2[nH]1                              atom  5  N  -> None
-  c1ncc2cncc-2[nH]1                              atom  8  N  -> None
   c1n[nH]c2cncc-2n1                              atom  1  N  -> None
-  c1n[nH]c2cncc-2n1                              atom  2  N  -> None
   c1n[nH]c2cncc-2n1                              atom  5  N  -> None
   c1n[nH]c2cncc-2n1                              atom  8  N  -> None
-  c1c[nH]c2cncc-2n1                              atom  2  N  -> None
   c1c[nH]c2cncc-2n1                              atom  5  N  -> None
   c1c[nH]c2cncc-2n1                              atom  8  N  -> None
   c1cnc2n[nH]nc2c1                               atom  2  N  -> None
@@ -390,7 +353,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1cc2n[nH]nc2nn1                               atom  7  N  -> None
   c1cc2n[nH]nc2nn1                               atom  8  N  -> None
   c1cc2n[nH]nc2cn1                               atom  3  N  -> None
-  c1cc2n[nH]nc2cn1                               atom  4  N  -> None
   c1cc2n[nH]nc2cn1                               atom  5  N  -> None
   c1cc2n[nH]nc2cn1                               atom  8  N  -> None
   c1nnnc2n[nH]nc12                               atom  1  N  -> None
@@ -422,7 +384,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1ccc2nc3nc[nH]c3cc2c1                         atom  6  N  -> None
   c1ccc2nc3nc[nH]c3cc2c1                         atom  8  N  -> None
   c1ncc2[nH]cnc2n1                               atom  1  N  -> None
-  c1ncc2[nH]cnc2n1                               atom  4  N  -> None
   c1ncc2[nH]cnc2n1                               atom  6  N  -> None
   c1ncc2[nH]cnc2n1                               atom  8  N  -> None
   c1ncc2nc[nH]c2n1                               atom  1  N  -> None
@@ -701,23 +662,18 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   O=c1cc2ccccc2c[nH]1                            atom  0  O  -> None
   O=c1[nH][nH]c2ccccc12                          atom  0  O  -> None
   O=c1[nH]c2ccccc2c2ccccc12                      atom  0  O  -> None
-  c1ccc2cc3[nH]cnc3cc2c1                         atom  6  N  -> None
   c1ccc2cc3[nH]cnc3cc2c1                         atom  8  N  -> None
-  c1ccc2cc3[nH]ncc3cc2c1                         atom  6  N  -> None
   c1ccc2cc3[nH]ncc3cc2c1                         atom  7  N  -> None
-  c1ccc2c(c1)ccc1[nH]cnc12                       atom  9  N  -> None
   c1ccc2c(c1)ccc1[nH]cnc12                       atom 11  N  -> None
   c1ccc2c(c1)ccc1nc[nH]c12                       atom  9  N  -> None
   c1ccc2c(c1)ccc1nc[nH]c12                       atom 11  N  -> None
   c1ccc2c(c1)ccc1cn[nH]c12                       atom 10  N  -> None
-  c1ccc2c(c1)ccc1cn[nH]c12                       atom 11  N  -> None
   c1ccc2c(c1)ccc1ocnc12                          atom  9  O  -> None
   c1ccc2c(c1)ccc1ocnc12                          atom 11  N  -> None
   c1ccc2c(c1)ccc1scnc12                          atom  9  S  -> None
   c1ccc2c(c1)ccc1scnc12                          atom 11  N  -> None
   c1ccc2c(c1)ccc1nn[nH]c12                       atom  9  N  -> None
   c1ccc2c(c1)ccc1nn[nH]c12                       atom 10  N  -> None
-  c1ccc2c(c1)ccc1nn[nH]c12                       atom 11  N  -> None
   c1ccc2cc3onnc3cc2c1                            atom  6  O  -> None
   c1ccc2cc3onnc3cc2c1                            atom  7  N  -> None
   c1ccc2cc3onnc3cc2c1                            atom  8  N  -> None
@@ -755,8 +711,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1ccc2c(c1)ccc1ncncc12                         atom 11  N  -> None
   c1ccc2c(c1)ccc1cncnc12                         atom 10  N  -> None
   c1ccc2c(c1)ccc1cncnc12                         atom 12  N  -> None
-  c1ccc2cc3[nH]ccc3cc2c1                         atom  6  N  -> None
-  c1ccc2c(c1)ccc1cc[nH]c12                       atom 11  N  -> None
   c1ccc2nc3cnccc3cc2c1                           atom  4  N  -> None
   c1ccc2nc3cnccc3cc2c1                           atom  7  N  -> None
   c1ccc2nc3ncccc3cc2c1                           atom  4  N  -> None
@@ -1613,9 +1567,7 @@ Heteroatom (N/O/S/Se/Te) None locants: 1611
   c1ccc2cc3sccc3cc2c1                            atom  6  S  -> None
   c1ccc2c(c1)ccc1occc12                          atom  9  O  -> None
   c1ccc2c(c1)ccc1sccc12                          atom  9  S  -> None
-  c1ccc2c(c1)[nH]c1ncccc12                       atom  6  N  -> None
   c1ccc2c(c1)[nH]c1ncccc12                       atom  8  N  -> None
-  c1ccc2c(c1)[nH]c1cnccc12                       atom  6  N  -> None
   c1ccc2c(c1)[nH]c1cnccc12                       atom  9  N  -> None
   O=C1c2ccccc2-c2ccccc21                         atom  0  O  -> None
   c1ccc2cc3cnccc3cc2c1                           atom  7  N  -> None

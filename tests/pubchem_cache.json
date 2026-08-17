@@ -1297,7 +1297,7 @@
     "smiles": "CSC",
     "pubchem_iupac": "methylsulfanylmethane",
     "validated": false,
-    "expected_in_test": "dimethyl sulfide",
+    "expected_in_test": "(methylsulfanyl)methane",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -6679,36 +6679,24 @@
     "inchikey": "RVIXKDRPFPUUOO-UHFFFAOYSA-N",
     "smiles": "C[Se]C",
     "pubchem_iupac": "methylselanylmethane",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "dimethyl selenide",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "ALCDAWARCQFJBA-UHFFFAOYSA-N": {
     "inchikey": "ALCDAWARCQFJBA-UHFFFAOYSA-N",
     "smiles": "CC[Se]CC",
     "pubchem_iupac": "ethylselanylethane",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "diethyl selenide",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "NUXAMVPWNYXDMN-UHFFFAOYSA-N": {
     "inchikey": "NUXAMVPWNYXDMN-UHFFFAOYSA-N",
     "smiles": "C[Se]CC",
     "pubchem_iupac": "methylselanylethane",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "ethyl methyl selenide",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "VLXBWPOEOIIREY-UHFFFAOYSA-N": {
@@ -6739,12 +6727,8 @@
     "inchikey": "YMUZFVVKDBZHGP-UHFFFAOYSA-N",
     "smiles": "C[Te]C",
     "pubchem_iupac": "methyltellanylmethane",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "dimethyl telluride",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "LCMDQKIQBKULEI-UHFFFAOYSA-N": {
@@ -8257,7 +8241,7 @@
     "smiles": "OC(=S)S",
     "pubchem_iupac": "carbonodithioic S,S-acid",
     "validated": false,
-    "expected_in_test": "carbonodithioic O-acid",
+    "expected_in_test": "carbonodithioic O,S-acid",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -9165,7 +9149,7 @@
     "smiles": "CCSCC",
     "pubchem_iupac": "ethylsulfanylethane",
     "validated": false,
-    "expected_in_test": "diethyl sulfide",
+    "expected_in_test": "(ethylsulfanyl)ethane",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -9177,7 +9161,7 @@
     "smiles": "CSCC",
     "pubchem_iupac": "methylsulfanylethane",
     "validated": false,
-    "expected_in_test": "ethyl methyl sulfide",
+    "expected_in_test": "(methylsulfanyl)ethane",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -9189,7 +9173,7 @@
     "smiles": "CSCCC",
     "pubchem_iupac": "1-methylsulfanylpropane",
     "validated": false,
-    "expected_in_test": "methyl propyl sulfide",
+    "expected_in_test": "1-(methylsulfanyl)propane",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -9201,7 +9185,7 @@
     "smiles": "CSc1ccccc1",
     "pubchem_iupac": "methylsulfanylbenzene",
     "validated": false,
-    "expected_in_test": "methyl phenyl sulfide",
+    "expected_in_test": "(methylsulfanyl)benzene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -9543,7 +9527,7 @@
     "smiles": "[Te]=CN",
     "pubchem_iupac": "methanimidotelluroic acid",
     "validated": false,
-    "expected_in_test": "methaneteluramide",
+    "expected_in_test": "methanetelluramide",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -11550,7 +11534,7 @@
     "smiles": "C/C=C/CSC",
     "pubchem_iupac": "(E)-1-methylsulfanylbut-2-ene",
     "validated": false,
-    "expected_in_test": "[(2E)-but-2-en-1-yl] methyl sulfide",
+    "expected_in_test": "(2E)-1-(methylsulfanyl)but-2-ene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -11562,7 +11546,7 @@
     "smiles": "C/C=C\\CSC",
     "pubchem_iupac": "(Z)-1-methylsulfanylbut-2-ene",
     "validated": false,
-    "expected_in_test": "[(2Z)-but-2-en-1-yl] methyl sulfide",
+    "expected_in_test": "(2Z)-1-(methylsulfanyl)but-2-ene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -11574,7 +11558,7 @@
     "smiles": "C/C=C/CSCC",
     "pubchem_iupac": "(E)-1-ethylsulfanylbut-2-ene",
     "validated": false,
-    "expected_in_test": "[(2E)-but-2-en-1-yl] ethyl sulfide",
+    "expected_in_test": "(2E)-1-(ethylsulfanyl)but-2-ene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -11586,7 +11570,7 @@
     "smiles": "CC(C)SC",
     "pubchem_iupac": "2-methylsulfanylpropane",
     "validated": false,
-    "expected_in_test": "methyl (propan-2-yl) sulfide",
+    "expected_in_test": "2-(methylsulfanyl)propane",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -12504,7 +12488,7 @@
     "smiles": "C=CSC",
     "pubchem_iupac": "methylsulfanylethene",
     "validated": false,
-    "expected_in_test": "ethenyl methyl sulfide",
+    "expected_in_test": "(methylsulfanyl)ethene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -12516,7 +12500,7 @@
     "smiles": "C=CSCC",
     "pubchem_iupac": "ethenylsulfanylethane",
     "validated": false,
-    "expected_in_test": "ethenyl ethyl sulfide",
+    "expected_in_test": "(ethylsulfanyl)ethene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -12540,7 +12524,7 @@
     "smiles": "CC=CSC",
     "pubchem_iupac": "1-methylsulfanylprop-1-ene",
     "validated": false,
-    "expected_in_test": "methyl (prop-1-en-1-yl) sulfide",
+    "expected_in_test": "1-(methylsulfanyl)prop-1-ene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -13130,7 +13114,7 @@
     "smiles": "c1ccccc1Sc1ccccc1",
     "pubchem_iupac": "phenylsulfanylbenzene",
     "validated": false,
-    "expected_in_test": "diphenyl sulfide",
+    "expected_in_test": "(phenylsulfanyl)benzene",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
@@ -20289,24 +20273,16 @@
     "inchikey": "SKLZCRNUJKGGRW-UHFFFAOYSA-N",
     "smiles": "Cc1cccc2cc3ccccc3nc12",
     "pubchem_iupac": "4-methylacridine",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "1-methylacridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "JHPMXDKTYFNDMT-UHFFFAOYSA-N": {
     "inchikey": "JHPMXDKTYFNDMT-UHFFFAOYSA-N",
     "smiles": "Cc1ccc2cc3ccccc3nc2c1",
     "pubchem_iupac": "3-methylacridine",
-    "validated": false,
+    "validated": true,
     "expected_in_test": "2-methylacridine",
-    "iupac_verdict": "needs_review",
-    "iupac_note": null,
-    "iupac_source": null,
-    "iupac_pin": null,
     "not_found": true
   },
   "HVZWBVZEZZJOKQ-UHFFFAOYSA-N": {
@@ -53027,12 +53003,26 @@
   "LYLSNRNGMCYFSX-UHFFFAOYSA-N": {
     "inchikey": "LYLSNRNGMCYFSX-UHFFFAOYSA-N",
     "smiles": "C[Te](=O)C",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "methyltellurinylmethane",
+    "validated": false,
+    "expected_in_test": "dimethyl telluroxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "NHCOYZVOTRRFEI-UHFFFAOYSA-N": {
     "inchikey": "NHCOYZVOTRRFEI-UHFFFAOYSA-N",
     "smiles": "CC[Te](=O)CC",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "1-ethyltellurinylethane",
+    "validated": false,
+    "expected_in_test": "diethyl telluroxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "BIWQYIZTPLBDLC-UHFFFAOYSA-N": {
     "inchikey": "BIWQYIZTPLBDLC-UHFFFAOYSA-N",
@@ -53042,7 +53032,14 @@
   "CLLWGRYUYHCSAO-UHFFFAOYSA-N": {
     "inchikey": "CLLWGRYUYHCSAO-UHFFFAOYSA-N",
     "smiles": "C[Te](=O)(=O)C",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "methyltelluronylmethane",
+    "validated": false,
+    "expected_in_test": "dimethyl tellurone",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "OFKPYIJBUWZMDX-UHFFFAOYSA-N": {
     "inchikey": "OFKPYIJBUWZMDX-UHFFFAOYSA-N",
@@ -53052,32 +53049,74 @@
   "KTFAZNVGJUIWJM-UHFFFAOYSA-N": {
     "inchikey": "KTFAZNVGJUIWJM-UHFFFAOYSA-N",
     "smiles": "CP(=S)(C)C",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "trimethyl(sulfanylidene)-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "trimethylphosphane sulfide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "WTNQHMJTIHJURG-UHFFFAOYSA-N": {
     "inchikey": "WTNQHMJTIHJURG-UHFFFAOYSA-N",
     "smiles": "CCP(=S)(CC)CC",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "triethyl(sulfanylidene)-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "triethylphosphane sulfide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "JWOWJQPAYGEFFK-UHFFFAOYSA-N": {
     "inchikey": "JWOWJQPAYGEFFK-UHFFFAOYSA-N",
     "smiles": "C[As](C)(C)=O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "dimethylarsorylmethane",
+    "validated": false,
+    "expected_in_test": "trimethylarsane oxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "ULIKZLMTBMIHDQ-UHFFFAOYSA-N": {
     "inchikey": "ULIKZLMTBMIHDQ-UHFFFAOYSA-N",
     "smiles": "CC[As](CC)(CC)=O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "1-diethylarsorylethane",
+    "validated": false,
+    "expected_in_test": "triethylarsane oxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "POPXJRHXSZWPAQ-UHFFFAOYSA-N": {
     "inchikey": "POPXJRHXSZWPAQ-UHFFFAOYSA-N",
     "smiles": "C[As](C)(C)=S",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "trimethyl(sulfanylidene)-lambda5-arsane",
+    "validated": false,
+    "expected_in_test": "trimethylarsane sulfide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "PDXFZIWCZNAGOE-UHFFFAOYSA-N": {
     "inchikey": "PDXFZIWCZNAGOE-UHFFFAOYSA-N",
     "smiles": "CC[As](CC)(CC)=S",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "triethyl(sulfanylidene)-lambda5-arsane",
+    "validated": false,
+    "expected_in_test": "triethylarsane sulfide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "VFMZULCMOXRRNQ-UHFFFAOYSA-N": {
     "inchikey": "VFMZULCMOXRRNQ-UHFFFAOYSA-N",
@@ -53102,21 +53141,2119 @@
   "XYWMKGIIJHMCDU-UHFFFAOYSA-N": {
     "inchikey": "XYWMKGIIJHMCDU-UHFFFAOYSA-N",
     "smiles": "C[Sb](C)(C)=O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "dimethylstiborylmethane",
+    "validated": false,
+    "expected_in_test": "trimethylstibane oxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "JKCNWCFOTQFHLC-UHFFFAOYSA-N": {
     "inchikey": "JKCNWCFOTQFHLC-UHFFFAOYSA-N",
     "smiles": "CC[Sb](CC)(CC)=O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "1-diethylstiborylethane",
+    "validated": false,
+    "expected_in_test": "triethylstibane oxide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "WFSHMSGJALVRMK-UHFFFAOYSA-N": {
     "inchikey": "WFSHMSGJALVRMK-UHFFFAOYSA-N",
     "smiles": "C[Sb](C)(C)=S",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "trimethyl(sulfanylidene)-lambda5-stibane",
+    "validated": false,
+    "expected_in_test": "trimethylstibane sulfide",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "PORFVJURJXKREL-UHFFFAOYSA-N": {
     "inchikey": "PORFVJURJXKREL-UHFFFAOYSA-N",
     "smiles": "C[Sb](C)C",
+    "not_found": true,
+    "pubchem_iupac": "trimethylstibane",
+    "validated": true
+  },
+  "HGDIHUZVQPKSMO-UHFFFAOYSA-N": {
+    "inchikey": "HGDIHUZVQPKSMO-UHFFFAOYSA-N",
+    "smiles": "CP(C)=O",
+    "not_found": true
+  },
+  "TZANYKYQDDZSQZ-UHFFFAOYSA-N": {
+    "inchikey": "TZANYKYQDDZSQZ-UHFFFAOYSA-N",
+    "smiles": "CP(C)=S",
+    "not_found": true
+  },
+  "GXXPZLPHLAKYLM-UHFFFAOYSA-N": {
+    "inchikey": "GXXPZLPHLAKYLM-UHFFFAOYSA-N",
+    "smiles": "CC[PH](CC)=O",
+    "not_found": true
+  },
+  "GQMIGIPYQLWEAU-UHFFFAOYSA-N": {
+    "inchikey": "GQMIGIPYQLWEAU-UHFFFAOYSA-N",
+    "smiles": "CC[PH](CC)=S",
+    "not_found": true
+  },
+  "XGCRFIXLYQQNSO-UHFFFAOYSA-N": {
+    "inchikey": "XGCRFIXLYQQNSO-UHFFFAOYSA-N",
+    "smiles": "CP=O",
+    "not_found": true
+  },
+  "HNBGSGLSXZGNQK-UHFFFAOYSA-N": {
+    "inchikey": "HNBGSGLSXZGNQK-UHFFFAOYSA-N",
+    "smiles": "CP=S",
+    "not_found": true
+  },
+  "LFLUMJKSFLIVPJ-UHFFFAOYSA-N": {
+    "inchikey": "LFLUMJKSFLIVPJ-UHFFFAOYSA-N",
+    "smiles": "C[AsH](C)=O",
+    "not_found": true
+  },
+  "AYXAWPVHNARVJO-UHFFFAOYSA-N": {
+    "inchikey": "AYXAWPVHNARVJO-UHFFFAOYSA-N",
+    "smiles": "C[AsH](C)=S",
+    "not_found": true
+  },
+  "OOUFTJQAYCNJGB-UHFFFAOYSA-N": {
+    "inchikey": "OOUFTJQAYCNJGB-UHFFFAOYSA-N",
+    "smiles": "C[As]=O",
+    "not_found": true
+  },
+  "HZQMVTWIBHMLHY-UHFFFAOYSA-N": {
+    "inchikey": "HZQMVTWIBHMLHY-UHFFFAOYSA-N",
+    "smiles": "C[As]=S",
+    "not_found": true
+  },
+  "QHMSHHTXVLNSMM-UHFFFAOYSA-N": {
+    "inchikey": "QHMSHHTXVLNSMM-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)=O",
+    "not_found": true
+  },
+  "YGRBXNCAVLIRTG-UHFFFAOYSA-N": {
+    "inchikey": "YGRBXNCAVLIRTG-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)=S",
+    "not_found": true
+  },
+  "AZFHDSZRPZIGOO-UHFFFAOYSA-N": {
+    "inchikey": "AZFHDSZRPZIGOO-UHFFFAOYSA-N",
+    "smiles": "C[Sb](C)=O",
+    "not_found": true
+  },
+  "OUEUJVJJAHISIZ-UHFFFAOYSA-N": {
+    "inchikey": "OUEUJVJJAHISIZ-UHFFFAOYSA-N",
+    "smiles": "C[Sb](C)=S",
+    "not_found": true
+  },
+  "UVWSEDHGOCUHEM-UHFFFAOYSA-N": {
+    "inchikey": "UVWSEDHGOCUHEM-UHFFFAOYSA-N",
+    "smiles": "CCP(C)(=O)OC",
+    "not_found": true
+  },
+  "UGCXEHSSHUQLJN-UHFFFAOYSA-N": {
+    "inchikey": "UGCXEHSSHUQLJN-UHFFFAOYSA-N",
+    "smiles": "C(=O)[SeH]",
+    "not_found": true
+  },
+  "ZDUFEQLNILJDLC-UHFFFAOYSA-N": {
+    "inchikey": "ZDUFEQLNILJDLC-UHFFFAOYSA-N",
+    "smiles": "CC(=O)[SeH]",
+    "not_found": true,
+    "pubchem_iupac": "ethaneselenoic Se-acid",
+    "validated": true
+  },
+  "ZZUSRMXUQYWYPC-UHFFFAOYSA-N": {
+    "inchikey": "ZZUSRMXUQYWYPC-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)[SeH]",
+    "not_found": true
+  },
+  "AAMSKJFCHXTWFD-UHFFFAOYSA-N": {
+    "inchikey": "AAMSKJFCHXTWFD-UHFFFAOYSA-N",
+    "smiles": "CC(=[Se])[SeH]",
+    "not_found": true
+  },
+  "QCOHFPBMJBOGQI-UHFFFAOYSA-N": {
+    "inchikey": "QCOHFPBMJBOGQI-UHFFFAOYSA-N",
+    "smiles": "CCC(=[Se])[SeH]",
+    "not_found": true
+  },
+  "PTRMVCQUICFWIC-UHFFFAOYSA-N": {
+    "inchikey": "PTRMVCQUICFWIC-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)[SeH]",
+    "not_found": true
+  },
+  "CPPIWWONXCQFEZ-UHFFFAOYSA-N": {
+    "inchikey": "CPPIWWONXCQFEZ-UHFFFAOYSA-N",
+    "smiles": "[SeH]C(=O)c1ccccc1",
+    "not_found": true
+  },
+  "WRIQZMMFAMFZSM-UHFFFAOYSA-N": {
+    "inchikey": "WRIQZMMFAMFZSM-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)S",
+    "not_found": true
+  },
+  "YBRWVJTWDQAASD-UHFFFAOYSA-N": {
+    "inchikey": "YBRWVJTWDQAASD-UHFFFAOYSA-N",
+    "smiles": "C(=O)[TeH]",
+    "not_found": true,
+    "pubchem_iupac": "methanetelluroic Te-acid",
+    "validated": true
+  },
+  "BWTWGZJJBUYCIS-UHFFFAOYSA-N": {
+    "inchikey": "BWTWGZJJBUYCIS-UHFFFAOYSA-N",
+    "smiles": "CC(=O)[TeH]",
+    "not_found": true
+  },
+  "QZJWSGONKPPWCE-UHFFFAOYSA-N": {
+    "inchikey": "QZJWSGONKPPWCE-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)[TeH]",
+    "not_found": true
+  },
+  "DHFKFSFWKKTGJR-UHFFFAOYSA-N": {
+    "inchikey": "DHFKFSFWKKTGJR-UHFFFAOYSA-N",
+    "smiles": "CC(=[Te])[TeH]",
+    "not_found": true
+  },
+  "NHBKQUVLSDXOIG-UHFFFAOYSA-N": {
+    "inchikey": "NHBKQUVLSDXOIG-UHFFFAOYSA-N",
+    "smiles": "C=CC(=O)[TeH]",
+    "not_found": true
+  },
+  "ATXIMNZRCNZYFS-UHFFFAOYSA-N": {
+    "inchikey": "ATXIMNZRCNZYFS-UHFFFAOYSA-N",
+    "smiles": "[TeH]C(=O)c1ccccc1",
+    "not_found": true,
+    "pubchem_iupac": "benzenecarbotelluroic Te-acid",
+    "validated": true
+  },
+  "AYIZUGQPPRPVJJ-UHFFFAOYSA-N": {
+    "inchikey": "AYIZUGQPPRPVJJ-UHFFFAOYSA-N",
+    "smiles": "CB(F)F",
+    "not_found": true
+  },
+  "WRWXDQSBUPVVPD-UHFFFAOYSA-N": {
+    "inchikey": "WRWXDQSBUPVVPD-UHFFFAOYSA-N",
+    "smiles": "CB(Cl)Cl",
+    "not_found": true
+  },
+  "AOYNEQPNUOZMSE-UHFFFAOYSA-N": {
+    "inchikey": "AOYNEQPNUOZMSE-UHFFFAOYSA-N",
+    "smiles": "CB(Br)Br",
+    "not_found": true
+  },
+  "FPXMMQJFOHLEIE-UHFFFAOYSA-N": {
+    "inchikey": "FPXMMQJFOHLEIE-UHFFFAOYSA-N",
+    "smiles": "CB(I)I",
+    "not_found": true
+  },
+  "XNNRZLAWHHLCGP-UHFFFAOYSA-N": {
+    "inchikey": "XNNRZLAWHHLCGP-UHFFFAOYSA-N",
+    "smiles": "CCB(Cl)Cl",
+    "not_found": true
+  },
+  "AGMHYSFWBQYWFN-UHFFFAOYSA-N": {
+    "inchikey": "AGMHYSFWBQYWFN-UHFFFAOYSA-N",
+    "smiles": "CB(F)Cl",
+    "not_found": true
+  },
+  "DJGJBRMHVVAZOU-UHFFFAOYSA-N": {
+    "inchikey": "DJGJBRMHVVAZOU-UHFFFAOYSA-N",
+    "smiles": "CB(C)Cl",
+    "not_found": true
+  },
+  "PLFLRQISROSEIJ-UHFFFAOYSA-N": {
+    "inchikey": "PLFLRQISROSEIJ-UHFFFAOYSA-N",
+    "smiles": "CB",
+    "not_found": true
+  },
+  "BOUBUFOFBHNEAP-UHFFFAOYSA-N": {
+    "inchikey": "BOUBUFOFBHNEAP-UHFFFAOYSA-N",
+    "smiles": "CCB",
+    "not_found": true
+  },
+  "WXJXBKBJAKPJRN-UHFFFAOYSA-N": {
+    "inchikey": "WXJXBKBJAKPJRN-UHFFFAOYSA-N",
+    "smiles": "CP(=S)(O)O",
+    "not_found": true,
+    "pubchem_iupac": "dihydroxy-methyl-sulfanylidene-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "methylphosphonothioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "HGELWZQRZUOEOJ-UHFFFAOYSA-N": {
+    "inchikey": "HGELWZQRZUOEOJ-UHFFFAOYSA-N",
+    "smiles": "CCP(=S)(O)O",
+    "not_found": true,
+    "pubchem_iupac": "ethyl(sulfanyl)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "ethylphosphonothioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "DXVBUJOATHQUCY-UHFFFAOYSA-N": {
+    "inchikey": "DXVBUJOATHQUCY-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(S)S",
+    "not_found": true,
+    "pubchem_iupac": "hydroxy-methyl-sulfanyl-sulfanylidene-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "methylphosphonodithioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "ZYMSCYXVIBFLNS-UHFFFAOYSA-N": {
+    "inchikey": "ZYMSCYXVIBFLNS-UHFFFAOYSA-N",
+    "smiles": "CP(=S)(S)S",
+    "not_found": true,
+    "pubchem_iupac": "methyl-bis(sulfanyl)-sulfanylidene-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "methylphosphonotrithioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "DQIMSUZRBYLFOT-UHFFFAOYSA-N": {
+    "inchikey": "DQIMSUZRBYLFOT-UHFFFAOYSA-N",
+    "smiles": "CP(C)(=S)O",
+    "not_found": true,
+    "pubchem_iupac": "hydroxy-dimethyl-sulfanylidene-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "dimethylphosphinothioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "KYQTZTKQVQSGBS-UHFFFAOYSA-N": {
+    "inchikey": "KYQTZTKQVQSGBS-UHFFFAOYSA-N",
+    "smiles": "CP(C)(=S)S",
+    "not_found": true,
+    "pubchem_iupac": "dimethyl-sulfanyl-sulfanylidene-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "dimethylphosphinodithioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "FHBSGPWHCCIQPG-UHFFFAOYSA-N": {
+    "inchikey": "FHBSGPWHCCIQPG-UHFFFAOYSA-N",
+    "smiles": "CS(=S)(=O)O",
+    "not_found": true
+  },
+  "YLEAHEKEZRNPIM-UHFFFAOYSA-N": {
+    "inchikey": "YLEAHEKEZRNPIM-UHFFFAOYSA-N",
+    "smiles": "CCS(=S)(=O)O",
+    "not_found": true
+  },
+  "AMBCBCYCEXMECO-UHFFFAOYSA-N": {
+    "inchikey": "AMBCBCYCEXMECO-UHFFFAOYSA-N",
+    "smiles": "CS(=S)(=S)O",
+    "not_found": true
+  },
+  "FSCLMKKINFADHT-UHFFFAOYSA-N": {
+    "inchikey": "FSCLMKKINFADHT-UHFFFAOYSA-N",
+    "smiles": "CS(=S)(=S)S",
+    "not_found": true
+  },
+  "RCDWLBQABJZFIW-UHFFFAOYSA-N": {
+    "inchikey": "RCDWLBQABJZFIW-UHFFFAOYSA-N",
+    "smiles": "CS(=S)O",
+    "not_found": true
+  },
+  "UKBGYOSBKHLJLE-UHFFFAOYSA-N": {
+    "inchikey": "UKBGYOSBKHLJLE-UHFFFAOYSA-N",
+    "smiles": "CS(=S)S",
+    "not_found": true
+  },
+  "AKCUHGBLDXXTOM-UHFFFAOYSA-N": {
+    "inchikey": "AKCUHGBLDXXTOM-UHFFFAOYSA-N",
+    "smiles": "c1ccccc1S(=S)(=O)O",
+    "not_found": true
+  },
+  "IYKVLICPFCEZOF-UHFFFAOYSA-N": {
+    "inchikey": "IYKVLICPFCEZOF-UHFFFAOYSA-N",
+    "smiles": "NC(=[Se])N",
+    "pubchem_iupac": "carbamimidoselenoic acid",
+    "validated": false,
+    "expected_in_test": "selenourea",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "NXBUIOSMQIBQGP-UHFFFAOYSA-N": {
+    "inchikey": "NXBUIOSMQIBQGP-UHFFFAOYSA-N",
+    "smiles": "NC(=[Te])N",
+    "pubchem_iupac": "carbamimidotelluroic acid",
+    "validated": false,
+    "expected_in_test": "tellurourea",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "ZSAXQMLTJMGKGF-UHFFFAOYSA-N": {
+    "inchikey": "ZSAXQMLTJMGKGF-UHFFFAOYSA-N",
+    "smiles": "CNC(=[Se])N",
+    "not_found": true
+  },
+  "YLTPDHHVGWRTMR-UHFFFAOYSA-N": {
+    "inchikey": "YLTPDHHVGWRTMR-UHFFFAOYSA-N",
+    "smiles": "CNC(=[Se])NC",
+    "pubchem_iupac": "N,N'-dimethylcarbamimidoselenoic acid",
+    "validated": false,
+    "expected_in_test": "N,N'-dimethylselenourea",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "IRKUIEKRKRQUMG-UHFFFAOYSA-N": {
+    "inchikey": "IRKUIEKRKRQUMG-UHFFFAOYSA-N",
+    "smiles": "CNC(=[Te])N",
+    "not_found": true
+  },
+  "RSWDBIVSVVWOOD-UHFFFAOYSA-N": {
+    "inchikey": "RSWDBIVSVVWOOD-UHFFFAOYSA-N",
+    "smiles": "CCNC(=[Se])N",
+    "not_found": true
+  },
+  "GNVMUORYQLCPJZ-UHFFFAOYSA-N": {
+    "inchikey": "GNVMUORYQLCPJZ-UHFFFAOYSA-N",
+    "smiles": "NC(=S)O",
+    "not_found": true
+  },
+  "CRNRVDZPJPGQPM-UHFFFAOYSA-N": {
+    "inchikey": "CRNRVDZPJPGQPM-UHFFFAOYSA-N",
+    "smiles": "NC(=[Se])O",
+    "not_found": true
+  },
+  "NNTXPYDLNKSUGC-UHFFFAOYSA-N": {
+    "inchikey": "NNTXPYDLNKSUGC-UHFFFAOYSA-N",
+    "smiles": "NC(=[Se])[SeH]",
+    "not_found": true
+  },
+  "ZOMTWFNOUKQVEQ-UHFFFAOYSA-N": {
+    "inchikey": "ZOMTWFNOUKQVEQ-UHFFFAOYSA-N",
+    "smiles": "NC(=[Te])O",
+    "not_found": true
+  },
+  "KCTVZKPLKCEUJF-UHFFFAOYSA-N": {
+    "inchikey": "KCTVZKPLKCEUJF-UHFFFAOYSA-N",
+    "smiles": "CNC(=S)O",
+    "not_found": true
+  },
+  "DEGUEILEYUGEFI-UHFFFAOYSA-N": {
+    "inchikey": "DEGUEILEYUGEFI-UHFFFAOYSA-N",
+    "smiles": "CNC(=[Se])O",
+    "not_found": true
+  },
+  "ZXSBDSGRQIWJPM-UHFFFAOYSA-N": {
+    "inchikey": "ZXSBDSGRQIWJPM-UHFFFAOYSA-N",
+    "smiles": "CN(C)C(=S)O",
+    "not_found": true
+  },
+  "ZIXPVRHDBQPBDT-UHFFFAOYSA-N": {
+    "inchikey": "ZIXPVRHDBQPBDT-UHFFFAOYSA-N",
+    "smiles": "CNP(=O)(O)O",
+    "not_found": true,
+    "pubchem_iupac": "methylaminophosphonic acid",
+    "validated": false,
+    "expected_in_test": "N-methylphosphoramidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "OUMFRZJDHOKSPJ-UHFFFAOYSA-N": {
+    "inchikey": "OUMFRZJDHOKSPJ-UHFFFAOYSA-N",
+    "smiles": "CN(C)P(=O)(O)O",
+    "not_found": true,
+    "pubchem_iupac": "dimethylaminophosphonic acid",
+    "validated": false,
+    "expected_in_test": "N,N-dimethylphosphoramidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "CHKLMRVHXLBIHM-UHFFFAOYSA-N": {
+    "inchikey": "CHKLMRVHXLBIHM-UHFFFAOYSA-N",
+    "smiles": "CCNP(=O)(O)O",
+    "not_found": true,
+    "pubchem_iupac": "ethylaminophosphonic acid",
+    "validated": false,
+    "expected_in_test": "N-ethylphosphoramidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "XQJNSUNTLIFUSQ-UHFFFAOYSA-N": {
+    "inchikey": "XQJNSUNTLIFUSQ-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(N)O",
+    "not_found": true,
+    "pubchem_iupac": "methylphosphonamidic acid",
+    "validated": false,
+    "expected_in_test": "P-methylphosphonimidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "KPCGVEXZOJMQHZ-UHFFFAOYSA-N": {
+    "inchikey": "KPCGVEXZOJMQHZ-UHFFFAOYSA-N",
+    "smiles": "CCP(=O)(N)O",
+    "not_found": true,
+    "pubchem_iupac": "ethylphosphonamidic acid",
+    "validated": false,
+    "expected_in_test": "P-ethylphosphonimidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "KAAMLJRJODRJMA-UHFFFAOYSA-N": {
+    "inchikey": "KAAMLJRJODRJMA-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(NC)O",
+    "not_found": true,
+    "pubchem_iupac": "N-dimethylphosphonamidic acid",
+    "validated": false,
+    "expected_in_test": "N,P-dimethylphosphonamidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "OGRNZQJVQHHAOD-UHFFFAOYSA-N": {
+    "inchikey": "OGRNZQJVQHHAOD-UHFFFAOYSA-N",
+    "smiles": "CNP(=O)(N)O",
+    "not_found": true,
+    "pubchem_iupac": "amino(methylamino)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "N-methylphosphorodiamidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "PQXJBPVYLYIVCA-UHFFFAOYSA-N": {
+    "inchikey": "PQXJBPVYLYIVCA-UHFFFAOYSA-N",
+    "smiles": "CNP(=O)(NC)O",
+    "not_found": true,
+    "pubchem_iupac": "bis(methylamino)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "N,N'-dimethylphosphorodiamidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "JVMPUTQDWDLULW-UHFFFAOYSA-N": {
+    "inchikey": "JVMPUTQDWDLULW-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(Cl)O",
+    "not_found": true,
+    "pubchem_iupac": "chloro(methyl)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "P-methylphosphonochloridic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "LLOPABTZJPJYNL-UHFFFAOYSA-N": {
+    "inchikey": "LLOPABTZJPJYNL-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(Br)O",
+    "not_found": true
+  },
+  "XQGIZQWEZVJRDD-UHFFFAOYSA-N": {
+    "inchikey": "XQGIZQWEZVJRDD-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(F)O",
+    "not_found": true,
+    "pubchem_iupac": "fluoro(methyl)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "P-methylphosphonofluoridic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "KEOIODIMMIUWQT-UHFFFAOYSA-N": {
+    "inchikey": "KEOIODIMMIUWQT-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(I)O",
+    "not_found": true,
+    "pubchem_iupac": "iodo(methyl)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "P-methylphosphonoiodidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "CDMQUYZLNWUWSA-UHFFFAOYSA-N": {
+    "inchikey": "CDMQUYZLNWUWSA-UHFFFAOYSA-N",
+    "smiles": "CCP(=O)(Cl)O",
+    "not_found": true,
+    "pubchem_iupac": "chloro(ethyl)phosphinic acid",
+    "validated": false,
+    "expected_in_test": "P-ethylphosphonochloridic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "KKHPDGYJSLZVFZ-UHFFFAOYSA-N": {
+    "inchikey": "KKHPDGYJSLZVFZ-UHFFFAOYSA-N",
+    "smiles": "CP(=O)(Cl)OC",
+    "not_found": true,
+    "pubchem_iupac": "[chloro(methyl)phosphoryl]oxymethane",
+    "validated": false,
+    "expected_in_test": "methyl methylphosphonate",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "QSOGHQLXDOCPHQ-UHFFFAOYSA-N": {
+    "inchikey": "QSOGHQLXDOCPHQ-UHFFFAOYSA-N",
+    "smiles": "CC(=S)NO",
+    "not_found": true
+  },
+  "XBUQEAVBNWQSRK-UHFFFAOYSA-N": {
+    "inchikey": "XBUQEAVBNWQSRK-UHFFFAOYSA-N",
+    "smiles": "CC(=[Se])NO",
+    "not_found": true
+  },
+  "QYMUYFJZTKJCTN-UHFFFAOYSA-N": {
+    "inchikey": "QYMUYFJZTKJCTN-UHFFFAOYSA-N",
+    "smiles": "CC(=[Te])NO",
+    "not_found": true
+  },
+  "NEDKAGCGCJOBNQ-UHFFFAOYSA-N": {
+    "inchikey": "NEDKAGCGCJOBNQ-UHFFFAOYSA-N",
+    "smiles": "CCC(=S)NO",
+    "not_found": true
+  },
+  "YTFCTGPQUINBIT-UHFFFAOYSA-N": {
+    "inchikey": "YTFCTGPQUINBIT-UHFFFAOYSA-N",
+    "smiles": "CC(=S)N(C)O",
+    "not_found": true
+  },
+  "SSMQMXBHYXKIBB-UHFFFAOYSA-N": {
+    "inchikey": "SSMQMXBHYXKIBB-UHFFFAOYSA-N",
+    "smiles": "CC(=[Se])N(C)O",
+    "not_found": true
+  },
+  "BJPJMTMWIVUMAK-UHFFFAOYSA-N": {
+    "inchikey": "BJPJMTMWIVUMAK-UHFFFAOYSA-N",
+    "smiles": "CC(=O)N(C)O",
+    "not_found": true
+  },
+  "JXRGNOBBIHTYBO-UHFFFAOYSA-N": {
+    "inchikey": "JXRGNOBBIHTYBO-UHFFFAOYSA-N",
+    "smiles": "CC(=S)NCC",
+    "not_found": true
+  },
+  "FHYFYGAYKAWJBB-UHFFFAOYSA-N": {
+    "inchikey": "FHYFYGAYKAWJBB-UHFFFAOYSA-N",
+    "smiles": "CP(=NC)(O)O",
+    "pubchem_iupac": "dihydroxy-methyl-methylimino-lambda5-phosphane",
+    "validated": false,
+    "expected_in_test": "N,P-dimethylphosphonimidic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "VBAKKWFBQCBTRW-UHFFFAOYSA-N": {
+    "inchikey": "VBAKKWFBQCBTRW-UHFFFAOYSA-N",
+    "smiles": "CP(=NCC)(O)O",
+    "not_found": true
+  },
+  "YTEIHWVCQJZNEN-UHFFFAOYSA-N": {
+    "inchikey": "YTEIHWVCQJZNEN-UHFFFAOYSA-N",
+    "smiles": "c1ccncc1-c1ccncc1",
+    "pubchem_iupac": "3-pyridin-4-ylpyridine",
+    "validated": false,
+    "expected_in_test": "3-(pyridin-4-yl)pyridine",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "VEKIYFGCEAJDDT-UHFFFAOYSA-N": {
+    "inchikey": "VEKIYFGCEAJDDT-UHFFFAOYSA-N",
+    "smiles": "c1cccnc1-c1cccnc1",
+    "pubchem_iupac": "2-pyridin-3-ylpyridine",
+    "validated": false,
+    "expected_in_test": "2-(pyridin-3-yl)pyridine",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'pyridin-3-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "GYUKEVKPDRXPAB-UHFFFAOYSA-N": {
+    "inchikey": "GYUKEVKPDRXPAB-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2cccnc2)cc1",
+    "pubchem_iupac": "4-pyridin-3-ylbenzoic acid",
+    "validated": false,
+    "expected_in_test": "4-(pyridin-3-yl)benzoic acid",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'pyridin-3-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "DZLGZIGLHCRIMF-UHFFFAOYSA-N": {
+    "inchikey": "DZLGZIGLHCRIMF-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2ccncc2)cc1",
+    "pubchem_iupac": "4-pyridin-4-ylbenzoic acid",
+    "validated": false,
+    "expected_in_test": "4-(pyridin-4-yl)benzoic acid",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'pyridin-4-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "AQIPNZHMXANQRC-UHFFFAOYSA-N": {
+    "inchikey": "AQIPNZHMXANQRC-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2ccccn2)cc1",
+    "pubchem_iupac": "4-pyridin-2-ylbenzoic acid",
+    "validated": false,
+    "expected_in_test": "4-(pyridin-2-yl)benzoic acid",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'pyridin-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "FOJYVBSPOBUCMV-UHFFFAOYSA-N": {
+    "inchikey": "FOJYVBSPOBUCMV-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2ccco2)cc1",
+    "pubchem_iupac": "4-(furan-2-yl)benzoic acid",
+    "validated": true
+  },
+  "CVDUBQJEQNRCIZ-UHFFFAOYSA-N": {
+    "inchikey": "CVDUBQJEQNRCIZ-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2cccs2)cc1",
+    "pubchem_iupac": "4-thiophen-2-ylbenzoic acid",
+    "validated": false,
+    "expected_in_test": "4-(thiophen-2-yl)benzoic acid",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem が 'thiophen-2-yl' の括弧を省略。局所番号または置換を含む前置語には括弧が必須 (IUPAC 2013 P-16.3.4.1)",
+    "iupac_source": "IUPAC 2013 P-16.3.4.1",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "ITQTTZVARXURQS-UHFFFAOYSA-N": {
+    "inchikey": "ITQTTZVARXURQS-UHFFFAOYSA-N",
+    "smiles": "Cc1cccnc1",
+    "pubchem_iupac": "3-methylpyridine",
+    "validated": true
+  },
+  "QRMPKOFEUHIBNM-OCAPTIKFSA-N": {
+    "inchikey": "QRMPKOFEUHIBNM-OCAPTIKFSA-N",
+    "smiles": "C[C@H]1CC[C@@H](C)CC1",
+    "not_found": true
+  },
+  "QRMPKOFEUHIBNM-ZKCHVHJHSA-N": {
+    "inchikey": "QRMPKOFEUHIBNM-ZKCHVHJHSA-N",
+    "smiles": "C[C@H]1CC[C@H](C)CC1",
+    "not_found": true
+  },
+  "VKONPUDBRVKQLM-OLQVQODUSA-N": {
+    "inchikey": "VKONPUDBRVKQLM-OLQVQODUSA-N",
+    "smiles": "O[C@H]1CC[C@@H](O)CC1",
+    "not_found": true
+  },
+  "VKONPUDBRVKQLM-IZLXSQMJSA-N": {
+    "inchikey": "VKONPUDBRVKQLM-IZLXSQMJSA-N",
+    "smiles": "O[C@H]1CC[C@H](O)CC1",
+    "not_found": true
+  },
+  "KVZJLSYJROEPSQ-YUMQZZPRSA-N": {
+    "inchikey": "KVZJLSYJROEPSQ-YUMQZZPRSA-N",
+    "smiles": "C[C@H]1CCCC[C@@H]1C",
+    "not_found": true
+  },
+  "BTANRVKWQNVYAZ-BYPYZUCNSA-N": {
+    "inchikey": "BTANRVKWQNVYAZ-BYPYZUCNSA-N",
+    "smiles": "C[C@H](O)CC",
+    "not_found": true
+  },
+  "RMISVOPUIFJTEO-IMJSIDKUSA-N": {
+    "inchikey": "RMISVOPUIFJTEO-IMJSIDKUSA-N",
+    "smiles": "C[C@H](Cl)[C@@H](Cl)C",
+    "not_found": true
+  },
+  "IAQRGUVFOMOMEM-ARJAWSKDSA-N": {
+    "inchikey": "IAQRGUVFOMOMEM-ARJAWSKDSA-N",
+    "smiles": "C/C=C\\C",
+    "not_found": true
+  },
+  "APPOKADJQUIAHP-GGWOSOGESA-N": {
+    "inchikey": "APPOKADJQUIAHP-GGWOSOGESA-N",
+    "smiles": "C/C=C/C=C/C",
+    "not_found": true,
+    "pubchem_iupac": "(2E,4E)-hexa-2,4-diene",
+    "validated": true
+  },
+  "BZHJMEDXRYGGRV-UHFFFAOYSA-N": {
+    "inchikey": "BZHJMEDXRYGGRV-UHFFFAOYSA-N",
+    "smiles": "ClC=C",
+    "not_found": true
+  },
+  "QUHIUAFQBFDMIQ-UHFFFAOYSA-N": {
+    "inchikey": "QUHIUAFQBFDMIQ-UHFFFAOYSA-N",
+    "smiles": "Cc1cc(C)cc(-c2ccccc2)c1",
+    "pubchem_iupac": "1,3-dimethyl-5-phenylbenzene",
+    "validated": false,
+    "expected_in_test": "3,5-dimethyl-1,1'-biphenyl",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1,3-dimethyl-5-phenylbenzene' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1,3-dimethyl-5-phenylbenzene",
+    "not_found": true
+  },
+  "RKCVWQISULVYFX-UHFFFAOYSA-N": {
+    "inchikey": "RKCVWQISULVYFX-UHFFFAOYSA-N",
+    "smiles": "Clc1ccc(-c2ccccc2)cc1C",
+    "pubchem_iupac": "1-chloro-2-methyl-4-phenylbenzene",
+    "validated": false,
+    "expected_in_test": "4-chloro-3-methyl-1,1'-biphenyl",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-chloro-2-methyl-4-phenylbenzene' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-chloro-2-methyl-4-phenylbenzene",
+    "not_found": true
+  },
+  "CTQNGGLPUBDAKN-UHFFFAOYSA-N": {
+    "inchikey": "CTQNGGLPUBDAKN-UHFFFAOYSA-N",
+    "smiles": "Cc1ccccc1C",
+    "pubchem_iupac": "1,2-xylene",
+    "validated": false,
+    "expected_in_test": "1,2-dimethylbenzene",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "NNJMFJSKMRYHSR-UHFFFAOYSA-N": {
+    "inchikey": "NNJMFJSKMRYHSR-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(-c2ccccc2)cc1",
+    "pubchem_iupac": "4-phenylbenzoic acid",
+    "validated": true
+  },
+  "XJKSTNDFUHDPQJ-UHFFFAOYSA-N": {
+    "inchikey": "XJKSTNDFUHDPQJ-UHFFFAOYSA-N",
+    "smiles": "c1ccc(-c2ccc(-c3ccccc3)cc2)cc1",
+    "pubchem_iupac": "1,4-diphenylbenzene",
+    "validated": true
+  },
+  "RZTDESRVPFKCBH-UHFFFAOYSA-N": {
+    "inchikey": "RZTDESRVPFKCBH-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc(-c2ccc(C)cc2)cc1",
+    "not_found": true,
+    "pubchem_iupac": "1-methyl-4-(4-methylphenyl)benzene",
+    "validated": false,
+    "expected_in_test": "4,4'-dimethyl-1,1'-biphenyl",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-methyl-4-(4-methylphenyl)benzene' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-methyl-4-(4-methylphenyl)benzene"
+  },
+  "RBIDPZJTXCPESJ-UHFFFAOYSA-N": {
+    "inchikey": "RBIDPZJTXCPESJ-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc(-c2cccc(C)c2)cc1",
+    "not_found": true
+  },
+  "GVEDOIATHPCYGS-UHFFFAOYSA-N": {
+    "inchikey": "GVEDOIATHPCYGS-UHFFFAOYSA-N",
+    "smiles": "Cc1cccc(-c2cccc(C)c2)c1",
+    "not_found": true
+  },
+  "ABMKWMASVFVTMD-UHFFFAOYSA-N": {
+    "inchikey": "ABMKWMASVFVTMD-UHFFFAOYSA-N",
+    "smiles": "Cc1ccccc1-c1ccccc1C",
+    "not_found": true
+  },
+  "XYOKCUNCQZYSPK-UHFFFAOYSA-N": {
+    "inchikey": "XYOKCUNCQZYSPK-UHFFFAOYSA-N",
+    "smiles": "Clc1ccc(-c2ccc(C)cc2)cc1",
+    "not_found": true
+  },
+  "XNLWJFYYOIRPIO-UHFFFAOYSA-N": {
+    "inchikey": "XNLWJFYYOIRPIO-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1cccc(-c2ccccc2)c1",
+    "not_found": true
+  },
+  "ILYSAKHOYBPSPC-UHFFFAOYSA-N": {
+    "inchikey": "ILYSAKHOYBPSPC-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccccc1-c1ccccc1",
+    "not_found": true
+  },
+  "ISDBWOPVZKNQDW-UHFFFAOYSA-N": {
+    "inchikey": "ISDBWOPVZKNQDW-UHFFFAOYSA-N",
+    "smiles": "O=Cc1ccc(-c2ccccc2)cc1",
+    "not_found": true
+  },
+  "BPMBNLJJRKCCRT-UHFFFAOYSA-N": {
+    "inchikey": "BPMBNLJJRKCCRT-UHFFFAOYSA-N",
+    "smiles": "N#Cc1ccc(-c2ccccc2)cc1",
+    "not_found": true
+  },
+  "LCRCBXLHWTVPEQ-UHFFFAOYSA-N": {
+    "inchikey": "LCRCBXLHWTVPEQ-UHFFFAOYSA-N",
+    "smiles": "O=Cc1ccccc1-c1ccccc1",
+    "not_found": true
+  },
+  "LPNBBFKOUUSUDB-UHFFFAOYSA-N": {
+    "inchikey": "LPNBBFKOUUSUDB-UHFFFAOYSA-N",
+    "smiles": "OC(=O)c1ccc(C)cc1",
+    "not_found": true
+  },
+  "QCZZSANNLWPGEA-UHFFFAOYSA-N": {
+    "inchikey": "QCZZSANNLWPGEA-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1ccc(-c2ccccc2)cc1",
+    "pubchem_iupac": "1-(4-phenylphenyl)ethanone",
+    "validated": false,
+    "expected_in_test": "1-([1,1'-biphenyl]-4-yl)ethan-1-one",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-(4-phenylphenyl)ethanone' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-(4-phenylphenyl)ethanone",
+    "not_found": true
+  },
+  "JMBGDQSXJHLFTO-UHFFFAOYSA-N": {
+    "inchikey": "JMBGDQSXJHLFTO-UHFFFAOYSA-N",
+    "smiles": "CCC(=O)c1ccc(-c2ccccc2)cc1",
+    "pubchem_iupac": "1-(4-phenylphenyl)propan-1-one",
+    "validated": false,
+    "expected_in_test": "1-([1,1'-biphenyl]-4-yl)propan-1-one",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-(4-phenylphenyl)propan-1-one' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-(4-phenylphenyl)propan-1-one",
+    "not_found": true
+  },
+  "HUHQPWCDGRZWMH-UHFFFAOYSA-N": {
+    "inchikey": "HUHQPWCDGRZWMH-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1cccc(-c2ccccc2)c1",
+    "pubchem_iupac": "1-(3-phenylphenyl)ethanone",
+    "validated": false,
+    "expected_in_test": "1-([1,1'-biphenyl]-3-yl)ethan-1-one",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-(3-phenylphenyl)ethanone' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-(3-phenylphenyl)ethanone",
+    "not_found": true
+  },
+  "XZWYAMYRMMMHKM-UHFFFAOYSA-N": {
+    "inchikey": "XZWYAMYRMMMHKM-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1ccccc1-c1ccccc1",
+    "pubchem_iupac": "1-(2-phenylphenyl)ethanone",
+    "validated": false,
+    "expected_in_test": "1-([1,1'-biphenyl]-2-yl)ethan-1-one",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '1-(2-phenylphenyl)ethanone' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "1-(2-phenylphenyl)ethanone",
+    "not_found": true
+  },
+  "AXCHZLOJGKSWLV-UHFFFAOYSA-N": {
+    "inchikey": "AXCHZLOJGKSWLV-UHFFFAOYSA-N",
+    "smiles": "OCc1ccc(-c2ccccc2)cc1",
+    "pubchem_iupac": "(4-phenylphenyl)methanol",
+    "validated": false,
+    "expected_in_test": "([1,1'-biphenyl]-4-yl)methanol",
+    "iupac_verdict": "our_retained",
+    "iupac_note": "我々の名前が保留親骨格 'biphenyl' を使用。PubChem は系統的 PIN '(4-phenylphenyl)methanol' を使用",
+    "iupac_source": "IUPAC 2013 P-31.1.3",
+    "iupac_pin": "(4-phenylphenyl)methanol",
+    "not_found": true
+  },
+  "BUZYGTVTZYSBCU-UHFFFAOYSA-N": {
+    "inchikey": "BUZYGTVTZYSBCU-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1ccc(Cl)cc1",
+    "pubchem_iupac": "1-(4-chlorophenyl)ethanone",
+    "validated": false,
+    "expected_in_test": "1-(4-chlorophenyl)ethan-1-one",
+    "iupac_verdict": "pubchem_wrong",
+    "iupac_note": "PubChem がケトン名の局所番号-1を省略。IUPAC 2013 P-65.1.2.3 では必須",
+    "iupac_source": "IUPAC 2013 P-65.1.2.3",
+    "iupac_pin": null,
+    "not_found": true
+  },
+  "QILSFLSDHQAZET-UHFFFAOYSA-N": {
+    "inchikey": "QILSFLSDHQAZET-UHFFFAOYSA-N",
+    "smiles": "OC(c1ccccc1)c1ccccc1",
+    "pubchem_iupac": "diphenylmethanol",
+    "validated": true
+  },
+  "XSAYZAUNJMRRIR-UHFFFAOYSA-N": {
+    "inchikey": "XSAYZAUNJMRRIR-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1ccc2ccccc2c1",
+    "not_found": true
+  },
+  "QQLIGMASAVJVON-UHFFFAOYSA-N": {
+    "inchikey": "QQLIGMASAVJVON-UHFFFAOYSA-N",
+    "smiles": "CC(=O)c1cccc2ccccc12",
+    "not_found": true
+  },
+  "MFGWMAAZYZSWMY-UHFFFAOYSA-N": {
+    "inchikey": "MFGWMAAZYZSWMY-UHFFFAOYSA-N",
+    "smiles": "OCc1ccc2ccccc2c1",
+    "not_found": true
+  },
+  "QIMMUPPBPVKWKM-UHFFFAOYSA-N": {
+    "inchikey": "QIMMUPPBPVKWKM-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc2ccccc2c1",
+    "not_found": true
+  },
+  "YXVFYQXJAXKLAK-UHFFFAOYSA-N": {
+    "inchikey": "YXVFYQXJAXKLAK-UHFFFAOYSA-N",
+    "smiles": "Oc1ccc(-c2ccccc2)cc1",
+    "not_found": true
+  },
+  "DMVOXQPQNTYEKQ-UHFFFAOYSA-N": {
+    "inchikey": "DMVOXQPQNTYEKQ-UHFFFAOYSA-N",
+    "smiles": "Nc1ccc(-c2ccccc2)cc1",
+    "not_found": true
+  },
+  "UBXYXCRCOKCZIT-UHFFFAOYSA-N": {
+    "inchikey": "UBXYXCRCOKCZIT-UHFFFAOYSA-N",
+    "smiles": "Oc1cccc(-c2ccccc2)c1",
+    "not_found": true
+  },
+  "MUNOBADFTHUUFG-UHFFFAOYSA-N": {
+    "inchikey": "MUNOBADFTHUUFG-UHFFFAOYSA-N",
+    "smiles": "Nc1cccc(-c2ccccc2)c1",
+    "not_found": true
+  },
+  "LLEMOWNGBBNAJR-UHFFFAOYSA-N": {
+    "inchikey": "LLEMOWNGBBNAJR-UHFFFAOYSA-N",
+    "smiles": "Oc1ccccc1-c1ccccc1",
+    "not_found": true
+  },
+  "TWBPWBPGNQWFSJ-UHFFFAOYSA-N": {
+    "inchikey": "TWBPWBPGNQWFSJ-UHFFFAOYSA-N",
+    "smiles": "Nc1ccccc1-c1ccccc1",
+    "not_found": true
+  },
+  "IWDCLRJOBJJRNH-UHFFFAOYSA-N": {
+    "inchikey": "IWDCLRJOBJJRNH-UHFFFAOYSA-N",
+    "smiles": "Oc1ccc(C)cc1",
+    "not_found": true
+  },
+  "YJTKZCDBKVTVBY-UHFFFAOYSA-N": {
+    "inchikey": "YJTKZCDBKVTVBY-UHFFFAOYSA-N",
+    "smiles": "c1ccc(-c2cccc(-c3ccccc3)c2)cc1",
+    "not_found": true
+  },
+  "OIAQMFOKAXHPNH-UHFFFAOYSA-N": {
+    "inchikey": "OIAQMFOKAXHPNH-UHFFFAOYSA-N",
+    "smiles": "c1ccc(-c2ccccc2-c2ccccc2)cc1",
+    "not_found": true
+  },
+  "AAAQKTZKLRYKHR-UHFFFAOYSA-N": {
+    "inchikey": "AAAQKTZKLRYKHR-UHFFFAOYSA-N",
+    "smiles": "C(c1ccccc1)(c1ccccc1)c1ccccc1",
+    "not_found": true
+  },
+  "WRWHFVRDUAQRIQ-UHFFFAOYSA-N": {
+    "inchikey": "WRWHFVRDUAQRIQ-UHFFFAOYSA-N",
+    "smiles": "OC(=S)O",
+    "not_found": true
+  },
+  "HDFRDWFLWVCOGP-UHFFFAOYSA-N": {
+    "inchikey": "HDFRDWFLWVCOGP-UHFFFAOYSA-N",
+    "smiles": "OC(=O)S",
+    "not_found": true
+  },
+  "CDTSNNSFVZBBKF-UHFFFAOYSA-N": {
+    "inchikey": "CDTSNNSFVZBBKF-UHFFFAOYSA-N",
+    "smiles": "CB(N)N",
+    "not_found": true
+  },
+  "GZDYAGLYSCVNRF-UHFFFAOYSA-N": {
+    "inchikey": "GZDYAGLYSCVNRF-UHFFFAOYSA-N",
+    "smiles": "C[Si](N)(N)N",
+    "not_found": true
+  },
+  "WXTLHHFEOMPRIA-UHFFFAOYSA-N": {
+    "inchikey": "WXTLHHFEOMPRIA-UHFFFAOYSA-N",
+    "smiles": "CBN",
+    "not_found": true
+  },
+  "MRHIKEHTLHXDRQ-UHFFFAOYSA-N": {
+    "inchikey": "MRHIKEHTLHXDRQ-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(N)N",
+    "not_found": true
+  },
+  "XJYUXOKNWKJHSI-UHFFFAOYSA-N": {
+    "inchikey": "XJYUXOKNWKJHSI-UHFFFAOYSA-N",
+    "smiles": "CB(F)N",
+    "not_found": true
+  },
+  "SECZGRKZFWRCPT-UHFFFAOYSA-N": {
+    "inchikey": "SECZGRKZFWRCPT-UHFFFAOYSA-N",
+    "smiles": "C[P](C)(C)=N",
+    "not_found": true
+  },
+  "VOQCNVFFBTVKCW-UHFFFAOYSA-N": {
+    "inchikey": "VOQCNVFFBTVKCW-UHFFFAOYSA-N",
+    "smiles": "C[P](C)(C)=NC",
+    "not_found": true
+  },
+  "MPNFTLVUPHPSOV-UHFFFAOYSA-N": {
+    "inchikey": "MPNFTLVUPHPSOV-UHFFFAOYSA-N",
+    "smiles": "C[S](C)=N",
+    "not_found": true
+  },
+  "URUOUFHGTSSJAN-UHFFFAOYSA-N": {
+    "inchikey": "URUOUFHGTSSJAN-UHFFFAOYSA-N",
+    "smiles": "C[S](C)=NC",
+    "not_found": true
+  },
+  "DTGSFFWQUULHIF-UHFFFAOYSA-N": {
+    "inchikey": "DTGSFFWQUULHIF-UHFFFAOYSA-N",
+    "smiles": "C[S](C)(=O)=N",
+    "not_found": true
+  },
+  "KYLGETVGTMZKLN-UHFFFAOYSA-N": {
+    "inchikey": "KYLGETVGTMZKLN-UHFFFAOYSA-N",
+    "smiles": "C[S](C)(=O)=NC",
+    "not_found": true
+  },
+  "GZAQKLNEYFHHRG-UHFFFAOYSA-N": {
+    "inchikey": "GZAQKLNEYFHHRG-UHFFFAOYSA-N",
+    "smiles": "C[As](C)(C)=N",
+    "not_found": true
+  },
+  "RBKGSSRIBZGLOX-UHFFFAOYSA-N": {
+    "inchikey": "RBKGSSRIBZGLOX-UHFFFAOYSA-N",
+    "smiles": "C[As](C)(C)=NC",
+    "not_found": true
+  },
+  "ODAJKZOHUZOJEF-UHFFFAOYSA-N": {
+    "inchikey": "ODAJKZOHUZOJEF-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=N)N",
+    "not_found": true
+  },
+  "QZEBMCLHLKAJKQ-UHFFFAOYSA-N": {
+    "inchikey": "QZEBMCLHLKAJKQ-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=N)NC",
+    "not_found": true
+  },
+  "FEFXFMQVSDTSPA-UHFFFAOYSA-N": {
+    "inchikey": "FEFXFMQVSDTSPA-UHFFFAOYSA-N",
+    "smiles": "C[Ge](Cl)(Cl)Cl",
+    "not_found": true
+  },
+  "YFRLQYJXUZRYDN-UHFFFAOYSA-K": {
+    "inchikey": "YFRLQYJXUZRYDN-UHFFFAOYSA-K",
+    "smiles": "C[Sn](Cl)(Cl)Cl",
+    "not_found": true
+  },
+  "ZOPFYTPVMCLWOZ-UHFFFAOYSA-K": {
+    "inchikey": "ZOPFYTPVMCLWOZ-UHFFFAOYSA-K",
+    "smiles": "C[Pb](Cl)(Cl)Cl",
+    "not_found": true
+  },
+  "ZUPJYXNLGBILSW-UHFFFAOYSA-L": {
+    "inchikey": "ZUPJYXNLGBILSW-UHFFFAOYSA-L",
+    "smiles": "C[Bi](Cl)Cl",
+    "not_found": true
+  },
+  "DZNXXVGIRUXVCD-UHFFFAOYSA-L": {
+    "inchikey": "DZNXXVGIRUXVCD-UHFFFAOYSA-L",
+    "smiles": "C[Sb](Cl)Cl",
+    "not_found": true,
+    "pubchem_iupac": "dichloro(methyl)stibane",
+    "validated": true
+  },
+  "AEJWYDUTPYFMQV-UHFFFAOYSA-N": {
+    "inchikey": "AEJWYDUTPYFMQV-UHFFFAOYSA-N",
+    "smiles": "C[Ge](N)(N)N",
+    "not_found": true
+  },
+  "RVAOTBQKPAVWQX-UHFFFAOYSA-N": {
+    "inchikey": "RVAOTBQKPAVWQX-UHFFFAOYSA-N",
+    "smiles": "C[Sn](N)(N)N",
+    "not_found": true
+  },
+  "ISEXOPJDFPYJJV-UHFFFAOYSA-N": {
+    "inchikey": "ISEXOPJDFPYJJV-UHFFFAOYSA-N",
+    "smiles": "C[Pb](N)(N)N",
+    "not_found": true
+  },
+  "PSKXWDOGIWQHBS-UHFFFAOYSA-N": {
+    "inchikey": "PSKXWDOGIWQHBS-UHFFFAOYSA-N",
+    "smiles": "C[Bi](N)N",
+    "not_found": true
+  },
+  "HDSGNGQZPHWABC-UHFFFAOYSA-N": {
+    "inchikey": "HDSGNGQZPHWABC-UHFFFAOYSA-N",
+    "smiles": "C[Sb](N)N",
+    "not_found": true
+  },
+  "SKZGHQNHAMXBIF-UHFFFAOYSA-N": {
+    "inchikey": "SKZGHQNHAMXBIF-UHFFFAOYSA-N",
+    "smiles": "C[Ge](O)(O)O",
+    "not_found": true
+  },
+  "QFPJTQJHFVLYQX-UHFFFAOYSA-K": {
+    "inchikey": "QFPJTQJHFVLYQX-UHFFFAOYSA-K",
+    "smiles": "C[Sn](O)(O)O",
+    "not_found": true
+  },
+  "OTSPCCWFUHAFCU-UHFFFAOYSA-K": {
+    "inchikey": "OTSPCCWFUHAFCU-UHFFFAOYSA-K",
+    "smiles": "C[Pb](O)(O)O",
+    "not_found": true
+  },
+  "PHLWAXIZEUJWJW-UHFFFAOYSA-L": {
+    "inchikey": "PHLWAXIZEUJWJW-UHFFFAOYSA-L",
+    "smiles": "C[Bi](O)O",
+    "not_found": true
+  },
+  "VLGYSLFFHZUUBK-UHFFFAOYSA-L": {
+    "inchikey": "VLGYSLFFHZUUBK-UHFFFAOYSA-L",
+    "smiles": "C[Sb](O)O",
+    "not_found": true
+  },
+  "XTPOYWHEBNCFPG-UHFFFAOYSA-N": {
+    "inchikey": "XTPOYWHEBNCFPG-UHFFFAOYSA-N",
+    "smiles": "C[Ge](O)C",
+    "not_found": true
+  },
+  "XOOGZRUBTYCLHG-UHFFFAOYSA-N": {
+    "inchikey": "XOOGZRUBTYCLHG-UHFFFAOYSA-N",
+    "smiles": "C[Pb](C)(C)C",
+    "not_found": true
+  },
+  "AYDYYQHYLJDCDQ-UHFFFAOYSA-N": {
+    "inchikey": "AYDYYQHYLJDCDQ-UHFFFAOYSA-N",
+    "smiles": "C[Bi](C)C",
+    "not_found": true
+  },
+  "BLPITTLHXKDNPJ-UHFFFAOYSA-N": {
+    "inchikey": "BLPITTLHXKDNPJ-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)NC(=O)N",
+    "not_found": true
+  },
+  "LUKYOIVBTHHOML-UHFFFAOYSA-N": {
+    "inchikey": "LUKYOIVBTHHOML-UHFFFAOYSA-N",
+    "smiles": "CCS(=O)(=O)NC(=O)N",
+    "not_found": true,
+    "pubchem_iupac": "ethylsulfonylurea",
+    "validated": false,
+    "expected_in_test": "N-ethanesulfonylurea",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "GQSFASWYVBMKSL-UHFFFAOYSA-N": {
+    "inchikey": "GQSFASWYVBMKSL-UHFFFAOYSA-N",
+    "smiles": "CS(=O)(=O)NC(=O)NC",
+    "not_found": true
+  },
+  "NCWDBNBNYVVARF-UHFFFAOYSA-N": {
+    "inchikey": "NCWDBNBNYVVARF-UHFFFAOYSA-N",
+    "smiles": "B1OCCO1",
+    "not_found": true
+  },
+  "WUYQAYADHXKJTF-UHFFFAOYSA-N": {
+    "inchikey": "WUYQAYADHXKJTF-UHFFFAOYSA-N",
+    "smiles": "B1OCCCO1",
+    "not_found": true
+  },
+  "USMRYMUZKSMTRL-UHFFFAOYSA-N": {
+    "inchikey": "USMRYMUZKSMTRL-UHFFFAOYSA-N",
+    "smiles": "CB1OCCO1",
+    "not_found": true
+  },
+  "KQVWFBVPBAQTES-UHFFFAOYSA-N": {
+    "inchikey": "KQVWFBVPBAQTES-UHFFFAOYSA-N",
+    "smiles": "CB1OCCCO1",
+    "not_found": true
+  },
+  "KKLCYBZPQDOFQK-UHFFFAOYSA-N": {
+    "inchikey": "KKLCYBZPQDOFQK-UHFFFAOYSA-N",
+    "smiles": "CC1(C)OB(OC1(C)C)c1ccccc1",
+    "not_found": true
+  },
+  "RGSFGYAAUTVSQA-UHFFFAOYSA-N": {
+    "inchikey": "RGSFGYAAUTVSQA-UHFFFAOYSA-N",
+    "smiles": "C1CCCC1",
+    "not_found": true
+  },
+  "OYVXVLSZQHSNDK-UHFFFAOYSA-N": {
+    "inchikey": "OYVXVLSZQHSNDK-UHFFFAOYSA-N",
+    "smiles": "CC(=O)N(C)OC",
+    "not_found": true
+  },
+  "SOZXKDHEWJXRKV-UHFFFAOYSA-N": {
+    "inchikey": "SOZXKDHEWJXRKV-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NOC",
+    "not_found": true
+  },
+  "UOHWZDYCLDKUFF-UHFFFAOYSA-N": {
+    "inchikey": "UOHWZDYCLDKUFF-UHFFFAOYSA-N",
+    "smiles": "CN=C(N)OC",
+    "not_found": true
+  },
+  "MVEAMNWCFZZFCL-UHFFFAOYSA-N": {
+    "inchikey": "MVEAMNWCFZZFCL-UHFFFAOYSA-N",
+    "smiles": "CN=C(N)SC",
+    "not_found": true
+  },
+  "RMAHPRNLQIRHIJ-UHFFFAOYSA-N": {
+    "inchikey": "RMAHPRNLQIRHIJ-UHFFFAOYSA-N",
+    "smiles": "COC(N)=N",
+    "not_found": true
+  },
+  "SDDKIZNHOCEXTF-UHFFFAOYSA-N": {
+    "inchikey": "SDDKIZNHOCEXTF-UHFFFAOYSA-N",
+    "smiles": "CSC(N)=N",
+    "not_found": true
+  },
+  "IPZOLVGIGPKBJL-UHFFFAOYSA-N": {
+    "inchikey": "IPZOLVGIGPKBJL-UHFFFAOYSA-N",
+    "smiles": "COP(=O)(N)OC",
+    "not_found": true
+  },
+  "DWCRHUWVDSHYPO-UHFFFAOYSA-N": {
+    "inchikey": "DWCRHUWVDSHYPO-UHFFFAOYSA-N",
+    "smiles": "COP(=O)(NC)OC",
+    "not_found": true
+  },
+  "ZQAUNTSBAZCVIO-UHFFFAOYSA-N": {
+    "inchikey": "ZQAUNTSBAZCVIO-UHFFFAOYSA-N",
+    "smiles": "COP(=O)(N)O",
+    "not_found": true
+  },
+  "HVVRUQBMAZRKPJ-UHFFFAOYSA-N": {
+    "inchikey": "HVVRUQBMAZRKPJ-UHFFFAOYSA-N",
+    "smiles": "Cn1cc[n+](C)c1",
+    "not_found": true
+  },
+  "PQBAWAQIRZIWIV-UHFFFAOYSA-N": {
+    "inchikey": "PQBAWAQIRZIWIV-UHFFFAOYSA-N",
+    "smiles": "C[n+]1ccccc1",
+    "not_found": true
+  },
+  "IQQRAVYLUAZUGX-UHFFFAOYSA-N": {
+    "inchikey": "IQQRAVYLUAZUGX-UHFFFAOYSA-N",
+    "smiles": "CCCC[n+]1ccn(C)c1",
+    "not_found": true
+  },
+  "MCTWTZJPVLRJOU-UHFFFAOYSA-N": {
+    "inchikey": "MCTWTZJPVLRJOU-UHFFFAOYSA-N",
+    "smiles": "Cn1ccnc1",
+    "not_found": true
+  },
+  "VFTFKUDGYRBSAL-UHFFFAOYSA-N": {
+    "inchikey": "VFTFKUDGYRBSAL-UHFFFAOYSA-N",
+    "smiles": "C1COCCOCCOCCOCCO1",
+    "not_found": true
+  },
+  "XEZNGIUYQVAUSS-UHFFFAOYSA-N": {
+    "inchikey": "XEZNGIUYQVAUSS-UHFFFAOYSA-N",
+    "smiles": "C1COCCOCCOCCOCCOCCO1",
+    "not_found": true
+  },
+  "JIIMFWABHZCIAN-UHFFFAOYSA-N": {
+    "inchikey": "JIIMFWABHZCIAN-UHFFFAOYSA-N",
+    "smiles": "C1CNCCOCCOCC1",
+    "not_found": true
+  },
+  "KYTNZWVKKKJXFS-UHFFFAOYSA-N": {
+    "inchikey": "KYTNZWVKKKJXFS-UHFFFAOYSA-N",
+    "smiles": "C1CCCCCCCCCC1",
+    "not_found": true
+  },
+  "AUAGGMPIKOZAJZ-UHFFFAOYSA-N": {
+    "inchikey": "AUAGGMPIKOZAJZ-UHFFFAOYSA-N",
+    "smiles": "C1COCCOCO1",
+    "not_found": true
+  },
+  "BKFHESPMMUHCNE-UHFFFAOYSA-N": {
+    "inchikey": "BKFHESPMMUHCNE-UHFFFAOYSA-N",
+    "smiles": "C1CCOCCOCC1",
+    "not_found": true
+  },
+  "QNAYBMKLOCPYGJ-UHFFFAOYSA-M": {
+    "inchikey": "QNAYBMKLOCPYGJ-UHFFFAOYSA-M",
+    "smiles": "CC(N)C(=O)[O-]",
+    "not_found": true
+  },
+  "JVTAAEKCZFNVCJ-UHFFFAOYSA-M": {
+    "inchikey": "JVTAAEKCZFNVCJ-UHFFFAOYSA-M",
+    "smiles": "CC(O)C(=O)[O-]",
+    "not_found": true
+  },
+  "GAWAYYRQGQZKCR-UHFFFAOYSA-M": {
+    "inchikey": "GAWAYYRQGQZKCR-UHFFFAOYSA-M",
+    "smiles": "CC(Cl)C(=O)[O-]",
+    "not_found": true
+  },
+  "DHMQDGOQFOQNFH-UHFFFAOYSA-M": {
+    "inchikey": "DHMQDGOQFOQNFH-UHFFFAOYSA-M",
+    "smiles": "NCC(=O)[O-]",
+    "not_found": true
+  },
+  "FOCAUTSVDIKZOP-UHFFFAOYSA-M": {
+    "inchikey": "FOCAUTSVDIKZOP-UHFFFAOYSA-M",
+    "smiles": "ClCC(=O)[O-]",
+    "not_found": true
+  },
+  "RJQQVSMLUFBOIF-UHFFFAOYSA-N": {
+    "inchikey": "RJQQVSMLUFBOIF-UHFFFAOYSA-N",
+    "smiles": "CC(N)C(=O)[O-].[NH4+]",
+    "not_found": true
+  },
+  "LDHQCZJRKDOVOX-UHFFFAOYSA-M": {
+    "inchikey": "LDHQCZJRKDOVOX-UHFFFAOYSA-M",
+    "smiles": "CC=CC(=O)[O-]",
+    "not_found": true
+  },
+  "KDQBKCRYCZJUAE-UHFFFAOYSA-N": {
+    "inchikey": "KDQBKCRYCZJUAE-UHFFFAOYSA-N",
+    "smiles": "C[Si]1(C)CCCC1",
+    "not_found": true
+  },
+  "XGPIKCUIBRAEBQ-UHFFFAOYSA-N": {
+    "inchikey": "XGPIKCUIBRAEBQ-UHFFFAOYSA-N",
+    "smiles": "C[Ge]1(C)CCCC1",
+    "not_found": true
+  },
+  "DWRSCILTXDLQBG-UHFFFAOYSA-N": {
+    "inchikey": "DWRSCILTXDLQBG-UHFFFAOYSA-N",
+    "smiles": "[SiH2]1CCCC1",
+    "not_found": true
+  },
+  "VPVXTYYXTKCTPM-UHFFFAOYSA-N": {
+    "inchikey": "VPVXTYYXTKCTPM-UHFFFAOYSA-N",
+    "smiles": "C[Si]1(C)CCCCC1",
+    "not_found": true
+  },
+  "FYXKZNLBZKRYSS-UHFFFAOYSA-N": {
+    "inchikey": "FYXKZNLBZKRYSS-UHFFFAOYSA-N",
+    "smiles": "O=C(Cl)c1ccccc1C(=O)Cl",
+    "not_found": true
+  },
+  "LXEJRKJRKIFVNY-UHFFFAOYSA-N": {
+    "inchikey": "LXEJRKJRKIFVNY-UHFFFAOYSA-N",
+    "smiles": "O=C(Cl)c1ccc(cc1)C(=O)Cl",
+    "not_found": true,
+    "pubchem_iupac": "benzene-1,4-dicarbonyl chloride",
+    "validated": false,
+    "expected_in_test": "benzene-1,4-dicarbonyl dichloride",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "FDQSRULYDNDXQB-UHFFFAOYSA-N": {
+    "inchikey": "FDQSRULYDNDXQB-UHFFFAOYSA-N",
+    "smiles": "O=C(Cl)c1cccc(c1)C(=O)Cl",
+    "not_found": true
+  },
+  "HHFAWKCIHAUFRX-UHFFFAOYSA-N": {
+    "inchikey": "HHFAWKCIHAUFRX-UHFFFAOYSA-N",
+    "smiles": "CC[O-]",
+    "not_found": true,
+    "pubchem_iupac": "ethanolate",
+    "validated": true
+  },
+  "NBTOZLQBSIZIKS-UHFFFAOYSA-N": {
+    "inchikey": "NBTOZLQBSIZIKS-UHFFFAOYSA-N",
+    "smiles": "C[O-]",
+    "not_found": true
+  },
+  "SDTMFDGELKWGFT-UHFFFAOYSA-N": {
+    "inchikey": "SDTMFDGELKWGFT-UHFFFAOYSA-N",
+    "smiles": "CC(C)(C)[O-]",
+    "not_found": true
+  },
+  "DGKBAVXKKOKWSB-UHFFFAOYSA-N": {
+    "inchikey": "DGKBAVXKKOKWSB-UHFFFAOYSA-N",
+    "smiles": "CCCC[O-]",
+    "not_found": true,
+    "pubchem_iupac": "butan-1-olate",
+    "validated": true
+  },
+  "ISWSIDIOOBJBQZ-UHFFFAOYSA-M": {
+    "inchikey": "ISWSIDIOOBJBQZ-UHFFFAOYSA-M",
+    "smiles": "c1ccccc1[O-]",
+    "not_found": true,
+    "pubchem_iupac": "phenoxide",
+    "validated": false,
+    "expected_in_test": "phenolate",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "QDRKDTQENPPHOJ-UHFFFAOYSA-N": {
+    "inchikey": "QDRKDTQENPPHOJ-UHFFFAOYSA-N",
+    "smiles": "CC[O-].[Na+]",
+    "not_found": true
+  },
+  "BDAWXSQJJCIFIK-UHFFFAOYSA-N": {
+    "inchikey": "BDAWXSQJJCIFIK-UHFFFAOYSA-N",
+    "smiles": "C[O-].[K+]",
+    "not_found": true
+  },
+  "DNJIEGIFACGWOD-UHFFFAOYSA-M": {
+    "inchikey": "DNJIEGIFACGWOD-UHFFFAOYSA-M",
+    "smiles": "CC[S-]",
+    "not_found": true
+  },
+  "HPMPVSNIXAYUGG-UHFFFAOYSA-M": {
+    "inchikey": "HPMPVSNIXAYUGG-UHFFFAOYSA-M",
+    "smiles": "CC[Se-]",
+    "not_found": true
+  },
+  "QUHSBLYVOONOIC-UHFFFAOYSA-M": {
+    "inchikey": "QUHSBLYVOONOIC-UHFFFAOYSA-M",
+    "smiles": "CC[Te-]",
+    "not_found": true
+  },
+  "RMVRSNDYEFQCLF-UHFFFAOYSA-M": {
+    "inchikey": "RMVRSNDYEFQCLF-UHFFFAOYSA-M",
+    "smiles": "c1ccccc1[S-]",
+    "not_found": true
+  },
+  "SUVIGLJNEAMWEG-UHFFFAOYSA-M": {
+    "inchikey": "SUVIGLJNEAMWEG-UHFFFAOYSA-M",
+    "smiles": "CCC[S-]",
+    "not_found": true
+  },
+  "QMOJLJDGQRKGLY-UHFFFAOYSA-N": {
+    "inchikey": "QMOJLJDGQRKGLY-UHFFFAOYSA-N",
+    "smiles": "CSNC",
+    "not_found": true
+  },
+  "XOVSRHHCHKUFKM-UHFFFAOYSA-N": {
+    "inchikey": "XOVSRHHCHKUFKM-UHFFFAOYSA-N",
+    "smiles": "CSN",
+    "not_found": true
+  },
+  "WDSFCZDGCAXRDY-UHFFFAOYSA-N": {
+    "inchikey": "WDSFCZDGCAXRDY-UHFFFAOYSA-N",
+    "smiles": "CCSN",
+    "not_found": true
+  },
+  "RZCYJQWHOJOXOR-UHFFFAOYSA-N": {
+    "inchikey": "RZCYJQWHOJOXOR-UHFFFAOYSA-N",
+    "smiles": "CSNCC",
+    "not_found": true
+  },
+  "KHOQXNHADJBILQ-UHFFFAOYSA-N": {
+    "inchikey": "KHOQXNHADJBILQ-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(C)S",
+    "not_found": true
+  },
+  "XTCXJLREPFRILD-UHFFFAOYSA-N": {
+    "inchikey": "XTCXJLREPFRILD-UHFFFAOYSA-N",
+    "smiles": "C[Ge](C)(C)S",
+    "not_found": true
+  },
+  "DWRCJYHHGPQTNS-UHFFFAOYSA-M": {
+    "inchikey": "DWRCJYHHGPQTNS-UHFFFAOYSA-M",
+    "smiles": "C[Sn](C)(C)S",
+    "not_found": true
+  },
+  "YPTLDUWYFLOUBB-UHFFFAOYSA-N": {
+    "inchikey": "YPTLDUWYFLOUBB-UHFFFAOYSA-N",
+    "smiles": "C[Si](C)(S)S",
+    "not_found": true
+  },
+  "FMZPXARRUOVURU-UHFFFAOYSA-N": {
+    "inchikey": "FMZPXARRUOVURU-UHFFFAOYSA-N",
+    "smiles": "C[Ge](C)(C)O",
+    "not_found": true
+  },
+  "CKTNHGVJKUQEBM-UHFFFAOYSA-N": {
+    "inchikey": "CKTNHGVJKUQEBM-UHFFFAOYSA-N",
+    "smiles": "CC[NH-]",
+    "not_found": true
+  },
+  "MGJXBDMLVWIYOQ-UHFFFAOYSA-N": {
+    "inchikey": "MGJXBDMLVWIYOQ-UHFFFAOYSA-N",
+    "smiles": "C[NH-]",
+    "not_found": true
+  },
+  "PJBKGPGJDSEEDP-UHFFFAOYSA-N": {
+    "inchikey": "PJBKGPGJDSEEDP-UHFFFAOYSA-N",
+    "smiles": "CC[P-]C",
+    "not_found": true
+  },
+  "CJNPJNJFSPWBCA-UHFFFAOYSA-N": {
+    "inchikey": "CJNPJNJFSPWBCA-UHFFFAOYSA-N",
+    "smiles": "CC[PH-]",
+    "not_found": true
+  },
+  "BXDCELKJGGVUHD-UHFFFAOYSA-N": {
+    "inchikey": "BXDCELKJGGVUHD-UHFFFAOYSA-N",
+    "smiles": "CCPC",
+    "not_found": true
+  },
+  "ZMZDMBWJUHKJPS-UHFFFAOYSA-M": {
+    "inchikey": "ZMZDMBWJUHKJPS-UHFFFAOYSA-M",
+    "smiles": "[S-]C#N",
+    "not_found": true
+  },
+  "XLJMAIOERFSOGZ-UHFFFAOYSA-M": {
+    "inchikey": "XLJMAIOERFSOGZ-UHFFFAOYSA-M",
+    "smiles": "[O-]C#N",
+    "not_found": true
+  },
+  "CRDYSYOERSZTHZ-UHFFFAOYSA-M": {
+    "inchikey": "CRDYSYOERSZTHZ-UHFFFAOYSA-M",
+    "smiles": "[Se-]C#N",
+    "not_found": true
+  },
+  "CRDYSYOERSZTHZ-UHFFFAOYSA-N": {
+    "inchikey": "CRDYSYOERSZTHZ-UHFFFAOYSA-N",
+    "smiles": "[SeH]C#N",
+    "not_found": true
+  },
+  "XEWPHCLETKKJMQ-UHFFFAOYSA-N": {
+    "inchikey": "XEWPHCLETKKJMQ-UHFFFAOYSA-N",
+    "smiles": "C[Se]C#N",
+    "not_found": true
+  },
+  "FSSLLCCLSQEQDK-UHFFFAOYSA-M": {
+    "inchikey": "FSSLLCCLSQEQDK-UHFFFAOYSA-M",
+    "smiles": "[Te-]C#N",
+    "not_found": true
+  },
+  "FSSLLCCLSQEQDK-UHFFFAOYSA-N": {
+    "inchikey": "FSSLLCCLSQEQDK-UHFFFAOYSA-N",
+    "smiles": "[TeH]C#N",
+    "not_found": true
+  },
+  "GXEYBNGHWCHFQA-UHFFFAOYSA-N": {
+    "inchikey": "GXEYBNGHWCHFQA-UHFFFAOYSA-N",
+    "smiles": "C[Te]C#N",
+    "not_found": true
+  },
+  "ITMCEJHCFYSIIV-UHFFFAOYSA-N": {
+    "inchikey": "ITMCEJHCFYSIIV-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)O",
+    "not_found": true
+  },
+  "KCBOLCDFVMDQIU-UHFFFAOYSA-N": {
+    "inchikey": "KCBOLCDFVMDQIU-UHFFFAOYSA-N",
+    "smiles": "CC(F)(F)S(=O)(=O)O",
+    "not_found": true
+  },
+  "HMPHJJBZKIZRHG-UHFFFAOYSA-N": {
+    "inchikey": "HMPHJJBZKIZRHG-UHFFFAOYSA-N",
+    "smiles": "ClCS(=O)(=O)O",
+    "not_found": true
+  },
+  "FXKMTSIKHBYZSZ-UHFFFAOYSA-N": {
+    "inchikey": "FXKMTSIKHBYZSZ-UHFFFAOYSA-N",
+    "smiles": "ClCCS(=O)(=O)O",
+    "not_found": true
+  },
+  "LHORZPMPPHTXFQ-UHFFFAOYSA-N": {
+    "inchikey": "LHORZPMPPHTXFQ-UHFFFAOYSA-N",
+    "smiles": "CC(Cl)S(=O)(=O)O",
+    "not_found": true
+  },
+  "SUMDYPCJJOFFON-UHFFFAOYSA-N": {
+    "inchikey": "SUMDYPCJJOFFON-UHFFFAOYSA-N",
+    "smiles": "OCCS(=O)(=O)O",
+    "not_found": true
+  },
+  "ITMCEJHCFYSIIV-UHFFFAOYSA-M": {
+    "inchikey": "ITMCEJHCFYSIIV-UHFFFAOYSA-M",
+    "smiles": "FC(F)(F)S(=O)(=O)[O-]",
+    "not_found": true
+  },
+  "KAKQVSNHTBLJCH-UHFFFAOYSA-N": {
+    "inchikey": "KAKQVSNHTBLJCH-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)N",
+    "not_found": true
+  },
+  "IJOCNCZJDBTBIP-UHFFFAOYSA-N": {
+    "inchikey": "IJOCNCZJDBTBIP-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)NC",
+    "not_found": true
+  },
+  "GRGCWBWNLSTIEN-UHFFFAOYSA-N": {
+    "inchikey": "GRGCWBWNLSTIEN-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)Cl",
+    "not_found": true
+  },
+  "XUWDWJZNNYTMJV-UHFFFAOYSA-N": {
+    "inchikey": "XUWDWJZNNYTMJV-UHFFFAOYSA-N",
+    "smiles": "CC(Cl)S(=O)(=O)Cl",
+    "not_found": true
+  },
+  "YSDLRMVRCRBSBR-UHFFFAOYSA-N": {
+    "inchikey": "YSDLRMVRCRBSBR-UHFFFAOYSA-N",
+    "smiles": "OS(=O)(=O)C(Cl)CS(=O)(=O)O",
+    "not_found": true
+  },
+  "YXHBYHQKEBTWSZ-UHFFFAOYSA-N": {
+    "inchikey": "YXHBYHQKEBTWSZ-UHFFFAOYSA-N",
+    "smiles": "NS(=O)(=O)C(Cl)CS(=O)(=O)N",
+    "not_found": true
+  },
+  "GWBNYWVYPASUBM-UHFFFAOYSA-N": {
+    "inchikey": "GWBNYWVYPASUBM-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)Cl",
+    "not_found": true
+  },
+  "RQYLOOVORNJDQX-UHFFFAOYSA-N": {
+    "inchikey": "RQYLOOVORNJDQX-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)SCl",
+    "not_found": true
+  },
+  "DLAUFOGMVZDAFU-UHFFFAOYSA-N": {
+    "inchikey": "DLAUFOGMVZDAFU-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)N",
+    "not_found": true
+  },
+  "FPFPUKNGEDUVLA-UHFFFAOYSA-N": {
+    "inchikey": "FPFPUKNGEDUVLA-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)SN",
+    "not_found": true
+  },
+  "DFOIZPBBIFCPAS-UHFFFAOYSA-N": {
+    "inchikey": "DFOIZPBBIFCPAS-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Se](=O)(=O)O",
+    "not_found": true
+  },
+  "WBDWQNPQEIALCJ-UHFFFAOYSA-N": {
+    "inchikey": "WBDWQNPQEIALCJ-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Se](=O)O",
+    "not_found": true
+  },
+  "QOQFYCMKXSLMBB-UHFFFAOYSA-N": {
+    "inchikey": "QOQFYCMKXSLMBB-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Se]O",
+    "not_found": true
+  },
+  "ANQKNBZZOGFPCT-UHFFFAOYSA-N": {
+    "inchikey": "ANQKNBZZOGFPCT-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Te](=O)(=O)O",
+    "not_found": true
+  },
+  "BWYQZALCLPTWOV-UHFFFAOYSA-N": {
+    "inchikey": "BWYQZALCLPTWOV-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Te](=O)O",
+    "not_found": true
+  },
+  "WQWQMTYTLANXKC-UHFFFAOYSA-N": {
+    "inchikey": "WQWQMTYTLANXKC-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)[Te]O",
+    "not_found": true
+  },
+  "PNHHQYMSCWPFFW-UHFFFAOYSA-N": {
+    "inchikey": "PNHHQYMSCWPFFW-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)NN",
+    "not_found": true
+  },
+  "NQPHMXWPDCSHTE-UHFFFAOYSA-N": {
+    "inchikey": "NQPHMXWPDCSHTE-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)N=[N+]=[N-]",
+    "not_found": true
+  },
+  "JMURKBXLOJEKSE-UHFFFAOYSA-N": {
+    "inchikey": "JMURKBXLOJEKSE-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)SOC",
+    "not_found": true
+  },
+  "RLCYIGZKQTZAFC-UHFFFAOYSA-N": {
+    "inchikey": "RLCYIGZKQTZAFC-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)OC",
+    "not_found": true
+  },
+  "OIRDBPQYVWXNSJ-UHFFFAOYSA-N": {
+    "inchikey": "OIRDBPQYVWXNSJ-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)OC",
+    "not_found": true
+  },
+  "PGOMVYSURVZIIW-UHFFFAOYSA-N": {
+    "inchikey": "PGOMVYSURVZIIW-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)N=O",
+    "not_found": true
+  },
+  "BVUNBZYYYFXCEB-UHFFFAOYSA-N": {
+    "inchikey": "BVUNBZYYYFXCEB-UHFFFAOYSA-N",
+    "smiles": "O=C=NC(Cl)CN=C=O",
+    "not_found": true
+  },
+  "MJDSEZGHEHBEGU-UHFFFAOYSA-N": {
+    "inchikey": "MJDSEZGHEHBEGU-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)S(=O)(=O)NC(=O)N",
+    "not_found": true
+  },
+  "WJSFITXJRLLCHA-UHFFFAOYSA-N": {
+    "inchikey": "WJSFITXJRLLCHA-UHFFFAOYSA-N",
+    "smiles": "CC(=NOC)CCl",
+    "not_found": true
+  },
+  "NVCDBFGLJXGGGS-UHFFFAOYSA-N": {
+    "inchikey": "NVCDBFGLJXGGGS-UHFFFAOYSA-N",
+    "smiles": "ClCC=NOC",
+    "not_found": true
+  },
+  "QAEDZJGFFMLHHQ-UHFFFAOYSA-N": {
+    "inchikey": "QAEDZJGFFMLHHQ-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)OC(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "PNVPNXKRAUBJGW-UHFFFAOYSA-N": {
+    "inchikey": "PNVPNXKRAUBJGW-UHFFFAOYSA-N",
+    "smiles": "ClCC(=O)OC(=O)CCl",
+    "not_found": true
+  },
+  "HINSMVRGSUGPBM-UHFFFAOYSA-N": {
+    "inchikey": "HINSMVRGSUGPBM-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)OC(=O)C",
+    "not_found": true
+  },
+  "NITMACBPVVUGOJ-UHFFFAOYSA-N": {
+    "inchikey": "NITMACBPVVUGOJ-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=N)N",
+    "not_found": true
+  },
+  "NJAHGEUFOYIGKR-UHFFFAOYSA-N": {
+    "inchikey": "NJAHGEUFOYIGKR-UHFFFAOYSA-N",
+    "smiles": "ClCC(=N)N",
+    "not_found": true
+  },
+  "KLUDQUOLAFVLOL-UHFFFAOYSA-N": {
+    "inchikey": "KLUDQUOLAFVLOL-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OC(=O)CC",
+    "not_found": true
+  },
+  "JFUXCQSSEVTROW-UHFFFAOYSA-N": {
+    "inchikey": "JFUXCQSSEVTROW-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=N)OC",
+    "not_found": true
+  },
+  "JOURTNKOBNXXIV-UHFFFAOYSA-N": {
+    "inchikey": "JOURTNKOBNXXIV-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)SC",
+    "not_found": true
+  },
+  "PTBRPWTYPNNGDH-UHFFFAOYSA-N": {
+    "inchikey": "PTBRPWTYPNNGDH-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=S)OC",
+    "not_found": true
+  },
+  "JWWOVBFXIOLFQA-UHFFFAOYSA-N": {
+    "inchikey": "JWWOVBFXIOLFQA-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=S)SC",
+    "not_found": true
+  },
+  "OFUCCBIWEUKISP-UHFFFAOYSA-N": {
+    "inchikey": "OFUCCBIWEUKISP-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)NN",
+    "not_found": true
+  },
+  "VHFJFUOFTHFTNI-UHFFFAOYSA-N": {
+    "inchikey": "VHFJFUOFTHFTNI-UHFFFAOYSA-N",
+    "smiles": "ClCC(=O)NN",
+    "not_found": true
+  },
+  "FMAOOOJGBQGIJJ-UHFFFAOYSA-N": {
+    "inchikey": "FMAOOOJGBQGIJJ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NC(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "GMQVFHZSXKJCIV-UHFFFAOYSA-N": {
+    "inchikey": "GMQVFHZSXKJCIV-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)NC(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "DVCMYAIUSOSIQP-UHFFFAOYSA-N": {
+    "inchikey": "DVCMYAIUSOSIQP-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)Oc1ccccc1",
+    "not_found": true
+  },
+  "IQNHBUQSOSYAJU-UHFFFAOYSA-N": {
+    "inchikey": "IQNHBUQSOSYAJU-UHFFFAOYSA-N",
+    "smiles": "CNC(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "ZSBDPRIWBYHIAF-UHFFFAOYSA-N": {
+    "inchikey": "ZSBDPRIWBYHIAF-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NC(=O)C",
+    "not_found": true
+  },
+  "DBERHVIZRVGDFO-UHFFFAOYSA-N": {
+    "inchikey": "DBERHVIZRVGDFO-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCC(=O)C",
+    "not_found": true
+  },
+  "NWCYECXHIYEBJE-UHFFFAOYSA-N": {
+    "inchikey": "NWCYECXHIYEBJE-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCC(=O)C",
+    "not_found": true
+  },
+  "JRVQGARZYXFEKO-UHFFFAOYSA-N": {
+    "inchikey": "JRVQGARZYXFEKO-UHFFFAOYSA-N",
+    "smiles": "CC(C)C(=O)OCC(=O)C",
+    "not_found": true
+  },
+  "SICIPBMLFSQZEQ-UHFFFAOYSA-N": {
+    "inchikey": "SICIPBMLFSQZEQ-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NCC(=O)C",
+    "not_found": true
+  },
+  "BGAXCPSNMHVHJC-UHFFFAOYSA-N": {
+    "inchikey": "BGAXCPSNMHVHJC-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCC(=O)c1ccccc1",
+    "not_found": true
+  },
+  "HXDLWJWIAHWIKI-UHFFFAOYSA-N": {
+    "inchikey": "HXDLWJWIAHWIKI-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCO",
+    "not_found": true
+  },
+  "VIRWKAJWTKAIMA-UHFFFAOYSA-N": {
+    "inchikey": "VIRWKAJWTKAIMA-UHFFFAOYSA-N",
+    "smiles": "CC(=O)OCCCl",
+    "not_found": true
+  },
+  "GPTBUIMZDZKKLE-JXMROGBWSA-N": {
+    "inchikey": "GPTBUIMZDZKKLE-JXMROGBWSA-N",
+    "smiles": "CC(=O)N/N=C/c1ccccc1",
+    "not_found": true
+  },
+  "CUQQXXHZLBBJGV-UHFFFAOYSA-N": {
+    "inchikey": "CUQQXXHZLBBJGV-UHFFFAOYSA-N",
+    "smiles": "CC(=O)NN=C",
+    "not_found": true
+  },
+  "XLHDGJPPMZUJIM-UHFFFAOYSA-N": {
+    "inchikey": "XLHDGJPPMZUJIM-UHFFFAOYSA-N",
+    "smiles": "CC(=O)N/N=C(C)/C",
+    "not_found": true
+  },
+  "CJMDRHUYJVYZGI-ONNFQVAWSA-N": {
+    "inchikey": "CJMDRHUYJVYZGI-ONNFQVAWSA-N",
+    "smiles": "CC(=O)N/N=C(C)/CC(F)(F)F",
+    "not_found": true
+  },
+  "RISHSDLMXPLIHT-UHFFFAOYSA-N": {
+    "inchikey": "RISHSDLMXPLIHT-UHFFFAOYSA-N",
+    "smiles": "O=C(NN=Cc1ccccc1)c1ccccc1",
+    "not_found": true
+  },
+  "AZKBSYLJPYDTEV-AWNIVKPZSA-N": {
+    "inchikey": "AZKBSYLJPYDTEV-AWNIVKPZSA-N",
+    "smiles": "FC(F)(F)C(=O)N/N=C/c1ccccc1",
+    "not_found": true
+  },
+  "ZKAMMSCOVFLQFX-JXMROGBWSA-N": {
+    "inchikey": "ZKAMMSCOVFLQFX-JXMROGBWSA-N",
+    "smiles": "CC(=S)N/N=C/c1ccccc1",
+    "not_found": true
+  },
+  "WLVXLAXSZMHJHB-ONNFQVAWSA-N": {
+    "inchikey": "WLVXLAXSZMHJHB-ONNFQVAWSA-N",
+    "smiles": "CC(=S)N/N=C(C)/CC(F)(F)F",
+    "not_found": true
+  },
+  "PFUCSJOVZDJLKN-UHFFFAOYSA-N": {
+    "inchikey": "PFUCSJOVZDJLKN-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)CC(C)=NNC(N)=O",
+    "not_found": true
+  },
+  "UEZIHGMJYGMLKQ-UHFFFAOYSA-N": {
+    "inchikey": "UEZIHGMJYGMLKQ-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)CC(C)=NNC(N)=S",
+    "not_found": true
+  },
+  "HMUCENPJGFCFFT-UHFFFAOYSA-N": {
+    "inchikey": "HMUCENPJGFCFFT-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)CC(C)=NNC",
+    "not_found": true
+  },
+  "NEUAHTVZPCLRTP-UHFFFAOYSA-N": {
+    "inchikey": "NEUAHTVZPCLRTP-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=S)NN",
+    "not_found": true
+  },
+  "GZZBBDIFPBDDIH-UHFFFAOYSA-N": {
+    "inchikey": "GZZBBDIFPBDDIH-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=[Se])NN",
+    "not_found": true
+  },
+  "SUVDCLMAAVMTSD-UHFFFAOYSA-N": {
+    "inchikey": "SUVDCLMAAVMTSD-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)CC(C)=Nc1ccccc1",
+    "not_found": true
+  },
+  "HXTGGPKOEKKUQO-UHFFFAOYSA-N": {
+    "inchikey": "HXTGGPKOEKKUQO-UHFFFAOYSA-N",
+    "smiles": "CN=Cc1ccccc1",
+    "not_found": true,
+    "pubchem_iupac": "N-methyl-1-phenylmethanimine",
+    "validated": false,
+    "expected_in_test": "N-methylphenylmethanimine",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
+  },
+  "NHTZDSRSPCFQCJ-UHFFFAOYSA-N": {
+    "inchikey": "NHTZDSRSPCFQCJ-UHFFFAOYSA-N",
+    "smiles": "COC(=O)C(F)(F)C(=O)OC",
+    "not_found": true
+  },
+  "LIHVFFFGWFBSAT-UHFFFAOYSA-L": {
+    "inchikey": "LIHVFFFGWFBSAT-UHFFFAOYSA-L",
+    "smiles": "[O-]C(=O)C(F)(F)C(=O)[O-]",
+    "not_found": true
+  },
+  "DTQVDTLACAAQTR-UHFFFAOYSA-M": {
+    "inchikey": "DTQVDTLACAAQTR-UHFFFAOYSA-M",
+    "smiles": "[O-]C(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "AEMRFAOFKBGASW-UHFFFAOYSA-M": {
+    "inchikey": "AEMRFAOFKBGASW-UHFFFAOYSA-M",
+    "smiles": "[O-]C(=O)CO",
+    "not_found": true
+  },
+  "HLDPDUFAJCWOBX-UHFFFAOYSA-N": {
+    "inchikey": "HLDPDUFAJCWOBX-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)S",
+    "not_found": true
+  },
+  "NRKYWOKHZRQRJR-UHFFFAOYSA-N": {
+    "inchikey": "NRKYWOKHZRQRJR-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=N)O",
+    "not_found": true
+  },
+  "FBNFLLVJXCVSKV-UHFFFAOYSA-N": {
+    "inchikey": "FBNFLLVJXCVSKV-UHFFFAOYSA-N",
+    "smiles": "ClC(=O)C(F)(F)C(=O)Cl",
+    "not_found": true
+  },
+  "FXOKBSYUSNLQBW-UHFFFAOYSA-N": {
+    "inchikey": "FXOKBSYUSNLQBW-UHFFFAOYSA-N",
+    "smiles": "FC(=O)C(F)(F)C(=O)Cl",
+    "not_found": true
+  },
+  "XYPISWUKQGWYGX-UHFFFAOYSA-N": {
+    "inchikey": "XYPISWUKQGWYGX-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)OO",
+    "not_found": true
+  },
+  "ZBSVLMPDSWYFEX-UHFFFAOYSA-N": {
+    "inchikey": "ZBSVLMPDSWYFEX-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)N=[N+]=[N-]",
+    "not_found": true
+  },
+  "VZBAIMIVLDKBTE-UHFFFAOYSA-N": {
+    "inchikey": "VZBAIMIVLDKBTE-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=S)N",
+    "not_found": true
+  },
+  "CFNWHGCVNJEKGS-UHFFFAOYSA-N": {
+    "inchikey": "CFNWHGCVNJEKGS-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=[Se])N",
+    "not_found": true
+  },
+  "DVIROVOBFHSULE-UHFFFAOYSA-N": {
+    "inchikey": "DVIROVOBFHSULE-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=[Te])N",
+    "not_found": true
+  },
+  "ROVANDSELKHYOO-UHFFFAOYSA-N": {
+    "inchikey": "ROVANDSELKHYOO-UHFFFAOYSA-N",
+    "smiles": "NC(=S)C(F)(F)C(=S)N",
+    "not_found": true
+  },
+  "ZYZXGXIOVNAJPJ-UHFFFAOYSA-N": {
+    "inchikey": "ZYZXGXIOVNAJPJ-UHFFFAOYSA-N",
+    "smiles": "NC(=[Se])C(F)(F)C(=[Se])N",
+    "not_found": true
+  },
+  "ICGJEQXHHACFAH-UHFFFAOYSA-N": {
+    "inchikey": "ICGJEQXHHACFAH-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)OOC(=O)C(F)(F)F",
+    "not_found": true
+  },
+  "FBYYUXKWLZLZTB-UHFFFAOYSA-N": {
+    "inchikey": "FBYYUXKWLZLZTB-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C(=O)OOC(=O)C",
+    "not_found": true
+  },
+  "MMMNGFHYLZIVRO-UHFFFAOYSA-N": {
+    "inchikey": "MMMNGFHYLZIVRO-UHFFFAOYSA-N",
+    "smiles": "C[N+](=CC(F)(F)F)[O-]",
+    "not_found": true
+  },
+  "YDBRUXDOAMOVPN-UHFFFAOYSA-N": {
+    "inchikey": "YDBRUXDOAMOVPN-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)N=NC(F)(F)F",
+    "not_found": true
+  },
+  "NRRFJODUDVGTJM-UHFFFAOYSA-N": {
+    "inchikey": "NRRFJODUDVGTJM-UHFFFAOYSA-N",
+    "smiles": "CN=NCC",
+    "not_found": true
+  },
+  "YWUIUNGMQOICND-UHFFFAOYSA-N": {
+    "inchikey": "YWUIUNGMQOICND-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C=[N+]=[N-]",
+    "not_found": true
+  },
+  "ZLONJDFCVUTCMU-UHFFFAOYSA-N": {
+    "inchikey": "ZLONJDFCVUTCMU-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)C[N+]#N",
+    "not_found": true
+  },
+  "LWYMLCYZEMSNBK-UHFFFAOYSA-N": {
+    "inchikey": "LWYMLCYZEMSNBK-UHFFFAOYSA-N",
+    "smiles": "Cc1ccc(cc1)[N+]#N",
+    "not_found": true
+  },
+  "MJABAEJQHKYEKL-UHFFFAOYSA-N": {
+    "inchikey": "MJABAEJQHKYEKL-UHFFFAOYSA-N",
+    "smiles": "FC(F)(F)c1ccccc1[N+]#N",
+    "not_found": true
+  },
+  "HGOUHLGJFUPVGS-UHFFFAOYSA-N": {
+    "inchikey": "HGOUHLGJFUPVGS-UHFFFAOYSA-N",
+    "smiles": "Clc1ccccc1[N+]#N",
     "not_found": true
   }
 }
