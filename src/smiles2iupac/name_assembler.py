@@ -85,6 +85,55 @@ def _needs_bis_tris_multiplier(name: str) -> bool:
     return False
 
 
+def format_isotope_descriptor(graph, locant_map: dict[int, int]) -> str:
+    """
+    IUPAC 2013 P-82 同位体標識命名法の記述子を組み立てる (Phase 933)。
+
+    主鎖原子 (locant_map に含まれる原子) 上の同位体標識のみ対応。
+    環原子・置換基上の同位体標識は現状未対応（スコープ外、静かに無視される）。
+
+    例: locant_map の C1 に付いた [2H] が3個 → "(1,1,1-2H3)"
+        C1 に [13C]、C2 に [2H]x3 → "(1-13C,2,2,2-2H3)"
+
+    Returns:
+        括弧付き記述子文字列 (例 "(2,2,2-2H3)")。同位体標識なしなら "".
+    """
+    from collections import defaultdict
+
+    groups: dict[tuple[int, str], list[int]] = defaultdict(list)
+
+    for atom in graph.atoms:
+        if atom.isotope == 0:
+            continue
+        if atom.symbol == "H":
+            # 同位体標識水素: 親重原子のロカントを使う
+            parent = next(
+                (nb for nb in graph.adjacency.get(atom.idx, [])
+                 if graph.atoms[nb].symbol != "H"),
+                None,
+            )
+            if parent is None or parent not in locant_map:
+                continue
+            groups[(atom.isotope, "H")].append(locant_map[parent])
+        else:
+            if atom.idx not in locant_map:
+                continue
+            groups[(atom.isotope, atom.symbol)].append(locant_map[atom.idx])
+
+    if not groups:
+        return ""
+
+    parts: list[str] = []
+    for (mass, symbol) in sorted(groups.keys()):
+        locs = sorted(groups[(mass, symbol)])
+        count = len(locs)
+        loc_str = ",".join(str(l) for l in locs)
+        count_str = str(count) if count > 1 else ""
+        parts.append(f"{loc_str}-{mass}{symbol}{count_str}")
+
+    return f"({','.join(parts)})"
+
+
 def assemble_name(
     chain_length: int,
     principal_group_type: str,
@@ -93,6 +142,7 @@ def assemble_name(
     stereo_descriptors: list[str],
     suffix_locant: int | None = None,
     suffix_locants: list[int] | None = None,
+    isotope_descriptor: str = "",
 ) -> str:
     """
     IUPAC 名を組み立てる。
@@ -174,10 +224,14 @@ def assemble_name(
     # IUPAC: 接頭辞と親鎖名は直接結合（ハイフンなし）
     # 例: "2-methyl" + "propane" → "2-methylpropane"
     #     "4-chloro-2-methyl" + "hexane" → "4-chloro-2-methylhexane"
+    # Phase 933: 同位体記述子は置換基接頭辞の後・親鎖名の直前に置く
+    # (例 "2-chloro(2,2-2H2)acetic acid"; OPSIN で確認済み --
+    # "(2,2-2H2)2-chloro..." の順は OPSIN がロカント解決に失敗する)
+    name_body_with_isotope = f"{isotope_descriptor}{name_body}" if isotope_descriptor else name_body
     if prefix_part:
-        result = f"{prefix_part}{name_body}"
+        result = f"{prefix_part}{name_body_with_isotope}"
     else:
-        result = name_body
+        result = name_body_with_isotope
 
     if stereo_part:
         result = f"{stereo_part}-{result}"

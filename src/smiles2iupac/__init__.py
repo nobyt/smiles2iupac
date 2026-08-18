@@ -1132,6 +1132,9 @@ def _name_acyclic(graph, detect_groups, principal_group,
 
     # 名前組み立て
     pgrp_type = pgrp.group_type if pgrp is not None else "alkane"
+    # Phase 933: 同位体標識 (主鎖原子のみ対応、P-82)
+    from .name_assembler import format_isotope_descriptor
+    isotope_descriptor = format_isotope_descriptor(graph, chain.locant_map)
     return assemble_name(
         chain_length=chain.length,
         principal_group_type=pgrp_type,
@@ -1140,4 +1143,5 @@ def _name_acyclic(graph, detect_groups, principal_group,
         stereo_descriptors=stereo,
         suffix_locant=suffix_locant,
         suffix_locants=suffix_locants,
+        isotope_descriptor=isotope_descriptor,
     )

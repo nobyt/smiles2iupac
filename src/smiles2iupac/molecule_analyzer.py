@@ -20,6 +20,7 @@ class AtomInfo:
     num_hs: int           # implicit + explicit H (AddHs後は explicit のみ)
     chiral_tag: str | None  # 'R', 'S', or None
     formal_charge: int = 0  # 形式電荷 (Phase 146)
+    isotope: int = 0        # 質量数 (0 = 天然存在比, 2 = [2H], 13 = [13C] 等; Phase 933)
 
 
 @dataclass
@@ -96,6 +97,7 @@ def build_molecule_graph(smiles: str) -> MoleculeGraph:
                 num_hs=atom.GetTotalNumHs(),
                 chiral_tag=chiral,
                 formal_charge=atom.GetFormalCharge(),
+                isotope=atom.GetIsotope(),
             )
         )
 
