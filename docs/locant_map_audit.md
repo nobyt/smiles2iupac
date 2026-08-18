@@ -13,24 +13,44 @@ triage list, not a to-do list — verify each with a real substituted SMILES
 before changing the map (see Phase 849/851 for the pattern: add a test,
 then flip `None` to the correct locant).
 
-**Phase 930 update (2026-08-18):** systematic adversarial probing (attach a
+**Phase 930/931 update (2026-08-18):** systematic adversarial probing (attach a
 methyl at every heteroatom that still carries an implicit H — the only
 positions a substituent could plausibly reach — then check whether it
 survives into the name) found 106/108 such probeable positions were
-confirmed bugs. 63 were fixed in Phase 930 (the locant is simply the
-ring system's own indicated-H locant, already encoded in its retained
-name). The remaining ~43 need deeper fixes (symmetric/tautomeric ring
-systems where multiple automorphic substructure matches compete for the
-same molecule, plus one confirmed wrong entry in `_FUSED_HETERO_RETAINED`
-itself) — see `docs/nomenclature_gap_audit.md` and
-`tests/test_phase930.py`'s module docstring. The remaining ~1,500
-heteroatom `None`s have 0 implicit H (aromatic pyridine-type N, ether
-O/S, carbonyl O) and are not substitutable via simple substitution in the
-first place, so are very likely legitimate.
+confirmed bugs. 72 fixed so far: 63 in Phase 930 (locant = the ring
+system's own indicated-H locant, already encoded in its retained name)
+and 9 in Phase 931 (hydro-prefix systems, locant derived from sibling
+C-substituted tests already in the suite). 34 remain, root-caused but not
+yet fixed — **not a simple locant-value problem like the first 72, but a
+tautomer-disambiguation bug**: `_try_fused_hetero_retained()`
+(`heterocycle_handler.py` ~4793-4855) extracts just the ring atoms as a
+fragment SMILES; when the actual N-H position is now substituted, that
+fragment fails to parse standalone, and the fallback (~4818-4829) tries
+turning each remaining bare `n` into `[nH]` in TEXT order, taking the
+FIRST one that happens to match *some* `_FUSED_HETERO_RETAINED` entry —
+not necessarily the entry corresponding to where the real substituent is.
+This is why patching the locant on the "obviously correct" entry didn't
+help those 34 rows: the substituted molecule resolves to a *different*
+sibling entry entirely (e.g. `[1,2,3]triazolo[4,5-d]...` swaps to the
+`[5,4-d]` entry, `7H-imidazo[4,5-d][1,2,3]triazine` swaps to `5H-...`).
+Fixing this needs the fallback to pick the candidate whose *matched ring
+position* structurally corresponds to the substituent's actual location,
+not first-textual-match — a materially different, riskier change than
+Phase 930/931's mechanical locant-parsing, deliberately deferred. Also
+surfaced one confirmed data bug in this same 34: `_FUSED_HETERO_RETAINED`
+gives purine's indicated-H as `"9H-purine"`, but every other purine
+sibling entry in the table (and the substituent-preserving probe) says it
+should be `7H-purine` — a `_FUSED_HETERO_RETAINED` value fix, not a
+locant-map fix. Full per-row detail: `tests/test_phase930.py`'s docstring
+and `/tmp/.../still_broken.tsv` (scratchpad, not committed — regenerate
+via `derive_fix.py`'s `still_broken` bucket if picking this up fresh).
+The remaining ~1,500 heteroatom `None`s have 0 implicit H (aromatic
+pyridine-type N, ether O/S, carbonyl O) and are not substitutable via
+simple substitution in the first place, so are very likely legitimate.
 
 ```
-_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3166 total None locants
-Heteroatom (N/O/S/Se/Te) None locants: 1548
+_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3157 total None locants
+Heteroatom (N/O/S/Se/Te) None locants: 1539
 
   c1cnon1                                        atom  2  N  -> None
   c1cnon1                                        atom  3  O  -> None
@@ -425,7 +445,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1548
   O=C1C=CC(=O)O1                                 atom  5  O  -> None
   O=C1C=CC(=O)O1                                 atom  6  O  -> None
   C1=Nc2cccc3cccc(c23)N1                         atom  1  N  -> None
-  C1=Nc2cccc3cccc(c23)N1                         atom 12  N  -> None
   C1=NCc2ccncc21                                 atom  1  N  -> None
   C1=NCc2ccncc21                                 atom  6  N  -> None
   C1=NC=C2CN=NC=C12                              atom  1  N  -> None
@@ -514,14 +533,9 @@ Heteroatom (N/O/S/Se/Te) None locants: 1548
   c1ccc2c(c1)NCS2                                atom  8  S  -> None
   c1ccc2c(c1)CNO2                                atom  8  O  -> None
   c1ccc2c(c1)CNS2                                atom  8  S  -> None
-  c1ccc2c(c1)CCNC2                               atom  8  N  -> None
-  c1ccc2c(c1)NCCN2                               atom  6  N  -> None
-  c1ccc2c(c1)NCCN2                               atom  9  N  -> None
   c1ccc2c(c1)OCCO2                               atom  6  O  -> None
   c1ccc2c(c1)OCCO2                               atom  9  O  -> None
-  c1ccc2c(c1)NCCO2                               atom  6  N  -> None
   c1ccc2c(c1)NCCO2                               atom  9  O  -> None
-  c1ccc2c(c1)NCCS2                               atom  6  N  -> None
   c1ccc2c(c1)NCCS2                               atom  9  S  -> None
   C1=NCCc2ccccc21                                atom  1  N  -> None
   C1=Nc2ccccc2CC1                                atom  1  N  -> None
@@ -572,10 +586,7 @@ Heteroatom (N/O/S/Se/Te) None locants: 1548
   C1=NCCc2ccncc21                                atom  1  N  -> None
   C1=NCCc2ccncc21                                atom  7  N  -> None
   C1=Cc2cnccc2CN1                                atom  4  N  -> None
-  C1=Cc2ccccc2NC1                                atom  8  N  -> None
   O=C1CNc2ccccc2N1                               atom  0  O  -> None
-  O=C1CNc2ccccc2N1                               atom  3  N  -> None
-  O=C1CNc2ccccc2N1                               atom 10  N  -> None
   c1ccc2c(c1)CCCCO2                              atom 10  O  -> None
   c1ccc2c(c1)CCCOC2                              atom  9  O  -> None
   c1ccc2c(c1)CCOCC2                              atom  8  O  -> None
