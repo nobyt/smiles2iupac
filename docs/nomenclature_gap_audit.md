@@ -65,6 +65,28 @@ explicit stereo bonds, yet produce differently-numbered names with neither
 descriptor — suggesting the numbering routine isn't even stably ignoring
 the stereo bonds, it's arbitrarily picking different equivalent atoms.
 
+**Investigated 2026-08-19: this is a hard blocker, not just missing code.**
+This project delegates all stereo perception to RDKit (per `README.md`).
+The installed RDKit (2026.03.2) does not preserve or perceive allene axial
+chirality through any of its documented SMILES-parsing paths: `[C@]`/
+`[C@@]` on an allene's central sp carbon (e.g.
+`"ClC(Br)=[C@]=C(F)I"`) parses without error but the atom's
+`GetChiralTag()` comes back `CHI_UNSPECIFIED` — confirmed with both legacy
+and non-legacy stereo perception (`Chem.SetUseLegacyStereoPerception(False)`
++ `Chem.FindPotentialStereo`, which only reports the two cumulated bonds as
+generic `Bond_Double` elements, never a dedicated axial/allene stereo
+type). Both `@`/`@@` variants of the same input canonicalize to the
+identical SMILES string — RDKit is silently discarding the distinction at
+parse time, not merely failing to label it. Implementing axial chirality
+naming on top of this would require either (a) a custom CIP/stereo-
+perception implementation bypassing RDKit for this one case, or (b) an
+RDKit version bump to one with proper allene/atropisomer support — both
+materially bigger scope decisions than "add a naming feature," and (b) in
+particular isn't something to decide unilaterally given this project's
+large, mature test suite's dependency on RDKit's current behavior.
+**Recommendation: do not attempt until either is explicitly decided**, not
+merely deprioritized.
+
 ### 3. Complex (non-simple) polycyclic von Baeyer systems — confirmed wrong, not just unsupported
 ```python
 smiles_to_iupac("C1CC2CCC1CC2")        # -> "bicyclo[2.2.2]octane"  (correct)
