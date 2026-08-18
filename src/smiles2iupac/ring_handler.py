@@ -1072,6 +1072,32 @@ def find_principal_ring(
 
     # 複数環: 最大環を選択
     best = max(rings, key=lambda r: len(r))
+    # Phase 932: best と原子を共有する(縮合/架橋している)他の環がある場合、
+    # 無言で環を丸ごと切り捨てて誤った(不完全な)名前を返すのを防ぐ --
+    # 縮合/架橋多環(spiro/bicyclo/naphthalene/anthracene/phenanthrene/PAH/
+    # biphenyl のいずれにも該当しない一般の3環以上の縮合・架橋系)は現状未対応
+    # であることを明示的にエラーで示す。
+    # best と原子を共有しない環(鎖でつながった別々のリング系、例: フェニル基が
+    # 単結合で連結された diphenylmethane 等)は collect_ring_substituents が
+    # 正しく置換基として処理できるため対象外(既存の正しい動作を壊さない)。
+    best_set = set(best)
+    fused_extra_atoms: set[int] = set()
+    for r in rings:
+        if r is best:
+            continue
+        r_set = set(r)
+        if r_set & best_set:
+            fused_extra_atoms.update(r_set - best_set)
+    if fused_extra_atoms:
+        raise ValueError(
+            "Polycyclic ring system not supported: "
+            f"{len(rings)} rings, but the ring fused/bridged to the chosen "
+            f"principal ring has atoms {sorted(fused_extra_atoms)} that "
+            "could not be represented -- general fused/bridged 3+-ring von "
+            "Baeyer nomenclature beyond spiro/bicyclo/naphthalene/"
+            "anthracene/phenanthrene/PAH/biphenyl is not yet implemented "
+            "(see docs/nomenclature_gap_audit.md)."
+        )
     is_arom = ring_is_aromatic(best)
     return _assign_ring_locants(graph, best, is_arom, principal_grp_type, pgrp_atoms)
 

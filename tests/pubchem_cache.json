@@ -54852,12 +54852,16 @@
   "DFOIZPBBIFCPAS-UHFFFAOYSA-N": {
     "inchikey": "DFOIZPBBIFCPAS-UHFFFAOYSA-N",
     "smiles": "FC(F)(F)[Se](=O)(=O)O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "trifluoromethaneselenonic acid",
+    "validated": true
   },
   "WBDWQNPQEIALCJ-UHFFFAOYSA-N": {
     "inchikey": "WBDWQNPQEIALCJ-UHFFFAOYSA-N",
     "smiles": "FC(F)(F)[Se](=O)O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "trifluoromethaneseleninic acid",
+    "validated": true
   },
   "QOQFYCMKXSLMBB-UHFFFAOYSA-N": {
     "inchikey": "QOQFYCMKXSLMBB-UHFFFAOYSA-N",
