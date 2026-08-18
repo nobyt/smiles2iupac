@@ -44,9 +44,25 @@ should be `7H-purine` — a `_FUSED_HETERO_RETAINED` value fix, not a
 locant-map fix. Full per-row detail: `tests/test_phase930.py`'s docstring
 and `/tmp/.../still_broken.tsv` (scratchpad, not committed — regenerate
 via `derive_fix.py`'s `still_broken` bucket if picking this up fresh).
-The remaining ~1,500 heteroatom `None`s have 0 implicit H (aromatic
-pyridine-type N, ether O/S, carbonyl O) and are not substitutable via
-simple substitution in the first place, so are very likely legitimate.
+**Track A audit closure (2026-08-18):** the remaining ~1,539 heteroatom
+`None`s all have 0 implicit H (aromatic pyridine-type N, ether O/S,
+carbonyl O). This isn't just "probably legitimate" — it's structurally
+airtight without needing per-row empirical probing: an atom with 0 implicit
+H is already at full valence (pyridine-type N's lone pair completes its
+aromatic system with only 2 ring bonds; ether O/S has its 2 bonds; carbonyl
+O's double bond is its max regular valence), so there is no open bonding
+slot for a substituent via simple substitution — `attach_methyl()`-style
+probing (Phase 930/931's technique) doesn't even apply here, it requires an
+implicit H to consume and these atoms have none. The apparent exceptions
+(pyridine N-oxide, sulfoxide/sulfone) are structurally DIFFERENT functional
+groups (an extra O double-bonded on, not an H replaced) detected and named
+through entirely separate code paths in `functional_group.py`/
+`group_namers.py`, not through this `_FUSED_LOCANT_MAP` substituent-prefix
+mechanism at all — so a `None` here doesn't block them. **This closes the
+Track A locant-map audit**: 72/106 probeable positions fixed (Phase
+930/931), 34 root-caused but deferred (tautomer-disambiguation risk, see
+above), ~1,539 confirmed structurally non-applicable. No further probing
+of the 0-H bucket is queued.
 
 ```
 _FUSED_LOCANT_MAP: 665 ring SMILES entries, 3157 total None locants
