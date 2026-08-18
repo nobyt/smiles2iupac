@@ -81,15 +81,37 @@ versus 1/2's silent-drop-but-otherwise-sane names) and the best B3
 starting point given it's a correctness bug in existing code, not
 new-nomenclature-from-scratch work like isotopes/axial chirality.
 
+**Status: partially addressed in Phase 932.** Root cause was
+`find_principal_ring()`'s multi-ring fallback (`ring_handler.py`, "複数環:
+最大環を選択") — for any molecule not matching one of the specific shapes
+handled earlier (spiro/bicyclo/cage-retained/naphthalene/anthracene/
+phenanthrene/PAH/biphenyl), it picks whichever SSSR ring is largest and
+names *only* that ring; any other ring sharing atoms with it (i.e. actually
+fused/bridged, not just chain-connected) has its atoms silently discarded.
+Phase 932 added a guard: when another ring shares atoms with the chosen
+principal ring, raise `ValueError` instead of emitting the wrong name.
+**This does NOT implement general fused/bridged 3+-ring von Baeyer
+nomenclature** (IUPAC P-23.2.3-5 main-ring/main-bridge selection is still
+unimplemented) — it only converts the silent-wrong-answer failure mode
+into a loud, honest one. Actually naming these systems correctly (e.g.
+`tricyclo[5.2.1.0²,⁶]decane`-style names) remains open B3 work. The guard
+was initially too broad (fired for ANY other ring anywhere in the
+molecule, including chain-connected separate rings like diphenylmethane's
+two phenyls, which `collect_ring_substituents` already handles correctly)
+— narrowed to only fire when a ring actually shares atoms with the chosen
+one; caught by the full test suite (8 failures on the first attempt, 0 on
+the corrected version) — see `tests/test_phase932.py`.
+
 ## Recommended B3 priority
 
-1. **Tricyclic+ von Baeyer fallback bug** (finding 3) — highest severity
-   (wrong name, not just missing detail), and likely the smallest, most
-   contained fix (probably a fallback/fallthrough guard in
-   `polycyclic_handler.py` or wherever ring-cluster detection dispatches,
-   similar in shape to the Track A `_FUSED_LOCANT_MAP` `None`-locant bug:
-   find where it silently accepts a partial ring match instead of erroring
-   or extending von Baeyer bridge notation).
+1. **General fused/bridged 3+-ring von Baeyer naming** (finding 3,
+   continued) — Phase 932 stopped the silent wrong-answer bleeding but did
+   not implement the actual nomenclature; affected molecules now raise
+   `ValueError` rather than get a name at all. Implementing IUPAC
+   P-23.2.3-5's main-ring/main-bridge selection algorithm for arbitrary
+   N-ring fused/bridged systems is a substantial, standalone feature —
+   scope it as its own session with dedicated OPSIN/PubChem verification
+   against a range of topologies before starting, not a quick add-on.
 2. **Isotopic labeling** (finding 1) — self-contained new feature, doesn't
    interact with existing naming logic beyond adding an isotope prefix
    token; good candidary for `name_assembler.py`'s prefix-assembly path.
