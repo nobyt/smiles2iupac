@@ -3819,7 +3819,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "O=C1CC(=O)c2ccccc21": {0: None, 1: None, 2: 2, 3: None, 4: None, 5: None, 6: 4, 7: 5, 8: 5, 9: 4, 10: None},  # indane-1,3-dione
     "O=C1OC(=O)c2ccccc21": {0: None, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: 5, 8: 5, 9: 4, 10: None},  # isobenzofuran-1,3-dione
     "O=C1C=CC(=O)O1": {0: None, 1: None, 2: 3, 3: 3, 4: None, 5: None, 6: None},  # furan-2,5-dione
-    "C1=Nc2cccc3cccc(c23)N1": {0: 2, 1: None, 2: None, 3: 4, 4: 5, 5: 6, 6: None, 7: 6, 8: 5, 9: 4, 10: None, 11: None, 12: None},  # perimidine
+    "C1=Nc2cccc3cccc(c23)N1": {0: 2, 1: None, 2: None, 3: 4, 4: 5, 5: 6, 6: None, 7: 6, 8: 5, 9: 4, 10: None, 11: None, 12: 3},  # perimidine
     # Phase 620: non-aromatic N=C fused heterocycles
     "C1=NCc2ccncc21": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: 6, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-c]pyridine
     "C1=NC=C2CN=NC=C12": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: 4, 8: None},  # 1H-pyrrolo[3,4-d]pyridazine
@@ -3957,15 +3957,15 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # 1,2,3,4-tetrahydroquinoline: N(1)-C(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
     "c1ccc2c(c1)CCCN2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # Phase 627: 1,2,3,4-tetrahydroisoquinoline: C(1)-N(2)-C(3)-C(4)-C(4a,junc)-C(5)-C(6)-C(7)-C(8)-C(8a,junc)
-    "c1ccc2c(c1)CCNC2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: None, 9: 1},
+    "c1ccc2c(c1)CCNC2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: 1},
     # Phase 627: 1,2,3,4-tetrahydroquinoxaline (C2-symmetric: C5↔C8→5, C6↔C7→6, C2↔C3→2)
-    "c1ccc2c(c1)NCCN2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: None, 7: 2, 8: 2, 9: None},
+    "c1ccc2c(c1)NCCN2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},
     # Phase 628: 2,3-dihydro-1,4-benzodioxine (C2-symmetric: C5↔C8→5, C6↔C7→6, C2↔C3→2)
     "c1ccc2c(c1)OCCO2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: None, 7: 2, 8: 2, 9: None},
     # Phase 628: 3,4-dihydro-2H-1,4-benzoxazine (O at 1, N at 4; C2-C3 aliphatic; C5-C8 benzo)
-    "c1ccc2c(c1)NCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: None, 7: 3, 8: 2, 9: None},
+    "c1ccc2c(c1)NCCO2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: None},
     # Phase 628: 3,4-dihydro-2H-1,4-benzothiazine (S at 1, N at 4; C2-C3 aliphatic; C5-C8 benzo)
-    "c1ccc2c(c1)NCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: None, 7: 3, 8: 2, 9: None},
+    "c1ccc2c(c1)NCCS2": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: 5, 6: 4, 7: 3, 8: 2, 9: None},
     # Phase 628: 3,4-dihydroisoquinoline (C1=N2; C3-C4 aliphatic; C5-C8 benzo)
     "C1=NCCc2ccccc21": {0: 1, 1: None, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None},
     # Phase 649: 1,2-dihydroisoquinoline (N1 sp3 NH; C2 sp3 CH2; C3=C4 sp2; C5-C8 benzo)
@@ -4045,9 +4045,9 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # Phase 650: 1,2-dihydro-2,6-naphthyridine (N6 arom; N2 sp3 NH; C1,C3=C4 sp2/sp3)
     "C1=Cc2cnccc2CN1": {0: 3, 1: 4, 2: None, 3: 5, 4: None, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 629: 1,2-dihydroquinoline (N1; C2 sp3; C3=C4 sp2; C4a-C8a benzo junctions)
-    "C1=Cc2ccccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: None, 9: 2},
+    "C1=Cc2ccccc2NC1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: 8, 7: None, 8: 1, 9: 2},
     # Phase 629: 3,4-dihydroquinoxalin-2(1H)-one (C2=O; C3 sp3; N4; C5-C8 benzo)
-    "O=C1CNc2ccccc2N1": {0: None, 1: None, 2: 3, 3: None, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: None},
+    "O=C1CNc2ccccc2N1": {0: None, 1: None, 2: 3, 3: 4, 4: None, 5: 5, 6: 6, 7: 7, 8: 8, 9: None, 10: 1},
     # Phase 630: benzo-fused 7-membered saturated/partially unsaturated rings
     # 6,7,8,9-tetrahydro-5H-benzo[7]annulene (C2-symmetric: 1≡4→1, 2≡3→2, 5≡9→5, 6≡8→6)
     "c1ccc2c(c1)CCCCC2": {0: 2, 1: 2, 2: 1, 3: None, 4: None, 5: 1, 6: 5, 7: 6, 8: 7, 9: 6, 10: 5},
