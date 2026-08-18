@@ -112,12 +112,18 @@ the corrected version) — see `tests/test_phase932.py`.
    N-ring fused/bridged systems is a substantial, standalone feature —
    scope it as its own session with dedicated OPSIN/PubChem verification
    against a range of topologies before starting, not a quick add-on.
-2. **Isotopic labeling** (finding 1) — self-contained new feature, doesn't
-   interact with existing naming logic beyond adding an isotope prefix
-   token; good candidary for `name_assembler.py`'s prefix-assembly path.
-   Lower urgency than (1) since B1 found zero real-world isotope-labeled
-   compounds in the mined corpus (isotope-labeled entries are rare in
-   general small-molecule corpora).
+2. **Isotopic labeling** (finding 1) — **implemented in Phase 933** for the
+   dominant real-world case: isotope labels on principal-chain atoms via
+   the acyclic naming path (`_name_acyclic`/`find_principal_chain`).
+   `AtomInfo.isotope` (new field) + `format_isotope_descriptor()`
+   (`name_assembler.py`) build the P-82 parenthetical descriptor, verified
+   against OPSIN including a non-obvious prefix-ordering rule (isotope
+   descriptor goes AFTER ordinary substituent prefixes, BEFORE the parent
+   name — "2-chloro(2,2-2H2)acetic acid", not the other order). **Still
+   open**: isotope labels on ring atoms, substituent branches, and the
+   amide/amine/amidine/imine early-return special paths in `_name_acyclic`
+   are out of scope — they continue to silently drop the label (no
+   regression, just not yet extended to those paths).
 3. **Axial/planar chirality** (finding 2) — highest implementation cost
    (needs new stereo-perception logic beyond what `stereochemistry.py`
    currently does, likely including RDKit's newer stereo API for
