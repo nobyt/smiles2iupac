@@ -17,34 +17,51 @@ then flip `None` to the correct locant).
 methyl at every heteroatom that still carries an implicit H — the only
 positions a substituent could plausibly reach — then check whether it
 survives into the name) found 106/108 such probeable positions were
-confirmed bugs. 72 fixed so far: 63 in Phase 930 (locant = the ring
-system's own indicated-H locant, already encoded in its retained name)
-and 9 in Phase 931 (hydro-prefix systems, locant derived from sibling
-C-substituted tests already in the suite). 34 remain, root-caused but not
-yet fixed — **not a simple locant-value problem like the first 72, but a
-tautomer-disambiguation bug**: `_try_fused_hetero_retained()`
-(`heterocycle_handler.py` ~4793-4855) extracts just the ring atoms as a
-fragment SMILES; when the actual N-H position is now substituted, that
-fragment fails to parse standalone, and the fallback (~4818-4829) tries
-turning each remaining bare `n` into `[nH]` in TEXT order, taking the
-FIRST one that happens to match *some* `_FUSED_HETERO_RETAINED` entry —
-not necessarily the entry corresponding to where the real substituent is.
-This is why patching the locant on the "obviously correct" entry didn't
-help those 34 rows: the substituted molecule resolves to a *different*
-sibling entry entirely (e.g. `[1,2,3]triazolo[4,5-d]...` swaps to the
-`[5,4-d]` entry, `7H-imidazo[4,5-d][1,2,3]triazine` swaps to `5H-...`).
-Fixing this needs the fallback to pick the candidate whose *matched ring
-position* structurally corresponds to the substituent's actual location,
-not first-textual-match — a materially different, riskier change than
-Phase 930/931's mechanical locant-parsing, deliberately deferred. Also
-surfaced one confirmed data bug in this same 34: `_FUSED_HETERO_RETAINED`
-gives purine's indicated-H as `"9H-purine"`, but every other purine
-sibling entry in the table (and the substituent-preserving probe) says it
-should be `7H-purine` — a `_FUSED_HETERO_RETAINED` value fix, not a
-locant-map fix. Full per-row detail: `tests/test_phase930.py`'s docstring
-and `/tmp/.../still_broken.tsv` (scratchpad, not committed — regenerate
-via `derive_fix.py`'s `still_broken` bucket if picking this up fresh).
-**Track A audit closure (2026-08-18):** the remaining ~1,539 heteroatom
+confirmed bugs. 72 fixed: 63 in Phase 930 (locant = the ring system's own
+indicated-H locant, already encoded in its retained name) and 9 in Phase
+931 (hydro-prefix systems, locant derived from sibling C-substituted
+tests already in the suite).
+
+**Phase 934 update (2026-08-20): the remaining 34 are now also fixed.**
+Root cause was more subtle than a locant-value patch — two independent
+bugs stacked on each other. **(1) Tautomer disambiguation**:
+`_try_fused_hetero_retained()`'s fallback for these cases used to extract
+the ring-only fragment SMILES and, when it failed to parse standalone
+(because the real N-H position is now substituted), try converting each
+remaining bare `n` to `[nH]` in TEXT order, taking the FIRST candidate
+matching *any* `_FUSED_HETERO_RETAINED` entry — not necessarily the one
+corresponding to where the substituent actually is. When two genuinely
+different tautomeric SMILES (confirmed via matching InChI) both resolve
+to the same retained name, this could silently pick the wrong one, whose
+own `_FUSED_LOCANT_MAP` entry doesn't cover the real substitution site.
+Fixed by replacing the text-order guessing with direct, unambiguous
+reconstruction: identify the exact ring N atom that lost its H to the
+substituent, explicitly set an H back on *that* atom, remove the
+substituent, and canonicalize — no candidate-guessing needed. **(2)
+Indicated-H over-retention**: with (1) fixed, the *locant* itself was
+still wrong for about half these rows — because a retained name's
+leading digit (e.g. `"1H-tetrazole"`) reflects the IUPAC convention of
+giving the *unsubstituted parent* its lowest possible locant, not
+necessarily which physical atom bears the H in one particular SMILES
+text (verified via InChI: multiple SMILES with H at different ring
+positions can be genuine tautomers of the identical named parent). The
+correct locant was derived empirically per row (try each candidate N in
+`"N-methyl{ring name}"` against OPSIN, keep whichever reproduces the
+target structure), and once that locant legitimately differs from the
+retained name's own leading digit, the inherited `"1H-"`/`"3H-"` prefix
+becomes actively wrong (OPSIN then tries to satisfy an H at position 1
+*and* a substituent at position 2/3 simultaneously). Fixed by having
+`_try_fused_hetero_retained()` unconditionally drop the leading
+indicated-H prefix whenever the direct-reconstruction path (fix 1)
+identified the substituted atom, regardless of whether its locant
+numerically matches the prefix's digit. All 34 final names verified via
+OPSIN round-trip. Full detail in `tests/test_phase934.py`'s module
+docstring. (The earlier suspected `_FUSED_HETERO_RETAINED["...purine"]`
+data bug, "9H" vs "7H", turned out to be a false alarm caused by the same
+tautomer-disambiguation confusion — `"9H-purine"` is correct for that
+specific dict entry once matched via the fixed reconstruction.)
+
+**Track A audit closure (2026-08-20):** the remaining ~1,505 heteroatom
 `None`s all have 0 implicit H (aromatic pyridine-type N, ether O/S,
 carbonyl O). This isn't just "probably legitimate" — it's structurally
 airtight without needing per-row empirical probing: an atom with 0 implicit
@@ -52,21 +69,21 @@ H is already at full valence (pyridine-type N's lone pair completes its
 aromatic system with only 2 ring bonds; ether O/S has its 2 bonds; carbonyl
 O's double bond is its max regular valence), so there is no open bonding
 slot for a substituent via simple substitution — `attach_methyl()`-style
-probing (Phase 930/931's technique) doesn't even apply here, it requires an
-implicit H to consume and these atoms have none. The apparent exceptions
-(pyridine N-oxide, sulfoxide/sulfone) are structurally DIFFERENT functional
-groups (an extra O double-bonded on, not an H replaced) detected and named
-through entirely separate code paths in `functional_group.py`/
-`group_namers.py`, not through this `_FUSED_LOCANT_MAP` substituent-prefix
-mechanism at all — so a `None` here doesn't block them. **This closes the
-Track A locant-map audit**: 72/106 probeable positions fixed (Phase
-930/931), 34 root-caused but deferred (tautomer-disambiguation risk, see
-above), ~1,539 confirmed structurally non-applicable. No further probing
-of the 0-H bucket is queued.
+probing doesn't even apply here, it requires an implicit H to consume and
+these atoms have none. The apparent exceptions (pyridine N-oxide,
+sulfoxide/sulfone) are structurally DIFFERENT functional groups (an extra
+O double-bonded on, not an H replaced) detected and named through
+entirely separate code paths in `functional_group.py`/`group_namers.py`,
+not through this `_FUSED_LOCANT_MAP` substituent-prefix mechanism at all
+— so a `None` here doesn't block them. **This closes the Track A
+locant-map audit at 100% of the probeable backlog**: 106/106 probeable
+positions fixed (72 in Phase 930/931, 34 in Phase 934), ~1,505 confirmed
+structurally non-applicable. No further work is queued against this
+table.
 
 ```
-_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3157 total None locants
-Heteroatom (N/O/S/Se/Te) None locants: 1539
+_FUSED_LOCANT_MAP: 665 ring SMILES entries, 3123 total None locants
+Heteroatom (N/O/S/Se/Te) None locants: 1505
 
   c1cnon1                                        atom  2  N  -> None
   c1cnon1                                        atom  3  O  -> None
@@ -148,13 +165,11 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nc[nH]n1                                     atom  4  N  -> None
   c1nn[nH]n1                                     atom  1  N  -> None
   c1nn[nH]n1                                     atom  2  N  -> None
-  c1nn[nH]n1                                     atom  3  N  -> None
   c1nn[nH]n1                                     atom  4  N  -> None
   c1nnn[nH]1                                     atom  1  N  -> None
   c1nnn[nH]1                                     atom  2  N  -> None
   c1nnn[nH]1                                     atom  3  N  -> None
   c1cn[nH]n1                                     atom  2  N  -> None
-  c1cn[nH]n1                                     atom  3  N  -> None
   c1cn[nH]n1                                     atom  4  N  -> None
   c1cnc2[nH]nnc2c1                               atom  2  N  -> None
   c1cnc2[nH]nnc2c1                               atom  5  N  -> None
@@ -162,7 +177,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1cnc2nn[nH]c2c1                               atom  2  N  -> None
   c1cnc2nn[nH]c2c1                               atom  4  N  -> None
   c1cnc2nn[nH]c2c1                               atom  5  N  -> None
-  c1cnc2nn[nH]c2c1                               atom  6  N  -> None
   c1cc2[nH]nnc2nn1                               atom  4  N  -> None
   c1cc2[nH]nnc2nn1                               atom  5  N  -> None
   c1cc2[nH]nnc2nn1                               atom  7  N  -> None
@@ -172,7 +186,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nnnc2nn[nH]c12                               atom  3  N  -> None
   c1nnnc2nn[nH]c12                               atom  5  N  -> None
   c1nnnc2nn[nH]c12                               atom  6  N  -> None
-  c1nnnc2nn[nH]c12                               atom  7  N  -> None
   c1ncc2[nH]nnc2n1                               atom  1  N  -> None
   c1ncc2[nH]nnc2n1                               atom  5  N  -> None
   c1ncc2[nH]nnc2n1                               atom  6  N  -> None
@@ -188,12 +201,10 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1cnc2[nH]nnc2n1                               atom  8  N  -> None
   c1cc2nn[nH]c2nn1                               atom  3  N  -> None
   c1cc2nn[nH]c2nn1                               atom  4  N  -> None
-  c1cc2nn[nH]c2nn1                               atom  5  N  -> None
   c1cc2nn[nH]c2nn1                               atom  7  N  -> None
   c1cc2nn[nH]c2nn1                               atom  8  N  -> None
   c1cc2nn[nH]c2cn1                               atom  3  N  -> None
   c1cc2nn[nH]c2cn1                               atom  4  N  -> None
-  c1cc2nn[nH]c2cn1                               atom  5  N  -> None
   c1cc2nn[nH]c2cn1                               atom  8  N  -> None
   c1nnnc2[nH]nnc12                               atom  1  N  -> None
   c1nnnc2[nH]nnc12                               atom  2  N  -> None
@@ -203,13 +214,11 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1ncc2nn[nH]c2n1                               atom  1  N  -> None
   c1ncc2nn[nH]c2n1                               atom  4  N  -> None
   c1ncc2nn[nH]c2n1                               atom  5  N  -> None
-  c1ncc2nn[nH]c2n1                               atom  6  N  -> None
   c1ncc2nn[nH]c2n1                               atom  8  N  -> None
   c1nnc2nn[nH]c2n1                               atom  1  N  -> None
   c1nnc2nn[nH]c2n1                               atom  2  N  -> None
   c1nnc2nn[nH]c2n1                               atom  4  N  -> None
   c1nnc2nn[nH]c2n1                               atom  5  N  -> None
-  c1nnc2nn[nH]c2n1                               atom  6  N  -> None
   c1nnc2nn[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]cnc2c1                               atom  2  N  -> None
   c1cnc2[nH]cnc2c1                               atom  6  N  -> None
@@ -219,7 +228,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1cc2[nH]cnc2nn1                               atom  7  N  -> None
   c1cc2[nH]cnc2nn1                               atom  8  N  -> None
   c1cc2nc[nH]c2cn1                               atom  3  N  -> None
-  c1cc2nc[nH]c2cn1                               atom  5  N  -> None
   c1cc2nc[nH]c2cn1                               atom  8  N  -> None
   c1cc2[nH]cnc2cn1                               atom  5  N  -> None
   c1cc2[nH]cnc2cn1                               atom  8  N  -> None
@@ -227,7 +235,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nc2nnncc2[nH]1                               atom  3  N  -> None
   c1nc2nnncc2[nH]1                               atom  4  N  -> None
   c1nc2nnncc2[nH]1                               atom  5  N  -> None
-  c1nc2nnncc2[nH]1                               atom  8  N  -> None
   c1nc2cnncc2[nH]1                               atom  1  N  -> None
   c1nc2cnncc2[nH]1                               atom  4  N  -> None
   c1nc2cnncc2[nH]1                               atom  5  N  -> None
@@ -236,24 +243,20 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nnc2[nH]cnc2n1                               atom  6  N  -> None
   c1nnc2[nH]cnc2n1                               atom  8  N  -> None
   c1cnc2[nH]cnc2n1                               atom  2  N  -> None
-  c1cnc2[nH]cnc2n1                               atom  4  N  -> None
   c1cnc2[nH]cnc2n1                               atom  6  N  -> None
   c1cnc2[nH]cnc2n1                               atom  8  N  -> None
   c1nc2cnnnc2[nH]1                               atom  1  N  -> None
   c1nc2cnnnc2[nH]1                               atom  4  N  -> None
   c1nc2cnnnc2[nH]1                               atom  5  N  -> None
   c1nc2cnnnc2[nH]1                               atom  6  N  -> None
-  c1nc2cnnnc2[nH]1                               atom  8  N  -> None
   c1nnc2nc[nH]c2n1                               atom  1  N  -> None
   c1nnc2nc[nH]c2n1                               atom  2  N  -> None
   c1nnc2nc[nH]c2n1                               atom  4  N  -> None
-  c1nnc2nc[nH]c2n1                               atom  6  N  -> None
   c1nnc2nc[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]ncc2c1                               atom  2  N  -> None
   c1cnc2[nH]ncc2c1                               atom  5  N  -> None
   c1cnc2n[nH]cc2c1                               atom  2  N  -> None
   c1cnc2n[nH]cc2c1                               atom  4  N  -> None
-  c1cnc2n[nH]cc2c1                               atom  5  N  -> None
   c1ccc2nc3[nH]ncc3cc2c1                         atom  4  N  -> None
   c1ccc2nc3[nH]ncc3cc2c1                         atom  7  N  -> None
   c1cc2c[nH]nc2nn1                               atom  5  N  -> None
@@ -265,11 +268,9 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nnnc2n[nH]cc12                               atom  2  N  -> None
   c1nnnc2n[nH]cc12                               atom  3  N  -> None
   c1nnnc2n[nH]cc12                               atom  5  N  -> None
-  c1nnnc2n[nH]cc12                               atom  6  N  -> None
   c1nncc2n[nH]cc12                               atom  1  N  -> None
   c1nncc2n[nH]cc12                               atom  2  N  -> None
   c1nncc2n[nH]cc12                               atom  5  N  -> None
-  c1nncc2n[nH]cc12                               atom  6  N  -> None
   c1ncc2c[nH]nc2n1                               atom  1  N  -> None
   c1ncc2c[nH]nc2n1                               atom  6  N  -> None
   c1ncc2c[nH]nc2n1                               atom  8  N  -> None
@@ -279,12 +280,10 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1n[nH]c2cnnc-2n1                              atom  8  N  -> None
   c1cnc2n[nH]cc2n1                               atom  2  N  -> None
   c1cnc2n[nH]cc2n1                               atom  4  N  -> None
-  c1cnc2n[nH]cc2n1                               atom  5  N  -> None
   c1cnc2n[nH]cc2n1                               atom  8  N  -> None
   c1cnc2c[nH]nc2c1                               atom  2  N  -> None
   c1cnc2c[nH]nc2c1                               atom  6  N  -> None
   c1cc2n[nH]cc2nn1                               atom  3  N  -> None
-  c1cc2n[nH]cc2nn1                               atom  4  N  -> None
   c1cc2n[nH]cc2nn1                               atom  7  N  -> None
   c1cc2n[nH]cc2nn1                               atom  8  N  -> None
   c1nn[nH]c2cnnc1-2                              atom  1  N  -> None
@@ -293,16 +292,13 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nn[nH]c2cnnc1-2                              atom  7  N  -> None
   c1ncc2n[nH]cc2n1                               atom  1  N  -> None
   c1ncc2n[nH]cc2n1                               atom  4  N  -> None
-  c1ncc2n[nH]cc2n1                               atom  5  N  -> None
   c1ncc2n[nH]cc2n1                               atom  8  N  -> None
   c1nnc2n[nH]cc2n1                               atom  1  N  -> None
   c1nnc2n[nH]cc2n1                               atom  2  N  -> None
   c1nnc2n[nH]cc2n1                               atom  4  N  -> None
-  c1nnc2n[nH]cc2n1                               atom  5  N  -> None
   c1nnc2n[nH]cc2n1                               atom  8  N  -> None
   c1cnc2cn[nH]c2c1                               atom  2  N  -> None
   c1cnc2cn[nH]c2c1                               atom  5  N  -> None
-  c1cnc2cn[nH]c2c1                               atom  6  N  -> None
   c1cc2[nH]ncc2nn1                               atom  4  N  -> None
   c1cc2[nH]ncc2nn1                               atom  7  N  -> None
   c1cc2[nH]ncc2nn1                               atom  8  N  -> None
@@ -322,11 +318,9 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1cnc2[nH]ncc2n1                               atom  5  N  -> None
   c1cnc2[nH]ncc2n1                               atom  8  N  -> None
   c1cc2cn[nH]c2nn1                               atom  4  N  -> None
-  c1cc2cn[nH]c2nn1                               atom  5  N  -> None
   c1cc2cn[nH]c2nn1                               atom  7  N  -> None
   c1cc2cn[nH]c2nn1                               atom  8  N  -> None
   c1cc2cn[nH]c2cn1                               atom  4  N  -> None
-  c1cc2cn[nH]c2cn1                               atom  5  N  -> None
   c1cc2cn[nH]c2cn1                               atom  8  N  -> None
   c1nnnc2[nH]ncc12                               atom  1  N  -> None
   c1nnnc2[nH]ncc12                               atom  2  N  -> None
@@ -334,7 +328,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nnnc2[nH]ncc12                               atom  6  N  -> None
   c1ncc2cn[nH]c2n1                               atom  1  N  -> None
   c1ncc2cn[nH]c2n1                               atom  5  N  -> None
-  c1ncc2cn[nH]c2n1                               atom  6  N  -> None
   c1ncc2cn[nH]c2n1                               atom  8  N  -> None
   c1cnc2[nH]ccc2c1                               atom  2  N  -> None
   c1ccc2nc3[nH]ccc3cc2c1                         atom  4  N  -> None
@@ -381,10 +374,8 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1c[nH]c2cncc-2n1                              atom  8  N  -> None
   c1cnc2n[nH]nc2c1                               atom  2  N  -> None
   c1cnc2n[nH]nc2c1                               atom  4  N  -> None
-  c1cnc2n[nH]nc2c1                               atom  5  N  -> None
   c1cnc2n[nH]nc2c1                               atom  6  N  -> None
   c1cc2n[nH]nc2nn1                               atom  3  N  -> None
-  c1cc2n[nH]nc2nn1                               atom  4  N  -> None
   c1cc2n[nH]nc2nn1                               atom  5  N  -> None
   c1cc2n[nH]nc2nn1                               atom  7  N  -> None
   c1cc2n[nH]nc2nn1                               atom  8  N  -> None
@@ -395,36 +386,29 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1nnnc2n[nH]nc12                               atom  2  N  -> None
   c1nnnc2n[nH]nc12                               atom  3  N  -> None
   c1nnnc2n[nH]nc12                               atom  5  N  -> None
-  c1nnnc2n[nH]nc12                               atom  6  N  -> None
   c1nnnc2n[nH]nc12                               atom  7  N  -> None
   c1ncc2n[nH]nc2n1                               atom  1  N  -> None
   c1ncc2n[nH]nc2n1                               atom  4  N  -> None
-  c1ncc2n[nH]nc2n1                               atom  5  N  -> None
   c1ncc2n[nH]nc2n1                               atom  6  N  -> None
   c1ncc2n[nH]nc2n1                               atom  8  N  -> None
   c1nnc2n[nH]nc2n1                               atom  1  N  -> None
   c1nnc2n[nH]nc2n1                               atom  2  N  -> None
   c1nnc2n[nH]nc2n1                               atom  4  N  -> None
-  c1nnc2n[nH]nc2n1                               atom  5  N  -> None
   c1nnc2n[nH]nc2n1                               atom  6  N  -> None
   c1nnc2n[nH]nc2n1                               atom  8  N  -> None
   c1cnc2n[nH]nc2n1                               atom  2  N  -> None
   c1cnc2n[nH]nc2n1                               atom  4  N  -> None
-  c1cnc2n[nH]nc2n1                               atom  5  N  -> None
   c1cnc2n[nH]nc2n1                               atom  6  N  -> None
   c1cnc2n[nH]nc2n1                               atom  8  N  -> None
   c1cnc2nc[nH]c2c1                               atom  2  N  -> None
   c1cnc2nc[nH]c2c1                               atom  4  N  -> None
-  c1cnc2nc[nH]c2c1                               atom  6  N  -> None
   c1ccc2nc3nc[nH]c3cc2c1                         atom  4  N  -> None
   c1ccc2nc3nc[nH]c3cc2c1                         atom  6  N  -> None
-  c1ccc2nc3nc[nH]c3cc2c1                         atom  8  N  -> None
   c1ncc2[nH]cnc2n1                               atom  1  N  -> None
   c1ncc2[nH]cnc2n1                               atom  6  N  -> None
   c1ncc2[nH]cnc2n1                               atom  8  N  -> None
   c1ncc2nc[nH]c2n1                               atom  1  N  -> None
   c1ncc2nc[nH]c2n1                               atom  4  N  -> None
-  c1ncc2nc[nH]c2n1                               atom  6  N  -> None
   c1ncc2nc[nH]c2n1                               atom  8  N  -> None
   C1CCOOC1                                       atom  3  O  -> None
   C1CCOOC1                                       atom  4  O  -> None
@@ -693,7 +677,6 @@ Heteroatom (N/O/S/Se/Te) None locants: 1539
   c1ccc2cc3[nH]ncc3cc2c1                         atom  7  N  -> None
   c1ccc2c(c1)ccc1[nH]cnc12                       atom 11  N  -> None
   c1ccc2c(c1)ccc1nc[nH]c12                       atom  9  N  -> None
-  c1ccc2c(c1)ccc1nc[nH]c12                       atom 11  N  -> None
   c1ccc2c(c1)ccc1cn[nH]c12                       atom 10  N  -> None
   c1ccc2c(c1)ccc1ocnc12                          atom  9  O  -> None
   c1ccc2c(c1)ccc1ocnc12                          atom 11  N  -> None

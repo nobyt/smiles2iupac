@@ -3703,59 +3703,59 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1cn[nH]c1": {0: 4, 1: 3, 2: None, 3: None, 4: 5},  # 1H-pyrazole
     "c1c[nH]nn1": {0: 4, 1: 5, 2: 1, 3: None, 4: None},  # 1H-1,2,3-triazole
     "c1nc[nH]n1": {0: 3, 1: None, 2: 5, 3: 1, 4: None},  # 1H-1,2,4-triazole
-    "c1nn[nH]n1": {0: 5, 1: None, 2: None, 3: None, 4: None},  # 1H-tetrazole (atom 0 = only C)
+    "c1nn[nH]n1": {0: 5, 1: None, 2: None, 3: 2, 4: None},  # 1H-tetrazole (atom 0 = only C)
     "c1nnn[nH]1": {0: 5, 1: None, 2: None, 3: None, 4: 1},  # 1H-tetrazole (alternate canonical)
-    "c1cn[nH]n1": {0: 4, 1: 4, 2: None, 3: None, 4: None},  # 2H-1,2,3-triazole (C4=C5 symmetric)
+    "c1cn[nH]n1": {0: 4, 1: 4, 2: None, 3: 2, 4: None},  # 2H-1,2,3-triazole (C4=C5 symmetric)
     # Phase 617: NH-containing bicyclic heteroaromatics
     "c1cnc2[nH]nnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
-    "c1cnc2nn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cnc2nn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: 7},  # 1H-[1,2,3]triazolo[4,5-b]pyridine
     "c1cc2[nH]nnc2nn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-c]pyridazine
-    "c1nnnc2nn[nH]c12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
+    "c1nnnc2nn[nH]c12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 1, 8: None},  # 1H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
     "c1ncc2[nH]nnc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-d]pyrimidine
     "c1nnc2[nH]nnc2n1": {0: 6, 1: None, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
     "c1cnc2[nH]nnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[4,5-e]pyrazine
-    "c1cc2nn[nH]c2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridazine
-    "c1cc2nn[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 4, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridine
+    "c1cc2nn[nH]c2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridazine
+    "c1cc2nn[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # 1H-[1,2,3]triazolo[5,4-c]pyridine
     "c1nnnc2[nH]nnc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: 1, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d][1,2,3]triazine
-    "c1ncc2nn[nH]c2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d]pyrimidine
-    "c1nnc2nn[nH]c2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-e][1,2,4]triazine
+    "c1ncc2nn[nH]c2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-d]pyrimidine
+    "c1nnc2nn[nH]c2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: None},  # 1H-[1,2,3]triazolo[5,4-e][1,2,4]triazine
     "c1cnc2[nH]cnc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 1, 5: 2, 6: None, 7: None, 8: 7},  # 1H-imidazo[4,5-b]pyridine
     "c1ccc2nc3[nH]cnc3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 1H-imidazo[4,5-b]quinoline
     "c1cc2[nH]cnc2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-c]pyridazine
-    "c1cc2nc[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
+    "c1cc2nc[nH]c2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
     "c1cc2[nH]cnc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 1H-imidazo[4,5-c]pyridine
-    "c1nc2nnncc2[nH]1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: None},  # 1H-imidazo[4,5-d][1,2,3]triazine
+    "c1nc2nnncc2[nH]1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 4, 7: None, 8: 5},  # 1H-imidazo[4,5-d][1,2,3]triazine
     "c1nc2cnncc2[nH]1": {0: 2, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: 4, 7: None, 8: 1},  # 1H-imidazo[4,5-d]pyridazine
     "c1nnc2[nH]cnc2n1": {0: 3, 1: None, 2: None, 3: None, 4: 7, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e][1,2,4]triazine
-    "c1cnc2[nH]cnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e]pyrazine
-    "c1nc2cnnnc2[nH]1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-d][1,2,3]triazine
-    "c1nnc2nc[nH]c2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: None, 7: None, 8: None},  # 1H-imidazo[5,4-e][1,2,4]triazine
+    "c1cnc2[nH]cnc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: 1, 5: 2, 6: None, 7: None, 8: None},  # 1H-imidazo[4,5-e]pyrazine
+    "c1nc2cnnnc2[nH]1": {0: 6, 1: None, 2: None, 3: 4, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 1H-imidazo[5,4-d][1,2,3]triazine
+    "c1nnc2nc[nH]c2n1": {0: 3, 1: None, 2: None, 3: None, 4: None, 5: 6, 6: 5, 7: None, 8: None},  # 1H-imidazo[5,4-e][1,2,4]triazine
     "c1cnc2[nH]ncc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
-    "c1cnc2n[nH]cc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
+    "c1cnc2n[nH]cc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: 4},  # 1H-pyrazolo[3,4-b]pyridine
     "c1ccc2nc3[nH]ncc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: 1, 7: None, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrazolo[3,4-b]quinoline
     "c1cc2c[nH]nc2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 1, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-c]pyridazine
     "c1cc2c[nH]nc2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: 1, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[3,4-c]pyridine
-    "c1nnnc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[3,4-d][1,2,3]triazine
-    "c1nncc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[3,4-d]pyridazine
+    "c1nnnc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 6, 7: 5, 8: None},  # 1H-pyrazolo[3,4-d][1,2,3]triazine
+    "c1nncc2n[nH]cc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: None, 6: 2, 7: 3, 8: None},  # 1H-pyrazolo[3,4-d]pyridazine
     "c1ncc2c[nH]nc2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: 1, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-d]pyrimidine
     "c1n[nH]c2cnnc-2n1": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[3,4-e][1,2,4]triazine
-    "c1cnc2n[nH]cc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[3,4-e]pyrazine
+    "c1cnc2n[nH]cc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[3,4-e]pyrazine
     "c1cnc2c[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: 1, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,3-b]pyridine
-    "c1cc2n[nH]cc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-c]pyridazine
+    "c1cc2n[nH]cc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-c]pyridazine
     "c1nn[nH]c2cnnc1-2": {0: 4, 1: None, 2: None, 3: 1, 4: None, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,3-d][1,2,3]triazine
-    "c1ncc2n[nH]cc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-d]pyrimidine
-    "c1nnc2n[nH]cc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-e][1,2,4]triazine
-    "c1cnc2cn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: 7},  # 1H-pyrazolo[4,5-b]pyridine
+    "c1ncc2n[nH]cc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-d]pyrimidine
+    "c1nnc2n[nH]cc2n1": {0: 5, 1: None, 2: None, 3: None, 4: None, 5: 2, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,3-e][1,2,4]triazine
+    "c1cnc2cn[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: 3, 5: None, 6: 1, 7: None, 8: 7},  # 1H-pyrazolo[4,5-b]pyridine
     "c1cc2[nH]ncc2nn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: None, 8: None},  # 1H-pyrazolo[4,5-c]pyridazine
     "c1cc2[nH]ncc2cn1": {0: 6, 1: 7, 2: None, 3: 1, 4: None, 5: 3, 6: None, 7: 4, 8: None},  # 1H-pyrazolo[4,5-c]pyridine
     "c1nncc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: 7, 4: None, 5: 1, 6: None, 7: 3, 8: None},  # 1H-pyrazolo[4,5-d]pyridazine
     "c1ncc2[nH]ncc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-d]pyrimidine
     "c1nnc2[nH]ncc2n1": {0: 5, 1: None, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e][1,2,4]triazine
     "c1cnc2[nH]ncc2n1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: None, 6: 3, 7: None, 8: None},  # 1H-pyrazolo[4,5-e]pyrazine
-    "c1cc2cn[nH]c2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-c]pyridazine
-    "c1cc2cn[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: None, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[5,4-c]pyridine
+    "c1cc2cn[nH]c2nn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: 1, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-c]pyridazine
+    "c1cc2cn[nH]c2cn1": {0: 5, 1: 4, 2: None, 3: 3, 4: None, 5: 1, 6: None, 7: 7, 8: None},  # 1H-pyrazolo[5,4-c]pyridine
     "c1nnnc2[nH]ncc12": {0: 4, 1: None, 2: None, 3: None, 4: None, 5: 1, 6: None, 7: 5, 8: None},  # 1H-pyrazolo[5,4-d][1,2,3]triazine
-    "c1ncc2cn[nH]c2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: None, 7: None, 8: None},  # 1H-pyrazolo[5,4-d]pyrimidine
+    "c1ncc2cn[nH]c2n1": {0: 6, 1: None, 2: 4, 3: None, 4: 3, 5: None, 6: 1, 7: None, 8: None},  # 1H-pyrazolo[5,4-d]pyrimidine
     "c1cnc2[nH]ccc2c1": {0: 5, 1: 6, 2: None, 3: None, 4: 1, 5: 2, 6: 3, 7: None, 8: 4},  # 1H-pyrrolo[2,3-b]pyridine
     "c1ccc2nc3[nH]ccc3cc2c1": {0: 6, 1: 7, 2: 8, 3: None, 4: None, 5: None, 6: 1, 7: 2, 8: 3, 9: None, 10: 4, 11: None, 12: 5},  # 1H-pyrrolo[2,3-b]quinoline
     "c1cc2cc[nH]c2nn1": {0: 3, 1: 4, 2: None, 3: 5, 4: 6, 5: 7, 6: None, 7: None, 8: None},  # 1H-pyrrolo[2,3-c]pyridazine
@@ -3778,17 +3778,17 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     "c1ncc2cncc-2[nH]1": {0: 2, 1: None, 2: 4, 3: None, 4: 5, 5: None, 6: 7, 7: None, 8: 1},  # 1H-pyrrolo[3,4-d]pyrimidine
     "c1n[nH]c2cncc-2n1": {0: 3, 1: None, 2: 1, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e][1,2,4]triazine
     "c1c[nH]c2cncc-2n1": {0: 3, 1: 2, 2: 1, 3: None, 4: 7, 5: None, 6: 5, 7: None, 8: None},  # 1H-pyrrolo[3,4-e]pyrazine
-    "c1cnc2n[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: 7},  # 2H-[1,2,3]triazolo[4,5-b]pyridine
-    "c1cc2n[nH]nc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridazine
+    "c1cnc2n[nH]nc2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 2H-[1,2,3]triazolo[4,5-b]pyridine
+    "c1cc2n[nH]nc2nn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridazine
     "c1cc2n[nH]nc2cn1": {0: 6, 1: 7, 2: None, 3: None, 4: 2, 5: None, 6: None, 7: 4, 8: None},  # 2H-[1,2,3]triazolo[4,5-c]pyridine
-    "c1nnnc2n[nH]nc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
-    "c1ncc2n[nH]nc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d]pyrimidine
-    "c1nnc2n[nH]nc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
-    "c1cnc2n[nH]nc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e]pyrazine
-    "c1cnc2nc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: 7},  # 3H-imidazo[4,5-b]pyridine
-    "c1ccc2nc3nc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: None, 9: None, 10: 9, 11: None, 12: 8},  # 3H-imidazo[4,5-b]quinoline
+    "c1nnnc2n[nH]nc12": {0: 7, 1: None, 2: None, 3: None, 4: None, 5: None, 6: 2, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d][1,2,3]triazine
+    "c1ncc2n[nH]nc2n1": {0: 5, 1: None, 2: 7, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-d]pyrimidine
+    "c1nnc2n[nH]nc2n1": {0: 6, 1: None, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e][1,2,4]triazine
+    "c1cnc2n[nH]nc2n1": {0: 5, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: None, 7: None, 8: None},  # 2H-[1,2,3]triazolo[4,5-e]pyrazine
+    "c1cnc2nc[nH]c2c1": {0: 6, 1: 5, 2: None, 3: None, 4: None, 5: 2, 6: 1, 7: None, 8: 7},  # 3H-imidazo[4,5-b]pyridine
+    "c1ccc2nc3nc[nH]c3cc2c1": {0: 7, 1: 6, 2: 5, 3: None, 4: None, 5: None, 6: None, 7: 2, 8: 1, 9: None, 10: 9, 11: None, 12: 8},  # 3H-imidazo[4,5-b]quinoline
     "c1ncc2[nH]cnc2n1": {0: 2, 1: None, 2: 6, 3: None, 4: 7, 5: 8, 6: None, 7: None, 8: None},  # 7H-purine
-    "c1ncc2nc[nH]c2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: None, 7: None, 8: None},  # 9H-purine
+    "c1ncc2nc[nH]c2n1": {0: 2, 1: None, 2: 6, 3: None, 4: None, 5: 8, 6: 9, 7: None, 8: None},  # 9H-purine
     # Phase 618: non-aromatic and partially aromatic ring locants
     "c1ccc2c(c1)CCCC2": {0: 6, 1: 6, 2: 5, 3: None, 4: None, 5: 5, 6: 1, 7: 2, 8: 2, 9: 1},  # 1,2,3,4-tetrahydronaphthalene
     # Phase 628: 1,2-dihydronaphthalene (C1=C2 sp2; C3,C4 sp3 — note: IUPAC 1,2-dihydro means sp3 at 1,2)
@@ -4328,7 +4328,7 @@ _FUSED_LOCANT_MAP: dict[str, dict[int, int | None]] = {
     # canonical: c1ccc2c(c1)ccc1[nH]cnc12; junctions: b3,b4,b8,b12
     "c1ccc2c(c1)ccc1[nH]cnc12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 1, 10: 2, 11: None, 12: None},
     # 3H tautomeric canonical alias (MolFragmentToSmiles gives this form for many substituted cases)
-    "c1ccc2c(c1)ccc1nc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: None, 12: None},
+    "c1ccc2c(c1)ccc1nc[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: None, 10: 2, 11: 1, 12: None},
     # Phase 579: 1H-naphtho[2,1-d]pyrazole (N1H@b11, N2@b10; 7 sub C: 3-9)
     # canonical: c1ccc2c(c1)ccc1cn[nH]c12
     "c1ccc2c(c1)ccc1cn[nH]c12": {0: 7, 1: 8, 2: 9, 3: None, 4: None, 5: 6, 6: 5, 7: 4, 8: None, 9: 3, 10: None, 11: 1, 12: None},
@@ -4809,24 +4809,78 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     if not all_ring_atoms:
         return None
     core_smi_raw = MolFragmentToSmiles(graph.rdkit_mol, all_ring_atoms, canonical=True)
+    # Phase 934: 直接再構築で core_smi を特定できた場合、置換されている環 N
+    # 原子（rdkit_mol 上のインデックス）を記録しておく。この原子は「元々
+    # 保留名の示す不定 H を担っていた」位置だと構造的に確定しているため、
+    # 後段の indicated-H 除去判定で、保留名の先頭桁が置換ロカントと
+    # 数字として一致するかどうかに関わらず、無条件に indicated-H を
+    # 落としてよい根拠として使う（後述）。
+    _direct_reconstruct_target_rdkit_idx: int | None = None
+    _direct_reconstruct_core_smi: str | None = None
     # MolFragmentToSmiles は必ずしも MolToSmiles と同じ正準形にならないので正規化する
     _tmp_mol = MolFromSmiles(core_smi_raw)
     if _tmp_mol is not None:
         core_smi = MolToSmiles(_tmp_mol)
     else:
-        # Phase 158: N-置換縮合環 (1-methylindole 等): 各 'n' を順に '[nH]' に置換して再試行
-        import re as _re
-        _bare_n_positions = [m.start() for m in _re.finditer(r"(?<!\[)n(?!\])", core_smi_raw)]
+        # Phase 934: N-置換縮合環 (1-methylindole 等) で、置換されている芳香族
+        # 環 N 原子が一意に特定できる場合は、その原子に明示的に H を「戻して」
+        # フラグメントを直接再構築する（曖昧さのない、構造的に正しい方法）。
+        # 元々そこにあった H を置換基が奪ったことは既知の事実なので、その
+        # 位置に戻すのが常に正しいタウトマーを与える。
+        # (Phase158 のテキスト順総当たりは、複数の候補が偶然同じ保留名に
+        #  解決してしまう場合に誤った候補=誤ったタウトマー位置を選び、
+        #  置換基が無言で消えることがあった。例: c1cnc2nn[nH]c2c1 の atom6
+        #  を置換すると、テキスト順で最初に見つかる候補 "c1cnc2[nH]nnc2c1"
+        #  は隣の NH タウトマー位置を指してしまい、実際の置換位置に対応する
+        #  候補 "c1cnc2nn[nH]c2c1"（＝元の SMILES そのもの）が後回しにされる。
+        #  両候補とも同じ保留名に解決するため base_name 自体は偶然正しいが、
+        #  _FUSED_LOCANT_MAP の参照先がズレて置換基だけが失われていた。)
+        _core_ring_set2 = set(all_ring_atoms)
+        _arom_n_subst = [
+            _ra for _ra in all_ring_atoms
+            if graph.rdkit_mol.GetAtomWithIdx(_ra).GetSymbol() == "N"
+            and graph.rdkit_mol.GetAtomWithIdx(_ra).GetIsAromatic()
+            and any(
+                _nb.GetIdx() not in _core_ring_set2 and _nb.GetSymbol() != "H"
+                for _nb in graph.rdkit_mol.GetAtomWithIdx(_ra).GetNeighbors()
+            )
+        ]
         _found_core = None
-        for _pos in _bare_n_positions:
-            _alt_raw = (core_smi_raw[:_pos] + "[nH]"
-                        + core_smi_raw[_pos + 1:])
-            _tmp_alt = MolFromSmiles(_alt_raw)
-            if _tmp_alt is not None:
-                _alt_canon = MolToSmiles(_tmp_alt)
-                if _alt_canon in _FUSED_HETERO_RETAINED:
-                    _found_core = _alt_canon
-                    break
+        if len(_arom_n_subst) == 1:
+            from rdkit.Chem import RWMol, SanitizeMol
+            _target_n = _arom_n_subst[0]
+            _rw = RWMol(graph.rdkit_mol)
+            _tgt_atom = _rw.GetAtomWithIdx(_target_n)
+            _tgt_atom.SetNoImplicit(True)
+            _tgt_atom.SetNumExplicitHs(1)
+            _non_ring = [i for i in range(graph.rdkit_mol.GetNumAtoms()) if i not in _core_ring_set2]
+            for _idx in sorted(_non_ring, reverse=True):
+                _rw.RemoveAtom(_idx)
+            _frag = _rw.GetMol()
+            try:
+                SanitizeMol(_frag)
+                _direct_canon = MolToSmiles(_frag)
+                if _direct_canon in _FUSED_HETERO_RETAINED:
+                    _found_core = _direct_canon
+                    _direct_reconstruct_target_rdkit_idx = _target_n
+                    _direct_reconstruct_core_smi = _direct_canon
+            except Exception:
+                pass
+
+        if _found_core is None:
+            # Phase 158 の元のフォールバック: 上の直接再構築が使えない場合
+            # (複数 N が同時に置換されている等) はテキスト順総当たりに戻る。
+            import re as _re
+            _bare_n_positions = [m.start() for m in _re.finditer(r"(?<!\[)n(?!\])", core_smi_raw)]
+            for _pos in _bare_n_positions:
+                _alt_raw = (core_smi_raw[:_pos] + "[nH]"
+                            + core_smi_raw[_pos + 1:])
+                _tmp_alt = MolFromSmiles(_alt_raw)
+                if _tmp_alt is not None:
+                    _alt_canon = MolToSmiles(_tmp_alt)
+                    if _alt_canon in _FUSED_HETERO_RETAINED:
+                        _found_core = _alt_canon
+                        break
         core_smi = _found_core if _found_core is not None else core_smi_raw
 
     # Phase 407: also try extended core (ring atoms + exo C=O oxygens on ring carbons)
@@ -5082,6 +5136,23 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     _INDICATED_H_RETAINED_NAMES: frozenset[str] = frozenset({
         "10H-phenoxazine", "10H-phenothiazine",
     })
+    # Phase 934: 直接再構築で core_smi を特定した場合、置換されている環 N
+    # 原子は「保留名の示す不定 H を担っていた位置」だと構造的に確定している
+    # ため、保留名の先頭の indicated-H 接頭辞（例: "1H-"）は、その数字が
+    # 実際の置換ロカントと一致するかどうかに関わらず無条件に落とす。
+    # (保留名の先頭桁は「非置換の親化合物として最も低いロカントを与える」
+    #  という命名規則上の慣習的な数字であり、個々の SMILES 表記でどの原子が
+    #  物理的に H を持っているかとは無関係——複数の互変異性体representationが
+    #  同じ親名に解決しうる。置換後は不定性そのものが解消されるため、
+    #  先頭桁が置換ロカントと数字として一致しない場合でも常に落としてよい。)
+    # core_smi が後段（Phase407 拡張コア／Phase548 サブクラスタ）で
+    # 別の値に上書きされていないことを確認してから適用する（そうでないと
+    # 無関係な base_name に対して indicated-H を誤って落としてしまう）。
+    if (_direct_reconstruct_target_rdkit_idx is not None
+            and _direct_reconstruct_core_smi == core_smi
+            and base_name not in _INDICATED_H_RETAINED_NAMES):
+        import re as _re934
+        base_name = _re934.sub(r'^(\d+)H-', '', base_name)
     # Phase 844/845: drop indicated-H when the N at that locant is substituted
     # (only N positions — C positions may still have H even when carrying a substituent)
     _ring_n_locants: set[int] = set()

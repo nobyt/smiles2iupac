@@ -51168,7 +51168,7 @@
     "smiles": "[H]Oc1nncc2n[nH]cc12",
     "pubchem_iupac": "1,5-dihydropyrazolo[4,5-d]pyridazin-4-one",
     "validated": false,
-    "expected_in_test": "pyrazolo[3,4-d]pyridazin-4(1H)-one",
+    "expected_in_test": "pyrazolo[4,5-d]pyridazin-4(1H)-one",
     "iupac_verdict": "needs_review",
     "iupac_note": null,
     "iupac_source": null,
