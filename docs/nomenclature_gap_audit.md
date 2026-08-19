@@ -124,16 +124,50 @@ two phenyls, which `collect_ring_substituents` already handles correctly)
 one; caught by the full test suite (8 failures on the first attempt, 0 on
 the corrected version) — see `tests/test_phase932.py`.
 
+### 4. Multi-component (salt/hydrate) naming produced invalid or non-standard names
+
+```python
+smiles_to_iupac("O.O.CC(=O)[O-].[Ca+2].[O-]C(C)=O")   # was -> "calcium diacetate diwater" (non-standard; real term is "dihydrate")
+smiles_to_iupac("CC(=O)O.CC(=O)O")                     # -> "diacetic acid" (confirmed OPSIN-unparseable — not a valid name at all)
+```
+`_name_multicomponent()` (`__init__.py`, Phase 147) was originally scoped
+and tested only for charged salt components (cation/anion names getting a
+multiplier prefix, e.g. `"calcium diacetate"`, `"dipotassium sulfate"` —
+all in `tests/test_phase147.py`). Its generic `_compact()` multiplier
+logic was also being applied unconditionally to *neutral* components,
+which nobody had verified: water got `"di"`+`"water"` instead of the
+IUPAC/CAS-standard `"dihydrate"` term, and two disconnected identical
+neutral organic molecules (no salt/hydrate relationship at all) produced
+`"diacetic acid"` — an invalid name (OPSIN can't parse it).
+
+**Status: the water/hydrate case fixed in Phase 935** (the common,
+well-established real-world case — pharma hydrates like "amoxicillin
+trihydrate" are everyday terminology). Water fragments are now pulled out
+of the generic neutral-component path and appended as a single
+`"{multiplier}hydrate"` suffix (`"mono"` for count=1, since
+`"monohydrate"`, not bare `"hydrate"`, is the standard term), verified via
+OPSIN round-trip for 1/2/3-water cases. **The non-water case (two
+identical disconnected neutral organic molecules) is deliberately NOT
+fixed** — it's a synthetic edge case (0 hits in `tests/pubchem_cache.json`'s
+6,978 entries) and the correct general IUPAC multi-component convention
+for arbitrary neutral organic co-crystals isn't as unambiguous as the
+water case; would need its own investigation if a real use case surfaces.
+
 ## Recommended B3 priority
 
 1. **General fused/bridged 3+-ring von Baeyer naming** (finding 3,
    continued) — Phase 932 stopped the silent wrong-answer bleeding but did
    not implement the actual nomenclature; affected molecules now raise
-   `ValueError` rather than get a name at all. Implementing IUPAC
-   P-23.2.3-5's main-ring/main-bridge selection algorithm for arbitrary
-   N-ring fused/bridged systems is a substantial, standalone feature —
-   scope it as its own session with dedicated OPSIN/PubChem verification
-   against a range of topologies before starting, not a quick add-on.
+   `ValueError` rather than get a name at all. **Checked 2026-08-20: 0 of
+   6,978 `tests/pubchem_cache.json` entries trigger this path** — real-world
+   frequency in this project's reference corpus is effectively zero.
+   Implementing IUPAC P-23.2.3-5's main-ring/main-bridge selection
+   algorithm for arbitrary N-ring fused/bridged systems is a substantial,
+   high-regression-risk feature for near-zero measured payoff — **not
+   recommended as a priority unless a concrete real-world need surfaces**;
+   if picked up anyway, scope it as its own session with dedicated
+   OPSIN/PubChem verification against a range of topologies, not a quick
+   add-on.
 2. **Isotopic labeling** (finding 1) — **implemented in Phase 933** for the
    dominant real-world case: isotope labels on principal-chain atoms via
    the acyclic naming path (`_name_acyclic`/`find_principal_chain`).
@@ -146,11 +180,33 @@ the corrected version) — see `tests/test_phase932.py`.
    amide/amine/amidine/imine early-return special paths in `_name_acyclic`
    are out of scope — they continue to silently drop the label (no
    regression, just not yet extended to those paths).
-3. **Axial/planar chirality** (finding 2) — highest implementation cost
+3. **Multi-component hydrate naming** (finding 4) — **implemented in Phase
+   935** for water; the non-water disconnected-duplicate-neutral-component
+   case remains open but is low priority (synthetic edge case, 0 real-world
+   hits).
+4. **Axial/planar chirality** (finding 2) — highest implementation cost
    (needs new stereo-perception logic beyond what `stereochemistry.py`
    currently does, likely including RDKit's newer stereo API for
-   atropisomers), lowest observed real-world frequency. Do last.
+   atropisomers), and blocked pending an RDKit-version/custom-CIP decision
+   (see investigation note above). Do not attempt without that decision.
 
 Explicitly not pursued in this pass (per plan Track B4): the 3 OPSIN-
 unsupported f-locant fused-ring names in `docs/opsin_skip_list.md`, and
 anything that would require new work in the Rust port.
+
+## Relative stereodescriptors (`rel-`, `R*`/`S*`) — investigated, not applicable
+
+Briefly considered as a candidate gap (partial/relative-only stereo
+configuration, as opposed to fully absolute or fully unspecified). Not
+pursued: `rel-`/`R*`/`S*` nomenclature describes a molecule whose *relative*
+configuration is known but *absolute* configuration is not (e.g. from a
+racemic synthesis where only the diastereomer relationship is
+established) — this is metadata that plain SMILES `@`/`@@` notation cannot
+express at all (SMILES stereo bonds always encode a specific absolute
+configuration once written). Supporting this would require a different
+*input* format or an explicit "this is relative-only" flag alongside the
+SMILES, not a gap in the naming logic itself — out of scope for a
+SMILES-in, name-out pipeline. (Partial stereo — some centers defined,
+others left completely unspecified — already works correctly today, e.g.
+`smiles_to_iupac("OC(=O)[C@@H](O)C(O)C(=O)O")` → `"(2S)-2,3-dihydroxybutanedioic acid"`,
+correctly omitting a descriptor for the undefined center.)

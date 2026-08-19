@@ -388,8 +388,15 @@ def _name_multicomponent(smiles: str) -> str:
     cat_names: list[str] = []
     ani_names: list[str] = []
     neu_names: list[str] = []
+    water_count = 0
     for frag in frags:
         frag_smi = Chem.MolToSmiles(frag)
+        # Phase 935: 水は付加命名法 (IUPAC P-16.3.3) の "hydrate" として
+        # 別扱いする — 他の中性成分と同じ倍数接頭辞ロジックに通すと
+        # "diwater" のような非標準語になる。
+        if frag_smi == "O":
+            water_count += 1
+            continue
         name = smiles_to_iupac(frag_smi)
         charge = sum(a.GetFormalCharge() for a in frag.GetAtoms())
         if charge > 0:
@@ -419,6 +426,10 @@ def _name_multicomponent(smiles: str) -> str:
         parts.append(_compact(ani_names))
     if neu_names:
         parts.append(_compact(neu_names))
+    if water_count:
+        from .constants import MULTIPLIER
+        _hydrate_mult = "mono" if water_count == 1 else MULTIPLIER.get(water_count, f"{water_count}")
+        parts.append(f"{_hydrate_mult}hydrate")
     return " ".join(parts)
 
 
