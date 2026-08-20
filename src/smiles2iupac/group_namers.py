@@ -7623,6 +7623,10 @@ def _name_n_substituted_imine(
     _cn_st_im = _gbs_im(graph, imine_c, n_idx)
     _cn_pfx_im = f"({_cn_st_im})-" if _cn_st_im is not None else ""
 
+    # Phase 937: 同位体標識 (親鎖原子のみ対応、P-82; Phase933/936/937 と対)
+    from .name_assembler import format_isotope_descriptor as _fid_im
+    _isotope_im = _fid_im(graph, chain.locant_map)
+
     imine_base = assemble_name(
         chain_length=chain.length,
         principal_group_type="imine",
@@ -7630,6 +7634,7 @@ def _name_n_substituted_imine(
         substituents=substituents,
         stereo_descriptors=[],
         suffix_locant=suffix_locant,
+        isotope_descriptor=_isotope_im,
     )
 
     n_subs = [_name_carbon_substituent(graph, c, {n_idx}) for c in n_c_subs]
@@ -7715,6 +7720,11 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
     _chain_lmap_amid = {c: i + 1 for i, c in enumerate(acid_carbons)}
     _chain_subs_amid = _cs_amid(graph, acid_carbons, _chain_lmap_amid,
                                  [n_idx] + _o_atoms_amid)
+    # Phase 937: 同位体標識 (酸側鎖原子のみ対応、P-82; Phase933/936 と対)
+    from .name_assembler import format_isotope_descriptor as _fid_amid
+    _isotope_amid = _fid_amid(graph, _chain_lmap_amid)
+    if _isotope_amid:
+        parent_name = f"{_isotope_amid}{parent_name}"
     # 同じ置換基名は倍数詞でまとめる (Phase905; 以前は単純結合で
     # "2-fluoro-2-fluoro-2-fluoro" のようになり "2,2,2-trifluoro" にならなかった)
     _by_name_amid: dict[str, list[int]] = {}
@@ -7902,12 +7912,15 @@ def _name_substituted_amidine(graph, amidine_c: int,
     n_acid = len(acid_carbons)
     stem = CHAIN_PREFIX.get(n_acid, f"C{n_acid}")
     chain_sub_prefix_ai = _pivot_chain_sub_prefix(graph, acid_carbons, excl, get_atom)
+    # Phase 937: 同位体標識 (酸側鎖原子のみ対応、P-82; Phase933/936/937 と対)
+    from .name_assembler import format_isotope_descriptor as _fid_ai
+    _isotope_ai = _fid_ai(graph, {c: i + 1 for i, c in enumerate(acid_carbons)})
     _ene_ai, _yne_ai = _chain_multiple_bonds(graph, acid_carbons)
     if _ene_ai or _yne_ai:
         from .name_assembler import _format_multiple_bonds as _fmt_ai
-        parent_name = f"{chain_sub_prefix_ai}{stem}{_fmt_ai(_ene_ai, _yne_ai)}imidamide"
+        parent_name = f"{chain_sub_prefix_ai}{_isotope_ai}{stem}{_fmt_ai(_ene_ai, _yne_ai)}imidamide"
     else:
-        parent_name = f"{chain_sub_prefix_ai}{stem}animidamide"
+        parent_name = f"{chain_sub_prefix_ai}{_isotope_ai}{stem}animidamide"
 
     stereo_pfx_ai = ""
     if True:  # Phase 913: always compute (was ene-only; dropped pure R/S stereocenters)
@@ -8192,6 +8205,11 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
     _chain_locant_map = {c: i + 1 for i, c in enumerate(parent_chain)}
     _pgrp_excluded = {n_idx}
     _chain_subs = _cs_am(graph, parent_chain, _chain_locant_map, list(_pgrp_excluded))
+    # Phase 937: 同位体標識 (親鎖原子のみ対応、P-82; Phase933/936/937(amide) と対)
+    from .name_assembler import format_isotope_descriptor as _fid_am
+    _isotope_am = _fid_am(graph, _chain_locant_map)
+    if _isotope_am:
+        parent_name = f"{_isotope_am}{parent_name}"
     from collections import defaultdict as _dd_am
     _by_name_am: dict[str, list[int]] = _dd_am(list)
     for _loc, _sname in _chain_subs:

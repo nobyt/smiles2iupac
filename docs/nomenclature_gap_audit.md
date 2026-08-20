@@ -189,12 +189,26 @@ water case; would need its own investigation if a real use case surfaces.
    — without the fix, `"CC1CCC([2H])CC1"` produced
    `"methyl(4-2H)cyclohexane"`, which OPSIN parses but flags
    `APPEARS_AMBIGUOUS`; now emits the unambiguous
-   `"1-methyl(4-2H)cyclohexane"`. **Still open**: isotope labels on
-   substituent branches (e.g. an isotope-labeled ring or chain that itself
-   appears as a substituent rather than the principal chain/ring) and the
-   amide/amine/amidine/imine early-return special paths in `_name_acyclic`
-   are out of scope — they continue to silently drop the label (no
-   regression, just not yet extended to those paths).
+   `"1-methyl(4-2H)cyclohexane"`. **Extended to the 4 dedicated
+   early-return paths in `_name_acyclic` in Phase 937** (secondary/
+   tertiary amide, secondary/tertiary amine, substituted amidine,
+   N-substituted imine — each bypasses the generic `assemble_name` call
+   and builds its own name string, so each needed its own
+   isotope-descriptor wiring against its own principal-chain locant map;
+   N-substituted imine already called `assemble_name`, so it only needed
+   the new `isotope_descriptor` param threaded through). Verified via
+   OPSIN + RDKit InChI comparison (`tests/test_phase937.py`). **Still
+   open**: isotope labels on substituent branches (e.g. an
+   isotope-labeled ring or chain that itself appears as a substituent
+   rather than the principal chain/ring, or on the N-substituent of an
+   amide/amine/amidine/imine rather than the acid/parent chain) remain
+   out of scope — they continue to silently drop the label (no
+   regression, just not yet extended to those paths). This is a
+   `substituent.py`-level change (the shared `_name_carbon_substituent`
+   machinery used by every substituent-of-a-substituent naming site), not
+   a per-functional-group one, so it's a materially different-shaped
+   follow-up than the phase-by-phase principal-chain/ring extensions done
+   in 933/936/937.
 3. **Multi-component hydrate naming** (finding 4) — **implemented in Phase
    935** for water; the non-water disconnected-duplicate-neutral-component
    case remains open but is low priority (synthetic edge case, 0 real-world
