@@ -175,8 +175,23 @@ water case; would need its own investigation if a real use case surfaces.
    (`name_assembler.py`) build the P-82 parenthetical descriptor, verified
    against OPSIN including a non-obvious prefix-ordering rule (isotope
    descriptor goes AFTER ordinary substituent prefixes, BEFORE the parent
-   name — "2-chloro(2,2-2H2)acetic acid", not the other order). **Still
-   open**: isotope labels on ring atoms, substituent branches, and the
+   name — "2-chloro(2,2-2H2)acetic acid", not the other order).
+   **Extended to ring atoms in Phase 936**, reusing the same
+   `format_isotope_descriptor()` against `find_principal_ring`'s
+   locant_map instead of the chain's — covers the general ring path
+   (`assemble_ring_name`), the ring diol/dione/triamine/dithiol path, and
+   the ring amide N-substitution path (`_name_cyclic`). Verified via OPSIN
+   round-trip (`tests/test_phase936.py`). Uncovered a coupled bug in the
+   same pass: the pre-existing "single substituent on an otherwise
+   unmarked ring omits its '1-' locant" rule (`methylcyclohexane`) had to
+   be suppressed when an isotope descriptor is also present, since the
+   isotope's explicit locant means the ring's numbering is no longer free
+   — without the fix, `"CC1CCC([2H])CC1"` produced
+   `"methyl(4-2H)cyclohexane"`, which OPSIN parses but flags
+   `APPEARS_AMBIGUOUS`; now emits the unambiguous
+   `"1-methyl(4-2H)cyclohexane"`. **Still open**: isotope labels on
+   substituent branches (e.g. an isotope-labeled ring or chain that itself
+   appears as a substituent rather than the principal chain/ring) and the
    amide/amine/amidine/imine early-return special paths in `_name_acyclic`
    are out of scope — they continue to silently drop the label (no
    regression, just not yet extended to those paths).

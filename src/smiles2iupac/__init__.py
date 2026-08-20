@@ -812,6 +812,10 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
     )
     stereo = assign_stereochemistry(graph, dummy_chain)
 
+    # Phase 936: 同位体標識 (環原子のみ対応、P-82; Phase 933 の鎖状版と対)
+    from .name_assembler import format_isotope_descriptor
+    isotope_descriptor = format_isotope_descriptor(graph, ring_chain.locant_map)
+
     # Phase 27/33: ポリオール / ジオン on ring (benzene 芳香環 or シクロアルカン)
     if pgrp is not None and pgrp_type in ("diol", "triol", "dione", "diamine", "triamine", "dithiol"):
         fg_c_atoms = {ai for ai in pgrp.atom_indices
@@ -862,13 +866,16 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
                     ring_base = f"cyclo{_stem}ane"
             prefix_part = _bp(substituents) if substituents else ""
             base_name = f"{ring_base}-{loc_str}-{suffix_word}"
+            base_name_with_isotope = (
+                f"{isotope_descriptor}{base_name}" if isotope_descriptor else base_name
+            )
             # 立体記述子 (Phase 66: ring diol/dione 立体化学)
             if stereo:
                 combined = ",".join(d.strip("()") for d in stereo)
                 stereo_str = f"({combined})-"
             else:
                 stereo_str = ""
-            full = f"{prefix_part}{base_name}" if prefix_part else base_name
+            full = f"{prefix_part}{base_name_with_isotope}" if prefix_part else base_name_with_isotope
             return f"{stereo_str}{full}"
 
     # N-置換アミド on 環 (benzamide → N-methylbenzamide など) の処理
@@ -894,6 +901,7 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
                     principal_grp_type=pgrp_type,
                     suffix_locant=suffix_locant,
                     stereo_descriptors=stereo,
+                    isotope_descriptor=isotope_descriptor,
                 )
                 excluded_n = {n_atom_idx}
                 if carbonyl_c is not None:
@@ -936,6 +944,7 @@ def _name_cyclic(graph, find_rings, find_principal_ring,
         principal_grp_type=pgrp_type,
         suffix_locant=suffix_locant,
         stereo_descriptors=stereo,
+        isotope_descriptor=isotope_descriptor,
     )
 
 

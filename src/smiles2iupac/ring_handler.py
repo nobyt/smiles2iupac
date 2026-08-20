@@ -1372,6 +1372,7 @@ def assemble_ring_name(
     principal_grp_type: str,
     suffix_locant: int | None,
     stereo_descriptors: list[str],
+    isotope_descriptor: str = "",
 ) -> str:
     """
     環状化合物の IUPAC 名を組み立てる。
@@ -1382,6 +1383,7 @@ def assemble_ring_name(
         principal_grp_type: 'alkane', 'alcohol', 'benzene', ...
         suffix_locant: alcohol/ketone の suffix ロカント
         stereo_descriptors: 立体記述子リスト
+        isotope_descriptor: 同位体標識記述子 (Phase 936; 例 "(1-2H)"); 環原子のみ対応
 
     Returns:
         IUPAC 名文字列
@@ -1490,10 +1492,15 @@ def assemble_ring_name(
     # ─── 一置換環: ロカント 1 省略 ───────────────────────────────────
     # シクロアルカン・ベンゼン系のみ適用。
     # 環内二重結合があるとき / ナフタレン等縮合環系は常にロカント表示。
+    # Phase 936: 同位体記述子が別のロカントを明示している場合は環の
+    # ロカント付番がもはや自由でないため、置換基側のロカントも省略しない
+    # (例: "methyl(4-2H)cyclohexane" は OPSIN で APPEARS_AMBIGUOUS warning
+    # -- "1-methyl(4-2H)cyclohexane" の方が曖昧さがない)
     _sub_locs = [loc for loc, _ in substituents]
     if (substituents
             and ring_chain.base_name is None
             and not ring_chain.double_bond_locants
+            and not isotope_descriptor
             and len(substituents) == 1
             and len(set(_sub_locs)) == 1
             and (suffix_locant is None or _sub_locs[0] != suffix_locant)):
@@ -1508,10 +1515,13 @@ def assemble_ring_name(
         stereo_part = ""
 
     # ─── 結合 ────────────────────────────────────────────────────
+    # Phase 936: 同位体記述子は置換基接頭辞の後・環名の直前 (Phase 933 の
+    # 鎖状化合物と同じ順序 -- OPSIN で確認済み)
+    base_with_isotope = f"{isotope_descriptor}{base}" if isotope_descriptor else base
     if prefix_part:
-        result = f"{prefix_part}{base}"
+        result = f"{prefix_part}{base_with_isotope}"
     else:
-        result = base
+        result = base_with_isotope
 
     if stereo_part:
         result = f"{stereo_part}-{result}"
