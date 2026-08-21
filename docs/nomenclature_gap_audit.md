@@ -197,18 +197,36 @@ water case; would need its own investigation if a real use case surfaces.
    isotope-descriptor wiring against its own principal-chain locant map;
    N-substituted imine already called `assemble_name`, so it only needed
    the new `isotope_descriptor` param threaded through). Verified via
-   OPSIN + RDKit InChI comparison (`tests/test_phase937.py`). **Still
-   open**: isotope labels on substituent branches (e.g. an
-   isotope-labeled ring or chain that itself appears as a substituent
-   rather than the principal chain/ring, or on the N-substituent of an
-   amide/amine/amidine/imine rather than the acid/parent chain) remain
-   out of scope — they continue to silently drop the label (no
-   regression, just not yet extended to those paths). This is a
-   `substituent.py`-level change (the shared `_name_carbon_substituent`
-   machinery used by every substituent-of-a-substituent naming site), not
-   a per-functional-group one, so it's a materially different-shaped
-   follow-up than the phase-by-phase principal-chain/ring extensions done
-   in 933/936/937.
+   OPSIN + RDKit InChI comparison (`tests/test_phase937.py`).
+   **Extended to two substituent-branch shapes in Phase 938**: the plain
+   linear-chain substituent path (methyl/ethyl/propyl/... as an
+   N-/O-/S-substituent, including combined with ordinary halogen/hydroxy/
+   amino/sulfanyl/oxo prefixes on the same substituent) and the plain
+   (non-heteroatom) cycloalkyl substituent path (cyclohexyl etc. as a
+   substituent, root atom = locant 1, ring walked out from the
+   attachment point) — both in `_name_carbon_substituent`
+   (`substituent.py`), reusing `format_isotope_descriptor()` against a
+   small locally-built locant map local to the substituent's own atoms
+   (not the parent chain/ring's). Confirmed via OPSIN that nested-bracket
+   escalation (already-existing logic, not new) correctly upgrades to
+   `[...]` when a parenthesized isotope descriptor sits inside a
+   substituent name that itself needs enclosing marks — e.g.
+   `"N-[(2-2H)ethyl]acetamide"`, not double-nested parens. Also fixed a
+   Phase936-shaped coupled bug on the *chain* side (not just rings): the
+   2-carbon ethane/ethene single-substituent locant-omission rules in
+   `assemble_name` (`chloroethane`, `chloroethene`) needed the same
+   `and not isotope_descriptor` guard as Phase936's ring-side fix, since
+   `"chloro(2-2H)ethane"` is OPSIN-parseable but `APPEARS_AMBIGUOUS`;
+   fixed to `"1-chloro(2-2H)ethane"`. Verified via OPSIN + RDKit InChI
+   comparison (`tests/test_phase938.py`). **Still open**: isotope labels
+   on more complex substituent shapes — branched substituents (e.g.
+   isopropyl-type), aryl/heteroaryl substituents, and heterocyclic
+   substituents — remain unhandled in `_name_carbon_substituent`'s other
+   branches, and continue to silently drop the label (no regression, just
+   not yet extended). This closes out the isotope-labeling finding as
+   "chain + ring + special-group principal chains + the two most common
+   substituent shapes done; only the less common substituent shapes
+   remain, no urgency absent a concrete need."
 3. **Multi-component hydrate naming** (finding 4) — **implemented in Phase
    935** for water; the non-water disconnected-duplicate-neutral-component
    case remains open but is low priority (synthetic edge case, 0 real-world

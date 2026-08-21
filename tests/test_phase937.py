@@ -12,9 +12,11 @@ Scope: only isotope labels on each path's own principal-chain atoms
 `find_principal_chain`'s chain for imine -- which already routes through
 `assemble_name`, so it only needed the new isotope_descriptor param wired
 through). Isotope labels on N-substituents (the "other" branch, e.g. the
-N-methyl in an N-methylamide) remain out of scope, consistent with
-Phase933/936's substituent-branch boundary -- confirmed still silently
-dropped in this phase's own probing (see the N-substituent tests below).
+N-methyl in an N-methylamide) were out of scope for THIS phase, consistent
+with Phase933/936's substituent-branch boundary at the time -- Phase 938
+(a later, separate phase) added substituent-branch support for the simple
+linear-chain/cycloalkyl cases, so the N-substituent tests below now assert
+the Phase938-fixed behavior rather than the drop; see test_phase938.py.
 
 All fixed names verified via OPSIN 2.9.0 CLI round-trip + RDKit InChI
 structural-equivalence comparison against the original SMILES before
@@ -33,8 +35,11 @@ class TestPhase937IsotopeAmide:
     def test_unlabeled_amide_unaffected(self):
         assert smiles_to_iupac("CC(=O)NC") == "N-methylacetamide"
 
-    def test_n_substituent_isotope_still_out_of_scope(self):
-        assert smiles_to_iupac("CC(=O)NC[2H]") == "N-methylacetamide"
+    def test_n_substituent_isotope_out_of_scope_at_time_of_this_phase(self):
+        # At the time THIS phase (937) landed, N-substituent isotopes were
+        # not yet covered. Phase 938 later added support for the simple
+        # linear-chain substituent case; see test_phase938.py.
+        assert smiles_to_iupac("CC(=O)NC[2H]") == "N-[(1-2H)methyl]acetamide"
 
 
 class TestPhase937IsotopeAmine:
@@ -58,8 +63,11 @@ class TestPhase937IsotopeAmidine:
     def test_unlabeled_amidine_unaffected(self):
         assert smiles_to_iupac("CC(=N)N") == "ethanimidamide"
 
-    def test_n_substituent_isotope_still_out_of_scope(self):
-        assert smiles_to_iupac("CC(=N)NC[2H]") == "N-methylethanimidamide"
+    def test_n_substituent_isotope_out_of_scope_at_time_of_this_phase(self):
+        # At the time THIS phase (937) landed, N-substituent isotopes were
+        # not yet covered. Phase 938 later added support for the simple
+        # linear-chain substituent case; see test_phase938.py.
+        assert smiles_to_iupac("CC(=N)NC[2H]") == "N-[(1-2H)methyl]ethanimidamide"
 
 
 class TestPhase937IsotopeImine:

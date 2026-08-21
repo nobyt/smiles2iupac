@@ -69,9 +69,11 @@ class TestPhase936RingIsotopeLabeling:
     def test_unlabeled_cyclohexane_unaffected(self):
         assert smiles_to_iupac("C1CCCCC1") == "cyclohexane"
 
-    def test_ring_substituent_isotope_still_out_of_scope(self):
-        # An isotope-labeled ring appearing as a substituent (not the
-        # principal ring itself) is not covered by this phase -- the label
-        # is silently dropped, same as before. Documents current scope
-        # rather than asserting desired future behavior.
-        assert smiles_to_iupac("CC(=O)NC1([2H])CCCCC1") == "N-cyclohexylacetamide"
+    def test_ring_substituent_isotope_out_of_scope_at_time_of_this_phase(self):
+        # At the time THIS phase (936) landed, an isotope-labeled ring
+        # appearing as a substituent (not the principal ring itself) was
+        # not yet covered -- the label was silently dropped. Phase 938
+        # later added support for exactly this case (plain cycloalkyl
+        # substituents); see test_phase938.py for the current behavior.
+        # Kept here only as a historical marker of Phase 936's own scope.
+        assert smiles_to_iupac("CC(=O)NC1([2H])CCCCC1") == "N-[(1-2H)cyclohexyl]acetamide"

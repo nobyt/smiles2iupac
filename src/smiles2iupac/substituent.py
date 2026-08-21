@@ -951,7 +951,24 @@ def _name_carbon_substituent(
                         return f"{_stem}-{_loc}-yl"
             else:
                 stem = CHAIN_PREFIX.get(ring_size, f"C{ring_size}")
-                return f"cyclo{stem}yl"
+                # Phase 938: 同位体標識 (単純シクロアルキル置換基、root=1;
+                # P-82; Phase933/936/937 と対)
+                from .name_assembler import format_isotope_descriptor as _fid_cyc
+                _order_cyc = [root_idx]
+                _prev_cyc, _cur_cyc = None, root_idx
+                while len(_order_cyc) < len(ring_cs):
+                    _nxt_cyc = next(
+                        (nb for nb in graph.adjacency[_cur_cyc]
+                         if nb in ring_cs and nb != _prev_cyc and nb not in _order_cyc),
+                        None,
+                    )
+                    if _nxt_cyc is None:
+                        break
+                    _order_cyc.append(_nxt_cyc)
+                    _prev_cyc, _cur_cyc = _cur_cyc, _nxt_cyc
+                _lmap_cyc = {a: i + 1 for i, a in enumerate(_order_cyc)}
+                _isotope_cyc = _fid_cyc(graph, _lmap_cyc)
+                return f"{_isotope_cyc}cyclo{stem}yl"
 
     # 付け根 (root) が末端かどうか確認
     # 末端 = 置換基内での炭素隣接が 1 以下
@@ -1134,6 +1151,14 @@ def _name_carbon_substituent(
                                     and get_atom(graph, nb2).symbol == "C"]
                     if _has_h_s_het and not _c_nbs_s_het:
                         _het_subs.append((pos, "sulfanyl"))
+        # Phase 938: 同位体標識 (置換基自身の直鎖上のみ対応、P-82;
+        # Phase933/936/937 と対 -- 置換基自身のロカント (付け根 = 1) で
+        # format_isotope_descriptor を呼び、他の接頭辞の後・"yl" 語幹の
+        # 直前に置く (鎖状主鎖と同じ順序規則)。
+        from .name_assembler import format_isotope_descriptor as _fid_sub
+        _sub_lmap = {c: pos for pos, c in enumerate(chain_path, 1)}
+        _isotope_sub = _fid_sub(graph, _sub_lmap)
+
         if _het_subs:
             from collections import defaultdict as _dd_het
             _het_by_name: dict[str, list[int]] = _dd_het(list)
@@ -1148,9 +1173,9 @@ def _name_carbon_substituent(
                 else:
                     loc_str = ",".join(str(l) for l in locs)
                     _het_parts.append(f"{loc_str}-{mult}{nm}")
-            return f"{stereo_pfx_sub}{'-'.join(_het_parts)}{_yl_suffix}"
+            return f"{stereo_pfx_sub}{'-'.join(_het_parts)}{_isotope_sub}{_yl_suffix}"
 
-        return f"{stereo_pfx_sub}{_yl_suffix}"
+        return f"{stereo_pfx_sub}{_isotope_sub}{_yl_suffix}"
 
     # 分岐置換基 (isopropyl 等): 再帰的に命名
     return _name_branched_substituent(graph, root_idx, excluded, sub_carbons)

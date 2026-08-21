@@ -189,21 +189,28 @@ def assemble_name(
     # Phase 35: エテン (2炭素鎖 alkene) の単一置換基はロカント省略
     # 例: ClCH=CH₂ → "chloroethene" (not "1-chloroethene")
     # 条件: chain_length=2, ene suffix, 置換基が1種1個のみ
+    # Phase 938: 同位体記述子が別のロカントを明示している場合は鎖の
+    # ロカント付番がもはや自由でないため省略しない (Phase936 のリング版と
+    # 同じ理由 -- OPSIN で "chloro(2-2H)ethane" が APPEARS_AMBIGUOUS になる
+    # ことを確認済み)
     elif (chain_length == 2
           and principal_group_type == "alkene"
-          and len(substituents) == 1):
+          and len(substituents) == 1
+          and not isotope_descriptor):
         effective_subs = [(None, name) for _, name in substituents]
     # Phase 114: エタン (2炭素鎖 alkane) の単一置換基はロカント省略
     # エタンは対称なので C1=C2 → "chloroethane" (not "1-chloroethane")
     elif (chain_length == 2
           and principal_group_type == "alkane"
-          and len(substituents) == 1):
+          and len(substituents) == 1
+          and not isotope_descriptor):
         effective_subs = [(None, name) for _, name in substituents]
     # Phase 213: 2炭素鎖 alkane で全6位置が同一置換基 → ロカント省略 (hexafluoroethane 等)
     elif (chain_length == 2
           and principal_group_type == "alkane"
           and len(substituents) == 6
-          and len({n for _, n in substituents}) == 1):
+          and len({n for _, n in substituents}) == 1
+          and not isotope_descriptor):
         effective_subs = [(None, name) for _, name in substituents]
     prefix_part = _build_prefix(effective_subs)
 
