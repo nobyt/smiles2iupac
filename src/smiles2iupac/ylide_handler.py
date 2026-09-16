@@ -64,7 +64,12 @@ def _name_ylide(graph: "MoleculeGraph", get_atom) -> str | None:
             continue
 
         # 1. イリド炭素置換基 (ylidene) の命名
-        ylidene_name = _name_ylidene(graph, ylide_c, excluded={h_idx}, get_atom=get_atom)
+        # Phase 944: 汎用の _alkylidene_name を再利用し、任意鎖長・分岐・
+        # アリール (benzylidene)・鎖上置換基を正しく命名する
+        # (旧 _name_ylidene は methylidene/ethylidene/propylidene/propan-2-ylidene
+        #  以外を黙って "methylidene" に誤縮約していた)。
+        from .group_namers import _alkylidene_name
+        ylidene_name = _alkylidene_name(graph, ylide_c, h_idx, get_atom)
         if ylidene_name is None:
             continue
 
@@ -102,34 +107,3 @@ def _name_ylide(graph: "MoleculeGraph", get_atom) -> str | None:
         return f"{prefix_str}-{parent}"
 
     return None
-
-
-def _name_ylidene(graph: "MoleculeGraph", c_idx: int, excluded: set[int], get_atom) -> str | None:
-    """イリド炭素からなる ylidene 置換基（methylidene, ethylidene, propan-2-ylidene 等）を命名。"""
-    heavy_nbs = [nb for nb in graph.adjacency[c_idx] if nb not in excluded and get_atom(graph, nb).symbol != "H"]
-
-    # 炭素数 1: =CH2 -> methylidene
-    if not heavy_nbs:
-        return "methylidene"
-
-    # 炭素数 2: =CH-CH3 -> ethylidene
-    if len(heavy_nbs) == 1:
-        c1 = heavy_nbs[0]
-        c1_heavy = [nb for nb in graph.adjacency[c1] if nb != c_idx and nb not in excluded and get_atom(graph, nb).symbol != "H"]
-        if not c1_heavy and get_atom(graph, c1).symbol == "C":
-            return "ethylidene"
-        if len(c1_heavy) == 1 and get_atom(graph, c1).symbol == "C":
-            c2 = c1_heavy[0]
-            c2_heavy = [nb for nb in graph.adjacency[c2] if nb != c1 and nb not in excluded and get_atom(graph, nb).symbol != "H"]
-            if not c2_heavy and get_atom(graph, c2).symbol == "C":
-                return "propylidene"
-
-    # 炭素数 3 (分岐): =C(CH3)2 -> propan-2-ylidene
-    if len(heavy_nbs) == 2:
-        c1, c2 = heavy_nbs
-        c1_heavy = [nb for nb in graph.adjacency[c1] if nb != c_idx and nb not in excluded and get_atom(graph, nb).symbol != "H"]
-        c2_heavy = [nb for nb in graph.adjacency[c2] if nb != c_idx and nb not in excluded and get_atom(graph, nb).symbol != "H"]
-        if not c1_heavy and not c2_heavy and get_atom(graph, c1).symbol == "C" and get_atom(graph, c2).symbol == "C":
-            return "propan-2-ylidene"
-
-    return "methylidene"
