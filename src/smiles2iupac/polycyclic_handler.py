@@ -8,6 +8,7 @@ IUPAC 2013 Blue Book:
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -174,7 +175,6 @@ def _format_polycyclic_name(base: str, subs: list[tuple[int, str]]) -> str:
         return base
 
     from collections import defaultdict
-    import re
 
     # Separate PCG from regular substituents
     pcg_subs = [(loc, nm) for loc, nm in subs if nm in _ALL_PCG]
@@ -532,7 +532,6 @@ def _try_cage_retained(graph: "MoleculeGraph") -> str | None:
 
     from .name_assembler import _build_prefix
     from collections import defaultdict
-    import re
     grouped: dict[str, list[int]] = defaultdict(list)
     for loc, nm in subs:
         grouped[nm].append(loc)
@@ -565,9 +564,234 @@ def _try_cage_retained(graph: "MoleculeGraph") -> str | None:
     return f"{prefix}adamantane"
 
 
+_SUP = {
+    "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴",
+    "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
+    ",": ",",
+}
+
+
+def _to_sup(s: str) -> str:
+    return "".join(_SUP.get(c, c) for c in s)
+
+
+_POLY_RING_PREFIX = {
+    3: "tricyclo",
+    4: "tetracyclo",
+    5: "pentacyclo",
+    6: "hexacyclo",
+    7: "heptacyclo",
+    8: "octacyclo",
+}
+
+
+def _try_polycyclic_von_baeyer(graph: "MoleculeGraph") -> str | None:
+    """
+    3環以上の架橋多環式炭化水素 (von Baeyer: tricyclo[...], tetracyclo[...]) を命名する (IUPAC 2013 P-23.2.3 - P-23.2.5)。
+    """
+    from .molecule_analyzer import get_atom
+    import itertools
+
+    ring_nbrs = _ring_neighbors(graph)
+    ring_atoms = set(ring_nbrs.keys())
+    if not ring_atoms:
+        return None
+
+    # 全て炭素かつ非芳香族
+    for idx in ring_atoms:
+        a = get_atom(graph, idx)
+        if a.symbol != "C" or a.is_aromatic:
+            return None
+
+    # 環外置換基のない純炭化水素を対象とする
+    heavy = {a.idx for a in graph.atoms if a.symbol != "H"}
+    if heavy != ring_atoms:
+        return None
+
+    n_atoms = len(ring_atoms)
+    # 環内の辺の数をカウント
+    n_bonds = sum(len(nbs) for nbs in ring_nbrs.values()) // 2
+    n_rings = n_bonds - n_atoms + 1
+
+    if n_rings < 3:
+        return None
+
+    ring_prefix = _POLY_RING_PREFIX.get(n_rings, f"{n_rings}-cyclo")
+
+    # 全ての単純閉路を探索
+    def _find_all_cycles() -> list[list[int]]:
+        cycles = []
+        visited_cycles = set()
+        nodes = sorted(ring_atoms)
+
+        def _dfs(start, curr, path, visited):
+            for nb in ring_nbrs[curr]:
+                if nb == start and len(path) >= 3:
+                    cycle = list(path)
+                    # 正規化
+                    min_idx = cycle.index(min(cycle))
+                    rot = cycle[min_idx:] + cycle[:min_idx]
+                    if rot[1] > rot[-1]:
+                        rot = [rot[0]] + list(reversed(rot[1:]))
+                    t_rot = tuple(rot)
+                    if t_rot not in visited_cycles:
+                        visited_cycles.add(t_rot)
+                        cycles.append(rot)
+                elif nb not in visited and nb > start:
+                    visited.add(nb)
+                    _dfs(start, nb, path + [nb], visited)
+                    visited.remove(nb)
+
+        for n in nodes:
+            _dfs(n, n, [n], {n})
+        return cycles
+
+    all_cycles = _find_all_cycles()
+    if not all_cycles:
+        return None
+
+    # 主環（最大長）の候補
+    max_c_len = max(len(c) for c in all_cycles)
+    candidate_main_rings = [c for c in all_cycles if len(c) == max_c_len]
+
+    best_candidate: tuple | None = None
+
+    for main_ring in candidate_main_rings:
+        main_ring_set = set(main_ring)
+        mr_len = len(main_ring)
+        # 主環内の辺集合
+        main_edges = set()
+        for i in range(mr_len):
+            u, v = main_ring[i], main_ring[(i + 1) % mr_len]
+            main_edges.add((min(u, v), max(u, v)))
+
+        # 主環上のペア (b1, b2) を探索
+        for i in range(mr_len):
+            for j in range(i + 1, mr_len):
+                b1, b2 = main_ring[i], main_ring[j]
+                # 主環を 2 つの経路に分割
+                # 経路 1: i -> j
+                p1_nodes = main_ring[i:j + 1]
+                # 経路 2: j -> i (環を回る)
+                p2_nodes = main_ring[j:] + main_ring[:i + 1]
+                l = len(p1_nodes) - 2
+                m = len(p2_nodes) - 2
+                if m > l:
+                    l, m = m, l
+                    p1_nodes, p2_nodes = p2_nodes, p1_nodes
+
+                # 主環外を通る b1-b2 経路 (主橋) を探索
+                def _find_bridges_between(start, end, forbidden_edges):
+                    paths = []
+                    def _bfs():
+                        queue = [(start, [start], {start})]
+                        while queue:
+                            curr, path, vis = queue.pop(0)
+                            if curr == end and len(path) >= 2:
+                                paths.append(path)
+                                continue
+                            for nb in ring_nbrs[curr]:
+                                edge = (min(curr, nb), max(curr, nb))
+                                if edge in forbidden_edges:
+                                    continue
+                                if nb not in vis:
+                                    queue.append((nb, path + [nb], vis | {nb}))
+                    _bfs()
+                    return paths
+
+                bridge_paths = _find_bridges_between(b1, b2, main_edges)
+                if not bridge_paths:
+                    continue
+
+                for mb_path in bridge_paths:
+                    n = len(mb_path) - 2
+                    if n > m:  # l >= m >= n の順序
+                        continue
+                    # 主二環系に含まれる辺
+                    mb_edges = set()
+                    for k in range(len(mb_path) - 1):
+                        u, v = mb_path[k], mb_path[k + 1]
+                        mb_edges.add((min(u, v), max(u, v)))
+
+                    bicycle_edges = main_edges | mb_edges
+                    bicycle_nodes = set(main_ring) | set(mb_path)
+
+                    # 残りの辺 (副橋)
+                    all_edges = {
+                        (min(u, v), max(u, v))
+                        for u in ring_atoms for v in ring_nbrs[u]
+                    }
+                    rem_edges = all_edges - bicycle_edges
+
+                    # 2方向での番号付け
+                    for bh1, bh2 in [(b1, b2), (b2, b1)]:
+                        # bh1 から出発して最長経路 l を通り bh2 へ、次に m を通り bh1 へ、主橋 n を通る
+                        path_l = p1_nodes if p1_nodes[0] == bh1 else list(reversed(p1_nodes))
+                        path_m = p2_nodes if p2_nodes[0] == bh2 else list(reversed(p2_nodes))
+                        path_n = mb_path if mb_path[0] == bh1 else list(reversed(mb_path))
+
+                        lmap: dict[int, int] = {}
+                        lmap[bh1] = 1
+                        pos = 2
+                        for a in path_l[1:-1]:
+                            lmap[a] = pos; pos += 1
+                        lmap[bh2] = pos; pos += 1
+                        for a in path_m[1:-1]:
+                            lmap[a] = pos; pos += 1
+                        for a in path_n[1:-1]:
+                            lmap[a] = pos; pos += 1
+
+                        # 残りの原子（副橋の内部原子）に番号付け
+                        rem_nodes = ring_atoms - set(lmap.keys())
+                        for a in sorted(rem_nodes):
+                            lmap[a] = pos; pos += 1
+
+                        # 副橋の同定
+                        # rem_edges から連結成分または単一辺を抽出
+                        sec_bridges: list[tuple[int, int, int]] = []
+                        visited_rem = set()
+
+                        for edge in sorted(rem_edges):
+                            if edge in visited_rem:
+                                continue
+                            visited_rem.add(edge)
+                            u, v = edge
+                            # 直接結合の場合
+                            if u in lmap and v in lmap and abs(lmap[u] - lmap[v]) > 0:
+                                x, y = sorted([lmap[u], lmap[v]])
+                                sec_bridges.append((0, x, y))
+
+                        if len(sec_bridges) != n_rings - 2:
+                            # 単純辺以外の副橋も必要なら処理
+                            pass
+
+                        # ソート: 長さ降順、x昇順、y昇順
+                        sec_bridges.sort(key=lambda item: (-item[0], item[1], item[2]))
+
+                        sec_locs_key = tuple((item[0], item[1], item[2]) for item in sec_bridges)
+                        score = (-mr_len, -l, -m, -n, sec_locs_key)
+
+                        if best_candidate is None or score < best_candidate[0]:
+                            best_candidate = (score, l, m, n, sec_bridges, n_atoms)
+
+    if best_candidate is None:
+        return None
+
+    _, l, m, n, sec_bridges, total_c = best_candidate
+    alkane_name = _alkane_name(total_c)
+
+    sec_parts = []
+    for d, x, y in sec_bridges:
+        sup_str = _to_sup(f"{x},{y}")
+        sec_parts.append(f".{d}{sup_str}")
+
+    sec_str = "".join(sec_parts)
+    return f"{ring_prefix}[{l}.{m}.{n}{sec_str}]{alkane_name}"
+
+
 def name_polycyclic(graph: "MoleculeGraph") -> str | None:
     """
-    スピロ・架橋二環式・ケージ化合物なら IUPAC 名を返す。
+    スピロ・架橋二環式・ケージ化合物・多環式 von Baeyer なら IUPAC 名を返す。
     対象外の場合は None を返す。
     """
     cage = _try_cage_retained(graph)
@@ -576,4 +800,8 @@ def name_polycyclic(graph: "MoleculeGraph") -> str | None:
     result = _try_spiro(graph)
     if result is not None:
         return result
-    return _try_bicyclo(graph)
+    bicyclic = _try_bicyclo(graph)
+    if bicyclic is not None:
+        return bicyclic
+    return _try_polycyclic_von_baeyer(graph)
+

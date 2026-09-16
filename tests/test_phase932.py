@@ -30,12 +30,11 @@ from smiles2iupac import smiles_to_iupac
 
 class TestPhase932PolycyclicFallbackLoudFailure:
     def test_bridged_ortho_fused_tricyclic_raises(self):
-        with pytest.raises(ValueError, match="Polycyclic ring system not supported"):
-            smiles_to_iupac("C1CC2CC1C1CCCCC21")
+        # Phase 942 implemented 3+-ring von Baeyer nomenclature (P-23.2.3 - P-23.2.5)
+        assert smiles_to_iupac("C1CC2CC1C1CCCCC21") == "tricyclo[6.2.1.0²,⁷]undecane"
 
     def test_ortho_fused_tricyclic_raises(self):
-        with pytest.raises(ValueError, match="Polycyclic ring system not supported"):
-            smiles_to_iupac("C1CCC2CCCC3CCCCC3C2C1")
+        assert smiles_to_iupac("C1CCC2CCCC3CCCCC3C2C1") == "tricyclo[9.4.0.0²,⁷]pentadecane"
 
     def test_decalin_still_works(self):
         assert smiles_to_iupac("C1CCC2CCCCC2C1") == "decahydronaphthalene"
