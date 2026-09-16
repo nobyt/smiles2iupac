@@ -16,6 +16,7 @@ IUPAC 2013 Blue Book P-31.1.3 (cycloalkanes) / P-31.1.3.4 (benzene)
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -1545,7 +1546,6 @@ def _build_prefix_no_locant_if_single(substituents: list[tuple[int, str]]) -> st
     all_at_1 = all(all(l == 1 for l in locs) for locs in by_name.values())
     if all_at_1:
         # ロカントなし
-        import re as _re
         from .constants import MULTIPLIER
 
         def _cpd(nm: str) -> bool:

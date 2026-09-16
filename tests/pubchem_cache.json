@@ -53452,12 +53452,26 @@
   "FHBSGPWHCCIQPG-UHFFFAOYSA-N": {
     "inchikey": "FHBSGPWHCCIQPG-UHFFFAOYSA-N",
     "smiles": "CS(=S)(=O)O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "sulfanylsulfonylmethane",
+    "validated": false,
+    "expected_in_test": "methanesulfonothioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "YLEAHEKEZRNPIM-UHFFFAOYSA-N": {
     "inchikey": "YLEAHEKEZRNPIM-UHFFFAOYSA-N",
     "smiles": "CCS(=S)(=O)O",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "1-sulfanylsulfonylethane",
+    "validated": false,
+    "expected_in_test": "ethanesulfonothioic acid",
+    "iupac_verdict": "needs_review",
+    "iupac_note": null,
+    "iupac_source": null,
+    "iupac_pin": null
   },
   "AMBCBCYCEXMECO-UHFFFAOYSA-N": {
     "inchikey": "AMBCBCYCEXMECO-UHFFFAOYSA-N",
@@ -55253,11 +55267,15 @@
   "MJABAEJQHKYEKL-UHFFFAOYSA-N": {
     "inchikey": "MJABAEJQHKYEKL-UHFFFAOYSA-N",
     "smiles": "FC(F)(F)c1ccccc1[N+]#N",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "2-(trifluoromethyl)benzenediazonium",
+    "validated": true
   },
   "HGOUHLGJFUPVGS-UHFFFAOYSA-N": {
     "inchikey": "HGOUHLGJFUPVGS-UHFFFAOYSA-N",
     "smiles": "Clc1ccccc1[N+]#N",
-    "not_found": true
+    "not_found": true,
+    "pubchem_iupac": "2-chlorobenzenediazonium",
+    "validated": true
   }
 }

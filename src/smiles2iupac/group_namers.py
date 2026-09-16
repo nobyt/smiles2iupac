@@ -6,6 +6,8 @@ __init__.py から抽出した命名ハンドラ群。
 
 from __future__ import annotations
 
+import re
+
 from .chain_finder import (
     collect_acid_chain as _collect_acid_chain,
     chain_through_pivot as _chain_through_pivot,
@@ -306,17 +308,20 @@ def _name_dicarboxylate(graph, pgrp, get_atom) -> str:
     if _stereo_dc:
         stereo_pfx_dc = "(" + ",".join(d.strip("()") for d in _stereo_dc) + ")-"
 
+    from .name_assembler import format_isotope_descriptor as _fid_dc
+    _isotope_dc = _fid_dc(graph, locant_map_dc)
+
     if _ene_dc or _yne_dc:
         from .name_assembler import _format_multiple_bonds as _fmt_dc
         stem = CHAIN_PREFIX.get(n, f"C{n}")
-        base = f"{chain_sub_prefix_dc}{stem}{_fmt_dc(_ene_dc, _yne_dc)}edioate"
+        base = f"{chain_sub_prefix_dc}{_isotope_dc}{stem}{_fmt_dc(_ene_dc, _yne_dc)}edioate"
         return f"{stereo_pfx_dc}{base}"
     # 保留ジアニオン名 (飽和のみ; oxalic/malonic/adipic は retained PIN)
     retained = {2: "oxalate", 3: "malonate", 6: "adipate"}
     if n in retained:
-        return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{retained[n]}"
+        return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{_isotope_dc}{retained[n]}"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
-    return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{stem}anedioate"
+    return f"{stereo_pfx_dc}{chain_sub_prefix_dc}{_isotope_dc}{stem}anedioate"
 
 
 def _name_carboxylate(graph, pgrp, get_atom) -> str:
@@ -335,7 +340,10 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
             )
             if (len(ring_atoms) == 6
                     and all(get_atom(graph, a).symbol == "C" for a in ring_atoms)):
-                return "benzoate"
+                from .name_assembler import format_isotope_descriptor as _fid_bz
+                _rc_lmap = {a: i + 1 for i, a in enumerate(sorted(ring_atoms))}
+                _iso_bz = _fid_bz(graph, _rc_lmap)
+                return f"{_iso_bz}benzoate"
     acid_chain = _collect_acid_chain(graph, carbonyl_c, o_idxs, get_atom)
     n = len(acid_chain)
 
@@ -347,14 +355,16 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
     #  2-アミノ基が消えて中性の "propanoate" と衝突していた)。
     from .substituent import collect_substituents as _cs_cox
     from .name_assembler import _build_prefix as _bp_cox
+    from .name_assembler import format_isotope_descriptor as _fid_cox
     _chain_lmap_cox = {c: i + 1 for i, c in enumerate(acid_chain)}
     _chain_subs_cox = _cs_cox(graph, acid_chain, _chain_lmap_cox, list(o_idxs))
     sub_prefix = _bp_cox(_chain_subs_cox)
+    _isotope_cox = _fid_cox(graph, _chain_lmap_cox)
 
     if n == 1:
-        return f"{sub_prefix}formate"
+        return f"{sub_prefix}{_isotope_cox}formate"
     if n == 2:
-        return f"{sub_prefix}acetate"
+        return f"{sub_prefix}{_isotope_cox}acetate"
     stem = CHAIN_PREFIX.get(n, f"C{n}")
     ene, yne = _chain_multiple_bonds(graph, acid_chain)
     # Phase 913: compute once, unconditionally (was only inside the ene/yne
@@ -370,9 +380,9 @@ def _name_carboxylate(graph, pgrp, get_atom) -> str:
         stereo_pfx_cox = "(" + ",".join(d.strip("()") for d in _stereo_cox) + ")-"
     if ene or yne:
         from .name_assembler import _format_multiple_bonds as _fmt
-        base_name = f"{sub_prefix}{stem}{_fmt(ene, yne)}oate"
+        base_name = f"{sub_prefix}{_isotope_cox}{stem}{_fmt(ene, yne)}oate"
         return f"{stereo_pfx_cox}{base_name}"
-    return f"{stereo_pfx_cox}{sub_prefix}{stem}anoate"
+    return f"{stereo_pfx_cox}{sub_prefix}{_isotope_cox}{stem}anoate"
 
 
 def _name_thioic_acid(graph, pgrp, get_atom) -> str:
@@ -895,32 +905,32 @@ def _name_ester(graph, pgrp, get_atom) -> str:
                         return f"{alkyl_name} {_rpfx_e}{_rbase_e}-{_rloc_e}-carboxylate"
 
     # Phase 188: 非芳香族環に結合したカルボニル → cycloalkanecarboxylate 型
-    for _nb188 in graph.adjacency[carbonyl_c]:
-        if _nb188 in ester_o_set:
+    for _adj_c in graph.adjacency[carbonyl_c]:
+        if _adj_c in ester_o_set:
             continue
-        _nb188a = get_atom(graph, _nb188)
-        if _nb188a.symbol == "C" and _nb188a.in_ring and not _nb188a.is_aromatic:
-            _ring_set188 = next(
-                (rt for rt in (graph.ring_atom_sets or []) if _nb188 in rt), None
+        _adj_atom = get_atom(graph, _adj_c)
+        if _adj_atom.symbol == "C" and _adj_atom.in_ring and not _adj_atom.is_aromatic:
+            _cyclo_ring_set = next(
+                (rt for rt in (graph.ring_atom_sets or []) if _adj_c in rt), None
             )
-            if (_ring_set188 is not None
-                    and all(get_atom(graph, a).symbol == "C" for a in _ring_set188)):
+            if (_cyclo_ring_set is not None
+                    and all(get_atom(graph, a).symbol == "C" for a in _cyclo_ring_set)):
                 from .ring_handler import (
                     _assign_ring_locants,
                     collect_ring_substituents,
                     assemble_ring_name,
                 )
-                _ring_list188 = list(_ring_set188)
-                _ring_chain188 = _assign_ring_locants(
-                    graph, _ring_list188, False, "alkane", [carbonyl_c]
+                _cyclo_ring_list = list(_cyclo_ring_set)
+                _cyclo_ring_chain = _assign_ring_locants(
+                    graph, _cyclo_ring_list, False, "alkane", [carbonyl_c]
                 )
-                _ring_subs188 = collect_ring_substituents(
-                    graph, _ring_chain188, [carbonyl_c]
+                _cyclo_ring_subs = collect_ring_substituents(
+                    graph, _cyclo_ring_chain, [carbonyl_c]
                 )
-                _ring_base188 = assemble_ring_name(
-                    _ring_chain188, _ring_subs188, "alkane", None, []
+                _cyclo_ring_base = assemble_ring_name(
+                    _cyclo_ring_chain, _cyclo_ring_subs, "alkane", None, []
                 )
-                return f"{alkyl_name} {_ring_base188}carboxylate"
+                return f"{alkyl_name} {_cyclo_ring_base}carboxylate"
             break
 
     # 酸側の炭素鎖を DFS で収集（ester_o 方向は除外）
@@ -1298,7 +1308,6 @@ def _name_sulfonate_sulfinate_ester(graph, pgrp, get_atom) -> str:
 def _dual_c_group_prefix(graph, central_idx, c1, c2, get_atom) -> str:
     """中心原子 (S 等) に付いた 2 つの C 置換基から "dimethyl"/"ethyl methyl"
     のような接頭辞を組み立てる (Phase 519 の sulfoxide/sulfone 命名を抽出)。"""
-    import re as _re_sox
     from .substituent import _name_carbon_substituent, name_substituent
 
     def _group_name(c_idx: int) -> str:
@@ -1311,7 +1320,7 @@ def _dual_c_group_prefix(graph, central_idx, c1, c2, get_atom) -> str:
     name2 = _group_name(c2)
 
     def _needs_parens(nm: str) -> bool:
-        return bool(_re_sox.search(r"[0-9]", nm)) or nm.startswith("(")
+        return bool(re.search(r"[0-9]", nm)) or nm.startswith("(")
 
     names = sorted([name1, name2], key=_substituent_alpha_key)
 
@@ -1383,7 +1392,6 @@ def _name_sulfilimine_sulfoximine(graph, pgrp, get_atom) -> str:
 def _name_selenoxide_selenone(graph, pgrp, get_atom) -> str:
     """セレノキシド・セレノン・テルロキシド・テルロン: dialkyl selenoxide/selenone/
     telluroxide/tellurone (IUPAC 2013, Phase 519, 856)"""
-    import re as _re_seo
     from .substituent import _name_carbon_substituent, name_substituent
 
     se_idx = pgrp.atom_indices[0]
@@ -1404,7 +1412,7 @@ def _name_selenoxide_selenone(graph, pgrp, get_atom) -> str:
     name2 = _group_name(c_neighbors[1])
 
     def _needs_parens(nm: str) -> bool:
-        return bool(_re_seo.search(r"[0-9]", nm)) or nm.startswith("(")
+        return bool(re.search(r"[0-9]", nm)) or nm.startswith("(")
 
     names = sorted([name1, name2], key=_substituent_alpha_key)
 
@@ -3419,17 +3427,16 @@ def _name_isocyanide(graph, pgrp, get_atom) -> str:
         return f"isocyano{parent}"
     # acyclic chain: use substituent name to capture E/Z and unsaturation
     from .substituent import _name_carbon_substituent
-    import re as _re_ic
     yl_name_ic = _name_carbon_substituent(graph, alkyl_c, {n_idx})
     # Strip E/Z stereo prefix if present
     stereo_pfx_ic2 = ""
     yl_base_ic = yl_name_ic
-    _m_stereo_ic = _re_ic.match(r"^(\([^)]+\)-)", yl_name_ic)
+    _m_stereo_ic = re.match(r"^(\([^)]+\)-)", yl_name_ic)
     if _m_stereo_ic:
         stereo_pfx_ic2 = _m_stereo_ic.group(1)
         yl_base_ic = yl_name_ic[len(stereo_pfx_ic2):]
     # General: "{chain_base}-{loc}-yl" → "{loc}-isocyano{chain_base}e"
-    m_gen_ic = _re_ic.match(r"^(.*)-(\d+)-yl$", yl_base_ic)
+    m_gen_ic = re.match(r"^(.*)-(\d+)-yl$", yl_base_ic)
     if m_gen_ic:
         chain_base_ic, loc_ic = m_gen_ic.group(1), m_gen_ic.group(2)
         return f"{stereo_pfx_ic2}{loc_ic}-isocyano{chain_base_ic}e"
@@ -4037,7 +4044,6 @@ def _name_s_carbamothioate(graph, pgrp, get_atom) -> str:
     """
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
-    from .functional_group import get_bond_order
     from collections import Counter
 
     central_c = pgrp.atom_indices[0]
@@ -4088,7 +4094,6 @@ def _name_s_carbamodithioate(graph, pgrp, get_atom) -> str:
     """
     from .substituent import _name_carbon_substituent
     from .constants import MULTIPLIER
-    from .functional_group import get_bond_order
     from collections import Counter
 
     central_c = pgrp.atom_indices[0]
@@ -4266,7 +4271,6 @@ def _name_s_dithioate_ester(graph, pgrp, get_atom) -> str:
 
 def _name_disulfide(graph, pgrp, get_atom) -> str:
     """ジスルフィド命名: IUPAC 2013 P-63.7.1 dialkyl disulfide 形式"""
-    import re as _re_ds
     from .substituent import _name_carbon_substituent, name_substituent
 
     s1_idx = pgrp.atom_indices[0]
@@ -4293,7 +4297,7 @@ def _name_disulfide(graph, pgrp, get_atom) -> str:
     name2 = _group_name(c2, s2_idx)
 
     def _needs_parens(nm: str) -> bool:
-        return bool(_re_ds.search(r"[0-9]", nm)) or nm.startswith("(")
+        return bool(re.search(r"[0-9]", nm)) or nm.startswith("(")
 
     names = sorted([name1, name2], key=_substituent_alpha_key)
 
@@ -4329,7 +4333,6 @@ def _name_polysulfide(graph, pgrp, get_atom) -> str:
 
 def _name_diselenide_ditelluride(graph, pgrp, get_atom) -> str:
     """ジセレニド / ジテルリド: IUPAC 2013 dialkyl diselenide/ditelluride 形式"""
-    import re as _re_dch
     from .substituent import _name_carbon_substituent, name_substituent
 
     se1_idx = pgrp.atom_indices[0]
@@ -4358,7 +4361,7 @@ def _name_diselenide_ditelluride(graph, pgrp, get_atom) -> str:
     name2 = _group_name(c2, se2_idx)
 
     def _needs_parens(nm: str) -> bool:
-        return bool(_re_dch.search(r"[0-9]", nm)) or nm.startswith("(")
+        return bool(re.search(r"[0-9]", nm)) or nm.startswith("(")
 
     names = sorted([name1, name2], key=_substituent_alpha_key)
 
@@ -4490,16 +4493,15 @@ def _name_isocyanate_substitutive(graph, alkyl_c: int, n_idx: int, prefix: str, 
     # 脂肪族: isocyanato{stem}ane / {loc}-isocyanato{stem}ane
     from .substituent import _name_carbon_substituent
     yl_name = _name_carbon_substituent(graph, alkyl_c, {n_idx})
-    import re as _re2
     # Strip E/Z stereo prefix if present: "(2E)-but-2-en-1-yl" → stereo_pfx="(2E)-", rest="but-2-en-1-yl"
     stereo_pfx_ic = ""
     yl_base = yl_name
-    _m_stereo = _re2.match(r"^(\([^)]+\)-)", yl_name)
+    _m_stereo = re.match(r"^(\([^)]+\)-)", yl_name)
     if _m_stereo:
         stereo_pfx_ic = _m_stereo.group(1)
         yl_base = yl_name[len(stereo_pfx_ic):]
     # General: "{chain_base}-{loc}-yl" → "{loc}-{prefix}{chain_base}e"
-    m_gen = _re2.match(r"^(.*)-(\d+)-yl$", yl_base)
+    m_gen = re.match(r"^(.*)-(\d+)-yl$", yl_base)
     if m_gen:
         chain_base, loc = m_gen.group(1), m_gen.group(2)
         return f"{stereo_pfx_ic}{loc}-{prefix}{chain_base}e"
@@ -6014,7 +6016,6 @@ def _substituent_alpha_key(name: str) -> str:
     to (locant, name) tuples) are sorted together, e.g. hydroxylamine N-/O-
     substituents or _name_by_c_substituents' ammonium/phosphane/silane R-groups.
     """
-    import re
     s = name[1:] if name.startswith("(") else name
     m = re.match(r"^[\d,]+-", s)
     return s[m.end():] if m else s
@@ -6518,8 +6519,7 @@ def _name_nitrosamine(graph, get_atom) -> str | None:
             # Also strip a leading digit-locant (e.g. "2,2,2-trifluoroethyl")
             # so substituted chains aren't invisible to the stem match and
             # silently lose to a shorter, unsubstituted chain as parent.
-            import re as _re_cl
-            clean = _re_cl.sub(r'^[\d,]+-', '', clean)
+            clean = re.sub(r'^[\d,]+-', '', clean)
             for n_c, stem in CHAIN_PREFIX.items():
                 if clean.startswith(stem):
                     return n_c
@@ -6529,8 +6529,7 @@ def _name_nitrosamine(graph, get_atom) -> str | None:
         other_subs.remove(parent_sub)
 
         # Build parent amine name from yl name
-        import re as _re_na
-        m_loc = _re_na.match(r"^(.+)-(\d+)-yl$", parent_sub)
+        m_loc = re.match(r"^(.+)-(\d+)-yl$", parent_sub)
         if m_loc:
             # "(2E)-but-2-en-1-yl" → "(2E)-but-2-en-1-amine"
             parent_amine = f"{m_loc.group(1)}-{m_loc.group(2)}-amine"
@@ -7781,14 +7780,13 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
         return f"{stereo_prefix_sta}{parent_name}"
 
     def _alpha_key_amide(part: str) -> tuple:
-        import re as _re
         # N-prefix must be stripped BEFORE stripping a leading digit-locant,
         # since the digit locant lives inside the substituent name that
         # follows "N-"/"N,N-" (e.g. "N-(2,2,2-trifluoroethyl)"), not at the
         # very start of `part` — stripping digits first (the old order) never
         # matched, leaving the locant in place and sorting it before "N-methyl"
         # by raw ASCII ('2' < 'm').
-        m = _re.match(r"^(N(?:,N'*)*)-", part)
+        m = re.match(r"^(N(?:,N'*)*)-", part)
         is_letter = bool(m)
         # chain_sub_parts entries (no "N-" prefix) always self-generate their
         # own multiplying prefix in THIS function's own grouping code above
@@ -7797,14 +7795,14 @@ def _name_secondary_tertiary_amide(graph, carbonyl_c: int, n_idx: int, get_atom)
         # "N-(2,2,2-trifluoroethyl)" is a single composite substituent.
         is_multiplied = (not m) or "," in m.group(1)
         s = part[m.end():] if m else part
-        s = _re.sub(r'^\(', '', s)
-        s = _re.sub(r'^[\d,]+-', '', s)
+        s = re.sub(r'^\(', '', s)
+        s = re.sub(r'^[\d,]+-', '', s)
         if is_multiplied:
             # only strip a multiplying prefix when `part` itself showed real
             # multiplication ("N,N-"); a bare "N-(2,2,2-trifluoroethyl)" is a
             # single composite substituent whose name happens to start with
             # "tri" and must alphabetize as "trifluoroethyl", not "fluoroethyl"
-            s = _re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
+            s = re.sub(r'^(di|tri|tetra|penta|hexa|hepta|octa|nona|deca|bis|tris)', '', s)
         return (s.lower(), is_letter)
 
     all_parts = sorted(chain_sub_parts + n_prefix_parts, key=_alpha_key_amide)
@@ -8145,9 +8143,8 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
             return f"{prefix}{parent_name}"
 
         def _alpha_key_am_ring(part: str) -> str:
-            import re as _re_amr
-            s = _re_amr.sub(r'^N[,N]*-', '', part)
-            s = _re_amr.sub(r'^[\d,]+-', '', s)
+            s = re.sub(r'^N[,N]*-', '', part)
+            s = re.sub(r'^[\d,]+-', '', s)
             return s
 
         all_parts = sorted(ring_prefix_parts + prefix_parts, key=_alpha_key_am_ring)
@@ -8253,7 +8250,6 @@ def _name_secondary_tertiary_amine(graph, n_idx: int, c_neighbors: list[int], ge
             n_prefix_parts.append(f"N,N-{mult}{sub_str}")
 
     def _alpha_key(part: str) -> tuple:
-        import re
         m = re.match(r"^(N(?:,N'*)*)-", part)
         is_letter = bool(m)
         # chain_sub_parts entries (no "N-" prefix) always self-generate their

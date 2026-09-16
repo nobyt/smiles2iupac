@@ -464,6 +464,172 @@ def _is_isocyanic_acid(graph) -> bool:
     return False
 
 
+# ─── 早期ディスパッチハンドラ群 (Phase 853 / Refactor Step 6) ─────────────
+# 各ハンドラは (graph, pgrp, get_atom) -> str | None を受け取り、
+# 命名に成功した場合は名前文字列、該当しない場合は None を返す。
+# 登録順序が優先順位を定義する。
+
+
+def _handle_isocyanic_acid(graph, pgrp, get_atom) -> str | None:
+    # Phase 128: イソシアン酸 H-N=C=O (isocyanic acid) の早期検出
+    if _is_isocyanic_acid(graph):
+        return "isocyanic acid"
+    return None
+
+
+def _handle_thiourea(graph, pgrp, get_atom) -> str | None:
+    # Phase 87: チオ尿素 NC(=S)N (thioamide より先に確認)
+    return _name_thiourea_if_match(graph, get_atom)
+
+
+def _handle_carbonohydrazide(graph, pgrp, get_atom) -> str | None:
+    # Phase 297: carbonohydrazide NNC(=O)NN — hydrazide PGRP_DISPATCH より先に確認
+    if _is_carbonohydrazide(graph, get_atom):
+        return "carbonohydrazide"
+    return None
+
+
+def _handle_fused_hetero_before_pgrp(graph, pgrp, get_atom) -> str | None:
+    # Phase 853: 縮合芳香環内の C=S/C=O が PGRP_DISPATCH に誤捕捉されるのを防ぐ。
+    # pgrp anchor が環内にある場合、fused hetero retained check を先に実行。
+    # (例: N-methyl-benzoxazol-2-thione, N-methyl-benzothiazol-2-thione)
+    if pgrp is not None and pgrp.atom_indices:
+        from .ring_handler import has_ring
+        from .heterocycle_handler import _try_fused_hetero_retained
+        if has_ring(graph) and get_atom(graph, pgrp.atom_indices[0]).in_ring:
+            return _try_fused_hetero_retained(graph)
+    return None
+
+
+def _handle_pgrp_dispatch(graph, pgrp, get_atom) -> str | None:
+    # PGRP_DISPATCH: group_type → handler
+    if pgrp is not None:
+        handler = PGRP_DISPATCH.get(pgrp.group_type)
+        if handler is not None:
+            return handler(graph, pgrp, get_atom)
+        if pgrp.group_type == "sulfamide":
+            from .group_namers import _name_n_substituted_sulfamide
+            return _name_n_substituted_sulfamide(graph, pgrp, get_atom)
+    return None
+
+
+def _handle_urea(graph, pgrp, get_atom) -> str | None:
+    # Phase 49: urea 特別ケース (NC(=O)N)
+    if _is_urea(graph, get_atom):
+        return "urea"
+    # Phase 83: N-置換尿素 (CNC(=O)N → N-methylurea 等)
+    return _name_substituted_urea_if_match(graph, get_atom)
+
+
+def _handle_hetero_n_oxide(graph, pgrp, get_atom) -> str | None:
+    # Phase 165: ヘテロ芳香環 N-オキシド (pyridine 1-oxide 等)
+    return _name_hetero_n_oxide(graph, get_atom)
+
+
+def _handle_amine_n_oxide(graph, pgrp, get_atom) -> str | None:
+    # Phase 125: アミン N-オキシド (R₃N→O)
+    return _name_amine_n_oxide(graph, get_atom)
+
+
+def _handle_diazonium(graph, pgrp, get_atom) -> str | None:
+    # Phase 215: ジアゾニウム塩 (C[N+]#N → methanediazonium)
+    return _name_diazonium(graph, get_atom)
+
+
+def _handle_sulfite_ester(graph, pgrp, get_atom) -> str | None:
+    # Phase 225: 亜硫酸エステル (COS(=O)OC → dimethyl sulfite)
+    return _name_sulfite_ester(graph, get_atom)
+
+
+def _handle_sulfate_ester(graph, pgrp, get_atom) -> str | None:
+    # Phase 211: 硫酸エステル・スルファミン酸エステル (COS(=O)(=O)O → methyl hydrogen sulfate)
+    return _name_sulfate_ester(graph, get_atom)
+
+
+def _handle_acyl_peroxide(graph, pgrp, get_atom) -> str | None:
+    # Phase 209: アシルペルオキシド (CC(=O)OOC(=O)C → diethanoyl peroxide)
+    return _name_acyl_peroxide(graph, get_atom)
+
+
+def _handle_cyanamide(graph, pgrp, get_atom) -> str | None:
+    # Phase 208: N-置換シアナミド (CNC#N → N-methylcyanamide)
+    return _name_cyanamide(graph, get_atom)
+
+
+def _handle_n_substituted_hydroxylamine(graph, pgrp, get_atom) -> str | None:
+    # Phase 202: N-置換ヒドロキシルアミン (CNO → N-methylhydroxylamine)
+    return _name_n_substituted_hydroxylamine(graph, get_atom)
+
+
+def _handle_o_substituted_hydroxylamine(graph, pgrp, get_atom) -> str | None:
+    # Phase 346: O-置換ヒドロキシルアミン (NOC → O-methylhydroxylamine)
+    from .group_namers import _name_o_substituted_hydroxylamine
+    return _name_o_substituted_hydroxylamine(graph, get_atom)
+
+
+def _handle_no_disubstituted_hydroxylamine(graph, pgrp, get_atom) -> str | None:
+    # Phase 910: N,O-両置換ヒドロキシルアミン (CONCC → N-ethyl-O-methylhydroxylamine)
+    from .group_namers import _name_no_disubstituted_hydroxylamine
+    return _name_no_disubstituted_hydroxylamine(graph, get_atom)
+
+
+def _handle_o_substituted_oxime(graph, pgrp, get_atom) -> str | None:
+    # Phase 347: O-置換オキシム (CC=NOC → O-methylethanal oxime)
+    from .group_namers import _name_o_substituted_oxime
+    return _name_o_substituted_oxime(graph, get_atom)
+
+
+def _handle_nitrone(graph, pgrp, get_atom) -> str | None:
+    # Phase 204: ニトロン / イミン N-オキシド (C=[N+]([O-])C → N-methylmethanimine N-oxide)
+    return _name_nitrone(graph, get_atom)
+
+
+def _handle_diazo_compound(graph, pgrp, get_atom) -> str | None:
+    # Phase 123: ジアゾ化合物 (C=N=N, diazo prefix)
+    return _name_diazo_compound(graph, get_atom)
+
+
+def _handle_nitrosamine(graph, pgrp, get_atom) -> str | None:
+    # Phase 164: ニトロソアミン (R₂N-N=O)
+    return _name_nitrosamine(graph, get_atom)
+
+
+def _handle_hydrazine_compound(graph, pgrp, get_atom) -> str | None:
+    # Phase 113: ヒドラジン (N-N 単結合、環外、カルボニル隣接なし)
+    return _name_hydrazine_compound(graph, get_atom)
+
+
+def _handle_azo_compound(graph, pgrp, get_atom) -> str | None:
+    # Phase 115: アゾ化合物 (N=N 二重結合)
+    return _name_azo_compound(graph, get_atom)
+
+
+_EARLY_HANDLERS = [
+    _handle_isocyanic_acid,
+    _handle_thiourea,
+    _handle_carbonohydrazide,
+    _handle_fused_hetero_before_pgrp,
+    _handle_pgrp_dispatch,
+    _handle_urea,
+    _handle_hetero_n_oxide,
+    _handle_amine_n_oxide,
+    _handle_diazonium,
+    _handle_sulfite_ester,
+    _handle_sulfate_ester,
+    _handle_acyl_peroxide,
+    _handle_cyanamide,
+    _handle_n_substituted_hydroxylamine,
+    _handle_o_substituted_hydroxylamine,
+    _handle_no_disubstituted_hydroxylamine,
+    _handle_o_substituted_oxime,
+    _handle_nitrone,
+    _handle_diazo_compound,
+    _handle_nitrosamine,
+    _handle_hydrazine_compound,
+    _handle_azo_compound,
+]
+
+
 def smiles_to_iupac(smiles: str) -> str:
     """
     SMILES 文字列から IUPAC 系統名を生成する。
@@ -511,137 +677,15 @@ def _smiles_to_iupac_raw(smiles: str) -> str:
     if _aa is not None:
         return _aa
 
-    # ─── 2. 官能基を先行検出（ester/acid_halide は専用パス）───────────
-    # Phase 128: イソシアン酸 H-N=C=O (isocyanic acid) の早期検出
-    if _is_isocyanic_acid(graph):
-        return "isocyanic acid"
-
+    # ─── 2. 官能基を先行検出 & 早期ディスパッチ ─────────────────────────
     from .functional_group import detect_groups as _detect, principal_group as _pg
     _groups = _detect(graph)
     _pgrp = _pg(_groups)
 
-    # Phase 87: チオ尿素 NC(=S)N (thioamide より先に確認)
-    _thiourea = _name_thiourea_if_match(graph, get_atom)
-    if _thiourea is not None:
-        return _thiourea
-
-    # Phase 297: carbonohydrazide NNC(=O)NN — hydrazide PGRP_DISPATCH より先に確認
-    if _is_carbonohydrazide(graph, get_atom):
-        return "carbonohydrazide"
-
-    # Phase 853: 縮合芳香環内の C=S/C=O が PGRP_DISPATCH に誤捕捉されるのを防ぐ。
-    # pgrp anchor が環内にある場合、fused hetero retained check を先に実行。
-    # (例: N-methyl-benzoxazol-2-thione, N-methyl-benzothiazol-2-thione)
-    if _pgrp is not None and _pgrp.atom_indices and has_ring(graph):
-        if get_atom(graph, _pgrp.atom_indices[0]).in_ring:
-            _early_fused_hetero_name = _try_fused_hetero_retained(graph)
-            if _early_fused_hetero_name is not None:
-                return _early_fused_hetero_name
-
-    # ─── 2b. PGRP_DISPATCH: group_type → handler ──────────────────────────────
-    if _pgrp is not None:
-        _handler = PGRP_DISPATCH.get(_pgrp.group_type)
-        if _handler is not None:
-            _result = _handler(graph, _pgrp, get_atom)
-            if _result is not None:
-                return _result
-
-    # Special cases not in PGRP_DISPATCH
-    if _pgrp is not None and _pgrp.group_type == "sulfamide":
-        from .group_namers import _name_n_substituted_sulfamide
-        return _name_n_substituted_sulfamide(graph, _pgrp, get_atom)
-
-    # Phase 49: urea 特別ケース (NC(=O)N)
-    if _is_urea(graph, get_atom):
-        return "urea"
-
-    # Phase 83: N-置換尿素 (CNC(=O)N → N-methylurea 等)
-    _sub_urea = _name_substituted_urea_if_match(graph, get_atom)
-    if _sub_urea is not None:
-        return _sub_urea
-
-    # Phase 165: ヘテロ芳香環 N-オキシド (pyridine 1-oxide 等)
-    _het_oxide = _name_hetero_n_oxide(graph, get_atom)
-    if _het_oxide is not None:
-        return _het_oxide
-
-    # Phase 125: アミン N-オキシド (R₃N→O)
-    _n_oxide_name = _name_amine_n_oxide(graph, get_atom)
-    if _n_oxide_name is not None:
-        return _n_oxide_name
-
-    # Phase 215: ジアゾニウム塩 (C[N+]#N → methanediazonium)
-    _diazonium = _name_diazonium(graph, get_atom)
-    if _diazonium is not None:
-        return _diazonium
-
-    # Phase 225: 亜硫酸エステル (COS(=O)OC → dimethyl sulfite)
-    _sulfite_ester = _name_sulfite_ester(graph, get_atom)
-    if _sulfite_ester is not None:
-        return _sulfite_ester
-
-    # Phase 211: 硫酸エステル・スルファミン酸エステル (COS(=O)(=O)O → methyl hydrogen sulfate)
-    _sulfate_ester = _name_sulfate_ester(graph, get_atom)
-    if _sulfate_ester is not None:
-        return _sulfate_ester
-
-    # Phase 209: アシルペルオキシド (CC(=O)OOC(=O)C → diethanoyl peroxide)
-    _acyl_perox = _name_acyl_peroxide(graph, get_atom)
-    if _acyl_perox is not None:
-        return _acyl_perox
-
-    # Phase 208: N-置換シアナミド (CNC#N → N-methylcyanamide)
-    _cyanamide_name = _name_cyanamide(graph, get_atom)
-    if _cyanamide_name is not None:
-        return _cyanamide_name
-
-    # Phase 202: N-置換ヒドロキシルアミン (CNO → N-methylhydroxylamine)
-    _n_hya_name = _name_n_substituted_hydroxylamine(graph, get_atom)
-    if _n_hya_name is not None:
-        return _n_hya_name
-
-    # Phase 346: O-置換ヒドロキシルアミン (NOC → O-methylhydroxylamine)
-    from .group_namers import _name_o_substituted_hydroxylamine
-    _o_hya_name = _name_o_substituted_hydroxylamine(graph, get_atom)
-    if _o_hya_name is not None:
-        return _o_hya_name
-
-    # Phase 910: N,O-両置換ヒドロキシルアミン (CONCC → N-ethyl-O-methylhydroxylamine)
-    from .group_namers import _name_no_disubstituted_hydroxylamine
-    _no_hya_name = _name_no_disubstituted_hydroxylamine(graph, get_atom)
-    if _no_hya_name is not None:
-        return _no_hya_name
-
-    # Phase 347: O-置換オキシム (CC=NOC → O-methylethanal oxime)
-    from .group_namers import _name_o_substituted_oxime
-    _o_oxime_name = _name_o_substituted_oxime(graph, get_atom)
-    if _o_oxime_name is not None:
-        return _o_oxime_name
-
-    # Phase 204: ニトロン / イミン N-オキシド (C=[N+]([O-])C → N-methylmethanimine N-oxide)
-    _nitrone_name = _name_nitrone(graph, get_atom)
-    if _nitrone_name is not None:
-        return _nitrone_name
-
-    # Phase 123: ジアゾ化合物 (C=N=N, diazo prefix)
-    _diazo_name = _name_diazo_compound(graph, get_atom)
-    if _diazo_name is not None:
-        return _diazo_name
-
-    # Phase 164: ニトロソアミン (R₂N-N=O)
-    _nitrosamine_name = _name_nitrosamine(graph, get_atom)
-    if _nitrosamine_name is not None:
-        return _nitrosamine_name
-
-    # Phase 113: ヒドラジン (N-N 単結合、環外、カルボニル隣接なし)
-    _hydrazine_name = _name_hydrazine_compound(graph, get_atom)
-    if _hydrazine_name is not None:
-        return _hydrazine_name
-
-    # Phase 115: アゾ化合物 (N=N 二重結合)
-    _azo_name = _name_azo_compound(graph, get_atom)
-    if _azo_name is not None:
-        return _azo_name
+    for _handler in _EARLY_HANDLERS:
+        _result = _handler(graph, _pgrp, get_atom)
+        if _result is not None:
+            return _result
 
     # ─── 3. 環状 or 非環状の分岐 ─────────────────────────────────────
     if has_ring(graph):

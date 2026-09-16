@@ -22,7 +22,27 @@ the naming logic is a from-scratch implementation verified by 4,086+ tests.
 | Nitrogen functional groups | amine, nitrile, amidine, hydrazide |
 | Sulfur functional groups | thiol, sulfonic acid, sulfoxide |
 | Phosphorus and silicon compounds | phosphate ester, trimethylsilanol |
-| Other | ethers, peroxides, isocyanates, etc. |
+| Other | ethers, peroxides, isocyanates, ylides, multiplicative, 'a' nomenclature, 3+-ring von Baeyer, isotopes, etc. |
+
+---
+
+## Limitations & Unsupported IUPAC 2013 Rules
+
+While `smiles2iupac` achieves near-100% coverage of systematic Preferred IUPAC Names (PIN) for common organic chemistry, the following specialized categories from IUPAC 2013 Blue Book are intentionally out of scope or blocked by upstream libraries:
+
+1. **Axial & Planar Chirality (IUPAC P-92.4, P-92.5)**
+   - Substituted allenes (`(Ra)/(Sa)` or `(P)/(M)`), atropisomeric biaryls, helicenes, cyclophane planar chirality.
+   - *Upstream constraint*: RDKit's SMILES parser discards allene chiral markers (e.g. `[C@]` in `C/C=[C@]=C/C`) as `CHI_UNSPECIFIED`. See [`docs/RDKIT_ALLENE_STEREO_LIMITATION.md`](docs/RDKIT_ALLENE_STEREO_LIMITATION.md) for details.
+2. **Phane Nomenclature (IUPAC P-26)**
+   - Macrocyclic phanes such as `[2.2]paracyclophane`.
+3. **Fullerenes (IUPAC P-27)**
+   - Closed cage carbon allotropes like `[60]fullerene`.
+4. **Transition Metal Complexes & Metallocenes (IUPAC P-68)**
+   - Ferrocene, coordination polymers, and transition metal organometallics. Main group organometallics (Si, Ge, Sn, Pb, B, P, As, Sb, Bi, Hg) are fully supported.
+5. **Systematic Parent Derivation for Giant Natural Products (IUPAC P-28)**
+   - Skeletal derivation of complex steroids (`cholestane`) or alkaloids (retained amino acid and simple natural product PINs are supported via lookup tables).
+6. **Free Radicals & Carbenium Ions (IUPAC P-61)**
+   - Isolated reactive intermediate radicals (`methyl radical`) or cations (`methylium`). Stable onium salts, carboxylates, and alkoxides are fully supported.
 
 ---
 

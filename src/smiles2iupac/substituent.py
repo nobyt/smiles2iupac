@@ -8,6 +8,8 @@
 
 from __future__ import annotations
 
+import re
+
 from .constants import CHAIN_PREFIX, HALOGEN_PREFIX, MULTIPLIER
 from .molecule_analyzer import MoleculeGraph, get_atom
 
@@ -306,14 +308,13 @@ def _name_aryl_substituent(graph: "MoleculeGraph", root_idx: int, excluded: set[
         from .heterocycle_handler import _FUSED_HETERO_RETAINED, _FUSED_LOCANT_MAP
         if graph.rdkit_mol is not None:
             from rdkit.Chem import MolToSmiles, MolFromSmiles, MolFragmentToSmiles
-            import re as _re_a
             _core_raw = MolFragmentToSmiles(
                 graph.rdkit_mol, sorted(all_ring_atoms), canonical=True)
             _tmp_a = MolFromSmiles(_core_raw)
             if _tmp_a is not None:
                 _core_smi = MolToSmiles(_tmp_a)
             else:
-                _bare_n = [m.start() for m in _re_a.finditer(r"(?<!\[)n(?!\])", _core_raw)]
+                _bare_n = [m.start() for m in re.finditer(r"(?<!\[)n(?!\])", _core_raw)]
                 _core_smi = _core_raw
                 for _pos in _bare_n:
                     _alt = _core_raw[:_pos] + "[nH]" + _core_raw[_pos + 1:]
@@ -529,9 +530,8 @@ def _name_nitrogen_substituent(
         from .constants import MULTIPLIER as _MULT_N
 
         def _alpha_key_n(name: str) -> str:
-            import re as _re_n
             s = name[1:] if name.startswith("(") else name
-            m = _re_n.match(r"^[\d,]+-", s)
+            m = re.match(r"^[\d,]+-", s)
             return s[m.end():] if m else s
 
         _r_names_raw = [_name_carbon_substituent(graph, c, {n_idx}) for c in _r_cs]
@@ -631,13 +631,12 @@ def _name_carbon_substituent(
                                 if x != root_idx and get_atom(graph, x).symbol == "C"]
                     if not n_c_subs:
                         return "carbamoyl"
-                    import re as _re_cbm
                     from collections import Counter as _Ctr_cbm
                     from .constants import MULTIPLIER as _MULT_cbm
 
                     def _alpha_key_cbm(s: str) -> str:
                         s = s[1:] if s.startswith("(") else s
-                        m = _re_cbm.match(r"^[\d,]+-", s)
+                        m = re.match(r"^[\d,]+-", s)
                         return s[m.end():] if m else s
 
                     n_names = [_name_carbon_substituent(graph, c, {het_idx})
@@ -805,10 +804,12 @@ def _name_carbon_substituent(
                         if nb not in _nall and nb not in excluded
                         and nb != root_idx and get_atom(graph, nb).symbol != "H"]
                 if not _ext:
+                    from .name_assembler import format_isotope_descriptor as _fid_naph
                     _rc = _assign_naphthalene_locants(_nr1, _nr2, graph, [])
                     _nloc = _rc.locant_map.get(root_idx)
+                    _iso_naph = _fid_naph(graph, _rc.locant_map) if _rc.locant_map else ""
                     if _nloc is not None:
-                        return f"naphthalen-{_nloc}-yl"
+                        return f"{_iso_naph}naphthalen-{_nloc}-yl"
 
         # root から到達できる芳香族炭素環 C を収集
         aryl_cs: set[int] = set()
@@ -831,9 +832,6 @@ def _name_carbon_substituent(
             for nb in graph.adjacency[ring_c]
             if nb not in excluded and nb not in aryl_cs
         )
-        if not has_external:
-            return "phenyl"
-        # 置換フェニル: 環外置換基を検出してロカントを付ける
         # 環の走査順序を決定 (root_idx = locant 1)
         def _order_benzene(start: int, ring_set: set[int]) -> list[int]:
             order = [start]
@@ -849,9 +847,21 @@ def _name_carbon_substituent(
             return order
         order_fwd = _order_benzene(root_idx, aryl_cs)
         order_rev = [root_idx] + list(reversed(order_fwd[1:]))
+
+        from .name_assembler import format_isotope_descriptor as _fid_ph
+        if not has_external:
+            best_iso = ""
+            for order in (order_fwd, order_rev):
+                loc_map_ph = {idx: i + 1 for i, idx in enumerate(order)}
+                iso = _fid_ph(graph, loc_map_ph)
+                if not best_iso or (iso and iso < best_iso):
+                    best_iso = iso
+            return f"{best_iso}phenyl"
+        # 置換フェニル: 環外置換基を検出してロカントを付ける
         # 環外置換基を全種類 (C/halogen/O/N 等) 収集し最小ロカントの方向を選択
         best_subs: list[tuple[int, int]] | None = None  # [(locant, sub_atom), ...]
         best_locs2: list[int] | None = None
+        best_iso2 = ""
         for order in (order_fwd, order_rev):
             loc_map2 = {idx: i + 1 for i, idx in enumerate(order)}
             ring_subs2: list[tuple[int, int]] = []
@@ -863,11 +873,13 @@ def _name_carbon_substituent(
                     if get_atom(graph, nb).symbol != "H":
                         ring_subs2.append((loc, nb))
             cur_locs = sorted(t[0] for t in ring_subs2)
-            if best_locs2 is None or cur_locs < best_locs2:
+            cur_iso = _fid_ph(graph, loc_map2)
+            if best_locs2 is None or cur_locs < best_locs2 or (cur_locs == best_locs2 and cur_iso < best_iso2):
                 best_locs2 = cur_locs
                 best_subs = ring_subs2
+                best_iso2 = cur_iso
         if not best_subs:
-            return "phenyl"
+            return f"{best_iso2}phenyl"
         # 置換基名の組み立て (name_substituent で全種類に対応)
         from collections import defaultdict
         grouped2: dict[str, list[int]] = defaultdict(list)
@@ -893,7 +905,7 @@ def _name_carbon_substituent(
                 prefix_parts2.append(f"{loc_str}-{mult}{nm}")
             else:
                 prefix_parts2.append(f"{loc_str}-{nm}")
-        return "-".join(prefix_parts2) + "phenyl"
+        return "-".join(prefix_parts2) + best_iso2 + "phenyl"
 
     # シクロアルキル / ヘテロシクロ: root が環内かつ置換基全体が単一環 (Phase 49)
     if root_atom.in_ring and not root_atom.is_aromatic:
@@ -1321,24 +1333,28 @@ def _name_branched_substituent(
     except Exception:
         pass
 
+    # Phase 939: 分岐置換基自身の主鎖上の同位体標識 (P-82)
+    from .name_assembler import format_isotope_descriptor as _fid_br
+    _isotope_br = _fid_br(graph, main_locant)
+
     if root_pos == 1:
         # root が鎖の末端: 従来の {prefix}{sub}yl 形式
         if not substituent_prefix:
-            return f"{stereo_pfx_br}{prefix}{unsaturation}yl"
+            return f"{stereo_pfx_br}{_isotope_br}{prefix}{unsaturation}yl"
         if unsaturation:
             if unsat_has_locant:
-                return f"{stereo_pfx_br}{substituent_prefix}{prefix}{unsaturation}-1-yl"
-            return f"{stereo_pfx_br}{substituent_prefix}{prefix}{unsaturation}yl"
-        return f"{stereo_pfx_br}{substituent_prefix}{prefix}yl"
+                return f"{stereo_pfx_br}{substituent_prefix}{_isotope_br}{prefix}{unsaturation}-1-yl"
+            return f"{stereo_pfx_br}{substituent_prefix}{_isotope_br}{prefix}{unsaturation}yl"
+        return f"{stereo_pfx_br}{substituent_prefix}{_isotope_br}{prefix}yl"
     else:
         # root が内部炭素: propan-2-yl 形式 (IUPAC 2013 PIN)
         if not substituent_prefix:
             if unsaturation:
-                return f"{stereo_pfx_br}{prefix}an{unsaturation}-{root_pos}-yl"
-            return f"{stereo_pfx_br}{prefix}an-{root_pos}-yl"
+                return f"{stereo_pfx_br}{_isotope_br}{prefix}an{unsaturation}-{root_pos}-yl"
+            return f"{stereo_pfx_br}{_isotope_br}{prefix}an-{root_pos}-yl"
         if unsaturation:
-            return f"{stereo_pfx_br}{substituent_prefix}{prefix}an{unsaturation}-{root_pos}-yl"
-        return f"{stereo_pfx_br}{substituent_prefix}{prefix}an-{root_pos}-yl"
+            return f"{stereo_pfx_br}{substituent_prefix}{_isotope_br}{prefix}an{unsaturation}-{root_pos}-yl"
+        return f"{stereo_pfx_br}{substituent_prefix}{_isotope_br}{prefix}an-{root_pos}-yl"
 
 
 def _find_through_path(

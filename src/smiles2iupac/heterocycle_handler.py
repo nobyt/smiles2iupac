@@ -12,6 +12,7 @@ IUPAC 2013 Blue Book P-31.1.3.4 / P-31.1.3.5 / P-31.1.3.6
 
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -789,7 +790,6 @@ def _format_substituents(
     if not substituents:
         return base
 
-    import re
     from collections import defaultdict
     from .constants import MULTIPLIER
 
@@ -859,24 +859,15 @@ _KETO_SUFFIX_TABLE: dict[tuple[str, int], int] = {
 }
 
 
-def _lactam_tautomer_override(
-    sub_nm: str,
+def _hydroxy_lactam_override(
     mult: str,
     full_base: str,
     loc_str: str,
     other: list[tuple[int, str]],
     base_with_suffix: str,
 ) -> tuple[str, list[tuple[int, str]]]:
-    """Refactor step 5: extracted from _apply_hetero_suffixes.
-
-    Overrides the generic -ol/-thiol suffix name with the IUPAC-preferred
-    lactam/thiolactam tautomer name for specific fused N-heterocycles
-    (Phase 744-773, 842, etc). A few branches remap locants in ``other``
-    (Phase 842 pyrimidine-4 / pyridazine-3 cases), so both the possibly
-    updated ``base_with_suffix`` and ``other`` are returned.
-    """
-    # Phase 744–758: α/γ-hydroxy N-heterocycles prefer the lactam tautomer
-    if sub_nm == "hydroxy" and mult == "di":
+    """Phase 744–758: α/γ-hydroxy N-heterocycles prefer the lactam tautomer."""
+    if mult == "di":
         if full_base == "pyrimidine" and loc_str == "2,4":
             base_with_suffix = "pyrimidine-2,4(1H,3H)-dione"
         elif full_base == "quinazoline" and loc_str == "2,4":
@@ -885,7 +876,7 @@ def _lactam_tautomer_override(
             base_with_suffix = "quinoxaline-2,3(1H,4H)-dione"
         elif full_base == "phthalazine" and loc_str == "1,4":
             base_with_suffix = "phthalazine-1,4(2H,3H)-dione"
-    elif sub_nm == "hydroxy" and mult == "":
+    elif mult == "":
         if full_base == "pyridine" and loc_str in ("2", "4"):
             base_with_suffix = f"1H-pyridin-{loc_str}-one"
         elif full_base == "pyrimidine" and loc_str == "2":
@@ -1776,8 +1767,18 @@ def _lactam_tautomer_override(
             base_with_suffix = "9H-purin-2(1H)-one"
         elif full_base == "7H-purine" and loc_str == "2":
             base_with_suffix = "7H-purin-2(1H)-one"
-    # Phase 749/753/758: α-thiol N-heterocycles prefer the thiolactam tautomer
-    elif sub_nm == "sulfanyl" and mult == "di":
+    return base_with_suffix, other
+
+
+def _thiolactam_override(
+    mult: str,
+    full_base: str,
+    loc_str: str,
+    other: list[tuple[int, str]],
+    base_with_suffix: str,
+) -> tuple[str, list[tuple[int, str]]]:
+    """Phase 749/753/758: α-thiol N-heterocycles prefer the thiolactam tautomer."""
+    if mult == "di":
         if full_base == "pyrimidine" and loc_str == "2,4":
             base_with_suffix = "pyrimidine-2,4(1H,3H)-dithione"
         elif full_base == "quinazoline" and loc_str == "2,4":
@@ -1786,7 +1787,7 @@ def _lactam_tautomer_override(
             base_with_suffix = "quinoxaline-2,3(1H,4H)-dithione"
         elif full_base == "phthalazine" and loc_str == "1,4":
             base_with_suffix = "phthalazine-1,4(2H,3H)-dithione"
-    elif sub_nm == "sulfanyl" and mult == "":
+    elif mult == "":
         if full_base == "pyridine" and loc_str in ("2", "4"):
             base_with_suffix = f"pyridin-{loc_str}(1H)-thione"
         elif full_base == "pyrimidine" and loc_str == "2":
@@ -2679,6 +2680,24 @@ def _lactam_tautomer_override(
     return base_with_suffix, other
 
 
+def _lactam_tautomer_override(
+    sub_nm: str,
+    mult: str,
+    full_base: str,
+    loc_str: str,
+    other: list[tuple[int, str]],
+    base_with_suffix: str,
+) -> tuple[str, list[tuple[int, str]]]:
+    """Overrides the generic -ol/-thiol suffix name with the IUPAC-preferred
+    lactam/thiolactam tautomer name for specific fused N-heterocycles
+    (Phase 744-773, 842, etc)."""
+    if sub_nm == "hydroxy":
+        return _hydroxy_lactam_override(mult, full_base, loc_str, other, base_with_suffix)
+    elif sub_nm == "sulfanyl":
+        return _thiolactam_override(mult, full_base, loc_str, other, base_with_suffix)
+    return base_with_suffix, other
+
+
 def _apply_hetero_suffixes(
     full_base: str,
     substituents: list[tuple[int, str]],
@@ -2723,7 +2742,6 @@ def _apply_hetero_suffixes(
             # `(1H,3H)`-style dithione markers don't match `\(\d+H\)` and are
             # left untouched, same as before.
             if other and base_with_suffix:
-                import re
                 _ih_match = re.search(r"\((\d+)H\)", base_with_suffix)
                 if _ih_match and any(l == int(_ih_match.group(1)) for l, _ in other):
                     base_with_suffix = base_with_suffix.replace(_ih_match.group(0), "")
@@ -4870,8 +4888,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         if _found_core is None:
             # Phase 158 の元のフォールバック: 上の直接再構築が使えない場合
             # (複数 N が同時に置換されている等) はテキスト順総当たりに戻る。
-            import re as _re
-            _bare_n_positions = [m.start() for m in _re.finditer(r"(?<!\[)n(?!\])", core_smi_raw)]
+            _bare_n_positions = [m.start() for m in re.finditer(r"(?<!\[)n(?!\])", core_smi_raw)]
             for _pos in _bare_n_positions:
                 _alt_raw = (core_smi_raw[:_pos] + "[nH]"
                             + core_smi_raw[_pos + 1:])
@@ -5151,8 +5168,7 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
     if (_direct_reconstruct_target_rdkit_idx is not None
             and _direct_reconstruct_core_smi == core_smi
             and base_name not in _INDICATED_H_RETAINED_NAMES):
-        import re as _re934
-        base_name = _re934.sub(r'^(\d+)H-', '', base_name)
+        base_name = re.sub(r'^(\d+)H-', '', base_name)
     # Phase 844/845: drop indicated-H when the N at that locant is substituted
     # (only N positions — C positions may still have H even when carrying a substituent)
     _ring_n_locants: set[int] = set()
@@ -5162,15 +5178,14 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
                 _ring_n_locants.add(_n_locant)
     _substituted_n_locants = _ring_n_locants & {loc for loc, _ in substituents}
     if _substituted_n_locants and base_name not in _INDICATED_H_RETAINED_NAMES:
-        import re as _re
         # Phase 844: drop (nH) inline indicated-H
-        base_name = _re.sub(
+        base_name = re.sub(
             r'\((\d+)H\)',
             lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
         # Phase 845: drop nH- prefix indicated-H (e.g. 1H-indole → indole)
-        base_name = _re.sub(
+        base_name = re.sub(
             r'^(\d+)H-',
             lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
@@ -5178,12 +5193,12 @@ def _try_fused_hetero_retained(graph: "MoleculeGraph") -> str | None:
         # Phase 846: drop mid-string -nH- (e.g. tetrahydro-1H-indole → tetrahydroindole)
         # When the following char is a digit, keep the separator dash to avoid
         # "dihydro1,5-benzodiazepine" (wrong) → "dihydro-1,5-benzodiazepine" (correct)
-        base_name = _re.sub(
+        base_name = re.sub(
             r'-(\d+)H-(\d)',
             lambda m: ("-" + m.group(2)) if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,
         )
-        base_name = _re.sub(
+        base_name = re.sub(
             r'-(\d+)H-',
             lambda m: "" if int(m.group(1)) in _substituted_n_locants else m.group(0),
             base_name,

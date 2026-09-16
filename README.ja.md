@@ -22,7 +22,29 @@ SMILES のパース・分子グラフ構築に [RDKit](https://www.rdkit.org/) �
 | 含窒素官能基 | amine, nitrile, amidine, hydrazide |
 | 含硫黄官能基 | thiol, sulfonic acid, sulfoxide |
 | 含リン・ケイ素化合物 | phosphate ester, trimethylsilanol |
-| その他 | エーテル、過酸化物、イソシアナートなど |
+| その他 | エーテル、過酸化物、イソシアナート、イリド、倍数命名法、骨格置換('a')命名法、3環以上 von Baeyer、同位体標識など |
+
+---
+
+## 未対応の規則・制限事項 (Limitations)
+
+一般的な低分子有機化学で扱われる IUPAC 2013 系統的推奨名 (PIN) はほぼ 100% 網羅していますが、IUPAC 2013 Blue Book 規格のうち以下の特殊領域は意図的に対象外、または外部ライブラリの制約により未対応となっています。
+
+1. **軸性キラリティ・平面性キラリティ (IUPAC P-92.4, P-92.5)**
+   - 置換アレン類 (`(Ra)/(Sa)` または `(P)/(M)`)、アトロプ異性体（ビフェニル等）、ヘリセン、シクロファンの平面性キラリティ。
+   - *外部ライブラリの制約*: RDKit の SMILES パーサーがアレンの軸性キラリティ表記 `[C@]` を `CHI_UNSPECIFIED` として破棄するため。詳細は [`docs/RDKIT_ALLENE_STEREO_LIMITATION.md`](docs/RDKIT_ALLENE_STEREO_LIMITATION.md) を参照。
+2. **ファン命名法 (Phane Nomenclature, IUPAC P-26)**
+   - `[2.2]paracyclophane` などの大環状ファン骨格。
+3. **フラーレン類 (Fullerenes, IUPAC P-27)**
+   - `[60]fullerene` などの閉殻炭素ケージ同素体。
+4. **遷移金属錯体・有機金属ポリマー (IUPAC P-68)**
+   - フェロセン、配位高分子、サンドイッチ化合物など（※ Si, Ge, Sn, Pb, B, P, As, Sb, Bi, Hg などの典型元素・主族有機金属は完全対応）。
+5. **巨大天然物母核の系統的誘導 (IUPAC P-28)**
+   - ステロイド骨格（`cholestane`）等の自動系統名誘導（※ アミノ酸や単純天然物の保留名は辞書テーブルで完全対応）。
+6. **孤立フリーラジカル・カルベニウムイオン (IUPAC P-61)**
+   - `methyl radical`, `methylium` 等の不安定反応中間体種（※ オニウム塩、カルボキシラート、アルコキシド等は完全対応）。
+
+---
 
 ---
 
