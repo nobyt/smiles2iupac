@@ -135,7 +135,10 @@ def _name_acyclic_skeletal_replacement(graph: "MoleculeGraph", get_atom) -> str 
         het_name = _HET_NAME.get(sym, sym.lower())
         prefix_parts.append(f"{loc_str}-{mult}{het_name}")
 
-    prefix_str = "".join(prefix_parts)
+    # 複数種のヘテロ原子接頭辞を連結するとき、後続の接頭辞の先頭ロカントを
+    # ハイフンで区切る (例: "2,5,11-trioxa" + "8-aza" → "2,5,11-trioxa-8-aza")。
+    # 単一種の場合はハイフンは付かない (例: "2,5,8,11-tetraoxa")。
+    prefix_str = "-".join(prefix_parts)
     return f"{prefix_str}{alkane_name}"
 
 
