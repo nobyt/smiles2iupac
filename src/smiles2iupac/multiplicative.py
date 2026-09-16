@@ -21,6 +21,11 @@ def _name_multiplicative(graph: "MoleculeGraph", get_atom) -> str | None:
     if res_2c is not None:
         return res_2c
 
+    # 1b. 2硫黄連結基 (-S-S-, disulfanediyl) の検出 (Phase 945)
+    res_ss = _try_disulfanediyl_linker(graph, get_atom)
+    if res_ss is not None:
+        return res_ss
+
     # 2. 単一原子連結基 (-O-, -S-, -SO2-, -SO-, -NH-, -CH2-, -CO-) の検出
     for l_idx, l_atom in enumerate(graph.atoms):
         sym = l_atom.symbol
@@ -131,6 +136,55 @@ def _try_two_carbon_linker(graph: "MoleculeGraph", get_atom) -> str | None:
     return None
 
 
+def _try_disulfanediyl_linker(graph: "MoleculeGraph", get_atom) -> str | None:
+    """-S-S- 連結基 (disulfanediyl) の倍数命名を試みる。"""
+    from .molecule_analyzer import get_bond_order
+
+    def _pure_disulfide_s(s_idx: int) -> tuple[int, int] | None:
+        """S が純粋なジスルフィド硫黄 (二重結合Oなし・重原子隣接2つ) なら
+        (相手S, C枝) を返す。"""
+        s_atom = get_atom(graph, s_idx)
+        if s_atom.symbol != "S" or s_atom.in_ring or s_atom.formal_charge != 0:
+            return None
+        heavy = [nb for nb in graph.adjacency[s_idx] if get_atom(graph, nb).symbol != "H"]
+        if len(heavy) != 2:
+            return None
+        # 二重結合Oを持つ (sulfinyl/sulfonyl系) は対象外
+        if any(get_atom(graph, nb).symbol == "O" and get_bond_order(graph, s_idx, nb) == 2.0
+               for nb in heavy):
+            return None
+        return tuple(heavy)  # 2隣接
+
+    for s1_idx, s1_atom in enumerate(graph.atoms):
+        info1 = _pure_disulfide_s(s1_idx)
+        if info1 is None:
+            continue
+        # s1 の隣に S があるか
+        s2_idx = next((nb for nb in info1 if get_atom(graph, nb).symbol == "S"), None)
+        if s2_idx is None or s2_idx <= s1_idx:
+            continue
+        if get_bond_order(graph, s1_idx, s2_idx) != 1.0:
+            continue
+        info2 = _pure_disulfide_s(s2_idx)
+        if info2 is None:
+            continue
+
+        ext1 = next((nb for nb in info1 if nb != s2_idx), None)
+        ext2 = next((nb for nb in info2 if nb != s1_idx), None)
+        if ext1 is None or ext2 is None:
+            continue
+        if get_atom(graph, ext1).symbol != "C" or get_atom(graph, ext2).symbol != "C":
+            continue
+
+        res = _evaluate_branches_from_set(
+            graph, {s1_idx, s2_idx}, ext1, ext2, "disulfanediyl", get_atom
+        )
+        if res:
+            return res
+
+    return None
+
+
 def _evaluate_symmetric_branches(
     graph: "MoleculeGraph",
     linker_idx: int,
@@ -202,7 +256,7 @@ def _check_acid_branch(
     倍数命名法 (P-54) は、ヘテロ原子二価連結基 (-O-, -S-, -SO2-, -NH-) の場合にのみ適用する。
     炭素連結基 (-CH2-, -CH2CH2-) の直鎖ジカルボン酸 (pentanedioic acid, adipic acid) を誤命名しない。
     """
-    if linker_name not in ("oxy", "thio", "sulfinyl", "sulfonyl", "imino"):
+    if linker_name not in ("oxy", "thio", "sulfinyl", "sulfonyl", "imino", "disulfanediyl"):
         return None
 
     from .molecule_analyzer import get_bond_order
