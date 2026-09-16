@@ -616,6 +616,12 @@ def _handle_acyclic_skeletal_replacement(graph, pgrp, get_atom) -> str | None:
     return _name_acyclic_skeletal_replacement(graph, get_atom)
 
 
+def _handle_ylide(graph, pgrp, get_atom) -> str | None:
+    # Phase 943: IUPAC 2013 P-74, P-67, P-68 イリド・双極性化合物
+    from .ylide_handler import _name_ylide
+    return _name_ylide(graph, get_atom)
+
+
 _EARLY_HANDLERS = [
     _handle_isocyanic_acid,
     _handle_thiourea,
@@ -623,6 +629,7 @@ _EARLY_HANDLERS = [
     _handle_fused_hetero_before_pgrp,
     _handle_multiplicative,
     _handle_acyclic_skeletal_replacement,
+    _handle_ylide,
     _handle_pgrp_dispatch,
     _handle_urea,
     _handle_hetero_n_oxide,
