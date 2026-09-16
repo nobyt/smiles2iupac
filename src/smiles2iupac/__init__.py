@@ -604,11 +604,18 @@ def _handle_azo_compound(graph, pgrp, get_atom) -> str | None:
     return _name_azo_compound(graph, get_atom)
 
 
+def _handle_multiplicative(graph, pgrp, get_atom) -> str | None:
+    # Phase 940: IUPAC 2013 P-54 倍数命名法 (Multiplicative Nomenclature)
+    from .multiplicative import _name_multiplicative
+    return _name_multiplicative(graph, get_atom)
+
+
 _EARLY_HANDLERS = [
     _handle_isocyanic_acid,
     _handle_thiourea,
     _handle_carbonohydrazide,
     _handle_fused_hetero_before_pgrp,
+    _handle_multiplicative,
     _handle_pgrp_dispatch,
     _handle_urea,
     _handle_hetero_n_oxide,
