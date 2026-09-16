@@ -610,12 +610,19 @@ def _handle_multiplicative(graph, pgrp, get_atom) -> str | None:
     return _name_multiplicative(graph, get_atom)
 
 
+def _handle_acyclic_skeletal_replacement(graph, pgrp, get_atom) -> str | None:
+    # Phase 941: IUPAC 2013 P-15.4, P-55 骨格置換 ('a') 命名法
+    from .skeletal_replacement import _name_acyclic_skeletal_replacement
+    return _name_acyclic_skeletal_replacement(graph, get_atom)
+
+
 _EARLY_HANDLERS = [
     _handle_isocyanic_acid,
     _handle_thiourea,
     _handle_carbonohydrazide,
     _handle_fused_hetero_before_pgrp,
     _handle_multiplicative,
+    _handle_acyclic_skeletal_replacement,
     _handle_pgrp_dispatch,
     _handle_urea,
     _handle_hetero_n_oxide,
