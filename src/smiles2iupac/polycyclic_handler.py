@@ -630,6 +630,48 @@ _POLY_RING_PREFIX = {
 }
 
 
+def _ring_subgraph_has_cut_vertex(ring_nbrs: dict[int, list[int]]) -> bool:
+    """環部分グラフに関節点 (cut vertex / articulation point) が存在するか判定する。
+
+    純粋な von Baeyer 縮合/架橋多環系は 2-連結 (biconnected) で関節点を持たない。
+    関節点があれば、その原子はスピロ結合点 (両側の環系を1原子だけで繋ぐ) であり、
+    von Baeyer nomenclature では正しく表現できない。
+    """
+    nodes = list(ring_nbrs.keys())
+    if not nodes:
+        return False
+    disc: dict[int, int] = {}
+    low: dict[int, int] = {}
+    timer = [0]
+    cut = [False]
+
+    import sys
+    old_limit = sys.getrecursionlimit()
+    sys.setrecursionlimit(max(old_limit, len(nodes) * 4 + 100))
+
+    def _dfs(u: int, parent: int) -> None:
+        disc[u] = low[u] = timer[0]
+        timer[0] += 1
+        children = 0
+        for v in ring_nbrs[u]:
+            if v not in disc:
+                children += 1
+                _dfs(v, u)
+                low[u] = min(low[u], low[v])
+                if parent != -1 and low[v] >= disc[u]:
+                    cut[0] = True
+                if parent == -1 and children > 1:
+                    cut[0] = True
+            elif v != parent:
+                low[u] = min(low[u], disc[v])
+
+    try:
+        _dfs(nodes[0], -1)
+    finally:
+        sys.setrecursionlimit(old_limit)
+    return cut[0]
+
+
 def _try_polycyclic_von_baeyer(graph: "MoleculeGraph") -> str | None:
     """
     3環以上の架橋多環式炭化水素 (von Baeyer: tricyclo[...], tetracyclo[...]) を命名する (IUPAC 2013 P-23.2.3 - P-23.2.5)。
@@ -659,6 +701,13 @@ def _try_polycyclic_von_baeyer(graph: "MoleculeGraph") -> str | None:
     n_rings = n_bonds - n_atoms + 1
 
     if n_rings < 3:
+        return None
+
+    # Phase 948: スピロ原子 (環部分グラフの関節点) を含む系は 2-連結でなく、
+    # 純粋な von Baeyer 縮合/架橋多環ではない。誤った tricyclo 記述子
+    # (橋の本数が環数と矛盾する) を生成しないようここで撤退し、上位の
+    # 「未対応」ガード / スピロハンドラに委ねる。
+    if _ring_subgraph_has_cut_vertex(ring_nbrs):
         return None
 
     ring_prefix = _POLY_RING_PREFIX.get(n_rings, f"{n_rings}-cyclo")
