@@ -855,9 +855,17 @@ def _try_polycyclic_von_baeyer(graph: "MoleculeGraph") -> str | None:
                                 x, y = sorted([lmap[u], lmap[v]])
                                 sec_bridges.append((0, x, y))
 
+                        # Phase 950: この候補が要求される副橋の本数
+                        # (n_rings - 2; tricyclo=1本, tetracyclo=2本, ...) と
+                        # 一致しない場合は不正な記述子 (例: tricyclo なのに
+                        # 副橋が2本) になるため、この候補を棄却する。
+                        # 以前はここが no-op (`pass`) で、不一致を検出しながら
+                        # 何もせず不正な記述子をそのまま採用していた。
+                        # rem_edges に複数原子からなる副橋 (直接辺でない) が
+                        # 含まれる場合も現状 sec_bridges に反映されないため
+                        # 同様に棄却対象となる。
                         if len(sec_bridges) != n_rings - 2:
-                            # 単純辺以外の副橋も必要なら処理
-                            pass
+                            continue
 
                         # ソート: 長さ降順、x昇順、y昇順
                         sec_bridges.sort(key=lambda item: (-item[0], item[1], item[2]))
