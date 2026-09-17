@@ -477,6 +477,46 @@ def _try_bicyclo(graph: "MoleculeGraph") -> str | None:
     return _format_polycyclic_name(final_base, best_subs or [])
 
 
+_CAGE_REF_SEED: dict[str, str] = {
+    "cubane": "C12C3C4C1C5C2C3C45",
+    "adamantane": "C1C2CC3CC1CC(C2)C3",
+}
+_cage_ref_canon: dict[str, str] = {}
+
+
+def _cage_ref(name: str) -> str | None:
+    """ケージ保留名の炭素骨格の標準 (canonical) SMILES を返す (キャッシュ)。"""
+    if name not in _cage_ref_canon:
+        from rdkit import Chem
+        m = Chem.MolFromSmiles(_CAGE_REF_SEED[name])
+        _cage_ref_canon[name] = Chem.MolToSmiles(m) if m is not None else None
+    return _cage_ref_canon[name]
+
+
+def _ring_skeleton_canon(graph: "MoleculeGraph", ring_atoms) -> str | None:
+    """環原子だけからなる炭化水素骨格を組み立て、その標準 SMILES を返す。
+
+    次数分布が同一でも位相が異なる縮退ケージ (twistane vs adamantane,
+    cuneane vs cubane 等) を確実に区別するために使う。
+    """
+    from rdkit import Chem
+
+    rw = Chem.RWMol()
+    idx_map: dict[int, int] = {}
+    for gi in ring_atoms:
+        idx_map[gi] = rw.AddAtom(Chem.Atom(6))
+    for gi in ring_atoms:
+        for nb in graph.adjacency[gi]:
+            if nb in idx_map and gi < nb:
+                rw.AddBond(idx_map[gi], idx_map[nb], Chem.BondType.SINGLE)
+    m = rw.GetMol()
+    try:
+        Chem.SanitizeMol(m)
+    except Exception:
+        return None
+    return Chem.MolToSmiles(m)
+
+
 def _try_cage_retained(graph: "MoleculeGraph") -> str | None:
     """
     adamantane / cubane などのケージ化合物保留名を返す。
@@ -499,14 +539,19 @@ def _try_cage_retained(graph: "MoleculeGraph") -> str | None:
         d = len(nbs)
         deg_counts[d] = deg_counts.get(d, 0) + 1
 
-    # Cubane: 8 atoms, all deg-3
+    # Cubane: 8 atoms, all deg-3 (次数だけでは cuneane と区別できないため骨格照合)
     if n == 8 and deg_counts.get(3) == 8 and len(deg_counts) == 1:
         heavy = {a.idx for a in graph.atoms if a.symbol not in ("H",)}
-        if not (heavy - ring_atoms):
+        if not (heavy - ring_atoms) and _ring_skeleton_canon(graph, ring_atoms) == _cage_ref("cubane"):
             return "cubane"
 
     # Adamantane: 10 atoms, 4×deg-3 (bridgehead) + 6×deg-2 (bridge)
     if not (n == 10 and deg_counts.get(3) == 4 and deg_counts.get(2) == 6):
+        return None
+
+    # Phase 947: 次数分布が同一でも位相の異なる縮退 C10 ケージ (twistane 等) を
+    # adamantane と誤認しないよう、環骨格の標準 SMILES を実際の adamantane と照合する。
+    if _ring_skeleton_canon(graph, ring_atoms) != _cage_ref("adamantane"):
         return None
 
     heavy = {a.idx for a in graph.atoms if a.symbol not in ("H",)}
