@@ -356,6 +356,7 @@ def _name_aryl_substituent(graph: "MoleculeGraph", root_idx: int, excluded: set[
         base_name = f"1H-{base_name}"
 
     # attachment locant
+    _numbering = rotation
     if root_idx in rotation:
         locant = rotation.index(root_idx) + 1
         # Phase 872: 付け根ロカントは最小を選ぶ。_match_retained は canonical な
@@ -370,13 +371,24 @@ def _name_aryl_substituent(graph: "MoleculeGraph", root_idx: int, excluded: set[
                                 if _ga_sub(graph, a).symbol != "C"))
 
         if root_idx in mirror and _het_locs(mirror) == _het_locs(rotation):
-            locant = min(locant, mirror.index(root_idx) + 1)
+            mirror_locant = mirror.index(root_idx) + 1
+            if mirror_locant < locant:
+                locant = mirror_locant
+                _numbering = mirror
     else:
         locant = 1  # fallback
 
     # "pyridine" → "pyridin-4-yl", "furan" → "furan-2-yl", "thiophene" → "thiophen-2-yl"
     stem = base_name[:-1] if base_name.endswith("e") else base_name
-    return f"{stem}-{locant}-yl"
+
+    # Phase 949: 単純ヘテロ芳香族置換基への同位体標識 (P-82) 対応。
+    # 以前はこの関数に format_isotope_descriptor 呼び出しが無く、pyridyl/furyl/
+    # thiophenyl 等の置換基上の同位体標識が黙って消えていた
+    # (phenyl/naphthyl 置換基は別コードパスで既に対応済みだった)。
+    from .name_assembler import format_isotope_descriptor as _fid_het
+    _het_lmap = {a: i + 1 for i, a in enumerate(_numbering)}
+    _iso_het = _fid_het(graph, _het_lmap)
+    return f"{_iso_het}{stem}-{locant}-yl"
 
 
 def _count_acyl_chain(graph: "MoleculeGraph", carbonyl_c: int, excluded: set[int]) -> int:
