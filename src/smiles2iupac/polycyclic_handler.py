@@ -835,36 +835,66 @@ def _try_polycyclic_von_baeyer(graph: "MoleculeGraph") -> str | None:
                         for a in path_n[1:-1]:
                             lmap[a] = pos; pos += 1
 
-                        # 残りの原子（副橋の内部原子）に番号付け
-                        rem_nodes = ring_atoms - set(lmap.keys())
-                        for a in sorted(rem_nodes):
-                            lmap[a] = pos; pos += 1
+                        # Phase 951: 副橋 (secondary bridge) の同定。
+                        # bicycle_only_nodes = 主二環系 (主環 + 主橋) の原子で
+                        # 既に番号付け済み。それ以外 (other_nodes) は副橋の内部
+                        # 原子候補で、番号は最終的な記述子には現れない
+                        # (この関数は置換基のない純炭化水素しか扱わないため)。
+                        bicycle_only_nodes = set(lmap.keys())
+                        other_nodes = ring_atoms - bicycle_only_nodes
 
-                        # 副橋の同定
-                        # rem_edges から連結成分または単一辺を抽出
+                        full_rem_adj: dict[int, list[int]] = {a: [] for a in ring_atoms}
+                        for u, v in rem_edges:
+                            full_rem_adj[u].append(v)
+                            full_rem_adj[v].append(u)
+
                         sec_bridges: list[tuple[int, int, int]] = []
-                        visited_rem = set()
+                        _sb_valid = True
 
-                        for edge in sorted(rem_edges):
-                            if edge in visited_rem:
-                                continue
-                            visited_rem.add(edge)
-                            u, v = edge
-                            # 直接結合の場合
-                            if u in lmap and v in lmap and abs(lmap[u] - lmap[v]) > 0:
+                        # (a) 内部原子を持たない直接副橋 (橋長 0)
+                        for u, v in sorted(rem_edges):
+                            if u in bicycle_only_nodes and v in bicycle_only_nodes:
                                 x, y = sorted([lmap[u], lmap[v]])
                                 sec_bridges.append((0, x, y))
 
-                        # Phase 950: この候補が要求される副橋の本数
-                        # (n_rings - 2; tricyclo=1本, tetracyclo=2本, ...) と
-                        # 一致しない場合は不正な記述子 (例: tricyclo なのに
-                        # 副橋が2本) になるため、この候補を棄却する。
-                        # 以前はここが no-op (`pass`) で、不一致を検出しながら
-                        # 何もせず不正な記述子をそのまま採用していた。
-                        # rem_edges に複数原子からなる副橋 (直接辺でない) が
-                        # 含まれる場合も現状 sec_bridges に反映されないため
-                        # 同様に棄却対象となる。
-                        if len(sec_bridges) != n_rings - 2:
+                        # (b) 内部原子を1つ以上持つ副橋: other_nodes の連結成分ごとに
+                        # 単純パスであること (各原子の次数がちょうど2) と、両端が
+                        # 異なる2つの既番号原子に接続していることを確認する。
+                        visited_other: set[int] = set()
+                        for start in sorted(other_nodes):
+                            if start in visited_other:
+                                continue
+                            comp = {start}
+                            stack = [start]
+                            while stack:
+                                cur = stack.pop()
+                                for nb in full_rem_adj[cur]:
+                                    if nb in other_nodes and nb not in comp:
+                                        comp.add(nb)
+                                        stack.append(nb)
+                            visited_other |= comp
+
+                            attach_targets: list[int] = []
+                            for a in comp:
+                                interior_deg = sum(1 for nb in full_rem_adj[a] if nb in comp)
+                                attach_nbs = [nb for nb in full_rem_adj[a] if nb in bicycle_only_nodes]
+                                attach_targets.extend(attach_nbs)
+                                if interior_deg + len(attach_nbs) != 2:
+                                    _sb_valid = False
+
+                            if not _sb_valid:
+                                break
+                            if len(attach_targets) != 2 or attach_targets[0] == attach_targets[1]:
+                                _sb_valid = False
+                                break
+
+                            x, y = sorted(lmap[t] for t in attach_targets)
+                            sec_bridges.append((len(comp), x, y))
+
+                        # 要求される副橋の本数 (n_rings - 2; tricyclo=1本,
+                        # tetracyclo=2本, ...) と一致しない、または上記の単純パス
+                        # 検証に失敗した候補はここで棄却する。
+                        if not _sb_valid or len(sec_bridges) != n_rings - 2:
                             continue
 
                         # ソート: 長さ降順、x昇順、y昇順

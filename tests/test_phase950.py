@@ -17,14 +17,19 @@ doesn't match n_rings - 2, so such systems fall through to the existing loud
 name. Genuine von Baeyer systems (whose true secondary bridge happens to have
 zero internal atoms) are unaffected.
 """
-import pytest
 from smiles2iupac import smiles_to_iupac
 
 
 class TestPhase950WrongBridgeCountRejected:
     def test_length_one_secondary_bridge_raises_not_supported(self):
-        with pytest.raises(ValueError, match="not supported"):
-            smiles_to_iupac("C1CC2CC3CC1CC(C2)C3")
+        # At the time Phase 950 landed, secondary bridges with internal atoms
+        # were not supported at all, so this candidate was correctly rejected
+        # and fell through to the loud "not supported" guard. Phase 951 later
+        # added proper support for such bridges (see test_phase951.py), which
+        # legitimately flips this exact case from "rejected" to "correctly
+        # named" -- this is not a Phase 950 regression, it's Phase 950's own
+        # safety net working as intended until the real feature landed.
+        assert smiles_to_iupac("C1CC2CC3CC1CC(C2)C3") == "tricyclo[4.3.1.1³,⁸]undecane"
 
 
 class TestPhase950GenuineSystemsUnaffected:
